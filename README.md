@@ -1,4 +1,3 @@
-# VS2013Test
-Testing VS2013 and Git integration
+COPE Work Package 4
 
-This is me playing around with Github and VS2013 as part of a work based project. Nothing to see here, move along ;-)
+Trials support software, second edition
