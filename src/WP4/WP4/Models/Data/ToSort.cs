@@ -10,15 +10,37 @@ namespace WP4.Models.Data
     public class Trial
     {
         public int ID { get; set; }
-        public string Number { get; set; }
+
+        [Required]
+        public int RetrievalTeam_ID { get; set; }
+        [ForeignKey("RetrievalTeam_ID")]
         public virtual RetrievalTeam RetrievalTeam { get; set; }
+
+        /*
+        [Required]
+        public int Donor_ID { get; set; }
+        [ForeignKey("Donor_ID")]
         public virtual Donor Donor { get; set; }
+         * */
+
+        [Display(Name="a Maastricht category III DCD donor")]
         public bool CriteriaCheck1 { get; set; }
+        [Display(Name="aged 50 years or older")]
         public bool CriteriaCheck2 { get; set; }
+        [Display(Name="with both kidneys registered for donation")]
         public bool CriteriaCheck3 { get; set; }
+        [Display(Name="from the collaborating donor regions reported to Eurotransplant (ET) / National Health Service Blood and Transplant (NHSBT)")]
         public bool CriteriaCheck4 { get; set; }
+
+        [Display(Name="")]
         public bool IsActive { get; set; }
+        
+        [Display(Name="")]
         public string TrialID { get; set; }
+
+        [Timestamp] 
+        public Byte[] TimeStamp { get; set; }
+
         public DateTime CreatedOn { get; set; }
         public User CreatedBy { get; set; }
     }
@@ -26,31 +48,24 @@ namespace WP4.Models.Data
     public class RetrievalTeam
     {
         public int ID { get; set; }
+        [Required]
         public string Name { get; set; }
-    }
-
-    public class Donor : TrialPlus
-    {
-        public int Age { get; set; }
-        public DateTime DoB { get; set; }
-        public DateTime Admission { get; set; }
-        public bool AdmittedToITU { get; set; }
-        public DateTime DateAdmitedToITU { get; set; }
-        public DateTime DateOfProcurement { get; set; }
-        public Gender Gender { get; set; }
-        public Ethnicity Ethnicity { get; set; }
-        public int Weight { get; set; }
-        public int Height { get; set; }
-        public int BMI { get; set; }
-        public BloodGroup BloodGroup { get; set; }
-        public virtual ICollection<OrgansOffered> OrgansOfferedForDonation { get; set; }
     }
 
     public abstract class TrialPlus
     {
         public int ID { get; set; }
+
+        [Required]
+        public int Trial_ID { get; set; }
+        [ForeignKey("Trial_ID")]
         public virtual Trial Trial { get; set; }
     
+        // Concurrency checking - remember to handle the DbUpdateConcurrencyException if triggered
+        // https://msdn.microsoft.com/en-gb/data/jj591583.aspx#TimeStamp
+        [Timestamp] 
+        public Byte[] TimeStamp { get; set; }
+
         public string Comments { get; set; }
         public bool IsDataLocked { get; set; }
         public DateTime DataLockedOn { get; set; }
@@ -59,7 +74,51 @@ namespace WP4.Models.Data
         public DateTime DataFinalisedOn { get; set; }
         public User DataFinalisedBy { get; set; }
     }
-        public class OrgansOffered
+
+    public class Donor : TrialPlus
+    {
+        [Required]
+        [Display(Name="ET Donor number/ NHSBT Number")]
+        public string Number { get; set; }
+
+        public int Age { get; set; }
+        public DateTime DoB { get; set; }
+
+        [Required, Display(Name="Date of admission")]
+        public DateTime Admission { get; set; }
+
+        [Required, Display(Name="Admitted to ITU")]
+        public bool AdmittedToITU { get; set; }
+
+        [Display(Name="Date admitted to ITU")]
+        public DateTime DateAdmitedToITU { get; set; }
+
+        [Required, Display(Name="Date of procurement")]
+        public DateTime DateOfProcurement { get; set; }
+
+        [Required, Display(Name="Gender")]
+        public Gender Gender { get; set; }
+
+        [Display(Name="Ethnicity")]
+        public Ethnicity Ethnicity { get; set; }
+
+        [Required, Display(Name="Weight (kg)"), Range(20,200)]
+        public int Weight { get; set; }
+
+        [Required, Display(Name="Height (cm)"), Range(100,250)]
+        public int Height { get; set; }
+
+        [NotMapped, Display(Name="BMI Derived Value")]
+        public int BMI { get; set; }
+
+        [Display(Name="Blood group")]
+        public BloodGroup BloodGroup { get; set; }
+
+        [Display(Name="Other organs offered for donation")]
+        public virtual ICollection<OrgansOffered> OrgansOfferedForDonation { get; set; }
+    }
+        
+    public class OrgansOffered
     {
         public int ID { get; set; }
         public OrgansForDonation Organ { get; set; }
@@ -125,14 +184,13 @@ namespace WP4.Models.Data
         public string OtherMedication2 { get; set; }
     }
 
-    public class LabResults : TrialPlus
+    public class LabResult : TrialPlus
     {
         public CreatineUnit LastCreatinineUnit { get; set; }
         public int LastCreatinine { get; set; }
         public CreatineUnit MaxCreatinineUnit { get; set; }
         public int MaxCreatinine { get; set; }
     }
-
 
     public class OperationData : TrialPlus
     {
@@ -203,7 +261,6 @@ namespace WP4.Models.Data
         public int PerfusateMeasure { get; set; }
     }
 
-
     public class PerfusionFile
     {
         public int ID { get; set; }
@@ -237,13 +294,11 @@ namespace WP4.Models.Data
         public string NewComment { get; set; }
     }
 
-
     public class TransplantHospital
     {
         public int ID { get; set; }
         public string Name { get; set; }
     }
-
 
     public class Recipient : TrialPlus
     {
@@ -372,7 +427,6 @@ namespace WP4.Models.Data
         public string ComplicationsWithGraftFunction { get; set; }
     }
 
-
     public class ResourceUseLog : RecipientPlus
     {
         public FollowupOccasion Occasion { get; set; }
@@ -483,3 +537,5 @@ namespace WP4.Models.Data
     }
 
 }
+
+
