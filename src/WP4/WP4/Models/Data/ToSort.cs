@@ -81,8 +81,8 @@ namespace WP4.Models.Data
         [Display(Name="ET Donor number/ NHSBT Number")]
         public string Number { get; set; }
 
-        public int Age { get; set; }
-        public DateTime DoB { get; set; }
+        public int Age { get; set; } // or DoB
+        public DateTime DoB { get; set; }  // Not Known
 
         [Required, Display(Name="Date of admission")]
         public DateTime Admission { get; set; }
@@ -160,9 +160,10 @@ namespace WP4.Models.Data
     {
         public int ID { get; set; }
         public string Name { get; set; }
+        public bool IsActive;
     }
 
-    public class DonorPreop : TrialPlus
+    public class DonorPreop : TrialPlus // Should be donor
     {
         public Diagnosis Diagnosis { get; set; }
         public string DiagnosisOther { get; set; }
@@ -184,7 +185,7 @@ namespace WP4.Models.Data
         public string OtherMedication2 { get; set; }
     }
 
-    public class LabResult : TrialPlus
+    public class LabResult : TrialPlus // Should be Donor
     {
         public CreatineUnit LastCreatinineUnit { get; set; }
         public int LastCreatinine { get; set; }
@@ -192,7 +193,7 @@ namespace WP4.Models.Data
         public int MaxCreatinine { get; set; }
     }
 
-    public class OperationData : TrialPlus
+    public class OperationData : TrialPlus // Extraction, Donor related
     {
         public DateTime LifeSupportWithdrawl { get; set; }
         public DateTime SystolicPressureLow { get; set; }
@@ -427,7 +428,7 @@ namespace WP4.Models.Data
         public string ComplicationsWithGraftFunction { get; set; }
     }
 
-    public class ResourceUseLog : RecipientPlus
+    public class ResourceUseLog : RecipientPlus // See Resource Use log
     {
         public FollowupOccasion Occasion { get; set; }
         public string GPAppointment { get; set; }
