@@ -3,7 +3,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
 
-namespace ASP.NET_MVC5_Bootstrap3_3_1_LESS
+namespace WP4
 {
     public partial class Startup
     {

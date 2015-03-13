@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace ASP.NET_MVC5_Bootstrap3_3_1_LESS
+namespace WP4
 {
     public class FilterConfig
     {

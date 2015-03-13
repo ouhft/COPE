@@ -3,7 +3,7 @@
   <Runtime>
     <ConceptualModels>
       <Schema Namespace="WP4.DAL" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="AdverseEventDetail" customannotation:ClrType="WP4.Models.Data.AdverseEventDetail, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <EntityType Name="AdverseEventDetail" customannotation:ClrType="WP4.Models.Data.AdverseEventDetail, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -31,13 +31,13 @@
           <NavigationProperty Name="DataLockedBy" Relationship="Self.AdverseEventDetail_DataLockedBy" FromRole="AdverseEventDetail_DataLockedBy_Source" ToRole="AdverseEventDetail_DataLockedBy_Target" />
           <NavigationProperty Name="Recipient" Relationship="Self.AdverseEventDetail_Recipient" FromRole="AdverseEventDetail_Recipient_Source" ToRole="AdverseEventDetail_Recipient_Target" />
         </EntityType>
-        <EntityType Name="User" customannotation:ClrType="WP4.Models.Data.User, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <EntityType Name="User" customannotation:ClrType="WP4.Models.Data.User, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
-        <EntityType Name="Recipient" customannotation:ClrType="WP4.Models.Data.Recipient, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <EntityType Name="Recipient" customannotation:ClrType="WP4.Models.Data.Recipient, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -70,14 +70,14 @@
           <NavigationProperty Name="TransplantCentre" Relationship="Self.Recipient_TransplantCentre" FromRole="Recipient_TransplantCentre_Source" ToRole="Recipient_TransplantCentre_Target" />
           <NavigationProperty Name="Trial" Relationship="Self.Recipient_Trial" FromRole="Recipient_Trial_Source" ToRole="Recipient_Trial_Target" />
         </EntityType>
-        <EntityType Name="TransplantHospital" customannotation:ClrType="WP4.Models.Data.TransplantHospital, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <EntityType Name="TransplantHospital" customannotation:ClrType="WP4.Models.Data.TransplantHospital, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="Trial" customannotation:ClrType="WP4.Models.Data.Trial, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <EntityType Name="Trial" customannotation:ClrType="WP4.Models.Data.Trial, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -94,14 +94,14 @@
           <NavigationProperty Name="CreatedBy" Relationship="Self.Trial_CreatedBy" FromRole="Trial_CreatedBy_Source" ToRole="Trial_CreatedBy_Target" />
           <NavigationProperty Name="RetrievalTeam" Relationship="Self.Trial_RetrievalTeam" FromRole="Trial_RetrievalTeam_Source" ToRole="Trial_RetrievalTeam_Target" />
         </EntityType>
-        <EntityType Name="RetrievalTeam" customannotation:ClrType="WP4.Models.Data.RetrievalTeam, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <EntityType Name="RetrievalTeam" customannotation:ClrType="WP4.Models.Data.RetrievalTeam, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
-        <EntityType Name="AdverseEvent" customannotation:ClrType="WP4.Models.Data.AdverseEvent, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <EntityType Name="AdverseEvent" customannotation:ClrType="WP4.Models.Data.AdverseEvent, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -114,7 +114,7 @@
           <Property Name="Intervention" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Recipient" Relationship="Self.AdverseEvent_Recipient" FromRole="AdverseEvent_Recipient_Source" ToRole="AdverseEvent_Recipient_Target" />
         </EntityType>
-        <EntityType Name="DonorPreop" customannotation:ClrType="WP4.Models.Data.DonorPreop, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <EntityType Name="DonorPreop" customannotation:ClrType="WP4.Models.Data.DonorPreop, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -148,7 +148,7 @@
           <NavigationProperty Name="DataLockedBy" Relationship="Self.DonorPreop_DataLockedBy" FromRole="DonorPreop_DataLockedBy_Source" ToRole="DonorPreop_DataLockedBy_Target" />
           <NavigationProperty Name="Trial" Relationship="Self.DonorPreop_Trial" FromRole="DonorPreop_Trial_Source" ToRole="DonorPreop_Trial_Target" />
         </EntityType>
-        <EntityType Name="Donor" customannotation:ClrType="WP4.Models.Data.Donor, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <EntityType Name="Donor" customannotation:ClrType="WP4.Models.Data.Donor, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -177,7 +177,7 @@
           <NavigationProperty Name="OrgansOfferedForDonation" Relationship="Self.OrgansOffered_Donor" FromRole="OrgansOffered_Donor_Target" ToRole="OrgansOffered_Donor_Source" />
           <NavigationProperty Name="Trial" Relationship="Self.Donor_Trial" FromRole="Donor_Trial_Source" ToRole="Donor_Trial_Target" />
         </EntityType>
-        <EntityType Name="OrgansOffered" customannotation:ClrType="WP4.Models.Data.OrgansOffered, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <EntityType Name="OrgansOffered" customannotation:ClrType="WP4.Models.Data.OrgansOffered, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -185,7 +185,7 @@
           <Property Name="Organ" Type="Self.OrgansForDonation" Nullable="false" />
           <NavigationProperty Name="Donor" Relationship="Self.OrgansOffered_Donor" FromRole="OrgansOffered_Donor_Source" ToRole="OrgansOffered_Donor_Target" />
         </EntityType>
-        <EntityType Name="Inspection" customannotation:ClrType="WP4.Models.Data.Inspection, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <EntityType Name="Inspection" customannotation:ClrType="WP4.Models.Data.Inspection, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -217,7 +217,7 @@
           <NavigationProperty Name="DataLockedBy" Relationship="Self.Inspection_DataLockedBy" FromRole="Inspection_DataLockedBy_Source" ToRole="Inspection_DataLockedBy_Target" />
           <NavigationProperty Name="Trial" Relationship="Self.Inspection_Trial" FromRole="Inspection_Trial_Source" ToRole="Inspection_Trial_Target" />
         </EntityType>
-        <EntityType Name="KidneyAllocation" customannotation:ClrType="WP4.Models.Data.KidneyAllocation, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <EntityType Name="KidneyAllocation" customannotation:ClrType="WP4.Models.Data.KidneyAllocation, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -253,7 +253,7 @@
           <NavigationProperty Name="TransplantHospital" Relationship="Self.KidneyAllocation_TransplantHospital" FromRole="KidneyAllocation_TransplantHospital_Source" ToRole="KidneyAllocation_TransplantHospital_Target" />
           <NavigationProperty Name="Trial" Relationship="Self.KidneyAllocation_Trial" FromRole="KidneyAllocation_Trial_Source" ToRole="KidneyAllocation_Trial_Target" />
         </EntityType>
-        <EntityType Name="LabResult" customannotation:ClrType="WP4.Models.Data.LabResult, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <EntityType Name="LabResult" customannotation:ClrType="WP4.Models.Data.LabResult, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -273,7 +273,7 @@
           <NavigationProperty Name="DataLockedBy" Relationship="Self.LabResult_DataLockedBy" FromRole="LabResult_DataLockedBy_Source" ToRole="LabResult_DataLockedBy_Target" />
           <NavigationProperty Name="Trial" Relationship="Self.LabResult_Trial" FromRole="LabResult_Trial_Source" ToRole="LabResult_Trial_Target" />
         </EntityType>
-        <EntityType Name="MachinePerfusion" customannotation:ClrType="WP4.Models.Data.MachinePerfusion, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <EntityType Name="MachinePerfusion" customannotation:ClrType="WP4.Models.Data.MachinePerfusion, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -309,7 +309,7 @@
           <NavigationProperty Name="DataLockedBy" Relationship="Self.MachinePerfusion_DataLockedBy" FromRole="MachinePerfusion_DataLockedBy_Source" ToRole="MachinePerfusion_DataLockedBy_Target" />
           <NavigationProperty Name="Trial" Relationship="Self.MachinePerfusion_Trial" FromRole="MachinePerfusion_Trial_Source" ToRole="MachinePerfusion_Trial_Target" />
         </EntityType>
-        <EntityType Name="OperationData" customannotation:ClrType="WP4.Models.Data.OperationData, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <EntityType Name="OperationData" customannotation:ClrType="WP4.Models.Data.OperationData, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -333,7 +333,7 @@
           <NavigationProperty Name="DataLockedBy" Relationship="Self.OperationData_DataLockedBy" FromRole="OperationData_DataLockedBy_Source" ToRole="OperationData_DataLockedBy_Target" />
           <NavigationProperty Name="Trial" Relationship="Self.OperationData_Trial" FromRole="OperationData_Trial_Source" ToRole="OperationData_Trial_Target" />
         </EntityType>
-        <EntityType Name="PerfusionFile" customannotation:ClrType="WP4.Models.Data.PerfusionFile, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <EntityType Name="PerfusionFile" customannotation:ClrType="WP4.Models.Data.PerfusionFile, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -343,14 +343,14 @@
           <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Trial" Relationship="Self.PerfusionFile_Trial" FromRole="PerfusionFile_Trial_Source" ToRole="PerfusionFile_Trial_Target" />
         </EntityType>
-        <EntityType Name="PerfusionTechnician" customannotation:ClrType="WP4.Models.Data.PerfusionTechnician, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <EntityType Name="PerfusionTechnician" customannotation:ClrType="WP4.Models.Data.PerfusionTechnician, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="Procedure" customannotation:ClrType="WP4.Models.Data.Procedure, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <EntityType Name="Procedure" customannotation:ClrType="WP4.Models.Data.Procedure, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -375,21 +375,21 @@
           <NavigationProperty Name="TransplantCoordinator" Relationship="Self.Procedure_TransplantCoordinator" FromRole="Procedure_TransplantCoordinator_Source" ToRole="Procedure_TransplantCoordinator_Target" />
           <NavigationProperty Name="Trial" Relationship="Self.Procedure_Trial" FromRole="Procedure_Trial_Source" ToRole="Procedure_Trial_Target" />
         </EntityType>
-        <EntityType Name="RetrievalHospital" customannotation:ClrType="WP4.Models.Data.RetrievalHospital, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <EntityType Name="RetrievalHospital" customannotation:ClrType="WP4.Models.Data.RetrievalHospital, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="TransplantCoordinator" customannotation:ClrType="WP4.Models.Data.TransplantCoordinator, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <EntityType Name="TransplantCoordinator" customannotation:ClrType="WP4.Models.Data.TransplantCoordinator, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="QualityOfLife" customannotation:ClrType="WP4.Models.Data.QualityOfLife, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <EntityType Name="QualityOfLife" customannotation:ClrType="WP4.Models.Data.QualityOfLife, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -411,7 +411,7 @@
           <NavigationProperty Name="DataLockedBy" Relationship="Self.QualityOfLife_DataLockedBy" FromRole="QualityOfLife_DataLockedBy_Source" ToRole="QualityOfLife_DataLockedBy_Target" />
           <NavigationProperty Name="Recipient" Relationship="Self.QualityOfLife_Recipient" FromRole="QualityOfLife_Recipient_Source" ToRole="QualityOfLife_Recipient_Target" />
         </EntityType>
-        <EntityType Name="Randomisation" customannotation:ClrType="WP4.Models.Data.Randomisation, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <EntityType Name="Randomisation" customannotation:ClrType="WP4.Models.Data.Randomisation, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -434,7 +434,7 @@
           <NavigationProperty Name="DataLockedBy" Relationship="Self.Randomisation_DataLockedBy" FromRole="Randomisation_DataLockedBy_Source" ToRole="Randomisation_DataLockedBy_Target" />
           <NavigationProperty Name="Trial" Relationship="Self.Randomisation_Trial" FromRole="Randomisation_Trial_Source" ToRole="Randomisation_Trial_Target" />
         </EntityType>
-        <EntityType Name="RecipientFollowUpDay" customannotation:ClrType="WP4.Models.Data.RecipientFollowUpDay, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <EntityType Name="RecipientFollowUpDay" customannotation:ClrType="WP4.Models.Data.RecipientFollowUpDay, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -474,7 +474,7 @@
           <NavigationProperty Name="DataLockedBy" Relationship="Self.RecipientFollowUpDay_DataLockedBy" FromRole="RecipientFollowUpDay_DataLockedBy_Source" ToRole="RecipientFollowUpDay_DataLockedBy_Target" />
           <NavigationProperty Name="Recipient" Relationship="Self.RecipientFollowUpDay_Recipient" FromRole="RecipientFollowUpDay_Recipient_Source" ToRole="RecipientFollowUpDay_Recipient_Target" />
         </EntityType>
-        <EntityType Name="RecipientFollowUp" customannotation:ClrType="WP4.Models.Data.RecipientFollowUp, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <EntityType Name="RecipientFollowUp" customannotation:ClrType="WP4.Models.Data.RecipientFollowUp, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -516,7 +516,7 @@
           <NavigationProperty Name="DataLockedBy" Relationship="Self.RecipientFollowUp_DataLockedBy" FromRole="RecipientFollowUp_DataLockedBy_Source" ToRole="RecipientFollowUp_DataLockedBy_Target" />
           <NavigationProperty Name="Recipient" Relationship="Self.RecipientFollowUp_Recipient" FromRole="RecipientFollowUp_Recipient_Source" ToRole="RecipientFollowUp_Recipient_Target" />
         </EntityType>
-        <EntityType Name="RecipientPeriOperativeData" customannotation:ClrType="WP4.Models.Data.RecipientPeriOperativeData, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <EntityType Name="RecipientPeriOperativeData" customannotation:ClrType="WP4.Models.Data.RecipientPeriOperativeData, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -555,7 +555,7 @@
           <NavigationProperty Name="DataLockedBy" Relationship="Self.RecipientPeriOperativeData_DataLockedBy" FromRole="RecipientPeriOperativeData_DataLockedBy_Source" ToRole="RecipientPeriOperativeData_DataLockedBy_Target" />
           <NavigationProperty Name="Recipient" Relationship="Self.RecipientPeriOperativeData_Recipient" FromRole="RecipientPeriOperativeData_Recipient_Source" ToRole="RecipientPeriOperativeData_Recipient_Target" />
         </EntityType>
-        <EntityType Name="RecipientWithdrawal" customannotation:ClrType="WP4.Models.Data.RecipientWithdrawal, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <EntityType Name="RecipientWithdrawal" customannotation:ClrType="WP4.Models.Data.RecipientWithdrawal, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -572,7 +572,7 @@
           <NavigationProperty Name="DataLockedBy" Relationship="Self.RecipientWithdrawal_DataLockedBy" FromRole="RecipientWithdrawal_DataLockedBy_Source" ToRole="RecipientWithdrawal_DataLockedBy_Target" />
           <NavigationProperty Name="Recipient" Relationship="Self.RecipientWithdrawal_Recipient" FromRole="RecipientWithdrawal_Recipient_Source" ToRole="RecipientWithdrawal_Recipient_Target" />
         </EntityType>
-        <EntityType Name="ResourceUseLog" customannotation:ClrType="WP4.Models.Data.ResourceUseLog, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <EntityType Name="ResourceUseLog" customannotation:ClrType="WP4.Models.Data.ResourceUseLog, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -600,7 +600,7 @@
           <NavigationProperty Name="DataLockedBy" Relationship="Self.ResourceUseLog_DataLockedBy" FromRole="ResourceUseLog_DataLockedBy_Source" ToRole="ResourceUseLog_DataLockedBy_Target" />
           <NavigationProperty Name="Recipient" Relationship="Self.ResourceUseLog_Recipient" FromRole="ResourceUseLog_Recipient_Source" ToRole="ResourceUseLog_Recipient_Target" />
         </EntityType>
-        <EntityType Name="SeriousAdverseEventDetail" customannotation:ClrType="WP4.Models.Data.SeriousAdverseEventDetail, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <EntityType Name="SeriousAdverseEventDetail" customannotation:ClrType="WP4.Models.Data.SeriousAdverseEventDetail, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -635,7 +635,7 @@
           <NavigationProperty Name="DataLockedBy" Relationship="Self.SeriousAdverseEventDetail_DataLockedBy" FromRole="SeriousAdverseEventDetail_DataLockedBy_Source" ToRole="SeriousAdverseEventDetail_DataLockedBy_Target" />
           <NavigationProperty Name="Recipient" Relationship="Self.SeriousAdverseEventDetail_Recipient" FromRole="SeriousAdverseEventDetail_Recipient_Source" ToRole="SeriousAdverseEventDetail_Recipient_Target" />
         </EntityType>
-        <EntityType Name="Specimen" customannotation:ClrType="WP4.Models.Data.Specimen, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <EntityType Name="Specimen" customannotation:ClrType="WP4.Models.Data.Specimen, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -664,7 +664,7 @@
           <NavigationProperty Name="Recipent" Relationship="Self.Specimen_Recipent" FromRole="Specimen_Recipent_Source" ToRole="Specimen_Recipent_Target" />
           <NavigationProperty Name="Trial" Relationship="Self.Specimen_Trial" FromRole="Specimen_Trial_Source" ToRole="Specimen_Trial_Target" />
         </EntityType>
-        <EnumType Name="AdverseEventType" IsFlags="false" customannotation:ClrType="WP4.Models.Data.AdverseEventType, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="AdverseEventType" IsFlags="false" customannotation:ClrType="WP4.Models.Data.AdverseEventType, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="RecipientInfection" Value="0" />
           <Member Name="BiopsyProvenAcuteRejection" Value="1" />
           <Member Name="Bleeding" Value="2" />
@@ -679,25 +679,25 @@
           <Member Name="UretherNecrosis" Value="11" />
           <Member Name="Other" Value="12" />
         </EnumType>
-        <EnumType Name="InfectionType" IsFlags="false" customannotation:ClrType="WP4.Models.Data.InfectionType, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="InfectionType" IsFlags="false" customannotation:ClrType="WP4.Models.Data.InfectionType, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="Pneumonia" Value="0" />
           <Member Name="SurgicalSiteInfection" Value="1" />
           <Member Name="IntraabdominalCollection" Value="2" />
           <Member Name="Other" Value="3" />
         </EnumType>
-        <EnumType Name="YesNo4" IsFlags="false" customannotation:ClrType="WP4.Models.Data.YesNo4, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="YesNo4" IsFlags="false" customannotation:ClrType="WP4.Models.Data.YesNo4, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="No" Value="0" />
           <Member Name="Yes" Value="1" />
           <Member Name="Unknown" Value="2" />
           <Member Name="Unanswered" Value="3" />
         </EnumType>
-        <EnumType Name="BanffGrading" IsFlags="false" customannotation:ClrType="WP4.Models.Data.BanffGrading, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="BanffGrading" IsFlags="false" customannotation:ClrType="WP4.Models.Data.BanffGrading, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="Indeterminate" Value="0" />
           <Member Name="Mild" Value="1" />
           <Member Name="Moderate" Value="2" />
           <Member Name="Severe" Value="3" />
         </EnumType>
-        <EnumType Name="ClavianGrading" IsFlags="false" customannotation:ClrType="WP4.Models.Data.ClavianGrading, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="ClavianGrading" IsFlags="false" customannotation:ClrType="WP4.Models.Data.ClavianGrading, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="I" Value="0" />
           <Member Name="II" Value="1" />
           <Member Name="IIa" Value="2" />
@@ -708,20 +708,20 @@
           <Member Name="IVb" Value="7" />
           <Member Name="V" Value="8" />
         </EnumType>
-        <EnumType Name="Side" IsFlags="false" customannotation:ClrType="WP4.Models.Data.Side, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="Side" IsFlags="false" customannotation:ClrType="WP4.Models.Data.Side, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="Left" Value="1" />
           <Member Name="Right" Value="2" />
         </EnumType>
-        <EnumType Name="Gender" IsFlags="false" customannotation:ClrType="WP4.Models.Data.Gender, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="Gender" IsFlags="false" customannotation:ClrType="WP4.Models.Data.Gender, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="Male" Value="1" />
           <Member Name="Female" Value="2" />
         </EnumType>
-        <EnumType Name="Ethnicity" IsFlags="false" customannotation:ClrType="WP4.Models.Data.Ethnicity, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="Ethnicity" IsFlags="false" customannotation:ClrType="WP4.Models.Data.Ethnicity, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="Caucasian" Value="1" />
           <Member Name="Black" Value="2" />
           <Member Name="Other" Value="3" />
         </EnumType>
-        <EnumType Name="RenalDisease" IsFlags="false" customannotation:ClrType="WP4.Models.Data.RenalDisease, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="RenalDisease" IsFlags="false" customannotation:ClrType="WP4.Models.Data.RenalDisease, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="GlomerularDiseases" Value="1" />
           <Member Name="PolycysticKidneys" Value="2" />
           <Member Name="UncertainEtiology" Value="3" />
@@ -734,70 +734,70 @@
           <Member Name="Neoplasms" Value="10" />
           <Member Name="Other" Value="11" />
         </EnumType>
-        <EnumType Name="BloodGroup" IsFlags="false" customannotation:ClrType="WP4.Models.Data.BloodGroup, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="BloodGroup" IsFlags="false" customannotation:ClrType="WP4.Models.Data.BloodGroup, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="O" Value="1" />
           <Member Name="A" Value="2" />
           <Member Name="B" Value="3" />
           <Member Name="AB" Value="4" />
           <Member Name="Unknown" Value="5" />
         </EnumType>
-        <EnumType Name="Diagnosis" IsFlags="false" customannotation:ClrType="WP4.Models.Data.Diagnosis, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="Diagnosis" IsFlags="false" customannotation:ClrType="WP4.Models.Data.Diagnosis, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="CerebrivascularAccident" Value="1" />
           <Member Name="Hypoxia" Value="2" />
           <Member Name="Trauma" Value="3" />
           <Member Name="Other" Value="4" />
         </EnumType>
-        <EnumType Name="YesNo3" IsFlags="false" customannotation:ClrType="WP4.Models.Data.YesNo3, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="YesNo3" IsFlags="false" customannotation:ClrType="WP4.Models.Data.YesNo3, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="No" Value="0" />
           <Member Name="Yes" Value="1" />
           <Member Name="Unanswered" Value="3" />
         </EnumType>
-        <EnumType Name="OrgansForDonation" IsFlags="false" customannotation:ClrType="WP4.Models.Data.OrgansForDonation, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="OrgansForDonation" IsFlags="false" customannotation:ClrType="WP4.Models.Data.OrgansForDonation, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="Liver" Value="1" />
           <Member Name="Lung" Value="2" />
           <Member Name="Pancreas" Value="3" />
         </EnumType>
-        <EnumType Name="GraftDamage" IsFlags="false" customannotation:ClrType="WP4.Models.Data.GraftDamage, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="GraftDamage" IsFlags="false" customannotation:ClrType="WP4.Models.Data.GraftDamage, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="ArterialDamage" Value="1" />
           <Member Name="VenousDamage" Value="2" />
           <Member Name="UreteralDamage" Value="3" />
           <Member Name="ParenchymalDamage" Value="4" />
           <Member Name="None" Value="5" />
         </EnumType>
-        <EnumType Name="WashoutPerfusion" IsFlags="false" customannotation:ClrType="WP4.Models.Data.WashoutPerfusion, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="WashoutPerfusion" IsFlags="false" customannotation:ClrType="WP4.Models.Data.WashoutPerfusion, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="Homegenous" Value="1" />
           <Member Name="Patchy" Value="2" />
           <Member Name="Blue" Value="3" />
           <Member Name="Unknown" Value="4" />
         </EnumType>
-        <EnumType Name="KidneyPreservation" IsFlags="false" customannotation:ClrType="WP4.Models.Data.KidneyPreservation, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="KidneyPreservation" IsFlags="false" customannotation:ClrType="WP4.Models.Data.KidneyPreservation, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="HMP" Value="1" />
           <Member Name="HMPO2" Value="2" />
         </EnumType>
-        <EnumType Name="ReallocationReason" IsFlags="false" customannotation:ClrType="WP4.Models.Data.ReallocationReason, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="ReallocationReason" IsFlags="false" customannotation:ClrType="WP4.Models.Data.ReallocationReason, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="PositiveCrossmatch" Value="1" />
           <Member Name="Other" Value="2" />
           <Member Name="Unknown" Value="3" />
         </EnumType>
-        <EnumType Name="CreatineUnit" IsFlags="false" customannotation:ClrType="WP4.Models.Data.CreatineUnit, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="CreatineUnit" IsFlags="false" customannotation:ClrType="WP4.Models.Data.CreatineUnit, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="mgDL" Value="1" />
           <Member Name="umolL" Value="2" />
         </EnumType>
-        <EnumType Name="PatchHolderSize" IsFlags="false" customannotation:ClrType="WP4.Models.Data.PatchHolderSize, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="PatchHolderSize" IsFlags="false" customannotation:ClrType="WP4.Models.Data.PatchHolderSize, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="Small" Value="1" />
           <Member Name="Large" Value="2" />
           <Member Name="DoubleArtery" Value="3" />
         </EnumType>
-        <EnumType Name="ArtificalPatchSize" IsFlags="false" customannotation:ClrType="WP4.Models.Data.ArtificalPatchSize, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="ArtificalPatchSize" IsFlags="false" customannotation:ClrType="WP4.Models.Data.ArtificalPatchSize, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="Small" Value="1" />
           <Member Name="Large" Value="2" />
         </EnumType>
-        <EnumType Name="QOLLocation" IsFlags="false" customannotation:ClrType="WP4.Models.Data.QOLLocation, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="QOLLocation" IsFlags="false" customannotation:ClrType="WP4.Models.Data.QOLLocation, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="Inpatient" Value="1" />
           <Member Name="Outpatient" Value="2" />
           <Member Name="Community" Value="3" />
         </EnumType>
-        <EnumType Name="QOLRating" IsFlags="false" customannotation:ClrType="WP4.Models.Data.QOLRating, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="QOLRating" IsFlags="false" customannotation:ClrType="WP4.Models.Data.QOLRating, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="NoProblems" Value="1" />
           <Member Name="SlightProblems" Value="2" />
           <Member Name="ModerateProblems" Value="3" />
@@ -805,7 +805,7 @@
           <Member Name="Unable" Value="5" />
           <Member Name="Unknown" Value="9" />
         </EnumType>
-        <EnumType Name="FollowupDay" IsFlags="false" customannotation:ClrType="WP4.Models.Data.FollowupDay, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="FollowupDay" IsFlags="false" customannotation:ClrType="WP4.Models.Data.FollowupDay, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="Day1" Value="1" />
           <Member Name="Day2" Value="2" />
           <Member Name="Day3" Value="3" />
@@ -814,7 +814,7 @@
           <Member Name="Day6" Value="6" />
           <Member Name="Day7" Value="7" />
         </EnumType>
-        <EnumType Name="GraftFailureCause" IsFlags="false" customannotation:ClrType="WP4.Models.Data.GraftFailureCause, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="GraftFailureCause" IsFlags="false" customannotation:ClrType="WP4.Models.Data.GraftFailureCause, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="Immunologic" Value="1" />
           <Member Name="Preservation" Value="2" />
           <Member Name="TechnicalArterial" Value="3" />
@@ -823,16 +823,16 @@
           <Member Name="InfectionViral" Value="6" />
           <Member Name="Other" Value="7" />
         </EnumType>
-        <EnumType Name="DialysisType" IsFlags="false" customannotation:ClrType="WP4.Models.Data.DialysisType, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="DialysisType" IsFlags="false" customannotation:ClrType="WP4.Models.Data.DialysisType, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="CAPD" Value="1" />
           <Member Name="Hemodialysis" Value="2" />
           <Member Name="Unknown" Value="3" />
         </EnumType>
-        <EnumType Name="InductionTherapy" IsFlags="false" customannotation:ClrType="WP4.Models.Data.InductionTherapy, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="InductionTherapy" IsFlags="false" customannotation:ClrType="WP4.Models.Data.InductionTherapy, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="IL2receptorAntagonist" Value="1" />
           <Member Name="ATG" Value="2" />
         </EnumType>
-        <EnumType Name="Immunosuppressive" IsFlags="false" customannotation:ClrType="WP4.Models.Data.Immunosuppressive, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="Immunosuppressive" IsFlags="false" customannotation:ClrType="WP4.Models.Data.Immunosuppressive, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="Azathioprine" Value="1" />
           <Member Name="Cyclosporin" Value="2" />
           <Member Name="MMF" Value="3" />
@@ -841,41 +841,41 @@
           <Member Name="Tacrolimus" Value="6" />
           <Member Name="Other" Value="7" />
         </EnumType>
-        <EnumType Name="FollowupOccasion" IsFlags="false" customannotation:ClrType="WP4.Models.Data.FollowupOccasion, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="FollowupOccasion" IsFlags="false" customannotation:ClrType="WP4.Models.Data.FollowupOccasion, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="ThreeMonths" Value="1" />
           <Member Name="SixMonths" Value="2" />
           <Member Name="Year" Value="3" />
         </EnumType>
-        <EnumType Name="UrineUnit" IsFlags="false" customannotation:ClrType="WP4.Models.Data.UrineUnit, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="UrineUnit" IsFlags="false" customannotation:ClrType="WP4.Models.Data.UrineUnit, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="gDL" Value="1" />
           <Member Name="mmolL" Value="2" />
         </EnumType>
-        <EnumType Name="CreatineClearanceUnit" IsFlags="false" customannotation:ClrType="WP4.Models.Data.CreatineClearanceUnit, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="CreatineClearanceUnit" IsFlags="false" customannotation:ClrType="WP4.Models.Data.CreatineClearanceUnit, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="ml" Value="1" />
         </EnumType>
-        <EnumType Name="Incision" IsFlags="false" customannotation:ClrType="WP4.Models.Data.Incision, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="Incision" IsFlags="false" customannotation:ClrType="WP4.Models.Data.Incision, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="MidlineLaparotomy" Value="1" />
           <Member Name="Extraperitoneal" Value="2" />
           <Member Name="Unknown" Value="3" />
         </EnumType>
-        <EnumType Name="ArterialProblems" IsFlags="false" customannotation:ClrType="WP4.Models.Data.ArterialProblems, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="ArterialProblems" IsFlags="false" customannotation:ClrType="WP4.Models.Data.ArterialProblems, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="None" Value="1" />
           <Member Name="LigatedPolarArtery" Value="2" />
           <Member Name="ReconstructedPolarOrHilarArtery" Value="3" />
           <Member Name="RepairedIntimaDissection" Value="4" />
           <Member Name="Other" Value="5" />
         </EnumType>
-        <EnumType Name="VenousProblems" IsFlags="false" customannotation:ClrType="WP4.Models.Data.VenousProblems, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="VenousProblems" IsFlags="false" customannotation:ClrType="WP4.Models.Data.VenousProblems, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="None" Value="1" />
           <Member Name="Laceration" Value="2" />
           <Member Name="ElongationPlasty" Value="3" />
         </EnumType>
-        <EnumType Name="WithdrawalReason" IsFlags="false" customannotation:ClrType="WP4.Models.Data.WithdrawalReason, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="WithdrawalReason" IsFlags="false" customannotation:ClrType="WP4.Models.Data.WithdrawalReason, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="WithdrawnConsent" Value="0" />
           <Member Name="WithdrawnClinician" Value="1" />
           <Member Name="Other" Value="2" />
         </EnumType>
-        <EnumType Name="CauseOfDeath" IsFlags="false" customannotation:ClrType="WP4.Models.Data.CauseOfDeath, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="CauseOfDeath" IsFlags="false" customannotation:ClrType="WP4.Models.Data.CauseOfDeath, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="MI" Value="0" />
           <Member Name="PE" Value="1" />
           <Member Name="CVA" Value="2" />
@@ -884,14 +884,14 @@
           <Member Name="MultiOrganFailure" Value="5" />
           <Member Name="TransplantRelated" Value="6" />
         </EnumType>
-        <EnumType Name="SpecimenType" IsFlags="false" customannotation:ClrType="WP4.Models.Data.SpecimenType, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="SpecimenType" IsFlags="false" customannotation:ClrType="WP4.Models.Data.SpecimenType, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="EDTA" Value="0" />
           <Member Name="SST" Value="1" />
           <Member Name="Urine" Value="2" />
           <Member Name="Perfusate" Value="3" />
           <Member Name="Kidney" Value="4" />
         </EnumType>
-        <EnumType Name="SpecimenOccasion" IsFlags="false" customannotation:ClrType="WP4.Models.Data.SpecimenOccasion, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="SpecimenOccasion" IsFlags="false" customannotation:ClrType="WP4.Models.Data.SpecimenOccasion, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="DB1_1" Value="0" />
           <Member Name="DB1_2" Value="1" />
           <Member Name="DU1_1" Value="2" />
@@ -907,7 +907,7 @@
           <Member Name="KT1R" Value="12" />
           <Member Name="KT1F" Value="13" />
         </EnumType>
-        <EnumType Name="SpecimenState" IsFlags="false" customannotation:ClrType="WP4.Models.Data.SpecimenState, ASP.NET_MVC5_Bootstrap3_3_1_LESS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="SpecimenState" IsFlags="false" customannotation:ClrType="WP4.Models.Data.SpecimenState, WP4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="DryIce" Value="0" />
           <Member Name="RNALater" Value="1" />
           <Member Name="Formalin" Value="2" />
