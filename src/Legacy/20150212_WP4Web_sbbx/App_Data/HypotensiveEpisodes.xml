@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<HypotensiveEpisodes>
+  <HypotensiveEpisode Text="&lt;1 hr" Value="&lt;1 hr" />
+  <HypotensiveEpisode Text="1-6 hrs" Value="1-6 hrs" />
+  <HypotensiveEpisode Text="&gt;6 hrs" Value="&gt;6 hrs" />
+  <HypotensiveEpisode Text="Unknown" Value="Unknown" />
+</HypotensiveEpisodes>

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AdverseEvents>
+
+  <AdverseEvent Text="Recipient Infection" Value="Recipient Infection" />
+  <AdverseEvent Text="Biopsy Proven Acute Rejection" Value="Biopsy Proven Acute Rejection" />
+  <AdverseEvent Text="Re-Operation" Value="Re-Operation" />
+  <AdverseEvent Text="Renal Artery Thrombosis" Value="Renal Artery Thrombosis" />
+  <AdverseEvent Text="Renal Artery Stenosis" Value="Renal Artery Stenosis" />
+  <AdverseEvent Text="Renal Vein Thrombosis" Value="Renal Vein Thrombosis" />
+  <AdverseEvent Text="Renal Vein Stenosis" Value="Renal Vein Stenosis" />
+  <AdverseEvent Text="Other Adverse Event" Value="Other Adverse Event" />
+  
+</AdverseEvents>

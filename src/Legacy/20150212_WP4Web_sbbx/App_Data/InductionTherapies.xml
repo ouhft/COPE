@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<InductionTherapies>
+  <MainOption Text="ATG" Value="ATG" />
+  <MainOption Text="IL 2 Receptor Antagonist" Value="IL 2 Receptor Antagonist" />
+
+</InductionTherapies>

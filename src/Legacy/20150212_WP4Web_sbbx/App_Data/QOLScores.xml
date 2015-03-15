@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Sexes>
+  <Sex Text="1" Value="1" />
+  <Sex Text="2" Value="2" />
+  <Sex Text="3" Value="3" />
+  <Sex Text="4" Value="4" />
+  <Sex Text="5" Value="5" />
+  <Sex Text="9" Value="9" />
+</Sexes>

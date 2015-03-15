@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<UrineOptions>
+  <UrineOption Text="neg" Value="neg" />
+  <UrineOption Text="+pos" Value="+pos" />
+  <UrineOption Text="++pos" Value="++pos" />
+  <UrineOption Text="+++pos" Value="+++pos" />
+</UrineOptions>

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PrimaryCauses>
+  <PrimaryCause Text="Immunologic" Value="Immunologic" />
+  <PrimaryCause Text="Infection – Bacterial" Value="Infection – Bacterial" />
+  <PrimaryCause Text="Infection – Viral" Value="Infection – Viral" />
+  <PrimaryCause Text="Preservation" Value="Preservation" />
+  <PrimaryCause Text="Technical - Arterial" Value="Technical - Arterial" />
+  <PrimaryCause Text="Technical - Venous" Value="Technical - Venous" />
+  <PrimaryCause Text="Other" Value="Other" />
+</PrimaryCauses>

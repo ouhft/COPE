@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DialysisTypes>
+  <DialysisType Text="CAPD" Value="CAPD" />
+  <DialysisType Text="Hemodialysis" Value="Hemodialysis" />
+  <DialysisType Text="Unknown" Value="Unknown" />
+
+</DialysisTypes>

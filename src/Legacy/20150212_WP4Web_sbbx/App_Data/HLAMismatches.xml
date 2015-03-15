@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<HLAMismatches>
+  <HLAMismatch Text="0" Value="0" />
+  <HLAMismatch Text="1" Value="1" />
+  <HLAMismatch Text="2" Value="2" />
+  <DeathCause Text="Unknown" Value="Unknown" />
+</HLAMismatches>

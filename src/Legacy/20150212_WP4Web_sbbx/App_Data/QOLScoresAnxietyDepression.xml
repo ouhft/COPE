@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<QOLScoresAnxietyDepression>
+  <QOLScoreAnxietyDepression Text="I am not anxious or depressed (1)" Value="1" />
+  <QOLScoreAnxietyDepression Text="I am slightly anxious or depressed (2)" Value="2" />
+  <QOLScoreAnxietyDepression Text="I am moderately anxious or depressed (3)" Value="3" />
+  <QOLScoreAnxietyDepression Text="I am severely anxious or depressed (4)" Value="4" />
+  <QOLScoreAnxietyDepression Text="I am extremely anxious or depressed (5)" Value="5" />
+  <QOLScoreAnxietyDepression Text="Missing Value (9)" Value="9" />
+</QOLScoresAnxietyDepression>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Home text="Home" url="~/OchreWebHomePage.aspx">
+
+  <MenuItem Text="Edit Main Details" NavigateUrl="~/SpecClinicalData/EditMainDetailsR.aspx" Value="mnuEditMainDetailsR" />
+  <MenuItem Text="Identification" NavigateUrl="~/SpecClinicalData/AddRecipient.aspx" Value="mnuREAddRecipient" />
+  <MenuItem Text="PeriOperative Data" NavigateUrl="~/SpecClinicalData/AddRPeriOperativeData.aspx" Value="mnuREAddRPeriOperativeData" />
+  
+  <MenuItem Text="View Summary (R)" NavigateUrl="~/SpecClinicalData/ViewSummaryRecipient.aspx" Value="mnuViewSummaryRecipient" />
+  
+  
+</Home>

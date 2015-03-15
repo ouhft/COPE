@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DonorDiagnosisOptions>
+  <DonorDiagnosisOption Text="Cerebrovascular Accident" Value="Cerebrovascular Accident" />
+  <DonorDiagnosisOption Text="Hypoxia" Value="Hypoxia" />
+  <DonorDiagnosisOption Text="Trauma" Value="Trauma" />
+  <!-- Removed as not required Sarah email 20140418
+  <DonorDiagnosisOption Text="Primary Brain Tumour" Value="Primary Brain Tumour" />
+  -->
+  <DonorDiagnosisOption Text="Other" Value="Other" />
+</DonorDiagnosisOptions>

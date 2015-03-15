@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ETUrgencies>
+  <ETUrgency Text="0" Value="0" />
+  <ETUrgency Text="1" Value="1" />
+  <ETUrgency Text="2" Value="2" />
+  <ETUrgency Text="4" Value="4" />
+  <ETUrgency Text="Unknown" Value="Unknown" />
+</ETUrgencies>

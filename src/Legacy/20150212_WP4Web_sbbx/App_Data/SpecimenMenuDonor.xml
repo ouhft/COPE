@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Home text="Home" url="~/OchreWebHomePage.aspx">
+  <MenuItem Text="Main Details" NavigateUrl="~/SpecClinicalData/EditMainDetails.aspx" Value="mnuEditMainDetails" />
+  <MenuItem Text="General Procedure" NavigateUrl="~/SpecClinicalData/AddDonorGeneralProcedureData.aspx" Value="mnuAddDonorGeneralProcedureData" />
+  <MenuItem Text="Donor Details" NavigateUrl="~/SpecClinicalData/AddDonorDetails.aspx" Value="mnuAddDonorDetails" />
+  <MenuItem Text="Donor PreOp Data" NavigateUrl="~/SpecClinicalData/AddDonorPreopData.aspx" Value="mnuAddPreopData" />
+  <MenuItem Text="Donor Lab Results" NavigateUrl="~/SpecClinicalData/AddDonorLabResults.aspx" Value="mnuAddDonorLabResults" />
+  <MenuItem Text="Operation Data" NavigateUrl="~/SpecClinicalData/AddDonorOperationData.aspx" Value="mnuAddDonorOperationData" />
+  <MenuItem Text="Inspection" NavigateUrl="~/SpecClinicalData/AddInspectionLR.aspx" Value="mnuAddInspectionLR" />
+  <MenuItem Text="Randomisation" NavigateUrl="~/SpecClinicalData/AddRTrial.aspx" Value="mnuAddRTrial" />
+  <!-- was removed now added
+  -->
+  <MenuItem Text="Machine Perfusion" NavigateUrl="~/SpecClinicalData/AddMPGData.aspx" Value="mnuAddMPGData" />
+  <MenuItem Text="Perfusion File Upload" NavigateUrl="~/SpecClinicalData/UPreservation.aspx" Value="mnuUPreservation" />
+  <MenuItem Text="Kidney Allocation" NavigateUrl="~/SpecClinicalData/AddKidneyProcedure.aspx" Value="mnuAddKidneyProcedure" />
+  <MenuItem Text="Specimen Data" NavigateUrl="~/SpecClinicalData/AddDonorSpecimen.aspx" Value="mnuAddDonorSpecimen" />
+  <MenuItem Text="View Summary (D)" NavigateUrl="~/SpecClinicalData/ViewSummary.aspx" Value="mnuViewSummary" />
+  
+</Home>

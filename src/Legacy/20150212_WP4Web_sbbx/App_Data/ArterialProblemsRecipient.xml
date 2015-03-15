@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ArterialProblemsRecipient>
+  <ArterialProblemRecipient Value="NO" Text="NO"/>
+  <ArterialProblemRecipient Value="Ligated Polar Artery" Text="Ligated Polar Artery"/>
+  <ArterialProblemRecipient Value="Reconstructed Polar/Hilar Artery" Text="Reconstructed Polar/Hilar Artery"/>
+  <ArterialProblemRecipient Value="Repaired Intima Dissection" Text="Repaired Intima Dissection"/>
+  <ArterialProblemRecipient Value="Other" Text="Other"/>
+  
+</ArterialProblemsRecipient>

@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<BloodGroups>
+  <BloodGroup Text="O" Value="O" />
+  <BloodGroup Text="A" Value="A" />
+  <BloodGroup Text="B" Value="B" />
+  <BloodGroup Text="AB" Value="AB" />
+  <BloodGroup Text="Unknown" Value="Unknown" />
+</BloodGroups>

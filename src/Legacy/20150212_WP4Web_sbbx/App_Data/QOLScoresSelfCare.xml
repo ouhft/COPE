@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<QOLScoresSelfCare>
+  <QOLScoreSelfCare Text="I have no problems washing or dressing myself (1)" Value="1" />
+  <QOLScoreSelfCare Text="I have slight problems washing or dressing myself (2)" Value="2" />
+  <QOLScoreSelfCare Text="I have moderate problems washing or dressing myself (3)" Value="3" />
+  <QOLScoreSelfCare Text="I have severe problems washing or dressing myself (4)" Value="4" />
+  <QOLScoreSelfCare Text="I am unable to wash or dress myself (5)" Value="5" />
+  <QOLScoreSelfCare Text="Missing Value (9)" Value="9" />
+</QOLScoresSelfCare>

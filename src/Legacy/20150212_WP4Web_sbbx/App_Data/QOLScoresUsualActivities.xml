@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<QOLScoresUsualActivities>
+  <QOLScoreUsualActivities Text="I have no problems doing my usual activities (1)" Value="1" />
+  <QOLScoreUsualActivities Text="I have slight problems doing my usual activities (2)" Value="2" />
+  <QOLScoreUsualActivities Text="I have moderate problems doing my usual activities (3)" Value="3" />
+  <QOLScoreUsualActivities Text="I have severe problems doing my usual activities (4)" Value="4" />
+  <QOLScoreUsualActivities Text="I am unable to do my usual activities (5)" Value="5" />
+  <QOLScoreUsualActivities Text="Missing Value (9)" Value="9" />
+</QOLScoresUsualActivities>

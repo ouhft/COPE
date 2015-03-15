@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PostTxImmunosuppressivesDay1to7>
+  <PostTxImmunosuppressiveDay1to7 Text="ATG" Value="ATG" />
+  <PostTxImmunosuppressiveDay1to7 Text="Azathioprine" Value="Azathioprine" />
+  <PostTxImmunosuppressiveDay1to7 Text="Cyclosporin" Value="Cyclosporin" />
+  <PostTxImmunosuppressiveDay1to7 Text="IL-2 Receptor Antagonists" Value="IL-2 Receptor Antagonists" />
+  <PostTxImmunosuppressiveDay1to7 Text="MMF" Value="MMF" />
+  <PostTxImmunosuppressiveDay1to7 Text="Prednisolon" Value="Prednisolon" />
+  <PostTxImmunosuppressiveDay1to7 Text="Tacrolimus" Value="Tacrolimus" />
+  <PostTxImmunosuppressiveDay1to7 Text="Other" Value="Other" />
+</PostTxImmunosuppressivesDay1to7>

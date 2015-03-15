@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ReasonsWithdrawn>
+  <ReasonWithdrawn Text="Withdrawn Consent" Value="Withdrawn Consent" />
+  <ReasonWithdrawn Text="Withdrawn Clinician" Value="Withdrawn Clinician" />
+  <ReasonWithdrawn Text="Other" Value="Other" />
+</ReasonsWithdrawn>

@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Immunosuppressions>
+  <Immunosuppression Text="Basiliximab" Value="Basiliximab" />
+  <Immunosuppression Text="Campath" Value="Campath" />
+  <Immunosuppression Text="Methyprednisolone" Value="Methyprednisolone" />
+  <Immunosuppression Text="Tacrolimus" Value="Tacrolimus" />
+  <Immunosuppression Text="Other" Value="Other" />
+</Immunosuppressions>

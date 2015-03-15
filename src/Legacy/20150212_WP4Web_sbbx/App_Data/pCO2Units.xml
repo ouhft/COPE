@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pCO2Units>
+  <pCO2Unit Text="mmHg" Value="mmHg" />
+  <pCO2Unit Text="kPa" Value="kPa" />
+
+</pCO2Units>

@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PostTxImmunosuppressives>
+  <PostTxImmunosuppressive Text="Azathioprine" Value="Azathioprine" />
+  <PostTxImmunosuppressive Text="Cyclosporin" Value="Cyclosporin" />
+  <PostTxImmunosuppressive Text="MMF" Value="MMF" />
+  <PostTxImmunosuppressive Text="Prednisolon" Value="Prednisolon" />
+  <PostTxImmunosuppressive Text="Tacrolimus" Value="Tacrolimus" />
+  <PostTxImmunosuppressive Text="Other" Value="Other" />
+</PostTxImmunosuppressives>

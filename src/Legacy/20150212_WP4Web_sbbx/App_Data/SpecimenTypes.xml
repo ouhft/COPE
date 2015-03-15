@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Specimens>
+  <Specimen Value="EDTA" Text="EDTA" />
+  <Specimen Value="SST" Text="SST" />
+  <Specimen Value="Urine" Text="Urine" />
+  <Specimen Value="Perfusate" Text="Perfusate" />
+  <Specimen Value="Kidney" Text="Kidney" />
+
+</Specimens>

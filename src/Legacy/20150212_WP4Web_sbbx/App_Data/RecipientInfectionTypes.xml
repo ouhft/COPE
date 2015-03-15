@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<RecipientInfectionTypes>
+  <RecipientInfectionType Text="Pneumonia" Value="Pneumonia" />
+  <RecipientInfectionType Text="Surgical Site Infection" Value="Surgical Site Infection" />
+  <RecipientInfectionType Text="Intra-abdominal Collection" Value="Intra-abdominal Collection" />
+  <RecipientInfectionType Text="UTI" Value="UTI" />
+  <RecipientInfectionType Text="Other" Value="Other" />
+</RecipientInfectionTypes>

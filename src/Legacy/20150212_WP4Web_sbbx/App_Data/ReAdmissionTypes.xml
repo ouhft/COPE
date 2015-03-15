@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ReAdmissionTypes>
+  <ReAdmissionType Text="Hospital Admission" Value="Hospital Admission" />
+  <ReAdmissionType Text="Rehabilitation Hospital Admission" Value="Rehabilitation Hospital Admission" />
+  
+</ReAdmissionTypes>

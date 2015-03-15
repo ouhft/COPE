@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<WashoutPerfusion>
+  <WashoutPerfusion Text="Homogenous" Value="Homogenous" />
+  <WashoutPerfusion Text="Patchy" Value="Patchy" />
+  <WashoutPerfusion Text="Blue" Value="Blue" />
+  <WashoutPerfusion Text="Unknown" Value="Unknown" />
+  
+</WashoutPerfusion>

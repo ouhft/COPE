@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Home text="Home" url="~/WP4Web.aspx">
+
+  <MenuItem Text="Donor Details" NavigateUrl="~/SpecClinicalData/AddDonorDetails.aspx" Value="mnuAddDonorDetails" />
+  <MenuItem Text="Donor PreOp Data" NavigateUrl="~/SpecClinicalData/AddDonorPreopData.aspx" Value="mnuAddPreopData" />
+  <MenuItem Text="Lab Results" NavigateUrl="~/SpecClinicalData/AddDonorLabResults.aspx" Value="mnuAddDonorLabResults" />
+  <MenuItem Text="Donor Operation" NavigateUrl="~/SpecClinicalData/AddDonorOperationData.aspx" Value="mnuAddDonorOperationData" />
+  <MenuItem Text="Randomisation" NavigateUrl="~/SpecClinicalData/AddRTrial.aspx" Value="mnuAddRTrial" />
+  <MenuItem Text="Inspection" NavigateUrl="~/SpecClinicalData/AddInspection.aspx" Value="mnuAddInspection" />
+  <MenuItem Text="Machine Perfusion" NavigateUrl="~/SpecClinicalData/AddMPGData.aspx" Value="mnuAddRTrial" />
+  <MenuItem Text="Recipient Identification" NavigateUrl="~/SpecClinicalData/AddRecipient.aspx" Value="mnuAddRecipient" />
+  <MenuItem Text="Recipient PeriOperative Data" NavigateUrl="~/SpecClinicalData/AddRPeriOperativeData.aspx" Value="mnuAddRPeriOperativeData" />
+  <MenuItem Text="Recipient Follow Up (Days 1 to 14)" NavigateUrl="~/SpecClinicalData/AddFU1to14.aspx" Value="mnuAddFU1to14" />
+  <MenuItem Text="Recipient Follow Up (Other)" NavigateUrl="~/SpecClinicalData/AddFUPostTransplant.aspx" Value="mnuAddFUPostTransplant" />
+  <MenuItem Text="Recipient Readmission Data" NavigateUrl="~/SpecClinicalData/AddFUReadmissions.aspx" Value="mnuAddFUReadmissions" />
+  <MenuItem Text="View Summary" NavigateUrl="~/SpecClinicalData/ViewSummary.aspx" Value="mnuViewSummary" />
+  
+</Home>

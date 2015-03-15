@@ -1,0 +1,55 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/TopMasterPage.master" AutoEventWireup="true" CodeFile="StudyIDMasterPage.master.cs" Inherits="_StudyIDMasterPage" %>
+
+<asp:Content ID="conStudyIDMasterPage" ContentPlaceHolderID="cplMainContents" Runat="Server">
+    <table   cellpadding="0" cellspacing="0" border="0" style="height:100%; width:100%; " >
+        <tr>
+            <td valign="top"  style="background-color: #A2C1F2; width:180px; height:100% "  >
+                <table style=" width:180px;  " >
+                    <tr>
+                        <td align="center">
+                            <asp:Label ID="lblErrorMessage" runat="server" Text=""  Font-Size="Small" ForeColor="Red"> 
+                            </asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">
+                            <asp:Label ID="lblSearch" runat="server" Text="Quick Search"  Font-Size="Small"> 
+                            </asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">
+                            <asp:TextBox ID="txtSearch" runat="server" Width="140px" MaxLength="20"></asp:TextBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">
+                            <asp:DropDownList ID="ddSearchType" runat="server" Width="140px">
+                                <asp:ListItem Value="0" Selected="True">Select a Criteria</asp:ListItem>
+	                            <asp:ListItem Value="TID">Trial ID</asp:ListItem>
+                                <asp:ListItem Value="TID_R">Trial ID (Recipient)</asp:ListItem>
+                                <asp:ListItem Value="DID">Donor ET/ NHSBT Number</asp:ListItem>
+                                <asp:ListItem Value="RID">Recipient</asp:ListItem>
+	                        </asp:DropDownList><br/>
+                         </td>
+                    </tr>
+                    <tr>
+                        <td align="center">
+                            <asp:CheckBox ID="chkExactSearch" runat="server" Font-Size="Small" />
+                            <asp:Button ID="cmdSearchContents" runat="server" Text="Search" OnClick="cmdSearchContents_Click"  />
+                        </td>
+                    </tr>
+            
+                </table>
+            </td>
+
+            <td style="width: 90%; height:100%; font-size: small;" valign="top" align="center" >
+                <asp:ContentPlaceHolder ID="AddEditStudyContent" runat="server" >
+                </asp:ContentPlaceHolder>
+            </td>
+        </tr>
+
+    </table>
+
+</asp:Content>
+

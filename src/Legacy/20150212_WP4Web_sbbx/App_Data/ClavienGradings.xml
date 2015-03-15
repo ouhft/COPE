@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ClavienGradings>
+  <ClavienGrading Text="I" Value="I" />
+  <ClavienGrading Text="II" Value="II" />
+  <ClavienGrading Text="IIIa" Value="IIIa" />
+  <ClavienGrading Text="IIIb" Value="IIIb" />
+  <ClavienGrading Text="IVa" Value="IVa" />
+  <ClavienGrading Text="IVb" Value="IVb" />
+  <ClavienGrading Text="V" Value="V" />
+</ClavienGradings>
