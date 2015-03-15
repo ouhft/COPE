@@ -50,6 +50,8 @@ namespace WP4.Models.Data
         public int ID { get; set; }
         [Required]
         public string Name { get; set; }
+        [Required, Range(10,99)]
+        public int CentreCode { get; set; }
     }
 
     public abstract class TrialPlus
