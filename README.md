@@ -1,3 +1,3 @@
-COPE Work Package 4
+# COPE Work Package 4
 
-Trials support software, second edition
+Trials support software, second edition.
