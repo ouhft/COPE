@@ -15,18 +15,8 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '9lkn(y4j76=u(^+1b6ltbg(-tllau%n7kg#$j47tnw9&i-&a79'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -37,7 +27,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'migrations',
+    'compare',
     'theme'
 )
 
@@ -72,22 +62,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'wp4.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en-gb'
 
 TIME_ZONE = 'UTC'
 
@@ -113,7 +91,7 @@ STATIC_URL = '/static/'
 # ignored in your version control system allowing for settings to be
 # defined per machine.
 try:
-    from mygi.settings_local import *
+    from wp4.settings_local import *
 except ImportError as e:
     if "settings_local" not in str(e):
         raise e
