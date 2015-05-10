@@ -1,0 +1,101 @@
+[
+  {
+    "model": "compare.hospital",
+    "pk": 1,
+    "fields": {
+      "name": "Churchill Hospital, Oxford",
+      "centre_code": 15,
+      "country": "United Kingdom",
+      "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.hospital",
+    "pk": 2,
+    "fields": {
+      "name": "Addenbrook's Hospital, Cambridge",
+      "centre_code": 16,
+      "country": "United Kingdom",
+      "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.hospital",
+    "pk": 3,
+    "fields": {
+      "name": "Cardiff",
+      "centre_code": 17,
+      "country": "United Kingdom",
+      "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.hospital",
+    "pk": 4,
+    "fields": {
+      "name": "Coventry",
+      "centre_code": 19,
+      "country": "United Kingdom",
+      "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.hospital",
+    "pk": 5,
+    "fields": {
+      "name": "Nottingham",
+      "centre_code": 19,
+      "country": "United Kingdom",
+      "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.hospital",
+    "pk": 6,
+    "fields": {
+      "name": "London Royal Free",
+      "centre_code": 20,
+      "country": "United Kingdom",
+      "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.hospital",
+    "pk": 7,
+    "fields": {
+      "name": "London Royal Hospital",
+      "centre_code": 21,
+      "country": "United Kingdom",
+      "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.hospital",
+    "pk": 8,
+    "fields": {
+      "name": "London WLRTC (Hammersmith)",
+      "centre_code": 22,
+      "country": "United Kingdom",
+      "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.hospital",
+    "pk": 9,
+    "fields": {
+      "name": "Portsmouth",
+      "centre_code": 23,
+      "country": "United Kingdom",
+      "is_active": true,
+      "created_by": 1
+    }
+  }
+]

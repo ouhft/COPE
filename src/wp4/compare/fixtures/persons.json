@@ -1,0 +1,14 @@
+[
+  {
+    "model": "compare.person",
+    "pk": 1,
+    "fields": {
+      "first_names": "Carl",
+      "last_names": "Marshall",
+      "job": "SA",
+      "user": 1,
+      "version": 1,
+      "created_by": 1
+    }
+  }
+]
