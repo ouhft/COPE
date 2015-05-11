@@ -93,15 +93,6 @@ class DonorAdmin(VersionControlAdmin):
             formset.save()
 
 
-class OrgansOfferedAdmin(admin.ModelAdmin):
-    fields = ['donor', 'organ']
-
-    def save_model(self, request, obj, form, change):
-        obj.created_by = request.user
-        obj.created_on = timezone.now()
-        obj.save()
-
-
 class PerfusionMachineAdmin(admin.ModelAdmin):
     fields = ['machine_serial_number', 'machine_reference_number']
 
@@ -111,26 +102,47 @@ class PerfusionMachineAdmin(admin.ModelAdmin):
         obj.save()
 
 
-class PerfusionFileAdmin(admin.ModelAdmin):
-    fields = ['machine', 'file']
-
-    def save_model(self, request, obj, form, change):
-        obj.created_by = request.user
-        obj.created_on = timezone.now()
-        obj.save()
+class ProcurementResourceInline(admin.TabularInline):
+    model = ProcurementResource
+    extra = 2
+    fields = ['organ', 'type', 'lot_number', 'expiry_date']
 
 
 class OrganAdmin(VersionControlAdmin):
-    fieldsets = []
+    fieldsets = [
+        ('Context', {'fields': [
+            'donor', 'location'
+        ]}),
+        ('Inspection', {'fields': [
+            'removal', 'renal_arteries', 'graft_damage', 'washout_perfusion', 'transplantable',
+            'not_transplantable_reason'
+        ]}),
+        ('Randomisation', {'fields': [
+            'preservation'
+        ]}),
+        ('Perfusion', {'fields': [
+            'perfusion_possible', 'perfusion_not_possible_because', 'perfusion_started', 'patch_holder',
+            'artificial_patch_used', 'artificial_patch_size', 'artificial_patch_number', 'oxygen_bottle_full',
+            'oxygen_bottle_open', 'oxygen_bottle_changed', 'oxygen_bottle_changed_at', 'ice_container_replenished',
+            'ice_container_replenished_at', 'perfusate_measurable', 'perfusate_measure', 'perfusion_machine',
+            'perfusion_file'
+        ]}),
+        ('Organ Samples', {'fields': [
+            'perfusate_1', 'perfusate_2'
+        ]})
+    ]
+    inlines = [ProcurementResourceInline]
 
+    def save_formset(self, request, form, formset, change):
+        if formset.model == ProcurementResource:
+            instances = formset.save(commit=False)
+            for instance in instances:
+                instance.created_by = request.user
+                instance.created_on = timezone.now()
+                instance.save()
+        else:
+            formset.save()
 
-class ProcurementResourceAdmin(admin.ModelAdmin):
-    fields = ['organ', 'type', 'lot_number', 'expiry_date']
-
-    def save_model(self, request, obj, form, change):
-        obj.created_by = request.user
-        obj.created_on = timezone.now()
-        obj.save()
 
 
 admin.site.register(Person, PersonAdmin)
@@ -138,8 +150,5 @@ admin.site.register(Hospital, HospitalAdmin)
 admin.site.register(RetrievalTeam, RetrievalTeamAdmin)
 admin.site.register(Sample, SampleAdmin)
 admin.site.register(Donor, DonorAdmin)
-admin.site.register(OrgansOffered, OrgansOfferedAdmin)
 admin.site.register(PerfusionMachine, PerfusionMachineAdmin)
-admin.site.register(PerfusionFile, PerfusionFileAdmin)
 admin.site.register(Organ, OrganAdmin)
-admin.site.register(ProcurementResource, ProcurementResourceAdmin)

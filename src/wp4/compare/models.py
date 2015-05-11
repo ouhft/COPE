@@ -80,6 +80,9 @@ class Hospital(models.Model):
     def __unicode__(self):
         return self.full_description()
 
+    class Meta:
+        ordering = ['centre_code']
+
 
 class RetrievalTeam(models.Model):
     name = models.CharField(max_length=100)
@@ -87,8 +90,18 @@ class RetrievalTeam(models.Model):
     created_on = models.DateTimeField(default=timezone.now)
     created_by = models.ForeignKey(User)
 
+    def next_sequence_number(self):
+        try:
+            number = self.donor_set.latest('sequence_number').sequence_number + 1
+        except Exception:  # DoesNotExist exception. TODO: Can't seem to reference it??
+            number = 1
+        return number
+
     def __unicode__(self):
         return '%s from %s' % (self.name, self.based_at.full_description())
+
+    class Meta:
+        order_with_respect_to = 'based_at'
 
 
 # Mostly replaces Specimens
@@ -110,14 +123,15 @@ class Sample(models.Model):
 
 class Donor(VersionControlModel):
     # Trial data
-    criteria_check_1 = models.BooleanField()
-    criteria_check_2 = models.BooleanField()
-    criteria_check_3 = models.BooleanField()
-    criteria_check_4 = models.BooleanField()
-    is_active = models.BooleanField()  # Can be automatically set based on answers in the system
+    # criteria_check_1 = models.BooleanField()
+    # criteria_check_2 = models.BooleanField()
+    # criteria_check_3 = models.BooleanField()
+    # criteria_check_4 = models.BooleanField()
+    # is_active = models.BooleanField()  # Can be automatically set based on answers in the system
 
     # Procedure data
     retrieval_team = models.ForeignKey(RetrievalTeam)
+    sequence_number = models.PositiveSmallIntegerField(default=0)
     perfusion_technician = models.ForeignKey(
         Person,
         verbose_name='name of transplant technician',
@@ -175,7 +189,7 @@ class Donor(VersionControlModel):
         MinValueValidator(50),
         MaxValueValidator(99)
     ])
-    date_of_birth = models.DateField()  # TODO: Define DoB validator that matches the ages ones
+    date_of_birth = models.DateField(blank=True, null=True)  # TODO: Define DoB validator that matches the ages ones
     date_of_admission = models.DateField('date of admission into hospital')
     admitted_to_itu = models.BooleanField()
     date_admitted_to_itu = models.DateField()
@@ -205,7 +219,7 @@ class Donor(VersionControlModel):
         (OTHER_DIAGNOSIS, "Other")
     )
     diagnosis = models.PositiveSmallIntegerField(choices=DIAGNOSIS_CHOICES)
-    diagnosis_other = models.CharField(max_length=250)
+    diagnosis_other = models.CharField(max_length=250, blank=True)
     diabetes_melitus = models.PositiveSmallIntegerField(choices=YES_NO_UNKNOWN_CHOICES, blank=True, null=True)
     alcohol_abuse = models.PositiveSmallIntegerField(choices=YES_NO_UNKNOWN_CHOICES, blank=True, null=True)
     cardiac_arrest = models.NullBooleanField(
@@ -243,10 +257,10 @@ class Donor(VersionControlModel):
         (UNIT_MGDL, "mg/dl"),
         (UNIT_UMOLL, "umol/L")
     )
-    last_creatinine = models.FloatField()
-    last_creatinine_unit = models.PositiveSmallIntegerField(choices=UNIT_CHOICES)
-    max_creatinine = models.FloatField()
-    max_creatinine_unit = models.PositiveSmallIntegerField(choices=UNIT_CHOICES)
+    last_creatinine = models.FloatField(blank=True, null=True)
+    last_creatinine_unit = models.PositiveSmallIntegerField(choices=UNIT_CHOICES, default=1)
+    max_creatinine = models.FloatField(blank=True, null=True)
+    max_creatinine_unit = models.PositiveSmallIntegerField(choices=UNIT_CHOICES, default=1)
 
 
     # Operation Data - Extraction
@@ -260,17 +274,26 @@ class Donor(VersionControlModel):
         (SOLUTION_UW, "UW"),
         (SOLUTION_OTHER, "Other")
     )
-    life_support_withdrawal = models.DateTimeField('withdrawal of life support')
-    systolic_pressure_low = models.DateTimeField('systolic arterial pressure < 50 mm Hg (inadequate organ perfusion)')
-    circulatory_arrest = models.DateTimeField('end of cardiac output (=start of no touch period)')
-    length_of_no_touch = models.PositiveSmallIntegerField('length of no touch period (minutes)')
-    death_diagnosed = models.DateTimeField('diagnosis of death')
-    perfusion_started = models.DateTimeField('start in-situ cold perfusion')
+    life_support_withdrawal = models.DateTimeField('withdrawal of life support', blank=True, null=True)
+    systolic_pressure_low = models.DateTimeField(
+        'systolic arterial pressure < 50 mm Hg (inadequate organ perfusion)',
+        blank=True,
+        null=True
+    )
+    circulatory_arrest = models.DateTimeField(
+        'end of cardiac output (=start of no touch period)',
+        blank=True,
+        null=True
+    )
+    length_of_no_touch = models.PositiveSmallIntegerField('length of no touch period (minutes)', blank=True, null=True)
+    death_diagnosed = models.DateTimeField('diagnosis of death', blank=True, null=True)
+    perfusion_started = models.DateTimeField('start in-situ cold perfusion', blank=True, null=True)
     systemic_flush_used = models.PositiveSmallIntegerField(
         'systemic (aortic) flush solution used',
         choices=FLUSH_SOLUTION_CHOICES
+        , blank=True, null=True
     )
-    systemic_flush_used_other = models.CharField(max_length=250)
+    systemic_flush_used_other = models.CharField(max_length=250, blank=True, null=True)
     heparin = models.NullBooleanField('heparin (administered to donor/in flush solution)')
 
     # Sampling data
@@ -284,8 +307,23 @@ class Donor(VersionControlModel):
         height_in_m = self.height / 100
         return (self.weight / height_in_m) / height_in_m
 
+    def centre_code(self):
+        return self.retrieval_team.based_at.centre_code
+
+    def trial_id(self):
+        return 'WP4%d%s' % (self.centre_code(), format(self.sequence_number, '03'))
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        if self.sequence_number < 1:
+            self.sequence_number = self.retrieval_team.next_sequence_number()
+        super(Donor, self).save(force_insert, force_update, using, update_fields)
+
     def __unicode__(self):
-        return self.number
+        return '%s (%s)' % (self.number, self.trial_id())
+
+    class Meta:
+        order_with_respect_to = 'retrieval_team'
+        ordering = ['sequence_number']
 
 
 class OrgansOffered(models.Model):
@@ -373,14 +411,14 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
     )
     removal = models.DateTimeField()
     renal_arteries = models.PositiveSmallIntegerField()
-    graft_damage = models.PositiveSmallIntegerField(choices=GRAFT_DAMAGE_CHOICES)
+    graft_damage = models.PositiveSmallIntegerField(choices=GRAFT_DAMAGE_CHOICES, default=NO_DAMAGE)
     washout_perfusion = models.PositiveSmallIntegerField(choices=WASHOUT_PERFUSION_CHOICES)
     transplantable = models.BooleanField()
-    not_transplantable_reason = models.CharField(max_length=250)
+    not_transplantable_reason = models.CharField(max_length=250, blank=True, null=True)
 
     # Randomisation data
-    can_donate = models.BooleanField()
-    can_transplant = models.BooleanField()
+    # can_donate = models.BooleanField('Donor is eligible as DCD III and > 50 years old') -- donor info!
+    # can_transplant = models.BooleanField('') -- derived from left and right being transplantable
     preservation = models.PositiveSmallIntegerField(choices=PRESERVATION_CHOICES)
 
     # Perfusion data
@@ -397,37 +435,42 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
         (LARGE, "Large")
     )
     perfusion_possible = models.BooleanField()
-    perfusion_not_possible_because = models.CharField(max_length=250)
+    perfusion_not_possible_because = models.CharField(max_length=250, blank=True, null=True)
     perfusion_started = models.DateTimeField()
-    perfusion_machine = models.ForeignKey(PerfusionMachine)
-    perfusion_file = models.ForeignKey(PerfusionFile, blank=True, null=True)
     patch_holder = models.PositiveSmallIntegerField(choices=PATCH_HOLDER_CHOICES)
     artificial_patch_used = models.BooleanField()
-    artificial_patch_size = models.PositiveSmallIntegerField(choices=ARTIFICIAL_PATCH_CHOICES)
-    artificial_patch_number = models.PositiveSmallIntegerField(validators=[
-        MinValueValidator(1),
-        MaxValueValidator(2)
-    ])
-    # NB: There are ProcurementResources likely linked to this Organ
+    artificial_patch_size = models.PositiveSmallIntegerField(choices=ARTIFICIAL_PATCH_CHOICES, blank=True, null=True)
+    artificial_patch_number = models.PositiveSmallIntegerField(
+        blank=True,
+        null=True,
+        validators=[
+            MinValueValidator(1),
+            MaxValueValidator(2)
+        ]
+    )
     oxygen_bottle_full = models.BooleanField()
     oxygen_bottle_open = models.BooleanField()
     oxygen_bottle_changed = models.BooleanField()
-    oxygen_bottle_changed_at = models.DateTimeField()
+    oxygen_bottle_changed_at = models.DateTimeField(blank=True, null=True)
     ice_container_replenished = models.BooleanField()
-    ice_container_replenished_at = models.DateTimeField()
+    ice_container_replenished_at = models.DateTimeField(blank=True, null=True)
     perfusate_measurable = models.BooleanField()
-    perfusate_measure = models.FloatField()  # TODO: Check the value range for this
+    perfusate_measure = models.FloatField(blank=True, null=True)  # TODO: Check the value range for this
+    # NB: There are ProcurementResources likely linked to this Organ
+    perfusion_machine = models.ForeignKey(PerfusionMachine)
+    perfusion_file = models.ForeignKey(PerfusionFile, blank=True, null=True)
 
     # Sampling data
     perfusate_1 = models.ForeignKey(Sample, related_name="perfusate_1_set", blank=True, null=True)
     perfusate_2 = models.ForeignKey(Sample, related_name="perfusate_2_set", blank=True, null=True)
 
     def trial_id(self):
-        # Generated from data "WP4" + RetrievalTeam.CentreCode + Trial.ID(padded to three numbers)?
-        return 'WP4' + format(self.id, '03')
+        return self.donor.trial_id() + self.location
 
     def __unicode__(self):
-        return self.trial_id() + ' : ' + self.get_location_display() + ' kidney'
+        return '%s : %s kidney preserved with %s' % (
+            self.trial_id(),self.get_location_display(), self.get_preservation_display()
+        )
 
 
 class ProcurementResource(models.Model):
