@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<DeathCauses>
-  <DeathCause Text="Tx Related" Value="Tx Related" />
-  <DeathCause Text="Non Tx Related" Value="Non Tx Related" />
-  <DeathCause Text="Unknown" Value="Unknown" />
-</DeathCauses>

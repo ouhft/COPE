@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<QOLScoresMobility>
-  <QOLScoreMobility Text="I have no problems in walking about (1)" Value="1" />
-  <QOLScoreMobility Text="I have slight problems in walking about (2)" Value="2" />
-  <QOLScoreMobility Text="I have moderate problems in walking about (3)" Value="3" />
-  <QOLScoreMobility Text="I have severe problems in walking about (4)" Value="4" />
-  <QOLScoreMobility Text="I am unable to walk about (5)" Value="5" />
-  <QOLScoreMobility Text="Missing Value (9)" Value="9" />
-</QOLScoresMobility>

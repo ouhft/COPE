@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<AgeOrDateOfBirth>
-  <AgeDateOfBirth Text="Age" Value="Age" />
-  <AgeDateOfBirth Text="Date Of Birth" Value="DateOfBirth" /> 
-  
-  
-</AgeOrDateOfBirth>

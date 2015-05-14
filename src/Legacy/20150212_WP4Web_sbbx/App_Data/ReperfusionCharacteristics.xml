@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<ReperfusionCharacteristics>
-  <ReperfusionCharacteristic Text="Homogenous" Value="Homogenous" />
-  <ReperfusionCharacteristic Text="Patchy" Value="Patchy" />
-  <ReperfusionCharacteristic Text="Infarction" Value="Infarction" />
-  <ReperfusionCharacteristic Text="Unknown" Value="Unknown" />
-</ReperfusionCharacteristics>

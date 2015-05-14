@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<ActiveAll>
-  <Active Text="0-Withdrawn" Value="0" />
-  <Active Text="1-Active" Value="1" />
-  <Active Text="2-Discarded" Value="2" />
-</ActiveAll>
