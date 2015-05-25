@@ -1,4 +1,7 @@
 # Django local settings for project.
+import os
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # A boolean that turns on/off debug mode. When set to ``True``, stack traces
 # are displayed for error pages. Should always be set to ``False`` in
@@ -14,6 +17,10 @@ DEBUG_PROPAGATE_EXCEPTIONS = False
 
 # Whether to use the "Etag" header. This saves bandwidth but slows down performance.
 USE_ETAGS = False
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.8/howto/static-files/
+STATIC_ROOT = ""
 
 # People who get code error notifications.
 # In the format (('Full Name', 'email@example.com'), ('Full Name', 'anotheremail@example.com'))
@@ -42,7 +49,7 @@ DATABASES = {
         # Ends with "postgresql_psycopg2", "mysql", "sqlite3" or "oracle".
         "ENGINE": "django.db.backends.sqlite3",
         # DB name or path to database file if using sqlite3.
-        "NAME": "dev.db",
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         # Not used with sqlite3.
         "USER": "",
         # Not used with sqlite3.

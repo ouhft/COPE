@@ -1,0 +1,16 @@
+{% extends "base_site.html" %}
+
+{% block page_title %}Retrieval Teams{% endblock %}
+{% block page_header %}Retrieval Teams{% endblock %}
+
+{% block content %}
+{% if latest_team_list %}
+    <ul>
+    {% for team in latest_team_list %}
+        <li><a href="{% url 'compare:teams_detail' team.id %}">{{ team.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No teams are available.</p>
+{% endif %}
+{% endblock %}
