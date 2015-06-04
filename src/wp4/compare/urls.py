@@ -16,6 +16,7 @@ urlpatterns = [
     url(r'teams/(?P<question_id>[0-9]+)/vote/$', views.vote, name='vote'),
 
 
+    url(r'^procurement$', views.DashboardProcurement, name='dashboard_procurement'),
+
     url(r'^$', views.DashboardIndex, name='dashboard_index'),
 ]
-

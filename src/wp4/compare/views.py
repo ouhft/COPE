@@ -51,6 +51,9 @@ class PersonDelete(DeleteView):
 def error404(request):
     raise Http404("This is a page holder")
 
+def DashboardProcurement(request):
+    return render(request, 'dashboard/procurement.html', {})
+
 def DashboardIndex(request):
     return render(request, 'dashboard/index.html', {})
 
