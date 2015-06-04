@@ -112,8 +112,8 @@ class RetrievalTeam(models.Model):
 class Sample(models.Model):
     barcode = models.CharField(max_length=20)
     taken_at = models.DateTimeField()
-    centrifugation = models.DateTimeField(null=True)
-    comment = models.CharField(max_length=2000, null=True)
+    centrifugation = models.DateTimeField(null=True, blank=True)
+    comment = models.CharField(max_length=2000, null=True, blank=True)
     #  TODO: Specimen state?
     #  TODO: Who took the sample?
     #  TODO: Difference between worksheet and specimen barcodes?
