@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<QOLScoresPainDiscomfort>
-  <QOLScorePainDiscomfort Text="I have no pain or discomfort (1)" Value="1" />
-  <QOLScorePainDiscomfort Text="I have slight pain or discomfort (2)" Value="2" />
-  <QOLScorePainDiscomfort Text="I have moderate pain or discomfort (3)" Value="3" />
-  <QOLScorePainDiscomfort Text="I have severe pain or discomfort (4)" Value="4" />
-  <QOLScorePainDiscomfort Text="I have extreme pain or discomfort (5)" Value="5" />
-  <QOLScorePainDiscomfort Text="Missing Value (9)" Value="9" />
-</QOLScoresPainDiscomfort>

@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<PostoperativeDialysisCauses>
-  <PostoperativeDialysisCause Text="Delayed Graft Function" Value="Delayed Graft Function" />
-  <PostoperativeDialysisCause Text="Hyperkalemia" Value="Hyperkalemia" />
-  <PostoperativeDialysisCause Text="Fluid Overload" Value="Fluid Overload" />
-  <PostoperativeDialysisCause Text="Other" Value="Other" />
-</PostoperativeDialysisCauses>

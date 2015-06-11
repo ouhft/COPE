@@ -1,0 +1,7 @@
+<h1>{{ retrievalteam.name }}</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<p>From: {{ retrievalteam.based_at }}</p>
+
+<p>Created {{ retrievalteam.created_on }} by {{ retrievalteam.created_by }}</p>

@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<ArterialProblems>
-  <ArterialProblem Text="Arterial Damage" Value="Arterial Damage" />
-  <ArterialProblem Text="Venous Damage" Value="Venous Damage" />
-  <ArterialProblem Text="Ureteral Damage" Value="Ureteral Damage" />
-  <ArterialProblem Text="Parenchymal Damage" Value="Parenchymal Damage" />
-  <ArterialProblem Text="None" Value="None" />
-</ArterialProblems>

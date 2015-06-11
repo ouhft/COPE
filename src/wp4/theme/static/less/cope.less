@@ -1,0 +1,223 @@
+// ====================================================================================================================
+// Import BOOTSTRAP 3.3.4
+// ====================================================================================================================
+// Provides a link to the latest version downloaded in extras. Currently v3.3.4 (pulled on 07/05/2015). Based on bootstrap.less
+// Core variables and mixins
+@import "../../_static-libraries/bootstrap/less/variables.less";
+
+@brand-primary: #002147;
+@link-hover-color: lighten(@link-color, 25%);
+@navbar-inverse-bg: @brand-primary;
+
+@import "../../_static-libraries/bootstrap/less/mixins.less";
+
+// Define handy mixins...
+.border-radius(@radius) {
+  .border-top-radius(@radius);
+  .border-right-radius(@radius);
+  .border-bottom-radius(@radius);
+  .border-left-radius(@radius);
+}
+
+// Reset
+@import "../../_static-libraries/bootstrap/less/normalize.less";
+@import "../../_static-libraries/bootstrap/less/print.less";
+@import "../../_static-libraries/bootstrap/less/glyphicons.less";
+
+// Core CSS
+@import "../../_static-libraries/bootstrap/less/scaffolding.less";
+@import "../../_static-libraries/bootstrap/less/type.less";
+@import "../../_static-libraries/bootstrap/less/code.less";
+@import "../../_static-libraries/bootstrap/less/grid.less";
+@import "../../_static-libraries/bootstrap/less/tables.less";
+@import "../../_static-libraries/bootstrap/less/forms.less";
+@import "../../_static-libraries/bootstrap/less/buttons.less";
+
+// Components
+@import "../../_static-libraries/bootstrap/less/component-animations.less";
+@import "../../_static-libraries/bootstrap/less/dropdowns.less";
+@import "../../_static-libraries/bootstrap/less/button-groups.less";
+@import "../../_static-libraries/bootstrap/less/input-groups.less";
+@import "../../_static-libraries/bootstrap/less/navs.less";
+@import "../../_static-libraries/bootstrap/less/navbar.less";
+@import "../../_static-libraries/bootstrap/less/breadcrumbs.less";
+@import "../../_static-libraries/bootstrap/less/pagination.less";
+@import "../../_static-libraries/bootstrap/less/pager.less";
+@import "../../_static-libraries/bootstrap/less/labels.less";
+@import "../../_static-libraries/bootstrap/less/badges.less";
+@import "../../_static-libraries/bootstrap/less/jumbotron.less";
+@import "../../_static-libraries/bootstrap/less/thumbnails.less";
+@import "../../_static-libraries/bootstrap/less/alerts.less";
+@import "../../_static-libraries/bootstrap/less/progress-bars.less";
+@import "../../_static-libraries/bootstrap/less/media.less";
+@import "../../_static-libraries/bootstrap/less/list-group.less";
+@import "../../_static-libraries/bootstrap/less/panels.less";
+@import "../../_static-libraries/bootstrap/less/responsive-embed.less";
+@import "../../_static-libraries/bootstrap/less/wells.less";
+@import "../../_static-libraries/bootstrap/less/close.less";
+
+// Components w/ JavaScript
+@import "../../_static-libraries/bootstrap/less/modals.less";
+@import "../../_static-libraries/bootstrap/less/tooltip.less";
+@import "../../_static-libraries/bootstrap/less/popovers.less";
+@import "../../_static-libraries/bootstrap/less/carousel.less";
+
+// Utility classes
+@import "../../_static-libraries/bootstrap/less/utilities.less";
+@import "../../_static-libraries/bootstrap/less/responsive-utilities.less";
+
+// Dashboard local fixes
+/*
+ * Base structure
+ */
+
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+  padding-top: 50px;
+}
+
+/*
+ * Global add-ons
+ */
+
+.sub-header {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+/*
+ * Top navigation
+ * Hide default border to remove 1px line.
+ */
+.navbar-fixed-top {
+  border: 0;
+}
+
+.navbar-form .form-control {
+  margin-bottom: 0;
+}
+
+/*
+ * Sidebar
+ */
+
+/* Hide for mobile, show later */
+.sidebar {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 51px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    background-color: #f5f5f5;
+    border-right: 1px solid #eee;
+  }
+}
+
+/* Sidebar navigation */
+.nav-sidebar {
+  margin-right: -21px; /* 20px padding + 1px border */
+  margin-bottom: 20px;
+  margin-left: -20px;
+}
+
+.nav-sidebar > li > a {
+  padding-right: 20px;
+  padding-left: 20px;
+}
+
+.nav-sidebar > .active > a,
+.nav-sidebar > .active > a:hover,
+.nav-sidebar > .active > a:focus {
+  color: #fff;
+  background-color: @brand-primary;
+}
+
+/*
+ * Footer
+ */
+footer > ul > li > img {
+  padding: 5px;
+}
+
+/*
+ * Main content
+ */
+
+.main {
+  padding: 20px;
+}
+
+@media (min-width: 768px) {
+  .main {
+    padding-right: 40px;
+    padding-left: 40px;
+  }
+}
+
+.main .page-header {
+  margin-top: 0;
+}
+
+/*
+ * Placeholder dashboard ideas
+ */
+
+.placeholders {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.placeholders h4 {
+  margin-bottom: 0;
+}
+
+.placeholder {
+  margin-bottom: 20px;
+}
+
+.placeholder img {
+  display: inline-block;
+  border-radius: 50%;
+}
+
+#carbonads-container {
+  display: none
+}
+
+h1[id] {
+  padding-top: 0px;
+  margin-top: 20px
+}
+
+.zero-clipboard {
+  display: none !important
+}
+
+.bs-old-docs {
+  display: none
+}
+
+.bs-social {
+  display: none
+}
+
+.bs-sidebar {
+  display: none !important
+}
+
+.col-md-9[role=main] {
+  width: 100% !important
+}
+
+.navbar-fixed-top {
+  position: absolute !important
+}

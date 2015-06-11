@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<NonTxDeathCauses>
-  <NonTxDeathCause Text="Cerebrovascular Accident" Value="Cerebrovascular Accident" />
-  <NonTxDeathCause Text="Chest Infection" Value="Chest Infection" />
-  <NonTxDeathCause Text="Myocardial Infarction" Value="Myocardial Infarction" />
-  <NonTxDeathCause Text="Pulmonary Embolus" Value="Pulmonary Embolus" />
-  <NonTxDeathCause Text="Sepsis" Value="Sepsis" />
-  <NonTxDeathCause Text="Other" Value="Other" />
-</NonTxDeathCauses>

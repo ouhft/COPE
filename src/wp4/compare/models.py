@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # coding: utf-8
+from django.core.urlresolvers import reverse
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.contrib.auth.models import User
@@ -55,6 +56,9 @@ class Person(VersionControlModel):
     def full_name(self):
         return self.first_names + ' ' + self.last_names
 
+    def get_absolute_url(self):
+        return reverse('person-detail', kwargs={'pk': self.pk})
+
     def __unicode__(self):
         return self.full_name() + ' : ' + self.get_job_display()
 
@@ -108,8 +112,8 @@ class RetrievalTeam(models.Model):
 class Sample(models.Model):
     barcode = models.CharField(max_length=20)
     taken_at = models.DateTimeField()
-    centrifugation = models.DateTimeField(null=True)
-    comment = models.CharField(max_length=2000, null=True)
+    centrifugation = models.DateTimeField(null=True, blank=True)
+    comment = models.CharField(max_length=2000, null=True, blank=True)
     #  TODO: Specimen state?
     #  TODO: Who took the sample?
     #  TODO: Difference between worksheet and specimen barcodes?
@@ -314,6 +318,7 @@ class Donor(VersionControlModel):
         return 'WP4%d%s' % (self.centre_code(), format(self.sequence_number, '03'))
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        # On creation, get and save the sequence number from the retrieval team
         if self.sequence_number < 1:
             self.sequence_number = self.retrieval_team.next_sequence_number()
         super(Donor, self).save(force_insert, force_update, using, update_fields)

@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<QOLFIlledOptions>
-  <QOLFIlledOption Text="Inpatient" Value="Inpatient" />
-  <QOLFIlledOption Text="Outpatient" Value="Outpatient" />
-  <QOLFIlledOption Text="Community" Value="Community"/>
-  <QOLFIlledOption Text="Unknown" Value="Unknown"/>
-</QOLFIlledOptions>
