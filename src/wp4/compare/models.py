@@ -150,7 +150,7 @@ class Donor(VersionControlModel):
         blank=True,
         null=True
     )
-    call_received = models.DateTimeField('transplant co-ordinator received call at')
+    call_received = models.DateTimeField('transplant co-ordinator received call at', blank=True, null=True)
     retrieval_hospital = models.ForeignKey(Hospital)
     scheduled_start = models.DateTimeField('scheduled time of withdrawal therapy')
     technician_arrival = models.DateTimeField('arrival time of technician at hub')
