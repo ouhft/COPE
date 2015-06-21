@@ -1,24 +1,93 @@
 {% extends "base_site.html" %}
+{% load bootstrap3 %}
 
 {% block page_title %}Procurement{% endblock %}
 {% block page_header %}Procurement{% endblock %}
 
 {% block content %}
-<p>Procurement form goes here.</p>
-<p>Eligibility Dashboard - i.e. the three ticks for inclusion in trial</p>
-<p>4 Tabs:</p>
-<p>* Dashboard: Trial IDs, Randomisation info, Case summary</p>
-<p>* Donor information</p>
-<p>* Left Organ information</p>
-<p>* Right Organ information</p>
-<p>Save + Validate/Close</p>
+<!--<p>Procurement form goes here.</p>-->
+<!--<p>Eligibility Dashboard - i.e. the three ticks for inclusion in trial</p>-->
 
-<ol>
-    <li>Layout basic UI and form elements</li>
-    <li>Tie in the form data</li>
-    <li>Add the pickers/side data lists</li>
-    <li>Build the save process</li>
-    <li>Validation process</li>
-</ol>
+<form method="post" action="{% url 'compare:procurement' %}" class="form-horizontal">
+<div role="tabpanel">
 
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#dashboard" aria-controls="dashboard" role="tab"
+                                                  data-toggle="tab">Dashboard</a></li>
+        <li role="presentation"><a href="#donor" aria-controls="donor" role="tab" data-toggle="tab">Donor</a></li>
+        <li role="presentation"><a href="#leftkidney" aria-controls="leftkidney" role="tab" data-toggle="tab">Left
+            Kidney</a>
+        </li>
+        <li role="presentation"><a href="#rightkidney" aria-controls="rightkidney" role="tab" data-toggle="tab">Right
+            Kidney</a>
+        </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="dashboard">
+            <h2>Case ID: WP415001 </h2>
+
+            <p>Retrieval Team - Dropdown + <button class="btn btn-success">Start new case</button></p>
+
+            <div class="row">
+                <div class=" col-md-6">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Left Kidney</h3>
+                        </div>
+                        <div class="panel-body">
+                            <p>Organ ID: WP415001L</p>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-6">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Right Kidney</h3>
+                        </div>
+                        <div class="panel-body">
+                            <p>Organ ID: WP415001R</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+
+
+        <div role="tabpanel" class="tab-pane" id="donor">
+            {% bootstrap_form donor_form layout='horizontal' %}
+        </div>
+
+
+        <div role="tabpanel" class="tab-pane" id="leftkidney">
+            {% bootstrap_form left_organ_form layout='horizontal' %}
+        </div>
+
+
+        <div role="tabpanel" class="tab-pane" id="rightkidney">
+            {% bootstrap_form right_organ_form layout='horizontal' %}
+        </div>
+    </div>
+
+</div>
+<hr>
+{% csrf_token %}
+<p class="btn-group btn-group-lg">
+    <input type="submit" class="btn btn-primary" value="Save" />
+    <input type="submit" class="btn btn-default" value="Validate and Close" />
+</p>
+</form>
+<!--<ol>-->
+    <!--<li>Layout basic UI and form elements</li>-->
+    <!--<li>Tie in the form data</li>-->
+    <!--<li>Add the pickers/side data lists</li>-->
+    <!--<li>Build the save process</li>-->
+    <!--<li>Validation process</li>-->
+<!--</ol>-->
 {% endblock %}
