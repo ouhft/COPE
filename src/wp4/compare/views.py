@@ -1,7 +1,7 @@
 from django.http import HttpResponse, Http404
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
-
+from django.template import RequestContext
 from django.shortcuts import get_object_or_404, render, render_to_response
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -61,16 +61,24 @@ def procurement_form(request):
     right_organ_form = OrganForm(prefix="right-organ")
 
     if request.method == 'POST':
-        donor_form = DonorForm(request.POST, request.FILES)
-        if donor_form.is_valid():
+        donor_form = DonorForm(request.POST, request.FILES, prefix="donor")
+        left_organ_form = OrganForm(request.POST, request.FILES, prefix="left-organ")
+        right_organ_form = OrganForm(request.POST, request.FILES, prefix="right-organ")
+        if donor_form.is_valid() and left_organ_form.is_valid() and right_organ_form.is_valid():
             donor_form.save()
-            # do something.
+            right_organ_form.donor = left_organ_form.donor = donor_form
+            left_organ_form.save()
+            right_organ_form.save()
 
-    return render_to_response("dashboard/procurement.html", {
-        "donor_form": donor_form,
-        "left_organ_form": left_organ_form,
-        "right_organ_form": right_organ_form
-    })
+    return render_to_response(
+        "dashboard/procurement.html",
+        {
+            "donor_form": donor_form,
+            "left_organ_form": left_organ_form,
+            "right_organ_form": right_organ_form
+        },
+        context_instance=RequestContext(request)
+    )
 
 
 def dashboard_index(request):
