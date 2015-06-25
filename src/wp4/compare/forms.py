@@ -1,5 +1,6 @@
 from django.forms import ModelForm
 from .models import Donor, Organ
+from django.utils import timezone
 
 
 class DonorForm(ModelForm):
@@ -27,6 +28,28 @@ class DonorForm(ModelForm):
             'donor_blood_1_EDTA', 'donor_blood_1_SST', 'donor_urine_1', 'donor_urine_2',
         ]
 
+    def save(self, user):
+        donor = super(DonorForm, self).save(commit=False)
+        donor.created_by = user
+        donor.created_on = timezone.now()
+        donor.version += 1
+        donor.save()
+        return donor
+
+
+class DonorStartForm(ModelForm):
+    class Meta:
+        model = Donor
+        fields = ['retrieval_team', 'perfusion_technician', 'age', 'number']
+
+    def save(self, user):
+        donor = super(DonorStartForm, self).save(commit=False)
+        donor.created_by = user
+        donor.created_on = timezone.now()
+        donor.version = 1
+        donor.save()
+        return donor
+
 
 class OrganForm(ModelForm):
     class Meta:
@@ -47,3 +70,11 @@ class OrganForm(ModelForm):
 
             'perfusate_1', 'perfusate_2',
     ]
+
+    def save(self, user):
+        organ = super(OrganForm, self).save(commit=False)
+        organ.created_by = user
+        organ.created_on = timezone.now()
+        organ.version += 1
+        organ.save()
+        return organ

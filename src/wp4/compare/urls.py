@@ -15,7 +15,9 @@ urlpatterns = [
     # url(r'teams/(?P<pk>[0-9]+)/results/$', views.RetrievalTeamResultsView.as_view(), name='teams_results'),
     # url(r'teams/(?P<question_id>[0-9]+)/vote/$', views.vote, name='vote'),
 
+    # Settling on using hyphens in the named urls!
 
-    url(r'^procurement/$', views.procurement_form, name='procurement'),
-    url(r'^$', views.dashboard_index, name='dashboard_index'),
+    url(r'^procurement/$', views.procurement_form_blank, name='procurement-blank'),
+    url(r'^procurement/(?P<pk>[0-9]+)/$', views.procurement_form, name='procurement-detail'),
+    url(r'^$', views.dashboard_index, name='dashboard-index'),
 ]

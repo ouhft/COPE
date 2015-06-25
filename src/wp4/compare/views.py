@@ -1,76 +1,71 @@
-from django.http import HttpResponse, Http404
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.core.urlresolvers import reverse_lazy
-
+from django.http import HttpResponseRedirect, Http404
+from django.template import RequestContext
 from django.shortcuts import get_object_or_404, render, render_to_response
-from django.http import HttpResponseRedirect
-from django.core.urlresolvers import reverse
-from django.views import generic
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_protect
+from django.core.urlresolvers import reverse
+from django.shortcuts import redirect
 
-from .models import Donor, Person
-from .forms import DonorForm, OrganForm
-
-# class PersonIndexView(generic.ListView):
-#     template_name = 'person/index.html'
-#     context_object_name = 'people_list'
-#
-#     def get_queryset(self):
-#         return Person.objects.order_by('-created_on')
-#
-#
-# class PersonDetailView(generic.DetailView):
-#     model = Person
-#     template_name = 'person/detail.html'
-#
-#
-# class PersonResultsView(generic.DetailView):
-#     model = Person
-#     template_name = 'person/results.html'
-#
-#
-# class PersonCreate(CreateView):
-#     model = Person
-#     template_name = 'person/form.html'
-#     fields = ['first_names', 'last_names', 'job', 'telephone', 'user']
-#
-#     def form_valid(self, form):
-#         form.instance.created_by = self.request.user
-#         return super(PersonCreate, self).form_valid(form)
-#
-#
-# class PersonUpdate(UpdateView):
-#     model = Person
-#     template_name = 'person/form.html'
-#     fields = ['first_names', 'last_names', 'job', 'telephone', 'user']
-#
-#
-# class PersonDelete(DeleteView):
-#     model = Person
-#     success_url = reverse_lazy('person_index')
-
+from .models import Donor
+from .forms import DonorForm, DonorStartForm, OrganForm
 
 
 def error404(request):
     raise Http404("This is a page holder")
 
 @login_required
-def procurement_form(request):
-    donor_form = DonorForm(prefix="donor")
-    left_organ_form = OrganForm(prefix="left-organ")
-    right_organ_form = OrganForm(prefix="right-organ")
+@csrf_protect
+def procurement_form(request, pk):
+    donor = get_object_or_404(Donor, pk=int(pk))
+    donor_form = DonorForm(instance=donor, prefix="donor")
+    left_organ_form = OrganForm(instance=donor.left_kidney(), prefix="left-organ")
+    right_organ_form = OrganForm(instance=donor.right_kidney(), prefix="right-organ")
 
     if request.method == 'POST':
-        donor_form = DonorForm(request.POST, request.FILES)
+        donor_form = DonorForm(request.POST, request.FILES, instance=donor, prefix="donor")
         if donor_form.is_valid():
-            donor_form.save()
-            # do something.
+            donor = donor_form.save(request.user)
 
-    return render_to_response("dashboard/procurement.html", {
-        "donor_form": donor_form,
-        "left_organ_form": left_organ_form,
-        "right_organ_form": right_organ_form
-    })
+        left_organ_form = OrganForm(request.POST, request.FILES, instance=donor.left_kidney(), prefix="left-organ")
+        if left_organ_form.is_valid():
+            left_organ_form.save(request.user)
+
+        right_organ_form = OrganForm(request.POST, request.FILES, instance=donor.right_kidney(), prefix="right-organ")
+        if right_organ_form.is_valid():
+            right_organ_form.save(request.user)
+
+    return render_to_response(
+        "dashboard/procurement.html",
+        {
+            "donor_form": donor_form,
+            "left_organ_form": left_organ_form,
+            "right_organ_form": right_organ_form,
+            "donor": donor
+        },
+        context_instance=RequestContext(request)
+    )
+
+@login_required
+@csrf_protect
+def procurement_form_blank(request):
+    donor_form = DonorStartForm(prefix="donor")
+
+    if request.method == 'POST':
+        donor_form = DonorStartForm(request.POST, request.FILES, prefix="donor")
+        if donor_form.is_valid():
+            donor = donor_form.save(request.user)
+            return redirect(reverse(
+                'compare:procurement-detail',
+                kwargs={'pk': donor.id}
+            ))
+
+    return render_to_response(
+        "dashboard/procurement-start.html",
+        {
+            "donor_form": donor_form
+        },
+        context_instance=RequestContext(request)
+    )
 
 
 def dashboard_index(request):
