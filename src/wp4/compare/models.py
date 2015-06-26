@@ -148,8 +148,12 @@ class Donor(VersionControlModel):
         blank=True, null=True
     )
 
-    retrieval_hospital = models.ForeignKey(Hospital, blank=True, null=True)
-    scheduled_start = models.DateTimeField('scheduled time of withdrawal therapy', blank=True, null=True)
+    retrieval_hospital = models.ForeignKey(
+        Hospital, 
+        verbose_name='donor hospital',
+        blank=True, null=True
+    )
+    scheduled_start = models.DateTimeField('time of withdrawal therapy', blank=True, null=True)
     technician_arrival = models.DateTimeField('arrival time of technician at hub', blank=True, null=True)
     ice_boxes_filled = models.DateTimeField('ice boxes filled with sufficient amount of ice (for kidney assist)', blank=True, null=True)
     depart_perfusion_centre = models.DateTimeField('departure from hub at', blank=True, null=True)
