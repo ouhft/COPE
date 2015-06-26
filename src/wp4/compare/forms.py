@@ -8,7 +8,8 @@ class DonorForm(ModelForm):
         model = Donor
         fields = [
             'retrieval_team', 'perfusion_technician', 'transplant_coordinator', 'call_received', 'retrieval_hospital',
-            'scheduled_start', 'technician_arrival', 'ice_boxes_filled', 'depart_perfusion_centre',
+            # 'scheduled_start',  -- Not needed for UK, identical to withdrawal 
+            'technician_arrival', 'ice_boxes_filled', 'depart_perfusion_centre',
             'arrival_at_donor_hospital',
 
             'number', 'date_of_birth', 'age', 'date_of_admission', 'admitted_to_itu', 'date_admitted_to_itu',
