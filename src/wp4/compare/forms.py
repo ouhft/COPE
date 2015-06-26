@@ -28,7 +28,7 @@ class DonorForm(ModelForm):
 
             'last_creatinine', 'last_creatinine_unit', 'max_creatinine', 'max_creatinine_unit',
 
-            'life_support_withdrawal', 'systolic_pressure_low', 'circulatory_arrest', 'length_of_no_touch',
+            'life_support_withdrawal', 'systolic_pressure_low', 'o2_saturation', 'circulatory_arrest', 'length_of_no_touch',
             'death_diagnosed', 'perfusion_started', 'systemic_flush_used', 'systemic_flush_used_other',
             'heparin',
 
