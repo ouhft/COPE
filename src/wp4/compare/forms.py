@@ -7,9 +7,15 @@ class DonorForm(ModelForm):
     class Meta:
         model = Donor
         fields = [
-            'retrieval_team', 'perfusion_technician', 'transplant_coordinator', 'call_received', 'retrieval_hospital',
+            'retrieval_team', 
+            'perfusion_technician', 
+            'transplant_coordinator', 
+            'call_received', 
+            'retrieval_hospital',
             # 'scheduled_start',  -- Not needed for UK, identical to withdrawal 
-            'technician_arrival', 'ice_boxes_filled', 'depart_perfusion_centre',
+            # 'technician_arrival', 
+            # 'ice_boxes_filled', 
+            'depart_perfusion_centre',
             'arrival_at_donor_hospital',
 
             'number', 'date_of_birth', 'age', 'date_of_admission', 'admitted_to_itu', 'date_admitted_to_itu',
@@ -41,7 +47,7 @@ class DonorForm(ModelForm):
 class DonorStartForm(ModelForm):
     class Meta:
         model = Donor
-        fields = ['retrieval_team', 'perfusion_technician', 'age', 'number']
+        fields = ['retrieval_team', 'perfusion_technician', 'age', 'gender']
 
     def save(self, user):
         donor = super(DonorStartForm, self).save(commit=False)
