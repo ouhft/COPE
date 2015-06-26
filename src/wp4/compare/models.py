@@ -156,7 +156,7 @@ class Donor(VersionControlModel):
     scheduled_start = models.DateTimeField('time of withdrawal therapy', blank=True, null=True)
     technician_arrival = models.DateTimeField('arrival time of technician at hub', blank=True, null=True)
     ice_boxes_filled = models.DateTimeField('ice boxes filled with sufficient amount of ice (for kidney assist)', blank=True, null=True)
-    depart_perfusion_centre = models.DateTimeField('departure from hub at', blank=True, null=True)
+    depart_perfusion_centre = models.DateTimeField('departure from base hospital at', blank=True, null=True)
     arrival_at_donor_hospital = models.DateTimeField('arrival at donor hospital', blank=True, null=True)
 
     # Donor details
@@ -189,7 +189,10 @@ class Donor(VersionControlModel):
         (BLOOD_UNKNOWN, 'Unknown')
     )
 
-    number = models.CharField("ET Donor number/ NHSBT Number", max_length=20)
+    number = models.CharField(
+        'NHSBT Number' #"ET Donor number/ NHSBT Number", 
+        max_length=20
+    )
     age = models.PositiveSmallIntegerField(validators=[
         MinValueValidator(50),
         MaxValueValidator(99)
@@ -199,7 +202,7 @@ class Donor(VersionControlModel):
     admitted_to_itu = models.NullBooleanField('admitted to ITU?', blank=True, null=True)
     date_admitted_to_itu = models.DateField('when admitted to ITU', blank=True, null=True)
     date_of_procurement = models.DateField('date of procurement', blank=True, null=True)
-    gender = models.CharField(choices=GENDER_CHOICES, max_length=1, blank=True, null=True)
+    gender = models.CharField(choices=GENDER_CHOICES, max_length=1)
     weight = models.PositiveSmallIntegerField('Weight (kg)', validators=[
         MinValueValidator(20),
         MaxValueValidator(200)
@@ -247,7 +250,7 @@ class Donor(VersionControlModel):
     hypotensive = models.NullBooleanField('hypotensive', blank=True, null=True)  # TODO: Check me. Can't find this on the form
     diuresis_last_day = models.PositiveSmallIntegerField('Diuresis last day (ml)', blank=True, null=True)
     diuresis_last_day_unknown = models.BooleanField(default=False)
-    diuresis_last_hour = models.PositiveSmallIntegerField('Diuresis last hour (ml', blank=True, null=True)
+    diuresis_last_hour = models.PositiveSmallIntegerField('Diuresis last hour (ml)', blank=True, null=True)
     diuresis_last_hour_unknown = models.BooleanField(default=False)
     dopamine = models.PositiveSmallIntegerField(choices=YES_NO_UNKNOWN_CHOICES, blank=True, null=True)
     dobutamine = models.PositiveSmallIntegerField(choices=YES_NO_UNKNOWN_CHOICES, blank=True, null=True)
@@ -284,13 +287,18 @@ class Donor(VersionControlModel):
         blank=True,
         null=True
     )
+    o2_saturation = models.DateTimeField(
+        'O2 saturation below 80%',
+        blank=True,
+        null=True
+    )
     circulatory_arrest = models.DateTimeField(
         'end of cardiac output (=start of no touch period)',
         blank=True,
         null=True
     )
     length_of_no_touch = models.PositiveSmallIntegerField('length of no touch period (minutes)', blank=True, null=True)
-    death_diagnosed = models.DateTimeField('diagnosis of death', blank=True, null=True)
+    death_diagnosed = models.DateTimeField('knife to skin time', blank=True, null=True)
     perfusion_started = models.DateTimeField('start in-situ cold perfusion', blank=True, null=True)
     systemic_flush_used = models.PositiveSmallIntegerField(
         'systemic (aortic) flush solution used',
@@ -298,6 +306,7 @@ class Donor(VersionControlModel):
         blank=True, null=True
     )
     systemic_flush_used_other = models.CharField(max_length=250, blank=True, null=True)
+    systemic_flush_volume_used = models.PositiveSmallIntegerField('aortic - volume (ml)', blank=True, null=True)
     heparin = models.NullBooleanField('heparin (administered to donor/in flush solution)')
 
     # Sampling data
@@ -411,12 +420,14 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
     VENOUS_DAMAGE = 2
     URETERAL_DAMAGE = 3
     PARENCHYMAL_DAMAGE = 4
+    OTHER_DAMAGE = 6
     NO_DAMAGE = 5
     GRAFT_DAMAGE_CHOICES = (
         (ARTERIAL_DAMAGE, "Arterial Damage"),
         (VENOUS_DAMAGE, "Venous Damage"),
         (URETERAL_DAMAGE, "Ureteral Damage"),
         (PARENCHYMAL_DAMAGE, "Parenchymal Damage"),
+        (OTHER_DAMAGE, "Other Damage"),
         (NO_DAMAGE, "None")
     )
 
@@ -429,6 +440,7 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
         (PATCHY, "Patchy"),
         (BLUE, "Blue"),
         (PERFUSION_UNKNOWN, "Unknown")
+        # NHS Form has: Good, Fair, Poor, Patchy, Unknown
     )
 
     HMP = 0
@@ -437,10 +449,11 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
         (HMP, "HMP"),
         (HMPO2, "HMP O2")
     )
-    removal = models.DateTimeField(blank=True, null=True)
+    removal = models.DateTimeField('time out', blank=True, null=True)
     renal_arteries = models.PositiveSmallIntegerField(blank=True, null=True)
     graft_damage = models.PositiveSmallIntegerField(choices=GRAFT_DAMAGE_CHOICES, default=NO_DAMAGE)
-    washout_perfusion = models.PositiveSmallIntegerField(choices=WASHOUT_PERFUSION_CHOICES, blank=True, null=True)
+    graft_damage_other = models.CharField(max_length=250, blank=True, null=True)
+    washout_perfusion = models.PositiveSmallIntegerField('perfusion characteristics',choices=WASHOUT_PERFUSION_CHOICES, blank=True, null=True)
     transplantable = models.NullBooleanField(blank=True, null=True)
     not_transplantable_reason = models.CharField(max_length=250, blank=True, null=True)
 
@@ -462,9 +475,9 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
         (SMALL, "Small"),
         (LARGE, "Large")
     )
-    perfusion_possible = models.NullBooleanField(blank=True, null=True)
+    perfusion_possible = models.NullBooleanField('machine perfusion possible?', blank=True, null=True)
     perfusion_not_possible_because = models.CharField(max_length=250, blank=True, null=True)
-    perfusion_started = models.DateTimeField(blank=True, null=True)
+    perfusion_started = models.DateTimeField('machine perfusion', blank=True, null=True)
     patch_holder = models.PositiveSmallIntegerField(choices=PATCH_HOLDER_CHOICES, blank=True, null=True)
     artificial_patch_used = models.NullBooleanField(blank=True, null=True)
     artificial_patch_size = models.PositiveSmallIntegerField(choices=ARTIFICIAL_PATCH_CHOICES, blank=True, null=True)
@@ -482,7 +495,9 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
     oxygen_bottle_changed_at = models.DateTimeField(blank=True, null=True)
     ice_container_replenished = models.NullBooleanField(blank=True, null=True)
     ice_container_replenished_at = models.DateTimeField(blank=True, null=True)
-    perfusate_measurable = models.NullBooleanField(blank=True, null=True)
+    perfusate_measurable = models.NullBooleanField(
+        'logistically possible to measure pO2 perfusate (use blood gas analyser)', 
+        blank=True, null=True)
     perfusate_measure = models.FloatField(blank=True, null=True)  # TODO: Check the value range for this
     # NB: There are ProcurementResources likely linked to this Organ
     perfusion_machine = models.ForeignKey(PerfusionMachine, blank=True, null=True)
