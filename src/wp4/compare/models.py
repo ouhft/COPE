@@ -137,13 +137,16 @@ class Donor(VersionControlModel):
     )
     transplant_coordinator = models.ForeignKey(
         Person,
-        verbose_name='name of transplant co-ordinator',
+        verbose_name='name of the SN-OD', #'name of transplant co-ordinator',
         limit_choices_to={"job": Person.TRANSPLANT_COORDINATOR},
         related_name="transplant_coordinator_set",
         blank=True,
         null=True
     )
-    call_received = models.DateTimeField('transplant co-ordinator received call at', blank=True, null=True)
+    call_received = models.DateTimeField(
+        'Consultant to MTO called at',  # 'transplant co-ordinator received call at', 
+        blank=True, null=True
+    )
 
     retrieval_hospital = models.ForeignKey(Hospital, blank=True, null=True)
     scheduled_start = models.DateTimeField('scheduled time of withdrawal therapy', blank=True, null=True)
