@@ -5,6 +5,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _, ungettext_lazy as __
 
 # Common constants for some questions
 NO = 0
@@ -12,9 +13,9 @@ YES = 1
 UNKNOWN = 2
 # NOT_ANSWERED = 9   # will be recorded as a null value
 YES_NO_UNKNOWN_CHOICES = (
-    (NO, "No"),
-    (YES, "Yes"),
-    (UNKNOWN, "Unknown")
+    (NO, _("No")),
+    (YES, _("Yes")),
+    (UNKNOWN, _("Unknown"))
 )
 
 

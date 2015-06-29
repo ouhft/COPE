@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.template import RequestContext
 from django.shortcuts import get_object_or_404, render, render_to_response
 from django.contrib.auth.decorators import login_required
@@ -12,6 +12,18 @@ from .forms import DonorForm, DonorStartForm, OrganForm
 
 def error404(request):
     raise Http404("This is a page holder")
+
+
+def hello_world(request, count):
+    if request.LANGUAGE_CODE == 'de-at':
+        return HttpResponse("You prefer to read Austrian German.")
+    elif request.LANGUAGE_CODE == 'en-gb':
+        return HttpResponse("You prefer to read British English.")
+    elif request.LANGUAGE_CODE == 'fr-fr':
+        return HttpResponse("You prefer to read Crazy French.")
+    else:
+        return HttpResponse("You prefer to read another language.")
+
 
 @login_required
 @csrf_protect

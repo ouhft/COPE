@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from django.utils.translation import ugettext_lazy as _
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -41,6 +42,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 )
 
 ROOT_URLCONF = 'wp4.urls'
@@ -67,6 +69,11 @@ WSGI_APPLICATION = 'wp4.wsgi.application'
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
 LANGUAGE_CODE = 'en-gb'
+
+LANGUAGES = (
+    ('fr', _('French')),
+    ('en', _('English')),
+)
 
 TIME_ZONE = 'UTC'
 
