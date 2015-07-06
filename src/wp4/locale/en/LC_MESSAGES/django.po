@@ -1,0 +1,715 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-07-04 19:22+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: compare/models.py:16
+msgid "No"
+msgstr "Nay"
+
+#: compare/models.py:17
+msgid "Yes"
+msgstr "Aye"
+
+#: compare/models.py:18 compare/models.py:218 compare/models.py:606
+msgid "Unknown"
+msgstr "Whoknows"
+
+#: compare/models.py:42
+msgid "Perfusion Technician"
+msgstr ""
+
+#: compare/models.py:43
+msgid "Transplant Co-ordinator"
+msgstr ""
+
+#: compare/models.py:44
+msgid "Research Nurse / Follow-up"
+msgstr ""
+
+#: compare/models.py:45
+msgid "National Co-ordinator"
+msgstr ""
+
+#: compare/models.py:46
+msgid "Central Co-ordinator"
+msgstr ""
+
+#: compare/models.py:47
+msgid "Biobank Co-ordinator"
+msgstr ""
+
+#: compare/models.py:48
+msgid "Statistician"
+msgstr ""
+
+#: compare/models.py:49
+msgid "Sys-admin"
+msgstr ""
+
+#: compare/models.py:51
+msgid "first names"
+msgstr ""
+
+#: compare/models.py:52
+msgid "last names"
+msgstr ""
+
+#: compare/models.py:53
+msgid "job"
+msgstr ""
+
+#: compare/models.py:54
+msgid "telephone number"
+msgstr ""
+
+#: compare/models.py:55
+msgid "related user account"
+msgstr ""
+
+#: compare/models.py:68
+msgid "person"
+msgstr ""
+
+#: compare/models.py:69
+msgid "people"
+msgstr ""
+
+#: compare/models.py:74
+msgid "hospital name"
+msgstr ""
+
+#: compare/models.py:76
+msgid "centre code"
+msgstr ""
+
+#: compare/models.py:81
+msgid "country"
+msgstr ""
+
+#: compare/models.py:94
+msgid "hospital"
+msgstr ""
+
+#: compare/models.py:95
+msgid "hospitals"
+msgstr ""
+
+#: compare/models.py:99
+msgid "team name"
+msgstr ""
+
+#: compare/models.py:100
+msgid "base hospital"
+msgstr ""
+
+#: compare/models.py:116 compare/models.py:144
+msgid "retrieval team"
+msgstr "come and get them team"
+
+#: compare/models.py:117
+msgid "retrieval teams"
+msgstr ""
+
+#: compare/models.py:122
+msgid "barcode number"
+msgstr ""
+
+#: compare/models.py:123
+msgid "date and time taken"
+msgstr ""
+
+#: compare/models.py:124
+msgid "centrifugation"
+msgstr ""
+
+#: compare/models.py:125
+msgid "comment"
+msgstr ""
+
+#: compare/models.py:138
+msgid "sample"
+msgstr ""
+
+#: compare/models.py:139
+msgid "samples"
+msgstr ""
+
+#: compare/models.py:145
+msgid "sequence number"
+msgstr ""
+
+#: compare/models.py:148
+msgid "name of transplant technician"
+msgstr ""
+
+#: compare/models.py:154
+msgid "name of the SN-OD"
+msgstr ""
+
+#: compare/models.py:161
+msgid "Consultant to MTO called at"
+msgstr ""
+
+#: compare/models.py:167
+msgid "donor hospital"
+msgstr ""
+
+#: compare/models.py:171
+msgid "time of withdrawal therapy"
+msgstr ""
+
+#: compare/models.py:175
+msgid "arrival time of technician at hub"
+msgstr ""
+
+#: compare/models.py:179
+msgid "ice boxes filled with sufficient amount of ice (for kidney assist)"
+msgstr ""
+
+#: compare/models.py:183
+msgid "departure from base hospital at"
+msgstr ""
+
+#: compare/models.py:187
+msgid "arrival at donor hospital"
+msgstr ""
+
+#: compare/models.py:195
+msgid "Male"
+msgstr ""
+
+#: compare/models.py:196
+msgid "Female"
+msgstr ""
+
+#: compare/models.py:203
+msgid "Caucasian"
+msgstr ""
+
+#: compare/models.py:204
+msgid "Black"
+msgstr ""
+
+#: compare/models.py:205
+msgid "Other"
+msgstr ""
+
+#: compare/models.py:222
+msgid "NHSBT Number"
+msgstr ""
+
+#: compare/models.py:226
+msgid "age"
+msgstr ""
+
+#: compare/models.py:233
+msgid "date of birth"
+msgstr ""
+
+#: compare/models.py:237
+msgid "date of admission into hospital"
+msgstr ""
+
+#: compare/models.py:240
+msgid "admitted to ITU"
+msgstr ""
+
+#: compare/models.py:241
+msgid "when admitted to ITU"
+msgstr ""
+
+#: compare/models.py:242
+msgid "date of procurement"
+msgstr ""
+
+#: compare/models.py:243
+msgid "gender"
+msgstr ""
+
+#: compare/models.py:245
+msgid "Weight (kg)"
+msgstr ""
+
+#: compare/models.py:253
+msgid "Height (cm)"
+msgstr ""
+
+#: compare/models.py:261
+msgid "ethnicity"
+msgstr ""
+
+#: compare/models.py:266
+msgid "blood group"
+msgstr ""
+
+#: compare/models.py:284
+msgid "diagnosis"
+msgstr ""
+
+#: compare/models.py:288
+msgid "other diagnosis"
+msgstr ""
+
+#: compare/models.py:290
+msgid "diabetes mellitus"
+msgstr ""
+
+#: compare/models.py:295
+msgid "alcohol abuse"
+msgstr ""
+
+#: compare/models.py:300
+msgid "cardiac arrest"
+msgstr ""
+
+#: compare/models.py:304
+msgid "last systolic blood pressure"
+msgstr ""
+
+#: compare/models.py:312
+msgid "last diastolic blood pressure"
+msgstr ""
+
+#: compare/models.py:320
+msgid "hypotensive"
+msgstr ""
+
+#: compare/models.py:324
+msgid "diuresis last day (ml)"
+msgstr ""
+
+#: compare/models.py:329
+msgid "diuresis last hour (ml)"
+msgstr ""
+
+#: compare/models.py:334
+msgid "dopamine"
+msgstr ""
+
+#: compare/models.py:339
+msgid "dobutamine"
+msgstr ""
+
+#: compare/models.py:344
+msgid "nor adrenaline"
+msgstr ""
+
+#: compare/models.py:349
+msgid "vasopressine"
+msgstr ""
+
+#: compare/models.py:354
+msgid "other medication"
+msgstr ""
+
+#: compare/models.py:366
+msgid "last creatinine"
+msgstr ""
+
+#: compare/models.py:368
+msgid "max creatinine"
+msgstr ""
+
+#: compare/models.py:383
+msgid "withdrawal of life support"
+msgstr ""
+
+#: compare/models.py:387
+msgid "systolic arterial pressure"
+msgstr ""
+
+#: compare/models.py:392
+msgid "O2 saturation below 80%"
+msgstr ""
+
+#: compare/models.py:397
+msgid "end of cardiac output"
+msgstr ""
+
+#: compare/models.py:402
+msgid "length of no touch period (minutes)"
+msgstr ""
+
+#: compare/models.py:406
+msgid "knife to skin time"
+msgstr ""
+
+#: compare/models.py:410
+msgid "start in-situ cold perfusion"
+msgstr ""
+
+#: compare/models.py:414
+msgid "systemic (aortic) flush solution used"
+msgstr ""
+
+#: compare/models.py:419
+msgid "systemic flush used"
+msgstr ""
+
+#: compare/models.py:424
+msgid "aortic - volume (ml)"
+msgstr ""
+
+#: compare/models.py:428
+msgid "heparin (administered to donor/in flush solution)"
+msgstr ""
+
+#: compare/models.py:435
+msgid "db 1.1 edta"
+msgstr ""
+
+#: compare/models.py:441
+msgid "db 1.2 sst"
+msgstr ""
+
+#: compare/models.py:447
+msgid "du 1"
+msgstr ""
+
+#: compare/models.py:453
+msgid "du 2"
+msgstr ""
+
+#: compare/models.py:504
+msgid "donor"
+msgstr ""
+
+#: compare/models.py:505
+msgid "donors"
+msgstr ""
+
+#: compare/models.py:514
+msgid "Liver"
+msgstr ""
+
+#: compare/models.py:515
+msgid "Lung"
+msgstr ""
+
+#: compare/models.py:516
+msgid "Pancreas"
+msgstr ""
+
+#: compare/models.py:517
+msgid "Tissue"
+msgstr ""
+
+#: compare/models.py:521
+msgid "organ name"
+msgstr ""
+
+#: compare/models.py:532
+msgid "organ offered"
+msgstr ""
+
+#: compare/models.py:533
+msgid "organs offered"
+msgstr ""
+
+#: compare/models.py:539
+msgid "machine serial number"
+msgstr ""
+
+#: compare/models.py:543
+msgid "machine reference number"
+msgstr ""
+
+#: compare/models.py:553 compare/models.py:558 compare/models.py:739
+msgid "perfusion machine"
+msgstr ""
+
+#: compare/models.py:554
+msgid "perfusion machines"
+msgstr ""
+
+#: compare/models.py:564
+msgid "perfusion machine file"
+msgstr ""
+
+#: compare/models.py:565
+msgid "perfusion machine files"
+msgstr ""
+
+#: compare/models.py:572
+msgid "Left"
+msgstr ""
+
+#: compare/models.py:573
+msgid "Right"
+msgstr ""
+
+#: compare/models.py:577
+msgid "kidney location"
+msgstr ""
+
+#: compare/models.py:590
+msgid "Arterial Damage"
+msgstr ""
+
+#: compare/models.py:591
+msgid "Venous Damage"
+msgstr ""
+
+#: compare/models.py:592
+msgid "Ureteral Damage"
+msgstr ""
+
+#: compare/models.py:593
+msgid "Parenchymal Damage"
+msgstr ""
+
+#: compare/models.py:594
+msgid "Other Damage"
+msgstr ""
+
+#: compare/models.py:595
+msgid "None"
+msgstr ""
+
+#: compare/models.py:603
+msgid "Homogenous"
+msgstr ""
+
+#: compare/models.py:604
+msgid "Patchy"
+msgstr ""
+
+#: compare/models.py:605
+msgid "Blue"
+msgstr ""
+
+#: compare/models.py:617
+msgid "time out"
+msgstr ""
+
+#: compare/models.py:621
+msgid "number of renal arteries"
+msgstr ""
+
+#: compare/models.py:625
+msgid "renal graft damage"
+msgstr ""
+
+#: compare/models.py:630
+msgid "other damage done"
+msgstr ""
+
+#: compare/models.py:635
+msgid "perfusion characteristics"
+msgstr ""
+
+#: compare/models.py:640
+msgid "is transplantable"
+msgstr ""
+
+#: compare/models.py:644
+msgid "not transplantable because"
+msgstr ""
+
+#: compare/models.py:659 compare/models.py:664
+msgid "Small"
+msgstr ""
+
+#: compare/models.py:660 compare/models.py:665
+msgid "Large"
+msgstr ""
+
+#: compare/models.py:661
+msgid "Double Artery"
+msgstr ""
+
+#: compare/models.py:668
+msgid "machine perfusion possible?"
+msgstr ""
+
+#: compare/models.py:672
+msgid "not possible because"
+msgstr ""
+
+#: compare/models.py:677
+msgid "machine perfusion"
+msgstr ""
+
+#: compare/models.py:681
+msgid "used patch holder"
+msgstr ""
+
+#: compare/models.py:686
+msgid "artificial patch used"
+msgstr ""
+
+#: compare/models.py:690
+msgid "artificial patch size"
+msgstr ""
+
+#: compare/models.py:695
+msgid "number of patches"
+msgstr ""
+
+#: compare/models.py:704
+msgid "is oxygen bottle full"
+msgstr ""
+
+#: compare/models.py:708
+msgid "oxygen bottle opened"
+msgstr ""
+
+#: compare/models.py:712
+msgid "oxygen bottle changed"
+msgstr ""
+
+#: compare/models.py:716
+msgid "oxygen bottle changed at"
+msgstr ""
+
+#: compare/models.py:720
+msgid "ice container replenished"
+msgstr ""
+
+#: compare/models.py:724
+msgid "ice container replenished at"
+msgstr ""
+
+#: compare/models.py:728
+msgid "perfusate measurable"
+msgstr ""
+
+#: compare/models.py:733
+msgid "value pO2"
+msgstr ""
+
+#: compare/models.py:743
+msgid "machine file"
+msgstr ""
+
+#: compare/models.py:750
+msgid "p1"
+msgstr ""
+
+#: compare/models.py:756
+msgid "p2"
+msgstr ""
+
+#: compare/models.py:770
+msgid "organ"
+msgstr ""
+
+#: compare/models.py:771
+msgid "organs"
+msgstr ""
+
+#: compare/models.py:783
+msgid "Disposables"
+msgstr ""
+
+#: compare/models.py:784
+msgid "Extra cannula small (3mm)"
+msgstr ""
+
+#: compare/models.py:785
+msgid "Extra cannula large (5mm)"
+msgstr ""
+
+#: compare/models.py:786
+msgid "Extra patch holder small"
+msgstr ""
+
+#: compare/models.py:787
+msgid "Extra patch holder large"
+msgstr ""
+
+#: compare/models.py:788
+msgid "Extra double cannula set"
+msgstr ""
+
+#: compare/models.py:789
+msgid "Perfusate solution"
+msgstr ""
+
+#: compare/models.py:793
+msgid "related kidney"
+msgstr ""
+
+#: compare/models.py:796
+msgid "resource used"
+msgstr ""
+
+#: compare/models.py:801
+msgid "lot number"
+msgstr ""
+
+#: compare/models.py:803
+msgid "expiry date"
+msgstr ""
+
+#: compare/models.py:811
+msgid "procurement resource"
+msgstr ""
+
+#: compare/models.py:812
+msgid "procurement resources"
+msgstr ""
+
+#: theme/templates/admin/base_site.html:3
+msgid "COPE site admin"
+msgstr ""
+
+#: theme/templates/admin/base_site.html:6
+msgid "COPE administration"
+msgstr ""
+
+#: theme/templates/admin/index.html:20
+#, python-format
+msgid "Models in the %(name)s application"
+msgstr ""
+
+#: theme/templates/admin/index.html:31
+msgid "Add"
+msgstr ""
+
+#: theme/templates/admin/index.html:37
+msgid "Change"
+msgstr ""
+
+#: theme/templates/admin/index.html:47
+msgid "You don't have permission to edit anything."
+msgstr ""
+
+#: theme/templates/admin/index.html:55
+msgid "Recent Actions"
+msgstr ""
+
+#: theme/templates/admin/index.html:56
+msgid "My Actions"
+msgstr ""
+
+#: theme/templates/admin/index.html:60
+msgid "None available"
+msgstr ""
+
+#: theme/templates/admin/index.html:74
+msgid "Unknown content"
+msgstr ""
+
+#: wp4/settings.py:74
+msgid "French"
+msgstr ""
+
+#: wp4/settings.py:75
+msgid "English"
+msgstr ""
