@@ -19,15 +19,15 @@ msgstr ""
 
 #: compare/models.py:16
 msgid "No"
-msgstr "Nay"
+msgstr ""
 
 #: compare/models.py:17
 msgid "Yes"
-msgstr "Aye"
+msgstr "Oooooh Nurse!"
 
 #: compare/models.py:18 compare/models.py:218 compare/models.py:606
 msgid "Unknown"
-msgstr "Whoknows"
+msgstr ""
 
 #: compare/models.py:42
 msgid "Perfusion Technician"
@@ -119,7 +119,7 @@ msgstr ""
 
 #: compare/models.py:116 compare/models.py:144
 msgid "retrieval team"
-msgstr "come and get them team"
+msgstr ""
 
 #: compare/models.py:117
 msgid "retrieval teams"

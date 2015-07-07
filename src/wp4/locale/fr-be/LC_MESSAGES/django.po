@@ -19,717 +19,718 @@ msgstr ""
 
 #: compare/models.py:16
 msgid "No"
-msgstr "Nay"
+msgstr "Non"
 
 #: compare/models.py:17
 msgid "Yes"
-msgstr "Aye"
+msgstr "Oui"
 
 #: compare/models.py:18 compare/models.py:218 compare/models.py:606
 msgid "Unknown"
-msgstr "Whoknows"
+msgstr "Inconnu"
 
 #: compare/models.py:42
 msgid "Perfusion Technician"
-msgstr ""
+msgstr "Perfusion Technicien"
 
 #: compare/models.py:43
 msgid "Transplant Co-ordinator"
-msgstr ""
+msgstr "Transplant coordonnateur"
 
 #: compare/models.py:44
 msgid "Research Nurse / Follow-up"
-msgstr ""
+msgstr "Infirmière de recherche / Suivi"
 
 #: compare/models.py:45
 msgid "National Co-ordinator"
-msgstr ""
+msgstr "Coordonnateur national"
 
 #: compare/models.py:46
 msgid "Central Co-ordinator"
-msgstr ""
+msgstr "Central Co-ordinator"
 
 #: compare/models.py:47
 msgid "Biobank Co-ordinator"
-msgstr ""
+msgstr "Biobanque coordonnateur"
 
 #: compare/models.py:48
 msgid "Statistician"
-msgstr ""
+msgstr "Statisticien"
 
 #: compare/models.py:49
 msgid "Sys-admin"
-msgstr ""
+msgstr "Sys-admin"
 
 #: compare/models.py:51
 msgid "first names"
-msgstr ""
+msgstr "prénoms"
 
 #: compare/models.py:52
 msgid "last names"
-msgstr ""
+msgstr "noms de famille"
 
 #: compare/models.py:53
 msgid "job"
-msgstr ""
+msgstr "emploi"
 
 #: compare/models.py:54
 msgid "telephone number"
-msgstr ""
+msgstr "numéro de téléphone"
 
 #: compare/models.py:55
 msgid "related user account"
-msgstr ""
+msgstr "compte d'utilisateur connexes"
 
 #: compare/models.py:68
 msgid "person"
-msgstr ""
+msgstr "personne"
 
 #: compare/models.py:69
 msgid "people"
-msgstr ""
+msgstr "personnes"
 
 #: compare/models.py:74
 msgid "hospital name"
-msgstr ""
+msgstr "nom de l'hôpital"
 
 #: compare/models.py:76
 msgid "centre code"
-msgstr ""
+msgstr "Code du centre"
 
 #: compare/models.py:81
 msgid "country"
-msgstr ""
+msgstr "pays"
 
 #: compare/models.py:94
 msgid "hospital"
-msgstr ""
+msgstr "hôpital"
 
 #: compare/models.py:95
 msgid "hospitals"
-msgstr ""
+msgstr "hôpitaux"
 
 #: compare/models.py:99
 msgid "team name"
-msgstr ""
+msgstr "nom de l'équipe"
 
 #: compare/models.py:100
 msgid "base hospital"
-msgstr ""
+msgstr "l'hôpital de base"
 
 #: compare/models.py:116 compare/models.py:144
 msgid "retrieval team"
-msgstr "come and get them team"
+msgstr "équipe de recherche"
 
 #: compare/models.py:117
 msgid "retrieval teams"
-msgstr ""
+msgstr "Les équipes de récupération"
 
 #: compare/models.py:122
 msgid "barcode number"
-msgstr ""
+msgstr "Numéro de code-barres"
 
 #: compare/models.py:123
 msgid "date and time taken"
-msgstr ""
+msgstr "Date et heure de prise"
 
 #: compare/models.py:124
 msgid "centrifugation"
-msgstr ""
+msgstr "centrifugation"
 
 #: compare/models.py:125
 msgid "comment"
-msgstr ""
+msgstr "commentaire"
 
 #: compare/models.py:138
 msgid "sample"
-msgstr ""
+msgstr "échantillon"
 
 #: compare/models.py:139
 msgid "samples"
-msgstr ""
+msgstr "échantillons"
 
 #: compare/models.py:145
 msgid "sequence number"
-msgstr ""
+msgstr "numéro de séquence"
 
 #: compare/models.py:148
 msgid "name of transplant technician"
-msgstr ""
+msgstr "nom du technicien de transplantation"
 
 #: compare/models.py:154
 msgid "name of the SN-OD"
-msgstr ""
+msgstr "le nom de la SN-OD"
 
 #: compare/models.py:161
 msgid "Consultant to MTO called at"
-msgstr ""
+msgstr "Consultant au MTO appelé à"
 
 #: compare/models.py:167
 msgid "donor hospital"
-msgstr ""
+msgstr "hôpital du donneur"
 
 #: compare/models.py:171
 msgid "time of withdrawal therapy"
-msgstr ""
+msgstr "le temps de la thérapie de sevrage"
 
 #: compare/models.py:175
 msgid "arrival time of technician at hub"
-msgstr ""
+msgstr "heure d'arrivée du technicien au centre"
 
 #: compare/models.py:179
 msgid "ice boxes filled with sufficient amount of ice (for kidney assist)"
-msgstr ""
+msgstr "glacières remplies avec une quantité suffisante de glace (pour les reins aider)"
 
 #: compare/models.py:183
 msgid "departure from base hospital at"
-msgstr ""
+msgstr "départ de l'hôpital de base au"
 
 #: compare/models.py:187
 msgid "arrival at donor hospital"
-msgstr ""
+msgstr "arrivée à l'hôpital des bailleurs de fonds"
 
 #: compare/models.py:195
 msgid "Male"
-msgstr ""
+msgstr "Mâle"
 
 #: compare/models.py:196
 msgid "Female"
-msgstr ""
+msgstr "Femme"
 
 #: compare/models.py:203
 msgid "Caucasian"
-msgstr ""
+msgstr "Caucasien"
 
 #: compare/models.py:204
 msgid "Black"
-msgstr ""
+msgstr "Noir"
 
 #: compare/models.py:205
 msgid "Other"
-msgstr ""
+msgstr "Autre"
 
 #: compare/models.py:222
 msgid "NHSBT Number"
-msgstr ""
+msgstr "Nombre NHSBT"
 
 #: compare/models.py:226
 msgid "age"
-msgstr ""
+msgstr "âge"
 
 #: compare/models.py:233
 msgid "date of birth"
-msgstr ""
+msgstr "date de naissance"
 
 #: compare/models.py:237
 msgid "date of admission into hospital"
-msgstr ""
+msgstr "date d'admission à l'hôpital"
 
 #: compare/models.py:240
 msgid "admitted to ITU"
-msgstr ""
+msgstr "admis à l'UIT"
 
 #: compare/models.py:241
 msgid "when admitted to ITU"
-msgstr ""
+msgstr "lorsqu'ils sont admis à l'UIT"
 
 #: compare/models.py:242
 msgid "date of procurement"
-msgstr ""
+msgstr "date de passation des marchés"
 
 #: compare/models.py:243
 msgid "gender"
-msgstr ""
+msgstr "sexe"
 
 #: compare/models.py:245
 msgid "Weight (kg)"
-msgstr ""
+msgstr "Poids (kg)"
 
 #: compare/models.py:253
 msgid "Height (cm)"
-msgstr ""
+msgstr "Hauteur (cm)"
 
 #: compare/models.py:261
 msgid "ethnicity"
-msgstr ""
+msgstr "ethnicité"
 
 #: compare/models.py:266
 msgid "blood group"
-msgstr ""
+msgstr "groupe sanguin"
 
 #: compare/models.py:284
 msgid "diagnosis"
-msgstr ""
+msgstr "diagnostic"
 
 #: compare/models.py:288
 msgid "other diagnosis"
-msgstr ""
+msgstr "autre diagnostic"
 
 #: compare/models.py:290
 msgid "diabetes mellitus"
-msgstr ""
+msgstr "le diabète sucré"
 
 #: compare/models.py:295
 msgid "alcohol abuse"
-msgstr ""
+msgstr "l'abus d'alcool"
 
 #: compare/models.py:300
 msgid "cardiac arrest"
-msgstr ""
+msgstr "crise cardiaque"
 
 #: compare/models.py:304
 msgid "last systolic blood pressure"
-msgstr ""
+msgstr "dernière pression artérielle systolique"
 
 #: compare/models.py:312
 msgid "last diastolic blood pressure"
-msgstr ""
+msgstr "dernière pression artérielle diastolique"
 
 #: compare/models.py:320
 msgid "hypotensive"
-msgstr ""
+msgstr "hypotenseur"
 
 #: compare/models.py:324
 msgid "diuresis last day (ml)"
-msgstr ""
+msgstr "diurèse dernier jour (ml)"
 
 #: compare/models.py:329
 msgid "diuresis last hour (ml)"
-msgstr ""
+msgstr "la dernière heure de la diurèse (ml)"
 
 #: compare/models.py:334
 msgid "dopamine"
-msgstr ""
+msgstr "dopamine"
 
 #: compare/models.py:339
 msgid "dobutamine"
-msgstr ""
+msgstr "dobutamine"
 
 #: compare/models.py:344
 msgid "nor adrenaline"
-msgstr ""
+msgstr "ni l'adrénaline"
 
 #: compare/models.py:349
 msgid "vasopressine"
-msgstr ""
+msgstr "vasopressine"
 
 #: compare/models.py:354
 msgid "other medication"
-msgstr ""
+msgstr "d'autres médicaments"
 
 #: compare/models.py:366
 msgid "last creatinine"
-msgstr ""
+msgstr "dernière créatinine"
 
 #: compare/models.py:368
 msgid "max creatinine"
-msgstr ""
+msgstr "max créatinine"
 
 #: compare/models.py:383
 msgid "withdrawal of life support"
-msgstr ""
+msgstr "retrait du soutien de la vie"
 
 #: compare/models.py:387
 msgid "systolic arterial pressure"
-msgstr ""
+msgstr "la pression artérielle systolique"
 
 #: compare/models.py:392
 msgid "O2 saturation below 80%"
-msgstr ""
+msgstr "La saturation en O2 en dessous de 80%"
 
 #: compare/models.py:397
 msgid "end of cardiac output"
-msgstr ""
+msgstr "fin du débit cardiaque"
 
 #: compare/models.py:402
 msgid "length of no touch period (minutes)"
-msgstr ""
+msgstr "longueur du pas de période touch (minutes)"
 
 #: compare/models.py:406
 msgid "knife to skin time"
-msgstr ""
+msgstr "couteau pour le temps de la peau"
 
 #: compare/models.py:410
 msgid "start in-situ cold perfusion"
-msgstr ""
+msgstr "commencer in-situ perfusion froide"
 
 #: compare/models.py:414
 msgid "systemic (aortic) flush solution used"
-msgstr ""
+msgstr "systémique (aortique) solution de rinçage utilisée"
 
 #: compare/models.py:419
 msgid "systemic flush used"
-msgstr ""
+msgstr "ras systémique utilisé"
 
 #: compare/models.py:424
 msgid "aortic - volume (ml)"
-msgstr ""
+msgstr "aortique - volume (ml)"
 
 #: compare/models.py:428
 msgid "heparin (administered to donor/in flush solution)"
-msgstr ""
+msgstr "héparine (administrée à des bailleurs de fonds / en solution de rinçage)"
 
 #: compare/models.py:435
 msgid "db 1.1 edta"
-msgstr ""
+msgstr "db 1.1 edta"
 
 #: compare/models.py:441
 msgid "db 1.2 sst"
-msgstr ""
+msgstr "db 1.2 sst"
 
 #: compare/models.py:447
 msgid "du 1"
-msgstr ""
+msgstr "du 1"
 
 #: compare/models.py:453
 msgid "du 2"
-msgstr ""
+msgstr "du 2"
 
 #: compare/models.py:504
 msgid "donor"
-msgstr ""
+msgstr "donateur"
 
 #: compare/models.py:505
 msgid "donors"
-msgstr ""
+msgstr "donateurs"
 
 #: compare/models.py:514
 msgid "Liver"
-msgstr ""
+msgstr "Foie"
 
 #: compare/models.py:515
 msgid "Lung"
-msgstr ""
+msgstr "Poumon"
 
 #: compare/models.py:516
 msgid "Pancreas"
-msgstr ""
+msgstr "Pancréas"
 
 #: compare/models.py:517
 msgid "Tissue"
-msgstr ""
+msgstr "Tissu"
 
 #: compare/models.py:521
 msgid "organ name"
-msgstr ""
+msgstr "Nom d'organes"
 
 #: compare/models.py:532
 msgid "organ offered"
-msgstr ""
+msgstr "orgue offert"
 
 #: compare/models.py:533
 msgid "organs offered"
-msgstr ""
+msgstr "organes offertes"
 
 #: compare/models.py:539
 msgid "machine serial number"
-msgstr ""
+msgstr "le numéro de série de la machine"
 
 #: compare/models.py:543
 msgid "machine reference number"
-msgstr ""
+msgstr "Numéro de référence de la machine"
 
 #: compare/models.py:553 compare/models.py:558 compare/models.py:739
 msgid "perfusion machine"
-msgstr ""
+msgstr "Machine à perfusion"
 
 #: compare/models.py:554
 msgid "perfusion machines"
-msgstr ""
+msgstr "machines de perfusion"
 
 #: compare/models.py:564
 msgid "perfusion machine file"
-msgstr ""
+msgstr "fichier de la machine de perfusion"
 
 #: compare/models.py:565
 msgid "perfusion machine files"
-msgstr ""
+msgstr "fichiers de la machine de perfusion"
 
 #: compare/models.py:572
 msgid "Left"
-msgstr ""
+msgstr "Gauche"
 
 #: compare/models.py:573
 msgid "Right"
-msgstr ""
+msgstr "Droit"
 
 #: compare/models.py:577
 msgid "kidney location"
-msgstr ""
+msgstr "Lieu de reins"
 
 #: compare/models.py:590
 msgid "Arterial Damage"
-msgstr ""
+msgstr "Dommages artérielle"
 
 #: compare/models.py:591
 msgid "Venous Damage"
-msgstr ""
+msgstr "Dommages veineuse"
 
 #: compare/models.py:592
 msgid "Ureteral Damage"
-msgstr ""
+msgstr "Urétéral Dommages"
 
 #: compare/models.py:593
 msgid "Parenchymal Damage"
-msgstr ""
+msgstr "Parenchymateuse Dommages"
 
 #: compare/models.py:594
 msgid "Other Damage"
-msgstr ""
+msgstr "Autres dommages"
 
 #: compare/models.py:595
 msgid "None"
-msgstr ""
+msgstr "Aucun"
 
 #: compare/models.py:603
 msgid "Homogenous"
-msgstr ""
+msgstr "Homogène"
 
 #: compare/models.py:604
 msgid "Patchy"
-msgstr ""
+msgstr "Inégal"
 
 #: compare/models.py:605
 msgid "Blue"
-msgstr ""
+msgstr "Bleu"
 
 #: compare/models.py:617
 msgid "time out"
-msgstr ""
+msgstr "temps libre"
 
 #: compare/models.py:621
 msgid "number of renal arteries"
-msgstr ""
+msgstr "nombre d'artères rénales"
 
 #: compare/models.py:625
 msgid "renal graft damage"
-msgstr ""
+msgstr "dommages de greffe rénale"
 
 #: compare/models.py:630
 msgid "other damage done"
-msgstr ""
+msgstr "d'autres dommages causés"
 
 #: compare/models.py:635
 msgid "perfusion characteristics"
-msgstr ""
+msgstr "Caractéristiques de perfusion"
 
 #: compare/models.py:640
 msgid "is transplantable"
-msgstr ""
+msgstr "est transplantable"
 
 #: compare/models.py:644
 msgid "not transplantable because"
-msgstr ""
+msgstr "pas parce transplantables"
 
 #: compare/models.py:659 compare/models.py:664
 msgid "Small"
-msgstr ""
+msgstr "Petit"
 
 #: compare/models.py:660 compare/models.py:665
 msgid "Large"
-msgstr ""
+msgstr "Grand"
 
 #: compare/models.py:661
 msgid "Double Artery"
-msgstr ""
+msgstr "Double Artère"
 
 #: compare/models.py:668
 msgid "machine perfusion possible?"
-msgstr ""
+msgstr "machine à perfusion possible?"
 
 #: compare/models.py:672
 msgid "not possible because"
-msgstr ""
+msgstr "pas possible parce que"
 
 #: compare/models.py:677
 msgid "machine perfusion"
-msgstr ""
+msgstr "machine à perfusion"
 
 #: compare/models.py:681
 msgid "used patch holder"
-msgstr ""
+msgstr "titulaire de patch utilisé"
 
 #: compare/models.py:686
 msgid "artificial patch used"
-msgstr ""
+msgstr "Patch artificiel utilisé"
 
 #: compare/models.py:690
 msgid "artificial patch size"
-msgstr ""
+msgstr "la taille des parcelles artificielle"
 
 #: compare/models.py:695
 msgid "number of patches"
-msgstr ""
+msgstr "nombre de correctifs"
 
 #: compare/models.py:704
 msgid "is oxygen bottle full"
-msgstr ""
+msgstr "est bouteille d'oxygène pleine"
 
 #: compare/models.py:708
 msgid "oxygen bottle opened"
-msgstr ""
+msgstr "bouteille d'oxygène ouvert"
 
 #: compare/models.py:712
 msgid "oxygen bottle changed"
-msgstr ""
+msgstr "bouteille d'oxygène a changé"
 
 #: compare/models.py:716
 msgid "oxygen bottle changed at"
-msgstr ""
+msgstr "bouteille d'oxygène a changé au"
 
 #: compare/models.py:720
 msgid "ice container replenished"
-msgstr ""
+msgstr "bac à glaçons reconstitué"
 
 #: compare/models.py:724
 msgid "ice container replenished at"
-msgstr ""
+msgstr "bac à glaçons réapprovisionné au"
 
 #: compare/models.py:728
 msgid "perfusate measurable"
-msgstr ""
+msgstr "perfusat mesurable"
 
 #: compare/models.py:733
 msgid "value pO2"
-msgstr ""
+msgstr "valeur pO2"
 
 #: compare/models.py:743
 msgid "machine file"
-msgstr ""
+msgstr "fichier de la machine"
 
 #: compare/models.py:750
 msgid "p1"
-msgstr ""
+msgstr "p1"
 
 #: compare/models.py:756
 msgid "p2"
-msgstr ""
+msgstr "p2"
 
 #: compare/models.py:770
 msgid "organ"
-msgstr ""
+msgstr "orgue"
 
 #: compare/models.py:771
 msgid "organs"
-msgstr ""
+msgstr "organes"
 
 #: compare/models.py:783
 msgid "Disposables"
-msgstr ""
+msgstr "Jetables"
 
 #: compare/models.py:784
 msgid "Extra cannula small (3mm)"
-msgstr ""
+msgstr "Très petite canule (3mm)"
 
 #: compare/models.py:785
 msgid "Extra cannula large (5mm)"
-msgstr ""
+msgstr "Canule extra large (5mm)"
 
 #: compare/models.py:786
 msgid "Extra patch holder small"
-msgstr ""
+msgstr "Correctif supplémentaire titulaire petite"
 
 #: compare/models.py:787
 msgid "Extra patch holder large"
-msgstr ""
+msgstr "Titulaire de patch extra large"
 
 #: compare/models.py:788
 msgid "Extra double cannula set"
-msgstr ""
+msgstr "Extra double jeu de la canule"
 
 #: compare/models.py:789
 msgid "Perfusate solution"
-msgstr ""
+msgstr "Solution Perfusât"
 
 #: compare/models.py:793
 msgid "related kidney"
-msgstr ""
+msgstr "rénale liée"
 
 #: compare/models.py:796
 msgid "resource used"
-msgstr ""
+msgstr "ressource utilisée"
 
 #: compare/models.py:801
 msgid "lot number"
-msgstr ""
+msgstr "numéro de lot"
 
 #: compare/models.py:803
 msgid "expiry date"
-msgstr ""
+msgstr "date d'expiration"
 
 #: compare/models.py:811
 msgid "procurement resource"
-msgstr ""
+msgstr "ressources d'approvisionnement"
 
 #: compare/models.py:812
 msgid "procurement resources"
-msgstr ""
+msgstr "les ressources d'approvisionnement"
 
 #: theme/templates/admin/base_site.html:3
 msgid "COPE site admin"
-msgstr ""
+msgstr "COPE administrateur du site"
 
 #: theme/templates/admin/base_site.html:6
 msgid "COPE administration"
-msgstr ""
+msgstr "COPE administration"
 
 #: theme/templates/admin/index.html:20
 #, python-format
 msgid "Models in the %(name)s application"
-msgstr ""
+msgstr "Les modèles de la %(name)s demande de s"
 
 #: theme/templates/admin/index.html:31
 msgid "Add"
-msgstr ""
+msgstr "Ajouter"
 
 #: theme/templates/admin/index.html:37
 msgid "Change"
-msgstr ""
+msgstr "Changement"
 
 #: theme/templates/admin/index.html:47
 msgid "You don't have permission to edit anything."
-msgstr ""
+msgstr "Vous n'êtes pas autorisé à modifier quoi que ce soit."
 
 #: theme/templates/admin/index.html:55
 msgid "Recent Actions"
-msgstr ""
+msgstr "Actions récentes"
 
 #: theme/templates/admin/index.html:56
 msgid "My Actions"
-msgstr ""
+msgstr "Mes actions"
 
 #: theme/templates/admin/index.html:60
 msgid "None available"
-msgstr ""
+msgstr "Aucune disponible"
 
 #: theme/templates/admin/index.html:74
 msgid "Unknown content"
-msgstr ""
+msgstr "Le contenu est inconnu"
 
 #: wp4/settings.py:74
 msgid "French"
-msgstr ""
+msgstr "Français"
 
 #: wp4/settings.py:75
 msgid "English"
-msgstr ""
+msgstr "Anglais"
 
 #: wp4/settings.py:76
 msgid "Great Britain (English)"
-msgstr ""
+msgstr "Grande-Bretagne (anglais)"
 
 #: wp4/settings.py:77
 msgid "Belgium (Dutch)"
-msgstr ""
+msgstr "Belgique (néerlandais)"
 
 #: wp4/settings.py:78
 msgid "Belgium (French)"
-msgstr ""
+msgstr "Belgique (Français)"
 
 #: wp4/settings.py:79
 msgid "Netherlands (Dutch)"
-msgstr ""
+msgstr "Pays-Bas (Néerlandais)"
 
 #: wp4/settings.py:80
 msgid "Netherlands (Frisian)"
-msgstr ""
+msgstr "Pays-Bas (frison)"
+

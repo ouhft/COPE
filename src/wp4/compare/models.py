@@ -134,7 +134,7 @@ class Sample(models.Model):
         return self.barcode
 
     class Meta:
-        order_with_respect_to = 'taken_at'
+        ordering = ['taken_at']
         verbose_name = _('sample')
         verbose_name_plural = _('samples')
 
@@ -192,17 +192,17 @@ class Donor(VersionControlModel):
     MALE = 'M'
     FEMALE = 'F'
     GENDER_CHOICES = (
-        (MALE, 'Male'),
-        (FEMALE, 'Female')
+        (MALE, _('Male')),
+        (FEMALE, _('Female'))
     )
 
     CAUCASIAN = 1
     BLACK = 2
     OTHER_ETHNICITY = 3
     ETHNICITY_CHOICES = (
-        (CAUCASIAN, 'Caucasian'),
-        (BLACK, 'Black'),
-        (OTHER_ETHNICITY, 'Other')
+        (CAUCASIAN, _('Caucasian')),
+        (BLACK, _('Black')),
+        (OTHER_ETHNICITY, _('Other'))
     )
 
     BLOOD_O = 1
@@ -215,7 +215,7 @@ class Donor(VersionControlModel):
         (BLOOD_A, 'A'),
         (BLOOD_B, 'B'),
         (BLOOD_AB, 'AB'),
-        (BLOOD_UNKNOWN, 'Unknown')
+        (BLOOD_UNKNOWN, _('Unknown'))
     )
 
     number = models.CharField(
@@ -511,10 +511,10 @@ class OrgansOffered(models.Model):
     PANCREAS = 3
     TISSUE = 4
     ORGAN_CHOICES = (
-        (LIVER, 'Liver'),
-        (LUNG, 'Lung'),
-        (PANCREAS, 'Pancreas'),
-        (TISSUE, "Tissue")
+        (LIVER, _('Liver')),
+        (LUNG, _('Lung')),
+        (PANCREAS, _('Pancreas')),
+        (TISSUE, _('Tissue'))
     )
 
     organ = models.PositiveSmallIntegerField(
@@ -569,8 +569,8 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
     LEFT = "L"
     RIGHT = "R"
     LOCATION_CHOICES = (
-        (LEFT, "Left"),
-        (RIGHT, "Right")
+        (LEFT, _('Left')),
+        (RIGHT, _('Right'))
     )
     donor = models.ForeignKey(Donor)
     location = models.CharField(
@@ -587,12 +587,12 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
     OTHER_DAMAGE = 6
     NO_DAMAGE = 5
     GRAFT_DAMAGE_CHOICES = (
-        (ARTERIAL_DAMAGE, "Arterial Damage"),
-        (VENOUS_DAMAGE, "Venous Damage"),
-        (URETERAL_DAMAGE, "Ureteral Damage"),
-        (PARENCHYMAL_DAMAGE, "Parenchymal Damage"),
-        (OTHER_DAMAGE, "Other Damage"),
-        (NO_DAMAGE, "None")
+        (ARTERIAL_DAMAGE, _("Arterial Damage")),
+        (VENOUS_DAMAGE, _("Venous Damage")),
+        (URETERAL_DAMAGE, _("Ureteral Damage")),
+        (PARENCHYMAL_DAMAGE, _("Parenchymal Damage")),
+        (OTHER_DAMAGE, _("Other Damage")),
+        (NO_DAMAGE, _("None"))
     )
 
     HOMEGENOUS = 1
@@ -600,10 +600,10 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
     BLUE = 3
     PERFUSION_UNKNOWN = 9
     WASHOUT_PERFUSION_CHOICES = (
-        (HOMEGENOUS, "Homogenous"),
-        (PATCHY, "Patchy"),
-        (BLUE, "Blue"),
-        (PERFUSION_UNKNOWN, "Unknown")
+        (HOMEGENOUS, _("Homogenous")),
+        (PATCHY, _("Patchy")),
+        (BLUE, _("Blue")),
+        (PERFUSION_UNKNOWN, _("Unknown"))
         # NHS Form has: Good, Fair, Poor, Patchy, Unknown
     )
 
@@ -656,13 +656,13 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
     LARGE = 2
     DOUBLE_ARTERY = 3
     PATCH_HOLDER_CHOICES = (
-        (SMALL, "Small"),
-        (LARGE, "Large"),
-        (DOUBLE_ARTERY, "Double Artery")
+        (SMALL, _("Small")),
+        (LARGE, _("Large")),
+        (DOUBLE_ARTERY, _("Double Artery"))
     )
     ARTIFICIAL_PATCH_CHOICES = (
-        (SMALL, "Small"),
-        (LARGE, "Large")
+        (SMALL, _("Small")),
+        (LARGE, _("Large"))
     )
     perfusion_possible = models.NullBooleanField(
         verbose_name=_('machine perfusion possible?'),
@@ -780,13 +780,13 @@ class ProcurementResource(models.Model):
     EXTRA_DOUBLE_CANNULA_SET = "DB-C"
     PERFUSATE_SOLUTION = "P"
     TYPE_CHOICES = (
-        (DISPOSABLES, "Disposables"),
-        (EXTRA_CANNULA_SMALL, "Extra cannula small (3mm)"),
-        (EXTRA_CANNULA_LARGE, "Extra cannula large (5mm)"),
-        (EXTRA_PATCH_HOLDER_SMALL, "Extra patch holder small"),
-        (EXTRA_PATCH_HOLDER_LARGE, "Extra patch holder large"),
-        (EXTRA_DOUBLE_CANNULA_SET, "Extra double cannula set"),
-        (PERFUSATE_SOLUTION, "Perfusate solution"),
+        (DISPOSABLES, _("Disposables")),
+        (EXTRA_CANNULA_SMALL, _("Extra cannula small (3mm)")),
+        (EXTRA_CANNULA_LARGE, _("Extra cannula large (5mm)")),
+        (EXTRA_PATCH_HOLDER_SMALL, _("Extra patch holder small")),
+        (EXTRA_PATCH_HOLDER_LARGE, _("Extra patch holder large")),
+        (EXTRA_DOUBLE_CANNULA_SET, _("Extra double cannula set")),
+        (PERFUSATE_SOLUTION, _("Perfusate solution")),
     )
     organ = models.ForeignKey(
         Organ,

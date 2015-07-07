@@ -73,6 +73,15 @@ LANGUAGE_CODE = 'en-gb'
 LANGUAGES = (
     ('fr', _('French')),
     ('en', _('English')),
+    ('en-gb', _('Great Britain (English)')),
+    ('nl-be', _('Belgium (Dutch)')),
+    ('fr-be', _('Belgium (French)')),
+    ('nl-nl', _('Netherlands (Dutch)')),
+    ('fy-nl', _('Netherlands (Frisian)')),
+)
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
 )
 
 TIME_ZONE = 'UTC'
