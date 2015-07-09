@@ -69,7 +69,7 @@ WSGI_APPLICATION = 'wp4.wsgi.application'
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
-LANGUAGE_CODE = 'en-gb'
+LANGUAGE_CODE = 'fr-be'
 
 LANGUAGES = (
     ('en-gb', _('Great Britain (English)')),

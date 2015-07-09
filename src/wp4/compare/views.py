@@ -14,15 +14,15 @@ def error404(request):
     raise Http404("This is a page holder")
 
 
-def hello_world(request, count):
-    if request.LANGUAGE_CODE == 'de-at':
-        return HttpResponse("You prefer to read Austrian German.")
-    elif request.LANGUAGE_CODE == 'en-gb':
-        return HttpResponse("You prefer to read British English.")
-    elif request.LANGUAGE_CODE == 'fr-fr':
-        return HttpResponse("You prefer to read Crazy French.")
-    else:
-        return HttpResponse("You prefer to read another language.")
+# def hello_world(request, count):
+#     if request.LANGUAGE_CODE == 'de-at':
+#         return HttpResponse("You prefer to read Austrian German.")
+#     elif request.LANGUAGE_CODE == 'en-gb':
+#         return HttpResponse("You prefer to read British English.")
+#     elif request.LANGUAGE_CODE == 'fr-fr':
+#         return HttpResponse("You prefer to read Crazy French.")
+#     else:
+#         return HttpResponse("You prefer to read another language.")
 
 
 @login_required
