@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% load staticfiles bootstrap3 %}
+{% load staticfiles bootstrap3 l10n i18n %}
 <html lang="en">
 <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
 <head>
@@ -24,6 +24,10 @@
 
 <body>
 
+<form action="{% url 'set_language' %}" method="post" id="language-form" name="language-form">
+    {% csrf_token %}
+    <input type="hidden" name="language" id="language" value="" />
+</form>
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -51,12 +55,33 @@
                         <li><a href="{% url 'auth:django.contrib.auth.views.login' %}">Login</a></li>
                     </ul>
                 </li>
-                <li><a href="#"><i class="glyphicon glyphicon-envelope"></i><span class="visible-xs-block"> Contact Us</span></a></li>
-                <li><a href="{% url 'auth:django.contrib.auth.views.logout' %}"><i class="glyphicon glyphicon-off"></i><span class="visible-xs-block"> Logout</span></a></li>
+                <li><a href="#" title="Contact Us"><i class="glyphicon glyphicon-envelope"></i><span
+                        class="visible-xs-block"> Contact Us</span></a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
+                       title="Language">
+                        <i class="glyphicon glyphicon-globe"></i><span class="visible-xs-block"></span>
+                    </a>
+
+                    <ul class="dropdown-menu" role="menu">
+                        {% get_current_language as LANGUAGE_CODE %}
+                        {% get_available_languages as LANGUAGES %}
+                        {% for lang in LANGUAGES %}
+                            <li {% if lang.0 == LANGUAGE_CODE %}class="active"{% endif %}>
+                                {% with "img/locale/"|add:lang.0|add:".png" as lang_flag_url %}
+                                    <a href="javascript:set_language('{{ lang.0 }}')"><img src="{% static lang_flag_url %}"> {{ lang.1 }}
+                                        ({{ lang.0 }})</a>
+                                {% endwith %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                <li><a href="{% url 'auth:django.contrib.auth.views.logout' %}" title="Logout"><i
+                        class="glyphicon glyphicon-off"></i><span class="visible-xs-block"> Logout</span></a></li>
             </ul>
             {% else %}
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"><i class="glyphicon glyphicon-envelope"></i><span class="visible-xs-block"> Contact Us</span></a></li>
+                <li><a href="#" title="Contact Us"><i class="glyphicon glyphicon-envelope"></i><span class="visible-xs-block"> Contact Us</span></a></li>
             </ul>
             <a href="{% url 'auth:django.contrib.auth.views.login' %}" class="btn btn-default navbar-btn navbar-right">Login</a>
             {% endif %}
@@ -66,6 +91,10 @@
 
 <div class="container-fluid">
     <h1 class="page-header">{% block page_header %}Dashboard{% endblock %}</h1>
+{% with settings.LANGUAGE_SESSION_KEY as langkey %}
+<p>Lang: {{ request.session.langkey }} {{ langkey }}</p>
+
+{% endwith %}
     {% block content %}{% endblock %}
     <hr>
     <footer>
@@ -84,5 +113,11 @@
 <script src="{% static 'js/min/cope-min.js' %}"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <!--<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>-->
+<script>
+    function set_language(code) {
+        $('#language').val(code);
+        $('#language-form').submit();
+    }
+</script>
 </body>
 </html>
