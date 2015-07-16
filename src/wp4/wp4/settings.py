@@ -69,14 +69,14 @@ WSGI_APPLICATION = 'wp4.wsgi.application'
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
-LANGUAGE_CODE = 'fr-be'
+LANGUAGE_CODE = 'en-gb'
 
 LANGUAGES = (
     ('en-gb', _('Great Britain (English)')),
-    ('nl-be', _('Belgium (Dutch)')),
-    ('fr-be', _('Belgium (French)')),
-    ('nl-nl', _('Netherlands (Dutch)')),
-    ('fy-nl', _('Netherlands (Frisian)')),
+    #('nl-be', _('Belgium (Dutch)')),
+    ('fr-be', _('Belgium')),
+    ('nl-nl', _('Netherlands')),
+    #('fy-nl', _('Netherlands (Frisian)')),
 )
 
 LOCALE_PATHS = (
