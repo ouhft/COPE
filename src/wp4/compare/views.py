@@ -1,17 +1,28 @@
-from django.http import HttpResponseRedirect, HttpResponse, Http404
+from django.http import Http404
 from django.template import RequestContext
 from django.shortcuts import get_object_or_404, render, render_to_response
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
 from django.core.urlresolvers import reverse
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
 
 from .models import Donor
 from .forms import DonorForm, DonorStartForm, OrganForm
 
 
+# Some forced errors to allow for testing the Error Page Templates
 def error404(request):
-    raise Http404("This is a page holder")
+    raise Http404("This is a page holder")  # This message is only for debug view
+
+
+def error403(request):
+    raise PermissionDenied
+
+
+def error500(request):
+    1/0
+
 
 
 # def hello_world(request, count):
@@ -25,6 +36,7 @@ def error404(request):
 #         return HttpResponse("You prefer to read another language.")
 
 
+# Legitimate pages
 @login_required
 @csrf_protect
 def procurement_form(request, pk):
@@ -56,6 +68,7 @@ def procurement_form(request, pk):
         },
         context_instance=RequestContext(request)
     )
+
 
 @login_required
 @csrf_protect

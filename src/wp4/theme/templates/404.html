@@ -1,0 +1,11 @@
+{% extends "base_site.html" %}
+
+{% block page_title %}Lost? Confused? You've come to the right place{% endblock %}
+{% block page_header %}404 Not Found{% endblock %}
+
+
+{% block content %}
+<p>Ironically, the page you seek is not found at this address, even though this page does.</p>
+{{ request_path }}
+{{ exception }}
+{% endblock %}

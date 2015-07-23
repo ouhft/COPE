@@ -9,6 +9,7 @@ urlpatterns = [
 urlpatterns += i18n_patterns(
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('django.contrib.auth.urls', namespace="auth")),
+
     url(r'^', include('compare.urls', namespace="compare")),
 )
 

@@ -22,6 +22,39 @@
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
+	"\/img\/locale\/EN-GB.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 1690,
+		"inputAbbreviatedPath": "\/img\/locale\/EN-GB.png",
+		"outputAbbreviatedPath": "\/img\/locale\/EN-GB.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/locale\/FR-BE.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 850,
+		"inputAbbreviatedPath": "\/img\/locale\/FR-BE.png",
+		"outputAbbreviatedPath": "\/img\/locale\/FR-BE.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/img\/locale\/NL-NL.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 810,
+		"inputAbbreviatedPath": "\/img\/locale\/NL-NL.png",
+		"outputAbbreviatedPath": "\/img\/locale\/NL-NL.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
 	"\/js-plugins\/affix.js": {
 		"fileType": 64,
 		"ignore": 1,

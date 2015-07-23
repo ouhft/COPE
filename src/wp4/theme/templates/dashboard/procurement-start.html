@@ -5,18 +5,21 @@
 {% block page_header %}Procurement - New Case{% endblock %}
 
 {% block content %}
-<!--<p>Procurement form goes here.</p>-->
-<!--<p>Eligibility Dashboard - i.e. the three ticks for inclusion in trial</p>-->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Panel title</h3>
+        </div>
+        <div class="panel-body">
+            Panel content
+        </div>
+        <div class="panel-footer">Panel footer</div>
+    </div>
+
+    {% blocktrans %}
+    {% endblocktrans %}
 <form method="post" action="{% url 'compare:procurement-blank' %}" class="form">
 {% csrf_token %}
 {% bootstrap_form donor_form layout='horizontal' %}
 <p><input type="submit" class="btn btn-success" value="Start new case" /></p>
 </form>
-<!--<ol>-->
-    <!--<li>Layout basic UI and form elements</li>-->
-    <!--<li>Tie in the form data</li>-->
-    <!--<li>Add the pickers/side data lists</li>-->
-    <!--<li>Build the save process</li>-->
-    <!--<li>Validation process</li>-->
-<!--</ol>-->
 {% endblock %}
