@@ -6,22 +6,24 @@
 {% block page_header %}Procurement - New Case{% endblock %}
 
 {% block content %}
-    <form method="post" action="{% url 'compare:procurement-blank' %}" class="form">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Start a new case</h3>
-            </div>
-            <div class="panel-body">
-                {% crispy donor_form %}
-            </div>
-            <div class="panel-footer"><input type="submit" class="btn btn-success" value="Start new case"/></div>
+<form method="post" action="{% url 'compare:procurement-blank' %}" class="form">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Start a new case</h3>
         </div>
-    </form>
+        <div class="panel-body">
+            {% crispy donor_form %}
+        </div>
+        <div class="panel-footer"><input type="submit" class="btn btn-success" value="Start new case"/></div>
+    </div>
+</form>
 
-    <h3>Existing Cases</h3>
-    <ul>
-        {% for donor in donors %}
-            <li><a href="{% url 'compare:procurement-detail' donor.id %}">{{ donor.trial_id }}</a></li>
-        {% endfor %}
-    </ul>
+{% if donors|length > 0 %}
+<h3>Existing Cases</h3>
+<ul>
+    {% for donor in donors %}
+        <li><a href="{% url 'compare:procurement-detail' donor.id %}">{{ donor.trial_id }}</a></li>
+    {% endfor %}
+</ul>
+{% endif %}
 {% endblock %}

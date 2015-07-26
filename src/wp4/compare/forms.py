@@ -64,6 +64,8 @@ class DonorForm(ModelForm):
 
 
 class DonorStartForm(ModelForm):
+    # gender = CharField(widget=RadioSelect(choices=Donor.GENDER_CHOICES))
+
     helper = FormHelper()
     helper.form_tag = False
     helper.html5_required = True
@@ -71,6 +73,11 @@ class DonorStartForm(ModelForm):
     class Meta:
         model = Donor
         fields = ['retrieval_team', 'perfusion_technician', 'age', 'gender']
+        widgets = {
+            # 'name': Textarea(attrs={'cols': 80, 'rows': 20}),
+            # 'gender': RadioSelect(choices=Donor.GENDER_CHOICES)
+        }
+        localized_fields = ('__all__')
 
     def save(self, user):
         donor = super(DonorStartForm, self).save(commit=False)
@@ -117,7 +124,7 @@ class OrganForm(ModelForm):
 class LoginForm(AuthenticationForm):
     redirect_to = CharField(
         initial=LOGIN_REDIRECT_URL,
-        widget=HiddenInput(attrs={'name': REDIRECT_FIELD_NAME, 'class': 'freddy'})
+        widget=HiddenInput()
     )
 
     helper = FormHelper()

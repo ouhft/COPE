@@ -19,8 +19,8 @@ urlpatterns = [
 
     # Settling on using hyphens in the named urls!
 
+    # Override the login view with our own Crispy enabled login form
     url(r'^accounts/login/$', auth_login, kwargs={'authentication_form': LoginForm}, name='login'),
-    # url(r'^login/$', views.login, name='login'),
 
     url(r'^procurement/$', views.procurement_form_blank, name='procurement-blank'),
     url(r'^procurement/(?P<pk>[0-9]+)/$', views.procurement_form, name='procurement-detail'),

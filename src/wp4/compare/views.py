@@ -89,7 +89,10 @@ def procurement_form_blank(request):
         new_donor.perfusion_technician = current_person
     donor_form = DonorStartForm(prefix="donor", instance=new_donor)
 
-    donors = Donor.objects.all()
+    if current_person.job in (Person.SYSTEMS_ADMINISTRATOR, Person.CENTRAL_COORDINATOR, Person.NATIONAL_COORDINATOR):
+        donors = Donor.objects.all()
+    else:
+        donors = {}
 
     return render_to_response(
         "dashboard/procurement-start.html",
