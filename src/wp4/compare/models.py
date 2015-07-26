@@ -240,7 +240,7 @@ class Donor(VersionControlModel):
     admitted_to_itu = models.NullBooleanField(verbose_name=_('admitted to ITU'), blank=True, null=True)
     date_admitted_to_itu = models.DateField(verbose_name=_('when admitted to ITU'), blank=True, null=True)
     date_of_procurement = models.DateField(verbose_name=_('date of procurement'), blank=True, null=True)
-    gender = models.CharField(verbose_name=_('gender'), choices=GENDER_CHOICES, max_length=1)
+    gender = models.CharField(verbose_name=_('gender'), choices=GENDER_CHOICES, max_length=1, default=MALE)
     weight = models.PositiveSmallIntegerField(
         verbose_name=_('Weight (kg)'),
         validators=[

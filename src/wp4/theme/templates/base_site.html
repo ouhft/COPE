@@ -54,7 +54,7 @@
                         <i class="glyphicon glyphicon-user"></i><span class="visible-xs-block"> About Me</span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="{% url 'auth:password_change' %}">Change Password</a></li>
+                        <li><a href="{% url 'password_change' %}">Change Password</a></li>
                     </ul>
                 </li>
                 <li><a href="#" title="Contact Us"><i class="glyphicon glyphicon-envelope"></i><span
@@ -79,7 +79,7 @@
                         {% endfor %}
                     </ul>
                 </li>
-                <li><a href="{% url 'auth:logout' %}?next=/" title="Logout"><i
+                <li><a href="{% url 'logout' %}?next=/" title="Logout"><i
                         class="glyphicon glyphicon-off"></i><span class="visible-xs-block"> Logout</span></a></li>
             </ul>
             {% else %}
