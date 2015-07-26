@@ -8,21 +8,9 @@
 
 {% block content %}
 
-{% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
-{% endif %}
+    {% if form.errors %}
+        <p>Your username and password didn't match. Please try again.</p>
+    {% endif %}
 
     {% crispy form %}
-
-{#<form method="post" action="{% url 'auth:django.contrib.auth.views.login' %}" class="form-horizontal">#}
-{#{% csrf_token %}#}
-{#    {% bootstrap_form form layout='horizontal' %}#}
-{#    <div class="form-group">#}
-{#        <div class="col-sm-offset-3 col-sm-9">#}
-{#            <input type="submit" class="btn btn-primary" value="login" />#}
-{#            <input type="hidden" name="next" value="{{ next }}" />#}
-{#        </div>#}
-{#    </div>#}
-{#</form>#}
-
 {% endblock %}

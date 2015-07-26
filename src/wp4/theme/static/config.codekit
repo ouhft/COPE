@@ -22,35 +22,35 @@
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
-	"\/img\/locale\/EN-GB.png": {
+	"\/img\/locale\/en-gb.png": {
 		"fileType": 32768,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"initialSize": 1690,
-		"inputAbbreviatedPath": "\/img\/locale\/EN-GB.png",
-		"outputAbbreviatedPath": "\/img\/locale\/EN-GB.png",
+		"inputAbbreviatedPath": "\/img\/locale\/en-gb.png",
+		"outputAbbreviatedPath": "\/img\/locale\/en-gb.png",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
-	"\/img\/locale\/FR-BE.png": {
+	"\/img\/locale\/fr-be.png": {
 		"fileType": 32768,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"initialSize": 850,
-		"inputAbbreviatedPath": "\/img\/locale\/FR-BE.png",
-		"outputAbbreviatedPath": "\/img\/locale\/FR-BE.png",
+		"inputAbbreviatedPath": "\/img\/locale\/fr-be.png",
+		"outputAbbreviatedPath": "\/img\/locale\/fr-be.png",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
-	"\/img\/locale\/NL-NL.png": {
+	"\/img\/locale\/nl-nl.png": {
 		"fileType": 32768,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"initialSize": 810,
-		"inputAbbreviatedPath": "\/img\/locale\/NL-NL.png",
-		"outputAbbreviatedPath": "\/img\/locale\/NL-NL.png",
+		"inputAbbreviatedPath": "\/img\/locale\/nl-nl.png",
+		"outputAbbreviatedPath": "\/img\/locale\/nl-nl.png",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0

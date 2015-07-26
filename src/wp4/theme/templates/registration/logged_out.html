@@ -1,0 +1,15 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+
+{% block page_title %}Logout{% endblock %}
+{% block page_header %}Logout{% endblock %}
+
+{% block breadcrumbs %}<div class="breadcrumbs"><a href="{% url 'admin:index' %}">{% trans 'Home' %}</a></div>{% endblock %}
+
+{% block content %}
+
+<p>{% trans "Thanks for spending some quality time with the Web site today." %}</p>
+
+<p><a href="{% url 'auth:django.contrib.auth.views.login' %}">{% trans 'Log in again' %}</a></p>
+
+{% endblock %}

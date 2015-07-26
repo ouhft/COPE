@@ -64,7 +64,7 @@ class DonorForm(ModelForm):
 
 
 class DonorStartForm(ModelForm):
-    # gender = CharField(widget=RadioSelect(choices=Donor.GENDER_CHOICES))
+    gender = CharField(required=True, widget=RadioSelect(choices=Donor.GENDER_CHOICES))
 
     helper = FormHelper()
     helper.form_tag = False
@@ -122,7 +122,7 @@ class OrganForm(ModelForm):
 
 
 class LoginForm(AuthenticationForm):
-    redirect_to = CharField(
+    next = CharField(
         initial=LOGIN_REDIRECT_URL,
         widget=HiddenInput()
     )
@@ -131,7 +131,7 @@ class LoginForm(AuthenticationForm):
     helper.layout = Layout(
         'username',
         'password',
-        'redirect_to',
+        'next',
         FormActions(
             Submit('login', 'Login', css_class='btn-primary')
         )
