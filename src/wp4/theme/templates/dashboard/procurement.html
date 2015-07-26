@@ -1,5 +1,6 @@
 {% extends "base_site.html" %}
-{% load bootstrap3 l10n i18n %}
+{% load l10n i18n %}
+{% load crispy_forms_tags %}
 
 {% block page_title %}Procurement{% endblock %}
 {% block page_header %}Procurement - Case: {{ donor.trial_id }}{% endblock %}
@@ -8,11 +9,7 @@
 <!--<p>Procurement form goes here.</p>-->
 <!--<p>Eligibility Dashboard - i.e. the three ticks for inclusion in trial</p>-->
 <form method="post" action="{% url 'compare:procurement-detail' pk=donor.id %}" class="form-horizontal">
-<div role="tabpanel">
-{% bootstrap_form_errors donor_form %}
-{% bootstrap_form_errors left_organ_form %}
-{% bootstrap_form_errors right_organ_form %}
-
+<div role="tabpanel" class="container">
     <!-- Nav tabs -->
     <ul class="nav nav-tabs nav-justified" role="tablist">
         <li role="presentation" class="active"><a href="#dashboard" aria-controls="dashboard" role="tab"
@@ -82,17 +79,20 @@
 
 
         <div role="tabpanel" class="tab-pane" id="donor">
-            {% bootstrap_form donor_form layout='horizontal' %}
+{#            {% bootstrap_form donor_form layout='horizontal' %}#}
+            {% crispy donor_form %}
         </div>
 
 
         <div role="tabpanel" class="tab-pane" id="leftkidney">
-            {% bootstrap_form left_organ_form layout='horizontal' %}
+{#            {% bootstrap_form left_organ_form layout='horizontal' %}#}
+            {% crispy left_organ_form %}
         </div>
 
 
         <div role="tabpanel" class="tab-pane" id="rightkidney">
-            {% bootstrap_form right_organ_form layout='horizontal' %}
+{#            {% bootstrap_form right_organ_form layout='horizontal' %}#}
+            {% crispy right_organ_form %}
         </div>
     </div>
 
@@ -101,7 +101,7 @@
 {% csrf_token %}
 <p class="btn-group btn-group-lg">
     <input type="submit" class="btn btn-primary" value="Save" />
-    <input type="submit" class="btn btn-default" value="Validate and Close" />
+    <input type="submit" class="btn btn-default" value="Validate" />
 </p>
 </form>
 <!--<ol>-->

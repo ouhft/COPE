@@ -1,6 +1,8 @@
 from django.conf.urls import include, url
+from django.contrib.auth.views import login as auth_login
 
 from . import views
+from .forms import LoginForm
 
 urlpatterns = [
     # url(r'person/$', views.PersonIndexView.as_view(), name='person_index'),
@@ -17,6 +19,9 @@ urlpatterns = [
 
     # Settling on using hyphens in the named urls!
 
+    url(r'^accounts/login/$', auth_login, kwargs={'authentication_form': LoginForm}, name='login'),
+    # url(r'^login/$', views.login, name='login'),
+
     url(r'^procurement/$', views.procurement_form_blank, name='procurement-blank'),
     url(r'^procurement/(?P<pk>[0-9]+)/$', views.procurement_form, name='procurement-detail'),
 
@@ -24,5 +29,5 @@ urlpatterns = [
     url(r'^errors/404$', views.error404, name='error-404'),
     url(r'^errors/500$', views.error500, name='error-500'),
 
-    url(r'^$', views.dashboard_index, name='dashboard-index'),
+    url(r'^$', views.dashboard_index, name='home'),
 ]

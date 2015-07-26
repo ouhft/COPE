@@ -3,12 +3,14 @@ from django.template import RequestContext
 from django.shortcuts import get_object_or_404, render, render_to_response
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
-from django.core.urlresolvers import reverse
+from django.views.generic.edit import FormView
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.core.exceptions import PermissionDenied
+from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
 
-from .models import Donor
-from .forms import DonorForm, DonorStartForm, OrganForm
+from .models import Donor, Person
+from .forms import DonorForm, DonorStartForm, OrganForm, LoginForm
 
 
 # Some forced errors to allow for testing the Error Page Templates
@@ -22,7 +24,6 @@ def error403(request):
 
 def error500(request):
     1/0
-
 
 
 # def hello_world(request, count):
@@ -73,8 +74,6 @@ def procurement_form(request, pk):
 @login_required
 @csrf_protect
 def procurement_form_blank(request):
-    donor_form = DonorStartForm(prefix="donor")
-
     if request.method == 'POST':
         donor_form = DonorStartForm(request.POST, request.FILES, prefix="donor")
         if donor_form.is_valid():
@@ -84,10 +83,19 @@ def procurement_form_blank(request):
                 kwargs={'pk': donor.id}
             ))
 
+    new_donor = Donor()
+    current_person = Person.objects.get(user__id=request.user.id)
+    if current_person.job == Person.PERFUSION_TECHNICIAN:
+        new_donor.perfusion_technician = current_person
+    donor_form = DonorStartForm(prefix="donor", instance=new_donor)
+
+    donors = Donor.objects.all()
+
     return render_to_response(
         "dashboard/procurement-start.html",
         {
-            "donor_form": donor_form
+            "donor_form": donor_form,
+            "donors" : donors
         },
         context_instance=RequestContext(request)
     )

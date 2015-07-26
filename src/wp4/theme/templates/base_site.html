@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% load staticfiles bootstrap3 l10n i18n %}
+{% load staticfiles l10n i18n %}
 <html lang="en">
 <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
 <head>
@@ -40,12 +40,12 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{% url 'compare:dashboard-index' %}">COPE DB - WP4:Compare</a>
+            <a class="navbar-brand" href="{% url 'compare:home' %}">COPE DB - WP4:Compare</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             {% if user.is_authenticated %}
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="{% url 'compare:dashboard-index' %}">Home</a></li>
+                <li class="active"><a href="{% url 'compare:home' %}">Home</a></li>
                 <li><a href="{% url 'compare:procurement-blank' %}">Procurement</a></li>
                 <li><a href="#">Transplantation</a></li>
                 <li><a href="#">Administration</a></li>
@@ -71,8 +71,9 @@
                         {% for lang in LANGUAGES %}
                             <li {% if lang.0 == LANGUAGE_CODE %}class="active"{% endif %}>
                                 {% with "img/locale/"|add:lang.0|add:".png" as lang_flag_url %}
-                                    <a href="javascript:set_language('{{ lang.0 }}')"><img src="{% static lang_flag_url %}"> {{ lang.1 }}
-                                        ({{ lang.0 }})</a>
+                                    <a href="javascript:set_language('{{ lang.0 }}')">
+                                        <img src="{% static lang_flag_url %}"> {{ lang.1 }}
+                                    </a>
                                 {% endwith %}
                             </li>
                         {% endfor %}
@@ -117,7 +118,7 @@
     {% block content %}{% endblock %}
     <hr>
     <footer>
-        <p>COPE DB v0.1.3 (June 2015) : &copy; 2015 <a href="http://cope.nds.ox.ac.uk/index.html">COPE
+        <p>COPE DB v0.1.5 (July 2015) : &copy; 2015 <a href="http://cope.nds.ox.ac.uk/index.html">COPE
             Consortium</a></p>
         <ul class="list-unstyled list-inline">
             <li class=""><img src="{% static 'img/cope-logo.png' %}" style="height: 50px;"></li>

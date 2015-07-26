@@ -1,9 +1,19 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, RadioSelect, CharField, HiddenInput
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Submit
+from crispy_forms.bootstrap import FormActions
 from .models import Donor, Organ
 from django.utils import timezone
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import REDIRECT_FIELD_NAME
+from wp4.settings import LOGIN_REDIRECT_URL
 
 
 class DonorForm(ModelForm):
+    helper = FormHelper()
+    helper.form_tag = False
+    helper.html5_required = True
+
     class Meta:
         model = Donor
         fields = [
@@ -34,6 +44,15 @@ class DonorForm(ModelForm):
 
             'donor_blood_1_EDTA', 'donor_blood_1_SST', 'donor_urine_1', 'donor_urine_2',
         ]
+        widgets = {
+            # 'name': Textarea(attrs={'cols': 80, 'rows': 20}),
+            # 'admitted_to_itu' : RadioSelect(),
+        }
+        localized_fields = ('__all__')
+    #     https://docs.djangoproject.com/en/1.8/topics/forms/modelforms/#overriding-the-default-fields
+    labels = {}
+    help_texts = {}
+    error_messages = {}
 
     def save(self, user):
         donor = super(DonorForm, self).save(commit=False)
@@ -45,6 +64,10 @@ class DonorForm(ModelForm):
 
 
 class DonorStartForm(ModelForm):
+    helper = FormHelper()
+    helper.form_tag = False
+    helper.html5_required = True
+
     class Meta:
         model = Donor
         fields = ['retrieval_team', 'perfusion_technician', 'age', 'gender']
@@ -59,6 +82,10 @@ class DonorStartForm(ModelForm):
 
 
 class OrganForm(ModelForm):
+    helper = FormHelper()
+    helper.form_tag = False
+    helper.html5_required = True
+
     class Meta:
         model = Organ
         fields = [
@@ -85,3 +112,27 @@ class OrganForm(ModelForm):
         organ.version += 1
         organ.save()
         return organ
+
+
+class LoginForm(AuthenticationForm):
+    redirect_to = CharField(
+        initial=LOGIN_REDIRECT_URL,
+        widget=HiddenInput(attrs={'name': REDIRECT_FIELD_NAME, 'class': 'freddy'})
+    )
+
+    helper = FormHelper()
+    helper.layout = Layout(
+        'username',
+        'password',
+        'redirect_to',
+        FormActions(
+            Submit('login', 'Login', css_class='btn-primary')
+        )
+    )
+
+    class Meta:
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super(LoginForm, self).__init__(*args, **kwargs)
+

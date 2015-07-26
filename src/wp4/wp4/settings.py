@@ -28,7 +28,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'bootstrap3',
+    'crispy_forms',
     'compare',
     'theme'
 )
@@ -64,6 +64,8 @@ TEMPLATES = [
     },
 ]
 
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
 WSGI_APPLICATION = 'wp4.wsgi.application'
 
 # Internationalization
@@ -72,7 +74,7 @@ WSGI_APPLICATION = 'wp4.wsgi.application'
 LANGUAGE_CODE = 'en-gb'
 
 LANGUAGES = (
-    ('en-gb', _('Great Britain (English)')),
+    ('en-gb', _('Great Britain')),
     #('nl-be', _('Belgium (Dutch)')),
     ('fr-be', _('Belgium')),
     ('nl-nl', _('Netherlands')),
@@ -95,6 +97,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+REDIRECT_FIELD_NAME = 'redirect_to'
 
 ##################
 # LOCAL SETTINGS #
