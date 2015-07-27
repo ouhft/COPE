@@ -22,6 +22,7 @@ if [ "$PULL" = "Already up-to-date." ]; then
 else
     cd src/wp4/
     # TODO: Pip update after activate if requirements.txt found in git pull output
+    # TODO: pm collectstatic so that static files are copied
     source $HOME/.virtualenvs/wp4_20150514/bin/activate
     CHECK=$(python2.7 manage.py check)
     if [ "$CHECK" = "System check identified no issues (0 silenced)." ]; then

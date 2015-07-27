@@ -151,7 +151,7 @@ class Donor(VersionControlModel):
     )
     transplant_coordinator = models.ForeignKey(
         Person,
-        verbose_name=_('name of the SN-OD'), #'name of transplant co-ordinator',
+        verbose_name=_('name of the SN-OD'),  # 'name of transplant co-ordinator',
         limit_choices_to={"job": Person.TRANSPLANT_COORDINATOR},
         related_name="transplant_coordinator_set",
         blank=True,
@@ -163,7 +163,7 @@ class Donor(VersionControlModel):
     )
 
     retrieval_hospital = models.ForeignKey(
-        Hospital, 
+        Hospital,
         verbose_name=_('donor hospital'),
         blank=True, null=True
     )
@@ -219,12 +219,12 @@ class Donor(VersionControlModel):
     )
 
     number = models.CharField(
-        verbose_name=_('NHSBT Number'), #"ET Donor number/ NHSBT Number",
+        verbose_name=_('NHSBT Number'),  # "ET Donor number/ NHSBT Number",
         max_length=20
     )
     age = models.PositiveSmallIntegerField(
         verbose_name=_('age'),
-            validators=[
+        validators=[
             MinValueValidator(50),
             MaxValueValidator(99)
         ]
@@ -463,7 +463,7 @@ class Donor(VersionControlModel):
     def left_kidney(self):
         try:
             return self.organ_set.filter(location__exact=Organ.LEFT)[0]
-        except IndexError:  #Organ.DoesNotExist:
+        except IndexError:  # Organ.DoesNotExist:
             if self.id > 0:
                 return Organ(location=Organ.LEFT, donor=self)
             else:
@@ -472,7 +472,7 @@ class Donor(VersionControlModel):
     def right_kidney(self):
         try:
             return self.organ_set.filter(location__exact=Organ.RIGHT)[0]
-        except IndexError:  #Organ.DoesNotExist:
+        except IndexError:  # Organ.DoesNotExist:
             if self.id > 0:
                 return Organ(location=Organ.RIGHT, donor=self)
             else:
@@ -763,7 +763,7 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
 
     def __unicode__(self):
         return '%s : %s kidney preserved with %s' % (
-            self.trial_id(),self.get_location_display(), self.get_preservation_display()
+            self.trial_id(), self.get_location_display(), self.get_preservation_display()
         )
 
     class Meta:

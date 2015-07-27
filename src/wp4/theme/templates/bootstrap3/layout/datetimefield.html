@@ -1,0 +1,30 @@
+{% load crispy_forms_field %}
+{% load l10n %}
+
+<div{% if div.css_id %} id="{{ div.css_id }}"{% endif %}
+                        class="form-group{% if form_show_errors and field.errors %} has-error{% endif %}{% if field.css_classes %} {{ field.css_classes }}{% endif %}{% if div.css_class %} {{ div.css_class }}{% endif %}">
+    {% if field.label and form_show_labels %}
+        <label for="{{ field.id_for_label }}"
+               class="control-label {{ label_class }}{% if field.field.required %} requiredField{% endif %}">
+            {{ field.label|safe }}{% if field.field.required %}<span class="asteriskField">*</span>{% endif %}
+        </label>
+    {% endif %}
+
+    <div class="input-group date" id="{{ field.id_for_label }}"
+         data-link-field="{{ field.id_for_label }}" {{ flat_attrs|safe }}>
+        {% crispy_field field %}
+        <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+        </span>
+    </div>
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function(event) {
+            $('#{{ field.id_for_label }}').datetimepicker({
+                locale: 'en-gb'
+            });
+        });
+    </script>
+    {% include 'bootstrap3/layout/help_text_and_errors.html' %}
+</div>
+
+

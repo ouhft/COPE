@@ -1,4 +1,4 @@
-from django.forms import ModelForm, RadioSelect, CharField, HiddenInput
+from django.forms import ModelForm, RadioSelect, CharField, HiddenInput, DateTimeField, DateField, DateTimeInput
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Div, Fieldset, HTML, Field
 from crispy_forms.bootstrap import FormActions
@@ -8,10 +8,37 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import ugettext_lazy as _, ungettext_lazy as __
 from wp4.settings import LOGIN_REDIRECT_URL
 
+DATETIME_INPUT_FORMATS = [
+    '%d-%m-%Y %H:%M',  # '25-10-2006 14:30'
+    '%Y-%m-%d %H:%M',  # '2006-10-25 14:30'
+    '%d/%m/%Y %H:%M',  # '25/10/2006 14:30'
+    '%Y/%m/%d %H:%M',  # '2006/10/25 14:30'
+]
+
+DATE_INPUT_FORMATS = [
+    '%d-%m-%Y',  # '25-10-2006'
+    '%Y-%m-%d',  # '2006-10-25'
+    '%d/%m/%Y',  # '25/10/2006'
+    '%Y/%m/%d',  # '2006/10/25'
+]
+
 
 class DonorForm(ModelForm):
     # retrieval_team = CharField(widget=HiddenInput())
     # perfusion_technician = CharField(widget=HiddenInput())
+    scheduled_start = DateTimeField(widget=DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS, required=False)
+    technician_arrival = DateTimeField(widget=DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS, required=False)
+    ice_boxes_filled = DateTimeField(widget=DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS, required=False)
+    depart_perfusion_centre = DateTimeField(
+        widget=DateTimeInput(),
+        input_formats=DATETIME_INPUT_FORMATS,
+        required=False
+    )
+    arrival_at_donor_hospital = DateTimeField(
+        widget=DateTimeInput(),
+        input_formats=DATETIME_INPUT_FORMATS,
+        required=False
+    )
 
     layout_1 = Layout(
         Div(
@@ -21,11 +48,19 @@ class DonorForm(ModelForm):
             'transplant_coordinator',
             'call_received',
             'retrieval_hospital',
-            'scheduled_start',  # -- Not needed for UK, identical to withdrawal
-            'technician_arrival',  # -- Not needed for UK, identical to withdrawal
-            'ice_boxes_filled',  # -- Not needed for UK, identical to withdrawal
-            'depart_perfusion_centre',
-            'arrival_at_donor_hospital',
+            Field('scheduled_start', template="bootstrap3/layout/datetimefield.html",
+                data_date_format="DD-MM-YYYY HH:mm", placeholder="DD-MM-YYYY HH:mm"),
+            Field('technician_arrival', template="bootstrap3/layout/datetimefield.html",
+                data_date_format="DD-MM-YYYY HH:mm", placeholder="DD-MM-YYYY HH:mm"),
+            Field('ice_boxes_filled', template="bootstrap3/layout/datetimefield.html",
+                data_date_format="DD-MM-YYYY HH:mm", placeholder="DD-MM-YYYY HH:mm"),
+            # 'scheduled_start',  # -- Not needed for UK, identical to withdrawal
+            # 'technician_arrival',  # -- Not needed for UK, identical to withdrawal
+            # 'ice_boxes_filled',  # -- Not needed for UK, identical to withdrawal
+            Field('depart_perfusion_centre', template="bootstrap3/layout/datetimefield.html",
+                data_date_format="DD-MM-YYYY HH:mm", placeholder="DD-MM-YYYY HH:mm"),
+            Field('arrival_at_donor_hospital', template="bootstrap3/layout/datetimefield.html",
+                data_date_format="DD-MM-YYYY HH:mm", placeholder="DD-MM-YYYY HH:mm"),
             style="padding: 10px;"
         )
     )
@@ -82,10 +117,7 @@ class DonorForm(ModelForm):
                     HTML("<h3 class=\"panel-title\">Procedure Data</h3>"),  # TODO: Work out how to i18n this later!
                     css_class="panel-heading"
                 ),
-                Div(
-                    layout_1,
-                    css_class="panel-body"
-                ),
+                Div(layout_1, css_class="panel-body"),
                 css_class="panel panel-default"
             ),
             css_class="col-md-6",
@@ -98,10 +130,7 @@ class DonorForm(ModelForm):
                     HTML("<h3 class=\"panel-title\">Donor Details</h3>"),  # TODO: Work out how to i18n this later!
                     css_class="panel-heading"
                 ),
-                Div(
-                    layout_2,
-                    css_class="panel-body"
-                ),
+                Div(layout_2, css_class="panel-body"),
                 css_class="panel panel-default"
             ),
             css_class="col-md-6",
@@ -114,10 +143,7 @@ class DonorForm(ModelForm):
                     HTML("<h3 class=\"panel-title\">Donor Preop Data</h3>"),  # TODO: Work out how to i18n this later!
                     css_class="panel-heading"
                 ),
-                Div(
-                    layout_3,
-                    css_class="panel-body"
-                ),
+                Div(layout_3, css_class="panel-body"),
                 css_class="panel panel-default"
             ),
             css_class="col-md-6",
@@ -130,10 +156,7 @@ class DonorForm(ModelForm):
                     HTML("<h3 class=\"panel-title\">Lab Results</h3>"),  # TODO: Work out how to i18n this later!
                     css_class="panel-heading"
                 ),
-                Div(
-                    layout_4,
-                    css_class="panel-body"
-                ),
+                Div(layout_4, css_class="panel-body"),
                 css_class="panel panel-default"
             ),
             css_class="col-md-6",
@@ -146,10 +169,7 @@ class DonorForm(ModelForm):
                     HTML("<h3 class=\"panel-title\">Sampling Data</h3>"),  # TODO: Work out how to i18n this later!
                     css_class="panel-heading"
                 ),
-                Div(
-                    layout_5,
-                    css_class="panel-body"
-                ),
+                Div(layout_5, css_class="panel-body"),
                 css_class="panel panel-default"
             ),
             css_class="col-md-6",

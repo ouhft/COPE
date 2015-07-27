@@ -17,4 +17,5 @@
 // @codekit-append "../js-plugins/transition.js"
 
 // Bootstrap-datetimepicker
+// @codekit-append "../js-plugins/moment-with-locales.js"
 // @codekit-append "../js-plugins/bootstrap-datetimepicker.js"
