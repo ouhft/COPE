@@ -30,88 +30,8 @@
     <input type="hidden" name="next" id="next" value="{{ current_url|cut:"/en-gb"|cut:"/fr-be"|cut:"/nl-nl" }}" />
     {% endwith %}
 </form>
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-                    aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="{% url 'compare:home' %}">COPE DB - WP4:Compare</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-            {% if user.is_authenticated %}
-            <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="{% url 'compare:home' %}">Home</a></li>
-                <li><a href="{% url 'compare:procurement-blank' %}">Procurement</a></li>
-                <li><a href="#">Transplantation</a></li>
-                <li><a href="#">Administration</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                        <i class="glyphicon glyphicon-user"></i><span class="visible-xs-block"> About Me</span>
-                    </a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="{% url 'password_change' %}">Change Password</a></li>
-                    </ul>
-                </li>
-                <li><a href="#" title="Contact Us"><i class="glyphicon glyphicon-envelope"></i><span
-                        class="visible-xs-block"> Contact Us</span></a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
-                       title="Language">
-                        <i class="glyphicon glyphicon-globe"></i><span class="visible-xs-block"></span>
-                    </a>
 
-                    <ul class="dropdown-menu" role="menu">
-                        {% get_current_language as LANGUAGE_CODE %}
-                        {% get_available_languages as LANGUAGES %}
-                        {% for lang in LANGUAGES %}
-                            <li {% if lang.0 == LANGUAGE_CODE %}class="active"{% endif %}>
-                                {% with "img/locale/"|add:lang.0|add:".png" as lang_flag_url %}
-                                    <a href="javascript:set_language('{{ lang.0 }}')">
-                                        <img src="{% static lang_flag_url %}"> {{ lang.1 }}
-                                    </a>
-                                {% endwith %}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </li>
-                <li><a href="{% url 'logout' %}?next=/" title="Logout"><i
-                        class="glyphicon glyphicon-off"></i><span class="visible-xs-block"> Logout</span></a></li>
-            </ul>
-            {% else %}
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#" title="Contact Us"><i class="glyphicon glyphicon-envelope"></i><span
-                        class="visible-xs-block"> Contact Us</span></a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
-                       title="Language">
-                        <i class="glyphicon glyphicon-globe"></i><span class="visible-xs-block"></span>
-                    </a>
-
-                    <ul class="dropdown-menu" role="menu">
-                        {% get_current_language as LANGUAGE_CODE %}
-                        {% get_available_languages as LANGUAGES %}
-                        {% for lang in LANGUAGES %}
-                            <li {% if lang.0 == LANGUAGE_CODE %}class="active"{% endif %}>
-                                {% with "img/locale/"|add:lang.0|add:".png" as lang_flag_url %}
-                                    <a href="javascript:set_language('{{ lang.0 }}')"><img
-                                            src="{% static lang_flag_url %}"> {{ lang.1 }}
-                                        ({{ lang.0 }})</a>
-                                {% endwith %}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </li>
-            </ul>
-            <a href="{% url 'compare:login' %}" class="btn btn-default navbar-btn navbar-right">Login</a>
-            {% endif %}
-        </div>
-    </div>
-</nav>
+{% include "includes/navbar.html" %}
 
 <div class="container">
     <h1 class="page-header">{% block page_header %}Dashboard{% endblock %}</h1>

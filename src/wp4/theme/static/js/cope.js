@@ -15,3 +15,6 @@
 // @codekit-append "../js-plugins/scrollspy.js"
 // @codekit-append "../js-plugins/tab.js"
 // @codekit-append "../js-plugins/transition.js"
+
+// Bootstrap-datetimepicker
+// @codekit-append "../js-plugins/bootstrap-datetimepicker.js"
