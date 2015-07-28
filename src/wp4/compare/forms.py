@@ -26,6 +26,8 @@ DATE_INPUT_FORMATS = [
 class DonorForm(ModelForm):
     # retrieval_team = CharField(widget=HiddenInput())
     # perfusion_technician = CharField(widget=HiddenInput())
+    # TODO: Restore the now-missing verbose names from the models
+    call_received = DateTimeField(widget=DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS, required=False)
     scheduled_start = DateTimeField(widget=DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS, required=False)
     technician_arrival = DateTimeField(widget=DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS, required=False)
     ice_boxes_filled = DateTimeField(widget=DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS, required=False)
@@ -40,23 +42,42 @@ class DonorForm(ModelForm):
         required=False
     )
 
+    number = CharField(required=False, label=_('NHSBT Number'))
+
+    life_support_withdrawal = DateTimeField(widget=DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS, required=False)
+    systolic_pressure_low = DateTimeField(widget=DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS, required=False)
+    o2_saturation = DateTimeField(widget=DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS, required=False)
+    circulatory_arrest = DateTimeField(widget=DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS, required=False)
+    death_diagnosed = DateTimeField(widget=DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS, required=False)
+    perfusion_started = DateTimeField(widget=DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS, required=False)
+
     layout_1 = Layout(
         Div(
             Field('retrieval_team'),  # TODO: Work out how to hide this field
             Field('sequence_number'),  # TODO: Work out how to hide this field if not admin
             Field('perfusion_technician'),  # TODO: Work out how to hide this field
             'transplant_coordinator',
-            'call_received',
+            Field('call_received', template="bootstrap3/layout/datetimefield.html",
+                data_date_format="DD-MM-YYYY HH:mm", placeholder="DD-MM-YYYY HH:mm"),
             'retrieval_hospital',
-            Field('scheduled_start', template="bootstrap3/layout/datetimefield.html",
-                data_date_format="DD-MM-YYYY HH:mm", placeholder="DD-MM-YYYY HH:mm"),
-            Field('technician_arrival', template="bootstrap3/layout/datetimefield.html",
-                data_date_format="DD-MM-YYYY HH:mm", placeholder="DD-MM-YYYY HH:mm"),
-            Field('ice_boxes_filled', template="bootstrap3/layout/datetimefield.html",
-                data_date_format="DD-MM-YYYY HH:mm", placeholder="DD-MM-YYYY HH:mm"),
-            # 'scheduled_start',  # -- Not needed for UK, identical to withdrawal
-            # 'technician_arrival',  # -- Not needed for UK, identical to withdrawal
-            # 'ice_boxes_filled',  # -- Not needed for UK, identical to withdrawal
+            Field(
+                'scheduled_start',   # -- Not needed for UK, identical to withdrawal
+                template="bootstrap3/layout/datetimefield.html",
+                data_date_format="DD-MM-YYYY HH:mm",
+                placeholder="DD-MM-YYYY HH:mm"
+            ),
+            Field(
+                'technician_arrival',   # -- Not needed for UK, identical to withdrawal
+                template="bootstrap3/layout/datetimefield.html",
+                data_date_format="DD-MM-YYYY HH:mm",
+                placeholder="DD-MM-YYYY HH:mm"
+            ),
+            Field(
+                'ice_boxes_filled',   # -- Not needed for UK, identical to withdrawal
+                template="bootstrap3/layout/datetimefield.html",
+                data_date_format="DD-MM-YYYY HH:mm",
+                placeholder="DD-MM-YYYY HH:mm"
+            ),
             Field('depart_perfusion_centre', template="bootstrap3/layout/datetimefield.html",
                 data_date_format="DD-MM-YYYY HH:mm", placeholder="DD-MM-YYYY HH:mm"),
             Field('arrival_at_donor_hospital', template="bootstrap3/layout/datetimefield.html",
@@ -66,7 +87,7 @@ class DonorForm(ModelForm):
     )
     layout_2 = Layout(
         Div(
-            'number',
+            Field('number', placeholder="___ ___ ____"),
             'date_of_birth',
             Field('age'),
             'date_of_admission',
@@ -93,9 +114,21 @@ class DonorForm(ModelForm):
     layout_4 = Layout(
         Div(
             'last_creatinine', 'last_creatinine_unit', 'max_creatinine', 'max_creatinine_unit',
-            'life_support_withdrawal', 'systolic_pressure_low', 'o2_saturation', 'circulatory_arrest',
+
+            Field('life_support_withdrawal', template="bootstrap3/layout/datetimefield.html",
+                data_date_format="DD-MM-YYYY HH:mm", placeholder="DD-MM-YYYY HH:mm"),
+            Field('systolic_pressure_low', template="bootstrap3/layout/datetimefield.html",
+                data_date_format="DD-MM-YYYY HH:mm", placeholder="DD-MM-YYYY HH:mm"),
+            Field('o2_saturation', template="bootstrap3/layout/datetimefield.html",
+                data_date_format="DD-MM-YYYY HH:mm", placeholder="DD-MM-YYYY HH:mm"),
+            Field('circulatory_arrest', template="bootstrap3/layout/datetimefield.html",
+                data_date_format="DD-MM-YYYY HH:mm", placeholder="DD-MM-YYYY HH:mm"),
             'length_of_no_touch',
-            'death_diagnosed', 'perfusion_started', 'systemic_flush_used', 'systemic_flush_used_other',
+            Field('death_diagnosed', template="bootstrap3/layout/datetimefield.html",
+                data_date_format="DD-MM-YYYY HH:mm", placeholder="DD-MM-YYYY HH:mm"),
+            Field('perfusion_started', template="bootstrap3/layout/datetimefield.html",
+                data_date_format="DD-MM-YYYY HH:mm", placeholder="DD-MM-YYYY HH:mm"),
+            'systemic_flush_used', 'systemic_flush_used_other',
             'heparin',
             style="padding: 10px;"
         )
