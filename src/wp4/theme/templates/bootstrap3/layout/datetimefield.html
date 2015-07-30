@@ -20,7 +20,8 @@
     <script type="text/javascript">
         document.addEventListener("DOMContentLoaded", function(event) {
             $('#{{ field.id_for_label }}').datetimepicker({
-                locale: 'en-gb'
+                locale: 'en-gb',
+                maxDate: moment()
             });
         });
     </script>

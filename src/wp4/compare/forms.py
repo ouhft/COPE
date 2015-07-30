@@ -1,4 +1,5 @@
-from django.forms import ModelForm, RadioSelect, CharField, HiddenInput, DateTimeField, DateField, DateTimeInput
+from django.forms import ModelForm, RadioSelect, CharField, HiddenInput, DateTimeField, DateField, DateTimeInput, \
+    DateInput
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Div, Fieldset, HTML, Field
 from crispy_forms.bootstrap import FormActions
@@ -43,8 +44,13 @@ class DonorForm(ModelForm):
     )
 
     number = CharField(required=False, label=_('NHSBT Number'))
+    date_of_birth = DateField(widget=DateInput, input_formats=DATE_INPUT_FORMATS, required=False)
+    date_of_admission = DateField(widget=DateInput, input_formats=DATE_INPUT_FORMATS, required=False)
+    date_admitted_to_itu = DateField(widget=DateInput, input_formats=DATE_INPUT_FORMATS, required=False)
+    date_of_procurement = DateField(widget=DateInput, input_formats=DATE_INPUT_FORMATS, required=False)
 
-    life_support_withdrawal = DateTimeField(widget=DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS, required=False)
+    life_support_withdrawal = DateTimeField(widget=DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS,
+        required=False)
     systolic_pressure_low = DateTimeField(widget=DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS, required=False)
     o2_saturation = DateTimeField(widget=DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS, required=False)
     circulatory_arrest = DateTimeField(widget=DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS, required=False)
@@ -61,19 +67,19 @@ class DonorForm(ModelForm):
                 data_date_format="DD-MM-YYYY HH:mm", placeholder="DD-MM-YYYY HH:mm"),
             'retrieval_hospital',
             Field(
-                'scheduled_start',   # -- Not needed for UK, identical to withdrawal
+                'scheduled_start',  # -- Not needed for UK, identical to withdrawal
                 template="bootstrap3/layout/datetimefield.html",
                 data_date_format="DD-MM-YYYY HH:mm",
                 placeholder="DD-MM-YYYY HH:mm"
             ),
             Field(
-                'technician_arrival',   # -- Not needed for UK, identical to withdrawal
+                'technician_arrival',  # -- Not needed for UK, identical to withdrawal
                 template="bootstrap3/layout/datetimefield.html",
                 data_date_format="DD-MM-YYYY HH:mm",
                 placeholder="DD-MM-YYYY HH:mm"
             ),
             Field(
-                'ice_boxes_filled',   # -- Not needed for UK, identical to withdrawal
+                'ice_boxes_filled',  # -- Not needed for UK, identical to withdrawal
                 template="bootstrap3/layout/datetimefield.html",
                 data_date_format="DD-MM-YYYY HH:mm",
                 placeholder="DD-MM-YYYY HH:mm"
@@ -88,12 +94,16 @@ class DonorForm(ModelForm):
     layout_2 = Layout(
         Div(
             Field('number', placeholder="___ ___ ____"),
-            'date_of_birth',
+            Field('date_of_birth', template="bootstrap3/layout/datetimefield.html",
+                data_date_format="DD-MM-YYYY", placeholder="DD-MM-YYYY", data_date_defaultDate='01-01-1960'),
             Field('age'),
-            'date_of_admission',
+            Field('date_of_admission', template="bootstrap3/layout/datetimefield.html",
+                data_date_format="DD-MM-YYYY", placeholder="DD-MM-YYYY"),
             'admitted_to_itu',
-            'date_admitted_to_itu',
-            'date_of_procurement',
+            Field('date_admitted_to_itu', template="bootstrap3/layout/datetimefield.html",
+                data_date_format="DD-MM-YYYY", placeholder="DD-MM-YYYY"),
+            Field('date_of_procurement', template="bootstrap3/layout/datetimefield.html",
+                data_date_format="DD-MM-YYYY", placeholder="DD-MM-YYYY"),
             Field('gender'),
             'weight',
             'height',
@@ -296,6 +306,13 @@ class DonorStartForm(ModelForm):
 
 
 class OrganForm(ModelForm):
+    removal = DateTimeField(widget=DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS, required=False)
+    perfusion_started = DateTimeField(widget=DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS, required=False)
+    oxygen_bottle_changed_at = DateTimeField(widget=DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS,
+        required=False)
+    ice_container_replenished_at = DateTimeField(widget=DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS,
+        required=False)
+
     helper = FormHelper()
     helper.form_tag = False
     helper.html5_required = True
@@ -348,7 +365,9 @@ class OrganForm(ModelForm):
                 ),
                 Div(
                     Div(
-                        'removal', 'renal_arteries', 'graft_damage', 'washout_perfusion', 'transplantable',
+                        Field('removal', template="bootstrap3/layout/datetimefield.html",
+                            data_date_format="DD-MM-YYYY HH:mm", placeholder="DD-MM-YYYY HH:mm"),
+                        'renal_arteries', 'graft_damage', 'washout_perfusion', 'transplantable',
                         'not_transplantable_reason',
                         style="padding: 10px;"
                     ),
@@ -368,12 +387,19 @@ class OrganForm(ModelForm):
                 ),
                 Div(
                     Div(
-                        'perfusion_possible', 'perfusion_not_possible_because', 'perfusion_started', 'patch_holder',
+                        'perfusion_possible', 'perfusion_not_possible_because',
+                        Field('perfusion_started', template="bootstrap3/layout/datetimefield.html",
+                            data_date_format="DD-MM-YYYY HH:mm", placeholder="DD-MM-YYYY HH:mm"),
+                        'patch_holder',
                         'artificial_patch_used', 'artificial_patch_size', 'artificial_patch_number',
                         'oxygen_bottle_full',
-                        'oxygen_bottle_open', 'oxygen_bottle_changed', 'oxygen_bottle_changed_at',
+                        'oxygen_bottle_open', 'oxygen_bottle_changed',
+                        Field('oxygen_bottle_changed_at', template="bootstrap3/layout/datetimefield.html",
+                            data_date_format="DD-MM-YYYY HH:mm", placeholder="DD-MM-YYYY HH:mm"),
                         'ice_container_replenished',
-                        'ice_container_replenished_at', 'perfusate_measurable', 'perfusate_measure',
+                        Field('ice_container_replenished_at', template="bootstrap3/layout/datetimefield.html",
+                            data_date_format="DD-MM-YYYY HH:mm", placeholder="DD-MM-YYYY HH:mm"),
+                        'perfusate_measurable', 'perfusate_measure',
                         'perfusion_machine',
                         'perfusion_file',
                         style="padding: 10px;"

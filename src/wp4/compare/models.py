@@ -1,11 +1,13 @@
 #!/usr/bin/python
 # coding: utf-8
 from django.core.urlresolvers import reverse
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator, ValidationError
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _, ungettext_lazy as __
+import datetime
+
 
 # Common constants for some questions
 NO = 0
@@ -231,8 +233,8 @@ class Donor(VersionControlModel):
     )
     date_of_birth = models.DateField(
         verbose_name=_('date of birth'),
-        blank=True, null=True
-    )  # TODO: Define DoB validator that matches the ages ones
+        blank=True, null=True,
+    )
     date_of_admission = models.DateField(
         verbose_name=_('date of admission into hospital'),
         blank=True, null=True
@@ -316,10 +318,6 @@ class Donor(VersionControlModel):
         ],
         blank=True, null=True
     )
-    hypotensive = models.NullBooleanField(
-        verbose_name=_('hypotensive'),
-        blank=True, null=True
-    )  # TODO: Check me. Can't find this on the form
     diuresis_last_day = models.PositiveSmallIntegerField(
         verbose_name=_('diuresis last day (ml)'),
         blank=True, null=True
@@ -400,7 +398,11 @@ class Donor(VersionControlModel):
     )
     length_of_no_touch = models.PositiveSmallIntegerField(
         verbose_name=_('length of no touch period (minutes)'),
-        blank=True, null=True
+        blank=True, null=True,
+        validators=[
+            MinValueValidator(1),
+            MaxValueValidator(60)
+        ]
     )
     death_diagnosed = models.DateTimeField(
         verbose_name=_('knife to skin time'),
@@ -460,6 +462,14 @@ class Donor(VersionControlModel):
         height_in_m = self.height / 100
         return (self.weight / height_in_m) / height_in_m
 
+    def age_from_dob(self):
+        today = datetime.date.today()
+        if self.date_of_birth < today:
+            years = today.year - self.date_of_birth.year
+        else:
+            years = today.year - self.date_of_birth.year - 1
+        return years
+
     def left_kidney(self):
         try:
             return self.organ_set.filter(location__exact=Organ.LEFT)[0]
@@ -488,6 +498,59 @@ class Donor(VersionControlModel):
         if self.centre_code() == 0:
             return ""
         return 'WP4%s%s' % (format(self.centre_code(), '02'), format(self.sequence_number, '03'))
+
+    def clean(self):
+        if self.arrival_at_donor_hospital and self.depart_perfusion_centre:
+            if self.arrival_at_donor_hospital < self.depart_perfusion_centre:
+                raise ValidationError(
+                    _("Time travel detected! Arrival at donor hospital occurred before departure from perfusion centre")
+                )
+        if self.date_of_birth:
+            if self.date_of_birth > datetime.datetime.now().date():
+                raise ValidationError(_("Time travel detected! Donor's date of birth is in the future!"))
+            if self.age != self.age_from_dob():
+                raise ValidationError(
+                    _("Age does not match age as calculated (%(num)d years) from Date of Birth"
+                      % {'num': self.age_from_dob()})
+                )
+            if self.date_of_procurement:
+                # These should be redundant checks because of the field validation on age, which will be triggered first
+                age_difference = self.date_of_procurement - self.date_of_birth
+                age_difference_in_years = age_difference.days / 365.2425
+                if age_difference < datetime.timedelta(days=(365.2425*50)):
+                    raise ValidationError(
+                        _("Date of birth is less than 50 years from the date of procurement (%(num)d)"
+                          % {'num': age_difference_in_years})
+                    )
+                if age_difference > datetime.timedelta(days=(365.2425*100)):
+                    raise ValidationError(
+                        _("Date of birth is more than 100 years from the date of procurement (%(num)d)"
+                          % {'num': age_difference_in_years})
+                    )
+        if self.date_of_procurement:
+            if self.date_of_procurement < self.date_of_admission:
+                raise ValidationError(_("Date of procurement occurs before date of admission"))
+
+        if self.admitted_to_itu and not self.date_admitted_to_itu:
+            raise ValidationError(_("Missing the date admitted to ITU"))
+        if self.diagnosis == self.OTHER_DIAGNOSIS and not self.diagnosis_other:
+            raise ValidationError(_("Missing the other diagnosis"))
+
+        if self.diuresis_last_day_unknown:
+            self.diuresis_last_day = None
+        if self.diuresis_last_hour_unknown:
+            self.diuresis_last_hour = None
+
+        if self.life_support_withdrawal and self.life_support_withdrawal < self.date_of_admission:
+            raise ValidationError(_("Life support withdrawn before admission to hospital"))
+        if self.circulatory_arrest and self.death_diagnosed:
+            if self.circulatory_arrest > self.death_diagnosed:
+                raise ValidationError(_("Donor was diagnosed as dead before circulation stopped"))
+
+        if self.systemic_flush_used and self.systemic_flush_used == self.SOLUTION_OTHER \
+                and not self.systemic_flush_used_other:
+            raise ValidationError(_("Missing the details of the other systemic flush solution used"))
+
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         # On creation, get and save the sequence number from the retrieval team

@@ -8,6 +8,7 @@ from django.core.urlresolvers import reverse, reverse_lazy
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
+import datetime
 
 from .models import Donor, Person
 from .forms import DonorForm, DonorStartForm, OrganForm, LoginForm
