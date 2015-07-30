@@ -508,13 +508,7 @@ class Donor(VersionControlModel):
         if self.date_of_birth:
             if self.date_of_birth > datetime.datetime.now().date():
                 raise ValidationError(_("Time travel detected! Donor's date of birth is in the future!"))
-            if self.age != self.age_from_dob():
-                raise ValidationError(
-                    _("Age does not match age as calculated (%(num)d years) from Date of Birth"
-                      % {'num': self.age_from_dob()})
-                )
             if self.date_of_procurement:
-                # These should be redundant checks because of the field validation on age, which will be triggered first
                 age_difference = self.date_of_procurement - self.date_of_birth
                 age_difference_in_years = age_difference.days / 365.2425
                 if age_difference < datetime.timedelta(days=(365.2425*50)):
@@ -527,6 +521,11 @@ class Donor(VersionControlModel):
                         _("Date of birth is more than 100 years from the date of procurement (%(num)d)"
                           % {'num': age_difference_in_years})
                     )
+            if self.age != self.age_from_dob():
+                raise ValidationError(
+                    _("Age does not match age as calculated (%(num)d years) from Date of Birth"
+                      % {'num': self.age_from_dob()})
+                )
         if self.date_of_procurement:
             if self.date_of_procurement < self.date_of_admission:
                 raise ValidationError(_("Date of procurement occurs before date of admission"))
