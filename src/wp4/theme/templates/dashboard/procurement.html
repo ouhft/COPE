@@ -11,28 +11,6 @@
     <form method="post" action="{% url 'compare:procurement-detail' pk=donor.id %}" class="form-horizontal">
         <div class="row">
             <div role="tabpanel" class="col-md-3">
-                <!-- Nav tabs -->
-                <ul class="nav nav-pills nav-stacked" role="tablist">
-{#                    <li role="presentation" class="active"><a href="#dashboard" aria-controls="dashboard" role="tab"#}
-{#                                                              data-toggle="tab">Dashboard</a></li>#}
-                    <li role="presentation" class="active"><a href="#donor" aria-controls="donor" role="tab" data-toggle="tab">Donor
-                        {% if donor_form.errors|length > 0 %}
-                            <span class="label label-danger">{{ donor_form.errors|length }}</span>
-                        {% endif %}</a>
-                    </li>
-                    <li role="presentation">
-                        <a href="#leftkidney" aria-controls="leftkidney" role="tab" data-toggle="tab">Left Kidney
-                            {% if left_organ_form.errors|length > 0 %}
-                                <span class="label label-danger">{{ left_organ_form.errors|length }}</span>
-                            {% endif %}</a>
-                    </li>
-                    <li role="presentation">
-                        <a href="#rightkidney" aria-controls="rightkidney" role="tab" data-toggle="tab">Right Kidney
-                            {% if right_organ_form.errors|length > 0 %}
-                                <span class="label label-danger">{{ right_organ_form.errors|length }}</span>
-                            {% endif %}</a>
-                    </li>
-                </ul>
                 <div class="panel panel-danger" style="margin-top: 10px;">
                     <div class="panel-heading">
                         <h3 class="panel-title">To be eligible for this trial...</h3>
@@ -72,7 +50,6 @@
                         <p>Organ ID: {{ donor.left_kidney.trial_id }}</p>
                     </div>
                 </div>
-
                 <div class="panel panel-info">
                     <div class="panel-heading">
                         <h3 class="panel-title">Right Kidney</h3>
@@ -81,7 +58,6 @@
                         <p>Organ ID: {{ donor.right_kidney.trial_id }}</p>
                     </div>
                 </div>
-
                 <p class="btn-group btn-group-lg">
                     <input type="submit" class="btn btn-primary" value="Save"/>
                     <input type="submit" class="btn btn-warning" value="Validate"/>
@@ -90,24 +66,36 @@
 
             <!-- Tab panes -->
             <div class="tab-content col-md-9">
-{#                {{ donor_form.errors }}#}
-{#                {{ left_organ_form.errors }}#}
-{#                {{ right_organ_form.errors }}#}
-
+                <!-- Nav tabs -->
+                <ul class="nav nav-pills nav-justified" role="tablist">
+                    <li role="presentation">
+                        <a href="#leftkidney" aria-controls="leftkidney" role="tab" data-toggle="tab">Left Kidney
+                            {% if left_organ_form.errors|length > 0 %}
+                                <span class="label label-danger">{{ left_organ_form.errors|length }}</span>
+                            {% endif %}</a>
+                    </li>
+                    <li role="presentation" class="active"><a href="#donor" aria-controls="donor" role="tab" data-toggle="tab">Donor
+                        {% if donor_form.errors|length > 0 %}
+                            <span class="label label-danger">{{ donor_form.errors|length }}</span>
+                        {% endif %}</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#rightkidney" aria-controls="rightkidney" role="tab" data-toggle="tab">Right Kidney
+                            {% if right_organ_form.errors|length > 0 %}
+                                <span class="label label-danger">{{ right_organ_form.errors|length }}</span>
+                            {% endif %}</a>
+                    </li>
+                </ul>
                 <div role="tabpanel" class="tab-pane active" id="donor">
-                    <h2>Donor</h2>
+{#                    <h2>Donor</h2>#}
                     {% crispy donor_form %}
                 </div>
-
-
                 <div role="tabpanel" class="tab-pane" id="leftkidney">
-                    <h2>Left Kidney</h2>
+{#                    <h2>Left Kidney</h2>#}
                     {% crispy left_organ_form %}
                 </div>
-
-
                 <div role="tabpanel" class="tab-pane" id="rightkidney">
-                    <h2>Right Kidney</h2>
+{#                    <h2>Right Kidney</h2>#}
                     {% crispy right_organ_form %}
                 </div>
             </div>
@@ -115,14 +103,6 @@
         </div>
 {#    TODO: Add navbar at the bottom of the page with the action buttons on them #}
     </form>
-    <!--<ol>-->
-    <!--<li>Layout basic UI and form elements</li>-->
-    <!--<li>Tie in the form data</li>-->
-    <!--<li>Add the pickers/side data lists</li>-->
-    <!--<li>Build the save process</li>-->
-    <!--<li>Validation process</li>-->
-    <!--</ol>-->
-
 {% endblock %}
 
 

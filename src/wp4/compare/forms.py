@@ -144,7 +144,6 @@ class DonorForm(forms.ModelForm):
         self.fields['dobutamine'].choices = YES_NO_UNKNOWN_CHOICES
         self.fields['nor_adrenaline'].choices = YES_NO_UNKNOWN_CHOICES
         self.fields['vasopressine'].choices = YES_NO_UNKNOWN_CHOICES
-
         self.fields['life_support_withdrawal'].input_formats = DATETIME_INPUT_FORMATS
         self.fields['systolic_pressure_low'].input_formats = DATETIME_INPUT_FORMATS
         self.fields['o2_saturation'].input_formats = DATETIME_INPUT_FORMATS
@@ -157,9 +156,8 @@ class DonorForm(forms.ModelForm):
 
     class Meta:
         model = Donor
-        # fields = ('__all__')
         exclude = ['created_by', 'version', 'created_on']
-        localized_fields = ('__all__')
+        localized_fields = '__all__'
 
     # https://docs.djangoproject.com/en/1.8/topics/forms/modelforms/#overriding-the-default-fields
     labels = {}
@@ -173,6 +171,7 @@ class DonorForm(forms.ModelForm):
         donor.version += 1
         donor.save()
         return donor
+
 
 class DonorStartForm(forms.ModelForm):
     # gender = CharField(required=True, widget=RadioSelect(choices=Donor.GENDER_CHOICES))
@@ -200,136 +199,82 @@ class DonorStartForm(forms.ModelForm):
         donor.save()
         return donor
 
+
 class OrganForm(forms.ModelForm):
-    removal = forms.DateTimeField(widget=forms.DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS,
-        required=False)
-    perfusion_started = forms.DateTimeField(widget=forms.DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS,
-        required=False)
-    oxygen_bottle_changed_at = forms.DateTimeField(widget=forms.DateTimeInput(),
-        input_formats=DATETIME_INPUT_FORMATS,
-        required=False)
-    ice_container_replenished_at = forms.DateTimeField(widget=forms.DateTimeInput(),
-        input_formats=DATETIME_INPUT_FORMATS,
-        required=False)
+    layout_1 = Layout(
+        'donor',
+        Field('location', template="bootstrap3/layout/radioselect-buttons.html"),
+        Field('preservation', template="bootstrap3/layout/radioselect-buttons.html"),
+    )
+
+    layout_2 = Layout(
+        'perfusate_1', 'perfusate_2',
+    )
+
+    layout_3 = Layout(
+        bootstrap_datetimefield('removal'),
+        'renal_arteries', 'graft_damage',
+        Field('washout_perfusion', template="bootstrap3/layout/radioselect-buttons.html"),
+        Field('transplantable', template="bootstrap3/layout/radioselect-buttons.html"),
+        'not_transplantable_reason',
+    )
+
+    layout_4 = Layout(
+        Field('perfusion_possible', template="bootstrap3/layout/radioselect-buttons.html"),
+        'perfusion_not_possible_because',
+        bootstrap_datetimefield('perfusion_started'),
+        Field('patch_holder', template="bootstrap3/layout/radioselect-buttons.html"),
+        Field('artificial_patch_used', template="bootstrap3/layout/radioselect-buttons.html"),
+        Field('artificial_patch_size', template="bootstrap3/layout/radioselect-buttons.html"),
+        'artificial_patch_number',
+        Field('oxygen_bottle_full', template="bootstrap3/layout/radioselect-buttons.html"),
+        Field('oxygen_bottle_open', template="bootstrap3/layout/radioselect-buttons.html"),
+        Field('oxygen_bottle_changed', template="bootstrap3/layout/radioselect-buttons.html"),
+        bootstrap_datetimefield('oxygen_bottle_changed_at'),
+        Field('ice_container_replenished', template="bootstrap3/layout/radioselect-buttons.html"),
+        bootstrap_datetimefield('ice_container_replenished_at'),
+        Field('perfusate_measurable', template="bootstrap3/layout/radioselect-buttons.html"),
+        'perfusate_measure',
+        'perfusion_machine',
+        'perfusion_file',
+    )
 
     helper = FormHelper()
     helper.form_tag = False
     helper.html5_required = True
     helper.layout = Layout(
-        Div(
-            Div(
-                Div(
-                    HTML("<h3 class=\"panel-title\">Hidden Data</h3>"),  # TODO: Work out how to i18n this later!
-                    css_class="panel-heading"
-                ),
-                Div(
-                    Div(
-                        'donor', 'location', 'preservation',
-                        style="padding: 10px;"
-                    ),
-                    css_class="panel-body"
-                ),
-                css_class="panel panel-default"
-            ),
-            css_class="col-md-6",
-            style="margin-top: 10px;"
-        ),
-
-        Div(
-            Div(
-                Div(
-                    HTML("<h3 class=\"panel-title\">Sampling Data</h3>"),  # TODO: Work out how to i18n this later!
-                    css_class="panel-heading"
-                ),
-                Div(
-                    Div(
-                        'perfusate_1', 'perfusate_2',
-                        style="padding: 10px;"
-                    ),
-                    css_class="panel-body"
-                ),
-                css_class="panel panel-default"
-            ),
-            css_class="col-md-6",
-            style="margin-top: 10px;"
-        ),
-
+        bootstrap_panel("Hidden Data", layout_1),
+        bootstrap_panel("Sampling Data", layout_2),
         Div(css_class="clearfix"),
-
-        Div(
-            Div(
-                Div(
-                    HTML("<h3 class=\"panel-title\">Inspection</h3>"),  # TODO: Work out how to i18n this later!
-                    css_class="panel-heading"
-                ),
-                Div(
-                    Div(
-                        Field('removal', template="bootstrap3/layout/datetimefield.html",
-                            data_date_format="DD-MM-YYYY HH:mm", placeholder="DD-MM-YYYY HH:mm"),
-                        'renal_arteries', 'graft_damage', 'washout_perfusion', 'transplantable',
-                        'not_transplantable_reason',
-                        style="padding: 10px;"
-                    ),
-                    css_class="panel-body"
-                ),
-                css_class="panel panel-default"
-            ),
-            css_class="col-md-6",
-            style="margin-top: 10px;"
-        ),
-
-        Div(
-            Div(
-                Div(
-                    HTML("<h3 class=\"panel-title\">Perfusion</h3>"),  # TODO: Work out how to i18n this later!
-                    css_class="panel-heading"
-                ),
-                Div(
-                    Div(
-                        'perfusion_possible', 'perfusion_not_possible_because',
-                        Field('perfusion_started', template="bootstrap3/layout/datetimefield.html",
-                            data_date_format="DD-MM-YYYY HH:mm", placeholder="DD-MM-YYYY HH:mm"),
-                        'patch_holder',
-                        'artificial_patch_used', 'artificial_patch_size', 'artificial_patch_number',
-                        'oxygen_bottle_full',
-                        'oxygen_bottle_open', 'oxygen_bottle_changed',
-                        Field('oxygen_bottle_changed_at', template="bootstrap3/layout/datetimefield.html",
-                            data_date_format="DD-MM-YYYY HH:mm", placeholder="DD-MM-YYYY HH:mm"),
-                        'ice_container_replenished',
-                        Field('ice_container_replenished_at', template="bootstrap3/layout/datetimefield.html",
-                            data_date_format="DD-MM-YYYY HH:mm", placeholder="DD-MM-YYYY HH:mm"),
-                        'perfusate_measurable', 'perfusate_measure',
-                        'perfusion_machine',
-                        'perfusion_file',
-                        style="padding: 10px;"
-                    ),
-                    css_class="panel-body"
-                ),
-                css_class="panel panel-default"
-            ),
-            css_class="col-md-6",
-            style="margin-top: 10px;"
-        ),
+        bootstrap_panel("Inspection", layout_3),
+        bootstrap_panel("Perfusion Data", layout_4),
     )
+
+    def __init__(self, *args, **kwargs):
+        super(OrganForm, self).__init__(*args, **kwargs)
+        self.fields['donor'].widget = forms.HiddenInput()
+        self.fields['location'].choices = Organ.LOCATION_CHOICES
+        self.fields['preservation'].choices = Organ.PRESERVATION_CHOICES
+        self.fields['removal'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['washout_perfusion'].choices = Organ.WASHOUT_PERFUSION_CHOICES
+        self.fields['transplantable'].choices = YES_NO_UNKNOWN_CHOICES
+        self.fields['perfusion_possible'].choices = YES_NO_UNKNOWN_CHOICES
+        self.fields['perfusion_started'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['patch_holder'].choices = Organ.PATCH_HOLDER_CHOICES
+        self.fields['artificial_patch_used'].choices = YES_NO_UNKNOWN_CHOICES
+        self.fields['artificial_patch_size'].choices = Organ.ARTIFICIAL_PATCH_CHOICES
+        self.fields['oxygen_bottle_full'].choices = YES_NO_UNKNOWN_CHOICES
+        self.fields['oxygen_bottle_open'].choices = YES_NO_UNKNOWN_CHOICES
+        self.fields['oxygen_bottle_changed'].choices = YES_NO_UNKNOWN_CHOICES
+        self.fields['oxygen_bottle_changed_at'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['ice_container_replenished'].choices = YES_NO_UNKNOWN_CHOICES
+        self.fields['ice_container_replenished_at'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['perfusate_measurable'].choices = YES_NO_UNKNOWN_CHOICES
 
     class Meta:
         model = Organ
-        fields = [
-            'donor', 'location',
-
-            'removal', 'renal_arteries', 'graft_damage', 'washout_perfusion', 'transplantable',
-            'not_transplantable_reason',
-
-            'preservation',
-
-            'perfusion_possible', 'perfusion_not_possible_because', 'perfusion_started', 'patch_holder',
-            'artificial_patch_used', 'artificial_patch_size', 'artificial_patch_number', 'oxygen_bottle_full',
-            'oxygen_bottle_open', 'oxygen_bottle_changed', 'oxygen_bottle_changed_at', 'ice_container_replenished',
-            'ice_container_replenished_at', 'perfusate_measurable', 'perfusate_measure', 'perfusion_machine',
-            'perfusion_file',
-
-            'perfusate_1', 'perfusate_2',
-        ]
+        exclude = ['created_by', 'version', 'created_on']
+        localized_fields = '__all__'
 
     def save(self, user):
         organ = super(OrganForm, self).save(commit=False)
@@ -338,6 +283,7 @@ class OrganForm(forms.ModelForm):
         organ.version += 1
         organ.save()
         return organ
+
 
 class LoginForm(AuthenticationForm):
     next = forms.CharField(
