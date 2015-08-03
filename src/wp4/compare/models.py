@@ -239,7 +239,7 @@ class Donor(VersionControlModel):
         verbose_name=_('date of admission into hospital'),
         blank=True, null=True
     )
-    admitted_to_itu = models.NullBooleanField(verbose_name=_('admitted to ITU'), blank=True, null=True)
+    admitted_to_itu = models.BooleanField(verbose_name=_('admitted to ITU'), default=False)
     date_admitted_to_itu = models.DateField(verbose_name=_('when admitted to ITU'), blank=True, null=True)
     date_of_procurement = models.DateField(verbose_name=_('date of procurement'), blank=True, null=True)
     gender = models.CharField(verbose_name=_('gender'), choices=GENDER_CHOICES, max_length=1, default=MALE)

@@ -10,7 +10,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
 import datetime
 
-from .models import Donor, Person
+from .models import Donor, Person, RetrievalTeam
 from .forms import DonorForm, DonorStartForm, OrganForm, LoginForm
 
 
@@ -43,22 +43,17 @@ def error500(request):
 @csrf_protect
 def procurement_form(request, pk):
     donor = get_object_or_404(Donor, pk=int(pk))
-    donor_form = DonorForm(instance=donor, prefix="donor")
-    left_organ_form = OrganForm(instance=donor.left_kidney(), prefix="left-organ")
-    right_organ_form = OrganForm(instance=donor.right_kidney(), prefix="right-organ")
+    donor_form = DonorForm(request.POST or None, request.FILES or None, instance=donor, prefix="donor")
+    if donor_form.is_valid():
+        donor = donor_form.save(request.user)
 
-    if request.method == 'POST':
-        donor_form = DonorForm(request.POST, request.FILES, instance=donor, prefix="donor")
-        if donor_form.is_valid():
-            donor = donor_form.save(request.user)
+    left_organ_form = OrganForm(request.POST or None, request.FILES or None, instance=donor.left_kidney(), prefix="left-organ")
+    if left_organ_form.is_valid():
+        left_organ_form.save(request.user)
 
-        left_organ_form = OrganForm(request.POST, request.FILES, instance=donor.left_kidney(), prefix="left-organ")
-        if left_organ_form.is_valid():
-            left_organ_form.save(request.user)
-
-        right_organ_form = OrganForm(request.POST, request.FILES, instance=donor.right_kidney(), prefix="right-organ")
-        if right_organ_form.is_valid():
-            right_organ_form.save(request.user)
+    right_organ_form = OrganForm(request.POST or None, request.FILES or None, instance=donor.right_kidney(), prefix="right-organ")
+    if right_organ_form.is_valid():
+        right_organ_form.save(request.user)
 
     return render_to_response(
         "dashboard/procurement.html",

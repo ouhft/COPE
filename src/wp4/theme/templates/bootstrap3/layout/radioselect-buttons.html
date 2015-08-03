@@ -1,0 +1,27 @@
+{% load crispy_forms_filters %}
+{% load l10n %}
+
+<div class="form-group {{ field_class }}"{% if flat_attrs %} {{ flat_attrs|safe }}{% endif %}>
+    {% include 'bootstrap3/layout/field_errors_block.html' %}
+    {% if field.label and form_show_labels %}
+        <label for="{{ field.id_for_label }}"
+               class="control-label {{ label_class }}{% if field.field.required %} requiredField{% endif %}">
+            {{ field.label|safe }}{% if field.field.required %}<span class="asteriskField">*</span>{% endif %}
+        </label><br>
+    {% endif %}
+    <div class="btn-group" data-toggle="buttons">
+        {% for choice in field.field.choices %}
+            <label class="btn btn-default {% if choice.0|stringformat:"s" == field.value|stringformat:"s" %}
+                   active{% endif %}">
+                <input type="radio"
+                       {% if choice.0|stringformat:"s" == field.value|stringformat:"s" %}checked{% endif %}
+                       name="{{ field.html_name }}"
+                       id="id_{{ field.html_name }}_{{ forloop.counter }}"
+                       value="{{ choice.0|unlocalize }}"
+                       {{ field.field.widget.attrs|flatatt }}
+                       autocomplete="off">{{ choice.1|unlocalize }}
+            </label>
+        {% endfor %}
+    </div>
+    {% include 'bootstrap3/layout/help_text.html' %}
+</div>

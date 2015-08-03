@@ -1,9 +1,8 @@
-from django.forms import ModelForm, RadioSelect, CharField, HiddenInput, DateTimeField, DateField, DateTimeInput, \
-    DateInput
+from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Div, Fieldset, HTML, Field
 from crispy_forms.bootstrap import FormActions
-from .models import Donor, Organ
+from .models import Donor, Organ, YES_NO_UNKNOWN_CHOICES
 from django.utils import timezone
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import ugettext_lazy as _, ungettext_lazy as __
@@ -23,241 +22,143 @@ DATE_INPUT_FORMATS = [
     '%Y/%m/%d',  # '2006/10/25'
 ]
 
+YES_NO_CHOICES = (
+    (False, _("No")),
+    (True, _("Yes"))
+)
 
-class DonorForm(ModelForm):
-    # retrieval_team = CharField(widget=HiddenInput())
-    # perfusion_technician = CharField(widget=HiddenInput())
-    # TODO: Restore the now-missing verbose names from the models
-    call_received = DateTimeField(widget=DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS, required=False)
-    scheduled_start = DateTimeField(widget=DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS, required=False)
-    technician_arrival = DateTimeField(widget=DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS, required=False)
-    ice_boxes_filled = DateTimeField(widget=DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS, required=False)
-    depart_perfusion_centre = DateTimeField(
-        widget=DateTimeInput(),
-        input_formats=DATETIME_INPUT_FORMATS,
-        required=False
-    )
-    arrival_at_donor_hospital = DateTimeField(
-        widget=DateTimeInput(),
-        input_formats=DATETIME_INPUT_FORMATS,
-        required=False
-    )
 
-    number = CharField(required=False, label=_('NHSBT Number'))
-    date_of_birth = DateField(widget=DateInput, input_formats=DATE_INPUT_FORMATS, required=False)
-    date_of_admission = DateField(widget=DateInput, input_formats=DATE_INPUT_FORMATS, required=False)
-    date_admitted_to_itu = DateField(widget=DateInput, input_formats=DATE_INPUT_FORMATS, required=False)
-    date_of_procurement = DateField(widget=DateInput, input_formats=DATE_INPUT_FORMATS, required=False)
-
-    life_support_withdrawal = DateTimeField(widget=DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS,
-        required=False)
-    systolic_pressure_low = DateTimeField(widget=DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS, required=False)
-    o2_saturation = DateTimeField(widget=DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS, required=False)
-    circulatory_arrest = DateTimeField(widget=DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS, required=False)
-    death_diagnosed = DateTimeField(widget=DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS, required=False)
-    perfusion_started = DateTimeField(widget=DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS, required=False)
-
-    layout_1 = Layout(
+def bootstrap_panel(title, layout):
+    return Div(
         Div(
-            Field('retrieval_team'),  # TODO: Work out how to hide this field
-            Field('sequence_number'),  # TODO: Work out how to hide this field if not admin
-            Field('perfusion_technician'),  # TODO: Work out how to hide this field
-            'transplant_coordinator',
-            Field('call_received', template="bootstrap3/layout/datetimefield.html",
-                data_date_format="DD-MM-YYYY HH:mm", placeholder="DD-MM-YYYY HH:mm"),
-            'retrieval_hospital',
-            Field(
-                'scheduled_start',  # -- Not needed for UK, identical to withdrawal
-                template="bootstrap3/layout/datetimefield.html",
-                data_date_format="DD-MM-YYYY HH:mm",
-                placeholder="DD-MM-YYYY HH:mm"
-            ),
-            Field(
-                'technician_arrival',  # -- Not needed for UK, identical to withdrawal
-                template="bootstrap3/layout/datetimefield.html",
-                data_date_format="DD-MM-YYYY HH:mm",
-                placeholder="DD-MM-YYYY HH:mm"
-            ),
-            Field(
-                'ice_boxes_filled',  # -- Not needed for UK, identical to withdrawal
-                template="bootstrap3/layout/datetimefield.html",
-                data_date_format="DD-MM-YYYY HH:mm",
-                placeholder="DD-MM-YYYY HH:mm"
-            ),
-            Field('depart_perfusion_centre', template="bootstrap3/layout/datetimefield.html",
-                data_date_format="DD-MM-YYYY HH:mm", placeholder="DD-MM-YYYY HH:mm"),
-            Field('arrival_at_donor_hospital', template="bootstrap3/layout/datetimefield.html",
-                data_date_format="DD-MM-YYYY HH:mm", placeholder="DD-MM-YYYY HH:mm"),
-            style="padding: 10px;"
-        )
+            # TODO: Work out how to i18n this later!
+            Div(HTML("<h3 class=\"panel-title\">%s</h3>" % title), css_class="panel-heading"),
+            Div(Div(layout, style="padding: 10px;"), css_class="panel-body"),
+            css_class="panel panel-default"
+        ), css_class="col-md-6", style="margin-top: 10px;"
+    )
+
+
+def bootstrap_datetimefield(field_name):
+    return Field(field_name, template="bootstrap3/layout/datetimefield.html",
+        data_date_format="DD-MM-YYYY HH:mm", placeholder="DD-MM-YYYY HH:mm")
+
+
+def bootstrap_datefield(field_name):
+    return Field(field_name, template="bootstrap3/layout/datetimefield.html",
+        data_date_format="DD-MM-YYYY", placeholder="DD-MM-YYYY")
+
+
+class DonorForm(forms.ModelForm):
+    layout_1 = Layout(
+        'retrieval_team',
+        'sequence_number',  # TODO: Work out how to hide this field if not admin
+        'perfusion_technician',  # TODO: Make this field read only
+        'transplant_coordinator',
+        bootstrap_datetimefield('call_received'),
+        'retrieval_hospital',
+        bootstrap_datetimefield('scheduled_start'),  # -- Not needed for UK, identical to withdrawal
+        bootstrap_datetimefield('technician_arrival'),  # -- Not needed for UK, identical to withdrawal
+        bootstrap_datetimefield('ice_boxes_filled'),  # -- Not needed for UK, identical to withdrawal
+        bootstrap_datetimefield('depart_perfusion_centre'),
+        bootstrap_datetimefield('arrival_at_donor_hospital')
     )
     layout_2 = Layout(
-        Div(
-            Field('number', placeholder="___ ___ ____"),
-            Field('date_of_birth', template="bootstrap3/layout/datetimefield.html",
-                data_date_format="DD-MM-YYYY", placeholder="DD-MM-YYYY", data_date_defaultDate='01-01-1960'),
-            Field('age'),
-            Field('date_of_admission', template="bootstrap3/layout/datetimefield.html",
-                data_date_format="DD-MM-YYYY", placeholder="DD-MM-YYYY"),
-            'admitted_to_itu',
-            Field('date_admitted_to_itu', template="bootstrap3/layout/datetimefield.html",
-                data_date_format="DD-MM-YYYY", placeholder="DD-MM-YYYY"),
-            Field('date_of_procurement', template="bootstrap3/layout/datetimefield.html",
-                data_date_format="DD-MM-YYYY", placeholder="DD-MM-YYYY"),
-            Field('gender'),
-            'weight',
-            'height',
-            'ethnicity',
-            'blood_group',
-            style="padding: 10px;"
-        )
+        Field('number', placeholder="___ ___ ____"),
+        bootstrap_datefield('date_of_birth'),
+        'age',
+        bootstrap_datefield('date_of_admission'),
+        Field('admitted_to_itu', template="bootstrap3/layout/radioselect-buttons.html"),
+        bootstrap_datefield('date_admitted_to_itu'),
+        bootstrap_datefield('date_of_procurement'),
+        Field('gender', template="bootstrap3/layout/radioselect-buttons.html"),
+        'weight', 'height',
+        Field('ethnicity', template="bootstrap3/layout/radioselect-buttons.html"),
+        Field('blood_group', template="bootstrap3/layout/radioselect-buttons.html")
     )
     layout_3 = Layout(
-        Div(
-            'diagnosis', 'diagnosis_other', 'diabetes_melitus', 'alcohol_abuse', 'cardiac_arrest',
-            'systolic_blood_pressure', 'diastolic_blood_pressure', 'diuresis_last_day', 'diuresis_last_day_unknown',
-            'diuresis_last_hour', 'diuresis_last_hour_unknown', 'dopamine', 'dobutamine', 'nor_adrenaline',
-            'vasopressine', 'other_medication_details',
-            style="padding: 10px;"
-        )
+        'diagnosis', 'diagnosis_other',
+        Field('diabetes_melitus', template="bootstrap3/layout/radioselect-buttons.html"),
+        Field('alcohol_abuse', template="bootstrap3/layout/radioselect-buttons.html"),
+        Field('cardiac_arrest', template="bootstrap3/layout/radioselect-buttons.html"),
+        'systolic_blood_pressure', 'diastolic_blood_pressure', 'diuresis_last_day', 'diuresis_last_day_unknown',
+        'diuresis_last_hour', 'diuresis_last_hour_unknown',
+        Field('dopamine', template="bootstrap3/layout/radioselect-buttons.html"),
+        Field('dobutamine', template="bootstrap3/layout/radioselect-buttons.html"),
+        Field('nor_adrenaline', template="bootstrap3/layout/radioselect-buttons.html"),
+        Field('vasopressine', template="bootstrap3/layout/radioselect-buttons.html"),
+        'other_medication_details',
     )
     layout_4 = Layout(
-        Div(
-            'last_creatinine', 'last_creatinine_unit', 'max_creatinine', 'max_creatinine_unit',
-
-            Field('life_support_withdrawal', template="bootstrap3/layout/datetimefield.html",
-                data_date_format="DD-MM-YYYY HH:mm", placeholder="DD-MM-YYYY HH:mm"),
-            Field('systolic_pressure_low', template="bootstrap3/layout/datetimefield.html",
-                data_date_format="DD-MM-YYYY HH:mm", placeholder="DD-MM-YYYY HH:mm"),
-            Field('o2_saturation', template="bootstrap3/layout/datetimefield.html",
-                data_date_format="DD-MM-YYYY HH:mm", placeholder="DD-MM-YYYY HH:mm"),
-            Field('circulatory_arrest', template="bootstrap3/layout/datetimefield.html",
-                data_date_format="DD-MM-YYYY HH:mm", placeholder="DD-MM-YYYY HH:mm"),
-            'length_of_no_touch',
-            Field('death_diagnosed', template="bootstrap3/layout/datetimefield.html",
-                data_date_format="DD-MM-YYYY HH:mm", placeholder="DD-MM-YYYY HH:mm"),
-            Field('perfusion_started', template="bootstrap3/layout/datetimefield.html",
-                data_date_format="DD-MM-YYYY HH:mm", placeholder="DD-MM-YYYY HH:mm"),
-            'systemic_flush_used', 'systemic_flush_used_other',
-            'heparin',
-            style="padding: 10px;"
-        )
+        'last_creatinine', 'last_creatinine_unit', 'max_creatinine', 'max_creatinine_unit',
+        bootstrap_datetimefield('life_support_withdrawal'),
+        bootstrap_datetimefield('systolic_pressure_low'),
+        bootstrap_datetimefield('o2_saturation'),
+        bootstrap_datetimefield('circulatory_arrest'),
+        'length_of_no_touch',
+        bootstrap_datetimefield('death_diagnosed'),
+        bootstrap_datetimefield('perfusion_started'),
+        Field('systemic_flush_used', template="bootstrap3/layout/radioselect-buttons.html"),
+        'systemic_flush_used_other',
+        Field('heparin', template="bootstrap3/layout/radioselect-buttons.html"),
     )
     layout_5 = Layout(
-        Div(
-            'donor_blood_1_EDTA', 'donor_blood_1_SST', 'donor_urine_1', 'donor_urine_2',
-            style="padding: 10px;"
-        )
+        'donor_blood_1_EDTA', 'donor_blood_1_SST', 'donor_urine_1', 'donor_urine_2',
     )
 
     helper = FormHelper()
     helper.form_tag = False
     helper.html5_required = True
     helper.layout = Layout(
-        Div(
-            Div(
-                Div(
-                    HTML("<h3 class=\"panel-title\">Procedure Data</h3>"),  # TODO: Work out how to i18n this later!
-                    css_class="panel-heading"
-                ),
-                Div(layout_1, css_class="panel-body"),
-                css_class="panel panel-default"
-            ),
-            css_class="col-md-6",
-            style="margin-top: 10px;"
-        ),
-
-        Div(
-            Div(
-                Div(
-                    HTML("<h3 class=\"panel-title\">Donor Details</h3>"),  # TODO: Work out how to i18n this later!
-                    css_class="panel-heading"
-                ),
-                Div(layout_2, css_class="panel-body"),
-                css_class="panel panel-default"
-            ),
-            css_class="col-md-6",
-            style="margin-top: 10px;"
-        ),
-
-        Div(
-            Div(
-                Div(
-                    HTML("<h3 class=\"panel-title\">Donor Preop Data</h3>"),  # TODO: Work out how to i18n this later!
-                    css_class="panel-heading"
-                ),
-                Div(layout_3, css_class="panel-body"),
-                css_class="panel panel-default"
-            ),
-            css_class="col-md-6",
-            style="margin-top: 10px;"
-        ),
-
-        Div(
-            Div(
-                Div(
-                    HTML("<h3 class=\"panel-title\">Lab Results</h3>"),  # TODO: Work out how to i18n this later!
-                    css_class="panel-heading"
-                ),
-                Div(layout_4, css_class="panel-body"),
-                css_class="panel panel-default"
-            ),
-            css_class="col-md-6",
-            style="margin-top: 10px;"
-        ),
-
-        Div(
-            Div(
-                Div(
-                    HTML("<h3 class=\"panel-title\">Sampling Data</h3>"),  # TODO: Work out how to i18n this later!
-                    css_class="panel-heading"
-                ),
-                Div(layout_5, css_class="panel-body"),
-                css_class="panel panel-default"
-            ),
-            css_class="col-md-6",
-            style="margin-top: 10px;"
-        ),
-
+        bootstrap_panel("Procedure Data", layout_1),
+        bootstrap_panel("Donor Details", layout_2),
+        bootstrap_panel("Donor Preop Data", layout_3),
+        bootstrap_panel("Lab Results", layout_4),
+        bootstrap_panel("Sampling Data", layout_5),
         Div(css_class="clearfix")
     )
 
+    def __init__(self, *args, **kwargs):
+        super(DonorForm, self).__init__(*args, **kwargs)
+        self.fields['retrieval_team'].widget = forms.HiddenInput()
+        self.fields['sequence_number'].widget = forms.HiddenInput()
+        self.fields['call_received'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['scheduled_start'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['technician_arrival'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['ice_boxes_filled'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['depart_perfusion_centre'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['arrival_at_donor_hospital'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['number'].required = False
+        self.fields['date_of_birth'].input_formats = DATE_INPUT_FORMATS
+        self.fields['date_of_admission'].input_formats = DATE_INPUT_FORMATS
+        self.fields['admitted_to_itu'].choices = YES_NO_CHOICES
+        self.fields['date_admitted_to_itu'].input_formats = DATE_INPUT_FORMATS
+        self.fields['date_of_procurement'].input_formats = DATE_INPUT_FORMATS
+        self.fields['gender'].choices = Donor.GENDER_CHOICES
+        self.fields['ethnicity'].choices = Donor.ETHNICITY_CHOICES
+        self.fields['blood_group'].choices = Donor.BLOOD_GROUP_CHOICES
+        self.fields['diabetes_melitus'].choices = YES_NO_UNKNOWN_CHOICES
+        self.fields['alcohol_abuse'].choices = YES_NO_UNKNOWN_CHOICES
+        self.fields['cardiac_arrest'].choices = YES_NO_UNKNOWN_CHOICES
+        self.fields['dopamine'].choices = YES_NO_UNKNOWN_CHOICES
+        self.fields['dobutamine'].choices = YES_NO_UNKNOWN_CHOICES
+        self.fields['nor_adrenaline'].choices = YES_NO_UNKNOWN_CHOICES
+        self.fields['vasopressine'].choices = YES_NO_UNKNOWN_CHOICES
+
+        self.fields['life_support_withdrawal'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['systolic_pressure_low'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['o2_saturation'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['circulatory_arrest'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['death_diagnosed'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['perfusion_started'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['systemic_flush_used'].choices = Donor.FLUSH_SOLUTION_CHOICES
+        self.fields['heparin'].choices = YES_NO_UNKNOWN_CHOICES
+        # self.fields[''].
+
     class Meta:
         model = Donor
-        fields = [
-            'retrieval_team',
-            'sequence_number',
-            'perfusion_technician',
-            'transplant_coordinator',
-            'call_received',
-            'retrieval_hospital',
-            'scheduled_start',
-            'technician_arrival',
-            'ice_boxes_filled',
-            'depart_perfusion_centre',
-            'arrival_at_donor_hospital',
-
-            'number', 'date_of_birth', 'age', 'date_of_admission', 'admitted_to_itu', 'date_admitted_to_itu',
-            'date_of_procurement', 'gender', 'weight', 'height', 'ethnicity', 'blood_group',
-
-            'diagnosis', 'diagnosis_other', 'diabetes_melitus', 'alcohol_abuse', 'cardiac_arrest',
-            'systolic_blood_pressure', 'diastolic_blood_pressure', 'diuresis_last_day', 'diuresis_last_day_unknown',
-            'diuresis_last_hour', 'diuresis_last_hour_unknown', 'dopamine', 'dobutamine', 'nor_adrenaline',
-            'vasopressine', 'other_medication_details',
-
-            'last_creatinine', 'last_creatinine_unit', 'max_creatinine', 'max_creatinine_unit',
-
-            'life_support_withdrawal', 'systolic_pressure_low', 'o2_saturation', 'circulatory_arrest',
-            'length_of_no_touch',
-            'death_diagnosed', 'perfusion_started', 'systemic_flush_used', 'systemic_flush_used_other',
-            'heparin',
-
-            'donor_blood_1_EDTA', 'donor_blood_1_SST', 'donor_urine_1', 'donor_urine_2',
-        ]
-        widgets = {
-            # 'name': Textarea(attrs={'cols': 80, 'rows': 20}),
-            # 'admitted_to_itu' : RadioSelect(),
-        }
+        # fields = ('__all__')
+        exclude = ['created_by', 'version', 'created_on']
         localized_fields = ('__all__')
 
     # https://docs.djangoproject.com/en/1.8/topics/forms/modelforms/#overriding-the-default-fields
@@ -273,8 +174,7 @@ class DonorForm(ModelForm):
         donor.save()
         return donor
 
-
-class DonorStartForm(ModelForm):
+class DonorStartForm(forms.ModelForm):
     # gender = CharField(required=True, widget=RadioSelect(choices=Donor.GENDER_CHOICES))
 
     helper = FormHelper()
@@ -290,10 +190,6 @@ class DonorStartForm(ModelForm):
     class Meta:
         model = Donor
         fields = ['retrieval_team', 'perfusion_technician', 'age', 'gender']
-        widgets = {
-            # 'name': Textarea(attrs={'cols': 80, 'rows': 20}),
-            # 'gender': RadioSelect(choices=Donor.GENDER_CHOICES)
-        }
         localized_fields = ('__all__')
 
     def save(self, user):
@@ -304,13 +200,16 @@ class DonorStartForm(ModelForm):
         donor.save()
         return donor
 
-
-class OrganForm(ModelForm):
-    removal = DateTimeField(widget=DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS, required=False)
-    perfusion_started = DateTimeField(widget=DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS, required=False)
-    oxygen_bottle_changed_at = DateTimeField(widget=DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS,
+class OrganForm(forms.ModelForm):
+    removal = forms.DateTimeField(widget=forms.DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS,
         required=False)
-    ice_container_replenished_at = DateTimeField(widget=DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS,
+    perfusion_started = forms.DateTimeField(widget=forms.DateTimeInput(), input_formats=DATETIME_INPUT_FORMATS,
+        required=False)
+    oxygen_bottle_changed_at = forms.DateTimeField(widget=forms.DateTimeInput(),
+        input_formats=DATETIME_INPUT_FORMATS,
+        required=False)
+    ice_container_replenished_at = forms.DateTimeField(widget=forms.DateTimeInput(),
+        input_formats=DATETIME_INPUT_FORMATS,
         required=False)
 
     helper = FormHelper()
@@ -440,11 +339,10 @@ class OrganForm(ModelForm):
         organ.save()
         return organ
 
-
 class LoginForm(AuthenticationForm):
-    next = CharField(
+    next = forms.CharField(
         initial=LOGIN_REDIRECT_URL,
-        widget=HiddenInput()
+        widget=forms.HiddenInput()
     )
 
     helper = FormHelper()

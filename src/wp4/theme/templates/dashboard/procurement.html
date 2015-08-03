@@ -90,17 +90,9 @@
 
             <!-- Tab panes -->
             <div class="tab-content col-md-9">
-                {#                <div role="tabpanel" class="tab-pane active" id="dashboard">#}
-                {##}
-                {#                    <div class="row">#}
-                {#                        <div class=" col-md-4">#}
-                {#                        </div>#}
-                {#                        <div class=" col-md-4">#}
-                {#                        </div>#}
-                {#                        <div class="col-md-4">#}
-                {#                        </div>#}
-                {#                    </div>#}
-                {#                </div>#}
+{#                {{ donor_form.errors }}#}
+{#                {{ left_organ_form.errors }}#}
+{#                {{ right_organ_form.errors }}#}
 
                 <div role="tabpanel" class="tab-pane active" id="donor">
                     <h2>Donor</h2>
@@ -121,6 +113,7 @@
             </div>
             {% csrf_token %}
         </div>
+{#    TODO: Add navbar at the bottom of the page with the action buttons on them #}
     </form>
     <!--<ol>-->
     <!--<li>Layout basic UI and form elements</li>-->
@@ -129,4 +122,7 @@
     <!--<li>Build the save process</li>-->
     <!--<li>Validation process</li>-->
     <!--</ol>-->
+
 {% endblock %}
+
+
