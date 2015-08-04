@@ -1,8 +1,10 @@
-{% load crispy_forms_field %}
+{% load crispy_forms_field crispy_forms_filters %}
 {% load l10n %}
 
 <div{% if div.css_id %} id="{{ div.css_id }}"{% endif %}
-                        class="form-group{% if form_show_errors and field.errors %} has-error{% endif %}{% if field.css_classes %} {{ field.css_classes }}{% endif %}{% if div.css_class %} {{ div.css_class }}{% endif %}">
+    class="form-group{% if form_show_errors and field.errors %} has-error{% endif %}
+    {% if field.css_classes %} {{ field.css_classes }}{% endif %}
+    {% if div.css_class %} {{ div.css_class }}{% endif %}">
     {% if field.label and form_show_labels %}
         <label for="{{ field.id_for_label }}"
                class="control-label {{ label_class }}{% if field.field.required %} requiredField{% endif %}">

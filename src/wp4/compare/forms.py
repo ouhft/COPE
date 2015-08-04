@@ -53,7 +53,8 @@ class DonorForm(forms.ModelForm):
     layout_1 = Layout(
         'retrieval_team',
         'sequence_number',  # TODO: Work out how to hide this field if not admin
-        'perfusion_technician',  # TODO: Make this field read only
+        # 'perfusion_technician',  # TODO: Make this field read only
+        Field('perfusion_technician', template="bootstrap3/layout/read-only.html"),
         'transplant_coordinator',
         bootstrap_datetimefield('call_received'),
         'retrieval_hospital',
@@ -122,6 +123,7 @@ class DonorForm(forms.ModelForm):
         super(DonorForm, self).__init__(*args, **kwargs)
         self.fields['retrieval_team'].widget = forms.HiddenInput()
         self.fields['sequence_number'].widget = forms.HiddenInput()
+        self.fields['perfusion_technician'].required = False
         self.fields['call_received'].input_formats = DATETIME_INPUT_FORMATS
         self.fields['scheduled_start'].input_formats = DATETIME_INPUT_FORMATS
         self.fields['technician_arrival'].input_formats = DATETIME_INPUT_FORMATS
@@ -203,8 +205,8 @@ class DonorStartForm(forms.ModelForm):
 class OrganForm(forms.ModelForm):
     layout_1 = Layout(
         'donor',
-        Field('location', template="bootstrap3/layout/radioselect-buttons.html"),
-        Field('preservation', template="bootstrap3/layout/radioselect-buttons.html"),
+        Field('location', template="bootstrap3/layout/radioselect-buttons.html", readonly='readonly'),
+        Field('preservation', template="bootstrap3/layout/radioselect-buttons.html", readonly='readonly'),
     )
 
     layout_2 = Layout(
