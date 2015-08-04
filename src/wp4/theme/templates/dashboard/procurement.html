@@ -87,15 +87,15 @@
                     </li>
                 </ul>
                 <div role="tabpanel" class="tab-pane active" id="donor">
-{#                    <h2>Donor</h2>#}
+                    <h2 class="sr-only visible-print">Donor</h2>
                     {% crispy donor_form %}
                 </div>
                 <div role="tabpanel" class="tab-pane" id="leftkidney">
-{#                    <h2>Left Kidney</h2>#}
+                    <h2 class="sr-only visible-print">Left Kidney</h2>
                     {% crispy left_organ_form %}
                 </div>
                 <div role="tabpanel" class="tab-pane" id="rightkidney">
-{#                    <h2>Right Kidney</h2>#}
+                    <h2 class="sr-only visible-print">Right Kidney</h2>
                     {% crispy right_organ_form %}
                 </div>
             </div>
