@@ -1,0 +1,64 @@
+{% load crispy_forms_filters crispy_forms_field %}
+{% load l10n i18n %}
+{% with rnd="1234567890asdfghjklqwertyuiopzxcvbnm"|make_list|random %}
+    {% with multifield.label_html|add:rnd|slugify as fieldID %}
+        <div id="{{ fieldID }}_primary">
+            {{ primary_field|safe }}
+        </div>
+
+        <div id="{{ fieldID }}_secondary">
+            {{ secondary_field|safe }}
+        </div>
+
+        <script type="text/javascript">
+            document.addEventListener("DOMContentLoaded", function (event) {
+                var selector = $('#{{ fieldID }}_primary').find('select');
+                // alert("selector is " + selector.exists() + ' : ' + selector.is('select')); // TODO: Remove
+                if (selector.exists() && selector.is('select')) {
+                    {# http://stackoverflow.com/questions/13556941/get-index-of-selected-option-with-jquery - as to why the [0] #}
+                    // Set initial state
+                    $(document).ready(function () {
+                        if (selector[0].selectedIndex && selector[0].selectedIndex != selector[0].length - 1) {
+                            $('#{{ fieldID }}_secondary').hide();
+                        } else {
+                            $('#{{ fieldID }}_secondary').show();
+                        }
+                    })
+
+                    // Set onchange function for primary field
+                    selector.on('change', function () {
+                        if (this.selectedIndex == this.length - 1) {
+                            $('#{{ fieldID }}_secondary').show();
+                        } else {
+                            $('#{{ fieldID }}_secondary').hide().find('input').val('');
+                        }
+                    })
+                } else {
+                    var radiogroup = $('#{{ fieldID }}_primary').find('input:radio');
+                    if (radiogroup.exists()) {
+                        var radiogroupname = radiogroup.attr('name');
+                        // Set initial state
+                        $(document).ready(function () {
+                            if ($('input:radio[name=' + radiogroupname + ']:last').is(':checked')) {
+                                $('#{{ fieldID }}_secondary').show();
+                            } else {
+                                $('#{{ fieldID }}_secondary').hide();
+                            }
+                        })
+
+                        // alert("radiogroup found? " + radiogroup.exists() + ': name of ' + radiogroupname); // TODO: Remove
+                        // set onchange function for radio buttons
+                        var lastValue = $('input:radio[name=' + radiogroupname + ']:last').val();
+                        radiogroup.on("change", function () {
+                            if ($('input:radio[name=' + radiogroupname + ']:checked').val() == lastValue) {
+                                $('#{{ fieldID }}_secondary').show();
+                            } else {
+                                $('#{{ fieldID }}_secondary').hide().find('input').val('');
+                            }
+                        });
+                    }
+                }
+            });
+        </script>
+    {% endwith %}
+{% endwith %}

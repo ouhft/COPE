@@ -1,8 +1,7 @@
 {% load crispy_forms_filters crispy_forms_field %}
-{% load l10n %}
-<p>Read ONLY 2</p>
+{% load l10n i18n %}
 <div{% if div.css_id %} id="{{ div.css_id }}"{% endif %}
-                        class="form-group{% if form_show_errors and field.errors %} has-error{% endif %}
+    class="form-group{% if form_show_errors and field.errors %} has-error{% endif %}
     {% if field.css_classes %} {{ field.css_classes }}{% endif %}
     {% if div.css_class %} {{ div.css_class }}{% endif %}">
     {% include 'bootstrap3/layout/field_errors_block.html' %}
@@ -12,34 +11,17 @@
             {{ field.label|safe }}{% if field.field.required %}<span class="asteriskField">*</span>{% endif %}
         </label><br>
     {% endif %}
-    <input type="hidden"
-           name="{% if input.name|wordcount > 1 %}{{ input.name|slugify }}{% else %}{{ input.name }}{% endif %}"
-           id="{% if input.id %}{{ input.id }}{% else %}{{ input.input_type }}-id-{{ input.name|slugify }}{% endif %}"
-           value="{{ input.value }}"
-            {{ input.flat_attrs|safe }}
-            />
-
-    <p class="form-control-static" id="{{ field.id_for_label }}" {{ flat_attrs|safe }}>
-    {{ field|css_class }}
-
-
-        {% if field|is_checkboxselectmultiple %}
-CHECKBOX
-        {% elif field|is_radioselect %}
-            RADIO
+    {% crispy_field field %}
+    {% if field.field.choices|length > 0 %}
+        <p class="form-control-static" id="{{ field.id_for_label }}" {{ flat_attrs|safe }}>
             {% for choice in field.field.choices %}
                 {% if choice.0|stringformat:"s" == field.value|stringformat:"s" %}{{ choice.1|unlocalize }}{% endif %}
             {% endfor %}
-        {% else %}
-            {% for choice in field.field.choices %}
-                {% if choice.0|stringformat:"s" == field.value|stringformat:"s" %}{{ choice.1|unlocalize }}{% endif %}
-            {% endfor %}
-            OTHER
+        </p>
+    {% else %}
+        <p class="form-control-static" id="{{ field.id_for_label }}" {{ flat_attrs|safe }}>
             {{ input.value }}
-        {% endif %}
-    </p>
+        </p>
+    {% endif %}
     {% include 'bootstrap3/layout/help_text.html' %}
 </div>
-
-
-

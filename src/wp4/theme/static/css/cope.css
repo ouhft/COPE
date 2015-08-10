@@ -7264,3 +7264,6 @@ h1[id] {
 .navbar-fixed-top {
   position: absolute !important;
 }
+.form-control {
+  margin-bottom: 0;
+}

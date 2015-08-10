@@ -1,8 +1,7 @@
 {% load crispy_forms_filters crispy_forms_field %}
-{% load l10n %}
+{% load l10n i18n %}
 
 <div class="form-group {{ field_class }}"{% if flat_attrs %} {{ flat_attrs|safe }}{% endif %}>
-    {% include 'bootstrap3/layout/field_errors_block.html' %}
     {% if field.label and form_show_labels %}
         <label for="{{ field.id_for_label }}"
                class="control-label {{ label_class }}{% if field.field.required %} requiredField{% endif %}">
@@ -19,9 +18,9 @@
                        id="id_{{ field.html_name }}_{{ forloop.counter }}"
                        value="{{ choice.0|unlocalize }}"
                        {{ field.field.widget.attrs|flatatt }}
-                       autocomplete="off">{{ choice.1|unlocalize }}
+                       autocomplete="off">{{ choice.1|localize }}
             </label>
         {% endfor %}
     </div>
-    {% include 'bootstrap3/layout/help_text.html' %}
+    {% include 'bootstrap3/layout/help_text_and_errors.html' %}
 </div>

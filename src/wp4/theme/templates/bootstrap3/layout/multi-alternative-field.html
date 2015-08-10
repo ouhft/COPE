@@ -1,0 +1,53 @@
+{% load crispy_forms_filters crispy_forms_field %}
+{% load l10n i18n %}
+{% with rnd="1234567890asdfghjklqwertyuiopzxcvbnm"|make_list|random %}
+    {% with multifield.label_html|add:rnd|slugify as fieldID %}
+        <div id="{{ fieldID }}_primary">
+            {{ primary_field|safe }}
+        </div>
+
+        <div id="{{ fieldID }}_secondary">
+            {{ secondary_field|safe }}
+        </div>
+
+        <div id="{{ fieldID }}_tertiary">
+            {{ tertiary_field|safe }}
+        </div>
+
+        <script type="text/javascript">
+            document.addEventListener("DOMContentLoaded", function (event) {
+                var radiogroup = $('#{{ fieldID }}_primary').find('input:radio');
+                if (radiogroup.exists()) {
+                    var radiogroupname = radiogroup.attr('name');
+                    // Set initial state
+                    $(document).ready(function () {
+                        if ($('input:radio[name=' + radiogroupname + ']:last').is(':checked')) {
+                            $('#{{ fieldID }}_secondary').show();
+                            $('#{{ fieldID }}_tertiary').hide();
+                        } else if ($('input:radio[name=' + radiogroupname + ']:first').is(':checked')) {
+                            $('#{{ fieldID }}_secondary').hide();
+                            $('#{{ fieldID }}_tertiary').show();
+                        } else {
+                            // Nothing selected, so hide all followups
+                            $('#{{ fieldID }}_secondary').hide();
+                            $('#{{ fieldID }}_tertiary').hide();
+                        }
+                    })
+
+                    // alert("radiogroup found? " + radiogroup.exists() + ': name of ' + radiogroupname); // TODO: Remove
+                    // set onchange function for radio buttons
+                    var lastValue = $('input:radio[name=' + radiogroupname + ']:last').val();
+                    radiogroup.on("change", function () {
+                        if ($('input:radio[name=' + radiogroupname + ']:checked').val() == lastValue) {
+                            $('#{{ fieldID }}_secondary').show();
+                            $('#{{ fieldID }}_tertiary').hide().find('input').val('');
+                        } else {
+                            $('#{{ fieldID }}_secondary').hide().find('input').val('');
+                            $('#{{ fieldID }}_tertiary').show();
+                        }
+                    });
+                }
+            });
+        </script>
+    {% endwith %}
+{% endwith %}

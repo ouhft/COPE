@@ -50,7 +50,7 @@ ROOT_URLCONF = 'wp4.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'theme/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -74,11 +74,9 @@ WSGI_APPLICATION = 'wp4.wsgi.application'
 LANGUAGE_CODE = 'en-gb'
 
 LANGUAGES = (
-    ('en-gb', _('Great Britain')),
-    #('nl-be', _('Belgium (Dutch)')),
-    ('fr-be', _('Belgium')),
-    ('nl-nl', _('Netherlands')),
-    #('fy-nl', _('Netherlands (Frisian)')),
+    ('en-gb', _('SET01 Great Britain')),
+    ('fr-be', _('SET02 Belgium')),
+    ('nl-nl', _('SET03 Netherlands')),
 )
 
 LOCALE_PATHS = (

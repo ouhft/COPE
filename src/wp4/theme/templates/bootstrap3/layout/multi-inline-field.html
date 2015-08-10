@@ -1,0 +1,37 @@
+{% load crispy_forms_filters crispy_forms_field %}
+{% load l10n i18n %}
+<div class="form-group{% if multifield.css_class %} {{ multifield.css_class }}{% endif %}">
+    {% if multifield.label_html %}
+        <label {% if multifield.label_class %}class="control-label {{ multifield.label_class }}"{% endif %}
+               for="{{ primary_field.id_for_label }}">{{ multifield.label_html|safe }}</label>
+    {% endif %}
+    <div class="row">
+        <div class="col-md-8">
+            <div style="padding-left: 1em">
+                {{ primary_field|safe }}
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div style="padding-right: 1em">
+                {{ secondary_field|safe }}
+            </div>
+        </div>
+    </div>
+    {#    {% include 'bootstrap3/layout/help_text_and_errors.html' %}#}
+    {#    TODO: Fix bug where reposting form with errors in this field will cause the error messages to be appended, not cleared#}
+    {% if form_show_errors %}
+        {% for field in multifield.bound_fields %}
+            {% if field.errors %}
+                {% for error in field.errors %}
+                    <span id="error_{{ forloop.counter }}_{{ field.auto_id }}"
+                          class="help-block"><strong>{{ error }}</strong></span>
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    {% for field in multifield.bound_fields %}
+        {% if field.help_text %}
+            <p id="hint_{{ field.auto_id }}" class="help-block">{{ field.help_text|safe }}</p>
+        {% endif %}
+    {% endfor %}
+</div>

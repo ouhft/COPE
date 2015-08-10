@@ -12,9 +12,9 @@
         </label>
     {% endif %}
 
-    <div class="input-group date" id="{{ field.id_for_label }}"
-         data-link-field="{{ field.id_for_label }}" {{ flat_attrs|safe }}>
+    <div class="input-group date">
         {% crispy_field field %}
+{#        TODO: Why is the drop down not appearing on clicking the calendar? #}
         <span class="input-group-addon">
             <span class="glyphicon glyphicon-calendar"></span>
         </span>

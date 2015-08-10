@@ -1,6 +1,5 @@
 Django              >=1.8
 docutils            >=0.12
-django-crispy-forms >=1.4.0
 pytz
 
 # Utils
