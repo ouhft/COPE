@@ -1,7 +1,7 @@
 from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Div, Fieldset, HTML, Field
-from theme.layout import InlineFields, FieldWithFollowup, YesNoFieldWithAlternativeFollowups
+from theme.layout import InlineFields, FieldWithFollowup, YesNoFieldWithAlternativeFollowups, FieldWithNotKnown
 from crispy_forms.bootstrap import FormActions
 from .models import Donor, Organ, YES_NO_UNKNOWN_CHOICES
 from django.utils import timezone
@@ -96,8 +96,9 @@ class DonorForm(forms.ModelForm):
         Field('diabetes_melitus', template="bootstrap3/layout/radioselect-buttons.html"),
         Field('alcohol_abuse', template="bootstrap3/layout/radioselect-buttons.html"),
         Field('cardiac_arrest', template="bootstrap3/layout/radioselect-buttons.html"),
-        'systolic_blood_pressure', 'diastolic_blood_pressure', 'diuresis_last_day', 'diuresis_last_day_unknown',
-        'diuresis_last_hour', 'diuresis_last_hour_unknown',
+        'systolic_blood_pressure', 'diastolic_blood_pressure',
+        FieldWithNotKnown('diuresis_last_day', 'diuresis_last_day_unknown'),
+        FieldWithNotKnown('diuresis_last_hour', 'diuresis_last_hour_unknown'),
         Field('dopamine', template="bootstrap3/layout/radioselect-buttons.html"),
         Field('dobutamine', template="bootstrap3/layout/radioselect-buttons.html"),
         Field('nor_adrenaline', template="bootstrap3/layout/radioselect-buttons.html"),

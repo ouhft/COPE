@@ -1,0 +1,64 @@
+{% load crispy_forms_filters crispy_forms_field %}
+{% load l10n i18n %}
+<div class="form-group{% if multifield.css_class %} {{ multifield.css_class }}{% endif %}">
+    {% if multifield.label_html %}
+        <label {% if multifield.label_class %}class="control-label {{ multifield.label_class }}"{% endif %}
+               for="{{ primary_field.id_for_label }}">{{ multifield.label_html|safe }}</label>
+    {% endif %}
+
+    <div class="input-group" id="{{ multifield.label_html|slugify }}">
+        {{ primary_field|safe }}
+        {#        <label class="sr-only" for="exampleInputPassword3">Password</label>#}
+        {#        <input type="password" class="form-control" id="exampleInputPassword3" placeholder="Password">#}
+        {##}
+        <div class="input-group-addon">
+            {{ secondary_field|safe }}
+            {#            <label>#}
+            {#                <input type="checkbox"> ?#}
+            {#            </label>#}
+        </div>
+    </div>
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function (event) {
+            var checkbox = $('#{{ multifield.label_html|slugify }}').find('input:checkbox');
+            var input = $('#{{ multifield.label_html|slugify }}').find('input:text');
+            if (checkbox.exists()) {
+                var checkboxname = checkbox.attr('name');
+                // Set initial state
+                $(document).ready(function () {
+                    if ($('input:checkbox[name=' + checkboxname + ']:last').is(':checked')) {
+                        input.val("").attr("disabled",true);
+                    } else {
+                        input.attr("disabled", false);
+                    }
+                })
+
+                // set onchange function for the checkbox
+                checkbox.on("change", function () {
+                    if ($('input:checkbox[name=' + checkboxname + ']:checked').is(':checked')) {
+                        input.val("").attr("disabled",true);
+                    } else {
+                        input.attr("disabled",false);
+                    }
+                });
+            }
+        });
+    </script>
+    {#    {% include 'bootstrap3/layout/help_text_and_errors.html' %}#}
+    {#    TODO: Fix bug where reposting form with errors in this field will cause the error messages to be appended, not cleared#}
+    {% if form_show_errors %}
+        {% for field in multifield.bound_fields %}
+            {% if field.errors %}
+                {% for error in field.errors %}
+                    <span id="error_{{ forloop.counter }}_{{ field.auto_id }}"
+                          class="help-block"><strong>{{ error }}</strong></span>
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    {% for field in multifield.bound_fields %}
+        {% if field.help_text %}
+            <p id="hint_{{ field.auto_id }}" class="help-block">{{ field.help_text|safe }}</p>
+        {% endif %}
+    {% endfor %}
+</div>

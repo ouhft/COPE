@@ -66,8 +66,6 @@ class InlineFields(ComboField):
 
 class FieldWithFollowup(ComboField):
     template = 'bootstrap3/layout/multi-other-field.html'
-    field_template1 = "bootstrap3/field.html"
-    field_template2 = "bootstrap3/field.html"
     # Presumes the last value in the select list is the "other" option
 
 
