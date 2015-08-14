@@ -143,9 +143,10 @@ class Sample(models.Model):
 
 
 class Donor(VersionControlModel):
+    sequence_number = models.PositiveSmallIntegerField(verbose_name=_("DO02 sequence number"), default=0)
+    multiple_recipients = models.NullBooleanField(verbose_name="", default=None)
     # Procedure data
     retrieval_team = models.ForeignKey(RetrievalTeam, verbose_name=_("DO01 retrieval team"))
-    sequence_number = models.PositiveSmallIntegerField(verbose_name=_("DO02 sequence number"), default=0)
     perfusion_technician = models.ForeignKey(
         Person,
         verbose_name=_('DO03 name of transplant technician'),
@@ -190,6 +191,7 @@ class Donor(VersionControlModel):
         verbose_name=_('DO11 arrival at donor hospital'),
         blank=True, null=True
     )
+
 
     # Donor details
     MALE = 'M'
@@ -545,7 +547,7 @@ class Donor(VersionControlModel):
         if self.diuresis_last_hour_unknown:
             self.diuresis_last_hour = None
 
-        if self.life_support_withdrawal and self.life_support_withdrawal < self.date_of_admission:
+        if self.life_support_withdrawal and self.life_support_withdrawal.date() < self.date_of_admission:
             raise ValidationError(_("DOv09 Life support withdrawn before admission to hospital"))
         if self.circulatory_arrest and self.death_diagnosed:
             if self.circulatory_arrest > self.death_diagnosed:
@@ -653,12 +655,12 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
     OTHER_DAMAGE = 6
     NO_DAMAGE = 5
     GRAFT_DAMAGE_CHOICES = (
+        (NO_DAMAGE, _("OR15 None")),
         (ARTERIAL_DAMAGE, _("OR10 Arterial Damage")),
         (VENOUS_DAMAGE, _("OR11 Venous Damage")),
         (URETERAL_DAMAGE, _("OR12 Ureteral Damage")),
         (PARENCHYMAL_DAMAGE, _("OR13 Parenchymal Damage")),
-        (OTHER_DAMAGE, _("OR14 Other Damage")),
-        (NO_DAMAGE, _("OR15 None"))
+        (OTHER_DAMAGE, _("OR14 Other Damage"))
     )
 
     HOMEGENOUS = 1

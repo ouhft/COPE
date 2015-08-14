@@ -35,12 +35,15 @@ YES_NO_CHOICES = (
 )
 
 
-def FormPanel(title, layout):
+def FormPanel(title, layout, panel_status=None):
+    css_status = "default"
+    if panel_status is not None:
+        css_status = panel_status
     return Div(
         # TODO: Work out how to i18n this later!
         Div(HTML("<h3 class=\"panel-title\">%s</h3>" % title), css_class="panel-heading"),
         Div(Div(layout, style="padding: 0 1.2em;"), css_class="panel-body"),
-        css_class="panel panel-default"
+        css_class="panel panel-%s" % css_status
     )
 
 
@@ -128,19 +131,26 @@ class DonorForm(forms.ModelForm):
     helper = FormHelper()
     helper.form_tag = False
     helper.html5_required = True
-    helper.layout = Layout(
-        FormColumnPanel("Procedure Data", layout_1),
-        FormColumnPanel("Donor Details", layout_2),
-        FormColumnPanel("Donor Preop Data", layout_3),
-        FormColumnPanel("Lab Results", layout_4),
-        FormColumnPanel("Sampling Data", layout_5),
-        Div(css_class="clearfix")
+    helper.layout = Div(
+        Div(
+            FormPanel("Procedure Data", layout_1),
+            FormPanel("Donor Preop Data", layout_3),
+            css_class="col-md-6", style="margin-top: 10px;"
+        ),
+        Div(
+            FormPanel("Donor Details", layout_2),
+            FormPanel("Lab Results", layout_4),
+            FormPanel("Sampling Data", layout_5),
+            css_class="col-md-6", style="margin-top: 10px;"
+        ),
+        css_class='row'
     )
 
     def __init__(self, *args, **kwargs):
         super(DonorForm, self).__init__(*args, **kwargs)
         self.fields['retrieval_team'].widget = forms.HiddenInput()
         self.fields['sequence_number'].widget = forms.HiddenInput()
+        self.fields['multiple_recipients'].choices = NO_YES_CHOICES
         self.fields['perfusion_technician'].widget = forms.HiddenInput()
         self.fields['call_received'].input_formats = DATETIME_INPUT_FORMATS
         self.fields['scheduled_start'].input_formats = DATETIME_INPUT_FORMATS
@@ -217,7 +227,9 @@ class DonorStartForm(forms.ModelForm):
 class RandomisationForm(forms.Form):
     # Add the two questions from the two organ objects for transplantable and recipient
     # Plus button to submit and randomise
-    pass
+    donor = forms.IntegerField(widget=forms.HiddenInput)
+    left_transplantable = forms.BooleanField(required=True)
+    right_transplantable = forms.BooleanField(required=True)
 
 
 class OrganForm(forms.ModelForm):
@@ -235,7 +247,11 @@ class OrganForm(forms.ModelForm):
 
     layout_3 = Layout(
         DateTimeField('removal'),
-        'renal_arteries', 'graft_damage',
+        'renal_arteries',
+        FieldWithFollowup(
+            'graft_damage',
+            'graft_damage_other'
+        ),
         Field('washout_perfusion', template="bootstrap3/layout/radioselect-buttons.html"),
         FieldWithFollowup(
             Field('transplantable', template="bootstrap3/layout/radioselect-buttons.html"),
@@ -249,12 +265,8 @@ class OrganForm(forms.ModelForm):
 
     )
 
-    layout_4 = Layout(
-        YesNoFieldWithAlternativeFollowups(
-            'perfusion_possible',
-            'perfusion_not_possible_because',
-            DateTimeField('perfusion_started')
-        ),
+    layout_perfusion_possible = Layout(
+        DateTimeField('perfusion_started'),
         Field('patch_holder', template="bootstrap3/layout/radioselect-buttons.html"),
         FieldWithFollowup(
 
@@ -276,7 +288,15 @@ class OrganForm(forms.ModelForm):
             'perfusate_measure'
         ),
         'perfusion_machine',
-        'perfusion_file',
+        'perfusion_file'
+    )
+
+    layout_4 = Layout(
+        YesNoFieldWithAlternativeFollowups(
+            'perfusion_possible',
+            'perfusion_not_possible_because',
+            layout_perfusion_possible
+        ),
     )
 
     helper = FormHelper()
@@ -284,9 +304,9 @@ class OrganForm(forms.ModelForm):
     helper.html5_required = True
     helper.layout = Div(
         Div(
-            FormPanel("Hidden Data", layout_1),
             FormPanel("Inspection", layout_3),
             FormPanel("Sampling Data", layout_2),
+            FormPanel("Preset Data", layout_1),
             css_class="col-md-6", style="margin-top: 10px;"
         ),
         Div(

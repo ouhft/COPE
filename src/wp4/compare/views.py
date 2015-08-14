@@ -9,9 +9,10 @@ from django.core.exceptions import PermissionDenied
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
 import datetime
+from random import random
 
-from .models import Donor, Person, RetrievalTeam
-from .forms import DonorForm, DonorStartForm, OrganForm, LoginForm
+from .models import Donor, Person, Organ
+from .forms import DonorForm, DonorStartForm, OrganForm, RandomisationForm
 
 
 # Some forced errors to allow for testing the Error Page Templates
@@ -54,6 +55,25 @@ def procurement_form(request, pk):
     right_organ_form = OrganForm(request.POST or None, request.FILES or None, instance=donor.right_kidney(), prefix="right-organ")
     if right_organ_form.is_valid():
         right_organ_form.save(request.user)
+
+    # Randomise if eligible and not already done
+    if donor.left_kidney().preservation is None \
+            and donor.multiple_recipients is not False \
+            and donor.left_kidney().transplantable \
+            and donor.right_kidney().transplantable:
+        left_o2 = random() >= 0.5  # True/False
+        left_kidney = donor.left_kidney()
+        right_kidney = donor.right_kidney()
+        if left_o2:
+            left_kidney.preservation = Organ.HMPO2
+            right_kidney.preservation = Organ.HMP
+        else:
+            left_kidney.preservation = Organ.HMP
+            right_kidney.preservation = Organ.HMPO2
+        left_kidney.save()
+        right_kidney.save()
+        left_organ_form = OrganForm(instance=left_kidney, prefix="left-organ")
+        right_organ_form = OrganForm(instance=right_kidney, prefix="right-organ")
 
     return render_to_response(
         "dashboard/procurement.html",
@@ -98,6 +118,16 @@ def procurement_form_blank(request):
         },
         context_instance=RequestContext(request)
     )
+
+
+@login_required
+@csrf_protect
+def randomisation_form(request, pk):
+    donor = get_object_or_404(Donor, pk=int(pk))
+    randomisation_form = RandomisationForm(request.POST or None)
+    if randomisation_form.is_valid():
+        print("Hello there")
+    return redirect('compare:procurement-detail', pk=donor.id)
 
 
 def dashboard_index(request):

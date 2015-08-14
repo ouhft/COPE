@@ -53,6 +53,7 @@ class OrgansOfferedInline(admin.TabularInline):
 
 class DonorAdmin(VersionControlAdmin):
     fieldsets = [
+        ('Case information', {'fields': ['sequence_number', 'multiple_recipients']}),
         ('Trial Procedure', {'fields': [
             'retrieval_team', 'perfusion_technician', 'transplant_coordinator', 'call_received', 'retrieval_hospital',
             'scheduled_start', 'technician_arrival', 'ice_boxes_filled', 'depart_perfusion_centre',
