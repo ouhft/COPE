@@ -157,7 +157,9 @@ class DonorForm(forms.ModelForm):
     )
     layout_4 = Layout(
         InlineFields('last_creatinine', 'last_creatinine_unit'),
-        InlineFields('max_creatinine', 'max_creatinine_unit'),
+        InlineFields('max_creatinine', 'max_creatinine_unit')
+    )
+    layout_6 = Layout(
         DateTimeField('life_support_withdrawal'),
         DateTimeField('systolic_pressure_low'),
         DateTimeField('o2_saturation'),
@@ -169,6 +171,7 @@ class DonorForm(forms.ModelForm):
             Field('systemic_flush_used', template="bootstrap3/layout/radioselect-buttons.html"),
             'systemic_flush_used_other'
         ),
+        'systemic_flush_volume_used',
         Field('heparin', template="bootstrap3/layout/radioselect-buttons.html"),
     )
     layout_5 = Layout(
@@ -205,12 +208,13 @@ class DonorForm(forms.ModelForm):
         Div(
             FormPanel("Procedure Data", layout_1),
             FormPanel("Donor Preop Data", layout_3),
+            FormPanel("Sampling Data", layout_5),
             css_class="col-md-6", style="margin-top: 10px;"
         ),
         Div(
             FormPanel("Donor Details", layout_2),
             FormPanel("Lab Results", layout_4),
-            FormPanel("Sampling Data", layout_5),
+            FormPanel("Donor Procedure", layout_6),
             css_class="col-md-6", style="margin-top: 10px;"
         ),
         css_class='row'

@@ -319,12 +319,12 @@ class Donor(VersionControlModel):
     other_organs_tissue = models.BooleanField(verbose_name=_("DO47 tissue"), default=False)
 
     # DonorPreop data
-    CEREBRIVASCULAR_ACCIDENT = 1
+    CEREBROVASCULAR_ACCIDENT = 1
     HYPOXIA = 2
     TRAUMA = 3
     OTHER_DIAGNOSIS = 4
     DIAGNOSIS_CHOICES = (
-        (CEREBRIVASCULAR_ACCIDENT, _("DO50 Cerebrivascular Accident")),
+        (CEREBROVASCULAR_ACCIDENT, _("DO50 Cerebrovascular Accident")),
         (HYPOXIA, _("DO51 Hypoxia")),
         (TRAUMA, _("DO52 Trauma")),
         (OTHER_DIAGNOSIS, _("DO53 Other"))
