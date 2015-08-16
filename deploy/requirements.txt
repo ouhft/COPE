@@ -1,5 +1,6 @@
 Django              >=1.8
 docutils            >=0.12
+djangoajax
 pytz
 
 # Utils

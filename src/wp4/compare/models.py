@@ -122,6 +122,29 @@ class RetrievalTeam(models.Model):
 
 # Mostly replaces Specimens
 class Sample(models.Model):
+    DONOR_BLOOD_1 = 1
+    DONOR_BLOOD_2 = 2
+    DONOR_URINE_1 = 3
+    DONOR_URINE_2 = 4
+    KIDNEY_PERFUSATE_1 = 5
+    KIDNEY_PERFUSATE_2 = 6
+    KIDNEY_PERFUSATE_3 = 7
+    RECIPIENT_BLOOD_1 = 8
+    RECIPIENT_BLOOD_2 = 9
+    KIDNEY_TISSUE_1 = 10
+    TYPE_CHOICES = (
+        (DONOR_BLOOD_1, _("SA10 Donor blood 1")),
+        (DONOR_BLOOD_2, _("SA11 Donor blood 2")),
+        (DONOR_URINE_1, _("SA12 Donor urine 1")),
+        (DONOR_URINE_2, _("SA13 Donor urine 2")),
+        (KIDNEY_PERFUSATE_1, _("SA14 Kidney perfusate 1")),
+        (KIDNEY_PERFUSATE_2, _("SA15 Kidney perfusate 1")),
+        (KIDNEY_PERFUSATE_3, _("SA16 Kidney perfusate 1")),
+        (RECIPIENT_BLOOD_1, _("SA17 Recipient blood 1")),
+        (RECIPIENT_BLOOD_2, _("SA18 Recipient blood 1")),
+        (KIDNEY_TISSUE_1, _("SA19 Kidney tissue 1")),
+    )
+    type = models.PositiveSmallIntegerField(_("SA05 sample type"), choices=TYPE_CHOICES)
     barcode = models.CharField(verbose_name=_("SA01 barcode number"), max_length=20)
     taken_at = models.DateTimeField(verbose_name=_("SA02 date and time taken"))
     centrifugation = models.DateTimeField(verbose_name=_("SA03 centrifugation"), null=True, blank=True)
@@ -132,6 +155,23 @@ class Sample(models.Model):
     #  TODO: Reperfusion?
     created_on = models.DateTimeField(default=timezone.now)
     created_by = models.ForeignKey(User)
+
+    def linked_to(self):
+        if self.type is self.DONOR_BLOOD_1:
+            return self.donor_blood_1
+        if self.type is self.DONOR_BLOOD_2:
+            return self.donor_blood_2
+        if self.type is self.DONOR_URINE_1:
+            return self.donor_urine_1
+        if self.type is self.DONOR_URINE_2:
+            return self.donor_urine_2
+        if self.type is self.KIDNEY_PERFUSATE_1:
+            return self.kidney_perfusate_1
+        if self.type is self.KIDNEY_PERFUSATE_2:
+            return self.kidney_perfusate_2
+        if self.type is self.KIDNEY_PERFUSATE_3:
+            return self.kidney_perfusate_3
+        return None
 
     def __unicode__(self):
         return self.barcode
@@ -439,28 +479,32 @@ class Donor(VersionControlModel):
     )
 
     # Sampling data
-    donor_blood_1_EDTA = models.ForeignKey(
+    donor_blood_1_EDTA = models.OneToOneField(
         Sample,
         verbose_name=_('DO91 db 1.1 edta'),
-        related_name="donor_blood_1_EDTA_set",
+        related_name="donor_blood_1",
+        limit_choices_to={'type': Sample.DONOR_BLOOD_1},
         blank=True, null=True
     )
-    donor_blood_1_SST = models.ForeignKey(
+    donor_blood_1_SST = models.OneToOneField(
         Sample,
         verbose_name=_('DO92 db 1.2 sst'),
-        related_name="donor_blood_1_SST_set",
+        related_name="donor_blood_2",
+        limit_choices_to={'type': Sample.DONOR_BLOOD_2},
         blank=True, null=True
     )
-    donor_urine_1 = models.ForeignKey(
+    donor_urine_1 = models.OneToOneField(
         Sample,
         verbose_name=_('DO93 du 1'),
-        related_name="donor_urine_1_set",
+        related_name="donor_urine_1",
+        limit_choices_to={'type': Sample.DONOR_URINE_1},
         blank=True, null=True
     )
-    donor_urine_2 = models.ForeignKey(
+    donor_urine_2 = models.OneToOneField(
         Sample,
         verbose_name=_('DO94 du 2'),
-        related_name="donor_urine_2_set",
+        related_name="donor_urine_2",
+        limit_choices_to={'type': Sample.DONOR_URINE_2},
         blank=True, null=True
     )
 
@@ -816,13 +860,22 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
     perfusate_1 = models.ForeignKey(
         Sample,
         verbose_name=_('OR60 p1'),
-        related_name="perfusate_1_set",
+        related_name="kidney_perfusate_1",
+        limit_choices_to={'type': Sample.KIDNEY_PERFUSATE_1},
         blank=True, null=True
     )
     perfusate_2 = models.ForeignKey(
         Sample,
         verbose_name=_('OR60 p2'),
-        related_name="perfusate_2_set",
+        related_name="kidney_perfusate_2",
+        limit_choices_to={'type': Sample.KIDNEY_PERFUSATE_2},
+        blank=True, null=True
+    )
+    perfusate_3 = models.ForeignKey(
+        Sample,
+        verbose_name=_('OR61 p3'),
+        related_name="kidney_perfusate_3",
+        limit_choices_to={'type': Sample.KIDNEY_PERFUSATE_3},
         blank=True, null=True
     )
 

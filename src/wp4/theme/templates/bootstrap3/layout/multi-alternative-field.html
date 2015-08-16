@@ -39,11 +39,11 @@
                     var lastValue = $('input:radio[name=' + radiogroupname + ']:last').val();
                     radiogroup.on("change", function () {
                         if ($('input:radio[name=' + radiogroupname + ']:checked').val() == lastValue) {
-                            $('#{{ fieldID }}_secondary').show();
-                            $('#{{ fieldID }}_tertiary').hide().find('input').val('');
+                            $('#{{ fieldID }}_secondary').slideDown();
+                            $('#{{ fieldID }}_tertiary').slideUp().find('input').val('');
                         } else {
-                            $('#{{ fieldID }}_secondary').hide().find('input').val('');
-                            $('#{{ fieldID }}_tertiary').show();
+                            $('#{{ fieldID }}_secondary').slideUp().find('input').val('');
+                            $('#{{ fieldID }}_tertiary').slideDown();
                         }
                     });
                 }

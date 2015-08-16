@@ -3,7 +3,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Div, Fieldset, HTML, Field
 from theme.layout import InlineFields, FieldWithFollowup, YesNoFieldWithAlternativeFollowups, FieldWithNotKnown
 from crispy_forms.bootstrap import FormActions
-from .models import Donor, Organ, YES_NO_UNKNOWN_CHOICES
+from .models import Donor, Organ, Sample, YES_NO_UNKNOWN_CHOICES
 from django.utils import timezone
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import ugettext_lazy as _, ungettext_lazy as __
@@ -62,6 +62,29 @@ def DateTimeField(field_name):
 def DateField(field_name):
     return Field(field_name, template="bootstrap3/layout/datetimefield.html",
                  data_date_format="DD-MM-YYYY", placeholder="DD-MM-YYYY")
+
+
+class SampleForm(forms.ModelForm):
+    helper = FormHelper()
+    helper.form_tag = False
+    helper.html5_required = True
+    helper.layout = Layout(
+        Field('retrieval_team', template="bootstrap3/layout/read-only.html"),
+        DateTimeField('taken_at'),
+        DateTimeField('centrifugation'),
+        'comment'
+    )
+
+    class Meta:
+        model = Sample
+        exclude = ['created_by', 'created_on']
+        localized_fields = "__all__"
+
+    def __init__(self, *args, **kwargs):
+        super(SampleForm, self).__init__(*args, **kwargs)
+        self.fields['barcode'].widget = forms.HiddenInput()
+        self.fields['taken_at'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['centrifugation'].input_formats = DATETIME_INPUT_FORMATS
 
 
 class DonorForm(forms.ModelForm):
@@ -246,6 +269,10 @@ class OrganForm(forms.ModelForm):
     )
 
     layout_3 = Layout(
+        FieldWithFollowup(
+            Field('transplantable', template="bootstrap3/layout/radioselect-buttons.html"),
+            'not_transplantable_reason'
+        ),
         DateTimeField('removal'),
         'renal_arteries',
         FieldWithFollowup(
@@ -253,10 +280,6 @@ class OrganForm(forms.ModelForm):
             'graft_damage_other'
         ),
         Field('washout_perfusion', template="bootstrap3/layout/radioselect-buttons.html"),
-        FieldWithFollowup(
-            Field('transplantable', template="bootstrap3/layout/radioselect-buttons.html"),
-            'not_transplantable_reason'
-        ),
     )
 
     layout_artificial_patches = Layout(
@@ -266,6 +289,7 @@ class OrganForm(forms.ModelForm):
     )
 
     layout_perfusion_possible = Layout(
+        'perfusion_machine',
         DateTimeField('perfusion_started'),
         Field('patch_holder', template="bootstrap3/layout/radioselect-buttons.html"),
         FieldWithFollowup(
@@ -287,7 +311,6 @@ class OrganForm(forms.ModelForm):
             Field('perfusate_measurable', template="bootstrap3/layout/radioselect-buttons.html"),
             'perfusate_measure'
         ),
-        'perfusion_machine',
         'perfusion_file'
     )
 

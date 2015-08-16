@@ -1,0 +1,455 @@
+identifier,StratID,Country,centreName,block,size,SeqInBlk,treat,AllocationLeft,AllocationRight
+1,1,1,United Kindom,1,4,1,BA,HMP+oxygen,HMP
+2,1,1,United Kindom,1,4,2,AB,HMP,HMP+oxygen
+3,1,1,United Kindom,1,4,3,AB,HMP,HMP+oxygen
+4,1,1,United Kindom,1,4,4,BA,HMP+oxygen,HMP
+5,1,1,United Kindom,2,6,1,BA,HMP+oxygen,HMP
+6,1,1,United Kindom,2,6,2,BA,HMP+oxygen,HMP
+7,1,1,United Kindom,2,6,3,AB,HMP,HMP+oxygen
+8,1,1,United Kindom,2,6,4,AB,HMP,HMP+oxygen
+9,1,1,United Kindom,2,6,5,AB,HMP,HMP+oxygen
+10,1,1,United Kindom,2,6,6,BA,HMP+oxygen,HMP
+11,1,1,United Kindom,3,6,1,AB,HMP,HMP+oxygen
+12,1,1,United Kindom,3,6,2,BA,HMP+oxygen,HMP
+13,1,1,United Kindom,3,6,3,BA,HMP+oxygen,HMP
+14,1,1,United Kindom,3,6,4,AB,HMP,HMP+oxygen
+15,1,1,United Kindom,3,6,5,BA,HMP+oxygen,HMP
+16,1,1,United Kindom,3,6,6,AB,HMP,HMP+oxygen
+17,1,1,United Kindom,4,4,1,AB,HMP,HMP+oxygen
+18,1,1,United Kindom,4,4,2,BA,HMP+oxygen,HMP
+19,1,1,United Kindom,4,4,3,AB,HMP,HMP+oxygen
+20,1,1,United Kindom,4,4,4,BA,HMP+oxygen,HMP
+21,1,1,United Kindom,5,4,1,AB,HMP,HMP+oxygen
+22,1,1,United Kindom,5,4,2,AB,HMP,HMP+oxygen
+23,1,1,United Kindom,5,4,3,BA,HMP+oxygen,HMP
+24,1,1,United Kindom,5,4,4,BA,HMP+oxygen,HMP
+25,1,1,United Kindom,6,4,1,BA,HMP+oxygen,HMP
+26,1,1,United Kindom,6,4,2,BA,HMP+oxygen,HMP
+27,1,1,United Kindom,6,4,3,AB,HMP,HMP+oxygen
+28,1,1,United Kindom,6,4,4,AB,HMP,HMP+oxygen
+29,1,1,United Kindom,7,4,1,AB,HMP,HMP+oxygen
+30,1,1,United Kindom,7,4,2,BA,HMP+oxygen,HMP
+31,1,1,United Kindom,7,4,3,BA,HMP+oxygen,HMP
+32,1,1,United Kindom,7,4,4,AB,HMP,HMP+oxygen
+33,1,1,United Kindom,8,4,1,BA,HMP+oxygen,HMP
+34,1,1,United Kindom,8,4,2,AB,HMP,HMP+oxygen
+35,1,1,United Kindom,8,4,3,BA,HMP+oxygen,HMP
+36,1,1,United Kindom,8,4,4,AB,HMP,HMP+oxygen
+37,1,1,United Kindom,9,6,1,AB,HMP,HMP+oxygen
+38,1,1,United Kindom,9,6,2,BA,HMP+oxygen,HMP
+39,1,1,United Kindom,9,6,3,BA,HMP+oxygen,HMP
+40,1,1,United Kindom,9,6,4,AB,HMP,HMP+oxygen
+41,1,1,United Kindom,9,6,5,BA,HMP+oxygen,HMP
+42,1,1,United Kindom,9,6,6,AB,HMP,HMP+oxygen
+43,1,1,United Kindom,10,2,1,AB,HMP,HMP+oxygen
+44,1,1,United Kindom,10,2,2,BA,HMP+oxygen,HMP
+45,1,1,United Kindom,11,2,1,BA,HMP+oxygen,HMP
+46,1,1,United Kindom,11,2,2,AB,HMP,HMP+oxygen
+47,1,1,United Kindom,12,6,1,BA,HMP+oxygen,HMP
+48,1,1,United Kindom,12,6,2,AB,HMP,HMP+oxygen
+49,1,1,United Kindom,12,6,3,AB,HMP,HMP+oxygen
+50,1,1,United Kindom,12,6,4,AB,HMP,HMP+oxygen
+51,1,1,United Kindom,12,6,5,BA,HMP+oxygen,HMP
+52,1,1,United Kindom,12,6,6,BA,HMP+oxygen,HMP
+53,1,1,United Kindom,13,4,1,AB,HMP,HMP+oxygen
+54,1,1,United Kindom,13,4,2,BA,HMP+oxygen,HMP
+55,1,1,United Kindom,13,4,3,AB,HMP,HMP+oxygen
+56,1,1,United Kindom,13,4,4,BA,HMP+oxygen,HMP
+57,1,1,United Kindom,14,6,1,BA,HMP+oxygen,HMP
+58,1,1,United Kindom,14,6,2,BA,HMP+oxygen,HMP
+59,1,1,United Kindom,14,6,3,AB,HMP,HMP+oxygen
+60,1,1,United Kindom,14,6,4,BA,HMP+oxygen,HMP
+61,1,1,United Kindom,14,6,5,AB,HMP,HMP+oxygen
+62,1,1,United Kindom,14,6,6,AB,HMP,HMP+oxygen
+63,1,1,United Kindom,15,4,1,AB,HMP,HMP+oxygen
+64,1,1,United Kindom,15,4,2,BA,HMP+oxygen,HMP
+65,1,1,United Kindom,15,4,3,AB,HMP,HMP+oxygen
+66,1,1,United Kindom,15,4,4,BA,HMP+oxygen,HMP
+67,1,1,United Kindom,16,6,1,BA,HMP+oxygen,HMP
+68,1,1,United Kindom,16,6,2,AB,HMP,HMP+oxygen
+69,1,1,United Kindom,16,6,3,BA,HMP+oxygen,HMP
+70,1,1,United Kindom,16,6,4,AB,HMP,HMP+oxygen
+71,1,1,United Kindom,16,6,5,AB,HMP,HMP+oxygen
+72,1,1,United Kindom,16,6,6,BA,HMP+oxygen,HMP
+73,1,1,United Kindom,17,4,1,AB,HMP,HMP+oxygen
+74,1,1,United Kindom,17,4,2,BA,HMP+oxygen,HMP
+75,1,1,United Kindom,17,4,3,BA,HMP+oxygen,HMP
+76,1,1,United Kindom,17,4,4,AB,HMP,HMP+oxygen
+77,1,1,United Kindom,18,2,1,BA,HMP+oxygen,HMP
+78,1,1,United Kindom,18,2,2,AB,HMP,HMP+oxygen
+79,1,1,United Kindom,19,2,1,BA,HMP+oxygen,HMP
+80,1,1,United Kindom,19,2,2,AB,HMP,HMP+oxygen
+81,1,1,United Kindom,20,4,1,AB,HMP,HMP+oxygen
+82,1,1,United Kindom,20,4,2,BA,HMP+oxygen,HMP
+83,1,1,United Kindom,20,4,3,BA,HMP+oxygen,HMP
+84,1,1,United Kindom,20,4,4,AB,HMP,HMP+oxygen
+85,1,1,United Kindom,21,6,1,BA,HMP+oxygen,HMP
+86,1,1,United Kindom,21,6,2,BA,HMP+oxygen,HMP
+87,1,1,United Kindom,21,6,3,AB,HMP,HMP+oxygen
+88,1,1,United Kindom,21,6,4,AB,HMP,HMP+oxygen
+89,1,1,United Kindom,21,6,5,BA,HMP+oxygen,HMP
+90,1,1,United Kindom,21,6,6,AB,HMP,HMP+oxygen
+91,1,1,United Kindom,22,6,1,AB,HMP,HMP+oxygen
+92,1,1,United Kindom,22,6,2,BA,HMP+oxygen,HMP
+93,1,1,United Kindom,22,6,3,BA,HMP+oxygen,HMP
+94,1,1,United Kindom,22,6,4,BA,HMP+oxygen,HMP
+95,1,1,United Kindom,22,6,5,AB,HMP,HMP+oxygen
+96,1,1,United Kindom,22,6,6,AB,HMP,HMP+oxygen
+97,1,1,United Kindom,23,6,1,AB,HMP,HMP+oxygen
+98,1,1,United Kindom,23,6,2,BA,HMP+oxygen,HMP
+99,1,1,United Kindom,23,6,3,BA,HMP+oxygen,HMP
+100,1,1,United Kindom,23,6,4,AB,HMP,HMP+oxygen
+101,1,1,United Kindom,23,6,5,AB,HMP,HMP+oxygen
+102,1,1,United Kindom,23,6,6,BA,HMP+oxygen,HMP
+103,1,1,United Kindom,24,4,1,AB,HMP,HMP+oxygen
+104,1,1,United Kindom,24,4,2,AB,HMP,HMP+oxygen
+105,1,1,United Kindom,24,4,3,BA,HMP+oxygen,HMP
+106,1,1,United Kindom,24,4,4,BA,HMP+oxygen,HMP
+107,1,1,United Kindom,25,2,1,AB,HMP,HMP+oxygen
+108,1,1,United Kindom,25,2,2,BA,HMP+oxygen,HMP
+109,1,1,United Kindom,26,4,1,AB,HMP,HMP+oxygen
+110,1,1,United Kindom,26,4,2,AB,HMP,HMP+oxygen
+111,1,1,United Kindom,26,4,3,BA,HMP+oxygen,HMP
+112,1,1,United Kindom,26,4,4,BA,HMP+oxygen,HMP
+113,1,1,United Kindom,27,4,1,BA,HMP+oxygen,HMP
+114,1,1,United Kindom,27,4,2,BA,HMP+oxygen,HMP
+115,1,1,United Kindom,27,4,3,AB,HMP,HMP+oxygen
+116,1,1,United Kindom,27,4,4,AB,HMP,HMP+oxygen
+117,1,1,United Kindom,28,4,1,AB,HMP,HMP+oxygen
+118,1,1,United Kindom,28,4,2,BA,HMP+oxygen,HMP
+119,1,1,United Kindom,28,4,3,AB,HMP,HMP+oxygen
+120,1,1,United Kindom,28,4,4,BA,HMP+oxygen,HMP
+121,1,1,United Kindom,29,6,1,AB,HMP,HMP+oxygen
+122,1,1,United Kindom,29,6,2,AB,HMP,HMP+oxygen
+123,1,1,United Kindom,29,6,3,BA,HMP+oxygen,HMP
+124,1,1,United Kindom,29,6,4,BA,HMP+oxygen,HMP
+125,1,1,United Kindom,29,6,5,BA,HMP+oxygen,HMP
+126,1,1,United Kindom,29,6,6,AB,HMP,HMP+oxygen
+127,1,1,United Kindom,30,6,1,AB,HMP,HMP+oxygen
+128,1,1,United Kindom,30,6,2,AB,HMP,HMP+oxygen
+129,1,1,United Kindom,30,6,3,BA,HMP+oxygen,HMP
+130,1,1,United Kindom,30,6,4,BA,HMP+oxygen,HMP
+131,1,1,United Kindom,30,6,5,BA,HMP+oxygen,HMP
+132,1,1,United Kindom,30,6,6,AB,HMP,HMP+oxygen
+133,1,1,United Kindom,31,6,1,BA,HMP+oxygen,HMP
+134,1,1,United Kindom,31,6,2,BA,HMP+oxygen,HMP
+135,1,1,United Kindom,31,6,3,AB,HMP,HMP+oxygen
+136,1,1,United Kindom,31,6,4,AB,HMP,HMP+oxygen
+137,1,1,United Kindom,31,6,5,AB,HMP,HMP+oxygen
+138,1,1,United Kindom,31,6,6,BA,HMP+oxygen,HMP
+139,1,1,United Kindom,32,4,1,BA,HMP+oxygen,HMP
+140,1,1,United Kindom,32,4,2,BA,HMP+oxygen,HMP
+141,1,1,United Kindom,32,4,3,AB,HMP,HMP+oxygen
+142,1,1,United Kindom,32,4,4,AB,HMP,HMP+oxygen
+143,1,1,United Kindom,33,6,1,AB,HMP,HMP+oxygen
+144,1,1,United Kindom,33,6,2,BA,HMP+oxygen,HMP
+145,1,1,United Kindom,33,6,3,AB,HMP,HMP+oxygen
+146,1,1,United Kindom,33,6,4,AB,HMP,HMP+oxygen
+147,1,1,United Kindom,33,6,5,BA,HMP+oxygen,HMP
+148,1,1,United Kindom,33,6,6,BA,HMP+oxygen,HMP
+149,1,1,United Kindom,34,4,1,AB,HMP,HMP+oxygen
+150,1,1,United Kindom,34,4,2,BA,HMP+oxygen,HMP
+151,1,1,United Kindom,34,4,3,BA,HMP+oxygen,HMP
+152,1,1,United Kindom,34,4,4,AB,HMP,HMP+oxygen
+153,2,4,Belgium,35,4,1,AB,HMP,HMP+oxygen
+154,2,4,Belgium,35,4,2,BA,HMP+oxygen,HMP
+155,2,4,Belgium,35,4,3,AB,HMP,HMP+oxygen
+156,2,4,Belgium,35,4,4,BA,HMP+oxygen,HMP
+157,2,4,Belgium,36,6,1,AB,HMP,HMP+oxygen
+158,2,4,Belgium,36,6,2,AB,HMP,HMP+oxygen
+159,2,4,Belgium,36,6,3,AB,HMP,HMP+oxygen
+160,2,4,Belgium,36,6,4,BA,HMP+oxygen,HMP
+161,2,4,Belgium,36,6,5,BA,HMP+oxygen,HMP
+162,2,4,Belgium,36,6,6,BA,HMP+oxygen,HMP
+163,2,4,Belgium,37,4,1,BA,HMP+oxygen,HMP
+164,2,4,Belgium,37,4,2,AB,HMP,HMP+oxygen
+165,2,4,Belgium,37,4,3,AB,HMP,HMP+oxygen
+166,2,4,Belgium,37,4,4,BA,HMP+oxygen,HMP
+167,2,4,Belgium,38,2,1,AB,HMP,HMP+oxygen
+168,2,4,Belgium,38,2,2,BA,HMP+oxygen,HMP
+169,2,4,Belgium,39,4,1,AB,HMP,HMP+oxygen
+170,2,4,Belgium,39,4,2,BA,HMP+oxygen,HMP
+171,2,4,Belgium,39,4,3,BA,HMP+oxygen,HMP
+172,2,4,Belgium,39,4,4,AB,HMP,HMP+oxygen
+173,2,4,Belgium,40,6,1,AB,HMP,HMP+oxygen
+174,2,4,Belgium,40,6,2,BA,HMP+oxygen,HMP
+175,2,4,Belgium,40,6,3,BA,HMP+oxygen,HMP
+176,2,4,Belgium,40,6,4,BA,HMP+oxygen,HMP
+177,2,4,Belgium,40,6,5,AB,HMP,HMP+oxygen
+178,2,4,Belgium,40,6,6,AB,HMP,HMP+oxygen
+179,2,4,Belgium,41,6,1,AB,HMP,HMP+oxygen
+180,2,4,Belgium,41,6,2,BA,HMP+oxygen,HMP
+181,2,4,Belgium,41,6,3,AB,HMP,HMP+oxygen
+182,2,4,Belgium,41,6,4,BA,HMP+oxygen,HMP
+183,2,4,Belgium,41,6,5,AB,HMP,HMP+oxygen
+184,2,4,Belgium,41,6,6,BA,HMP+oxygen,HMP
+185,2,4,Belgium,42,2,1,AB,HMP,HMP+oxygen
+186,2,4,Belgium,42,2,2,BA,HMP+oxygen,HMP
+187,2,4,Belgium,43,2,1,BA,HMP+oxygen,HMP
+188,2,4,Belgium,43,2,2,AB,HMP,HMP+oxygen
+189,2,4,Belgium,44,4,1,AB,HMP,HMP+oxygen
+190,2,4,Belgium,44,4,2,BA,HMP+oxygen,HMP
+191,2,4,Belgium,44,4,3,BA,HMP+oxygen,HMP
+192,2,4,Belgium,44,4,4,AB,HMP,HMP+oxygen
+193,2,4,Belgium,45,4,1,AB,HMP,HMP+oxygen
+194,2,4,Belgium,45,4,2,BA,HMP+oxygen,HMP
+195,2,4,Belgium,45,4,3,BA,HMP+oxygen,HMP
+196,2,4,Belgium,45,4,4,AB,HMP,HMP+oxygen
+197,2,4,Belgium,46,4,1,AB,HMP,HMP+oxygen
+198,2,4,Belgium,46,4,2,BA,HMP+oxygen,HMP
+199,2,4,Belgium,46,4,3,AB,HMP,HMP+oxygen
+200,2,4,Belgium,46,4,4,BA,HMP+oxygen,HMP
+201,2,4,Belgium,47,4,1,AB,HMP,HMP+oxygen
+202,2,4,Belgium,47,4,2,AB,HMP,HMP+oxygen
+203,2,4,Belgium,47,4,3,BA,HMP+oxygen,HMP
+204,2,4,Belgium,47,4,4,BA,HMP+oxygen,HMP
+205,2,4,Belgium,48,4,1,AB,HMP,HMP+oxygen
+206,2,4,Belgium,48,4,2,BA,HMP+oxygen,HMP
+207,2,4,Belgium,48,4,3,AB,HMP,HMP+oxygen
+208,2,4,Belgium,48,4,4,BA,HMP+oxygen,HMP
+209,2,4,Belgium,49,2,1,BA,HMP+oxygen,HMP
+210,2,4,Belgium,49,2,2,AB,HMP,HMP+oxygen
+211,2,4,Belgium,50,6,1,BA,HMP+oxygen,HMP
+212,2,4,Belgium,50,6,2,AB,HMP,HMP+oxygen
+213,2,4,Belgium,50,6,3,BA,HMP+oxygen,HMP
+214,2,4,Belgium,50,6,4,AB,HMP,HMP+oxygen
+215,2,4,Belgium,50,6,5,BA,HMP+oxygen,HMP
+216,2,4,Belgium,50,6,6,AB,HMP,HMP+oxygen
+217,2,4,Belgium,51,4,1,AB,HMP,HMP+oxygen
+218,2,4,Belgium,51,4,2,AB,HMP,HMP+oxygen
+219,2,4,Belgium,51,4,3,BA,HMP+oxygen,HMP
+220,2,4,Belgium,51,4,4,BA,HMP+oxygen,HMP
+221,2,4,Belgium,52,4,1,BA,HMP+oxygen,HMP
+222,2,4,Belgium,52,4,2,BA,HMP+oxygen,HMP
+223,2,4,Belgium,52,4,3,AB,HMP,HMP+oxygen
+224,2,4,Belgium,52,4,4,AB,HMP,HMP+oxygen
+225,2,4,Belgium,53,4,1,BA,HMP+oxygen,HMP
+226,2,4,Belgium,53,4,2,BA,HMP+oxygen,HMP
+227,2,4,Belgium,53,4,3,AB,HMP,HMP+oxygen
+228,2,4,Belgium,53,4,4,AB,HMP,HMP+oxygen
+229,2,4,Belgium,54,2,1,AB,HMP,HMP+oxygen
+230,2,4,Belgium,54,2,2,BA,HMP+oxygen,HMP
+231,2,4,Belgium,55,6,1,BA,HMP+oxygen,HMP
+232,2,4,Belgium,55,6,2,BA,HMP+oxygen,HMP
+233,2,4,Belgium,55,6,3,AB,HMP,HMP+oxygen
+234,2,4,Belgium,55,6,4,AB,HMP,HMP+oxygen
+235,2,4,Belgium,55,6,5,AB,HMP,HMP+oxygen
+236,2,4,Belgium,55,6,6,BA,HMP+oxygen,HMP
+237,2,4,Belgium,56,2,1,AB,HMP,HMP+oxygen
+238,2,4,Belgium,56,2,2,BA,HMP+oxygen,HMP
+239,2,4,Belgium,57,6,1,BA,HMP+oxygen,HMP
+240,2,4,Belgium,57,6,2,AB,HMP,HMP+oxygen
+241,2,4,Belgium,57,6,3,BA,HMP+oxygen,HMP
+242,2,4,Belgium,57,6,4,AB,HMP,HMP+oxygen
+243,2,4,Belgium,57,6,5,BA,HMP+oxygen,HMP
+244,2,4,Belgium,57,6,6,AB,HMP,HMP+oxygen
+245,2,4,Belgium,58,4,1,BA,HMP+oxygen,HMP
+246,2,4,Belgium,58,4,2,AB,HMP,HMP+oxygen
+247,2,4,Belgium,58,4,3,AB,HMP,HMP+oxygen
+248,2,4,Belgium,58,4,4,BA,HMP+oxygen,HMP
+249,2,4,Belgium,59,6,1,BA,HMP+oxygen,HMP
+250,2,4,Belgium,59,6,2,BA,HMP+oxygen,HMP
+251,2,4,Belgium,59,6,3,BA,HMP+oxygen,HMP
+252,2,4,Belgium,59,6,4,AB,HMP,HMP+oxygen
+253,2,4,Belgium,59,6,5,AB,HMP,HMP+oxygen
+254,2,4,Belgium,59,6,6,AB,HMP,HMP+oxygen
+255,2,4,Belgium,60,6,1,AB,HMP,HMP+oxygen
+256,2,4,Belgium,60,6,2,BA,HMP+oxygen,HMP
+257,2,4,Belgium,60,6,3,AB,HMP,HMP+oxygen
+258,2,4,Belgium,60,6,4,BA,HMP+oxygen,HMP
+259,2,4,Belgium,60,6,5,BA,HMP+oxygen,HMP
+260,2,4,Belgium,60,6,6,AB,HMP,HMP+oxygen
+261,2,4,Belgium,61,2,1,BA,HMP+oxygen,HMP
+262,2,4,Belgium,61,2,2,AB,HMP,HMP+oxygen
+263,2,4,Belgium,62,2,1,BA,HMP+oxygen,HMP
+264,2,4,Belgium,62,2,2,AB,HMP,HMP+oxygen
+265,2,4,Belgium,63,2,1,BA,HMP+oxygen,HMP
+266,2,4,Belgium,63,2,2,AB,HMP,HMP+oxygen
+267,2,4,Belgium,64,4,1,AB,HMP,HMP+oxygen
+268,2,4,Belgium,64,4,2,BA,HMP+oxygen,HMP
+269,2,4,Belgium,64,4,3,BA,HMP+oxygen,HMP
+270,2,4,Belgium,64,4,4,AB,HMP,HMP+oxygen
+271,2,4,Belgium,65,4,1,BA,HMP+oxygen,HMP
+272,2,4,Belgium,65,4,2,AB,HMP,HMP+oxygen
+273,2,4,Belgium,65,4,3,BA,HMP+oxygen,HMP
+274,2,4,Belgium,65,4,4,AB,HMP,HMP+oxygen
+275,2,4,Belgium,66,2,1,BA,HMP+oxygen,HMP
+276,2,4,Belgium,66,2,2,AB,HMP,HMP+oxygen
+277,2,4,Belgium,67,4,1,AB,HMP,HMP+oxygen
+278,2,4,Belgium,67,4,2,BA,HMP+oxygen,HMP
+279,2,4,Belgium,67,4,3,BA,HMP+oxygen,HMP
+280,2,4,Belgium,67,4,4,AB,HMP,HMP+oxygen
+281,2,4,Belgium,68,4,1,AB,HMP,HMP+oxygen
+282,2,4,Belgium,68,4,2,BA,HMP+oxygen,HMP
+283,2,4,Belgium,68,4,3,BA,HMP+oxygen,HMP
+284,2,4,Belgium,68,4,4,AB,HMP,HMP+oxygen
+285,2,4,Belgium,69,4,1,BA,HMP+oxygen,HMP
+286,2,4,Belgium,69,4,2,AB,HMP,HMP+oxygen
+287,2,4,Belgium,69,4,3,BA,HMP+oxygen,HMP
+288,2,4,Belgium,69,4,4,AB,HMP,HMP+oxygen
+289,2,4,Belgium,70,2,1,AB,HMP,HMP+oxygen
+290,2,4,Belgium,70,2,2,BA,HMP+oxygen,HMP
+291,2,4,Belgium,71,4,1,AB,HMP,HMP+oxygen
+292,2,4,Belgium,71,4,2,BA,HMP+oxygen,HMP
+293,2,4,Belgium,71,4,3,BA,HMP+oxygen,HMP
+294,2,4,Belgium,71,4,4,AB,HMP,HMP+oxygen
+295,2,4,Belgium,72,4,1,AB,HMP,HMP+oxygen
+296,2,4,Belgium,72,4,2,BA,HMP+oxygen,HMP
+297,2,4,Belgium,72,4,3,AB,HMP,HMP+oxygen
+298,2,4,Belgium,72,4,4,BA,HMP+oxygen,HMP
+299,2,4,Belgium,73,4,1,AB,HMP,HMP+oxygen
+300,2,4,Belgium,73,4,2,AB,HMP,HMP+oxygen
+301,2,4,Belgium,73,4,3,BA,HMP+oxygen,HMP
+302,2,4,Belgium,73,4,4,BA,HMP+oxygen,HMP
+303,3,5,Netherlands,74,2,1,AB,HMP,HMP+oxygen
+304,3,5,Netherlands,74,2,2,BA,HMP+oxygen,HMP
+305,3,5,Netherlands,75,2,1,BA,HMP+oxygen,HMP
+306,3,5,Netherlands,75,2,2,AB,HMP,HMP+oxygen
+307,3,5,Netherlands,76,6,1,BA,HMP+oxygen,HMP
+308,3,5,Netherlands,76,6,2,AB,HMP,HMP+oxygen
+309,3,5,Netherlands,76,6,3,AB,HMP,HMP+oxygen
+310,3,5,Netherlands,76,6,4,BA,HMP+oxygen,HMP
+311,3,5,Netherlands,76,6,5,BA,HMP+oxygen,HMP
+312,3,5,Netherlands,76,6,6,AB,HMP,HMP+oxygen
+313,3,5,Netherlands,77,2,1,AB,HMP,HMP+oxygen
+314,3,5,Netherlands,77,2,2,BA,HMP+oxygen,HMP
+315,3,5,Netherlands,78,4,1,AB,HMP,HMP+oxygen
+316,3,5,Netherlands,78,4,2,AB,HMP,HMP+oxygen
+317,3,5,Netherlands,78,4,3,BA,HMP+oxygen,HMP
+318,3,5,Netherlands,78,4,4,BA,HMP+oxygen,HMP
+319,3,5,Netherlands,79,6,1,AB,HMP,HMP+oxygen
+320,3,5,Netherlands,79,6,2,AB,HMP,HMP+oxygen
+321,3,5,Netherlands,79,6,3,BA,HMP+oxygen,HMP
+322,3,5,Netherlands,79,6,4,BA,HMP+oxygen,HMP
+323,3,5,Netherlands,79,6,5,AB,HMP,HMP+oxygen
+324,3,5,Netherlands,79,6,6,BA,HMP+oxygen,HMP
+325,3,5,Netherlands,80,4,1,BA,HMP+oxygen,HMP
+326,3,5,Netherlands,80,4,2,AB,HMP,HMP+oxygen
+327,3,5,Netherlands,80,4,3,BA,HMP+oxygen,HMP
+328,3,5,Netherlands,80,4,4,AB,HMP,HMP+oxygen
+329,3,5,Netherlands,81,4,1,AB,HMP,HMP+oxygen
+330,3,5,Netherlands,81,4,2,BA,HMP+oxygen,HMP
+331,3,5,Netherlands,81,4,3,AB,HMP,HMP+oxygen
+332,3,5,Netherlands,81,4,4,BA,HMP+oxygen,HMP
+333,3,5,Netherlands,82,4,1,AB,HMP,HMP+oxygen
+334,3,5,Netherlands,82,4,2,BA,HMP+oxygen,HMP
+335,3,5,Netherlands,82,4,3,BA,HMP+oxygen,HMP
+336,3,5,Netherlands,82,4,4,AB,HMP,HMP+oxygen
+337,3,5,Netherlands,83,2,1,BA,HMP+oxygen,HMP
+338,3,5,Netherlands,83,2,2,AB,HMP,HMP+oxygen
+339,3,5,Netherlands,84,4,1,AB,HMP,HMP+oxygen
+340,3,5,Netherlands,84,4,2,AB,HMP,HMP+oxygen
+341,3,5,Netherlands,84,4,3,BA,HMP+oxygen,HMP
+342,3,5,Netherlands,84,4,4,BA,HMP+oxygen,HMP
+343,3,5,Netherlands,85,6,1,BA,HMP+oxygen,HMP
+344,3,5,Netherlands,85,6,2,AB,HMP,HMP+oxygen
+345,3,5,Netherlands,85,6,3,AB,HMP,HMP+oxygen
+346,3,5,Netherlands,85,6,4,AB,HMP,HMP+oxygen
+347,3,5,Netherlands,85,6,5,BA,HMP+oxygen,HMP
+348,3,5,Netherlands,85,6,6,BA,HMP+oxygen,HMP
+349,3,5,Netherlands,86,6,1,BA,HMP+oxygen,HMP
+350,3,5,Netherlands,86,6,2,AB,HMP,HMP+oxygen
+351,3,5,Netherlands,86,6,3,AB,HMP,HMP+oxygen
+352,3,5,Netherlands,86,6,4,BA,HMP+oxygen,HMP
+353,3,5,Netherlands,86,6,5,BA,HMP+oxygen,HMP
+354,3,5,Netherlands,86,6,6,AB,HMP,HMP+oxygen
+355,3,5,Netherlands,87,2,1,AB,HMP,HMP+oxygen
+356,3,5,Netherlands,87,2,2,BA,HMP+oxygen,HMP
+357,3,5,Netherlands,88,2,1,BA,HMP+oxygen,HMP
+358,3,5,Netherlands,88,2,2,AB,HMP,HMP+oxygen
+359,3,5,Netherlands,89,4,1,BA,HMP+oxygen,HMP
+360,3,5,Netherlands,89,4,2,BA,HMP+oxygen,HMP
+361,3,5,Netherlands,89,4,3,AB,HMP,HMP+oxygen
+362,3,5,Netherlands,89,4,4,AB,HMP,HMP+oxygen
+363,3,5,Netherlands,90,2,1,AB,HMP,HMP+oxygen
+364,3,5,Netherlands,90,2,2,BA,HMP+oxygen,HMP
+365,3,5,Netherlands,91,2,1,BA,HMP+oxygen,HMP
+366,3,5,Netherlands,91,2,2,AB,HMP,HMP+oxygen
+367,3,5,Netherlands,92,4,1,BA,HMP+oxygen,HMP
+368,3,5,Netherlands,92,4,2,AB,HMP,HMP+oxygen
+369,3,5,Netherlands,92,4,3,BA,HMP+oxygen,HMP
+370,3,5,Netherlands,92,4,4,AB,HMP,HMP+oxygen
+371,3,5,Netherlands,93,4,1,AB,HMP,HMP+oxygen
+372,3,5,Netherlands,93,4,2,BA,HMP+oxygen,HMP
+373,3,5,Netherlands,93,4,3,AB,HMP,HMP+oxygen
+374,3,5,Netherlands,93,4,4,BA,HMP+oxygen,HMP
+375,3,5,Netherlands,94,4,1,AB,HMP,HMP+oxygen
+376,3,5,Netherlands,94,4,2,BA,HMP+oxygen,HMP
+377,3,5,Netherlands,94,4,3,AB,HMP,HMP+oxygen
+378,3,5,Netherlands,94,4,4,BA,HMP+oxygen,HMP
+379,3,5,Netherlands,95,4,1,BA,HMP+oxygen,HMP
+380,3,5,Netherlands,95,4,2,AB,HMP,HMP+oxygen
+381,3,5,Netherlands,95,4,3,BA,HMP+oxygen,HMP
+382,3,5,Netherlands,95,4,4,AB,HMP,HMP+oxygen
+383,3,5,Netherlands,96,6,1,BA,HMP+oxygen,HMP
+384,3,5,Netherlands,96,6,2,BA,HMP+oxygen,HMP
+385,3,5,Netherlands,96,6,3,AB,HMP,HMP+oxygen
+386,3,5,Netherlands,96,6,4,AB,HMP,HMP+oxygen
+387,3,5,Netherlands,96,6,5,BA,HMP+oxygen,HMP
+388,3,5,Netherlands,96,6,6,AB,HMP,HMP+oxygen
+389,3,5,Netherlands,97,2,1,AB,HMP,HMP+oxygen
+390,3,5,Netherlands,97,2,2,BA,HMP+oxygen,HMP
+391,3,5,Netherlands,98,6,1,AB,HMP,HMP+oxygen
+392,3,5,Netherlands,98,6,2,AB,HMP,HMP+oxygen
+393,3,5,Netherlands,98,6,3,AB,HMP,HMP+oxygen
+394,3,5,Netherlands,98,6,4,BA,HMP+oxygen,HMP
+395,3,5,Netherlands,98,6,5,BA,HMP+oxygen,HMP
+396,3,5,Netherlands,98,6,6,BA,HMP+oxygen,HMP
+397,3,5,Netherlands,99,4,1,BA,HMP+oxygen,HMP
+398,3,5,Netherlands,99,4,2,BA,HMP+oxygen,HMP
+399,3,5,Netherlands,99,4,3,AB,HMP,HMP+oxygen
+400,3,5,Netherlands,99,4,4,AB,HMP,HMP+oxygen
+401,3,5,Netherlands,100,4,1,AB,HMP,HMP+oxygen
+402,3,5,Netherlands,100,4,2,AB,HMP,HMP+oxygen
+403,3,5,Netherlands,100,4,3,BA,HMP+oxygen,HMP
+404,3,5,Netherlands,100,4,4,BA,HMP+oxygen,HMP
+405,3,5,Netherlands,101,6,1,AB,HMP,HMP+oxygen
+406,3,5,Netherlands,101,6,2,AB,HMP,HMP+oxygen
+407,3,5,Netherlands,101,6,3,AB,HMP,HMP+oxygen
+408,3,5,Netherlands,101,6,4,BA,HMP+oxygen,HMP
+409,3,5,Netherlands,101,6,5,BA,HMP+oxygen,HMP
+410,3,5,Netherlands,101,6,6,BA,HMP+oxygen,HMP
+411,3,5,Netherlands,102,4,1,AB,HMP,HMP+oxygen
+412,3,5,Netherlands,102,4,2,BA,HMP+oxygen,HMP
+413,3,5,Netherlands,102,4,3,BA,HMP+oxygen,HMP
+414,3,5,Netherlands,102,4,4,AB,HMP,HMP+oxygen
+415,3,5,Netherlands,103,2,1,BA,HMP+oxygen,HMP
+416,3,5,Netherlands,103,2,2,AB,HMP,HMP+oxygen
+417,3,5,Netherlands,104,2,1,AB,HMP,HMP+oxygen
+418,3,5,Netherlands,104,2,2,BA,HMP+oxygen,HMP
+419,3,5,Netherlands,105,2,1,BA,HMP+oxygen,HMP
+420,3,5,Netherlands,105,2,2,AB,HMP,HMP+oxygen
+421,3,5,Netherlands,106,2,1,BA,HMP+oxygen,HMP
+422,3,5,Netherlands,106,2,2,AB,HMP,HMP+oxygen
+423,3,5,Netherlands,107,2,1,AB,HMP,HMP+oxygen
+424,3,5,Netherlands,107,2,2,BA,HMP+oxygen,HMP
+425,3,5,Netherlands,108,6,1,BA,HMP+oxygen,HMP
+426,3,5,Netherlands,108,6,2,AB,HMP,HMP+oxygen
+427,3,5,Netherlands,108,6,3,AB,HMP,HMP+oxygen
+428,3,5,Netherlands,108,6,4,BA,HMP+oxygen,HMP
+429,3,5,Netherlands,108,6,5,AB,HMP,HMP+oxygen
+430,3,5,Netherlands,108,6,6,BA,HMP+oxygen,HMP
+431,3,5,Netherlands,109,6,1,BA,HMP+oxygen,HMP
+432,3,5,Netherlands,109,6,2,AB,HMP,HMP+oxygen
+433,3,5,Netherlands,109,6,3,BA,HMP+oxygen,HMP
+434,3,5,Netherlands,109,6,4,AB,HMP,HMP+oxygen
+435,3,5,Netherlands,109,6,5,AB,HMP,HMP+oxygen
+436,3,5,Netherlands,109,6,6,BA,HMP+oxygen,HMP
+437,3,5,Netherlands,110,4,1,AB,HMP,HMP+oxygen
+438,3,5,Netherlands,110,4,2,BA,HMP+oxygen,HMP
+439,3,5,Netherlands,110,4,3,AB,HMP,HMP+oxygen
+440,3,5,Netherlands,110,4,4,BA,HMP+oxygen,HMP
+441,3,5,Netherlands,111,4,1,AB,HMP,HMP+oxygen
+442,3,5,Netherlands,111,4,2,BA,HMP+oxygen,HMP
+443,3,5,Netherlands,111,4,3,AB,HMP,HMP+oxygen
+444,3,5,Netherlands,111,4,4,BA,HMP+oxygen,HMP
+445,3,5,Netherlands,112,6,1,AB,HMP,HMP+oxygen
+446,3,5,Netherlands,112,6,2,AB,HMP,HMP+oxygen
+447,3,5,Netherlands,112,6,3,BA,HMP+oxygen,HMP
+448,3,5,Netherlands,112,6,4,BA,HMP+oxygen,HMP
+449,3,5,Netherlands,112,6,5,AB,HMP,HMP+oxygen
+450,3,5,Netherlands,112,6,6,BA,HMP+oxygen,HMP
+451,3,5,Netherlands,113,4,1,BA,HMP+oxygen,HMP
+452,3,5,Netherlands,113,4,2,AB,HMP,HMP+oxygen
+453,3,5,Netherlands,113,4,3,AB,HMP,HMP+oxygen
+454,3,5,Netherlands,113,4,4,BA,HMP+oxygen,HMP

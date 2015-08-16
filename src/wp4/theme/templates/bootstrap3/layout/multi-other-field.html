@@ -25,9 +25,9 @@
                     // Set onchange function for primary field
                     selector.on('change', function () {
                         if (this.selectedIndex == this.length - 1) {
-                            $('#{{ fieldID }}_secondary').show();
+                            $('#{{ fieldID }}_secondary').slideDown(); //.show();
                         } else {
-                            $('#{{ fieldID }}_secondary').hide().find('input').val('');
+                            $('#{{ fieldID }}_secondary').slideUp().find('input').val('');
                         }
                     })
                 }
@@ -46,9 +46,9 @@
                     var lastValue = $('input:radio[name=' + radiogroupname + ']:last').val();
                     radiogroup.on("change", function () {
                         if ($('input:radio[name=' + radiogroupname + ']:checked').val() == lastValue) {
-                            $('#{{ fieldID }}_secondary').show();
+                            $('#{{ fieldID }}_secondary').slideDown(); //.show();
                         } else {
-                            $('#{{ fieldID }}_secondary').hide().find('input').val('');
+                            $('#{{ fieldID }}_secondary').slideUp().find('input').val('');
                         }
                     });
                 }

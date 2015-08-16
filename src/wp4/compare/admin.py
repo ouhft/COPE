@@ -37,7 +37,7 @@ class RetrievalTeamAdmin(admin.ModelAdmin):
 
 
 class SampleAdmin(admin.ModelAdmin):
-    fields = ['barcode', 'taken_at', 'centrifugation', 'comment']
+    fields = ['type', 'barcode', 'taken_at', 'centrifugation', 'comment']
 
     def save_model(self, request, obj, form, change):
         obj.created_by = request.user
