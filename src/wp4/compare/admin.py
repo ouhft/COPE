@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils import timezone
 
 # Register your models here.
-from .models import Person, Hospital, RetrievalTeam, Sample, Donor, OrgansOffered, PerfusionMachine
+from .models import Person, Hospital, RetrievalTeam, Sample, Donor, PerfusionMachine
 from .models import PerfusionFile, Organ, ProcurementResource
 
 class VersionControlAdmin(admin.ModelAdmin):
@@ -45,12 +45,6 @@ class SampleAdmin(admin.ModelAdmin):
         obj.save()
 
 
-class OrgansOfferedInline(admin.TabularInline):
-    model = OrgansOffered
-    extra = 1
-    fields = ['donor', 'organ']
-
-
 class DonorAdmin(VersionControlAdmin):
     fieldsets = [
         ('Case information', {'fields': ['sequence_number', 'multiple_recipients']}),
@@ -81,17 +75,6 @@ class DonorAdmin(VersionControlAdmin):
             'donor_blood_1_EDTA', 'donor_blood_1_SST', 'donor_urine_1', 'donor_urine_2'
         ]})
     ]
-    inlines = [OrgansOfferedInline]
-
-    def save_formset(self, request, form, formset, change):
-        if formset.model == OrgansOffered:
-            instances = formset.save(commit=False)
-            for instance in instances:
-                instance.created_by = request.user
-                instance.created_on = timezone.now()
-                instance.save()
-        else:
-            formset.save()
 
 
 class PerfusionMachineAdmin(admin.ModelAdmin):

@@ -7,12 +7,13 @@ from django.views.generic.edit import FormView
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth import authenticate, login, logout
+from django.forms.models import inlineformset_factory
 from django.shortcuts import redirect
 import datetime
 from random import random
 
 from .models import Donor, Person, Organ
-from .forms import DonorForm, DonorStartForm, OrganForm, RandomisationForm
+from .forms import DonorForm, DonorStartForm, OrganForm
 
 
 # Some forced errors to allow for testing the Error Page Templates
@@ -55,6 +56,7 @@ def procurement_form(request, pk):
     right_organ_form = OrganForm(request.POST or None, request.FILES or None, instance=donor.right_kidney(), prefix="right-organ")
     if right_organ_form.is_valid():
         right_organ_form.save(request.user)
+
 
     # Randomise if eligible and not already done
     if donor.left_kidney().preservation is None \

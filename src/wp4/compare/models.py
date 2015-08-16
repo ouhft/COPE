@@ -312,7 +312,11 @@ class Donor(VersionControlModel):
         choices=BLOOD_GROUP_CHOICES,
         blank=True, null=True
     )
-    # Reference set to organs_offered
+    other_organs_procured = models.BooleanField(verbose_name=_("DO43 other organs procured"), default=False)
+    other_organs_lungs = models.BooleanField(verbose_name=_("DO44 lungs"), default=False)
+    other_organs_pancreas = models.BooleanField(verbose_name=_("DO45 pancreas"), default=False)
+    other_organs_liver = models.BooleanField(verbose_name=_("DO46 liver"), default=False)
+    other_organs_tissue = models.BooleanField(verbose_name=_("DO47 tissue"), default=False)
 
     # DonorPreop data
     CEREBRIVASCULAR_ACCIDENT = 1
@@ -615,34 +619,6 @@ class Donor(VersionControlModel):
         ordering = ['sequence_number']
         verbose_name = _('DOm1 donor')
         verbose_name_plural = _('DOm2 donors')
-
-
-class OrgansOffered(models.Model):
-    LIVER = 1
-    LUNG = 2
-    PANCREAS = 3
-    TISSUE = 4
-    ORGAN_CHOICES = (
-        (LIVER, _('OO01 Liver')),
-        (LUNG, _('OO02 Lung')),
-        (PANCREAS, _('OO03 Pancreas')),
-        (TISSUE, _('OO04 Tissue'))
-    )
-
-    organ = models.PositiveSmallIntegerField(
-        verbose_name=_('OO05 organ name'),
-        choices=ORGAN_CHOICES
-    )
-    donor = models.ForeignKey(Donor)
-    created_on = models.DateTimeField(default=timezone.now)
-    created_by = models.ForeignKey(User)
-
-    def __unicode__(self):
-        return self.get_organ_display() + ' offered'
-
-    class Meta:
-        verbose_name = _('OOm1 organ offered')
-        verbose_name_plural = _('OOm2 organs offered')
 
 
 class PerfusionMachine(models.Model):

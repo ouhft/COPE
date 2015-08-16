@@ -101,6 +101,12 @@ class DonorForm(forms.ModelForm):
         DateTimeField('depart_perfusion_centre'),
         DateTimeField('arrival_at_donor_hospital'),
     )
+    layout_other_organs = Layout(
+        Field('other_organs_lungs', template="bootstrap3/layout/radioselect-buttons.html"),
+        Field('other_organs_pancreas', template="bootstrap3/layout/radioselect-buttons.html"),
+        Field('other_organs_liver', template="bootstrap3/layout/radioselect-buttons.html"),
+        Field('other_organs_tissue', template="bootstrap3/layout/radioselect-buttons.html"),
+    )
     layout_2 = Layout(
         Field('number', placeholder="___ ___ ____"),
         DateField('date_of_birth'),
@@ -116,6 +122,10 @@ class DonorForm(forms.ModelForm):
         'weight', 'height',
         Field('ethnicity', template="bootstrap3/layout/radioselect-buttons.html"),
         Field('blood_group', template="bootstrap3/layout/radioselect-buttons.html"),
+        FieldWithFollowup(
+            Field('other_organs_procured', template="bootstrap3/layout/radioselect-buttons.html"),
+            layout_other_organs
+        )
     )
     layout_3 = Layout(
         FieldWithFollowup('diagnosis', 'diagnosis_other'),
@@ -191,6 +201,11 @@ class DonorForm(forms.ModelForm):
         self.fields['gender'].widget = forms.HiddenInput()
         self.fields['ethnicity'].choices = Donor.ETHNICITY_CHOICES
         self.fields['blood_group'].choices = Donor.BLOOD_GROUP_CHOICES
+        self.fields['other_organs_procured'].choices = NO_YES_CHOICES
+        self.fields['other_organs_lungs'].choices = NO_YES_CHOICES
+        self.fields['other_organs_pancreas'].choices = NO_YES_CHOICES
+        self.fields['other_organs_liver'].choices = NO_YES_CHOICES
+        self.fields['other_organs_tissue'].choices = NO_YES_CHOICES
         self.fields['diabetes_melitus'].choices = YES_NO_UNKNOWN_CHOICES
         self.fields['alcohol_abuse'].choices = YES_NO_UNKNOWN_CHOICES
         self.fields['cardiac_arrest'].choices = NO_YES_CHOICES
@@ -245,14 +260,6 @@ class DonorStartForm(forms.ModelForm):
         donor.version = 1
         donor.save()
         return donor
-
-
-class RandomisationForm(forms.Form):
-    # Add the two questions from the two organ objects for transplantable and recipient
-    # Plus button to submit and randomise
-    donor = forms.IntegerField(widget=forms.HiddenInput)
-    left_transplantable = forms.BooleanField(required=True)
-    right_transplantable = forms.BooleanField(required=True)
 
 
 class OrganForm(forms.ModelForm):
