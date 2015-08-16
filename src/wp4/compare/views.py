@@ -40,6 +40,10 @@ def error500(request):
 #         return HttpResponse("You prefer to read another language.")
 
 
+def dashboard_index(request):
+    return render(request, 'dashboard/index.html', {})
+
+
 # Legitimate pages
 @login_required
 @csrf_protect
@@ -120,18 +124,4 @@ def procurement_form_blank(request):
         },
         context_instance=RequestContext(request)
     )
-
-
-@login_required
-@csrf_protect
-def randomisation_form(request, pk):
-    donor = get_object_or_404(Donor, pk=int(pk))
-    randomisation_form = RandomisationForm(request.POST or None)
-    if randomisation_form.is_valid():
-        print("Hello there")
-    return redirect('compare:procurement-detail', pk=donor.id)
-
-
-def dashboard_index(request):
-    return render(request, 'dashboard/index.html', {})
 

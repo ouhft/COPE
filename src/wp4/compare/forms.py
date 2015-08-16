@@ -2,7 +2,7 @@ from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Div, Fieldset, HTML, Field
 from theme.layout import InlineFields, FieldWithFollowup, YesNoFieldWithAlternativeFollowups, FieldWithNotKnown
-from crispy_forms.bootstrap import FormActions
+from crispy_forms.bootstrap import FormActions, StrictButton
 from .models import Donor, Organ, Sample, YES_NO_UNKNOWN_CHOICES
 from django.utils import timezone
 from django.contrib.auth.forms import AuthenticationForm
@@ -86,6 +86,20 @@ class SampleForm(forms.ModelForm):
         self.fields['taken_at'].input_formats = DATETIME_INPUT_FORMATS
         self.fields['centrifugation'].input_formats = DATETIME_INPUT_FORMATS
 
+    def save(self, user):
+        sample = super(SampleForm, self).save(commit=False)
+        sample.created_by = user
+        sample.created_on = timezone.now()
+        barcode_string = "undefined"
+        if sample.type in (1, 2, 3, 4):
+            barcode_string = "%s:%s" % (sample.linked_to().trial_id(), sample.get_type_display())
+        if sample.type in (5, 6, 7):
+            barcode_string = "%s:%s" % (sample.linked_to().donor.trial_id(), sample.get_type_display())
+        # TODO: Naming for Recipient Samples
+        sample.barcode = barcode_string
+        sample.save()
+        return sample
+
 
 class DonorForm(forms.ModelForm):
     layout_1 = Layout(
@@ -158,7 +172,30 @@ class DonorForm(forms.ModelForm):
         Field('heparin', template="bootstrap3/layout/radioselect-buttons.html"),
     )
     layout_5 = Layout(
-        'donor_blood_1_EDTA', 'donor_blood_1_SST', 'donor_urine_1', 'donor_urine_2',
+        InlineFields(
+            Field('donor_blood_1_EDTA', template="bootstrap3/layout/read-only.html"),
+            StrictButton('<i class="glyphicon glyphicon-edit"></i>', css_class='btn-default', data_toggle="modal",
+                         data_target="#myModal", title="Add/Edit Sample", css_id="button_db1"),
+            label=_('DO91 db 1.1 edta')
+        ),
+        InlineFields(
+            Field('donor_blood_1_SST', template="bootstrap3/layout/read-only.html"),
+            StrictButton('<i class="glyphicon glyphicon-edit"></i>', css_class='btn-default', data_toggle="modal",
+                         data_target="#myModal", title="Add/Edit Sample", css_id="button_db2"),
+            label=_('DO92 db 1.2 sst')
+        ),
+        InlineFields(
+            Field('donor_urine_1', template="bootstrap3/layout/read-only.html"),
+            StrictButton('<i class="glyphicon glyphicon-edit"></i>', css_class='btn-default', data_toggle="modal",
+                         data_target="#myModal", title="Add/Edit Sample", css_id="button_du1"),
+            label=_('DO93 du 1')
+        ),
+        InlineFields(
+            Field('donor_urine_2', template="bootstrap3/layout/read-only.html"),
+            StrictButton('<i class="glyphicon glyphicon-edit"></i>', css_class='btn-default', data_toggle="modal",
+                         data_target="#myModal", title="Add/Edit Sample", css_id="button_du2"),
+            label=_('DO94 du 2')
+        ),
     )
 
     helper = FormHelper()
@@ -222,6 +259,10 @@ class DonorForm(forms.ModelForm):
         self.fields['systemic_flush_used'].choices = Donor.FLUSH_SOLUTION_CHOICES
         self.fields['heparin'].choices = NO_YES_CHOICES
         # self.fields[''].
+        self.fields['donor_blood_1_EDTA'].widget = forms.HiddenInput()
+        self.fields['donor_blood_1_SST'].widget = forms.HiddenInput()
+        self.fields['donor_urine_1'].widget = forms.HiddenInput()
+        self.fields['donor_urine_2'].widget = forms.HiddenInput()
 
     class Meta:
         model = Donor

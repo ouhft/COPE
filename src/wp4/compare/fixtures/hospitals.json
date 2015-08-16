@@ -97,5 +97,181 @@
       "is_active": true,
       "created_by": 1
     }
+  },
+  {
+    "model": "compare.hospital",
+    "pk": 10,
+    "fields": {
+      "name": "Universitaire Ziekenhuizen Leuven",
+      "centre_code": 41,
+      "country": "Belgium",
+      "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.hospital",
+    "pk": 11,
+    "fields": {
+      "name": "Universitair Ziekenhuis Antwerpen",
+      "centre_code": 42,
+      "country": "Belgium",
+      "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.hospital",
+    "pk": 12,
+    "fields": {
+      "name": "Universitair Ziekenhuis Brussel",
+      "centre_code": 43,
+      "country": "Belgium",
+      "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.hospital",
+    "pk": 13,
+    "fields": {
+      "name": "Université Catholique de Louvain",
+      "centre_code": 44,
+      "country": "Belgium",
+      "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.hospital",
+    "pk": 14,
+    "fields": {
+      "name": "Université Libre de Bruxelles",
+      "centre_code": 45,
+      "country": "Belgium",
+      "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.hospital",
+    "pk": 15,
+    "fields": {
+      "name": "Centre Hospitalier de Liège",
+      "centre_code": 46,
+      "country": "Belgium",
+      "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.hospital",
+    "pk": 16,
+    "fields": {
+      "name": "Universitair Ziekenhuis Gent",
+      "centre_code": 47,
+      "country": "Belgium",
+      "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.hospital",
+    "pk": 17,
+    "fields": {
+      "name": "Universitair Ziekenhuis Gent",
+      "centre_code": 51,
+      "country": "Netherlands",
+      "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.hospital",
+    "pk": 18,
+    "fields": {
+      "name": "Universitair Medisch Centrum Groningen",
+      "centre_code": 51,
+      "country": "Netherlands",
+      "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.hospital",
+    "pk": 19,
+    "fields": {
+      "name": "Maastricht Universitair Centrum",
+      "centre_code": 52,
+      "country": "Netherlands",
+      "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.hospital",
+    "pk": 20,
+    "fields": {
+      "name": "Leids Universitair Centrum",
+      "centre_code": 53,
+      "country": "Netherlands",
+      "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.hospital",
+    "pk": 21,
+    "fields": {
+      "name": "Universitair Medisch Centrum Utrecht",
+      "centre_code": 54,
+      "country": "Netherlands",
+      "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.hospital",
+    "pk": 22,
+    "fields": {
+      "name": "Amsterdams Medisch Centrum",
+      "centre_code": 55,
+      "country": "Netherlands",
+      "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.hospital",
+    "pk": 23,
+    "fields": {
+      "name": "Universitair Medisch Centrum Nijmegen",
+      "centre_code": 56,
+      "country": "Netherlands",
+      "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.hospital",
+    "pk": 24,
+    "fields": {
+      "name": "Erasmus Medisch Centrum",
+      "centre_code": 57,
+      "country": "Netherlands",
+      "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.hospital",
+    "pk": 25,
+    "fields": {
+      "name": "VU Medisch Centrum",
+      "centre_code": 58,
+      "country": "Netherlands",
+      "is_active": true,
+      "created_by": 1
+    }
   }
 ]
