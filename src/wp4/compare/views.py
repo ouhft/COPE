@@ -11,9 +11,10 @@ from django.forms.models import inlineformset_factory
 from django.shortcuts import redirect
 import datetime
 from random import random
+from django_ajax.decorators import ajax
 
-from .models import Donor, Person, Organ
-from .forms import DonorForm, DonorStartForm, OrganForm
+from .models import Donor, Person, Organ, Sample
+from .forms import DonorForm, DonorStartForm, OrganForm, SampleForm
 
 
 # Some forced errors to allow for testing the Error Page Templates
@@ -120,8 +121,30 @@ def procurement_form_blank(request):
         "dashboard/procurement-start.html",
         {
             "donor_form": donor_form,
-            "donors" : donors
+            "donors": donors
         },
         context_instance=RequestContext(request)
     )
 
+
+@login_required
+@csrf_protect
+@ajax
+def sample_editor(request, pk=None, type=None):
+    valid_types = [t[0] for t in Sample.TYPE_CHOICES]
+    if pk is not None:
+        sample = get_object_or_404(Sample, pk=int(pk))
+    elif type is not None and int(type) in valid_types:
+        sample = Sample(type=type)
+    else:
+        raise Http404("This is a page isn't happy")
+
+    sample_form = SampleForm(request.POST or None, request.FILES or None, instance=sample, prefix="sample")
+    if sample_form.is_valid():
+        sample = sample_form.save(request.user)
+
+    return render_to_response(
+        "includes/sample-form.html",
+        {"sample_form": sample_form},
+        context_instance=RequestContext(request)
+    )

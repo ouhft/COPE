@@ -25,3 +25,5 @@ $.fn.exists = function () {
 // @codekit-append "../js-plugins/moment-with-locales.js"
 // @codekit-append "../js-plugins/bootstrap-datetimepicker.js"
 
+// Django-ajax
+// @codekit-append "../js-plugins/jquery.ajax.js"

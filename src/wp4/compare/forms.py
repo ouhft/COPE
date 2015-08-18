@@ -69,7 +69,8 @@ class SampleForm(forms.ModelForm):
     helper.form_tag = False
     helper.html5_required = True
     helper.layout = Layout(
-        Field('retrieval_team', template="bootstrap3/layout/read-only.html"),
+        Field('barcode', template="bootstrap3/layout/read-only.html"),
+        Field('type', template="bootstrap3/layout/read-only.html"),
         DateTimeField('taken_at'),
         DateTimeField('centrifugation'),
         'comment'
@@ -83,6 +84,7 @@ class SampleForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(SampleForm, self).__init__(*args, **kwargs)
         self.fields['barcode'].widget = forms.HiddenInput()
+        self.fields['type'].widget = forms.HiddenInput()
         self.fields['taken_at'].input_formats = DATETIME_INPUT_FORMATS
         self.fields['centrifugation'].input_formats = DATETIME_INPUT_FORMATS
 
@@ -91,9 +93,9 @@ class SampleForm(forms.ModelForm):
         sample.created_by = user
         sample.created_on = timezone.now()
         barcode_string = "undefined"
-        if sample.type in (1, 2, 3, 4):
+        if sample.type in (Sample.DONOR_BLOOD_1, Sample.DONOR_BLOOD_2, Sample.DONOR_URINE_1, Sample.DONOR_URINE_2):
             barcode_string = "%s:%s" % (sample.linked_to().trial_id(), sample.get_type_display())
-        if sample.type in (5, 6, 7):
+        if sample.type in (Sample.KIDNEY_PERFUSATE_1, Sample.KIDNEY_PERFUSATE_2, Sample.KIDNEY_PERFUSATE_3):
             barcode_string = "%s:%s" % (sample.linked_to().donor.trial_id(), sample.get_type_display())
         # TODO: Naming for Recipient Samples
         sample.barcode = barcode_string

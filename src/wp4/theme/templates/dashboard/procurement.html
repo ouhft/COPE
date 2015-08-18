@@ -78,15 +78,27 @@
             }
         }
 
+        function toggleModalContent(display) {
+            if (display) {
+                $('#modal-progressbar').delay(1000).slideUp('slow');
+                $('#modal-content').delay(1000).slideDown('slow');
+            } else {
+                $('#modal-content').hide();
+                $('#modal-progressbar').show();
+            }
+        }
+
         document.addEventListener("DOMContentLoaded", function (event) {
-            // Set initial
+            // Set initial states
             updateRandomiseKidney({% if left_organ_form.transplantable.value %}true{% else %}false{% endif %}, true);
             updateRandomiseKidney({% if right_organ_form.transplantable.value %}true{% else %}false{% endif %}, false);
-            updateRandomiseRecipients({% if donor_form.multiple_recipients.value != False %}true{% else %}
-                false{% endif %});
+            updateRandomiseRecipients(
+                    {% if donor_form.multiple_recipients.value != False %}true{% else %}false{% endif %}
+            );
             updateRandomiseButton();
+            toggleModalContent(false);
 
-            // Apply update function
+            // Apply update functions
             $('input:radio[name=left-organ-transplantable]').parents('label').on('click', function () {
                 clickTransplantable(this, true)
             });
@@ -97,7 +109,26 @@
                 clickRecipients(this)
             });
 
+            $('#button_db1').on('click', function () {
+                ajaxGet('/sample/type/1', function (content) {
+                    //onSuccess
+                    $('#modal-content').html(content);
+                    toggleModalContent(true);
+                })
+            });
+            $('#button_db2').on('click', function () {
 
+            });
+            $('#button_du1').on('click', function () {
+
+            });
+            $('#button_du2').on('click', function () {
+
+            });
+
+            $('#myModal').on('hidden.bs.modal', function (e) {
+                toggleModalContent(false);
+            })
         });
     </script>
 
@@ -109,14 +140,14 @@
                             aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">Modal title</h4>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" id="modal-content">
                     <p>One fine body&hellip;</p>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" id="modal-progressbar">
                     <div class="progress">
-                        <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45"
-                             aria-valuemin="0" aria-valuemax="100" style="width: 45%">
-                            <span class="sr-only">45% Complete</span>
+                        <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100"
+                             aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                            <span class="sr-only">Loading</span>
                         </div>
                     </div>
                 </div>
