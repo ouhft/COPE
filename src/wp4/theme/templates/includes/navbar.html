@@ -20,8 +20,9 @@
                 <li class="{% active request url_home %}"><a href="{{  url_home }}">Home</a></li>
             {% url 'compare:procurement-blank' as url_procurement %}
                 <li class="{% active request url_procurement %}"><a href="{{ url_procurement }}">Procurement</a></li>
-                <li><a href="#">Transplantation</a></li>
-                <li><a href="#">Administration</a></li>
+            {% url 'compare:transplantation' as url_transplantation %}
+                <li class="{% active request url_transplantation %}"><a href="{{ url_transplantation }}">Transplantation</a></li>
+{#                <li><a href="#">Administration</a></li>#}
             {% url 'admin:index' as url_admin_home %}
                 <li><a href="{{ url_admin_home }}"><i class="glyphicon glyphicon-briefcase"></i></a></li>
                 <li class="dropdown">

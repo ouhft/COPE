@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils import timezone
 
 # Register your models here.
-from .models import Person, Hospital, RetrievalTeam, Sample, Donor, PerfusionMachine
+from .models import StaffPerson, Hospital, RetrievalTeam, Sample, Donor, PerfusionMachine
 from .models import PerfusionFile, Organ, ProcurementResource
 
 class VersionControlAdmin(admin.ModelAdmin):
@@ -129,7 +129,7 @@ class OrganAdmin(VersionControlAdmin):
 
 
 
-admin.site.register(Person, PersonAdmin)
+admin.site.register(StaffPerson, PersonAdmin)
 admin.site.register(Hospital, HospitalAdmin)
 admin.site.register(RetrievalTeam, RetrievalTeamAdmin)
 admin.site.register(Sample, SampleAdmin)

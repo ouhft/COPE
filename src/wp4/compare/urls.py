@@ -25,6 +25,10 @@ urlpatterns = [
     url(r'^procurement/$', views.procurement_form_blank, name='procurement-blank'),
     url(r'^procurement/(?P<pk>[0-9]+)/$', views.procurement_form, name='procurement-detail'),
 
+    url(r'^transplantation/$', views.transplantation_form_list, name='transplantation'),
+    url(r'^transplantation/new/(?P<pk>[0-9]+)/$', views.transplantation_form_new, name='transplantation-new'),
+    url(r'^transplantation/(?P<pk>[0-9]+)/$', views.transplantation_form, name='transplantation-detail'),
+
     url(r'^sample/type/(?P<type>[0-9]+)/$', views.sample_editor, name='sample-editor-new'),
     url(r'^sample/(?P<pk>[0-9]+)/$', views.sample_editor, name='sample-editor'),
 

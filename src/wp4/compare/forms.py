@@ -3,7 +3,8 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Div, Fieldset, HTML, Field
 from theme.layout import InlineFields, FieldWithFollowup, YesNoFieldWithAlternativeFollowups, FieldWithNotKnown
 from crispy_forms.bootstrap import FormActions, StrictButton
-from .models import Donor, Organ, Sample, YES_NO_UNKNOWN_CHOICES
+from .models import Donor, Organ, Sample, Recipient
+from .models import YES_NO_UNKNOWN_CHOICES
 from django.utils import timezone
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import ugettext_lazy as _, ungettext_lazy as __
@@ -451,3 +452,26 @@ class LoginForm(AuthenticationForm):
 
     def __init__(self, *args, **kwargs):
         super(LoginForm, self).__init__(*args, **kwargs)
+
+
+class RecipientForm(forms.ModelForm):
+    helper = FormHelper()
+    helper.form_tag = False
+    helper.html5_required = True
+    helper.layout = Div()
+    
+    def __init__(self, *args, **kwargs):
+        super(RecipientForm, self).__init__(*args, **kwargs)
+        
+    class Meta:
+        model = Recipient
+        exclude = ['created_by', 'version', 'created_on']
+        localized_fields = "__all__"
+
+    def save(self, user):
+        recipient = super(RecipientForm, self).save(commit=False)
+        recipient.created_by = user
+        recipient.created_on = timezone.now()
+        recipient.version += 1
+        recipient.save()
+        return recipient

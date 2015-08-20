@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
 
-from .models import Person
+from .models import StaffPerson
 
 
 class PersonTests(TestCase):
@@ -26,7 +26,7 @@ class PersonTests(TestCase):
         test_last = 'case'
         test_job = 'SA'
         test_phone = '0123456789012345678901234'
-        test_person = Person(
+        test_person = StaffPerson(
             first_names=test_first,
             last_names=test_last,
             job=test_job,

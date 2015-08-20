@@ -13,8 +13,8 @@ import datetime
 from random import random
 from django_ajax.decorators import ajax
 
-from .models import Donor, Person, Organ, Sample
-from .forms import DonorForm, DonorStartForm, OrganForm, SampleForm
+from .models import Donor, StaffPerson, Organ, Sample, Recipient
+from .forms import DonorForm, DonorStartForm, OrganForm, SampleForm, RecipientForm
 
 
 # Some forced errors to allow for testing the Error Page Templates
@@ -27,7 +27,7 @@ def error403(request):
 
 
 def error500(request):
-    1/0
+    1 / 0
 
 
 # def hello_world(request, count):
@@ -54,11 +54,13 @@ def procurement_form(request, pk):
     if donor_form.is_valid():
         donor = donor_form.save(request.user)
 
-    left_organ_form = OrganForm(request.POST or None, request.FILES or None, instance=donor.left_kidney(), prefix="left-organ")
+    left_organ_form = OrganForm(request.POST or None, request.FILES or None, instance=donor.left_kidney(),
+                                prefix="left-organ")
     if left_organ_form.is_valid():
         left_organ_form.save(request.user)
 
-    right_organ_form = OrganForm(request.POST or None, request.FILES or None, instance=donor.right_kidney(), prefix="right-organ")
+    right_organ_form = OrganForm(request.POST or None, request.FILES or None, instance=donor.right_kidney(),
+                                 prefix="right-organ")
     if right_organ_form.is_valid():
         right_organ_form.save(request.user)
 
@@ -107,12 +109,13 @@ def procurement_form_blank(request):
             ))
 
     new_donor = Donor()
-    current_person = Person.objects.get(user__id=request.user.id)
-    if current_person.job == Person.PERFUSION_TECHNICIAN:
+    current_person = StaffPerson.objects.get(user__id=request.user.id)
+    if current_person.job == StaffPerson.PERFUSION_TECHNICIAN:
         new_donor.perfusion_technician = current_person
     donor_form = DonorStartForm(prefix="donor", instance=new_donor)
 
-    if current_person.job in (Person.SYSTEMS_ADMINISTRATOR, Person.CENTRAL_COORDINATOR, Person.NATIONAL_COORDINATOR):
+    if current_person.job in (
+    StaffPerson.SYSTEMS_ADMINISTRATOR, StaffPerson.CENTRAL_COORDINATOR, StaffPerson.NATIONAL_COORDINATOR):
         donors = Donor.objects.all()
     else:
         donors = {}
@@ -146,5 +149,83 @@ def sample_editor(request, pk=None, type=None):
     return render_to_response(
         "includes/sample-form.html",
         {"sample_form": sample_form},
+        context_instance=RequestContext(request)
+    )
+
+
+@login_required
+@csrf_protect
+def transplantation_form_list(request):
+    current_person = StaffPerson.objects.get(user__id=request.user.id)
+    if current_person.job in (StaffPerson.SYSTEMS_ADMINISTRATOR, StaffPerson.CENTRAL_COORDINATOR,
+                              StaffPerson.NATIONAL_COORDINATOR):
+        recipients = Recipient.objects.all()
+        organs = Organ.objects.exclude(preservation__isnull=True)
+    else:
+        recipients = {}
+        organs = {}
+
+    return render_to_response(
+        "dashboard/transplantation-list.html",
+        {
+            "recipients": recipients,
+            "organs": organs
+        },
+        context_instance=RequestContext(request)
+    )
+
+@login_required
+@csrf_protect
+def transplantation_form_new(request, pk):
+    """
+    Setup a new Transplanation Form for a given Organ ID
+
+    :param request:
+    :param pk: Organ primary key
+    :return:
+    """
+    organ = get_object_or_404(Organ, pk=int(pk))
+    print("hello")
+    print(organ.recipient_set.all())
+    if len(organ.recipient_set.all()) > 0:
+        # There's a form already created... use it!
+        recipient = organ.recipient_set.latest()  # TODO: This throws an error!
+    else:
+        recipient = Recipient()
+        recipient.organ = organ
+        recipient.created_by = request.user
+
+        current_person = StaffPerson.objects.get(user__id=request.user.id)
+        if current_person.job == StaffPerson.PERFUSION_TECHNICIAN:
+            recipient.perfusion_technician = current_person
+
+        recipient.save()
+
+    recipient_form = RecipientForm(prefix="recipient", instance=recipient)
+
+    return render_to_response(
+        "dashboard/transplantation.html",
+        {
+            "recipient_form": recipient_form,
+            "recipient": recipient
+        },
+        context_instance=RequestContext(request)
+    )
+
+
+@login_required
+@csrf_protect
+def transplantation_form(request, pk):
+    recipient = get_object_or_404(Recipient, pk=int(pk))
+    recipient_form = RecipientForm(request.POST or None, request.FILES or None, instance=recipient, prefix="recipient")
+    if recipient_form.is_valid():
+        recipient = recipient_form.save(request.user)
+
+    return render_to_response(
+        "dashboard/transplantation.html",
+        {
+            "recipient_form": recipient_form,
+            "recipient": recipient
+        },
         context_instance=RequestContext(request)
     )

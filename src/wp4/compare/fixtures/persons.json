@@ -1,6 +1,6 @@
 [
   {
-    "model": "compare.person",
+    "model": "compare.staffperson",
     "pk": 1,
     "fields": {
       "first_names": "Carl",

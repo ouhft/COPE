@@ -4,9 +4,17 @@
     "pk": 1,
     "fields": {
       "name": "Churchill Hospital, Oxford",
-      "centre_code": 15,
-      "country": "United Kingdom",
+      "country": 1,
       "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.retrievalteam",
+    "pk": 1,
+    "fields": {
+      "centre_code": 15,
+      "based_at": 1,
       "created_by": 1
     }
   },
@@ -15,9 +23,17 @@
     "pk": 2,
     "fields": {
       "name": "Addenbrook's Hospital, Cambridge",
-      "centre_code": 16,
-      "country": "United Kingdom",
+      "country": 1,
       "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.retrievalteam",
+    "pk": 2,
+    "fields": {
+      "centre_code": 16,
+      "based_at": 2,
       "created_by": 1
     }
   },
@@ -26,9 +42,17 @@
     "pk": 3,
     "fields": {
       "name": "Cardiff",
-      "centre_code": 17,
-      "country": "United Kingdom",
+      "country": 1,
       "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.retrievalteam",
+    "pk": 3,
+    "fields": {
+      "centre_code": 17,
+      "based_at": 3,
       "created_by": 1
     }
   },
@@ -37,9 +61,17 @@
     "pk": 4,
     "fields": {
       "name": "Coventry",
-      "centre_code": 19,
-      "country": "United Kingdom",
+      "country": 1,
       "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.retrievalteam",
+    "pk": 4,
+    "fields": {
+      "centre_code": 19,
+      "based_at": 4,
       "created_by": 1
     }
   },
@@ -48,9 +80,17 @@
     "pk": 5,
     "fields": {
       "name": "Nottingham",
-      "centre_code": 19,
-      "country": "United Kingdom",
+      "country": 1,
       "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.retrievalteam",
+    "pk": 5,
+    "fields": {
+      "centre_code": 19,
+      "based_at": 5,
       "created_by": 1
     }
   },
@@ -59,9 +99,17 @@
     "pk": 6,
     "fields": {
       "name": "London Royal Free",
-      "centre_code": 20,
-      "country": "United Kingdom",
+      "country": 1,
       "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.retrievalteam",
+    "pk": 6,
+    "fields": {
+      "centre_code": 20,
+      "based_at": 6,
       "created_by": 1
     }
   },
@@ -70,9 +118,17 @@
     "pk": 7,
     "fields": {
       "name": "London Royal Hospital",
-      "centre_code": 21,
-      "country": "United Kingdom",
+      "country": 1,
       "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.retrievalteam",
+    "pk": 7,
+    "fields": {
+      "centre_code": 21,
+      "based_at": 7,
       "created_by": 1
     }
   },
@@ -81,9 +137,17 @@
     "pk": 8,
     "fields": {
       "name": "London WLRTC (Hammersmith)",
-      "centre_code": 22,
-      "country": "United Kingdom",
+      "country": 1,
       "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.retrievalteam",
+    "pk": 8,
+    "fields": {
+      "centre_code": 22,
+      "based_at": 8,
       "created_by": 1
     }
   },
@@ -92,9 +156,17 @@
     "pk": 9,
     "fields": {
       "name": "Portsmouth",
-      "centre_code": 23,
-      "country": "United Kingdom",
+      "country": 1,
       "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.retrievalteam",
+    "pk": 9,
+    "fields": {
+      "centre_code": 23,
+      "based_at": 9,
       "created_by": 1
     }
   },
@@ -103,9 +175,17 @@
     "pk": 10,
     "fields": {
       "name": "Universitaire Ziekenhuizen Leuven",
-      "centre_code": 41,
-      "country": "Belgium",
+      "country": 4,
       "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.retrievalteam",
+    "pk": 10,
+    "fields": {
+      "centre_code": 41,
+      "based_at": 10,
       "created_by": 1
     }
   },
@@ -114,9 +194,17 @@
     "pk": 11,
     "fields": {
       "name": "Universitair Ziekenhuis Antwerpen",
-      "centre_code": 42,
-      "country": "Belgium",
+      "country": 4,
       "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.retrievalteam",
+    "pk": 11,
+    "fields": {
+      "centre_code": 42,
+      "based_at": 11,
       "created_by": 1
     }
   },
@@ -125,9 +213,17 @@
     "pk": 12,
     "fields": {
       "name": "Universitair Ziekenhuis Brussel",
-      "centre_code": 43,
-      "country": "Belgium",
+      "country": 4,
       "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.retrievalteam",
+    "pk": 12,
+    "fields": {
+      "centre_code": 43,
+      "based_at": 12,
       "created_by": 1
     }
   },
@@ -136,9 +232,17 @@
     "pk": 13,
     "fields": {
       "name": "Université Catholique de Louvain",
-      "centre_code": 44,
-      "country": "Belgium",
+      "country": 4,
       "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.retrievalteam",
+    "pk": 13,
+    "fields": {
+      "centre_code": 44,
+      "based_at": 13,
       "created_by": 1
     }
   },
@@ -147,9 +251,17 @@
     "pk": 14,
     "fields": {
       "name": "Université Libre de Bruxelles",
-      "centre_code": 45,
-      "country": "Belgium",
+      "country": 4,
       "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.retrievalteam",
+    "pk": 14,
+    "fields": {
+      "centre_code": 45,
+      "based_at": 14,
       "created_by": 1
     }
   },
@@ -158,9 +270,17 @@
     "pk": 15,
     "fields": {
       "name": "Centre Hospitalier de Liège",
-      "centre_code": 46,
-      "country": "Belgium",
+      "country": 4,
       "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.retrievalteam",
+    "pk": 15,
+    "fields": {
+      "centre_code": 46,
+      "based_at": 15,
       "created_by": 1
     }
   },
@@ -169,9 +289,17 @@
     "pk": 16,
     "fields": {
       "name": "Universitair Ziekenhuis Gent",
-      "centre_code": 47,
-      "country": "Belgium",
+      "country": 4,
       "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.retrievalteam",
+    "pk": 16,
+    "fields": {
+      "centre_code": 47,
+      "based_at": 16,
       "created_by": 1
     }
   },
@@ -180,9 +308,17 @@
     "pk": 17,
     "fields": {
       "name": "Universitair Ziekenhuis Gent",
-      "centre_code": 51,
-      "country": "Netherlands",
+      "country": 5,
       "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.retrievalteam",
+    "pk": 17,
+    "fields": {
+      "centre_code": 51,
+      "based_at": 17,
       "created_by": 1
     }
   },
@@ -191,9 +327,17 @@
     "pk": 18,
     "fields": {
       "name": "Universitair Medisch Centrum Groningen",
-      "centre_code": 51,
-      "country": "Netherlands",
+      "country": 5,
       "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.retrievalteam",
+    "pk": 18,
+    "fields": {
+      "centre_code": 51,
+      "based_at": 18,
       "created_by": 1
     }
   },
@@ -202,9 +346,17 @@
     "pk": 19,
     "fields": {
       "name": "Maastricht Universitair Centrum",
-      "centre_code": 52,
-      "country": "Netherlands",
+      "country": 5,
       "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.retrievalteam",
+    "pk": 19,
+    "fields": {
+      "centre_code": 52,
+      "based_at": 19,
       "created_by": 1
     }
   },
@@ -213,9 +365,17 @@
     "pk": 20,
     "fields": {
       "name": "Leids Universitair Centrum",
-      "centre_code": 53,
-      "country": "Netherlands",
+      "country": 5,
       "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.retrievalteam",
+    "pk": 20,
+    "fields": {
+      "centre_code": 53,
+      "based_at": 20,
       "created_by": 1
     }
   },
@@ -224,9 +384,17 @@
     "pk": 21,
     "fields": {
       "name": "Universitair Medisch Centrum Utrecht",
-      "centre_code": 54,
-      "country": "Netherlands",
+      "country": 5,
       "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.retrievalteam",
+    "pk": 21,
+    "fields": {
+      "centre_code": 54,
+      "based_at": 21,
       "created_by": 1
     }
   },
@@ -235,9 +403,17 @@
     "pk": 22,
     "fields": {
       "name": "Amsterdams Medisch Centrum",
-      "centre_code": 55,
-      "country": "Netherlands",
+      "country": 5,
       "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.retrievalteam",
+    "pk": 22,
+    "fields": {
+      "centre_code": 55,
+      "based_at": 22,
       "created_by": 1
     }
   },
@@ -246,9 +422,17 @@
     "pk": 23,
     "fields": {
       "name": "Universitair Medisch Centrum Nijmegen",
-      "centre_code": 56,
-      "country": "Netherlands",
+      "country": 5,
       "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.retrievalteam",
+    "pk": 23,
+    "fields": {
+      "centre_code": 56,
+      "based_at": 23,
       "created_by": 1
     }
   },
@@ -257,9 +441,17 @@
     "pk": 24,
     "fields": {
       "name": "Erasmus Medisch Centrum",
-      "centre_code": 57,
-      "country": "Netherlands",
+      "country": 5,
       "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.retrievalteam",
+    "pk": 24,
+    "fields": {
+      "centre_code": 57,
+      "based_at": 24,
       "created_by": 1
     }
   },
@@ -268,9 +460,17 @@
     "pk": 25,
     "fields": {
       "name": "VU Medisch Centrum",
-      "centre_code": 58,
-      "country": "Netherlands",
+      "country": 5,
       "is_active": true,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.retrievalteam",
+    "pk": 25,
+    "fields": {
+      "centre_code": 58,
+      "based_at": 25,
       "created_by": 1
     }
   }
