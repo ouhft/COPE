@@ -1,3 +1,4 @@
+# coding=utf-8
 from django.http import Http404
 from django.template import RequestContext
 from django.shortcuts import get_object_or_404, render, render_to_response
@@ -220,6 +221,17 @@ def transplantation_form(request, pk):
     recipient_form = RecipientForm(request.POST or None, request.FILES or None, instance=recipient, prefix="recipient")
     if recipient_form.is_valid():
         recipient = recipient_form.save(request.user)
+
+        if recipient.reallocated:
+            # Start a new recipient form if the minimum information has been entered
+            new_recipient = Recipient()
+            new_recipient.organ = recipient.organ
+            new_recipient.created_by = request.user
+            current_person = StaffPerson.objects.get(user__id=request.user.id)
+            if current_person.job == StaffPerson.PERFUSION_TECHNICIAN:
+                new_recipient.perfusion_technician = current_person
+            recipient_form = RecipientForm(instance=new_recipient, prefix="recipient")
+            recipient = new_recipient
 
     return render_to_response(
         "dashboard/transplantation.html",

@@ -931,7 +931,7 @@ class ProcurementResource(models.Model):
 
 class Recipient(OrganPerson):
     organ = models.ForeignKey(Organ)
-    sequence_number = models.PositiveSmallIntegerField(default=0)
+    # sequence_number = models.PositiveSmallIntegerField(default=0)
     # Allocation data
     REALLOCATION_CROSSMATCH = 1
     REALLOCATION_UNKNOWN = 2
@@ -1141,4 +1141,4 @@ class Recipient(OrganPerson):
         ordering = ['sequence_number']
         verbose_name = _('REm1 recipient')
         verbose_name_plural = _('REm2 recipients')
-        get_latest_by = 'sequence_number'
+        get_latest_by = 'created_on'
