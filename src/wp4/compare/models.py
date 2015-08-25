@@ -358,74 +358,61 @@ class Donor(OrganPerson):
     diagnosis = models.PositiveSmallIntegerField(
         verbose_name=_('DO54 diagnosis'),
         choices=DIAGNOSIS_CHOICES,
-        blank=True, null=True
-    )
+        blank=True, null=True)
     diagnosis_other = models.CharField(verbose_name=_('DO55 other diagnosis'), max_length=250, blank=True, null=True)
     diabetes_melitus = models.PositiveSmallIntegerField(
         verbose_name=_('DO56 diabetes mellitus'),
         choices=YES_NO_UNKNOWN_CHOICES,
-        blank=True, null=True
-    )
+        blank=True, null=True)
     alcohol_abuse = models.PositiveSmallIntegerField(
         verbose_name=_('DO57 alcohol abuse'),
         choices=YES_NO_UNKNOWN_CHOICES,
-        blank=True, null=True
-    )
+        blank=True, null=True)
     cardiac_arrest = models.NullBooleanField(
         verbose_name=_('DO58 cardiac arrest'),  # 'Cardiac Arrest (During ITU stay, prior to Retrieval Procedure)',
-        blank=True, null=True
-    )
+        blank=True, null=True)
     systolic_blood_pressure = models.PositiveSmallIntegerField(
         verbose_name=_('DO59 last systolic blood pressure'),  # "Last Systolic Blood Pressure (Before switch off)",
         validators=[
             MinValueValidator(10),
             MaxValueValidator(200)
         ],
-        blank=True, null=True
-    )
+        blank=True, null=True)
     diastolic_blood_pressure = models.PositiveSmallIntegerField(
         verbose_name=_('DO60 last diastolic blood pressure'),  # "Last Diastolic Blood Pressure (Before switch off)",
         validators=[
             MinValueValidator(10),
             MaxValueValidator(200)
         ],
-        blank=True, null=True
-    )
+        blank=True, null=True)
     diuresis_last_day = models.PositiveSmallIntegerField(
         verbose_name=_('DO61 diuresis last day (ml)'),
-        blank=True, null=True
-    )
+        blank=True, null=True)
     diuresis_last_day_unknown = models.BooleanField(default=False)  # Internal flag
     diuresis_last_hour = models.PositiveSmallIntegerField(
         verbose_name=_('DO62 diuresis last hour (ml)'),
-        blank=True, null=True
-    )
+        blank=True, null=True)
     diuresis_last_hour_unknown = models.BooleanField(default=False)  # Internal flag
     dopamine = models.PositiveSmallIntegerField(
         verbose_name=_('DO63 dopamine'),
         choices=YES_NO_UNKNOWN_CHOICES,
-        blank=True, null=True
-    )
+        blank=True, null=True)
     dobutamine = models.PositiveSmallIntegerField(
         verbose_name=_('DO64 dobutamine'),
         choices=YES_NO_UNKNOWN_CHOICES,
-        blank=True, null=True
-    )
+        blank=True, null=True)
     nor_adrenaline = models.PositiveSmallIntegerField(
         verbose_name=_('DO65 nor adrenaline'),
         choices=YES_NO_UNKNOWN_CHOICES,
-        blank=True, null=True
-    )
+        blank=True, null=True)
     vasopressine = models.PositiveSmallIntegerField(
         verbose_name=_('DO66 vasopressine'),
         choices=YES_NO_UNKNOWN_CHOICES,
-        blank=True, null=True
-    )
+        blank=True, null=True)
     other_medication_details = models.CharField(
         verbose_name=_('DO67 other medication'),
         max_length=250,
-        blank=True, null=True
-    )
+        blank=True, null=True)
 
     # Lab results
     UNIT_MGDL = 1
@@ -1142,3 +1129,18 @@ class Recipient(OrganPerson):
         verbose_name = _('REm1 recipient')
         verbose_name_plural = _('REm2 recipients')
         get_latest_by = 'created_on'
+
+
+class AdverseEvent(VersionControlModel):
+    recipient = models.ForeignKey(Recipient)
+    onset_at_date = models.DateField()
+    onset_at_time = models.TimeField()
+    conclusion_at_date = models.DateField()
+    conclusion_at_time = models.TimeField()
+    resulted_in_death = models.BooleanField(verbose_name='', default=False)
+    date_of_death = models.DateField()
+    treatment_related = models.PositiveSmallIntegerField(
+        verbose_name=_(''),
+        choices=YES_NO_UNKNOWN_CHOICES,
+        blank=True, null=True)
+
