@@ -1,0 +1,527 @@
+[
+  {
+    "model": "compare.staffjob",
+    "pk": 1,
+    "fields": {
+      "description": "Perfusion Technician"
+    }
+  },
+  {
+    "model": "compare.staffjob",
+    "pk": 2,
+    "fields": {
+      "description": "Transplant Co-ordinator"
+    }
+  },
+  {
+    "model": "compare.staffjob",
+    "pk": 3,
+    "fields": {
+      "description": "Research Nurse / Follow-up"
+    }
+  },
+  {
+    "model": "compare.staffjob",
+    "pk": 4,
+    "fields": {
+      "description": "National Co-ordinator"
+    }
+  },
+  {
+    "model": "compare.staffjob",
+    "pk": 5,
+    "fields": {
+      "description": "Central Co-ordinator"
+    }
+  },
+  {
+    "model": "compare.staffjob",
+    "pk": 6,
+    "fields": {
+      "description": "Statistician"
+    }
+  },
+  {
+    "model": "compare.staffjob",
+    "pk": 7,
+    "fields": {
+      "description": "Sys-admin"
+    }
+  },
+  {
+    "model": "compare.staffjob",
+    "pk": 8,
+    "fields": {
+      "description": "Local Investigator"
+    }
+  },
+  {
+    "model": "compare.staffjob",
+    "pk": 9,
+    "fields": {
+      "description": "Other Project Member"
+    }
+  },
+  {
+    "model": "compare.staffjob",
+    "pk": 10,
+    "fields": {
+      "description": "Biobank Coordinator"
+    }
+  },
+  {
+    "model": "compare.staffjob",
+    "pk": 11,
+    "fields": {
+      "description": "Chief Investigator"
+    }
+  },
+  {
+    "model": "compare.staffjob",
+    "pk": 12,
+    "fields": {
+      "description": "Principle Investigator"
+    }
+  },
+  {
+    "model": "compare.staffjob",
+    "pk": 13,
+    "fields": {
+      "description": "Central Investigator"
+    }
+  },
+  {
+    "model": "compare.staffjob",
+    "pk": 14,
+    "fields": {
+      "description": "National Investigator"
+    }
+  },
+  {
+    "model": "compare.staffperson",
+    "pk": 1,
+    "fields": {
+      "first_names": "Carl",
+      "last_names": "Marshall",
+      "jobs": [7],
+      "user": 1,
+      "version": 1,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.staffperson",
+    "pk": 2,
+    "fields": {
+      "first_names": "Rutger",
+      "last_names": "Ploeg",
+      "jobs": [11],
+      "telephone": "+44 1865226123",
+      "version": 1,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.staffperson",
+    "pk": 3,
+    "fields": {
+      "first_names": "Jacques",
+      "last_names": "Pirenne",
+      "jobs": [12],
+      "telephone": "+32 16 348727",
+      "version": 1,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.staffperson",
+    "pk": 4,
+    "fields": {
+      "first_names": "Ina",
+      "last_names": "Jochmans",
+      "jobs": [13, 14, 8],
+      "telephone": "+32 16 348727",
+      "version": 1,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.staffperson",
+    "pk": 5,
+    "fields": {
+      "first_names": "Sijbrand",
+      "last_names": "Hofker",
+      "jobs": [14,8],
+      "telephone": "+31 503612283",
+      "version": 1,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.staffperson",
+    "pk": 6,
+    "fields": {
+      "first_names": "Isabel",
+      "last_names": "Quiroga",
+      "jobs": [14,4,8],
+      "version": 1,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.staffperson",
+    "pk": 7,
+    "fields": {
+      "first_names": "Marian",
+      "last_names": "Thijssen",
+      "jobs": [5,4],
+      "telephone": "+31633920337",
+      "version": 1,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.staffperson",
+    "pk": 8,
+    "fields": {
+      "first_names": "Julie",
+      "last_names": "De Deken",
+      "jobs": [4],
+      "version": 1,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.staffperson",
+    "pk": 9,
+    "fields": {
+      "first_names": "Merel",
+      "last_names": "Haase",
+      "jobs": [9],
+      "telephone": "+31641609316",
+      "version": 1,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.staffperson",
+    "pk": 10,
+    "fields": {
+      "first_names": "Virginia",
+      "last_names": "Chiocchia",
+      "jobs": [6],
+      "telephone": "+44 1865 737905",
+      "version": 1,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.staffperson",
+    "pk": 11,
+    "fields": {
+      "first_names": "Susan",
+      "last_names": "Dutton",
+      "jobs": [6],
+      "telephone": "+44 1865 737905",
+      "version": 1,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.staffperson",
+    "pk": 12,
+    "fields": {
+      "first_names": "Maria",
+      "last_names": "Kaisar",
+      "jobs": [10],
+      "version": 1,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.staffperson",
+    "pk": 13,
+    "fields": {
+      "first_names": "Bhumika",
+      "last_names": "Patel",
+      "jobs": [10],
+      "version": 1,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.staffperson",
+    "pk": 14,
+    "fields": {
+      "first_names": "Richéal",
+      "last_names": " Burns",
+      "jobs": [9],
+      "version": 1,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.staffperson",
+    "pk": 15,
+    "fields": {
+      "first_names": "Dirk",
+      "last_names": "Ysebaert",
+      "jobs": [8],
+      "version": 1,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.staffperson",
+    "pk": 16,
+    "fields": {
+      "first_names": "Jacques",
+      "last_names": "Sennesael",
+      "jobs": [8],
+      "version": 1,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.staffperson",
+    "pk": 17,
+    "fields": {
+      "first_names": "Lissa ",
+      "last_names": "Pipeleers",
+      "jobs": [8],
+      "version": 1,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.staffperson",
+    "pk": 18,
+    "fields": {
+      "first_names": "Tom",
+      "last_names": "Darius",
+      "jobs": [8],
+      "version": 1,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.staffperson",
+    "pk": 19,
+    "fields": {
+      "first_names": "Dimitri",
+      "last_names": "Mikhalski",
+      "jobs": [8],
+      "version": 1,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.staffperson",
+    "pk": 20,
+    "fields": {
+      "first_names": "Laurent",
+      "last_names": "Weekers",
+      "jobs": [8],
+      "version": 1,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.staffperson",
+    "pk": 21,
+    "fields": {
+      "first_names": "Caren",
+      "last_names": "Randon",
+      "jobs": [8],
+      "version": 1,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.staffperson",
+    "pk": 22,
+    "fields": {
+      "first_names": "Ernst",
+      "last_names": "van Heurn",
+      "jobs": [8],
+      "version": 1,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.staffperson",
+    "pk": 23,
+    "fields": {
+      "first_names": "Jan",
+      "last_names": "Ringers",
+      "jobs": [8],
+      "version": 1,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.staffperson",
+    "pk": 24,
+    "fields": {
+      "first_names": "Paul",
+      "last_names": "Berger",
+      "jobs": [8],
+      "version": 1,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.staffperson",
+    "pk": 25,
+    "fields": {
+      "first_names": "Mirza",
+      "last_names": "Idu",
+      "jobs": [8],
+      "version": 1,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.staffperson",
+    "pk": 26,
+    "fields": {
+      "first_names": "Van",
+      "last_names": "der Vliet",
+      "jobs": [8],
+      "version": 1,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.staffperson",
+    "pk": 27,
+    "fields": {
+      "first_names": "Frank",
+      "last_names": "Dor",
+      "jobs": [8],
+      "version": 1,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.staffperson",
+    "pk": 28,
+    "fields": {
+      "first_names": "Arjan",
+      "last_names": "Hoksbergen",
+      "jobs": [8],
+      "version": 1,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.staffperson",
+    "pk": 29,
+    "fields": {
+      "first_names": "Kourosh",
+      "last_names": "Saeb-Parsy",
+      "jobs": [8],
+      "version": 1,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.staffperson",
+    "pk": 30,
+    "fields": {
+      "first_names": "Neal",
+      "last_names": "Banga",
+      "jobs": [8],
+      "version": 1,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.staffperson",
+    "pk": 31,
+    "fields": {
+      "first_names": "Rajesh",
+      "last_names": "",
+      "jobs": [8],
+      "version": 1,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.staffperson",
+    "pk": 32,
+    "fields": {
+      "first_names": "Vassilios",
+      "last_names": "Papalois",
+      "jobs": [8],
+      "version": 1,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.staffperson",
+    "pk": 33,
+    "fields": {
+      "first_names": "Laszlo",
+      "last_names": "Szabo",
+      "jobs": [8],
+      "version": 1,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.staffperson",
+    "pk": 34,
+    "fields": {
+      "first_names": "Keith",
+      "last_names": "Graetz",
+      "jobs": [8],
+      "version": 1,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.staffperson",
+    "pk": 35,
+    "fields": {
+      "first_names": "Habib",
+      "last_names": "Kashi",
+      "jobs": [8],
+      "version": 1,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.staffperson",
+    "pk": 36,
+    "fields": {
+      "first_names": "Keith",
+      "last_names": "Rigg",
+      "jobs": [8],
+      "version": 1,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.staffperson",
+    "pk": 37,
+    "fields": {
+      "first_names": "Ally",
+      "last_names": "Bradley",
+      "jobs": [9],
+      "version": 1,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.staffperson",
+    "pk": 38,
+    "fields": {
+      "first_names": "Sarah",
+      "last_names": "Mertens",
+      "jobs": [9],
+      "version": 1,
+      "created_by": 1
+    }
+  }
+]

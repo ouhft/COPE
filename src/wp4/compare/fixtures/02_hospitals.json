@@ -7,6 +7,7 @@
       "country": 1,
       "is_active": true,
       "is_project_site": true,
+      "project_contact": 6,
       "created_by": 1
     }
   },
@@ -27,6 +28,7 @@
       "country": 1,
       "is_active": true,
       "is_project_site": true,
+      "project_contact": 29,
       "created_by": 1
     }
   },
@@ -43,10 +45,11 @@
     "model": "compare.hospital",
     "pk": 3,
     "fields": {
-      "name": "Cardiff",
+      "name": "Cardiff and Vale University Health Board, Cardiff",
       "country": 1,
       "is_active": true,
       "is_project_site": true,
+      "project_contact": 33,
       "created_by": 1
     }
   },
@@ -63,10 +66,11 @@
     "model": "compare.hospital",
     "pk": 4,
     "fields": {
-      "name": "Coventry",
+      "name": "University Hospital Coventry and Warwickshire, Coventry",
       "country": 1,
       "is_active": true,
       "is_project_site": true,
+      "project_contact": 35,
       "created_by": 1
     }
   },
@@ -83,10 +87,11 @@
     "model": "compare.hospital",
     "pk": 5,
     "fields": {
-      "name": "Nottingham",
+      "name": "City Hospital, Nottingham University Hospitals, Nottingham",
       "country": 1,
       "is_active": true,
       "is_project_site": true,
+      "project_contact": 36,
       "created_by": 1
     }
   },
@@ -103,10 +108,11 @@
     "model": "compare.hospital",
     "pk": 6,
     "fields": {
-      "name": "London Royal Free",
+      "name": "Royal Free Hospital, London",
       "country": 1,
       "is_active": true,
       "is_project_site": true,
+      "project_contact": 30,
       "created_by": 1
     }
   },
@@ -123,10 +129,11 @@
     "model": "compare.hospital",
     "pk": 7,
     "fields": {
-      "name": "London Royal Hospital",
+      "name": "Royal London Hospital",
       "country": 1,
       "is_active": true,
       "is_project_site": true,
+      "project_contact": 31,
       "created_by": 1
     }
   },
@@ -147,6 +154,7 @@
       "country": 1,
       "is_active": true,
       "is_project_site": true,
+      "project_contact": 32,
       "created_by": 1
     }
   },
@@ -163,10 +171,11 @@
     "model": "compare.hospital",
     "pk": 9,
     "fields": {
-      "name": "Portsmouth",
+      "name": "Queen Alexandra Hospital, Portsmouth",
       "country": 1,
       "is_active": true,
       "is_project_site": true,
+      "project_contact": 34,
       "created_by": 1
     }
   },
@@ -187,6 +196,7 @@
       "country": 4,
       "is_active": true,
       "is_project_site": true,
+      "project_contact": 4,
       "created_by": 1
     }
   },
@@ -207,6 +217,7 @@
       "country": 4,
       "is_active": true,
       "is_project_site": true,
+      "project_contact": 15,
       "created_by": 1
     }
   },
@@ -227,6 +238,7 @@
       "country": 4,
       "is_active": true,
       "is_project_site": true,
+      "project_contact": 16,
       "created_by": 1
     }
   },
@@ -247,6 +259,7 @@
       "country": 4,
       "is_active": true,
       "is_project_site": true,
+      "project_contact": 18,
       "created_by": 1
     }
   },
@@ -267,6 +280,7 @@
       "country": 4,
       "is_active": true,
       "is_project_site": true,
+      "project_contact": 19,
       "created_by": 1
     }
   },
@@ -287,6 +301,7 @@
       "country": 4,
       "is_active": true,
       "is_project_site": true,
+      "project_contact": 20,
       "created_by": 1
     }
   },
@@ -307,6 +322,7 @@
       "country": 4,
       "is_active": true,
       "is_project_site": true,
+      "project_contact": 21,
       "created_by": 1
     }
   },
@@ -321,32 +337,13 @@
   },
   {
     "model": "compare.hospital",
-    "pk": 17,
-    "fields": {
-      "name": "Universitair Ziekenhuis Gent",
-      "country": 5,
-      "is_active": true,
-      "is_project_site": true,
-      "created_by": 1
-    }
-  },
-  {
-    "model": "compare.retrievalteam",
-    "pk": 17,
-    "fields": {
-      "centre_code": 51,
-      "based_at": 17,
-      "created_by": 1
-    }
-  },
-  {
-    "model": "compare.hospital",
     "pk": 18,
     "fields": {
       "name": "Universitair Medisch Centrum Groningen",
       "country": 5,
       "is_active": true,
       "is_project_site": true,
+      "project_contact": 5,
       "created_by": 1
     }
   },
@@ -367,6 +364,7 @@
       "country": 5,
       "is_active": true,
       "is_project_site": true,
+      "project_contact": 22,
       "created_by": 1
     }
   },
@@ -387,6 +385,7 @@
       "country": 5,
       "is_active": true,
       "is_project_site": true,
+      "project_contact": 23,
       "created_by": 1
     }
   },
@@ -407,6 +406,7 @@
       "country": 5,
       "is_active": true,
       "is_project_site": true,
+      "project_contact": 24,
       "created_by": 1
     }
   },
@@ -427,6 +427,7 @@
       "country": 5,
       "is_active": true,
       "is_project_site": true,
+      "project_contact": 25,
       "created_by": 1
     }
   },
@@ -447,6 +448,7 @@
       "country": 5,
       "is_active": true,
       "is_project_site": true,
+      "project_contact": 26,
       "created_by": 1
     }
   },
@@ -467,6 +469,7 @@
       "country": 5,
       "is_active": true,
       "is_project_site": true,
+      "project_contact": 27,
       "created_by": 1
     }
   },
@@ -487,6 +490,7 @@
       "country": 5,
       "is_active": true,
       "is_project_site": true,
+      "project_contact": 28,
       "created_by": 1
     }
   },

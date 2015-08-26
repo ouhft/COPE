@@ -40,37 +40,38 @@ class VersionControlModel(models.Model):
     version = models.PositiveIntegerField(default=0)
     created_on = models.DateTimeField(default=timezone.now)
     created_by = models.ForeignKey(User)
+    record_locked = models.BooleanField(default=False)
 
     class Meta:
         abstract = True
 
 
+class StaffJob(models.Model):
+    # pk values for StaffJob taken from fixtures/persons.json
+    PERFUSION_TECHNICIAN = 1
+    TRANSPLANT_COORDINATOR = 2
+    RESEARCH_NURSE = 3
+    NATIONAL_COORDINATOR = 4
+    CENTRAL_COORDINATOR = 5
+    STATISTICIAN = 6
+    SYSTEMS_ADMINISTRATOR = 7
+    LOCAL_INVESTIGATOR = 8
+    OTHER_PROJECT_MEMBER = 9
+    BIOBANK_COORDINATOR = 10
+
+    description = models.CharField(max_length=100)
+    # TODO: Work out how to get localised values from this
+
+
 # Create your models here.
 class StaffPerson(VersionControlModel):
-    PERFUSION_TECHNICIAN = "PT"
-    TRANSPLANT_COORDINATOR = "TC"
-    RESEARCH_NURSE = "RN"
-    NATIONAL_COORDINATOR = "NC"
-    CENTRAL_COORDINATOR = "CC"
-    BIOBANK_COORDINATOR = "BC"
-    STATISTICIAN = "S"
-    SYSTEMS_ADMINISTRATOR = "SA"
-    JOB_CHOICES = (
-        (PERFUSION_TECHNICIAN, _("PE01 Perfusion Technician")),
-        (TRANSPLANT_COORDINATOR, _("PE02 Transplant Co-ordinator")),
-        (RESEARCH_NURSE, _("PE03 Research Nurse / Follow-up")),
-        (NATIONAL_COORDINATOR, _("PE04 National Co-ordinator")),
-        (CENTRAL_COORDINATOR, _("PE05 Central Co-ordinator")),
-        (BIOBANK_COORDINATOR, _("PE06 Biobank Co-ordinator")),
-        (STATISTICIAN, _("PE07 Statistician")),
-        (SYSTEMS_ADMINISTRATOR, _("PE08 Sys-admin")),
-    )
-    first_names = models.CharField(verbose_name=_("PE10 first names"), max_length=50)
-    last_names = models.CharField(verbose_name=_("PE11 last names"), max_length=50)
-    job = models.CharField(verbose_name=_("PE12 job"), max_length=2, choices=JOB_CHOICES)
-    telephone = models.CharField(verbose_name=_("PE13 telephone number"), max_length=20)
     user = models.OneToOneField(User, verbose_name=_("PE14 related user account"), blank=True, null=True,
                                 related_name="profile")
+    first_names = models.CharField(verbose_name=_("PE10 first names"), max_length=50)
+    last_names = models.CharField(verbose_name=_("PE11 last names"), max_length=50)
+    jobs = models.ManyToManyField(StaffJob, verbose_name=_("PE12 jobs"))
+    telephone = models.CharField(verbose_name=_("PE13 telephone number"), max_length=20, blank=True, null=True)
+    email = models.EmailField(verbose_name=_("PE15 email"), blank=True, null=True)
 
     def full_name(self):
         return self.first_names + ' ' + self.last_names
@@ -79,7 +80,7 @@ class StaffPerson(VersionControlModel):
     #     return reverse('person-detail', kwargs={'pk': self.pk})
 
     def __unicode__(self):
-        return self.full_name() + ' : ' + self.get_job_display()
+        return self.full_name()  # + ' : ' + self.get_job_display()  TODO: List jobs?
 
     class Meta:
         verbose_name = _('PEm1 person')
@@ -92,7 +93,7 @@ class Hospital(models.Model):
     country = models.PositiveSmallIntegerField(verbose_name=_("HO03 country"), choices=COUNTRY_CHOICES)
     is_active = models.BooleanField(default=True)
     is_project_site = models.BooleanField(default=False)
-    project_contact = models.ForeignKey(StaffPerson)  # TODO: Filter by role
+    project_contact = models.ForeignKey(StaffPerson)  # TODO: Filter by StaffJob #8
     created_on = models.DateTimeField(default=timezone.now)
     created_by = models.ForeignKey(User)
 
