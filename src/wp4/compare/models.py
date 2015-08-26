@@ -93,7 +93,7 @@ class Hospital(models.Model):
     country = models.PositiveSmallIntegerField(verbose_name=_("HO03 country"), choices=COUNTRY_CHOICES)
     is_active = models.BooleanField(default=True)
     is_project_site = models.BooleanField(default=False)
-    project_contact = models.ForeignKey(StaffPerson)  # TODO: Filter by StaffJob #8
+    project_contact = models.ForeignKey(StaffPerson, blank=True, null=True)  # TODO: Filter by StaffJob #8
     created_on = models.DateTimeField(default=timezone.now)
     created_by = models.ForeignKey(User)
 
@@ -284,13 +284,13 @@ class Donor(OrganPerson):
     perfusion_technician = models.ForeignKey(
         StaffPerson,
         verbose_name=_('DO03 name of transplant technician'),
-        limit_choices_to={"job": StaffPerson.PERFUSION_TECHNICIAN},
+        limit_choices_to={"jobs": StaffJob.PERFUSION_TECHNICIAN},
         related_name="donor_perfusion_technician_set"
     )
     transplant_coordinator = models.ForeignKey(
         StaffPerson,
         verbose_name=_('DO04 name of the SN-OD'),  # 'name of transplant co-ordinator',
-        limit_choices_to={"job": StaffPerson.TRANSPLANT_COORDINATOR},
+        limit_choices_to={"jobs": StaffJob.TRANSPLANT_COORDINATOR},
         related_name="donor_transplant_coordinator_set",
         blank=True,
         null=True
@@ -936,7 +936,7 @@ class Recipient(OrganPerson):
     perfusion_technician = models.ForeignKey(
         StaffPerson,
         verbose_name=_('DO03 name of transplant technician'),
-        limit_choices_to={"job": StaffPerson.PERFUSION_TECHNICIAN},
+        limit_choices_to={"jobs": StaffJob.PERFUSION_TECHNICIAN},
         related_name="recipient_perfusion_technician_set",
         blank=True, null=True)
     call_received = models.DateTimeField(
@@ -949,7 +949,7 @@ class Recipient(OrganPerson):
     transplant_coordinator = models.ForeignKey(
         StaffPerson,
         verbose_name=_('DO04 name of the SN-OD'),  # 'name of transplant co-ordinator',
-        limit_choices_to={"job": StaffPerson.TRANSPLANT_COORDINATOR},
+        limit_choices_to={"jobs": StaffJob.TRANSPLANT_COORDINATOR},
         related_name="recipient_transplant_coordinator_set",
         blank=True, null=True)
     scheduled_start = models.DateTimeField(
@@ -1137,12 +1137,12 @@ class Recipient(OrganPerson):
 
 
 class ClavienDindoGrading(models.Model):
-    label = models.CharField()
+    label = models.CharField(max_length=10)
     description = models.CharField(max_length=300)
 
 
 class AlternativeGrading(models.Model):
-    label = models.CharField()
+    label = models.CharField(max_length=10)
     description = models.CharField(max_length=300)
 
 
@@ -1187,4 +1187,4 @@ class AdverseEvent(VersionControlModel):
         choices=YES_NO_UNKNOWN_CHOICES,
         blank=True, null=True)
     # TODO: ICD10 link to go in here
-    cause_of_death_comment = models.CharField()
+    cause_of_death_comment = models.CharField(max_length=500)
