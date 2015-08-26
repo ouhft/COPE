@@ -1,0 +1,114 @@
+[
+  {
+    "model": "compare.claviendindograding",
+    "pk": 1,
+    "fields": {
+      "label": "Grade I",
+      "description": ""
+    }
+  },
+  {
+    "model": "compare.claviendindograding",
+    "pk": 2,
+    "fields": {
+      "label": "Grade II",
+      "description": ""
+    }
+  },
+  {
+    "model": "compare.claviendindograding",
+    "pk": 3,
+    "fields": {
+      "label": "Grade III",
+      "description": ""
+    }
+  },
+  {
+    "model": "compare.claviendindograding",
+    "pk": 4,
+    "fields": {
+      "label": "Grade III a",
+      "description": ""
+    }
+  },
+  {
+    "model": "compare.claviendindograding",
+    "pk": 5,
+    "fields": {
+      "label": "Grade III b",
+      "description": ""
+    }
+  },
+  {
+    "model": "compare.claviendindograding",
+    "pk": 6,
+    "fields": {
+      "label": "Grade IV",
+      "description": ""
+    }
+  },
+  {
+    "model": "compare.claviendindograding",
+    "pk": 7,
+    "fields": {
+      "label": "Grade IV a",
+      "description": ""
+    }
+  },
+  {
+    "model": "compare.claviendindograding",
+    "pk": 8,
+    "fields": {
+      "label": "Grade IV b",
+      "description": ""
+    }
+  },
+  {
+    "model": "compare.claviendindograding",
+    "pk": 9,
+    "fields": {
+      "label": "Grade V",
+      "description": ""
+    }
+  },
+  {
+    "model": "compare.alternativegrading",
+    "pk": 1,
+    "fields": {
+      "label": "Mild (Grade 1)",
+      "description": ""
+    }
+  },
+  {
+    "model": "compare.alternativegrading",
+    "pk": 2,
+    "fields": {
+      "label": "Moderate (Grade 2)",
+      "description": ""
+    }
+  },
+  {
+    "model": "compare.alternativegrading",
+    "pk": 3,
+    "fields": {
+      "label": "Severe (Grade 3)",
+      "description": ""
+    }
+  },
+  {
+    "model": "compare.alternativegrading",
+    "pk": 4,
+    "fields": {
+      "label": "Life-threatening (Grade 4)",
+      "description": ""
+    }
+  },
+  {
+    "model": "compare.alternativegrading",
+    "pk": 5,
+    "fields": {
+      "label": "Death (Grade 5)",
+      "description": ""
+    }
+  },
+]

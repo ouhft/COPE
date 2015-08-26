@@ -1092,7 +1092,7 @@ class Recipient(OrganPerson):
         blank=True, null=True)
 
     # SAMPLE DATA
-    # P£, RB1, RB2, ReK1R, ReK1F
+    # P#, RB1, RB2, ReK1R, ReK1F
 
     # Machine cleanup record
     probe_cleaned = models.NullBooleanField(
@@ -1131,16 +1131,55 @@ class Recipient(OrganPerson):
         get_latest_by = 'created_on'
 
 
+class CauseOfDeath(models.Model):
+    description = models.CharField(max_length=150)
+
+
+class ClavienDindoGrading(models.Model):
+    label = models.CharField()
+    description = models.CharField(max_length=300)
+
+
+class AlternativeGrading(models.Model):
+    label = models.CharField()
+    description = models.CharField(max_length=300)
+
+
 class AdverseEvent(VersionControlModel):
+    GRADE_I = "I"
+    GRADE_II = "II"
+    GRADE_III = "III"
+    GRADE_III_A = "IIIa"
+    GRADE_III_B = "IIIb"
+    GRADE_IV = "IV"
+    GRADE_IV_A = "IVa"
+    GRADE_IV_B = "IVb"
+    GRADE_V = "V"
+
+    GRADE_1 = "1"
+    GRADE_2 = "2"
+    GRADE_3 = "3"
+    GRADE_4 = "4"
+    GRADE_5 = "5"
+    # Event basics
+    reporting_site = models.ForeignKey(Hospital)
     recipient = models.ForeignKey(Recipient)
+    sequence_number = models.PositiveSmallIntegerField(verbose_name=_("AE02 sequence number"), default=0)
     onset_at_date = models.DateField()
     onset_at_time = models.TimeField()
-    conclusion_at_date = models.DateField()
-    conclusion_at_time = models.TimeField()
-    resulted_in_death = models.BooleanField(verbose_name='', default=False)
+    resolution_at_date = models.DateField()
+    resolution_at_time = models.TimeField()
+
+    grade_first_30_days = models.ForeignKey(ClavienDindoGrading)
+    grade_first_30_days_d = models.BooleanField()
+    grade_post_30_days = models.ForeignKey(AlternativeGrading)
+
+    # Question 1
+    # resulted_in_death = models.BooleanField(verbose_name='', default=False)  # Covered by Grade V/5
     date_of_death = models.DateField()
     treatment_related = models.PositiveSmallIntegerField(
         verbose_name=_(''),
         choices=YES_NO_UNKNOWN_CHOICES,
         blank=True, null=True)
-
+    causes_of_death = models.ManyToManyField(CauseOfDeath)
+    other_cause_of_death = models.CharField()
