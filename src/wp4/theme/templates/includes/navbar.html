@@ -23,6 +23,8 @@
             {% url 'compare:transplantation' as url_transplantation %}
                 <li class="{% active request url_transplantation %}"><a href="{{ url_transplantation }}">Transplantation</a></li>
 {#                <li><a href="#">Administration</a></li>#}
+            {% url 'compare:adverseevent-list' as url_adverseevents %}
+                <li class="{% active request url_adverseevents %}"><a href="{{ url_adverseevents }}">Adverse Events</a></li>
             {% url 'admin:index' as url_admin_home %}
                 <li><a href="{{ url_admin_home }}"><i class="glyphicon glyphicon-briefcase"></i></a></li>
                 <li class="dropdown">

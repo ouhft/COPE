@@ -4,7 +4,7 @@
     "pk": 1,
     "fields": {
       "label": "Grade I",
-      "description": ""
+      "description": "Any deviation from the normal postoperative course without the need for pharmacological treatment or surgical, endoscopic and radiological interventions. Allowed therapeutic regimens are: drugs as antiemetics, antipyretics, analgetics, diuretics and electrolytes and physiotherapy. This grade also includes wound infections opened at the bedside."
     }
   },
   {
@@ -12,7 +12,7 @@
     "pk": 2,
     "fields": {
       "label": "Grade II",
-      "description": ""
+      "description": "Requiring pharmacological treatment with drugs other than such allowed for grade I complications. Blood transfusions and total parenteral nutrition are also included."
     }
   },
   {
@@ -20,7 +20,7 @@
     "pk": 3,
     "fields": {
       "label": "Grade III",
-      "description": ""
+      "description": "Requiring surgical, endoscopic or radiological intervention"
     }
   },
   {
@@ -28,7 +28,7 @@
     "pk": 4,
     "fields": {
       "label": "Grade III a",
-      "description": ""
+      "description": "as III, but intervention not under general anesthesia"
     }
   },
   {
@@ -36,7 +36,7 @@
     "pk": 5,
     "fields": {
       "label": "Grade III b",
-      "description": ""
+      "description": "as III, but intervention under general anesthesia"
     }
   },
   {
@@ -44,7 +44,7 @@
     "pk": 6,
     "fields": {
       "label": "Grade IV",
-      "description": ""
+      "description": "Life-threatening complication (including CNS complications) requiring IC/ICU-management. E.g. brain hemorrhage, ischemic stroke, subarrachnoidal bleeding,but excluding transient ischemic attacks (TIA); (IC: Intermediate care; ICU: Intensive care unit.)"
     }
   },
   {
@@ -52,7 +52,7 @@
     "pk": 7,
     "fields": {
       "label": "Grade IV a",
-      "description": ""
+      "description": "as IV, but with single organ dysfunction (including dialysis)"
     }
   },
   {
@@ -60,7 +60,7 @@
     "pk": 8,
     "fields": {
       "label": "Grade IV b",
-      "description": ""
+      "description": "as IV, but with multi organ dysfunction"
     }
   },
   {
@@ -68,7 +68,7 @@
     "pk": 9,
     "fields": {
       "label": "Grade V",
-      "description": ""
+      "description": "Death of a patient"
     }
   },
   {
@@ -108,7 +108,7 @@
     "pk": 5,
     "fields": {
       "label": "Death (Grade 5)",
-      "description": ""
+      "description": "Death of a patient"
     }
-  },
+  }
 ]

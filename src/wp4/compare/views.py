@@ -241,3 +241,8 @@ def transplantation_form(request, pk):
         },
         context_instance=RequestContext(request)
     )
+
+
+@login_required
+def adverse_events_list(request):
+    raise Http404("Haven't written this view yet")  # This message is only for debug view

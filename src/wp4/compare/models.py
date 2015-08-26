@@ -91,6 +91,8 @@ class Hospital(models.Model):
     name = models.CharField(verbose_name=_("HO01 hospital name"), max_length=100)
     country = models.PositiveSmallIntegerField(verbose_name=_("HO03 country"), choices=COUNTRY_CHOICES)
     is_active = models.BooleanField(default=True)
+    is_project_site = models.BooleanField(default=False)
+    project_contact = models.ForeignKey(StaffPerson)  # TODO: Filter by role
     created_on = models.DateTimeField(default=timezone.now)
     created_by = models.ForeignKey(User)
 
@@ -311,7 +313,7 @@ class Donor(OrganPerson):
         blank=True, null=True
     )
     ice_boxes_filled = models.DateTimeField(
-        verbose_name=_('DO09 ice boxes filled'),  #  with sufficient amount of ice (for kidney assist)
+        verbose_name=_('DO09 ice boxes filled'),  # with sufficient amount of ice (for kidney assist)
         blank=True, null=True
     )
     depart_perfusion_centre = models.DateTimeField(
@@ -423,7 +425,7 @@ class Donor(OrganPerson):
     )
     last_creatinine = models.FloatField(
         verbose_name=_('DO70 last creatinine'),
-        validators=[MinValueValidator(0.0),],
+        validators=[MinValueValidator(0.0), ],
         blank=True, null=True
     )
     last_creatinine_unit = models.PositiveSmallIntegerField(choices=UNIT_CHOICES, default=UNIT_MGDL)
@@ -491,7 +493,7 @@ class Donor(OrganPerson):
         blank=True, null=True
     )
     heparin = models.NullBooleanField(
-        verbose_name=_('DO90 heparin'),  #  (administered to donor/in flush solution)
+        verbose_name=_('DO90 heparin'),  # (administered to donor/in flush solution)
         blank=True, null=True
     )
 
@@ -571,7 +573,9 @@ class Donor(OrganPerson):
         if self.arrival_at_donor_hospital and self.depart_perfusion_centre:
             if self.arrival_at_donor_hospital < self.depart_perfusion_centre:
                 raise ValidationError(
-                    _("DOv01 Time travel detected! Arrival at donor hospital occurred before departure from perfusion centre")
+                    _(
+                        "DOv01 Time travel detected! Arrival at donor hospital occurred before departure from "
+                        "perfusion centre")
                 )
         if self.date_of_birth:
             if self.date_of_birth > datetime.datetime.now().date():
@@ -579,12 +583,12 @@ class Donor(OrganPerson):
             if self.date_of_procurement:
                 age_difference = self.date_of_procurement - self.date_of_birth
                 age_difference_in_years = age_difference.days / 365.2425
-                if age_difference < datetime.timedelta(days=(365.2425*50)):
+                if age_difference < datetime.timedelta(days=(365.2425 * 50)):
                     raise ValidationError(
                         _("DOv03 Date of birth is less than 50 years from the date of procurement (%(num)d)"
                           % {'num': age_difference_in_years})
                     )
-                if age_difference > datetime.timedelta(days=(365.2425*100)):
+                if age_difference > datetime.timedelta(days=(365.2425 * 100)):
                     raise ValidationError(
                         _("DOv04 Date of birth is more than 100 years from the date of procurement (%(num)d)"
                           % {'num': age_difference_in_years})
@@ -971,17 +975,17 @@ class Recipient(OrganPerson):
 
     # Recipient details (in addition to OrganPerson)
     RENAL_DISEASE_CHOICES = (
-        (1,_('Glomerular diseases')),
-        (2,_('Polycystic kidneys')),
-        (3,_('Uncertain etiology')),
-        (4,_('Tubular and interstitial diseases')),
-        (5,_('Retransplant graft failure')),
-        (6,_('diabetic nephropathyes')),
-        (7,_('hypertensive nephropathyes')),
-        (8,_('congenital rare disorders')),
-        (9,_('renovascular and other diseases')),
-        (10,_('neoplasms')),
-        (11,_('other')),
+        (1, _('Glomerular diseases')),
+        (2, _('Polycystic kidneys')),
+        (3, _('Uncertain etiology')),
+        (4, _('Tubular and interstitial diseases')),
+        (5, _('Retransplant graft failure')),
+        (6, _('diabetic nephropathyes')),
+        (7, _('hypertensive nephropathyes')),
+        (8, _('congenital rare disorders')),
+        (9, _('renovascular and other diseases')),
+        (10, _('neoplasms')),
+        (11, _('other')),
     )
     renal_disease = models.PositiveSmallIntegerField(
         verbose_name=_('DO54 renal disease'),
@@ -1131,10 +1135,6 @@ class Recipient(OrganPerson):
         get_latest_by = 'created_on'
 
 
-class CauseOfDeath(models.Model):
-    description = models.CharField(max_length=150)
-
-
 class ClavienDindoGrading(models.Model):
     label = models.CharField()
     description = models.CharField(max_length=300)
@@ -1146,21 +1146,22 @@ class AlternativeGrading(models.Model):
 
 
 class AdverseEvent(VersionControlModel):
-    GRADE_I = "I"
-    GRADE_II = "II"
-    GRADE_III = "III"
-    GRADE_III_A = "IIIa"
-    GRADE_III_B = "IIIb"
-    GRADE_IV = "IV"
-    GRADE_IV_A = "IVa"
-    GRADE_IV_B = "IVb"
-    GRADE_V = "V"
+    # From fixtures/gradings.json
+    GRADE_I = 1
+    GRADE_II = 2
+    GRADE_III = 3
+    GRADE_III_A = 4
+    GRADE_III_B = 5
+    GRADE_IV = 6
+    GRADE_IV_A = 7
+    GRADE_IV_B = 8
+    GRADE_V = 9
+    GRADE_1 = 1
+    GRADE_2 = 2
+    GRADE_3 = 3
+    GRADE_4 = 4
+    GRADE_5 = 5
 
-    GRADE_1 = "1"
-    GRADE_2 = "2"
-    GRADE_3 = "3"
-    GRADE_4 = "4"
-    GRADE_5 = "5"
     # Event basics
     reporting_site = models.ForeignKey(Hospital)
     recipient = models.ForeignKey(Recipient)
@@ -1171,7 +1172,10 @@ class AdverseEvent(VersionControlModel):
     resolution_at_time = models.TimeField()
 
     grade_first_30_days = models.ForeignKey(ClavienDindoGrading)
-    grade_first_30_days_d = models.BooleanField()
+    grade_first_30_days_d = models.BooleanField(
+        help_text="If the patients suffers from a complication at the time of discharge, the suffix  “d” (for "
+                  "‘disability’) is added to the respective grade of complication. This label indicates the need for "
+                  "a follow-up to fully evaluate the complication.")
     grade_post_30_days = models.ForeignKey(AlternativeGrading)
 
     # Question 1
@@ -1181,5 +1185,5 @@ class AdverseEvent(VersionControlModel):
         verbose_name=_(''),
         choices=YES_NO_UNKNOWN_CHOICES,
         blank=True, null=True)
-    causes_of_death = models.ManyToManyField(CauseOfDeath)
-    other_cause_of_death = models.CharField()
+    # TODO: ICD10 link to go in here
+    cause_of_death_comment = models.CharField()

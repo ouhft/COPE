@@ -32,6 +32,8 @@ urlpatterns = [
     url(r'^sample/type/(?P<type>[0-9]+)/$', views.sample_editor, name='sample-editor-new'),
     url(r'^sample/(?P<pk>[0-9]+)/$', views.sample_editor, name='sample-editor'),
 
+    url(r'^adverse-events/$', views.adverse_events_list, name='adverseevent-list'),
+
     url(r'^errors/403$', views.error403, name='error-403'),
     url(r'^errors/404$', views.error404, name='error-404'),
     url(r'^errors/500$', views.error500, name='error-500'),
