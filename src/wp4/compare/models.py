@@ -42,8 +42,32 @@ class VersionControlModel(models.Model):
     created_by = models.ForeignKey(User)
     record_locked = models.BooleanField(default=False)
 
+    # TODO: Add save method here that aborts saving if record_locked is already true
+    # TODO: Add version control via django-reversion
+
     class Meta:
         abstract = True
+
+
+# Consider making this part of a LOCATION class
+class Hospital(models.Model):
+    name = models.CharField(verbose_name=_("HO01 hospital name"), max_length=100)
+    country = models.PositiveSmallIntegerField(verbose_name=_("HO03 country"), choices=COUNTRY_CHOICES)
+    is_active = models.BooleanField(default=True)
+    is_project_site = models.BooleanField(default=False)
+    created_on = models.DateTimeField(default=timezone.now)
+    created_by = models.ForeignKey(User)
+
+    def full_description(self):
+        return '%s, %s' % (self.name, self.get_country_display())
+
+    def __unicode__(self):
+        return self.full_description()
+
+    class Meta:
+        ordering = ['country', 'name']
+        verbose_name = _('HOm1 hospital')
+        verbose_name_plural = _('HOm2 hospitals')
 
 
 class StaffJob(models.Model):
@@ -72,6 +96,7 @@ class StaffPerson(VersionControlModel):
     jobs = models.ManyToManyField(StaffJob, verbose_name=_("PE12 jobs"))
     telephone = models.CharField(verbose_name=_("PE13 telephone number"), max_length=20, blank=True, null=True)
     email = models.EmailField(verbose_name=_("PE15 email"), blank=True, null=True)
+    based_at = models.ForeignKey(Hospital, blank=True, null=True)
 
     def full_name(self):
         return self.first_names + ' ' + self.last_names
@@ -85,28 +110,6 @@ class StaffPerson(VersionControlModel):
     class Meta:
         verbose_name = _('PEm1 person')
         verbose_name_plural = _('PEm2 people')
-
-
-# Consider making this part of a LOCATION class
-class Hospital(models.Model):
-    name = models.CharField(verbose_name=_("HO01 hospital name"), max_length=100)
-    country = models.PositiveSmallIntegerField(verbose_name=_("HO03 country"), choices=COUNTRY_CHOICES)
-    is_active = models.BooleanField(default=True)
-    is_project_site = models.BooleanField(default=False)
-    project_contact = models.ForeignKey(StaffPerson, blank=True, null=True)  # TODO: Filter by StaffJob #8
-    created_on = models.DateTimeField(default=timezone.now)
-    created_by = models.ForeignKey(User)
-
-    def full_description(self):
-        return '%s, %s' % (self.name, self.get_country_display())
-
-    def __unicode__(self):
-        return self.full_description()
-
-    class Meta:
-        ordering = ['country', 'name']
-        verbose_name = _('HOm1 hospital')
-        verbose_name_plural = _('HOm2 hospitals')
 
 
 class RetrievalTeam(models.Model):
@@ -1164,27 +1167,49 @@ class AdverseEvent(VersionControlModel):
     GRADE_5 = 5
 
     # Event basics
-    reporting_site = models.ForeignKey(Hospital)
-    recipient = models.ForeignKey(Recipient)
-    sequence_number = models.PositiveSmallIntegerField(verbose_name=_("AE02 sequence number"), default=0)
-    onset_at_date = models.DateField()
-    onset_at_time = models.TimeField()
-    resolution_at_date = models.DateField()
-    resolution_at_time = models.TimeField()
+    sequence_number = models.PositiveSmallIntegerField(verbose_name=_("AE01 sequence number"), default=0)
+    onset_at_date = models.DateField(verbose_name=_("AE02 onset date"))
+    resolution_at_date = models.DateField(verbose_name=_("AE03 resolution date"), blank=True, null=True)
 
-    grade_first_30_days = models.ForeignKey(ClavienDindoGrading)
-    grade_first_30_days_d = models.BooleanField(
-        help_text="If the patients suffers from a complication at the time of discharge, the suffix  “d” (for "
-                  "‘disability’) is added to the respective grade of complication. This label indicates the need for "
-                  "a follow-up to fully evaluate the complication.")
-    grade_post_30_days = models.ForeignKey(AlternativeGrading)
+    organ = models.ForeignKey(Organ, verbose_name=_("AE04"))
+    device_related = models.BooleanField(verbose_name=_("AE05 device related"), default=False)
 
-    # Question 1
-    # resulted_in_death = models.BooleanField(verbose_name='', default=False)  # Covered by Grade V/5
-    date_of_death = models.DateField()
-    treatment_related = models.PositiveSmallIntegerField(
-        verbose_name=_(''),
-        choices=YES_NO_UNKNOWN_CHOICES,
-        blank=True, null=True)
-    # TODO: ICD10 link to go in here
-    cause_of_death_comment = models.CharField(max_length=500)
+    description = models.CharField(verbose_name=_("AE06 description"), max_length=1000, default="")
+    action = models.CharField(verbose_name=_("AE07 action"), max_length=1000, default="")
+    outcome = models.CharField(verbose_name=_("AE08 outcome"), max_length=1000, default="")
+
+    # Serious Event questions
+    contact = models.ForeignKey(StaffPerson, verbose_name=_("AE09 primary contact"), blank=True, null=True)
+    # # Death
+    # date_of_death = models.DateField()
+    # treatment_related = models.PositiveSmallIntegerField(
+    #     verbose_name=_(''),
+    #     choices=YES_NO_UNKNOWN_CHOICES,
+    #     blank=True, null=True)
+    # # TODO: ICD10 link to go in here
+    # cause_of_death_comment = models.CharField(max_length=500)
+    # # Hospitalisation
+    # admitted_to_itu = models.BooleanField(verbose_name=_('DO34 admitted to ITU'), default=False)
+    # dialysis_needed = models.BooleanField(verbose_name=_('DO34 admitted to ITU'), default=False)
+    # biopsy_taken = models.BooleanField(verbose_name=_('DO34 admitted to ITU'), default=False)
+    # prolongation_of_hospitalisation = models.BooleanField(verbose_name=_('DO34 admitted to ITU'), default=False)
+    # # Device specific
+    # device_deficiency = models.BooleanField(verbose_name=_('DO34 admitted to ITU'), default=False)
+    # device_user_error = models.BooleanField(verbose_name=_('DO34 admitted to ITU'), default=False)
+    # # Lesser issues
+    # unable_to_work = models.BooleanField(verbose_name=_('DO34 admitted to ITU'), default=False)
+    # interfering_symptom = models.BooleanField(verbose_name=_('DO34 admitted to ITU'), default=False)
+    # symptom_with_no_sequalae = models.BooleanField(verbose_name=_('DO34 admitted to ITU'), default=False)
+    #
+    # grade_first_30_days = models.ForeignKey(ClavienDindoGrading)
+    # grade_first_30_days_d = models.BooleanField(
+    #     help_text="If the patients suffers from a complication at the time of discharge, the suffix  “d” (for "
+    #               "‘disability’) is added to the respective grade of complication. This label indicates the need for "
+    #               "a follow-up to fully evaluate the complication.")
+    # grade_post_30_days = models.ForeignKey(AlternativeGrading)
+
+    class Meta:
+        order_with_respect_to = 'organ'
+        ordering = ['sequence_number']
+        verbose_name = _('AEm1 adverse event')
+        verbose_name_plural = _('AEm2 adverse events')

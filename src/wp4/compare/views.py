@@ -14,8 +14,8 @@ import datetime
 from random import random
 from django_ajax.decorators import ajax
 
-from .models import Donor, StaffPerson, Organ, Sample, Recipient
-from .forms import DonorForm, DonorStartForm, OrganForm, SampleForm, RecipientForm
+from .models import Donor, StaffPerson, Organ, Sample, Recipient, AdverseEvent
+from .forms import DonorForm, DonorStartForm, OrganForm, SampleForm, RecipientForm, AdverseEventForm
 
 
 # Some forced errors to allow for testing the Error Page Templates
@@ -245,4 +245,24 @@ def transplantation_form(request, pk):
 
 @login_required
 def adverse_events_list(request):
-    raise Http404("Haven't written this view yet")  # This message is only for debug view
+    events = AdverseEvent.objects.all()
+    organs = Organ.objects.exclude(transplantable=False)
+
+    return render_to_response(
+        "dashboard/adverseevents-list.html",
+        {
+            "events": events,
+            "organs": organs
+        },
+        context_instance=RequestContext(request)
+    )
+
+
+@login_required
+def adverse_event_form_new(request):
+    raise Http404("This is a page holder")  # This message is only for debug view
+
+
+@login_required
+def adverse_event_form(request):
+    raise Http404("This is a page holder")  # This message is only for debug view

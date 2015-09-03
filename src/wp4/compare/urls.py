@@ -33,6 +33,8 @@ urlpatterns = [
     url(r'^sample/(?P<pk>[0-9]+)/$', views.sample_editor, name='sample-editor'),
 
     url(r'^adverse-events/$', views.adverse_events_list, name='adverseevent-list'),
+    url(r'^adverse-events/new/(?P<pk>[0-9]+)/$', views.adverse_event_form_new, name='adverseevent-new'),
+    url(r'^adverse-events/(?P<pk>[0-9]+)/$', views.adverse_event_form, name='adverseevent-detail'),
 
     url(r'^errors/403$', views.error403, name='error-403'),
     url(r'^errors/404$', views.error404, name='error-404'),

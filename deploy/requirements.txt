@@ -2,6 +2,7 @@ Django              >=1.8
 docutils            >=0.12
 djangoajax
 pytz
+django-suit
 
 # Utils
 django-dbbackup     >= 2.0.3

@@ -3,7 +3,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Div, Fieldset, HTML, Field
 from theme.layout import InlineFields, FieldWithFollowup, YesNoFieldWithAlternativeFollowups, FieldWithNotKnown
 from crispy_forms.bootstrap import FormActions, StrictButton
-from .models import Donor, Organ, Sample, Recipient
+from .models import Donor, Organ, Sample, Recipient, AdverseEvent
 from .models import YES_NO_UNKNOWN_CHOICES
 from django.utils import timezone
 from django.contrib.auth.forms import AuthenticationForm
@@ -470,6 +470,29 @@ class RecipientForm(forms.ModelForm):
 
     def save(self, user):
         recipient = super(RecipientForm, self).save(commit=False)
+        recipient.created_by = user
+        recipient.created_on = timezone.now()
+        recipient.version += 1
+        recipient.save()
+        return recipient
+
+
+class AdverseEventForm(forms.ModelForm):
+    helper = FormHelper()
+    helper.form_tag = False
+    helper.html5_required = True
+    helper.layout = Div()
+
+    def __init__(self, *args, **kwargs):
+        super(AdverseEventForm, self).__init__(*args, **kwargs)
+
+    class Meta:
+        model = AdverseEvent
+        exclude = ['created_by', 'version', 'created_on', 'record_locked']
+        localized_fields = "__all__"
+
+    def save(self, user):
+        recipient = super(AdverseEventForm, self).save(commit=False)
         recipient.created_by = user
         recipient.created_on = timezone.now()
         recipient.version += 1

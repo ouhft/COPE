@@ -22,6 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Application definition
 
 INSTALLED_APPS = (
+    'suit',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -65,6 +66,12 @@ TEMPLATES = [
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+# Django Suit configuration
+SUIT_CONFIG = {
+    # header
+    'ADMIN_NAME': 'COPE WP4 Administration',
+}
 
 WSGI_APPLICATION = 'wp4.wsgi.application'
 
