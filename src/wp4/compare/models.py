@@ -104,6 +104,16 @@ class StaffPerson(VersionControlModel):
     # def get_absolute_url(self):
     #     return reverse('person-detail', kwargs={'pk': self.pk})
 
+    def has_job(self, acceptable_jobs):
+        jobs_list = [x.id for x in self.jobs.all()]
+        if type(acceptable_jobs) is list or type(acceptable_jobs) is tuple:
+            answer = [x for x in jobs_list if x in acceptable_jobs]
+            return True if len(answer) > 0 else False
+        elif isinstance(acceptable_jobs, (int, long)):
+            return acceptable_jobs in jobs_list
+        else:
+            raise TypeError("acceptable jobs is an invalid type")
+
     def __unicode__(self):
         return self.full_name()  # + ' : ' + self.get_job_display()  TODO: List jobs?
 

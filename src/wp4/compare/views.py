@@ -14,7 +14,7 @@ import datetime
 from random import random
 from django_ajax.decorators import ajax
 
-from .models import Donor, StaffPerson, Organ, Sample, Recipient, AdverseEvent
+from .models import Donor, StaffJob, StaffPerson, Organ, Sample, Recipient, AdverseEvent
 from .forms import DonorForm, DonorStartForm, OrganForm, SampleForm, RecipientForm, AdverseEventForm
 
 
@@ -65,7 +65,6 @@ def procurement_form(request, pk):
     if right_organ_form.is_valid():
         right_organ_form.save(request.user)
 
-
     # Randomise if eligible and not already done
     if donor.left_kidney().preservation is None \
             and donor.multiple_recipients is not False \
@@ -111,12 +110,13 @@ def procurement_form_blank(request):
 
     new_donor = Donor()
     current_person = StaffPerson.objects.get(user__id=request.user.id)
-    if current_person.job == StaffPerson.PERFUSION_TECHNICIAN:
+    if current_person.has_job(StaffJob.PERFUSION_TECHNICIAN):
         new_donor.perfusion_technician = current_person
     donor_form = DonorStartForm(prefix="donor", instance=new_donor)
 
-    if current_person.job in (
-    StaffPerson.SYSTEMS_ADMINISTRATOR, StaffPerson.CENTRAL_COORDINATOR, StaffPerson.NATIONAL_COORDINATOR):
+    if current_person.has_job(
+            (StaffJob.SYSTEMS_ADMINISTRATOR, StaffJob.CENTRAL_COORDINATOR, StaffJob.NATIONAL_COORDINATOR)
+    ):
         donors = Donor.objects.all()
     else:
         donors = {}
@@ -158,8 +158,9 @@ def sample_editor(request, pk=None, type=None):
 @csrf_protect
 def transplantation_form_list(request):
     current_person = StaffPerson.objects.get(user__id=request.user.id)
-    if current_person.job in (StaffPerson.SYSTEMS_ADMINISTRATOR, StaffPerson.CENTRAL_COORDINATOR,
-                              StaffPerson.NATIONAL_COORDINATOR):
+    if current_person.has_job(
+            (StaffJob.SYSTEMS_ADMINISTRATOR, StaffJob.CENTRAL_COORDINATOR, StaffJob.NATIONAL_COORDINATOR)
+    ):
         recipients = Recipient.objects.all()
         organs = Organ.objects.exclude(preservation__isnull=True)
     else:
@@ -197,7 +198,7 @@ def transplantation_form_new(request, pk):
         recipient.created_by = request.user
 
         current_person = StaffPerson.objects.get(user__id=request.user.id)
-        if current_person.job == StaffPerson.PERFUSION_TECHNICIAN:
+        if current_person.has_job(StaffJob.PERFUSION_TECHNICIAN):
             recipient.perfusion_technician = current_person
 
         recipient.save()
@@ -228,7 +229,7 @@ def transplantation_form(request, pk):
             new_recipient.organ = recipient.organ
             new_recipient.created_by = request.user
             current_person = StaffPerson.objects.get(user__id=request.user.id)
-            if current_person.job == StaffPerson.PERFUSION_TECHNICIAN:
+            if current_person.has_job(StaffJob.PERFUSION_TECHNICIAN):
                 new_recipient.perfusion_technician = current_person
             recipient_form = RecipientForm(instance=new_recipient, prefix="recipient")
             recipient = new_recipient
