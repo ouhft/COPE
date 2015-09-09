@@ -21,7 +21,7 @@
     </div>
     <script type="text/javascript">
         document.addEventListener("DOMContentLoaded", function(event) {
-            $('#{{ field.id_for_label }}').datetimepicker({
+            $('#{{ field.id_for_label }}').parent().datetimepicker({
                 locale: 'en-gb',
                 maxDate: moment()
             });

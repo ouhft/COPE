@@ -88,6 +88,32 @@
             }
         }
 
+        HospitalWidget = {
+            getValue: function (choice) {
+                // TODO: Secure this input so that it doesn't execute the contents of value!
+                var value = choice.data('value');
+
+                if (value == 'create') {
+                    choice.html(this.input.val())
+
+                    $.ajax(this.autocomplete.url, {
+                        async: false,
+                        type: 'post',
+                        data: {
+                            'name': this.input.val(),
+                        },
+                        success: function (text, jqXHR, textStatus) {
+                            value = text;
+                        }
+                    });
+
+                    choice.data('value', value);
+                }
+
+                return value;
+            }
+        }
+
         document.addEventListener("DOMContentLoaded", function (event) {
             // Set initial states
             updateRandomiseKidney({% if left_organ_form.transplantable.value %}true{% else %}false{% endif %}, true);
@@ -129,6 +155,15 @@
             $('#myModal').on('hidden.bs.modal', function (e) {
                 toggleModalContent(false);
             })
+
+
+            $(document).bind('yourlabsWidgetReady', function () {
+                // Instantiate decks with RemoteAutocompleteWidget as override for all widgets with
+                // autocomplete 'remote'.
+                $('body').on('initialize', '.autocomplete-light-widget[data-widget-bootstrap=hospital-widget]', function () {
+                    $(this).yourlabsWidget(HospitalWidget);
+                });
+            });
         });
     </script>
 
@@ -211,6 +246,7 @@
                             {% if left_organ_form.preservation.value == None %}Randomise{% else %}Already
                                 Randomised{% endif %}
                         </button>
+                        <!-- Left Organ Preservation Value: {{ left_organ_form.preservation.value }} -->
                     </div>
                 </div>
 
@@ -229,7 +265,7 @@
                             Donor hospital: {{ donor.retrieval_hospital.name }}
                         </li>
                         <li class="list-group-item">
-                            Transplant co-ordinator:{{ donor.transplant_coordinator.full_name }}
+                            Transplant co-ordinator:{{ donor.transplant_coordinator.full_name }}<br>
                             <i class="glyphicon glyphicon-phone"></i>: {{ donor.transplant_coordinator.telephone }}
                         </li>
                     </ul>

@@ -86,6 +86,9 @@ class StaffJob(models.Model):
     description = models.CharField(max_length=100)
     # TODO: Work out how to get localised values from this
 
+    def __unicode__(self):
+        return self.description
+
 
 # Create your models here.
 class StaffPerson(VersionControlModel):
@@ -100,6 +103,7 @@ class StaffPerson(VersionControlModel):
 
     def full_name(self):
         return self.first_names + ' ' + self.last_names
+    full_name.short_description = 'Name'
 
     # def get_absolute_url(self):
     #     return reverse('person-detail', kwargs={'pk': self.pk})
@@ -249,12 +253,14 @@ class OrganPerson(VersionControlModel):
 
     number = models.CharField(
         verbose_name=_('DO30 NHSBT Number'),  # "ET Donor number/ NHSBT Number",
-        max_length=20
+        max_length=20,
+        blank=True, null=True
     )
     date_of_birth = models.DateField(
         verbose_name=_('DO32 date of birth'),
         blank=True, null=True,
     )
+    date_of_birth_unknown = models.BooleanField(default=False)  # Internal flag
     gender = models.CharField(verbose_name=_('DO37 gender'), choices=GENDER_CHOICES, max_length=1, default=MALE)
     weight = models.PositiveSmallIntegerField(
         verbose_name=_('DO39 Weight (kg)'),
@@ -290,7 +296,7 @@ class OrganPerson(VersionControlModel):
 class Donor(OrganPerson):
     # Donor Form Case data
     sequence_number = models.PositiveSmallIntegerField(verbose_name=_("DO02 sequence number"), default=0)
-    multiple_recipients = models.NullBooleanField(verbose_name="", default=None)
+    multiple_recipients = models.NullBooleanField(verbose_name=_("DO01 Multiple recipients"), default=None)
 
     # Procedure data
     retrieval_team = models.ForeignKey(RetrievalTeam, verbose_name=_("DO01 retrieval team"))
@@ -541,47 +547,11 @@ class Donor(OrganPerson):
         blank=True, null=True
     )
 
-    def bmi_value(self):
-        # http://www.nhs.uk/chq/Pages/how-can-i-work-out-my-bmi.aspx?CategoryID=51 for formula
-        height_in_m = self.height / 100
-        return (self.weight / height_in_m) / height_in_m
-
-    def age_from_dob(self):
-        today = datetime.date.today()
-        if self.date_of_birth < today:
-            years = today.year - self.date_of_birth.year
-        else:
-            years = today.year - self.date_of_birth.year - 1
-        return years
-
-    def left_kidney(self):
-        try:
-            return self.organ_set.filter(location__exact=LEFT)[0]
-        except IndexError:  # Organ.DoesNotExist:
-            if self.id > 0:
-                return Organ(location=LEFT, donor=self)
-            else:
-                return Organ(location=LEFT)
-
-    def right_kidney(self):
-        try:
-            return self.organ_set.filter(location__exact=RIGHT)[0]
-        except IndexError:  # Organ.DoesNotExist:
-            if self.id > 0:
-                return Organ(location=RIGHT, donor=self)
-            else:
-                return Organ(location=RIGHT)
-
-    def centre_code(self):
-        try:
-            return self.retrieval_team.centre_code
-        except RetrievalTeam.DoesNotExist:
-            return 0
-
-    def trial_id(self):
-        if self.centre_code() == 0:
-            return ""
-        return 'WP4%s%s' % (format(self.centre_code(), '02'), format(self.sequence_number, '03'))
+    class Meta:
+        order_with_respect_to = 'retrieval_team'
+        ordering = ['sequence_number']
+        verbose_name = _('DOm1 donor')
+        verbose_name_plural = _('DOm2 donors')
 
     def clean(self):
         if self.arrival_at_donor_hospital and self.depart_perfusion_centre:
@@ -645,11 +615,50 @@ class Donor(OrganPerson):
     def __unicode__(self):
         return '%s (%s)' % (self.number, self.trial_id())
 
-    class Meta:
-        order_with_respect_to = 'retrieval_team'
-        ordering = ['sequence_number']
-        verbose_name = _('DOm1 donor')
-        verbose_name_plural = _('DOm2 donors')
+    def bmi_value(self):
+        # http://www.nhs.uk/chq/Pages/how-can-i-work-out-my-bmi.aspx?CategoryID=51 for formula
+        height_in_m = self.height / 100
+        return (self.weight / height_in_m) / height_in_m
+    bmi_value.short_description = 'BMI Value'
+
+    def age_from_dob(self):
+        today = datetime.date.today()
+        if self.date_of_birth < today:
+            years = today.year - self.date_of_birth.year
+        else:
+            years = today.year - self.date_of_birth.year - 1
+        return years
+
+    def left_kidney(self):
+        try:
+            return self.organ_set.filter(location__exact=LEFT)[0]
+        except IndexError:  # Organ.DoesNotExist:
+            if self.id > 0:
+                return Organ(location=LEFT, donor=self)
+            else:
+                return Organ(location=LEFT)
+
+    def right_kidney(self):
+        try:
+            return self.organ_set.filter(location__exact=RIGHT)[0]
+        except IndexError:  # Organ.DoesNotExist:
+            if self.id > 0:
+                return Organ(location=RIGHT, donor=self)
+            else:
+                return Organ(location=RIGHT)
+
+    def centre_code(self):
+        try:
+            return self.retrieval_team.centre_code
+        except RetrievalTeam.DoesNotExist:
+            return 0
+    centre_code.short_description = 'Centre Code'
+
+    def trial_id(self):
+        if self.centre_code() == 0:
+            return ""
+        return 'WP4%s%s' % (format(self.centre_code(), '02'), format(self.sequence_number, '03'))
+    trial_id.short_description = 'Trial ID'
 
 
 class PerfusionMachine(models.Model):

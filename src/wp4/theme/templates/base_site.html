@@ -38,7 +38,7 @@
     {% block content %}{% endblock %}
     <hr>
     <footer>
-        <p>COPE DB v0.1.22 (August 2015) : &copy; 2015 <a href="http://cope.nds.ox.ac.uk/index.html">COPE
+        <p>COPE DB v0.1.23 (September 2015) : &copy; 2015 <a href="http://cope.nds.ox.ac.uk/index.html">COPE
             Consortium</a></p>
         <ul class="list-unstyled list-inline">
             <li class=""><img src="{% static 'img/cope-logo.png' %}" style="height: 50px;"></li>
@@ -53,6 +53,7 @@
 <script src="{% static 'js/min/cope-min.js' %}"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <!--<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>-->
+{% include 'autocomplete_light/static.html' %}
 <script>
     function set_language(code) {
         $('#language').val(code);

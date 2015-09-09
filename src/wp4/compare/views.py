@@ -52,17 +52,17 @@ def dashboard_index(request):
 def procurement_form(request, pk):
     donor = get_object_or_404(Donor, pk=int(pk))
     donor_form = DonorForm(request.POST or None, request.FILES or None, instance=donor, prefix="donor")
-    if donor_form.is_valid():
+    if donor_form.is_valid() and donor_form.has_changed():
         donor = donor_form.save(request.user)
 
     left_organ_form = OrganForm(request.POST or None, request.FILES or None, instance=donor.left_kidney(),
                                 prefix="left-organ")
-    if left_organ_form.is_valid():
+    if left_organ_form.is_valid() and left_organ_form.has_changed():
         left_organ_form.save(request.user)
 
     right_organ_form = OrganForm(request.POST or None, request.FILES or None, instance=donor.right_kidney(),
                                  prefix="right-organ")
-    if right_organ_form.is_valid():
+    if right_organ_form.is_valid() and right_organ_form.has_changed():
         right_organ_form.save(request.user)
 
     # Randomise if eligible and not already done

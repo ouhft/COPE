@@ -2,10 +2,13 @@ from django.contrib import admin
 from django.utils import timezone
 
 # Register your models here.
-from .models import StaffPerson, Hospital, RetrievalTeam, Sample, Donor, PerfusionMachine
+from .models import StaffJob, StaffPerson, Hospital, RetrievalTeam, Sample, Donor, PerfusionMachine, Recipient, AdverseEvent
 from .models import PerfusionFile, Organ, ProcurementResource
 
+
 class VersionControlAdmin(admin.ModelAdmin):
+    exclude = ('version', 'created_on', 'created_by', 'record_locked')
+
     def save_model(self, request, obj, form, change):
         # TODO: this will have to respect the version control work later...
         obj.created_by = request.user
@@ -14,35 +17,43 @@ class VersionControlAdmin(admin.ModelAdmin):
         obj.save()
 
 
-class PersonAdmin(VersionControlAdmin):
-    fields = ['first_names', 'last_names', 'job', 'telephone', 'user']
-
-
 class HospitalAdmin(admin.ModelAdmin):
-    fields = ['centre_code', 'name', 'country', 'is_active']
+    exclude = ('created_on', 'created_by')
 
     def save_model(self, request, obj, form, change):
         obj.created_by = request.user
         obj.created_on = timezone.now()
         obj.save()
+
+admin.site.register(Hospital, HospitalAdmin)
+
+
+class StaffPersonAdmin(VersionControlAdmin):
+    pass
+
+admin.site.register(StaffPerson, StaffPersonAdmin)
 
 
 class RetrievalTeamAdmin(admin.ModelAdmin):
-    fields = ['name', 'based_at']
+    exclude = ('created_on', 'created_by')
 
     def save_model(self, request, obj, form, change):
         obj.created_by = request.user
         obj.created_on = timezone.now()
         obj.save()
+
+admin.site.register(RetrievalTeam, RetrievalTeamAdmin)
 
 
 class SampleAdmin(admin.ModelAdmin):
-    fields = ['type', 'barcode', 'taken_at', 'centrifugation', 'comment']
+    exclude = ('created_on', 'created_by')
 
     def save_model(self, request, obj, form, change):
         obj.created_by = request.user
         obj.created_on = timezone.now()
         obj.save()
+
+admin.site.register(Sample, SampleAdmin)
 
 
 class DonorAdmin(VersionControlAdmin):
@@ -55,7 +66,8 @@ class DonorAdmin(VersionControlAdmin):
         ]}),
         ('Donor Details', {'fields': [
             'number', 'date_of_birth', 'age', 'date_of_admission', 'admitted_to_itu', 'date_admitted_to_itu',
-            'date_of_procurement', 'gender', 'weight', 'height', 'ethnicity', 'blood_group'
+            'date_of_procurement', 'gender', 'weight', 'height', 'ethnicity', 'blood_group',
+            'other_organs_procured','other_organs_lungs','other_organs_pancreas', 'other_organs_liver', 'other_organs_tissue'
         ]}),
         ('PreOp Data', {'fields': [
             'diagnosis', 'diagnosis_other', 'diabetes_melitus', 'alcohol_abuse', 'cardiac_arrest',
@@ -66,30 +78,34 @@ class DonorAdmin(VersionControlAdmin):
         ('Lab Results', {'fields': [
             'last_creatinine', 'last_creatinine_unit', 'max_creatinine', 'max_creatinine_unit'
         ]}),
-        ('Donor Procedure', {'fields': [
-            'life_support_withdrawal', 'systolic_pressure_low', 'circulatory_arrest', 'length_of_no_touch',
+        ('Operation Data', {'fields': [
+            'life_support_withdrawal', 'systolic_pressure_low', 'o2_saturation', 'circulatory_arrest', 'length_of_no_touch',
             'death_diagnosed', 'perfusion_started', 'systemic_flush_used', 'systemic_flush_used_other',
-            'heparin'
+            'systemic_flush_volume_used', 'heparin'
         ]}),
         ('Donor Samples', {'fields': [
             'donor_blood_1_EDTA', 'donor_blood_1_SST', 'donor_urine_1', 'donor_urine_2'
         ]})
     ]
 
+admin.site.register(Donor, DonorAdmin)
+
 
 class PerfusionMachineAdmin(admin.ModelAdmin):
-    fields = ['machine_serial_number', 'machine_reference_number']
+    exclude = ('created_on', 'created_by')
 
     def save_model(self, request, obj, form, change):
         obj.created_by = request.user
         obj.created_on = timezone.now()
         obj.save()
 
+admin.site.register(PerfusionMachine, PerfusionMachineAdmin)
+
 
 class ProcurementResourceInline(admin.TabularInline):
     model = ProcurementResource
     extra = 2
-    fields = ['organ', 'type', 'lot_number', 'expiry_date']
+    exclude = ('created_on', 'created_by')
 
 
 class OrganAdmin(VersionControlAdmin):
@@ -98,7 +114,7 @@ class OrganAdmin(VersionControlAdmin):
             'donor', 'location'
         ]}),
         ('Inspection', {'fields': [
-            'removal', 'renal_arteries', 'graft_damage', 'washout_perfusion', 'transplantable',
+            'removal', 'renal_arteries', 'graft_damage', 'graft_damage_other', 'washout_perfusion', 'transplantable',
             'not_transplantable_reason'
         ]}),
         ('Randomisation', {'fields': [
@@ -112,7 +128,7 @@ class OrganAdmin(VersionControlAdmin):
             'perfusion_file'
         ]}),
         ('Organ Samples', {'fields': [
-            'perfusate_1', 'perfusate_2'
+            'perfusate_1', 'perfusate_2', 'perfusate_3'
         ]})
     ]
     inlines = [ProcurementResourceInline]
@@ -127,12 +143,16 @@ class OrganAdmin(VersionControlAdmin):
         else:
             formset.save()
 
-
-
-admin.site.register(StaffPerson, PersonAdmin)
-admin.site.register(Hospital, HospitalAdmin)
-admin.site.register(RetrievalTeam, RetrievalTeamAdmin)
-admin.site.register(Sample, SampleAdmin)
-admin.site.register(Donor, DonorAdmin)
-admin.site.register(PerfusionMachine, PerfusionMachineAdmin)
 admin.site.register(Organ, OrganAdmin)
+
+
+class RecipientAdmin(VersionControlAdmin):
+    pass
+
+admin.site.register(Recipient, RecipientAdmin)
+
+
+class AdverseEventAdmin(VersionControlAdmin):
+    pass
+
+admin.site.register(AdverseEvent, AdverseEventAdmin)

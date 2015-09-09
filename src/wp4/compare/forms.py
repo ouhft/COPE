@@ -1,14 +1,17 @@
 from django import forms
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, Div, Fieldset, HTML, Field
-from theme.layout import InlineFields, FieldWithFollowup, YesNoFieldWithAlternativeFollowups, FieldWithNotKnown
-from crispy_forms.bootstrap import FormActions, StrictButton
-from .models import Donor, Organ, Sample, Recipient, AdverseEvent
-from .models import YES_NO_UNKNOWN_CHOICES
 from django.utils import timezone
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import ugettext_lazy as _, ungettext_lazy as __
+
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Submit, Div, HTML, Field
+from crispy_forms.bootstrap import FormActions, StrictButton
+from autocomplete_light import ModelChoiceField
+
+from theme.layout import InlineFields, FieldWithFollowup, YesNoFieldWithAlternativeFollowups, FieldWithNotKnown
 from wp4.settings import LOGIN_REDIRECT_URL
+from .models import Donor, Organ, Sample, Recipient, AdverseEvent
+from .models import YES_NO_UNKNOWN_CHOICES
 
 
 DATETIME_INPUT_FORMATS = [
@@ -126,7 +129,8 @@ class DonorForm(forms.ModelForm):
     )
     layout_2 = Layout(
         Field('number', placeholder="___ ___ ____"),
-        DateField('date_of_birth'),
+        FieldWithNotKnown(DateField('date_of_birth'), 'date_of_birth_unknown'),
+        # DateField('date_of_birth'),
         'age',
         DateField('date_of_admission'),
         FieldWithFollowup(
@@ -211,7 +215,7 @@ class DonorForm(forms.ModelForm):
         Div(
             FormPanel("Procedure Data", layout_1),
             FormPanel("Donor Preop Data", layout_3),
-            FormPanel("Sampling Data", layout_5),
+            # FormPanel("Sampling Data", layout_5),
             css_class="col-md-6", style="margin-top: 10px;"
         ),
         Div(
@@ -222,6 +226,8 @@ class DonorForm(forms.ModelForm):
         ),
         css_class='row'
     )
+
+    retrieval_hospital = ModelChoiceField('HospitalAutoComplete')  # TODO: Add the label and text from model
 
     def __init__(self, *args, **kwargs):
         super(DonorForm, self).__init__(*args, **kwargs)
@@ -286,15 +292,18 @@ class DonorForm(forms.ModelForm):
 
 
 class DonorStartForm(forms.ModelForm):
+    perfusion_technician = ModelChoiceField('TechnicianAutoComplete')  # TODO: Add the label and text from model
+
     helper = FormHelper()
     helper.form_tag = False
     helper.html5_required = True
     helper.layout = Layout(
-        Div('retrieval_team', css_class="col-md-6"),
-        Div('perfusion_technician', css_class="col-md-6"),
-        Div('age', css_class="col-md-6"),
-        Div('gender', css_class="col-md-6"),
+        Div('retrieval_team', 'age', css_class="col-md-6"),
+        Div('perfusion_technician', Field('gender', template="bootstrap3/layout/radioselect-buttons.html"),css_class="col-md-6"),
     )
+
+    def __init__(self, *args, **kwargs):
+        super(DonorStartForm, self).__init__(*args, **kwargs)
 
     class Meta:
         model = Donor

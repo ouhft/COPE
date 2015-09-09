@@ -1,12 +1,28 @@
-{% load crispy_forms_field %}
+{% load crispy_forms_field crispy_forms_filters %}
+{% load l10n i18n %}
 
+{#<div class="input-group-addon">#}
 {% if field|is_checkbox %}
-    {% if field.label %}
-        <label for="{{ field.id_for_label }}" title="Not Known">
-            {% crispy_field field %}
-            ?
+    {#        {% if field.label %}#}
+    {#            <label for="{{ field.id_for_label }}" title="Not Known">#}
+    {#                {% crispy_field field %}#}
+    {#                <i class="glyphicon glyphicon-unchecked"></i>#}
+    {#            </label>#}
+    {#        {% endif %}#}
+
+    <span class="input-group-btn" data-toggle="buttons">
+        <label class="btn btn-default {% if field.value|lower == "true" %}
+                   active{% endif %}" title="Not Known">
+            <input type="checkbox"
+            {% if field.value|lower == "true" %}checked{% endif %}
+            name="{{ field.html_name }}"
+            id="id_{{ field.html_name }}"
+            value="True"
+{#            value="{{ field.value|unlocalize }}"#}
+            {{ field.field.widget.attrs|flatatt }}
+            autocomplete="off"><i class="glyphicon glyphicon-ban-circle"></i>
         </label>
-    {% endif %}
+    </span>
 {% else %}
     {% if field.label %}
         <label for="{{ field.id_for_label }}" class="sr-only{% if field.field.required %} requiredField{% endif %}">
@@ -15,3 +31,4 @@
     {% endif %}
     {% crispy_field field %}
 {% endif %}
+{#</div>#}

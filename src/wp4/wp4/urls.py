@@ -8,6 +8,7 @@ urlpatterns = [
 
 urlpatterns += i18n_patterns(
     url(r'^', include('compare.urls', namespace="compare")),
+    url(r'^autocomplete/', include('autocomplete_light.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('django.contrib.auth.urls')),
 )

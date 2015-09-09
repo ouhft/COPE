@@ -7267,3 +7267,6 @@ h1[id] {
 .form-control {
   margin-bottom: 0;
 }
+span.autocomplete-light-widget {
+  display: block;
+}
