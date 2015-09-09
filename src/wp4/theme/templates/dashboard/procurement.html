@@ -243,10 +243,9 @@
                     </ul>
                     <div class="panel-footer">
                         <button id="randomise-action" type="submit" name="randomise" class="btn btn-danger" disabled>
-                            {% if left_organ_form.preservation.value == None %}Randomise{% else %}Already
+                            {% if donor.left_kidney.get_preservation_display == "None" %}Randomise{% else %}Already
                                 Randomised{% endif %}
                         </button>
-                        <!-- Left Organ Preservation Value: {{ left_organ_form.preservation.value }} -->
                     </div>
                 </div>
 
