@@ -10,7 +10,7 @@ from autocomplete_light import ModelChoiceField
 
 from theme.layout import InlineFields, FieldWithFollowup, YesNoFieldWithAlternativeFollowups, FieldWithNotKnown
 from wp4.settings import LOGIN_REDIRECT_URL
-from .models import Donor, Organ, Sample, Recipient, AdverseEvent
+from .models import Donor, Organ, Sample, Recipient, AdverseEvent, ProcurementResource
 from .models import YES_NO_UNKNOWN_CHOICES
 
 
@@ -323,9 +323,7 @@ class OrganForm(forms.ModelForm):
     layout_1 = Layout(
         'donor',
         Field('location', template="bootstrap3/layout/read-only.html"),
-        # Field('location', template="bootstrap3/layout/radioselect-buttons.html", readonly='readonly'),
         Field('preservation', template="bootstrap3/layout/read-only.html"),
-        # Field('preservation', template="bootstrap3/layout/radioselect-buttons.html", readonly='readonly'),
     )
 
     layout_2 = Layout(
@@ -438,6 +436,59 @@ class OrganForm(forms.ModelForm):
         organ.version += 1
         organ.save()
         return organ
+
+
+class ProcurementResourceForm(forms.ModelForm):
+    helper = FormHelper()
+    helper.form_tag = False
+    helper.html5_required = True
+    helper.layout = Div(
+        Div(Div('type',style="padding: 0 5px;"),css_class="col-md-4"),
+        Div(Div('lot_number',style="padding: 0 5px;"),css_class="col-md-3"),
+        Div(Div(DateField('expiry_date'),style="padding: 0 5px;"),css_class="col-md-3"),
+        Div(Div('DELETE',style="padding: 0 5px;"),css_class="col-md-2"),
+        css_class="row"
+    )
+
+    def __init__(self, *args, **kwargs):
+        print("DEBUG: PRF:__init__() called")
+        super(ProcurementResourceForm, self).__init__(*args, **kwargs)
+        self.fields['organ'].widget = forms.HiddenInput()
+        self.fields['expiry_date'].input_formats = DATE_INPUT_FORMATS
+
+    class Meta:
+        model = ProcurementResource
+        exclude = ('created_on', 'created_by')
+        localized_fields = "__all__"
+
+    def save(self, user=None, commit=True):
+        instance = super(ProcurementResourceForm, self).save(commit=False)
+        if commit and user is None:
+            raise NotImplementedError("Can not save ProcurementResourceForm without a valid user")
+        if user is not None:
+            instance.created_by = user
+            instance.created_on = timezone.now()
+        if commit:
+            instance.save()
+        return instance
+
+
+class ProcurementResourceInlineFormSet(forms.models.BaseInlineFormSet):
+    class Meta:
+        model = ProcurementResource
+        fk = Organ
+        form=  ProcurementResourceForm
+        max_num = len(ProcurementResource.TYPE_CHOICES)
+        extra = 1
+
+
+# ProcurementResourceInlineFormSet = forms.models.inlineformset_factory(
+#     Organ,
+#     ProcurementResource,
+#     form=ProcurementResourceForm,
+#     max_num=len(ProcurementResource.TYPE_CHOICES),
+#     extra=1
+# )
 
 
 class LoginForm(AuthenticationForm):

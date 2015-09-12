@@ -1,21 +1,22 @@
 # coding=utf-8
+import datetime
+
 from django.http import Http404
 from django.template import RequestContext
+from django.utils import timezone
 from django.shortcuts import get_object_or_404, render, render_to_response
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
-from django.views.generic.edit import FormView
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth import authenticate, login, logout
-from django.forms.models import inlineformset_factory
 from django.shortcuts import redirect
-import datetime
-from random import random
+
 from django_ajax.decorators import ajax
 
 from .models import Donor, StaffJob, StaffPerson, Organ, Sample, Recipient, AdverseEvent
-from .forms import DonorForm, DonorStartForm, OrganForm, SampleForm, RecipientForm, AdverseEventForm
+from .forms import DonorForm, DonorStartForm, OrganForm, SampleForm, RecipientForm, \
+    ProcurementResourceInlineFormSet
 
 
 # Some forced errors to allow for testing the Error Page Templates
@@ -50,46 +51,70 @@ def dashboard_index(request):
 @login_required
 @csrf_protect
 def procurement_form(request, pk):
+    all_valid = 0
     donor = get_object_or_404(Donor, pk=int(pk))
     donor_form = DonorForm(request.POST or None, request.FILES or None, instance=donor, prefix="donor")
-    if donor_form.is_valid() and donor_form.has_changed():
+    if donor_form.is_valid():
         donor = donor_form.save(request.user)
+        all_valid += 1
 
     left_organ_form = OrganForm(request.POST or None, request.FILES or None, instance=donor.left_kidney(),
                                 prefix="left-organ")
-    if left_organ_form.is_valid() and left_organ_form.has_changed():
+    left_organ_form_resource_formset = ProcurementResourceInlineFormSet(
+        request.POST or None,
+        request.FILES or None,
+        instance=donor.left_kidney(),
+        prefix="left-organ-resources")
+    if left_organ_form.is_valid():
         left_organ_form.save(request.user)
+        # if left_organ_form_resource_formset.is_valid():
+        #     resource_forms=left_organ_form_resource_formset.save(commit=False)
+        #     for resource_form in resource_forms:
+        #         resource_form.save(user=request.user)
+        all_valid += 1
 
-    right_organ_form = OrganForm(request.POST or None, request.FILES or None, instance=donor.right_kidney(),
-                                 prefix="right-organ")
-    if right_organ_form.is_valid() and right_organ_form.has_changed():
+    right_organ_form = OrganForm(
+        request.POST or None,
+        request.FILES or None,
+        instance=donor.right_kidney(),
+        prefix="right-organ")
+    right_organ_form_resource_formset = ProcurementResourceInlineFormSet(
+        request.POST or None,
+        request.FILES or None,
+        instance=donor.right_kidney(),
+        prefix="right-organ-resources")
+    print("DEBUG: About to validate right forms")
+    if right_organ_form.is_valid() and right_organ_form_resource_formset.is_valid():
         right_organ_form.save(request.user)
+        print("DEBUG: right organ saved")
+        right_organ_form_resource_formset.save(user=request.user)
+        # for resource_form in right_organ_form_resource_formset.deleted_objects:
+        #     resource_form.delete()
+        # for resource_form in right_organ_form_resource_formset.new_objects:
+        #     resource_form.save(user=request.user)
+        # for resource_form in right_organ_form_resource_formset.changed_objects:
+        #     resource_form.save(user=request.user)
 
-    # Randomise if eligible and not already done
-    if donor.left_kidney().preservation is None \
-            and donor.multiple_recipients is not False \
-            and donor.left_kidney().transplantable \
-            and donor.right_kidney().transplantable:
-        left_o2 = random() >= 0.5  # True/False
-        left_kidney = donor.left_kidney()
-        right_kidney = donor.right_kidney()
-        if left_o2:
-            left_kidney.preservation = Organ.HMPO2
-            right_kidney.preservation = Organ.HMP
-        else:
-            left_kidney.preservation = Organ.HMP
-            right_kidney.preservation = Organ.HMPO2
-        left_kidney.save()
-        right_kidney.save()
-        left_organ_form = OrganForm(instance=left_kidney, prefix="left-organ")
-        right_organ_form = OrganForm(instance=right_kidney, prefix="right-organ")
+        # for procurement_resource_model in procurement_resource_models:
+        #     procurement_resource_model.created_by = request.user
+        #     procurement_resource_model.created_on = timezone.now()
+        #     procurement_resource_model.save()
+        print("DEBUG: right resources saved")
+        all_valid += 1
+
+    # TODO: Add the extra test of if the Randomise button was pressed, opposed to just saving
+    print("DEBUG: all_valid=%d" % all_valid)
+    if all_valid == 3:
+        donor.randomise()  # Has to wait till the organ forms are saved
 
     return render_to_response(
         "dashboard/procurement.html",
         {
             "donor_form": donor_form,
             "left_organ_form": left_organ_form,
+            "left_resource_formset": left_organ_form_resource_formset,
             "right_organ_form": right_organ_form,
+            "right_resource_formset": right_organ_form_resource_formset,
             "donor": donor
         },
         context_instance=RequestContext(request)

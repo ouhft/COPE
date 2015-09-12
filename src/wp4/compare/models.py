@@ -1,12 +1,14 @@
 #!/usr/bin/python
 # coding: utf-8
+from random import random
+import datetime
+
 from django.core.urlresolvers import reverse
 from django.core.validators import MinValueValidator, MaxValueValidator, ValidationError
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _, ungettext_lazy as __
-import datetime
 
 
 # Common constants for some questions
@@ -612,6 +614,24 @@ class Donor(OrganPerson):
             self.sequence_number = self.retrieval_team.next_sequence_number()
         super(Donor, self).save(force_insert, force_update, using, update_fields)
 
+    def randomise(self):
+        # Randomise if eligible and not already done
+        if self.left_kidney().preservation is None \
+                and self.multiple_recipients is not False \
+                and self.left_kidney().transplantable \
+                and self.right_kidney().transplantable:
+            left_o2 = random() >= 0.5  # True/False
+            left_kidney = self.left_kidney()
+            right_kidney = self.right_kidney()
+            if left_o2:
+                left_kidney.preservation = Organ.HMPO2
+                right_kidney.preservation = Organ.HMP
+            else:
+                left_kidney.preservation = Organ.HMP
+                right_kidney.preservation = Organ.HMPO2
+            left_kidney.save()
+            right_kidney.save()
+
     def __unicode__(self):
         return '%s (%s)' % (self.number, self.trial_id())
 
@@ -921,13 +941,11 @@ class ProcurementResource(models.Model):
     )
     organ = models.ForeignKey(
         Organ,
-        verbose_name=_('PR10 related kidney')
-    )
+        verbose_name=_('PR10 related kidney'))
     type = models.CharField(
         verbose_name=_('PR11 resource used'),
         choices=TYPE_CHOICES,
-        max_length=5
-    )
+        max_length=5)
     lot_number = models.CharField(
         verbose_name=_('PR12 lot number'),
         max_length=50)

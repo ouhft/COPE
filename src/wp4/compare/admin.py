@@ -65,7 +65,7 @@ class DonorAdmin(VersionControlAdmin):
             'arrival_at_donor_hospital'
         ]}),
         ('Donor Details', {'fields': [
-            'number', 'date_of_birth', 'age', 'date_of_admission', 'admitted_to_itu', 'date_admitted_to_itu',
+            'number', 'date_of_birth', 'date_of_birth_unknown', 'age', 'date_of_admission', 'admitted_to_itu', 'date_admitted_to_itu',
             'date_of_procurement', 'gender', 'weight', 'height', 'ethnicity', 'blood_group',
             'other_organs_procured','other_organs_lungs','other_organs_pancreas', 'other_organs_liver', 'other_organs_tissue'
         ]}),
