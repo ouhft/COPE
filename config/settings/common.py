@@ -76,7 +76,7 @@ MIDDLEWARE_CLASSES = (
 # MIGRATIONS CONFIGURATION
 # ------------------------------------------------------------------------------
 MIGRATION_MODULES = {
-    'sites': 'wp4.contrib.sites.migrations'
+    # 'sites': 'wp4.contrib.sites.migrations'  # Not applicable as using the base user class
 }
 
 # DEBUG

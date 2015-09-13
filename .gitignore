@@ -1,57 +1,47 @@
-/src/wp4/local.env
-# Byte-compiled / optimized / DLL files
-__pycache__/
+### OSX ###
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Basics
 *.py[cod]
-*$py.class
-# C extensions
-*.so
-# Distribution / packaging
-.Python
-env/
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-*.egg-info/
-.installed.cfg
-*.egg
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
-# Installer logs
+*.pyc
+__pycache__
+
+# Logs
+*.log
 pip-log.txt
-pip-delete-this-directory.txt
+
 # Unit test / coverage reports
-htmlcov/
-.tox/
 .coverage
-.coverage.*
-.cache
+.tox
 nosetests.xml
-coverage.xml
-*,cover
+htmlcov
+
 # Translations
 *.mo
 *.pot
-# Django stuff:
-*.log
-# Sphinx documentation
-docs/_build/
-# PyBuilder
-target/
 
+# Pycharm
+.idea
 
-.DS_Store
-src/wp4/db.sqlite3
-src/wp4/config/settings_local.py
-src/wp4/theme/static/.codekit-cache
-src/wp4/theme/static/config.codekit
+# Vim
+
+*~
+*.swp
+*.swo
+
+# npm
+node_modules/
+
+# Compass
+.sass-cache
+
+# virtual environments
+.env
+
+# SQLLite dbs
+.sqlite3
+
+# Codekit
+config.codekit

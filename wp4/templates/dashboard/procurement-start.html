@@ -18,13 +18,15 @@
         </div>
     </form>
 
-    {% if donors|length > 0 %}
-        <h3>Existing Cases</h3>
-        <ul>
+    <h3>Existing Cases</h3>
+    <ul>
+        {% if donors|length > 0 %}
             {% for donor in donors %}
                 <li><a href="{% url 'compare:procurement-detail' donor.id %}">{{ donor.trial_id }}</a>
                     - {{ donor.number }} / {{ donor.age }} / {{ donor.gender }}</li>
             {% endfor %}
-        </ul>
-    {% endif %}
+        {% else %}
+            <li>No existing cases</li>
+        {% endif %}
+    </ul>
 {% endblock %}
