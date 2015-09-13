@@ -60,17 +60,13 @@ def procurement_form(request, pk):
 
     left_organ_form = OrganForm(request.POST or None, request.FILES or None, instance=donor.left_kidney(),
                                 prefix="left-organ")
-    left_organ_form_resource_formset = ProcurementResourceInlineFormSet(
-        request.POST or None,
-        request.FILES or None,
-        instance=donor.left_kidney(),
-        prefix="left-organ-resources")
+    # left_organ_form_resource_formset = ProcurementResourceInlineFormSet(
+    #     request.POST or None,
+    #     request.FILES or None,
+    #     instance=donor.left_kidney(),
+    #     prefix="left-organ-resources")
     if left_organ_form.is_valid():
         left_organ_form.save(request.user)
-        # if left_organ_form_resource_formset.is_valid():
-        #     resource_forms=left_organ_form_resource_formset.save(commit=False)
-        #     for resource_form in resource_forms:
-        #         resource_form.save(user=request.user)
         all_valid += 1
 
     right_organ_form = OrganForm(
@@ -83,24 +79,17 @@ def procurement_form(request, pk):
         request.FILES or None,
         instance=donor.right_kidney(),
         prefix="right-organ-resources")
+
     print("DEBUG: About to validate right forms")
     if right_organ_form.is_valid() and right_organ_form_resource_formset.is_valid():
         right_organ_form.save(request.user)
         print("DEBUG: right organ saved")
-        right_organ_form_resource_formset.save(user=request.user)
-        # for resource_form in right_organ_form_resource_formset.deleted_objects:
-        #     resource_form.delete()
-        # for resource_form in right_organ_form_resource_formset.new_objects:
-        #     resource_form.save(user=request.user)
-        # for resource_form in right_organ_form_resource_formset.changed_objects:
-        #     resource_form.save(user=request.user)
-
-        # for procurement_resource_model in procurement_resource_models:
-        #     procurement_resource_model.created_by = request.user
-        #     procurement_resource_model.created_on = timezone.now()
-        #     procurement_resource_model.save()
+        right_organ_form_resource_formset.save()
         print("DEBUG: right resources saved")
         all_valid += 1
+
+    for form in right_organ_form_resource_formset.extra_forms:
+        form.initial['created_by'] = request.user.pk
 
     # TODO: Add the extra test of if the Randomise button was pressed, opposed to just saving
     print("DEBUG: all_valid=%d" % all_valid)
@@ -112,7 +101,7 @@ def procurement_form(request, pk):
         {
             "donor_form": donor_form,
             "left_organ_form": left_organ_form,
-            "left_resource_formset": left_organ_form_resource_formset,
+            # "left_resource_formset": left_organ_form_resource_formset,
             "right_organ_form": right_organ_form,
             "right_resource_formset": right_organ_form_resource_formset,
             "donor": donor

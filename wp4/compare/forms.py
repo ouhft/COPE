@@ -299,7 +299,8 @@ class DonorStartForm(forms.ModelForm):
     helper.html5_required = True
     helper.layout = Layout(
         Div('retrieval_team', 'age', css_class="col-md-6"),
-        Div('perfusion_technician', Field('gender', template="bootstrap3/layout/radioselect-buttons.html"),css_class="col-md-6"),
+        Div('perfusion_technician', Field('gender', template="bootstrap3/layout/radioselect-buttons.html"),
+            css_class="col-md-6"),
     )
 
     def __init__(self, *args, **kwargs):
@@ -443,52 +444,32 @@ class ProcurementResourceForm(forms.ModelForm):
     helper.form_tag = False
     helper.html5_required = True
     helper.layout = Div(
-        Div(Div('type',style="padding: 0 5px;"),css_class="col-md-4"),
-        Div(Div('lot_number',style="padding: 0 5px;"),css_class="col-md-3"),
-        Div(Div(DateField('expiry_date'),style="padding: 0 5px;"),css_class="col-md-3"),
-        Div(Div('DELETE',style="padding: 0 5px;"),css_class="col-md-2"),
+        Div(Div('type', style="padding: 0 5px;"), css_class="col-md-4"),
+        Div(Div('lot_number', style="padding: 0 5px;"), css_class="col-md-3"),
+        Div(Div(DateField('expiry_date'), style="padding: 0 5px;"), css_class="col-md-3"),
+        Div(Div('DELETE', style="padding: 0 5px;"), css_class="col-md-2"),
         css_class="row"
     )
 
     def __init__(self, *args, **kwargs):
-        print("DEBUG: PRF:__init__() called")
         super(ProcurementResourceForm, self).__init__(*args, **kwargs)
         self.fields['organ'].widget = forms.HiddenInput()
         self.fields['expiry_date'].input_formats = DATE_INPUT_FORMATS
+        self.fields['created_by'].widget = forms.HiddenInput()
 
     class Meta:
         model = ProcurementResource
-        exclude = ('created_on', 'created_by')
+        exclude = ('created_on',)
         localized_fields = "__all__"
 
-    def save(self, user=None, commit=True):
-        instance = super(ProcurementResourceForm, self).save(commit=False)
-        if commit and user is None:
-            raise NotImplementedError("Can not save ProcurementResourceForm without a valid user")
-        if user is not None:
-            instance.created_by = user
-            instance.created_on = timezone.now()
-        if commit:
-            instance.save()
-        return instance
-
-
-class ProcurementResourceInlineFormSet(forms.models.BaseInlineFormSet):
-    class Meta:
-        model = ProcurementResource
-        fk = Organ
-        form=  ProcurementResourceForm
-        max_num = len(ProcurementResource.TYPE_CHOICES)
-        extra = 1
-
-
-# ProcurementResourceInlineFormSet = forms.models.inlineformset_factory(
-#     Organ,
-#     ProcurementResource,
-#     form=ProcurementResourceForm,
-#     max_num=len(ProcurementResource.TYPE_CHOICES),
-#     extra=1
-# )
+ProcurementResourceInlineFormSet = forms.models.inlineformset_factory(
+    Organ,
+    ProcurementResource,
+    form=ProcurementResourceForm,
+    max_num=len(ProcurementResource.TYPE_CHOICES),
+    extra=1,
+    can_delete=True
+)
 
 
 class LoginForm(AuthenticationForm):
@@ -519,10 +500,10 @@ class RecipientForm(forms.ModelForm):
     helper.form_tag = False
     helper.html5_required = True
     helper.layout = Div()
-    
+
     def __init__(self, *args, **kwargs):
         super(RecipientForm, self).__init__(*args, **kwargs)
-        
+
     class Meta:
         model = Recipient
         exclude = ['created_by', 'version', 'created_on']

@@ -104,8 +104,8 @@ admin.site.register(PerfusionMachine, PerfusionMachineAdmin)
 
 class ProcurementResourceInline(admin.TabularInline):
     model = ProcurementResource
-    extra = 2
     exclude = ('created_on', 'created_by')
+    can_delete = True
 
 
 class OrganAdmin(VersionControlAdmin):
