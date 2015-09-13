@@ -1,3 +1,4 @@
+/src/wp4/local.env
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -51,6 +52,6 @@ target/
 
 .DS_Store
 src/wp4/db.sqlite3
-src/wp4/wp4/settings_local.py
+src/wp4/config/settings_local.py
 src/wp4/theme/static/.codekit-cache
 src/wp4/theme/static/config.codekit
