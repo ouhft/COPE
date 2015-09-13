@@ -12,7 +12,7 @@ from django.core.exceptions import PermissionDenied
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
 
-from django_ajax.decorators import ajax
+# from django_ajax.decorators import ajax
 
 from .models import Donor, StaffJob, StaffPerson, Organ, Sample, Recipient, AdverseEvent
 from .forms import DonorForm, DonorStartForm, OrganForm, SampleForm, RecipientForm, \
@@ -158,7 +158,7 @@ def procurement_form_blank(request):
 
 @login_required
 @csrf_protect
-@ajax
+# @ajax
 def sample_editor(request, pk=None, type=None):
     valid_types = [t[0] for t in Sample.TYPE_CHOICES]
     if pk is not None:

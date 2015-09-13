@@ -8,6 +8,7 @@ Local settings
 - Add django-extensions as app
 '''
 
+print("DEBUG: Loading settings from dev_home")
 from .common import *  # noqa
 
 # DEBUG

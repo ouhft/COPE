@@ -8,7 +8,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Div, HTML, Field
 from crispy_forms.bootstrap import FormActions, StrictButton
 from autocomplete_light import ModelChoiceField
-from theme.layout import InlineFields, FieldWithFollowup, YesNoFieldWithAlternativeFollowups, FieldWithNotKnown
+from ..theme.layout import InlineFields, FieldWithFollowup, YesNoFieldWithAlternativeFollowups, FieldWithNotKnown
 
 from .models import Donor, Organ, Sample, Recipient, AdverseEvent, ProcurementResource
 from .models import YES_NO_UNKNOWN_CHOICES

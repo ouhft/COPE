@@ -99,8 +99,8 @@ class StaffPerson(VersionControlModel):
     first_names = models.CharField(verbose_name=_("PE10 first names"), max_length=50)
     last_names = models.CharField(verbose_name=_("PE11 last names"), max_length=50)
     jobs = models.ManyToManyField(StaffJob, verbose_name=_("PE12 jobs"))
-    telephone = models.CharField(verbose_name=_("PE13 telephone number"), max_length=20, blank=True, null=True)
-    email = models.EmailField(verbose_name=_("PE15 email"), blank=True, null=True)
+    telephone = models.CharField(verbose_name=_("PE13 telephone number"), max_length=20, blank=True)
+    email = models.EmailField(verbose_name=_("PE15 email"), blank=True)
     based_at = models.ForeignKey(Hospital, blank=True, null=True)
 
     def full_name(self):
@@ -186,7 +186,7 @@ class Sample(models.Model):
     barcode = models.CharField(verbose_name=_("SA01 barcode number"), max_length=20)
     taken_at = models.DateTimeField(verbose_name=_("SA02 date and time taken"))
     centrifugation = models.DateTimeField(verbose_name=_("SA03 centrifugation"), null=True, blank=True)
-    comment = models.CharField(verbose_name=_("SA04 comment"), max_length=2000, null=True, blank=True)
+    comment = models.CharField(verbose_name=_("SA04 comment"), max_length=2000, blank=True)
     #  TODO: Specimen state?
     #  TODO: Who took the sample?
     #  TODO: Difference between worksheet and specimen barcodes?
@@ -256,7 +256,7 @@ class OrganPerson(VersionControlModel):
     number = models.CharField(
         verbose_name=_('DO30 NHSBT Number'),  # "ET Donor number/ NHSBT Number",
         max_length=20,
-        blank=True, null=True
+        blank=True,
     )
     date_of_birth = models.DateField(
         verbose_name=_('DO32 date of birth'),
@@ -383,7 +383,7 @@ class Donor(OrganPerson):
         verbose_name=_('DO54 diagnosis'),
         choices=DIAGNOSIS_CHOICES,
         blank=True, null=True)
-    diagnosis_other = models.CharField(verbose_name=_('DO55 other diagnosis'), max_length=250, blank=True, null=True)
+    diagnosis_other = models.CharField(verbose_name=_('DO55 other diagnosis'), max_length=250, blank=True)
     diabetes_melitus = models.PositiveSmallIntegerField(
         verbose_name=_('DO56 diabetes mellitus'),
         choices=YES_NO_UNKNOWN_CHOICES,
@@ -436,7 +436,7 @@ class Donor(OrganPerson):
     other_medication_details = models.CharField(
         verbose_name=_('DO67 other medication'),
         max_length=250,
-        blank=True, null=True)
+        blank=True)
 
     # Lab results
     UNIT_MGDL = 1
@@ -508,7 +508,7 @@ class Donor(OrganPerson):
     systemic_flush_used_other = models.CharField(
         verbose_name=_('DO88 systemic flush used'),
         max_length=250,
-        blank=True, null=True
+        blank=True
     )
     systemic_flush_volume_used = models.PositiveSmallIntegerField(
         verbose_name=_('DO89 aortic - volume (ml)'),
@@ -516,8 +516,7 @@ class Donor(OrganPerson):
     )
     heparin = models.NullBooleanField(
         verbose_name=_('DO90 heparin'),  # (administered to donor/in flush solution)
-        blank=True, null=True
-    )
+        blank=True, null=True)
 
     # Sampling data
     donor_blood_1_EDTA = models.OneToOneField(
@@ -704,7 +703,7 @@ class PerfusionMachine(models.Model):
 
 class PerfusionFile(models.Model):
     machine = models.ForeignKey(PerfusionMachine, verbose_name=_('PF01 perfusion machine'))
-    file = models.FileField()
+    file = models.FileField(blank=True)
     created_on = models.DateTimeField(default=timezone.now)
     created_by = models.ForeignKey(User)
 
@@ -771,7 +770,7 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
     graft_damage_other = models.CharField(
         verbose_name=_('OR24 other damage done'),
         max_length=250,
-        blank=True, null=True
+        blank=True
     )
     washout_perfusion = models.PositiveSmallIntegerField(
         verbose_name=_('OR25 perfusion characteristics'),
@@ -780,12 +779,11 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
     )
     transplantable = models.NullBooleanField(
         verbose_name=_('OR26 is transplantable'),
-        blank=True, null=True
-    )
+        blank=True, null=True)
     not_transplantable_reason = models.CharField(
         verbose_name=_('OR27 not transplantable because'),
         max_length=250,
-        blank=True, null=True
+        blank=True
     )
 
     # Randomisation data
@@ -808,12 +806,11 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
     )
     perfusion_possible = models.NullBooleanField(
         verbose_name=_('OR35 machine perfusion possible?'),
-        blank=True, null=True
-    )
+        blank=True, null=True)
     perfusion_not_possible_because = models.CharField(
         verbose_name=_('OR36 not possible because'),
         max_length=250,
-        blank=True, null=True
+        blank=True
     )
     perfusion_started = models.DateTimeField(
         verbose_name=_('OR37 machine perfusion'),
@@ -826,8 +823,7 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
     )
     artificial_patch_used = models.NullBooleanField(
         verbose_name=_('OR39 artificial patch used'),
-        blank=True, null=True
-    )
+        blank=True, null=True)
     artificial_patch_size = models.PositiveSmallIntegerField(
         verbose_name=_('OR40 artificial patch size'),
         choices=ARTIFICIAL_PATCH_CHOICES,
@@ -844,24 +840,20 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
     )
     oxygen_bottle_full = models.NullBooleanField(
         verbose_name=_('OR42 is oxygen bottle full'),
-        blank=True, null=True
-    )
+        blank=True, null=True)
     oxygen_bottle_open = models.NullBooleanField(
         verbose_name=_('OR43 oxygen bottle opened'),
-        blank=True, null=True
-    )
+        blank=True, null=True)
     oxygen_bottle_changed = models.NullBooleanField(
         verbose_name=_('OR44 oxygen bottle changed'),
-        blank=True, null=True
-    )
+        blank=True, null=True)
     oxygen_bottle_changed_at = models.DateTimeField(
         verbose_name=_('OR45 oxygen bottle changed at'),
         blank=True, null=True
     )
     ice_container_replenished = models.NullBooleanField(
         verbose_name=_('OR46 ice container replenished'),
-        blank=True, null=True
-    )
+        blank=True, null=True)
     ice_container_replenished_at = models.DateTimeField(
         verbose_name=_('OR47 ice container replenished at'),
         blank=True, null=True
@@ -869,8 +861,7 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
     perfusate_measurable = models.NullBooleanField(
         verbose_name=_('OR48 perfusate measurable'),
         # logistically possible to measure pO2 perfusate (use blood gas analyser)',
-        blank=True, null=True
-    )
+        blank=True, null=True)
     perfusate_measure = models.FloatField(
         verbose_name=_('OR49 value pO2'),
         blank=True, null=True
@@ -1011,7 +1002,7 @@ class Recipient(OrganPerson):
         verbose_name=_('reason for re-allocation'),
         choices=REALLOCATION_CHOICES,
         blank=True, null=True)
-    reallocation_reason_other = models.CharField(verbose_name=_('other reason'), max_length=250, blank=True, null=True)
+    reallocation_reason_other = models.CharField(verbose_name=_('other reason'), max_length=250, blank=True)
     reallocation_recipient = models.OneToOneField('Recipient', default=None, blank=True, null=True)
 
     # Recipient details (in addition to OrganPerson)
@@ -1035,7 +1026,8 @@ class Recipient(OrganPerson):
     )
     renal_disease_other = models.CharField(
         verbose_name=_('DO55 other renal disease'),
-        max_length=250, blank=True, null=True)
+        max_length=250,
+        blank=True)
     pre_transplant_diuresis = models.PositiveSmallIntegerField(
         verbose_name=_('DO61 diuresis (ml/24hr)'),
         blank=True, null=True)
@@ -1084,7 +1076,8 @@ class Recipient(OrganPerson):
         blank=True, null=True)
     organ_untransplantable_reason = models.CharField(
         verbose_name=_('untransplantable because'),
-        max_length=250, blank=True, null=True)
+        max_length=250,
+        blank=True)
     anesthesia_started_at = models.DateTimeField(
         verbose_name=_('start anesthesia at'),
         blank=True, null=True)
@@ -1120,7 +1113,8 @@ class Recipient(OrganPerson):
         blank=True, null=True)
     other_diurectics_details = models.CharField(
         verbose_name=_('other diurectics detail'),
-        max_length=250, blank=True, null=True)
+        max_length=250,
+        blank=True)
     systolic_blood_pressure = models.PositiveSmallIntegerField(
         verbose_name=_('systolic blood pressure at reperfusion'),
         validators=[

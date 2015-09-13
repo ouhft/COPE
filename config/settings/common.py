@@ -40,6 +40,7 @@ DJANGO_APPS = (
     'django.contrib.admin',
 )
 THIRD_PARTY_APPS = (
+    'crispy_forms',  # Form layouts
     # 'allauth',  # registration
     # 'allauth.account',  # registration
     # 'allauth.socialaccount',  # registration
@@ -51,9 +52,8 @@ THIRD_PARTY_PRE_DJANGO_APPS = (
 
 # Apps specific for this project go here.
 LOCAL_APPS = (
-    'crispy_forms',  # Form layouts
-    'compare',
-    'theme'
+    'wp4.compare',
+    'wp4.theme'
 )
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = THIRD_PARTY_PRE_DJANGO_APPS + DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
