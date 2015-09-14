@@ -14,8 +14,10 @@ from django.shortcuts import redirect
 
 # from django_ajax.decorators import ajax
 
-from .models import Donor, StaffJob, StaffPerson, Organ, Sample, Recipient, AdverseEvent
-from .forms import DonorForm, DonorStartForm, OrganForm, SampleForm, RecipientForm, \
+from ..staff_person.models import StaffJob, StaffPerson
+
+from .models import Donor, Organ, Sample, Recipient
+from .forms import DonorForm, DonorStartForm, OrganForm, RecipientForm, \
     ProcurementResourceInlineFormSet
 
 
@@ -60,11 +62,6 @@ def procurement_form(request, pk):
 
     left_organ_form = OrganForm(request.POST or None, request.FILES or None, instance=donor.left_kidney(),
                                 prefix="left-organ")
-    # left_organ_form_resource_formset = ProcurementResourceInlineFormSet(
-    #     request.POST or None,
-    #     request.FILES or None,
-    #     instance=donor.left_kidney(),
-    #     prefix="left-organ-resources")
     if left_organ_form.is_valid():
         left_organ_form.save(request.user)
         all_valid += 1
@@ -74,22 +71,13 @@ def procurement_form(request, pk):
         request.FILES or None,
         instance=donor.right_kidney(),
         prefix="right-organ")
-    right_organ_form_resource_formset = ProcurementResourceInlineFormSet(
-        request.POST or None,
-        request.FILES or None,
-        instance=donor.right_kidney(),
-        prefix="right-organ-resources")
 
-    print("DEBUG: About to validate right forms")
-    if right_organ_form.is_valid() and right_organ_form_resource_formset.is_valid():
+    if right_organ_form.is_valid():
         right_organ_form.save(request.user)
-        print("DEBUG: right organ saved")
-        right_organ_form_resource_formset.save()
-        print("DEBUG: right resources saved")
         all_valid += 1
 
-    for form in right_organ_form_resource_formset.extra_forms:
-        form.initial['created_by'] = request.user.pk
+    # for form in right_organ_form_resource_formset.extra_forms:
+    #     form.initial['created_by'] = request.user.pk
 
     # TODO: Add the extra test of if the Randomise button was pressed, opposed to just saving
     print("DEBUG: all_valid=%d" % all_valid)
@@ -101,9 +89,7 @@ def procurement_form(request, pk):
         {
             "donor_form": donor_form,
             "left_organ_form": left_organ_form,
-            # "left_resource_formset": left_organ_form_resource_formset,
             "right_organ_form": right_organ_form,
-            "right_resource_formset": right_organ_form_resource_formset,
             "donor": donor
         },
         context_instance=RequestContext(request)
@@ -147,29 +133,6 @@ def procurement_form_blank(request):
 
 @login_required
 @csrf_protect
-# @ajax
-def sample_editor(request, pk=None, type=None):
-    valid_types = [t[0] for t in Sample.TYPE_CHOICES]
-    if pk is not None:
-        sample = get_object_or_404(Sample, pk=int(pk))
-    elif type is not None and int(type) in valid_types:
-        sample = Sample(type=type)
-    else:
-        raise Http404("This is a page isn't happy")
-
-    sample_form = SampleForm(request.POST or None, request.FILES or None, instance=sample, prefix="sample")
-    if sample_form.is_valid():
-        sample = sample_form.save(request.user)
-
-    return render_to_response(
-        "includes/sample-form.html",
-        {"sample_form": sample_form},
-        context_instance=RequestContext(request)
-    )
-
-
-@login_required
-@csrf_protect
 def transplantation_form_list(request):
     current_person = StaffPerson.objects.get(user__id=request.user.id)
     if current_person.has_job(
@@ -190,6 +153,7 @@ def transplantation_form_list(request):
         context_instance=RequestContext(request)
     )
 
+
 @login_required
 @csrf_protect
 def transplantation_form_new(request, pk):
@@ -201,8 +165,6 @@ def transplantation_form_new(request, pk):
     :return:
     """
     organ = get_object_or_404(Organ, pk=int(pk))
-    print("hello")
-    print(organ.recipient_set.all())
     if len(organ.recipient_set.all()) > 0:
         # There's a form already created... use it!
         recipient = organ.recipient_set.latest()  # TODO: This throws an error!
@@ -256,28 +218,3 @@ def transplantation_form(request, pk):
         },
         context_instance=RequestContext(request)
     )
-
-
-@login_required
-def adverse_events_list(request):
-    events = AdverseEvent.objects.all()
-    organs = Organ.objects.exclude(transplantable=False)
-
-    return render_to_response(
-        "dashboard/adverseevents-list.html",
-        {
-            "events": events,
-            "organs": organs
-        },
-        context_instance=RequestContext(request)
-    )
-
-
-@login_required
-def adverse_event_form_new(request):
-    raise Http404("This is a page holder")  # This message is only for debug view
-
-
-@login_required
-def adverse_event_form(request):
-    raise Http404("This is a page holder")  # This message is only for debug view

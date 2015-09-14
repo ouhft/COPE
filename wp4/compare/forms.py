@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# coding: utf-8
 from django import forms
 from django.conf import settings
 from django.utils import timezone
@@ -8,25 +10,12 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Div, HTML, Field
 from crispy_forms.bootstrap import FormActions, StrictButton
 from autocomplete_light import ModelChoiceField
-from ..theme.layout import InlineFields, FieldWithFollowup, YesNoFieldWithAlternativeFollowups, FieldWithNotKnown
 
-from .models import Donor, Organ, Sample, Recipient, AdverseEvent, ProcurementResource
-from .models import YES_NO_UNKNOWN_CHOICES
+from ..theme.layout import InlineFields, FieldWithFollowup, YesNoFieldWithAlternativeFollowups, FieldWithNotKnown, \
+    DateTimeField, DateField, FormPanel, DATETIME_INPUT_FORMATS, DATE_INPUT_FORMATS
+from .models import Donor, Organ, Recipient, ProcurementResource
+from .models import YES_NO_UNKNOWN_CHOICES, LOCATION_CHOICES
 
-
-DATETIME_INPUT_FORMATS = [
-    '%d-%m-%Y %H:%M',  # '25-10-2006 14:30'
-    '%Y-%m-%d %H:%M',  # '2006-10-25 14:30'
-    '%d/%m/%Y %H:%M',  # '25/10/2006 14:30'
-    '%Y/%m/%d %H:%M',  # '2006/10/25 14:30'
-]
-
-DATE_INPUT_FORMATS = [
-    '%d-%m-%Y',  # '25-10-2006'
-    '%Y-%m-%d',  # '2006-10-25'
-    '%d/%m/%Y',  # '25/10/2006'
-    '%Y/%m/%d',  # '2006/10/25'
-]
 
 NO_YES_CHOICES = (
     (False, _("FF01 No")),
@@ -37,74 +26,6 @@ YES_NO_CHOICES = (
     (True, _("FF02 Yes")),
     (False, _("FF01 No"))
 )
-
-
-def FormPanel(title, layout, panel_status=None):
-    css_status = "default"
-    if panel_status is not None:
-        css_status = panel_status
-    return Div(
-        # TODO: Work out how to i18n this later!
-        Div(HTML("<h3 class=\"panel-title\">%s</h3>" % title), css_class="panel-heading"),
-        Div(Div(layout, style="padding: 0 1.2em;"), css_class="panel-body"),
-        css_class="panel panel-%s" % css_status
-    )
-
-
-def FormColumnPanel(title, layout):
-    return Div(
-        FormPanel(title, layout),
-        css_class="col-md-6", style="margin-top: 10px;"
-    )
-
-
-def DateTimeField(field_name):
-    return Field(field_name, template="bootstrap3/layout/datetimefield.html",
-                 data_date_format="DD-MM-YYYY HH:mm", placeholder="DD-MM-YYYY HH:mm")
-
-
-def DateField(field_name):
-    return Field(field_name, template="bootstrap3/layout/datetimefield.html",
-                 data_date_format="DD-MM-YYYY", placeholder="DD-MM-YYYY")
-
-
-class SampleForm(forms.ModelForm):
-    helper = FormHelper()
-    helper.form_tag = False
-    helper.html5_required = True
-    helper.layout = Layout(
-        Field('barcode', template="bootstrap3/layout/read-only.html"),
-        Field('type', template="bootstrap3/layout/read-only.html"),
-        DateTimeField('taken_at'),
-        DateTimeField('centrifugation'),
-        'comment'
-    )
-
-    class Meta:
-        model = Sample
-        exclude = ['created_by', 'created_on']
-        localized_fields = "__all__"
-
-    def __init__(self, *args, **kwargs):
-        super(SampleForm, self).__init__(*args, **kwargs)
-        self.fields['barcode'].widget = forms.HiddenInput()
-        self.fields['type'].widget = forms.HiddenInput()
-        self.fields['taken_at'].input_formats = DATETIME_INPUT_FORMATS
-        self.fields['centrifugation'].input_formats = DATETIME_INPUT_FORMATS
-
-    def save(self, user):
-        sample = super(SampleForm, self).save(commit=False)
-        sample.created_by = user
-        sample.created_on = timezone.now()
-        barcode_string = "undefined"
-        if sample.type in (Sample.DONOR_BLOOD_1, Sample.DONOR_BLOOD_2, Sample.DONOR_URINE_1, Sample.DONOR_URINE_2):
-            barcode_string = "%s:%s" % (sample.linked_to().trial_id(), sample.get_type_display())
-        if sample.type in (Sample.KIDNEY_PERFUSATE_1, Sample.KIDNEY_PERFUSATE_2, Sample.KIDNEY_PERFUSATE_3):
-            barcode_string = "%s:%s" % (sample.linked_to().donor.trial_id(), sample.get_type_display())
-        # TODO: Naming for Recipient Samples
-        sample.barcode = barcode_string
-        sample.save()
-        return sample
 
 
 class DonorForm(forms.ModelForm):
@@ -129,7 +50,7 @@ class DonorForm(forms.ModelForm):
     )
     layout_2 = Layout(
         Field('number', placeholder="___ ___ ____"),
-        FieldWithNotKnown(DateField('date_of_birth'), 'date_of_birth_unknown'),
+        FieldWithNotKnown(DateField('date_of_birth', notknown=True), 'date_of_birth_unknown'),
         # DateField('date_of_birth'),
         'age',
         DateField('date_of_admission'),
@@ -373,8 +294,7 @@ class OrganForm(forms.ModelForm):
         FieldWithFollowup(
             Field('perfusate_measurable', template="bootstrap3/layout/radioselect-buttons.html"),
             'perfusate_measure'
-        ),
-        'perfusion_file'
+        )
     )
 
     layout_4 = Layout(
@@ -407,8 +327,6 @@ class OrganForm(forms.ModelForm):
         self.fields['donor'].widget = forms.HiddenInput()
         self.fields['location'].widget = forms.HiddenInput()
         self.fields['preservation'].widget = forms.HiddenInput()
-        # self.fields['location'].choices = Organ.LOCATION_CHOICES
-        # self.fields['preservation'].choices = Organ.PRESERVATION_CHOICES
         self.fields['removal'].input_formats = DATETIME_INPUT_FORMATS
         self.fields['washout_perfusion'].choices = Organ.WASHOUT_PERFUSION_CHOICES
         self.fields['transplantable'].choices = YES_NO_CHOICES
@@ -427,7 +345,7 @@ class OrganForm(forms.ModelForm):
 
     class Meta:
         model = Organ
-        exclude = ['created_by', 'version', 'created_on']
+        exclude = ['created_by', 'version', 'created_on', 'perfusion_file']
         localized_fields = "__all__"
 
     def save(self, user):
@@ -461,6 +379,7 @@ class ProcurementResourceForm(forms.ModelForm):
         model = ProcurementResource
         exclude = ('created_on',)
         localized_fields = "__all__"
+
 
 ProcurementResourceInlineFormSet = forms.models.inlineformset_factory(
     Organ,
@@ -496,44 +415,166 @@ class LoginForm(AuthenticationForm):
 
 
 class RecipientForm(forms.ModelForm):
+    perfusion_technician = ModelChoiceField('TechnicianAutoComplete')  # TODO: Add the label and text from model
+    transplant_hospital = ModelChoiceField('HospitalAutoComplete')  # TODO: Add the label and text from model
+    transplant_coordinator = ModelChoiceField(
+        'TransplantCoordinatorAutoComplete')  # TODO: Add the label and text from model
+
+    layout_reallocation = Layout(
+        FieldWithFollowup(
+            Field('reallocation_reason', template="bootstrap3/layout/radioselect-buttons.html"),
+            'reallocation_reason_other',
+        ),
+        'reallocation_recipient'
+    )
+
+    layout_allocation = Layout(
+        'perfusion_technician',
+        DateTimeField('call_received'),
+        'transplant_hospital',
+        'transplant_coordinator',
+        DateTimeField('scheduled_start'),
+        DateTimeField('technician_arrival'),
+        DateTimeField('depart_perfusion_centre'),
+        DateTimeField('arrival_at_recipient_hospital'),
+        'journey_remarks',
+        FieldWithFollowup(
+            Field('reallocated', template="bootstrap3/layout/radioselect-buttons.html"),
+            layout_reallocation
+        )
+
+    )
+    layout_recipient = Layout(
+        Field('number', placeholder="___ ___ ____"),
+        FieldWithNotKnown(DateField('date_of_birth', notknown=True), 'date_of_birth_unknown', label="Flibble"),
+        Field('gender', template="bootstrap3/layout/radioselect-buttons.html"),
+        'weight',
+        'height',
+        Field('ethnicity', template="bootstrap3/layout/radioselect-buttons.html"),
+        Field('blood_group', template="bootstrap3/layout/radioselect-buttons.html"),
+        FieldWithFollowup('renal_disease', 'renal_disease_other'),
+        'pre_transplant_diuresis'
+    )
+    layout_perioperative_transplantable = Layout(
+        DateTimeField('anesthesia_started_at'),
+        DateTimeField('knife_to_skin'),
+        Field('incision', template="bootstrap3/layout/radioselect-buttons.html"),
+        Field('transplant_side', template="bootstrap3/layout/radioselect-buttons.html"),
+        FieldWithFollowup(
+            'arterial_problems',
+            'arterial_problems_other'),
+        FieldWithFollowup(
+            'venous_problems',
+            'venous_problems_other'),
+        DateTimeField('anastomosis_started_at'),
+        DateTimeField('reperfusion_started_at'),
+        Field('mannitol_used', template="bootstrap3/layout/radioselect-buttons.html"),
+        FieldWithFollowup(
+            Field('other_diurectics', template="bootstrap3/layout/radioselect-buttons.html"),
+            'other_diurectics_details'),
+        'systolic_blood_pressure',
+        'cvp',
+        Field('intra_operative_diuresis', template="bootstrap3/layout/radioselect-buttons.html"),
+        Field('successful_conclusion', template="bootstrap3/layout/radioselect-buttons.html"),
+        DateTimeField('operation_concluded_at')
+    )
+    layout_perioperative = Layout(
+        'perfusate_measure',
+        DateTimeField('perfusion_stopped'),
+        Field('organ_cold_stored', template="bootstrap3/layout/radioselect-buttons.html"),
+        Field('tape_broken', template="bootstrap3/layout/radioselect-buttons.html"),
+        DateTimeField('removed_from_machine_at'),
+        Field('oxygen_full_and_open', template="bootstrap3/layout/radioselect-buttons.html"),
+
+        YesNoFieldWithAlternativeFollowups(
+            Field('organ_untransplantable', template="bootstrap3/layout/radioselect-buttons.html"),
+            'organ_untransplantable_reason',
+            layout_perioperative_transplantable
+        )
+    )
+    layout_samples = Layout()
+    layout_cleaning = Layout(
+        Field('probe_cleaned', template="bootstrap3/layout/radioselect-buttons.html"),
+        Field('ice_removed', template="bootstrap3/layout/radioselect-buttons.html"),
+        Field('oxygen_flow_stopped', template="bootstrap3/layout/radioselect-buttons.html"),
+        Field('oxygen_bottle_removed', template="bootstrap3/layout/radioselect-buttons.html"),
+        Field('box_cleaned', template="bootstrap3/layout/radioselect-buttons.html"),
+        Field('batteries_charged', template="bootstrap3/layout/radioselect-buttons.html"),
+        'cleaning_log'
+    )
+
     helper = FormHelper()
     helper.form_tag = False
     helper.html5_required = True
-    helper.layout = Div()
+    helper.layout = Div(
+        Div(
+            FormPanel("Allocation Data", layout_allocation),
+            FormPanel("Recipient Details", layout_recipient),
+            FormPanel("Sampling Data", layout_samples),
+            css_class="col-md-6", style="margin-top: 10px;"
+        ),
+        Div(
+            FormPanel("Peri-Operative Data", layout_perioperative),
+            FormPanel("Cleaning Log", layout_cleaning),
+            css_class="col-md-6", style="margin-top: 10px;"
+        ),
+        css_class='row'
+    )
 
     def __init__(self, *args, **kwargs):
         super(RecipientForm, self).__init__(*args, **kwargs)
+        self.fields['organ'].widget = forms.HiddenInput()
+        self.fields['perfusion_technician'].required = False
+        self.fields['call_received'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['transplant_hospital'].required = False
+        self.fields['transplant_coordinator'].required = False
+        self.fields['scheduled_start'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['technician_arrival'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['depart_perfusion_centre'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['arrival_at_recipient_hospital'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['reallocated'].choices = NO_YES_CHOICES
+        self.fields['reallocation_reason'].choices = Recipient.REALLOCATION_CHOICES
+        self.fields['renal_disease'].choices = Recipient.RENAL_DISEASE_CHOICES
+        self.fields['date_of_birth'].input_formats = DATE_INPUT_FORMATS
+        self.fields['gender'].widget = forms.HiddenInput()
+        self.fields['ethnicity'].choices = Recipient.ETHNICITY_CHOICES
+        self.fields['blood_group'].choices = Recipient.BLOOD_GROUP_CHOICES
+
+        self.fields['knife_to_skin'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['perfusion_stopped'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['organ_cold_stored'].choices = NO_YES_CHOICES
+        self.fields['tape_broken'].choices = YES_NO_UNKNOWN_CHOICES
+        self.fields['removed_from_machine_at'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['oxygen_full_and_open'].choices = YES_NO_UNKNOWN_CHOICES
+        self.fields['organ_untransplantable'].choices = NO_YES_CHOICES
+        self.fields['anesthesia_started_at'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['incision'].choices = Recipient.INCISION_CHOICES
+        self.fields['transplant_side'].choices = LOCATION_CHOICES
+        self.fields['transplant_side'].required = False
+        self.fields['arterial_problems'].choices = Recipient.ARTERIAL_PROBLEM_CHOICES
+        self.fields['venous_problems'].choices = Recipient.VENOUS_PROBLEM_CHOICES
+        self.fields['anastomosis_started_at'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['reperfusion_started_at'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['mannitol_used'].choices = YES_NO_UNKNOWN_CHOICES
+        self.fields['other_diurectics'].choices = YES_NO_UNKNOWN_CHOICES
+        self.fields['intra_operative_diuresis'].choices = YES_NO_UNKNOWN_CHOICES
+        self.fields['successful_conclusion'].choices = NO_YES_CHOICES
+        self.fields['operation_concluded_at'].input_formats = DATETIME_INPUT_FORMATS
+
+        self.fields['probe_cleaned'].choices = NO_YES_CHOICES
+        self.fields['ice_removed'].choices = NO_YES_CHOICES
+        self.fields['oxygen_flow_stopped'].choices = NO_YES_CHOICES
+        self.fields['oxygen_bottle_removed'].choices = NO_YES_CHOICES
+        self.fields['box_cleaned'].choices = NO_YES_CHOICES
+        self.fields['batteries_charged'].choices = NO_YES_CHOICES
 
     class Meta:
         model = Recipient
-        exclude = ['created_by', 'version', 'created_on']
-        localized_fields = "__all__"
-
-    def save(self, user):
-        recipient = super(RecipientForm, self).save(commit=False)
-        recipient.created_by = user
-        recipient.created_on = timezone.now()
-        recipient.version += 1
-        recipient.save()
-        return recipient
-
-
-class AdverseEventForm(forms.ModelForm):
-    helper = FormHelper()
-    helper.form_tag = False
-    helper.html5_required = True
-    helper.layout = Div()
-
-    def __init__(self, *args, **kwargs):
-        super(AdverseEventForm, self).__init__(*args, **kwargs)
-
-    class Meta:
-        model = AdverseEvent
         exclude = ['created_by', 'version', 'created_on', 'record_locked']
         localized_fields = "__all__"
 
     def save(self, user):
-        recipient = super(AdverseEventForm, self).save(commit=False)
+        recipient = super(RecipientForm, self).save(commit=False)
         recipient.created_by = user
         recipient.created_on = timezone.now()
         recipient.version += 1

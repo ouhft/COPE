@@ -12,10 +12,13 @@ urlpatterns = [
 ]
 
 urlpatterns += i18n_patterns(
-    url(r'^', include('wp4.compare.urls', namespace="compare")),
     url(r'^autocomplete/', include('autocomplete_light.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('django.contrib.auth.urls')),
+    url(r'^adverse-event/', include('wp4.adverse_event.urls', namespace="adverse_event")),
+    url(r'^person/', include('wp4.staff_person.urls', namespace="staff_person")),
+    url(r'^sample/', include('wp4.samples.urls', namespace="samples")),
+    url(r'^', include('wp4.compare.urls', namespace="compare")),
 )
 
 # if settings.DEBUG:

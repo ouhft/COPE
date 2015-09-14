@@ -336,14 +336,10 @@
                 <div role="tabpanel" class="tab-pane fade" id="leftkidney">
                     <h2 class="sr-only visible-print">Left Kidney</h2>
                     {% crispy left_organ_form %}
-                    <hr>
-{#                    {% crispy left_resource_formset left_resource_formset.form.helper %}#}
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="rightkidney">
                     <h2 class="sr-only visible-print">Right Kidney</h2>
                     {% crispy right_organ_form %}
-                    <hr>
-                    {% crispy right_resource_formset right_resource_formset.form.helper %}
                 </div>
             </div>
             {% csrf_token %}

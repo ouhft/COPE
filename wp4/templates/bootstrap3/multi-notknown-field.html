@@ -3,13 +3,6 @@
 
 {#<div class="input-group-addon">#}
 {% if field|is_checkbox %}
-    {#        {% if field.label %}#}
-    {#            <label for="{{ field.id_for_label }}" title="Not Known">#}
-    {#                {% crispy_field field %}#}
-    {#                <i class="glyphicon glyphicon-unchecked"></i>#}
-    {#            </label>#}
-    {#        {% endif %}#}
-
     <span class="input-group-btn" data-toggle="buttons">
         <label class="btn btn-default {% if field.value|lower == "true" %}
                    active{% endif %}" title="Not Known">

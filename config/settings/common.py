@@ -46,13 +46,16 @@ THIRD_PARTY_APPS = (
     # 'allauth.socialaccount',  # registration
 )
 THIRD_PARTY_PRE_DJANGO_APPS = (
-    'suit',
     'autocomplete_light',
 )
 
 # Apps specific for this project go here.
 LOCAL_APPS = (
     'wp4.compare',
+    'wp4.locations',
+    'wp4.staff_person',
+    'wp4.adverse_event',
+    'wp4.samples',
     'wp4.theme'
 )
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -284,12 +287,6 @@ LOGGING = {
 }
 
 # Your common stuff: Below this line define 3rd party library settings
-
-# Django Suit configuration
-SUIT_CONFIG = {
-    # header
-    'ADMIN_NAME': 'COPE WP4 Administration',
-}
 
 LANGUAGES = (
     ('en-gb', _('SET01 Great Britain')),

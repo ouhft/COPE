@@ -1,6 +1,6 @@
 [
   {
-    "model": "compare.claviendindograding",
+    "model": "adverse_event.claviendindograding",
     "pk": 1,
     "fields": {
       "label": "Grade I",
@@ -8,7 +8,7 @@
     }
   },
   {
-    "model": "compare.claviendindograding",
+    "model": "adverse_event.claviendindograding",
     "pk": 2,
     "fields": {
       "label": "Grade II",
@@ -16,7 +16,7 @@
     }
   },
   {
-    "model": "compare.claviendindograding",
+    "model": "adverse_event.claviendindograding",
     "pk": 3,
     "fields": {
       "label": "Grade III",
@@ -24,7 +24,7 @@
     }
   },
   {
-    "model": "compare.claviendindograding",
+    "model": "adverse_event.claviendindograding",
     "pk": 4,
     "fields": {
       "label": "Grade III a",
@@ -32,7 +32,7 @@
     }
   },
   {
-    "model": "compare.claviendindograding",
+    "model": "adverse_event.claviendindograding",
     "pk": 5,
     "fields": {
       "label": "Grade III b",
@@ -40,7 +40,7 @@
     }
   },
   {
-    "model": "compare.claviendindograding",
+    "model": "adverse_event.claviendindograding",
     "pk": 6,
     "fields": {
       "label": "Grade IV",
@@ -48,7 +48,7 @@
     }
   },
   {
-    "model": "compare.claviendindograding",
+    "model": "adverse_event.claviendindograding",
     "pk": 7,
     "fields": {
       "label": "Grade IV a",
@@ -56,7 +56,7 @@
     }
   },
   {
-    "model": "compare.claviendindograding",
+    "model": "adverse_event.claviendindograding",
     "pk": 8,
     "fields": {
       "label": "Grade IV b",
@@ -64,7 +64,7 @@
     }
   },
   {
-    "model": "compare.claviendindograding",
+    "model": "adverse_event.claviendindograding",
     "pk": 9,
     "fields": {
       "label": "Grade V",
@@ -72,7 +72,7 @@
     }
   },
   {
-    "model": "compare.alternativegrading",
+    "model": "adverse_event.alternativegrading",
     "pk": 1,
     "fields": {
       "label": "Mild (Grade 1)",
@@ -80,7 +80,7 @@
     }
   },
   {
-    "model": "compare.alternativegrading",
+    "model": "adverse_event.alternativegrading",
     "pk": 2,
     "fields": {
       "label": "Moderate (Grade 2)",
@@ -88,7 +88,7 @@
     }
   },
   {
-    "model": "compare.alternativegrading",
+    "model": "adverse_event.alternativegrading",
     "pk": 3,
     "fields": {
       "label": "Severe (Grade 3)",
@@ -96,7 +96,7 @@
     }
   },
   {
-    "model": "compare.alternativegrading",
+    "model": "adverse_event.alternativegrading",
     "pk": 4,
     "fields": {
       "label": "Life-threatening (Grade 4)",
@@ -104,7 +104,7 @@
     }
   },
   {
-    "model": "compare.alternativegrading",
+    "model": "adverse_event.alternativegrading",
     "pk": 5,
     "fields": {
       "label": "Death (Grade 5)",

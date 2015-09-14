@@ -2,7 +2,8 @@ from django import http
 
 import autocomplete_light.shortcuts as al
 
-from .models import Hospital, StaffPerson, StaffJob
+from .models import Hospital
+from ..staff_person.models import StaffPerson
 
 
 class HospitalAutoComplete(al.AutocompleteModelBase):
@@ -38,10 +39,3 @@ class HospitalAutoComplete(al.AutocompleteModelBase):
         )
 
 al.register(Hospital, HospitalAutoComplete)
-
-al.register(
-    StaffPerson,
-    name='TechnicianAutoComplete',
-    choices=StaffPerson.objects.filter(jobs__in=[StaffJob.PERFUSION_TECHNICIAN]),
-    search_fields=['first_names', 'last_names']
-)

@@ -1,6 +1,6 @@
 Django==1.8.4
-pytz==2015.4
-django-suit==0.2.14
+pytz
+# django-suit==0.2.14
 django-autocomplete-light==2.2.5
 docutils==0.12
 django-environ==0.3.0

@@ -1,17 +1,19 @@
 #!/usr/bin/python
 # coding: utf-8
+from __future__ import absolute_import, unicode_literals
 from random import random
 import datetime
 
-from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator, ValidationError
 from django.db import models
-from django.contrib.auth.models import User
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _, ungettext_lazy as __
 
+from ..staff_person.models import StaffJob, StaffPerson, Hospital
+from ..samples.models import Sample
 
-# Common constants for some questions
+# Common CONSTANTS
 NO = 0
 YES = 1
 UNKNOWN = 2
@@ -20,16 +22,9 @@ YES_NO_UNKNOWN_CHOICES = (
     (UNKNOWN, _("MM03 Unknown")),
     (NO, _("MM01 No")),
     (YES, _("MM02 Yes"))
-)
-# Need Yes to be the last choice for any FieldWithFollowUp
-UNITED_KINGDOM = 1
-BELGIUM = 4
-NETHERLANDS = 5
-COUNTRY_CHOICES = (
-    (UNITED_KINGDOM, _('MM10 United Kingdom')),
-    (BELGIUM, _('MM11 Belgium')),
-    (NETHERLANDS, _('MM12 Netherlands'))
-)
+) # Need Yes to be the last choice for any FieldWithFollowUp
+
+
 LEFT = "L"
 RIGHT = "R"
 LOCATION_CHOICES = (
@@ -50,82 +45,6 @@ class VersionControlModel(models.Model):
     class Meta:
         abstract = True
 
-
-# Consider making this part of a LOCATION class
-class Hospital(models.Model):
-    name = models.CharField(verbose_name=_("HO01 hospital name"), max_length=100)
-    country = models.PositiveSmallIntegerField(verbose_name=_("HO03 country"), choices=COUNTRY_CHOICES)
-    is_active = models.BooleanField(default=True)
-    is_project_site = models.BooleanField(default=False)
-    created_on = models.DateTimeField(default=timezone.now)
-    created_by = models.ForeignKey(User)
-
-    def full_description(self):
-        return '%s, %s' % (self.name, self.get_country_display())
-
-    def __unicode__(self):
-        return self.full_description()
-
-    class Meta:
-        ordering = ['country', 'name']
-        verbose_name = _('HOm1 hospital')
-        verbose_name_plural = _('HOm2 hospitals')
-
-
-class StaffJob(models.Model):
-    # pk values for StaffJob taken from fixtures/persons.json
-    PERFUSION_TECHNICIAN = 1
-    TRANSPLANT_COORDINATOR = 2
-    RESEARCH_NURSE = 3
-    NATIONAL_COORDINATOR = 4
-    CENTRAL_COORDINATOR = 5
-    STATISTICIAN = 6
-    SYSTEMS_ADMINISTRATOR = 7
-    LOCAL_INVESTIGATOR = 8
-    OTHER_PROJECT_MEMBER = 9
-    BIOBANK_COORDINATOR = 10
-
-    description = models.CharField(max_length=100)
-    # TODO: Work out how to get localised values from this
-
-    def __unicode__(self):
-        return self.description
-
-
-# Create your models here.
-class StaffPerson(VersionControlModel):
-    user = models.OneToOneField(User, verbose_name=_("PE14 related user account"), blank=True, null=True,
-                                related_name="profile")
-    first_names = models.CharField(verbose_name=_("PE10 first names"), max_length=50)
-    last_names = models.CharField(verbose_name=_("PE11 last names"), max_length=50)
-    jobs = models.ManyToManyField(StaffJob, verbose_name=_("PE12 jobs"))
-    telephone = models.CharField(verbose_name=_("PE13 telephone number"), max_length=20, blank=True)
-    email = models.EmailField(verbose_name=_("PE15 email"), blank=True)
-    based_at = models.ForeignKey(Hospital, blank=True, null=True)
-
-    def full_name(self):
-        return self.first_names + ' ' + self.last_names
-    full_name.short_description = 'Name'
-
-    # def get_absolute_url(self):
-    #     return reverse('person-detail', kwargs={'pk': self.pk})
-
-    def has_job(self, acceptable_jobs):
-        jobs_list = [x.id for x in self.jobs.all()]
-        if type(acceptable_jobs) is list or type(acceptable_jobs) is tuple:
-            answer = [x for x in jobs_list if x in acceptable_jobs]
-            return True if len(answer) > 0 else False
-        elif isinstance(acceptable_jobs, (int, long)):
-            return acceptable_jobs in jobs_list
-        else:
-            raise TypeError("acceptable jobs is an invalid type")
-
-    def __unicode__(self):
-        return self.full_name()  # + ' : ' + self.get_job_display()  TODO: List jobs?
-
-    class Meta:
-        verbose_name = _('PEm1 person')
-        verbose_name_plural = _('PEm2 people')
 
 
 class RetrievalTeam(models.Model):
@@ -156,68 +75,6 @@ class RetrievalTeam(models.Model):
         ordering = ['centre_code']
         verbose_name = _('RTm1 retrieval team')
         verbose_name_plural = _('RTm2 retrieval teams')
-
-
-# Mostly replaces Specimens -- TODO: Remodel this with SampleEvent and Specimen models, plus SampleWorksheet
-class Sample(models.Model):
-    DONOR_BLOOD_1 = 1
-    DONOR_BLOOD_2 = 2
-    DONOR_URINE_1 = 3
-    DONOR_URINE_2 = 4
-    KIDNEY_PERFUSATE_1 = 5
-    KIDNEY_PERFUSATE_2 = 6
-    KIDNEY_PERFUSATE_3 = 7
-    RECIPIENT_BLOOD_1 = 8
-    RECIPIENT_BLOOD_2 = 9
-    KIDNEY_TISSUE_1 = 10
-    TYPE_CHOICES = (
-        (DONOR_BLOOD_1, _("SA10 Donor blood 1")),
-        (DONOR_BLOOD_2, _("SA11 Donor blood 2")),
-        (DONOR_URINE_1, _("SA12 Donor urine 1")),
-        (DONOR_URINE_2, _("SA13 Donor urine 2")),
-        (KIDNEY_PERFUSATE_1, _("SA14 Kidney perfusate 1")),
-        (KIDNEY_PERFUSATE_2, _("SA15 Kidney perfusate 1")),
-        (KIDNEY_PERFUSATE_3, _("SA16 Kidney perfusate 1")),
-        (RECIPIENT_BLOOD_1, _("SA17 Recipient blood 1")),
-        (RECIPIENT_BLOOD_2, _("SA18 Recipient blood 1")),
-        (KIDNEY_TISSUE_1, _("SA19 Kidney tissue 1")),
-    )
-    type = models.PositiveSmallIntegerField(_("SA05 sample type"), choices=TYPE_CHOICES)
-    barcode = models.CharField(verbose_name=_("SA01 barcode number"), max_length=20)
-    taken_at = models.DateTimeField(verbose_name=_("SA02 date and time taken"))
-    centrifugation = models.DateTimeField(verbose_name=_("SA03 centrifugation"), null=True, blank=True)
-    comment = models.CharField(verbose_name=_("SA04 comment"), max_length=2000, blank=True)
-    #  TODO: Specimen state?
-    #  TODO: Who took the sample?
-    #  TODO: Difference between worksheet and specimen barcodes?
-    #  TODO: Reperfusion?
-    created_on = models.DateTimeField(default=timezone.now)
-    created_by = models.ForeignKey(User)
-
-    def linked_to(self):
-        if self.type is self.DONOR_BLOOD_1:
-            return self.donor_blood_1
-        if self.type is self.DONOR_BLOOD_2:
-            return self.donor_blood_2
-        if self.type is self.DONOR_URINE_1:
-            return self.donor_urine_1
-        if self.type is self.DONOR_URINE_2:
-            return self.donor_urine_2
-        if self.type is self.KIDNEY_PERFUSATE_1:
-            return self.kidney_perfusate_1
-        if self.type is self.KIDNEY_PERFUSATE_2:
-            return self.kidney_perfusate_2
-        if self.type is self.KIDNEY_PERFUSATE_3:
-            return self.kidney_perfusate_3
-        return None
-
-    def __unicode__(self):
-        return self.barcode
-
-    class Meta:
-        ordering = ['taken_at']
-        verbose_name = _('SAm1 sample')
-        verbose_name_plural = _('SAm2 samples')
 
 
 class OrganPerson(VersionControlModel):
@@ -992,11 +849,11 @@ class Recipient(OrganPerson):
     depart_perfusion_centre = models.DateTimeField(
         verbose_name=_('DO10 departure from base hospital at'),
         blank=True, null=True)
-    arrival_at_donor_hospital = models.DateTimeField(
+    arrival_at_recipient_hospital = models.DateTimeField(
         verbose_name=_('DO11 arrival at donor hospital'),
         blank=True, null=True
     )
-    # Journey notes field? "Remarks"
+    journey_remarks = models.TextField(verbose_name=_("journey notes"), blank=True)
     reallocated = models.BooleanField(verbose_name=_("reallocated"), default=False)
     reallocation_reason = models.PositiveSmallIntegerField(
         verbose_name=_('reason for re-allocation'),
@@ -1093,10 +950,18 @@ class Recipient(OrganPerson):
         verbose_name=_('arterial problems'),
         choices=ARTERIAL_PROBLEM_CHOICES,
         blank=True, null=True)
+    arterial_problems_other = models.CharField(
+        verbose_name=_('arterial problems other'),
+        max_length=250,
+        blank=True)
     venous_problems = models.PositiveSmallIntegerField(
         verbose_name=_('venous problems'),
         choices=VENOUS_PROBLEM_CHOICES,
         blank=True, null=True)
+    venous_problems_other = models.CharField(
+        verbose_name=_('venous problems other'),
+        max_length=250,
+        blank=True)
     anastomosis_started_at = models.DateTimeField(
         verbose_name=_('start anastomosis at'),
         blank=True, null=True)
@@ -1129,6 +994,8 @@ class Recipient(OrganPerson):
         verbose_name=_('intra-operative diuresis'),
         choices=YES_NO_UNKNOWN_CHOICES,
         blank=True, null=True)
+    successful_conclusion = models.BooleanField(verbose_name=_("successful conclusion"), default=False)
+    operation_concluded_at = models.DateTimeField(verbose_name=_("operation concluded at"), null=True, blank=True)
 
     # SAMPLE DATA
     # P#, RB1, RB2, ReK1R, ReK1F
@@ -1152,6 +1019,7 @@ class Recipient(OrganPerson):
     batteries_charged = models.NullBooleanField(
         verbose_name=_('batteries charged'),
         blank=True, null=True)
+    cleaning_log = models.TextField(verbose_name=_("cleaning log notes"), blank=True)
 
     def trial_id(self):
         return self.organ.__unicode__()
@@ -1168,79 +1036,3 @@ class Recipient(OrganPerson):
         verbose_name = _('REm1 recipient')
         verbose_name_plural = _('REm2 recipients')
         get_latest_by = 'created_on'
-
-
-class ClavienDindoGrading(models.Model):
-    label = models.CharField(max_length=10)
-    description = models.CharField(max_length=300)
-
-
-class AlternativeGrading(models.Model):
-    label = models.CharField(max_length=10)
-    description = models.CharField(max_length=300)
-
-
-class AdverseEvent(VersionControlModel):
-    # From fixtures/gradings.json
-    GRADE_I = 1
-    GRADE_II = 2
-    GRADE_III = 3
-    GRADE_III_A = 4
-    GRADE_III_B = 5
-    GRADE_IV = 6
-    GRADE_IV_A = 7
-    GRADE_IV_B = 8
-    GRADE_V = 9
-    GRADE_1 = 1
-    GRADE_2 = 2
-    GRADE_3 = 3
-    GRADE_4 = 4
-    GRADE_5 = 5
-
-    # Event basics
-    sequence_number = models.PositiveSmallIntegerField(verbose_name=_("AE01 sequence number"), default=0)
-    onset_at_date = models.DateField(verbose_name=_("AE02 onset date"))
-    resolution_at_date = models.DateField(verbose_name=_("AE03 resolution date"), blank=True, null=True)
-
-    organ = models.ForeignKey(Organ, verbose_name=_("AE04"))
-    device_related = models.BooleanField(verbose_name=_("AE05 device related"), default=False)
-
-    description = models.CharField(verbose_name=_("AE06 description"), max_length=1000, default="")
-    action = models.CharField(verbose_name=_("AE07 action"), max_length=1000, default="")
-    outcome = models.CharField(verbose_name=_("AE08 outcome"), max_length=1000, default="")
-
-    # Serious Event questions
-    contact = models.ForeignKey(StaffPerson, verbose_name=_("AE09 primary contact"), blank=True, null=True)
-    # # Death
-    # date_of_death = models.DateField()
-    # treatment_related = models.PositiveSmallIntegerField(
-    #     verbose_name=_(''),
-    #     choices=YES_NO_UNKNOWN_CHOICES,
-    #     blank=True, null=True)
-    # # TODO: ICD10 link to go in here
-    # cause_of_death_comment = models.CharField(max_length=500)
-    # # Hospitalisation
-    # admitted_to_itu = models.BooleanField(verbose_name=_('DO34 admitted to ITU'), default=False)
-    # dialysis_needed = models.BooleanField(verbose_name=_('DO34 admitted to ITU'), default=False)
-    # biopsy_taken = models.BooleanField(verbose_name=_('DO34 admitted to ITU'), default=False)
-    # prolongation_of_hospitalisation = models.BooleanField(verbose_name=_('DO34 admitted to ITU'), default=False)
-    # # Device specific
-    # device_deficiency = models.BooleanField(verbose_name=_('DO34 admitted to ITU'), default=False)
-    # device_user_error = models.BooleanField(verbose_name=_('DO34 admitted to ITU'), default=False)
-    # # Lesser issues
-    # unable_to_work = models.BooleanField(verbose_name=_('DO34 admitted to ITU'), default=False)
-    # interfering_symptom = models.BooleanField(verbose_name=_('DO34 admitted to ITU'), default=False)
-    # symptom_with_no_sequalae = models.BooleanField(verbose_name=_('DO34 admitted to ITU'), default=False)
-    #
-    # grade_first_30_days = models.ForeignKey(ClavienDindoGrading)
-    # grade_first_30_days_d = models.BooleanField(
-    #     help_text="If the patients suffers from a complication at the time of discharge, the suffix  “d” (for "
-    #               "‘disability’) is added to the respective grade of complication. This label indicates the need for "
-    #               "a follow-up to fully evaluate the complication.")
-    # grade_post_30_days = models.ForeignKey(AlternativeGrading)
-
-    class Meta:
-        order_with_respect_to = 'organ'
-        ordering = ['sequence_number']
-        verbose_name = _('AEm1 adverse event')
-        verbose_name_plural = _('AEm2 adverse events')

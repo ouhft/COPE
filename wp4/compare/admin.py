@@ -2,8 +2,7 @@ from django.contrib import admin
 from django.utils import timezone
 
 # Register your models here.
-from .models import StaffJob, StaffPerson, Hospital, RetrievalTeam, Sample, Donor, PerfusionMachine, Recipient, AdverseEvent
-from .models import PerfusionFile, Organ, ProcurementResource
+from .models import Hospital, RetrievalTeam, Donor, PerfusionMachine, Recipient, Organ, ProcurementResource
 
 
 class VersionControlAdmin(admin.ModelAdmin):
@@ -17,23 +16,6 @@ class VersionControlAdmin(admin.ModelAdmin):
         obj.save()
 
 
-class HospitalAdmin(admin.ModelAdmin):
-    exclude = ('created_on', 'created_by')
-
-    def save_model(self, request, obj, form, change):
-        obj.created_by = request.user
-        obj.created_on = timezone.now()
-        obj.save()
-
-admin.site.register(Hospital, HospitalAdmin)
-
-
-class StaffPersonAdmin(VersionControlAdmin):
-    pass
-
-admin.site.register(StaffPerson, StaffPersonAdmin)
-
-
 class RetrievalTeamAdmin(admin.ModelAdmin):
     exclude = ('created_on', 'created_by')
 
@@ -43,17 +25,6 @@ class RetrievalTeamAdmin(admin.ModelAdmin):
         obj.save()
 
 admin.site.register(RetrievalTeam, RetrievalTeamAdmin)
-
-
-class SampleAdmin(admin.ModelAdmin):
-    exclude = ('created_on', 'created_by')
-
-    def save_model(self, request, obj, form, change):
-        obj.created_by = request.user
-        obj.created_on = timezone.now()
-        obj.save()
-
-admin.site.register(Sample, SampleAdmin)
 
 
 class DonorAdmin(VersionControlAdmin):
@@ -150,9 +121,3 @@ class RecipientAdmin(VersionControlAdmin):
     pass
 
 admin.site.register(Recipient, RecipientAdmin)
-
-
-class AdverseEventAdmin(VersionControlAdmin):
-    pass
-
-admin.site.register(AdverseEvent, AdverseEventAdmin)
