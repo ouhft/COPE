@@ -1021,8 +1021,12 @@ class Recipient(OrganPerson):
         blank=True, null=True)
     cleaning_log = models.TextField(verbose_name=_("cleaning log notes"), blank=True)
 
-    def trial_id(self):
-        return self.organ.__unicode__()
+    class Meta:
+        order_with_respect_to = 'organ'
+        ordering = ['sequence_number']
+        verbose_name = _('REm1 recipient')
+        verbose_name_plural = _('REm2 recipients')
+        get_latest_by = 'created_on'
 
     def clean(self):
         pass
@@ -1030,9 +1034,15 @@ class Recipient(OrganPerson):
     def __unicode__(self):
         return '%s (%s)' % (self.number, self.trial_id())
 
-    class Meta:
-        order_with_respect_to = 'organ'
-        ordering = ['sequence_number']
-        verbose_name = _('REm1 recipient')
-        verbose_name_plural = _('REm2 recipients')
-        get_latest_by = 'created_on'
+    def age_from_dob(self):
+        if self.date_of_birth is None:
+            return "Unknown"
+        today = datetime.date.today()
+        if self.date_of_birth < today:
+            years = today.year - self.date_of_birth.year
+        else:
+            years = today.year - self.date_of_birth.year - 1
+        return years
+
+    def trial_id(self):
+        return self.organ.trial_id()

@@ -148,11 +148,12 @@ class DonorForm(forms.ModelForm):
         css_class='row'
     )
 
-    retrieval_hospital = ModelChoiceField('HospitalAutoComplete')  # TODO: Add the label and text from model
+    retrieval_hospital = ModelChoiceField('HospitalAutoComplete')
 
     def __init__(self, *args, **kwargs):
         super(DonorForm, self).__init__(*args, **kwargs)
         self.fields['retrieval_team'].widget = forms.HiddenInput()
+        self.fields['retrieval_hospital'].label = Recipient._meta.get_field("retrieval_hospital").verbose_name.title()
         self.fields['sequence_number'].widget = forms.HiddenInput()
         self.fields['multiple_recipients'].choices = NO_YES_CHOICES
         self.fields['perfusion_technician'].widget = forms.HiddenInput()
@@ -213,7 +214,7 @@ class DonorForm(forms.ModelForm):
 
 
 class DonorStartForm(forms.ModelForm):
-    perfusion_technician = ModelChoiceField('TechnicianAutoComplete')  # TODO: Add the label and text from model
+    perfusion_technician = ModelChoiceField('TechnicianAutoComplete')
 
     helper = FormHelper()
     helper.form_tag = False
@@ -226,6 +227,7 @@ class DonorStartForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(DonorStartForm, self).__init__(*args, **kwargs)
+        self.fields['perfusion_technician'].label = Recipient._meta.get_field("perfusion_technician").verbose_name.title()
 
     class Meta:
         model = Donor
@@ -415,10 +417,10 @@ class LoginForm(AuthenticationForm):
 
 
 class RecipientForm(forms.ModelForm):
-    perfusion_technician = ModelChoiceField('TechnicianAutoComplete')  # TODO: Add the label and text from model
-    transplant_hospital = ModelChoiceField('HospitalAutoComplete')  # TODO: Add the label and text from model
+    perfusion_technician = ModelChoiceField('TechnicianAutoComplete')
+    transplant_hospital = ModelChoiceField('HospitalAutoComplete')
     transplant_coordinator = ModelChoiceField(
-        'TransplantCoordinatorAutoComplete')  # TODO: Add the label and text from model
+        'TransplantCoordinatorAutoComplete')
 
     layout_reallocation = Layout(
         FieldWithFollowup(
@@ -446,7 +448,10 @@ class RecipientForm(forms.ModelForm):
     )
     layout_recipient = Layout(
         Field('number', placeholder="___ ___ ____"),
-        FieldWithNotKnown(DateField('date_of_birth', notknown=True), 'date_of_birth_unknown', label="Flibble"),
+        FieldWithNotKnown(
+            DateField('date_of_birth', notknown=True),
+            'date_of_birth_unknown',
+            label=Recipient._meta.get_field("date_of_birth").verbose_name.title()),
         Field('gender', template="bootstrap3/layout/radioselect-buttons.html"),
         'weight',
         'height',
@@ -525,9 +530,12 @@ class RecipientForm(forms.ModelForm):
         super(RecipientForm, self).__init__(*args, **kwargs)
         self.fields['organ'].widget = forms.HiddenInput()
         self.fields['perfusion_technician'].required = False
+        self.fields['perfusion_technician'].label = Recipient._meta.get_field("perfusion_technician").verbose_name.title()
         self.fields['call_received'].input_formats = DATETIME_INPUT_FORMATS
         self.fields['transplant_hospital'].required = False
+        self.fields['transplant_hospital'].label = Recipient._meta.get_field("transplant_hospital").verbose_name.title()
         self.fields['transplant_coordinator'].required = False
+        self.fields['transplant_coordinator'].label = Recipient._meta.get_field("transplant_coordinator").verbose_name.title()
         self.fields['scheduled_start'].input_formats = DATETIME_INPUT_FORMATS
         self.fields['technician_arrival'].input_formats = DATETIME_INPUT_FORMATS
         self.fields['depart_perfusion_centre'].input_formats = DATETIME_INPUT_FORMATS
