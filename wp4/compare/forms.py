@@ -512,6 +512,7 @@ class RecipientForm(forms.ModelForm):
     helper.form_tag = False
     helper.html5_required = True
     helper.layout = Div(
+        'organ',
         Div(
             FormPanel("Allocation Data", layout_allocation),
             FormPanel("Recipient Details", layout_recipient),

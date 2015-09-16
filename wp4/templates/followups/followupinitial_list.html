@@ -1,0 +1,14 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+
+{% block page_title %}Follow Up{% endblock %}
+{% block page_header %}Follow Ups - Listing{% endblock %}
+
+{% block content %}
+    <ul>
+        {% for follow in initial_list %}
+            <li><a href="{% url "followup:initial_detail" pk=follow.pk %}">{{ follow }}</a> <a href="{% url "followup:initial_update" pk=follow.pk %}"><i title="edit" class="glyphicon glyphicon-edit"></i></a> </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

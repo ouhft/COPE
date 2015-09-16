@@ -56,6 +56,7 @@ LOCAL_APPS = (
     'wp4.staff_person',
     'wp4.adverse_event',
     'wp4.samples',
+    'wp4.followups',
     'wp4.theme'
 )
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

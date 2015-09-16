@@ -1,0 +1,11 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_field %}
+
+{% block page_title %}Follow Up{% endblock %}
+{% block page_header %}Initial Follow Up - {{ form.instance.trial_id }}{% endblock %}
+
+{% block content %}
+    {% crispy form %}
+{% endblock %}

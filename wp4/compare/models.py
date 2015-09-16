@@ -46,7 +46,6 @@ class VersionControlModel(models.Model):
         abstract = True
 
 
-
 class RetrievalTeam(models.Model):
     centre_code = models.PositiveSmallIntegerField(
         verbose_name=_("HO02 centre code"),

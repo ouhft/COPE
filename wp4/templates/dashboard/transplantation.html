@@ -42,9 +42,9 @@
                 </p>
             </div>
 
-            <!-- Tab panes -->
-            <div class="tab-content col-md-9">
+            <div class="col-md-9">
                 <h2 class="sr-only visible-print">Donor</h2>
+                {{ recipient_form.errors }}
                 {% crispy recipient_form %}
             </div>
             {% csrf_token %}

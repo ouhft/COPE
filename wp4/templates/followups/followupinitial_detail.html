@@ -1,0 +1,81 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+
+{% block page_title %}Follow Up{% endblock %}
+{% block page_header %}Follow Up - {{ initial_obj }} <a href="{% url "followup:initial_update" pk=initial_obj.pk %}"><i class="glyphicon glyphicon-edit"></i></a>{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-4">
+            <h3>Graft</h3>
+            <ul>
+                <li>start_date: {{ initial_obj.start_date }}</li>
+                <li>graft_failure: {{ initial_obj.graft_failure }}</li>
+                <li>graft_failure_type: {{ initial_obj.graft_failure_type }}</li>
+                <li>graft_failure_type_other: {{ initial_obj.graft_failure_type_other }}</li>
+                <li>graft_failure_date: {{ initial_obj.graft_failure_date }}</li>
+                <li>graft_removal: {{ initial_obj.graft_removal }}</li>
+                <li>graft_removal_date: {{ initial_obj.graft_removal_date }}</li>
+            </ul>
+
+            <h3>HLA</h3>
+            <ul>
+                <li>hla_mismatch_a: {{ initial_obj.hla_mismatch_a }}</li>
+                <li>hla_mismatch_b: {{ initial_obj.hla_mismatch_b }}</li>
+                <li>hla_mismatch_dr: {{ initial_obj.hla_mismatch_dr }}</li>
+                <li>induction_therapy: {{ initial_obj.induction_therapy }}</li>
+                <li>immunosuppression: {{ initial_obj.immunosuppression }}</li>
+                <li>immunosuppression_other: {{ initial_obj.immunosuppression_other }}</li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <h3>Serum</h3>
+            <ul>
+                <li>serum_creatinine_1: {{ initial_obj.serum_creatinine_1 }}</li>
+                <li>serum_creatinine_1_unit: {{ initial_obj.serum_creatinine_1_unit }}</li>
+                <li>serum_creatinine_2: {{ initial_obj.serum_creatinine_2 }}</li>
+                <li>serum_creatinine_2_unit: {{ initial_obj.serum_creatinine_2_unit }}</li>
+                <li>serum_creatinine_3: {{ initial_obj.serum_creatinine_3 }}</li>
+                <li>serum_creatinine_3_unit: {{ initial_obj.serum_creatinine_3_unit }}</li>
+                <li>serum_creatinine_4: {{ initial_obj.serum_creatinine_4 }}</li>
+                <li>serum_creatinine_4_unit: {{ initial_obj.serum_creatinine_4_unit }}</li>
+                <li>serum_creatinine_5: {{ initial_obj.serum_creatinine_5 }}</li>
+                <li>serum_creatinine_5_unit: {{ initial_obj.serum_creatinine_5_unit }}</li>
+                <li>serum_creatinine_6: {{ initial_obj.serum_creatinine_6 }}</li>
+                <li>serum_creatinine_6_unit: {{ initial_obj.serum_creatinine_6_unit }}</li>
+                <li>serum_creatinine_7: {{ initial_obj.serum_creatinine_7 }}</li>
+                <li>serum_creatinine_7_unit: {{ initial_obj.serum_creatinine_7_unit }}</li>
+            </ul>
+
+            <h3>Rejection</h3>
+            <ul>
+                <li>rejection: {{ initial_obj.rejection }}</li>
+                <li>rejection_prednisolone: {{ initial_obj.rejection_prednisolone }}</li>
+                <li>rejection_drug: {{ initial_obj.rejection_drug }}</li>
+                <li>rejection_drug_other: {{ initial_obj.rejection_drug_other }}</li>
+                <li>rejection_biopsy: {{ initial_obj.rejection_biopsy }}</li>
+                <li>calcineurin: {{ initial_obj.calcineurin }}</li>
+                <li>discharge_date: {{ initial_obj.discharge_date }}</li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <h3>Dialysis</h3>
+            <ul>
+                <li>dialysis_requirement_1: {{ initial_obj.dialysis_requirement_1pk }}</li>
+                <li>dialysis_requirement_2: {{ initial_obj.dialysis_requirement_2pk }}</li>
+                <li>dialysis_requirement_3: {{ initial_obj.dialysis_requirement_3pk }}</li>
+                <li>dialysis_requirement_4: {{ initial_obj.dialysis_requirement_4pk }}</li>
+                <li>dialysis_requirement_5: {{ initial_obj.dialysis_requirement_5pk }}</li>
+                <li>dialysis_requirement_6: {{ initial_obj.dialysis_requirement_6pk }}</li>
+                <li>dialysis_requirement_7: {{ initial_obj.dialysis_requirement_7pk }}</li>
+                <li>dialysis_type: {{ initial_obj.dialysis_type }}</li>
+                <li>dialysis_cause: {{ initial_obj.dialysis_cause }}</li>
+                <li>dialysis_cause_other: {{ initial_obj.dialysis_cause_other }}</li>
+            </ul>
+            <h3>Notes</h3>
+            <ul>
+                <li>notes: {{ initial_obj.notes }}</li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}

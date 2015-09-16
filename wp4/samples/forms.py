@@ -47,5 +47,3 @@ class SampleForm(forms.ModelForm):
         sample.barcode = barcode_string
         sample.save()
         return sample
-
-
