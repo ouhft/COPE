@@ -153,7 +153,7 @@ class DonorForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(DonorForm, self).__init__(*args, **kwargs)
         self.fields['retrieval_team'].widget = forms.HiddenInput()
-        self.fields['retrieval_hospital'].label = Recipient._meta.get_field("retrieval_hospital").verbose_name.title()
+        self.fields['retrieval_hospital'].label = Donor._meta.get_field("retrieval_hospital").verbose_name.title()
         self.fields['sequence_number'].widget = forms.HiddenInput()
         self.fields['multiple_recipients'].choices = NO_YES_CHOICES
         self.fields['perfusion_technician'].widget = forms.HiddenInput()
