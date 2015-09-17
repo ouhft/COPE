@@ -6,14 +6,14 @@ Local settings
 
 '''
 
-print("DEBUG: Loading settings from production")
-
 from __future__ import absolute_import, unicode_literals
 from django.utils import six
 
 import logging
 
 from .common import *  # noqa
+
+print("DEBUG: Loading settings from production")
 
 # SECRET CONFIGURATION
 # ------------------------------------------------------------------------------
