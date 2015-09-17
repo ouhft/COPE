@@ -37,7 +37,7 @@ node_modules/
 # Compass
 .sass-cache
 
-# virtual environments
+# local environments
 *.env
 
 # SQLLite dbs
@@ -45,3 +45,6 @@ node_modules/
 
 # Codekit
 config.codekit
+
+# Django
+staticfiles/
