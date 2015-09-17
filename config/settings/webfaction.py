@@ -5,12 +5,12 @@ Local settings
 - Use djangosecure
 
 '''
-
-print("DEBUG: Loading settings from production")
-
 from __future__ import absolute_import, unicode_literals
 
 from .common import *  # noqa
+
+print("DEBUG: Loading settings from webfaction")
+
 
 # SECRET CONFIGURATION
 # ------------------------------------------------------------------------------
