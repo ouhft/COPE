@@ -13,7 +13,7 @@ Staging (Webfaction)
 ====================
 
 Used an existing site setup, which needs documenting at some stage, and cleared it out as much as possible of the
-previous application install (lots of pip uninstall, along with deleting a few files and folders)
+previous application install (lots of ``pip uninstall``, along with deleting a few files and folders)
 
 Commands from the initial setup that were used (though not necessarily the correct ones as this is taken from
 bash history on the server - and excludes the steps taken on the webfaction control panel)::
@@ -25,6 +25,8 @@ bash history on the server - and excludes the steps taken on the webfaction cont
     workon wp4_20150514
     ln -s ../../.virtualenvs/wp4_20150514/lib/ ./lib
 
+After the virtual environment is setup, the application code was put into place (this is from v0.2.0)::
+
     git clone git@github.com:AllyBradley/COPE.git
     cd COPE/
     git checkout testing
@@ -33,7 +35,7 @@ bash history on the server - and excludes the steps taken on the webfaction cont
     pm migrate
     pm collectstatic
 
-After the virtual environment is setup, the application code was put into place, and Apache was then configured::
+...and Apache was then configured::
 
     cd apache2/conf/
     cp httpd.conf httpd.conf.orig
@@ -55,7 +57,11 @@ Create a link to the auto-deploy script and add it to the crontab::
     crontab -e    # To edit the cron record, and to insert...
     */2 * * * * $HOME/webapps/wp4_django/update_by_cron.sh >> $HOME/webapps/wp4_django/cron-wp4_django.log 2>&1
 
-The apache2 httpd.conf looks like this presently::
+---------------------
+Footnotes for Staging
+---------------------
+
+The apache2 ``httpd.conf`` looks like this presently (copy in ``deploy/httpd.conf.webfaction``)::
 
     ServerRoot "/home/cm13/webapps/wp4_django/apache2"
 
