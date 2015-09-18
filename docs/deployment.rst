@@ -2,10 +2,7 @@
 Home development
 ================
 
-
-
-
-
+Notes on this will come later...
 
 
 ====================
@@ -110,3 +107,96 @@ Unrelated, but likely useful to remember: Command to get pip to update all insta
 =====================
 Production (cope.nds)
 =====================
+
+An Ubuntu 14.04 LTS Server virtual machine has been created and hosted by MSD-IT Services. This is the unmanaged
+service, which means that we are responsible for it's patching and upkeep. Initial steps so far have been to change
+the user account password (u: copeuser - p: in carl's password safe). Installing ssh keys will happen soon. Access
+to the server should be via ssh (only from Oxford network, including vpn) and via the VMWare web console (oxford network
+only - https://fibula.msd.ox.ac.uk/ )
+
+Setup is going to be loosely based on the guides from https://www.chicagodjango.com/blog/new-server-setup-part-1/ and
+https://www.chicagodjango.com/blog/new-django-server-setup-part-2/ as these are inline with the best practice information
+in the Two Scoops of Django 1.8: Best Practices guide (see Chapter 31).
+
+Access
+------
+
+So, initially we have access via ``ssh copeuser@cope.nds.ox.ac.uk``, and using a password. Step two is to install our
+SSH key (iMac@Home presently). Step one is we need to generate an ssh key for the server to register with github for
+access to the repoistory. Help is at https://help.ubuntu.com/community/SSH/OpenSSH/Keys . To whit::
+
+    copeuser@cope:~$ mkdir ~/.ssh
+    copeuser@cope:~$ chmod 700 ~/.ssh
+    copeuser@cope:~$ ssh-keygen -t rsa -b 4096
+    Generating public/private rsa key pair.
+    Enter file in which to save the key (/home/copeuser/.ssh/id_rsa):
+    Enter passphrase (empty for no passphrase):
+    Enter same passphrase again:
+    Your identification has been saved in /home/copeuser/.ssh/id_rsa.
+    Your public key has been saved in /home/copeuser/.ssh/id_rsa.pub.
+    The key fingerprint is:
+    05:98:8b:94:f7:cf:7a:2d:19:61:26:52:41:d5:96:10 copeuser@cope
+    The key's randomart image is:
+    +--[ RSA 4096]----+
+    |     . ++oE+ .   |
+    |    o + ..  +    |
+    |   . o +  ..     |
+    |    . o o.+      |
+    |       .S* .     |
+    |          +      |
+    |         . +     |
+    |        . + .    |
+    |         . .     |
+    +-----------------+
+
+This set of keys is passphrase free because of the automated usage (i.e. scripts using it to access things).
+
+Copy own .pub key to the server (SFTP), and then::
+
+    mv id_rsa.pub .ssh/carl_imac.id_rsa.pub
+    cat carl_imac.id_rsa.pub >> authorized_keys
+
+Also, minor edit to ``sudo vi /etc/ssh/sshd_config`` so that ``AuthorizedKeysFile      %h/.ssh/authorized_keys`` is
+uncommented. Sudo usage will continue to require password confirmation, however we can now login without needing the
+password from SSH.
+
+I have added the server's pub key to my list of Github keys, so that it can log in as marshalc.
+
+Software stack
+--------------
+
+For now I'm happy to go with Nginx (for static), Gunicorn (for application), and SQLite (for datastore). System's
+version of python is 2.7.6, which is currently fine for use, so will skip installing a local instance of python. Not
+requiring any particular caching installation at this time either, so in the interests of KISS, we will install as
+little as possible.
+
+**Maintainence**
+
+Don't forget to keep things up to date with (https://help.ubuntu.com/community/AptGet/Howto )::
+
+    sudo apt-get update
+    sudo apt-get upgrade
+    sudo apt-get check
+    sudo apt-get autoclean
+
+**Installation**
+
+Follow guide plus above we have::
+
+    sudo apt-get install python-pip python-virtualenv
+    sudo apt-get install python python-dev python-setuptools
+    sudo apt-get install build-essential    # Was redundant because the above had already got this
+    sudo apt-get install git
+    sudo apt-get install supervisor postfix ntp
+
+Postfix will ask for some config, so it is set to use a mail-relay/smarthost for sending messages, and then::
+
+    setting myhostname: cope.nds
+    setting alias maps
+    setting alias database
+    changing /etc/mailname to cope.nds.ox.ac.uk
+    setting myorigin
+    setting destinations: cope.nds.ox.ac.uk, cope.nds, localhost.nds, localhost
+    setting relayhost: oxmail.ox.ac.uk
+
+Current info on the Oxford smarthost is at http://help.it.ox.ac.uk/network/smtp/relay/index
