@@ -178,6 +178,7 @@ Don't forget to keep things up to date with (https://help.ubuntu.com/community/A
     sudo apt-get upgrade
     sudo apt-get check
     sudo apt-get autoclean
+    sudo shutdown -r now
 
 **Installation**
 
@@ -200,3 +201,76 @@ Postfix will ask for some config, so it is set to use a mail-relay/smarthost for
     setting relayhost: oxmail.ox.ac.uk
 
 Current info on the Oxford smarthost is at http://help.it.ox.ac.uk/network/smtp/relay/index
+
+Grab the file server and some other useful apps::
+
+    sudo apt-get install nginx
+    sudo apt-get install pwgen htop curl rsync nmon dnsutils \
+          screen tmux ack-grep whois sqlite3 sshfs openssh-client \
+          openssh-server libssl-dev libreadline-dev aptitude fail2ban \
+          libxml2-dev libxslt-dev graphviz graphviz-dev csstidy \
+          emacs23-nox vim ncurses-dev iotop nload iptraf-ng nethogs
+
+Note that we got sqlite3 in that last batch of utils (in place of the postgres option from the guide)
+
+User setup
+----------
+
+::
+
+    sudo addgroup worker
+    sudo usermod -aG worker copeuser
+    sudo sh -c 'echo "umask 002" >> /etc/profile'
+    sudo useradd application_user
+    sudo mkdir /sites
+    sudo chown root:worker /sites/
+    sudo chmod 775 /sites/
+
+Remember to logout and back in again here so that any further work done as ``copeuser`` will have the ``worker``
+group rights and therefore won't need sudo all the time. ::
+
+    cd /sites/
+    mkdir cope
+
+VirtualEnvWrapper Installation
+------------------------------
+
+The wrapper isn't installed as part of the apt-get process, so we do this following the instructions from
+http://virtualenvwrapper.readthedocs.org/en/latest/install.html#basic-installation . ::
+
+    sudo pip install virtualenvwrapper
+    vi ~/.bashrc
+
+Appending::
+
+    # Setup VirtualEnvWrapper for this user
+    export WORKON_HOME=/sites/.virtualenvs
+    export PROJECT_HOME=/sites
+    source /usr/local/bin/virtualenvwrapper.sh
+
+Then returning and::
+    source ~/.bashrc
+
+Site setup
+----------
+
+Create a new virtualenv project with ``mkproject cope``. Note that the ``bin/``, ``lib/`` directories are in the
+``/sites/.virtualenvs/cope/`` folder ::
+
+    copeuser@cope:~$ mkproject cope
+    New python executable in cope/bin/python
+    Installing setuptools, pip...done.
+    virtualenvwrapper.user_scripts creating /sites/.virtualenvs/cope/bin/predeactivate
+    virtualenvwrapper.user_scripts creating /sites/.virtualenvs/cope/bin/postdeactivate
+    virtualenvwrapper.user_scripts creating /sites/.virtualenvs/cope/bin/preactivate
+    virtualenvwrapper.user_scripts creating /sites/.virtualenvs/cope/bin/postactivate
+    virtualenvwrapper.user_scripts creating /sites/.virtualenvs/cope/bin/get_env_details
+
+    git clone git@github.com:AllyBradley/COPE.git cope_repo
+    mkdir -p var/log var/run etc/nginx htdocs/media
+
+Now we have: ``/sites/{{ENVIRONMENT_ROOT}}/{{PROJECT_ROOT}}/`` as ``/sites/cope/cope_repo`` (or in terms of the online
+guide we have: ``/sites/{{site_name}}/{{proj_name}}/``)
+
+Tweak nginx core config with ``sudo vi /etc/nginx/nginx.conf`` and add ``daemon off`` near the top few lines
+
