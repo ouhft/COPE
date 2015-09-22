@@ -310,13 +310,11 @@ Now we need to get some application code install done so that things like gunico
     vi local.env                           # set debug to off, and then create a secret key, and set Static and Media root to the htdocs directory
     python manage.py check                 # Should return 0 errors
     python manage.py migrate
+    python manage.py collectstatic         # NB: Should point to the htdocs folder and ask for confirmation
     python manage.py createsuperuser       # superuser is 'carl'
     python manage.py loaddata config/fixtures/01_hospitals.json
     python manage.py loaddata config/fixtures/02_persons.json
     python manage.py loaddata config/fixtures/03_gradings.json
-
-
-
 
 Now do a quick sweep of the files to ensure permissions are suitably set so far...::
 
