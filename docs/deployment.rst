@@ -282,7 +282,7 @@ Create a new virtualenv project with ``mkproject cope``. Note that the ``bin/``,
     # NB: cwd is /sites/cope
     git clone git@github.com:AllyBradley/COPE.git cope_repo
     git checkout production
-    mkdir -p var/log var/run etc/nginx htdocs/media
+    mkdir -p var/log var/run etc/nginx htdocs/media etc/gunicorn
     ln -s /sites/.virtualenvs/cope/lib ./lib
     ln -s /sites/.virtualenvs/cope/bin ./bin
 
@@ -295,6 +295,28 @@ can link to the conf files from the repository. First to the local folder, then 
     ln -s /sites/cope/cope_repo/deploy/production/etc/nginx/locations.conf /sites/cope/etc/nginx/locations.conf
     ln -s /sites/cope/cope_repo/deploy/production/etc/nginx/server.conf /sites/cope/etc/nginx/server.conf
     ln -s /sites/cope/etc/nginx/server.conf /etc/nginx/conf.d/cope.conf
+
+    sudo ln -s /sites/cope/cope_repo/deploy/production/etc/supervisor/conf.d/nginx.conf /etc/supervisor/conf.d/nginx.conf
+    sudo ln -s /sites/cope/cope_repo/deploy/production/etc/supervisor/conf.d/django.conf /etc/supervisor/conf.d/django.conf
+
+    ln -s /sites/cope/cope_repo/deploy/production/etc/gunicorn/gunicorn.py /sites/cope/etc/gunicorn/gunicorn.py
+
+Now we need to get some application code install done so that things like gunicorn are actually installed::
+
+    pip install -r cope_repo/requirements/production.txt
+    cd cope-repo/
+    sudo chmod 775 manage.py
+    cp local.env.template local.env
+    vi local.env                           # set debug to off, and then create a secret key, and set Static and Media root to the htdocs directory
+    python manage.py check                 # Should return 0 errors
+    python manage.py migrate
+    python manage.py createsuperuser       # superuser is 'carl'
+    python manage.py loaddata config/fixtures/01_hospitals.json
+    python manage.py loaddata config/fixtures/02_persons.json
+    python manage.py loaddata config/fixtures/03_gradings.json
+
+
+
 
 Now do a quick sweep of the files to ensure permissions are suitably set so far...::
 
@@ -312,8 +334,7 @@ following permission guidelines.
 * Directories should be set to 2775 (set GID set).
 * All other files should be set to 664 unless there's a good reason not to do so.
 
-
-
+Restarting server with ``sudo shutdown -r now`` to test the above configurations
 
 
 

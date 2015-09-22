@@ -49,7 +49,10 @@ SECURE_SSL_REDIRECT = env.bool("DJANGO_SECURE_SSL_REDIRECT", default=True)
 ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['example.com'])
 # END SITE CONFIGURATION
 
-# INSTALLED_APPS += ("gunicorn", )
+INSTALLED_APPS += ("gunicorn", )
+
+STATIC_ROOT = env('STATIC_FILES_ROOT', default=STATIC_ROOT)
+MEDIA_ROOT = env('MEDIA_FILES_ROOT', default=MEDIA_ROOT)
 
 
 # Mail settings
