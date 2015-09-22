@@ -178,6 +178,11 @@ Don't forget to keep things up to date with (https://help.ubuntu.com/community/A
     sudo apt-get upgrade
     sudo apt-get check
     sudo apt-get autoclean
+
+    # Remove some default processes and packages that we don't need to reduce server exposure
+    sudo apt-get remove tomcat7 tomcat7-docs tomcat7-admin tomcat7-examples default-jdk
+    sudo apt-get remove postgresql postgresql-9.3 postgresql-client postgresql-client-9.3 postgresql-client-common postgresql-common postgresql-contrib postgresql-contrib-9.3 postgresql-doc postgresql-doc-9.3
+
     sudo shutdown -r now
 
 **Installation**
@@ -213,15 +218,23 @@ Grab the file server and some other useful apps::
 
 Note that we got sqlite3 in that last batch of utils (in place of the postgres option from the guide)
 
+We want to stop nginx from being run at server startup though, and let Supervisor handle that later on, so we need to
+disable the link for init.d ::
+
+    sudo rm /etc/rc2.d/S19postgresql /etc/rc2.d/S92tomcat7     # CLEANUP FROM EARLIER
+    sudo mv /etc/rc2.d/S20nginx /etc/rc2.d/K20nginx
+    update-rc.d script defaults
+
+
 User setup
 ----------
 
-::
+We're not using the application user from the guide here, but using the nginx defined www-data user as the application
+user::
 
     sudo addgroup worker
     sudo usermod -aG worker copeuser
     sudo sh -c 'echo "umask 002" >> /etc/profile'
-    sudo useradd application_user
     sudo mkdir /sites
     sudo chown root:worker /sites/
     sudo chmod 775 /sites/
@@ -266,11 +279,52 @@ Create a new virtualenv project with ``mkproject cope``. Note that the ``bin/``,
     virtualenvwrapper.user_scripts creating /sites/.virtualenvs/cope/bin/postactivate
     virtualenvwrapper.user_scripts creating /sites/.virtualenvs/cope/bin/get_env_details
 
+    # NB: cwd is /sites/cope
     git clone git@github.com:AllyBradley/COPE.git cope_repo
+    git checkout production
     mkdir -p var/log var/run etc/nginx htdocs/media
+    ln -s /sites/.virtualenvs/cope/lib ./lib
+    ln -s /sites/.virtualenvs/cope/bin ./bin
 
 Now we have: ``/sites/{{ENVIRONMENT_ROOT}}/{{PROJECT_ROOT}}/`` as ``/sites/cope/cope_repo`` (or in terms of the online
 guide we have: ``/sites/{{site_name}}/{{proj_name}}/``)
 
-Tweak nginx core config with ``sudo vi /etc/nginx/nginx.conf`` and add ``daemon off`` near the top few lines
+Tweak nginx core config with ``sudo vi /etc/nginx/nginx.conf`` and add ``daemon off;`` near the top few lines, then we
+can link to the conf files from the repository. First to the local folder, then to the system folder. ::
 
+    ln -s /sites/cope/cope_repo/deploy/production/etc/nginx/locations.conf /sites/cope/etc/nginx/locations.conf
+    ln -s /sites/cope/cope_repo/deploy/production/etc/nginx/server.conf /sites/cope/etc/nginx/server.conf
+    ln -s /sites/cope/etc/nginx/server.conf /etc/nginx/conf.d/cope.conf
+
+Now do a quick sweep of the files to ensure permissions are suitably set so far...::
+
+    sudo chown -R www-data:worker /sites/cope
+    sudo chmod -R g+w /sites/cope
+    sudo find /sites/cope -type d -exec chmod g+s {} \;
+
+Generally speaking, we try to give each file and directory the minimum permissions necessary. We try to abide by the
+following permission guidelines.
+
+* Python (*.py) files should have 664 set on them UNLESS a user is to directly execute the Python file from the command
+  line as a script (i.e. manage.py). Executable Python scripts should be set to 775.
+* Script (*.sh) files should be set to 775.
+* Static files (*.html, *.css, *.jpg, *.png, etc) should be set to 664.
+* Directories should be set to 2775 (set GID set).
+* All other files should be set to 664 unless there's a good reason not to do so.
+
+
+
+
+
+
+
+
+
+------------------------
+Footnotes for Production
+------------------------
+
+Useful commands:
+* ``sudo cut -d: -f1 /etc/passwd`` -- lists all users
+* ``sudo apt-get --purge remove {{package-name}}`` -- remove an installed package and config files
+* ``apt --installed list`` -- list all installed packages
