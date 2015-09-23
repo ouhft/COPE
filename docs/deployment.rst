@@ -282,7 +282,7 @@ Create a new virtualenv project with ``mkproject cope``. Note that the ``bin/``,
     # NB: cwd is /sites/cope
     git clone git@github.com:AllyBradley/COPE.git cope_repo
     git checkout production
-    mkdir -p var/log var/run etc/nginx htdocs/media etc/gunicorn
+    mkdir -p var/log var/run etc/nginx/sites-available htdocs/media etc/gunicorn
     ln -s /sites/.virtualenvs/cope/lib ./lib
     ln -s /sites/.virtualenvs/cope/bin ./bin
 
@@ -292,9 +292,9 @@ guide we have: ``/sites/{{site_name}}/{{proj_name}}/``)
 Tweak nginx core config with ``sudo vi /etc/nginx/nginx.conf`` and add ``daemon off;`` near the top few lines, then we
 can link to the conf files from the repository. First to the local folder, then to the system folder. ::
 
-    ln -s /sites/cope/cope_repo/deploy/production/etc/nginx/locations.conf /sites/cope/etc/nginx/locations.conf
-    ln -s /sites/cope/cope_repo/deploy/production/etc/nginx/server.conf /sites/cope/etc/nginx/server.conf
-    ln -s /sites/cope/etc/nginx/server.conf /etc/nginx/conf.d/cope.conf
+    ln -s /sites/cope/cope_repo/deploy/production/etc/nginx/sites-available/cope.conf /sites/cope/etc/nginx/sites-available/cope.conf
+    sudo ln -s /sites/cope/etc/nginx/sites-available/cope.conf /etc/nginx/sites-available/cope.conf
+    sudo ln -s /etc/nginx/sites-available/cope.conf /etc/nginx/sites-enabled/cope.conf
 
     sudo ln -s /sites/cope/cope_repo/deploy/production/etc/supervisor/conf.d/nginx.conf /etc/supervisor/conf.d/nginx.conf
     sudo ln -s /sites/cope/cope_repo/deploy/production/etc/supervisor/conf.d/django.conf /etc/supervisor/conf.d/django.conf
