@@ -340,6 +340,11 @@ following permission guidelines.
 
 Restarting server with ``sudo shutdown -r now`` to test the above configurations
 
+SSL Certificate
+---------------
+
+https://help.ubuntu.com/lts/serverguide/certificates-and-security.html
+
 
 
 
@@ -350,6 +355,7 @@ Restarting server with ``sudo shutdown -r now`` to test the above configurations
 * Check port 443 is open on MSD-IT firewall
 * Configure Nginx to do the SSL certificate
 * Register for and SSL cert
+* Run the django-secure scan
 
 
 ------------------------
@@ -362,3 +368,15 @@ Useful commands:
 * ``apt --installed list`` -- list all installed packages
 * ``sudo netstat -peanut``  -- list all ports in use on system
 * ``ps -auxf`` -- list all processes in a tree showing originating process
+
+Reference urls:
+* Gunicorn - http://docs.gunicorn.org/en/latest/index.html
+* Supervisor - http://supervisord.org/index.html
+* Django Security - https://docs.djangoproject.com/en/1.8/topics/security/
+* NGinx Admin Guide - https://www.nginx.com/resources/admin-guide/
+* NGinx Getting Started Wiki - https://www.nginx.com/resources/wiki/start/
+* NGinx Beginners Guide - http://nginx.org/en/docs/beginners_guide.html
+* Ubuntu Apt-Get Guide - https://help.ubuntu.com/community/AptGet/Howto#Search_commands
+* Django Secure - http://django-secure.readthedocs.org/en/latest/
+
+
