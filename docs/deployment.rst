@@ -337,6 +337,14 @@ Restarting server with ``sudo shutdown -r now`` to test the above configurations
 
 
 
+WIP:
+* Test application runs using runserver
+ * Needs to have SSL redirect disabled so that it responds on http
+* Test application runs using gunicorn
+* Get the supervisor gunicorn command line to work
+ * issue with not being in the correct path and unable to find config.wsgi
+
+
 
 
 ------------------------
@@ -347,3 +355,5 @@ Useful commands:
 * ``sudo cut -d: -f1 /etc/passwd`` -- lists all users
 * ``sudo apt-get --purge remove {{package-name}}`` -- remove an installed package and config files
 * ``apt --installed list`` -- list all installed packages
+* ``sudo netstat -peanut``  -- list all ports in use on system
+* ``ps -auxf`` -- list all processes in a tree showing originating process
