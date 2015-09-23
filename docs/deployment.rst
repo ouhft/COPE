@@ -116,7 +116,8 @@ only - https://fibula.msd.ox.ac.uk/ )
 
 Setup is going to be loosely based on the guides from https://www.chicagodjango.com/blog/new-server-setup-part-1/ and
 https://www.chicagodjango.com/blog/new-django-server-setup-part-2/ as these are inline with the best practice information
-in the Two Scoops of Django 1.8: Best Practices guide (see Chapter 31).
+in the Two Scoops of Django 1.8: Best Practices guide (see Chapter 31). More useful though is the guide from
+http://michal.karzynski.pl/blog/2013/06/09/django-nginx-gunicorn-virtualenv-supervisor/ (which I've used in the past).
 
 Access
 ------
@@ -209,14 +210,14 @@ Current info on the Oxford smarthost is at http://help.it.ox.ac.uk/network/smtp/
 
 Grab the file server and some other useful apps::
 
-    sudo apt-get install nginx
+    sudo apt-get install nginx sqlite3
     sudo apt-get install pwgen htop curl rsync nmon dnsutils \
-          screen tmux ack-grep whois sqlite3 sshfs openssh-client \
+          screen tmux ack-grep whois sshfs openssh-client \
           openssh-server libssl-dev libreadline-dev aptitude fail2ban \
           libxml2-dev libxslt-dev graphviz graphviz-dev csstidy \
-          emacs23-nox vim ncurses-dev iotop nload iptraf-ng nethogs
+          emacs23-nox vim ncurses-dev iotop nload iptraf-ng nethogs tree
 
-Note that we got sqlite3 in that last batch of utils (in place of the postgres option from the guide)
+Note that we got sqlite3 in place of the postgres option from the guide.
 
 We want to stop nginx from being run at server startup though, and let Supervisor handle that later on, so we need to
 disable the link for init.d ::
@@ -232,19 +233,18 @@ User setup
 We're not using the application user from the guide here, but using the nginx defined www-data user as the application
 user::
 
+    sudo mkdir -p /sites/cope
     sudo groupadd --system worker
-    sudo usermod -aG worker www-data        # This is the application_user from the nginx config
-    sudo usermod -aG worker copeuser
-    sudo sh -c 'echo "umask 002" >> /etc/profile'
-    sudo mkdir /sites
     sudo chown root:worker /sites/
     sudo chmod 775 /sites/
+    sudo useradd --system --gid worker --shell /bin/bash --home /sites/cope cope-app-user
+    sudo usermod -aG worker www-data        # This is the application_user from the nginx config
+    sudo usermod -aG worker copeuser        # This is the MSD-IT created user account
+    sudo sh -c 'echo "umask 002" >> /etc/profile'
 
 Remember to logout and back in again here so that any further work done as ``copeuser`` will have the ``worker``
-group rights and therefore won't need sudo all the time. ::
+group rights and therefore won't need sudo all the time.
 
-    cd /sites/
-    mkdir cope
 
 VirtualEnvWrapper Installation
 ------------------------------
@@ -255,7 +255,7 @@ http://virtualenvwrapper.readthedocs.org/en/latest/install.html#basic-installati
     sudo pip install virtualenvwrapper
     vi ~/.bashrc
 
-Appending::
+Appending to .bashrc ::
 
     # Setup VirtualEnvWrapper for this user
     export WORKON_HOME=/sites/.virtualenvs
@@ -264,6 +264,7 @@ Appending::
 
 Then returning and::
     source ~/.bashrc
+
 
 Site setup
 ----------
@@ -293,6 +294,7 @@ guide we have: ``/sites/{{site_name}}/{{proj_name}}/``)
 Tweak nginx core config with ``sudo vi /etc/nginx/nginx.conf`` and add ``daemon off;`` near the top few lines, then we
 can link to the conf files from the repository. First to the local folder, then to the system folder. ::
 
+    # NB: cwd is /sites/cope
     ln -s /sites/cope/cope_repo/deploy/production/etc/nginx/sites-available/cope.conf /sites/cope/etc/nginx/sites-available/cope.conf
     sudo ln -s /sites/cope/etc/nginx/sites-available/cope.conf /etc/nginx/sites-available/cope.conf
     sudo ln -s /etc/nginx/sites-available/cope.conf /etc/nginx/sites-enabled/cope.conf
@@ -302,12 +304,14 @@ can link to the conf files from the repository. First to the local folder, then 
     sudo ln -s /sites/cope/cope_repo/deploy/production/etc/supervisor/conf.d/django.conf /etc/supervisor/conf.d/django.conf
 
     ln -s /sites/cope/cope_repo/deploy/production/bin/gunicorn_start.sh /sites/cope/bin/gunicorn_start.sh
+    chmod 775 /sites/cope/cope_repo/deploy/production/bin/gunicorn_start.sh
 
 Now we need to get some application code install done so that things like gunicorn are actually installed::
 
+    # NB: cwd is /sites/cope
     pip install -r cope_repo/requirements/production.txt
     cd cope-repo/
-    sudo chmod 775 manage.py
+    chmod 775 manage.py
     cp local.env.template local.env
     vi local.env                           # set debug to off, and then create a secret key, and set Static and Media root to the htdocs directory
     python manage.py check                 # Should return 0 errors
@@ -339,14 +343,13 @@ Restarting server with ``sudo shutdown -r now`` to test the above configurations
 
 
 
-WIP:
-* Test application runs using runserver
- * Needs to have SSL redirect disabled so that it responds on http
-* Test application runs using gunicorn
-* Get the supervisor gunicorn command line to work
- * issue with not being in the correct path and unable to find config.wsgi
 
+**TODO**
 
+* Remove the SSL redirect off command from local.env
+* Check port 443 is open on MSD-IT firewall
+* Configure Nginx to do the SSL certificate
+* Register for and SSL cert
 
 
 ------------------------
