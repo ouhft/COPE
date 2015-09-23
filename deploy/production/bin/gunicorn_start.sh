@@ -4,7 +4,7 @@ NAME="cope_app"                                   # Name of the application
 APP_ROOT=/sites/cope                              # Application root path
 DJANGODIR=$APP_ROOT/cope_repo                     # Django project directory
 SOCKFILE=$APP_ROOT/var/run/wsgi.socket            # we will communicte using this unix socket
-USER=www-data                                     # the user to run as
+USER=cope-app-user                                # the user to run as
 GROUP=worker                                      # the group to run as
 NUM_WORKERS=3                                     # how many worker processes should Gunicorn spawn
 DJANGO_SETTINGS_MODULE=config.settings.production # which settings file should Django use
@@ -16,8 +16,8 @@ echo "Starting $NAME as `whoami`"
 # Activate the virtual environment
 cd $DJANGODIR
 source ../bin/activate
-export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
-export PYTHONPATH=$DJANGODIR:$PYTHONPATH
+# export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
+# export PYTHONPATH=$DJANGODIR:$PYTHONPATH
 
 # Create the run directory if it doesn't exist
 RUNDIR=$(dirname $SOCKFILE)

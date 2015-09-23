@@ -232,7 +232,8 @@ User setup
 We're not using the application user from the guide here, but using the nginx defined www-data user as the application
 user::
 
-    sudo addgroup worker
+    sudo groupadd --system worker
+    sudo usermod -aG worker www-data        # This is the application_user from the nginx config
     sudo usermod -aG worker copeuser
     sudo sh -c 'echo "umask 002" >> /etc/profile'
     sudo mkdir /sites
