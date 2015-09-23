@@ -1,0 +1,634 @@
+/sites
+└── cope
+    ├── bin -> /sites/.virtualenvs/cope/bin
+    ├── cope_repo
+    │   ├── config
+    │   │   ├── fixtures
+    │   │   │   ├── 01_hospitals.json
+    │   │   │   ├── 02_persons.json
+    │   │   │   ├── 03_gradings.json
+    │   │   │   ├── 09_testusers.json
+    │   │   │   └── __init__.py
+    │   │   ├── __init__.py
+    │   │   ├── __init__.pyc
+    │   │   ├── settings
+    │   │   │   ├── common.py
+    │   │   │   ├── common.pyc
+    │   │   │   ├── dev_home.py
+    │   │   │   ├── __init__.py
+    │   │   │   ├── __init__.pyc
+    │   │   │   ├── production.py
+    │   │   │   ├── production.pyc
+    │   │   │   └── webfaction.py
+    │   │   ├── urls.py
+    │   │   ├── urls.pyc
+    │   │   ├── wsgi.py
+    │   │   └── wsgi.pyc
+    │   ├── db.sqlite3
+    │   ├── deploy
+    │   │   ├── ICD10
+    │   │   │   ├── From cdc.gov
+    │   │   │   │   ├── allvalid2011 (detailed titles headings).pdf
+    │   │   │   │   ├── allvalid2011 (detailed titles headings).txt
+    │   │   │   │   ├── allvalid2011 (detailed titles headings).xls
+    │   │   │   │   ├── ICD10CM_FY2016_code_descriptions
+    │   │   │   │   │   ├── icd10cm_order_2016.txt
+    │   │   │   │   │   └── icd10OrderFiles.pdf
+    │   │   │   │   ├── ICD10CM_FY2016_code_descriptions.zip
+    │   │   │   │   ├── ICD10CM_FY2016_ Full_ XML
+    │   │   │   │   │   ├── Drug.xml
+    │   │   │   │   │   ├── E-Index.xml
+    │   │   │   │   │   ├── Index.xml
+    │   │   │   │   │   ├── Neoplasm.xml
+    │   │   │   │   │   └── Tabular.xml
+    │   │   │   │   ├── ICD10CM_FY2016_ Full_ XML.ZIP
+    │   │   │   │   └── readme.txt
+    │   │   │   └── From who.int
+    │   │   │       └── icdClaML2010ens
+    │   │   │           ├── claml.dtd
+    │   │   │           └── icd102010en.xml
+    │   │   ├── production
+    │   │   │   ├── bin
+    │   │   │   │   └── gunicorn_start.sh
+    │   │   │   └── etc
+    │   │   │       ├── nginx
+    │   │   │       │   └── sites-available
+    │   │   │       │       └── cope.conf
+    │   │   │       └── supervisor
+    │   │   │           └── conf.d
+    │   │   │               ├── django.conf
+    │   │   │               └── nginx.conf
+    │   │   ├── virtualenv_default.txt
+    │   │   └── webfaction
+    │   │       ├── deploy-cm13.sh
+    │   │       └── httpd.conf.webfaction
+    │   ├── docs
+    │   │   ├── deployment.rst
+    │   │   ├── files
+    │   │   │   ├── COMPARE SAP_v0.4 27Oct2014.docx
+    │   │   │   ├── COPE COMPARE 29082014.pptx
+    │   │   │   ├── COPE_WP4_Logistics Manual UK side_version 1_28May2015.pdf
+    │   │   │   ├── DataContext.edmx
+    │   │   │   ├── EntityDesignerDiagram.png
+    │   │   │   ├── MEDDEV 2.7:3 - SAE Reporting - 2_7_3_en.pdf
+    │   │   │   ├── Profiles.docx
+    │   │   │   ├── Profiles eCRF.xlsx
+    │   │   │   ├── SAEReportingAmendment_AB.docx
+    │   │   │   ├── SAEReportingAmendment.docx
+    │   │   │   ├── UK (English) EQ-5D-5L.pdf
+    │   │   │   ├── WP4_COMPARE_Protocol_v3 0_26Aug2014.docx
+    │   │   │   ├── WP4_COMPARE_Protocol_v4 0_30april2015_SM.PDF
+    │   │   │   ├── WP4_COMPARE_ResourceUseQuestionnaire_v.1.0_shortversion.docx
+    │   │   │   ├── WP4_ DataMatrix_V1 3_Final_Draft2.xlsx
+    │   │   │   ├── WP4 Donor SOPv.7.1_FINAL.pdf
+    │   │   │   ├── wp4_final.csv
+    │   │   │   ├── WP4 Flow Chart_.pdf
+    │   │   │   ├── WP4_follow-up Data_ v1 0_04May2015.docx
+    │   │   │   ├── WP4_follow-up Data_ v2.0_25Aug2015.docx
+    │   │   │   ├── WP4_List_of_Adverse_Events_v1 0_19Feb2015.xlsx
+    │   │   │   ├── WP4_Procurement Data_v1.0_19Feb2015_ContinentalEurope.docx
+    │   │   │   ├── WP4_Procurement Data_v1 0_19Feb2015 paper version.docx
+    │   │   │   ├── WP4_Procurement Data_v1.0_20Feb2015_UK.docx
+    │   │   │   ├── WP4_Procurement Data_v2.0_25Aug2015.docx
+    │   │   │   ├── WP4_Procurement Data_v2.0_28Aug2015_UK.docx
+    │   │   │   ├── WP4 Recipient SOP_v.6.2.pdf
+    │   │   │   ├── WP4 recipient worksheet continental  UK050615.pdf
+    │   │   │   ├── WP4_SAEReporting_v1 0_19Feb2015.docx
+    │   │   │   ├── WP4_Transplantation Data_v1.0_19Feb2015_ContinentalEurope.docx
+    │   │   │   ├── WP4_Transplantation Data_v1 0_19Feb2015 paper version.docx
+    │   │   │   ├── WP4_Transplantation Data_v1.0_20Feb2015_UK.docx
+    │   │   │   ├── WP4_Transplantation Data_v2.0_25Aug2015.docx
+    │   │   │   ├── WP4_Transplantation Data_v2.0_28Aug2015_UK.docx
+    │   │   │   └── WP4 UK  Donor worksheet 1908201414.pdf
+    │   │   ├── index.rst
+    │   │   └── __init__.py
+    │   ├── local.env
+    │   ├── local.env.template
+    │   ├── manage.py
+    │   ├── README.md
+    │   ├── requirements
+    │   │   ├── common.txt
+    │   │   ├── dev_home.txt
+    │   │   ├── production.txt
+    │   │   └── webfaction.txt
+    │   ├── tree.txt
+    │   └── wp4
+    │       ├── adverse_event
+    │       │   ├── admin.py
+    │       │   ├── admin.pyc
+    │       │   ├── forms.py
+    │       │   ├── forms.pyc
+    │       │   ├── __init__.py
+    │       │   ├── __init__.pyc
+    │       │   ├── migrations
+    │       │   │   ├── 0001_initial.py
+    │       │   │   ├── 0001_initial.pyc
+    │       │   │   ├── __init__.py
+    │       │   │   └── __init__.pyc
+    │       │   ├── models.py
+    │       │   ├── models.pyc
+    │       │   ├── urls.py
+    │       │   ├── urls.pyc
+    │       │   ├── views.py
+    │       │   └── views.pyc
+    │       ├── compare
+    │       │   ├── admin.py
+    │       │   ├── admin.pyc
+    │       │   ├── fixtures
+    │       │   │   └── __init__.py
+    │       │   ├── forms.py
+    │       │   ├── forms.pyc
+    │       │   ├── __init__.py
+    │       │   ├── __init__.pyc
+    │       │   ├── migrations
+    │       │   │   ├── 0001_initial.py
+    │       │   │   ├── 0001_initial.pyc
+    │       │   │   ├── 0002_recipient_journey_remarks.py
+    │       │   │   ├── 0002_recipient_journey_remarks.pyc
+    │       │   │   ├── 0003_auto_20150914_1426.py
+    │       │   │   ├── 0003_auto_20150914_1426.pyc
+    │       │   │   ├── 0004_auto_20150914_1623.py
+    │       │   │   ├── 0004_auto_20150914_1623.pyc
+    │       │   │   ├── 0005_auto_20150914_1750.py
+    │       │   │   ├── 0005_auto_20150914_1750.pyc
+    │       │   │   ├── 0006_recipient_cleaning_log.py
+    │       │   │   ├── 0006_recipient_cleaning_log.pyc
+    │       │   │   ├── __init__.py
+    │       │   │   └── __init__.pyc
+    │       │   ├── models.py
+    │       │   ├── models.pyc
+    │       │   ├── tests.py
+    │       │   ├── urls.py
+    │       │   ├── urls.pyc
+    │       │   ├── views.py
+    │       │   └── views.pyc
+    │       ├── followups
+    │       │   ├── admin.py
+    │       │   ├── admin.pyc
+    │       │   ├── forms.py
+    │       │   ├── forms.pyc
+    │       │   ├── __init__.py
+    │       │   ├── __init__.pyc
+    │       │   ├── migrations
+    │       │   │   ├── 0001_initial.py
+    │       │   │   ├── 0001_initial.pyc
+    │       │   │   ├── 0002_auto_20150916_2136.py
+    │       │   │   ├── 0002_auto_20150916_2136.pyc
+    │       │   │   ├── __init__.py
+    │       │   │   └── __init__.pyc
+    │       │   ├── models.py
+    │       │   ├── models.pyc
+    │       │   ├── urls.py
+    │       │   ├── urls.pyc
+    │       │   ├── views.py
+    │       │   └── views.pyc
+    │       ├── __init__.py
+    │       ├── __init__.pyc
+    │       ├── locale
+    │       │   ├── en-gb
+    │       │   │   └── LC_MESSAGES
+    │       │   │       ├── django.po
+    │       │   │       └── django.po.old
+    │       │   ├── fr-be
+    │       │   │   └── LC_MESSAGES
+    │       │   │       └── django.po
+    │       │   └── nl-nl
+    │       │       └── LC_MESSAGES
+    │       │           └── django.po
+    │       ├── locations
+    │       │   ├── admin.py
+    │       │   ├── admin.pyc
+    │       │   ├── autocomplete_light_registry.py
+    │       │   ├── autocomplete_light_registry.pyc
+    │       │   ├── __init__.py
+    │       │   ├── __init__.pyc
+    │       │   ├── migrations
+    │       │   │   ├── 0001_initial.py
+    │       │   │   ├── 0001_initial.pyc
+    │       │   │   ├── __init__.py
+    │       │   │   └── __init__.pyc
+    │       │   ├── models.py
+    │       │   └── models.pyc
+    │       ├── samples
+    │       │   ├── admin.py
+    │       │   ├── admin.pyc
+    │       │   ├── forms.py
+    │       │   ├── forms.pyc
+    │       │   ├── __init__.py
+    │       │   ├── __init__.pyc
+    │       │   ├── migrations
+    │       │   │   ├── 0001_initial.py
+    │       │   │   ├── 0001_initial.pyc
+    │       │   │   ├── __init__.py
+    │       │   │   └── __init__.pyc
+    │       │   ├── models.py
+    │       │   ├── models.pyc
+    │       │   ├── urls.py
+    │       │   ├── urls.pyc
+    │       │   ├── views.py
+    │       │   └── views.pyc
+    │       ├── staff_person
+    │       │   ├── admin.py
+    │       │   ├── admin.pyc
+    │       │   ├── autocomplete_light_registry.py
+    │       │   ├── autocomplete_light_registry.pyc
+    │       │   ├── __init__.py
+    │       │   ├── __init__.pyc
+    │       │   ├── migrations
+    │       │   │   ├── 0001_initial.py
+    │       │   │   ├── 0001_initial.pyc
+    │       │   │   ├── __init__.py
+    │       │   │   └── __init__.pyc
+    │       │   ├── models.py
+    │       │   ├── models.pyc
+    │       │   ├── urls.py
+    │       │   ├── urls.pyc
+    │       │   ├── views.py
+    │       │   └── views.pyc
+    │       ├── static
+    │       │   ├── 500.html
+    │       │   ├── config.codekit
+    │       │   ├── css
+    │       │   │   └── cope.css
+    │       │   ├── fonts
+    │       │   │   ├── glyphicons-halflings-regular.eot
+    │       │   │   ├── glyphicons-halflings-regular.svg
+    │       │   │   ├── glyphicons-halflings-regular.ttf
+    │       │   │   ├── glyphicons-halflings-regular.woff
+    │       │   │   └── glyphicons-halflings-regular.woff2
+    │       │   ├── img
+    │       │   │   ├── cope-logo.png
+    │       │   │   ├── locale
+    │       │   │   │   ├── en-gb.png
+    │       │   │   │   ├── fr-be.png
+    │       │   │   │   └── nl-nl.png
+    │       │   │   └── ox_brand_cmyk_pos_rect.svg
+    │       │   ├── js
+    │       │   │   ├── cope.js
+    │       │   │   └── min
+    │       │   │       ├── cope-min.js
+    │       │   │       └── cope-min.js.map
+    │       │   ├── js-plugins
+    │       │   │   ├── affix.js
+    │       │   │   ├── alert.js
+    │       │   │   ├── bootstrap-datetimepicker.js
+    │       │   │   ├── button.js
+    │       │   │   ├── carousel.js
+    │       │   │   ├── collapse.js
+    │       │   │   ├── dropdown.js
+    │       │   │   ├── jquery-2.1.4.js
+    │       │   │   ├── jquery.ajax.js
+    │       │   │   ├── modal.js
+    │       │   │   ├── moment-with-locales.js
+    │       │   │   ├── popover.js
+    │       │   │   ├── scrollspy.js
+    │       │   │   ├── tab.js
+    │       │   │   ├── tooltip.js
+    │       │   │   └── transition.js
+    │       │   └── less
+    │       │       ├── bootstrap
+    │       │       │   ├── alerts.less
+    │       │       │   ├── badges.less
+    │       │       │   ├── bootstrap.less
+    │       │       │   ├── breadcrumbs.less
+    │       │       │   ├── button-groups.less
+    │       │       │   ├── buttons.less
+    │       │       │   ├── carousel.less
+    │       │       │   ├── close.less
+    │       │       │   ├── code.less
+    │       │       │   ├── component-animations.less
+    │       │       │   ├── dropdowns.less
+    │       │       │   ├── forms.less
+    │       │       │   ├── glyphicons.less
+    │       │       │   ├── grid.less
+    │       │       │   ├── input-groups.less
+    │       │       │   ├── jumbotron.less
+    │       │       │   ├── labels.less
+    │       │       │   ├── list-group.less
+    │       │       │   ├── media.less
+    │       │       │   ├── mixins
+    │       │       │   │   ├── alerts.less
+    │       │       │   │   ├── background-variant.less
+    │       │       │   │   ├── border-radius.less
+    │       │       │   │   ├── buttons.less
+    │       │       │   │   ├── center-block.less
+    │       │       │   │   ├── clearfix.less
+    │       │       │   │   ├── forms.less
+    │       │       │   │   ├── gradients.less
+    │       │       │   │   ├── grid-framework.less
+    │       │       │   │   ├── grid.less
+    │       │       │   │   ├── hide-text.less
+    │       │       │   │   ├── image.less
+    │       │       │   │   ├── labels.less
+    │       │       │   │   ├── list-group.less
+    │       │       │   │   ├── nav-divider.less
+    │       │       │   │   ├── nav-vertical-align.less
+    │       │       │   │   ├── opacity.less
+    │       │       │   │   ├── pagination.less
+    │       │       │   │   ├── panels.less
+    │       │       │   │   ├── progress-bar.less
+    │       │       │   │   ├── reset-filter.less
+    │       │       │   │   ├── reset-text.less
+    │       │       │   │   ├── resize.less
+    │       │       │   │   ├── responsive-visibility.less
+    │       │       │   │   ├── size.less
+    │       │       │   │   ├── tab-focus.less
+    │       │       │   │   ├── table-row.less
+    │       │       │   │   ├── text-emphasis.less
+    │       │       │   │   ├── text-overflow.less
+    │       │       │   │   └── vendor-prefixes.less
+    │       │       │   ├── mixins.less
+    │       │       │   ├── modals.less
+    │       │       │   ├── navbar.less
+    │       │       │   ├── navs.less
+    │       │       │   ├── normalize.less
+    │       │       │   ├── pager.less
+    │       │       │   ├── pagination.less
+    │       │       │   ├── panels.less
+    │       │       │   ├── popovers.less
+    │       │       │   ├── print.less
+    │       │       │   ├── progress-bars.less
+    │       │       │   ├── responsive-embed.less
+    │       │       │   ├── responsive-utilities.less
+    │       │       │   ├── scaffolding.less
+    │       │       │   ├── tables.less
+    │       │       │   ├── theme.less
+    │       │       │   ├── thumbnails.less
+    │       │       │   ├── tooltip.less
+    │       │       │   ├── type.less
+    │       │       │   ├── utilities.less
+    │       │       │   ├── variables.less
+    │       │       │   └── wells.less
+    │       │       ├── bootstrap-datetimepicker
+    │       │       │   └── _bootstrap-datetimepicker.less
+    │       │       └── cope.less
+    │       ├── templates
+    │       │   ├── 403.html
+    │       │   ├── 404.html
+    │       │   ├── 500.html
+    │       │   ├── admin
+    │       │   │   ├── base_site.html
+    │       │   │   └── index.html
+    │       │   ├── base_site.html
+    │       │   ├── bootstrap3
+    │       │   │   ├── layout
+    │       │   │   │   ├── datetimefield.html
+    │       │   │   │   ├── multi-alternative-field.html
+    │       │   │   │   ├── multi-inline-field.html
+    │       │   │   │   ├── multi-notknown-field.html
+    │       │   │   │   ├── multi-other-field.html
+    │       │   │   │   ├── radioselect-buttons.html
+    │       │   │   │   └── read-only.html
+    │       │   │   ├── multi-inline-field.html
+    │       │   │   └── multi-notknown-field.html
+    │       │   ├── compare
+    │       │   │   └── recipient_list.html
+    │       │   ├── dashboard
+    │       │   │   ├── adverseevents-list.html
+    │       │   │   ├── index.html
+    │       │   │   ├── procurement.html
+    │       │   │   ├── procurement-start.html
+    │       │   │   ├── transplantation.html
+    │       │   │   └── transplantation-list.html
+    │       │   ├── followups
+    │       │   │   ├── followupinitial_detail.html
+    │       │   │   ├── followupinitial_form.html
+    │       │   │   └── followupinitial_list.html
+    │       │   ├── includes
+    │       │   │   ├── navbar.html
+    │       │   │   └── sample-form.html
+    │       │   ├── person
+    │       │   │   ├── detail.html
+    │       │   │   ├── form.html
+    │       │   │   ├── index.html
+    │       │   │   └── results.html
+    │       │   ├── registration
+    │       │   │   ├── logged_out.html
+    │       │   │   └── login.html
+    │       │   └── teams
+    │       │       ├── detail.html
+    │       │       ├── index.html
+    │       │       └── results.html
+    │       └── theme
+    │           ├── __init__.py
+    │           ├── __init__.pyc
+    │           ├── layout.py
+    │           ├── layout.pyc
+    │           ├── migrations
+    │           │   ├── __init__.py
+    │           │   └── __init__.pyc
+    │           ├── templatetags
+    │           │   ├── __init__.py
+    │           │   ├── __init__.pyc
+    │           │   ├── theme_tags.py
+    │           │   └── theme_tags.pyc
+    │           └── tests.py
+    ├── etc
+    │   └── nginx
+    │       └── sites-available
+    │           └── cope.conf -> /sites/cope/cope_repo/deploy/production/etc/nginx/sites-available/cope.conf
+    ├── htdocs
+    │   ├── 500.html
+    │   ├── admin
+    │   │   ├── css
+    │   │   │   ├── base.css
+    │   │   │   ├── changelists.css
+    │   │   │   ├── dashboard.css
+    │   │   │   ├── forms.css
+    │   │   │   ├── ie.css
+    │   │   │   ├── login.css
+    │   │   │   ├── rtl.css
+    │   │   │   └── widgets.css
+    │   │   ├── img
+    │   │   │   ├── changelist-bg.gif
+    │   │   │   ├── changelist-bg_rtl.gif
+    │   │   │   ├── default-bg.gif
+    │   │   │   ├── default-bg-reverse.gif
+    │   │   │   ├── deleted-overlay.gif
+    │   │   │   ├── gis
+    │   │   │   │   ├── move_vertex_off.png
+    │   │   │   │   └── move_vertex_on.png
+    │   │   │   ├── icon_addlink.gif
+    │   │   │   ├── icon_alert.gif
+    │   │   │   ├── icon_calendar.gif
+    │   │   │   ├── icon_changelink.gif
+    │   │   │   ├── icon_clock.gif
+    │   │   │   ├── icon_deletelink.gif
+    │   │   │   ├── icon_error.gif
+    │   │   │   ├── icon-no.gif
+    │   │   │   ├── icon_searchbox.png
+    │   │   │   ├── icon_success.gif
+    │   │   │   ├── icon-unknown.gif
+    │   │   │   ├── icon-yes.gif
+    │   │   │   ├── inline-delete-8bit.png
+    │   │   │   ├── inline-delete.png
+    │   │   │   ├── inline-restore-8bit.png
+    │   │   │   ├── inline-restore.png
+    │   │   │   ├── inline-splitter-bg.gif
+    │   │   │   ├── nav-bg.gif
+    │   │   │   ├── nav-bg-grabber.gif
+    │   │   │   ├── nav-bg-reverse.gif
+    │   │   │   ├── nav-bg-selected.gif
+    │   │   │   ├── selector-icons.gif
+    │   │   │   ├── selector-search.gif
+    │   │   │   ├── sorting-icons.gif
+    │   │   │   ├── tooltag-add.png
+    │   │   │   └── tooltag-arrowright.png
+    │   │   └── js
+    │   │       ├── actions.js
+    │   │       ├── actions.min.js
+    │   │       ├── admin
+    │   │       │   ├── DateTimeShortcuts.js
+    │   │       │   └── RelatedObjectLookups.js
+    │   │       ├── calendar.js
+    │   │       ├── collapse.js
+    │   │       ├── collapse.min.js
+    │   │       ├── core.js
+    │   │       ├── inlines.js
+    │   │       ├── inlines.min.js
+    │   │       ├── jquery.init.js
+    │   │       ├── jquery.js
+    │   │       ├── jquery.min.js
+    │   │       ├── LICENSE-JQUERY.txt
+    │   │       ├── prepopulate.js
+    │   │       ├── prepopulate.min.js
+    │   │       ├── related-widget-wrapper.js
+    │   │       ├── SelectBox.js
+    │   │       ├── SelectFilter2.js
+    │   │       ├── timeparse.js
+    │   │       └── urlify.js
+    │   ├── autocomplete_light
+    │   │   ├── addanother.js
+    │   │   ├── autocomplete.js
+    │   │   ├── delete.png
+    │   │   ├── django_admin.js
+    │   │   ├── remote.js
+    │   │   ├── style.css
+    │   │   ├── text_widget.js
+    │   │   ├── widget.js
+    │   │   └── xhr-pending.gif
+    │   ├── config.codekit
+    │   ├── css
+    │   │   └── cope.css
+    │   ├── fonts
+    │   │   ├── glyphicons-halflings-regular.eot
+    │   │   ├── glyphicons-halflings-regular.svg
+    │   │   ├── glyphicons-halflings-regular.ttf
+    │   │   ├── glyphicons-halflings-regular.woff
+    │   │   └── glyphicons-halflings-regular.woff2
+    │   ├── img
+    │   │   ├── cope-logo.png
+    │   │   ├── locale
+    │   │   │   ├── en-gb.png
+    │   │   │   ├── fr-be.png
+    │   │   │   └── nl-nl.png
+    │   │   └── ox_brand_cmyk_pos_rect.svg
+    │   ├── js
+    │   │   ├── cope.js
+    │   │   └── min
+    │   │       ├── cope-min.js
+    │   │       └── cope-min.js.map
+    │   ├── js-plugins
+    │   │   ├── affix.js
+    │   │   ├── alert.js
+    │   │   ├── bootstrap-datetimepicker.js
+    │   │   ├── button.js
+    │   │   ├── carousel.js
+    │   │   ├── collapse.js
+    │   │   ├── dropdown.js
+    │   │   ├── jquery-2.1.4.js
+    │   │   ├── jquery.ajax.js
+    │   │   ├── modal.js
+    │   │   ├── moment-with-locales.js
+    │   │   ├── popover.js
+    │   │   ├── scrollspy.js
+    │   │   ├── tab.js
+    │   │   ├── tooltip.js
+    │   │   └── transition.js
+    │   ├── less
+    │   │   ├── bootstrap
+    │   │   │   ├── alerts.less
+    │   │   │   ├── badges.less
+    │   │   │   ├── bootstrap.less
+    │   │   │   ├── breadcrumbs.less
+    │   │   │   ├── button-groups.less
+    │   │   │   ├── buttons.less
+    │   │   │   ├── carousel.less
+    │   │   │   ├── close.less
+    │   │   │   ├── code.less
+    │   │   │   ├── component-animations.less
+    │   │   │   ├── dropdowns.less
+    │   │   │   ├── forms.less
+    │   │   │   ├── glyphicons.less
+    │   │   │   ├── grid.less
+    │   │   │   ├── input-groups.less
+    │   │   │   ├── jumbotron.less
+    │   │   │   ├── labels.less
+    │   │   │   ├── list-group.less
+    │   │   │   ├── media.less
+    │   │   │   ├── mixins
+    │   │   │   │   ├── alerts.less
+    │   │   │   │   ├── background-variant.less
+    │   │   │   │   ├── border-radius.less
+    │   │   │   │   ├── buttons.less
+    │   │   │   │   ├── center-block.less
+    │   │   │   │   ├── clearfix.less
+    │   │   │   │   ├── forms.less
+    │   │   │   │   ├── gradients.less
+    │   │   │   │   ├── grid-framework.less
+    │   │   │   │   ├── grid.less
+    │   │   │   │   ├── hide-text.less
+    │   │   │   │   ├── image.less
+    │   │   │   │   ├── labels.less
+    │   │   │   │   ├── list-group.less
+    │   │   │   │   ├── nav-divider.less
+    │   │   │   │   ├── nav-vertical-align.less
+    │   │   │   │   ├── opacity.less
+    │   │   │   │   ├── pagination.less
+    │   │   │   │   ├── panels.less
+    │   │   │   │   ├── progress-bar.less
+    │   │   │   │   ├── reset-filter.less
+    │   │   │   │   ├── reset-text.less
+    │   │   │   │   ├── resize.less
+    │   │   │   │   ├── responsive-visibility.less
+    │   │   │   │   ├── size.less
+    │   │   │   │   ├── tab-focus.less
+    │   │   │   │   ├── table-row.less
+    │   │   │   │   ├── text-emphasis.less
+    │   │   │   │   ├── text-overflow.less
+    │   │   │   │   └── vendor-prefixes.less
+    │   │   │   ├── mixins.less
+    │   │   │   ├── modals.less
+    │   │   │   ├── navbar.less
+    │   │   │   ├── navs.less
+    │   │   │   ├── normalize.less
+    │   │   │   ├── pager.less
+    │   │   │   ├── pagination.less
+    │   │   │   ├── panels.less
+    │   │   │   ├── popovers.less
+    │   │   │   ├── print.less
+    │   │   │   ├── progress-bars.less
+    │   │   │   ├── responsive-embed.less
+    │   │   │   ├── responsive-utilities.less
+    │   │   │   ├── scaffolding.less
+    │   │   │   ├── tables.less
+    │   │   │   ├── theme.less
+    │   │   │   ├── thumbnails.less
+    │   │   │   ├── tooltip.less
+    │   │   │   ├── type.less
+    │   │   │   ├── utilities.less
+    │   │   │   ├── variables.less
+    │   │   │   └── wells.less
+    │   │   ├── bootstrap-datetimepicker
+    │   │   │   └── _bootstrap-datetimepicker.less
+    │   │   └── cope.less
+    │   ├── media
+    │   └── test.txt
+    ├── lib -> /sites/.virtualenvs/cope/lib
+    └── var
+        ├── log
+        └── run
+            ├── gunicorn.pid
+            └── wsgi.socket
+
+98 directories, 533 files
