@@ -28,8 +28,8 @@ test -d $RUNDIR || mkdir -p $RUNDIR
 exec ../bin/gunicorn ${DJANGO_WSGI_MODULE}:application \
   --name $NAME \
   --workers $NUM_WORKERS \
-  --user=$USER --group=$GROUP \
   --bind=unix:$SOCKFILE \
   --log-level=debug \
   --log-file=- \
   --pid=$PID_FILE
+#  --user=$USER --group=$GROUP \
