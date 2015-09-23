@@ -299,7 +299,7 @@ can link to the conf files from the repository. First to the local folder, then 
     sudo ln -s /sites/cope/cope_repo/deploy/production/etc/supervisor/conf.d/nginx.conf /etc/supervisor/conf.d/nginx.conf
     sudo ln -s /sites/cope/cope_repo/deploy/production/etc/supervisor/conf.d/django.conf /etc/supervisor/conf.d/django.conf
 
-    ln -s /sites/cope/cope_repo/deploy/production/etc/gunicorn/gunicorn.py /sites/cope/etc/gunicorn/gunicorn.py
+    ln -s /sites/cope/cope_repo/deploy/production/bin/gunicorn_start.sh /sites/cope/bin/gunicorn_start.sh
 
 Now we need to get some application code install done so that things like gunicorn are actually installed::
 

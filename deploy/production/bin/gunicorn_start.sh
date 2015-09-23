@@ -1,14 +1,15 @@
 #!/bin/bash
 
 NAME="cope_app"                                   # Name of the application
-DJANGODIR=/sites/cope/cope_repo                   # Django project directory
-SOCKFILE=/sites/cope/var/run/wsgi.socket          # we will communicte using this unix socket
+APP_ROOT=/sites/cope                              # Application root path
+DJANGODIR=$APP_ROOT/cope_repo                     # Django project directory
+SOCKFILE=$APP_ROOT/var/run/wsgi.socket            # we will communicte using this unix socket
 USER=www-data                                     # the user to run as
 GROUP=worker                                      # the group to run as
 NUM_WORKERS=3                                     # how many worker processes should Gunicorn spawn
 DJANGO_SETTINGS_MODULE=config.settings.production # which settings file should Django use
 DJANGO_WSGI_MODULE=config.wsgi                    # WSGI module name
-PID_FILE=/sites/cope/var/run/gunicorn.pid
+# PID_FILE=$APP_ROOT/var/run/gunicorn.pid
 
 echo "Starting $NAME as `whoami`"
 
@@ -30,6 +31,6 @@ exec ../bin/gunicorn ${DJANGO_WSGI_MODULE}:application \
   --user=$USER --group=$GROUP \
   --bind=unix:$SOCKFILE \
   --log-level=debug \
-  --log-file=-
-  --daemon=false
-  --pidfile=$PID_FILE
+  --log-file=- \
+  --daemon=false \
+#  --pid=$PID_FILE
