@@ -295,6 +295,7 @@ can link to the conf files from the repository. First to the local folder, then 
     ln -s /sites/cope/cope_repo/deploy/production/etc/nginx/sites-available/cope.conf /sites/cope/etc/nginx/sites-available/cope.conf
     sudo ln -s /sites/cope/etc/nginx/sites-available/cope.conf /etc/nginx/sites-available/cope.conf
     sudo ln -s /etc/nginx/sites-available/cope.conf /etc/nginx/sites-enabled/cope.conf
+    sudo rm /etc/nginx/sites-enabled/default
 
     sudo ln -s /sites/cope/cope_repo/deploy/production/etc/supervisor/conf.d/nginx.conf /etc/supervisor/conf.d/nginx.conf
     sudo ln -s /sites/cope/cope_repo/deploy/production/etc/supervisor/conf.d/django.conf /etc/supervisor/conf.d/django.conf
