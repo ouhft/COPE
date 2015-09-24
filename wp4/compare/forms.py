@@ -50,7 +50,8 @@ class DonorForm(forms.ModelForm):
     )
     layout_2 = Layout(
         Field('number', placeholder="___ ___ ____"),
-        FieldWithNotKnown(DateField('date_of_birth', notknown=True), 'date_of_birth_unknown'),
+        FieldWithNotKnown(DateField('date_of_birth', notknown=True), 'date_of_birth_unknown',
+            label=Donor._meta.get_field("date_of_birth").verbose_name.title()),
         # DateField('date_of_birth'),
         'age',
         DateField('date_of_admission'),

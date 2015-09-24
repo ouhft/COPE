@@ -16,6 +16,13 @@
                         <h3 class="panel-title">Start a new case</h3>
                     </div>
                     <div class="panel-body">
+                        {% if donor_form.non_field_errors %}
+                            <ul class="list-group">
+                                {% for error in donor_form.non_field_errors %}
+                                    <li class="list-group-item list-group-item-danger">{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
                         {% crispy donor_form %}
                     </div>
                     <div class="panel-footer"><input type="submit" class="btn btn-success" value="Start new case"/>
@@ -25,7 +32,9 @@
 
         </div>
         <div class="col-md-6">
-            <h2>Existing Cases <small>({{ donors|length }} case{% if donors|length != 1 %}s{% endif %})</small></h2>
+            <h2>Existing Cases
+                <small>({{ donors|length }} case{% if donors|length != 1 %}s{% endif %})</small>
+            </h2>
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -39,7 +48,8 @@
                 {% if donors|length > 0 %}
                     {% for donor in donors %}
                         <tr>
-                            <td><a href="{% url 'compare:procurement-detail' donor.id %}" class="btn btn-xs btn-primary">{{ donor.trial_id }}</a></td>
+                            <td><a href="{% url 'compare:procurement-detail' donor.id %}"
+                                   class="btn btn-xs btn-primary">{{ donor.trial_id }}</a></td>
                             <td>{{ donor.number }}</td>
                             <td>{{ donor.age }}</td>
                             <td>{{ donor.get_gender_display }}</td>

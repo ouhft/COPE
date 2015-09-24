@@ -3,7 +3,7 @@ pytz
 django-braces==1.8.1
 django-vanilla-views==1.0.4
 # django-suit==0.2.14
-django-autocomplete-light==2.2.5
+django-autocomplete-light==2.2.6
 docutils==0.12
 django-environ==0.3.0
 django-extensions==1.5.6
