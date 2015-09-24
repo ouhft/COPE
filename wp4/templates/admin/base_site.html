@@ -3,7 +3,7 @@
 {% block title %}{{ title }} | {{ site_title|default:_('COPE site admin') }}{% endblock %}
 
 {% block branding %}
-<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('COPE administration') }}</a></h1>
+<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ _('COPE DB basic administration') }}</a></h1>
 {% endblock %}
 
 {% block nav-global %}{% endblock %}
