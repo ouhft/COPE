@@ -1,16 +1,59 @@
 {% extends "base_site.html" %}
 {% load l10n i18n %}
-{% load crispy_forms_tags %}
 
 {% block page_title %}Login{% endblock %}
 {% block page_header %}Login{% endblock %}
 
 
 {% block content %}
-
-    {% if form.errors %}
-        <p>Your username and password didn't match. Please try again.</p>
+    {% if form.non_field_errors %}
+        <ul class="list-group">
+            {% for error in form.non_field_errors %}
+                <li class="list-group-item list-group-item-danger">{{ error }}</li>
+            {% endfor %}
+        </ul>
     {% endif %}
 
-    {% crispy form %}
+    {% if next %}
+        {% if user.is_authenticated %}
+            <p class="bg-warning">Your account doesn't have access to this page. To proceed,
+                please login with an account that has access.</p>
+        {% else %}
+            <p class="bg-warning">Please login to see this page.</p>
+        {% endif %}
+    {% endif %}
+
+    <form method="post" action="{% url 'django.contrib.auth.views.login' %}" class="row">
+        {% csrf_token %}
+
+        <div class="form-group {% if form.username.errors %}has-error{% endif %} col-md-5">
+            <label class="sr-only" for="{{ form.username.id_for_label }}">Username</label>
+            <input type="text" class="form-control" id="{{ form.username.id_for_label }}" placeholder="Username"
+                   name="username">
+            {% if form.username.errors %}
+                {% for error in form.username.errors %}
+                    <label for="{{ form.username.id_for_label }}" class="control-label">{{ error }}</label>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="form-group {% if form.password.errors %}has-error{% endif %} col-md-5" >
+            <label class="sr-only" for="{{ form.password.id_for_label }}">Password</label>
+            <input type="password" class="form-control" id="{{ form.password.id_for_label }}" placeholder="Password"
+                   name="password">
+            {% if form.password.errors %}
+                {% for error in form.password.errors %}
+                    <label for="{{ form.password.id_for_label }}" class="control-label">{{ error }}</label>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="col-md-2">
+            <input type="submit" value="login" class="btn btn-success"/>
+            <input type="hidden" name="next" value="{{ next }}"/>
+
+        </div>
+    </form>
+
+    <p><span class="label label-info">Info</span> <a href="{% url 'password_reset' %}">Lost password?</a></p>
+
 {% endblock %}

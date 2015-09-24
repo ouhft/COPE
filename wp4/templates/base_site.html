@@ -11,7 +11,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>{% block page_title %}Home{% endblock %} : COPE - Compare</title>
+    <title>{% block page_title %}Home{% endblock %} :: COPE DB - WP4:Compare</title>
 
     <link href="{% static 'css/cope.css' %}" rel="stylesheet">
 
@@ -38,11 +38,12 @@
     {% block content %}{% endblock %}
     <hr>
     <footer>
-        <p>COPE DB v0.2.0 (September 2015) : &copy; 2015 <a href="http://cope.nds.ox.ac.uk/index.html">COPE
+        <p>COPE DB v0.2.1 (September 2015) : &copy; 2015 <a href="http://www.cope-eu.org/">COPE
             Consortium</a></p>
         <ul class="list-unstyled list-inline">
-            <li class=""><img src="{% static 'img/cope-logo.png' %}" style="height: 50px;"></li>
-            <li class=""><img src="{% static 'img/ox_brand_cmyk_pos_rect.svg' %}" style="height: 50px;"></li>
+            <li class=""><a href="http://www.cope-eu.org/"><img src="{% static 'img/cope-logo.png' %}" style="height: 50px;"></a></li>
+            <li class=""><a href="http://www.nds.ox.ac.uk/research/cope"><img src="{% static 'img/nds-logo.png' %}" style="height: 50px;"></a> </li>
+            <li class=""><a href="http://www.ox.ac.uk/"><img src="{% static 'img/ox_brand_cmyk_pos_rect.svg' %}" style="height: 50px;"></a></li>
         </ul>
     </footer>
 </div>

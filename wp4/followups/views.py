@@ -14,7 +14,7 @@ from .models import FollowUpInitial, FollowUp3M, FollowUp6M, FollowUp1Y
 from .forms import FollowUpInitialForm
 
 
-class FollowUpList(ListView):
+class FollowUpList(LoginRequiredMixin, ListView):
     # List all Organs, that have successfully been transplanted, by date of transplantation
     model = Recipient
     queryset = Recipient.objects.filter(successful_conclusion=True).order_by('operation_concluded_at')

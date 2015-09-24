@@ -220,9 +220,10 @@ class DonorStartForm(forms.ModelForm):
     helper.form_tag = False
     helper.html5_required = True
     helper.layout = Layout(
-        Div('retrieval_team', 'age', css_class="col-md-6"),
-        Div('perfusion_technician', Field('gender', template="bootstrap3/layout/radioselect-buttons.html"),
-            css_class="col-md-6"),
+        'retrieval_team',
+        'perfusion_technician',
+        'age',
+        Field('gender', template="bootstrap3/layout/radioselect-buttons.html"),
     )
 
     def __init__(self, *args, **kwargs):

@@ -1,24 +1,17 @@
 # coding=utf-8
-import datetime
 
 from django.http import Http404
 from django.template import RequestContext
-from django.utils import timezone
 from django.shortcuts import get_object_or_404, render, render_to_response
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.core.urlresolvers import reverse
 from django.core.exceptions import PermissionDenied
-from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
 
-# from django_ajax.decorators import ajax
-
 from ..staff_person.models import StaffJob, StaffPerson
-
-from .models import Donor, Organ, Sample, Recipient
-from .forms import DonorForm, DonorStartForm, OrganForm, RecipientForm, \
-    ProcurementResourceInlineFormSet
+from .models import Donor, Organ, Recipient
+from .forms import DonorForm, DonorStartForm, OrganForm, RecipientForm
 
 
 # Some forced errors to allow for testing the Error Page Templates
@@ -45,11 +38,11 @@ def error500(request):
 #         return HttpResponse("You prefer to read another language.")
 
 
+# Legitimate pages
 def dashboard_index(request):
     return render(request, 'dashboard/index.html', {})
 
 
-# Legitimate pages
 @login_required
 @csrf_protect
 def procurement_form(request, pk):
@@ -99,20 +92,17 @@ def procurement_form(request, pk):
 @login_required
 @csrf_protect
 def procurement_form_blank(request):
-    if request.method == 'POST':
-        donor_form = DonorStartForm(request.POST, request.FILES, prefix="donor")
-        if donor_form.is_valid():
-            donor = donor_form.save(request.user)
-            return redirect(reverse(
-                'compare:procurement-detail',
-                kwargs={'pk': donor.id}
-            ))
-
     new_donor = Donor()
     current_person = StaffPerson.objects.get(user__id=request.user.id)
     if current_person.has_job(StaffJob.PERFUSION_TECHNICIAN):
         new_donor.perfusion_technician = current_person
-    donor_form = DonorStartForm(prefix="donor", instance=new_donor)
+    donor_form = DonorStartForm(request.POST or None, request.FILES or None, prefix="donor", instance=new_donor)
+    if request.method == 'POST' and donor_form.is_valid():
+        donor = donor_form.save(request.user)
+        return redirect(reverse(
+            'compare:procurement-detail',
+            kwargs={'pk': donor.id}
+        ))
 
     if current_person.has_job(
             (StaffJob.SYSTEMS_ADMINISTRATOR, StaffJob.CENTRAL_COORDINATOR, StaffJob.NATIONAL_COORDINATOR)

@@ -3,30 +3,57 @@
 {% load crispy_forms_tags %}
 
 {% block page_title %}Procurement{% endblock %}
-{% block page_header %}Procurement - New Case{% endblock %}
+{% block page_header %}Procurement{% endblock %}
 
 {% block content %}
-    <form method="post" action="{% url 'compare:procurement-blank' %}" class="form">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Start a new case</h3>
-            </div>
-            <div class="panel-body">
-                {% crispy donor_form %}
-            </div>
-            <div class="panel-footer"><input type="submit" class="btn btn-success" value="Start new case"/></div>
-        </div>
-    </form>
+    <div class="row">
+        <div class="col-md-6">
+            <h2>New Case</h2>
 
-    <h3>Existing Cases</h3>
-    <ul>
-        {% if donors|length > 0 %}
-            {% for donor in donors %}
-                <li><a href="{% url 'compare:procurement-detail' donor.id %}">{{ donor.trial_id }}</a>
-                    - {{ donor.number }} / {{ donor.age }} / {{ donor.gender }}</li>
-            {% endfor %}
-        {% else %}
-            <li>No existing cases</li>
-        {% endif %}
-    </ul>
+            <form method="post" action="{% url 'compare:procurement-blank' %}" class="form">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Start a new case</h3>
+                    </div>
+                    <div class="panel-body">
+                        {% crispy donor_form %}
+                    </div>
+                    <div class="panel-footer"><input type="submit" class="btn btn-success" value="Start new case"/>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <div class="col-md-6">
+            <h2>Existing Cases <small>({{ donors|length }} case{% if donors|length != 1 %}s{% endif %})</small></h2>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Trial ID</th>
+                    <th>Number</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if donors|length > 0 %}
+                    {% for donor in donors %}
+                        <tr>
+                            <td><a href="{% url 'compare:procurement-detail' donor.id %}" class="btn btn-xs btn-primary">{{ donor.trial_id }}</a></td>
+                            <td>{{ donor.number }}</td>
+                            <td>{{ donor.age }}</td>
+                            <td>{{ donor.get_gender_display }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td rowspan="4">No existing cases</td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
 {% endblock %}

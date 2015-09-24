@@ -3,8 +3,8 @@
 {% load crispy_forms_tags %}
 {% load crispy_forms_field %}
 
-{% block page_title %}Procurement{% endblock %}
-{% block page_header %}Procurement - Case: {{ donor.trial_id }}{% endblock %}
+{% block page_title %}Case {{ donor.trial_id }} - Procurement{% endblock %}
+{% block page_header %}Procurement <small>Case: {{ donor.trial_id }}</small>{% endblock %}
 
 {% block content %}
     <script type="text/javascript">
