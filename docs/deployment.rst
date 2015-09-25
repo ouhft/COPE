@@ -49,8 +49,8 @@ Which left us with a working instance, so the application setup was started (wil
 
 Create a link to the auto-deploy script and add it to the crontab::
 
-    ln -s COPE/deploy/deploy-cm13.sh ./update_by_cron.sh
-    chmod 755 COPE/deploy/deploy-cm13.sh
+    ln -s COPE/deploy/webfaction/deploy-cm13.sh ./update_by_cron.sh
+    chmod 755 COPE/deploy/webfaction/deploy-cm13.sh
     crontab -e    # To edit the cron record, and to insert...
     */2 * * * * $HOME/webapps/wp4_django/update_by_cron.sh >> $HOME/webapps/wp4_django/cron-wp4_django.log 2>&1
 
