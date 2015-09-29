@@ -133,4 +133,14 @@ PyCharm setup
 -------------
 
 Now we can head to PyCharm and make the project available, along with debug options, etc
+* Open PyCharm
+* Select open project
+ * Point it to $HOME/Projects/cope
+* Allow it to index files and complete loading.
+* You should be prompted to add a new VCS root for cope_repo. Do this.
+* In Preferences, Enable Django support for the project
+* Edit Configurations (toolbar) to create a Django Server project
+* You can now test by running the testserver (^R for shortcut, or see toolbar button)
+
+
 
