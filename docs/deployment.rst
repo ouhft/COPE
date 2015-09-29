@@ -2,7 +2,7 @@
 Home development
 ================
 
-Notes on this will come later...
+Notes on this can be found in (development.rst)_
 
 
 ====================
