@@ -29,7 +29,7 @@ def sample_editor(request, pk=None, type=None):
         sample = sample_form.save(request.user)
 
     return render_to_response(
-        "includes/sample-form.html",
+        "samples/sample-form.html",
         {"sample_form": sample_form},
         context_instance=RequestContext(request)
     )

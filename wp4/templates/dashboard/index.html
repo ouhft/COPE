@@ -4,13 +4,13 @@
 {% block page_header %}Welcome to the COPE DB Online Trials System{% endblock %}
 
 {% block content %}
-    <p>This online system is here to support activites for the COPE Consortium clinical trials. Specifically, this
-    site supports activites on Work Package 4: Compare (WP4) which is a Kidney transportation trial.</p>
+    <p>This online system is here to support activities for the COPE Consortium clinical trials. Specifically, this
+    site supports activities on Work Package 4: Compare (WP4) which is a Kidney transportation trial.</p>
 
     <h3>Actions available</h3>
     <ul class="list-group">
-        <a href="{% url 'compare:procurement-blank' %}" class="list-group-item">Procurement Forms</a>
-        <a href="{% url 'compare:transplantation' %}" class="list-group-item">Transplantation Forms</a>
+        <a href="{% url 'compare:procurement_list' %}" class="list-group-item">Procurement Forms</a>
+        <a href="{% url 'compare:transplantation_list' %}" class="list-group-item">Transplantation Forms</a>
         <a href="{% url 'followup:list' %}" class="list-group-item">Follow Ups Forms</a>
         <a href="{% url 'adverse_event:list' %}" class="list-group-item">Adverse Event Forms</a>
     </ul>

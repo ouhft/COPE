@@ -10,7 +10,7 @@
         <div class="col-md-6">
             <h2>New Case</h2>
 
-            <form method="post" action="{% url 'compare:procurement-blank' %}" class="form">
+            <form method="post" action="{% url 'compare:procurement_list' %}" class="form">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Start a new case</h3>
@@ -48,7 +48,7 @@
                 {% if donors|length > 0 %}
                     {% for donor in donors %}
                         <tr>
-                            <td><a href="{% url 'compare:procurement-detail' donor.id %}"
+                            <td><a href="{% url 'compare:procurement_detail' donor.id %}"
                                    class="btn btn-xs btn-primary">{{ donor.trial_id }}</a></td>
                             <td>{{ donor.number }}</td>
                             <td>{{ donor.age }}</td>
@@ -57,7 +57,7 @@
                     {% endfor %}
                 {% else %}
                     <tr>
-                        <td rowspan="4">No existing cases</td>
+                        <td rowspan="4">No existing cases available. Contact us if you think this is in error.</td>
                     </tr>
                 {% endif %}
                 </tbody>

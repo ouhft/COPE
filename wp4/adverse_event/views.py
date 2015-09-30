@@ -18,7 +18,7 @@ def adverse_events_list(request):
     organs = Organ.objects.exclude(transplantable=False)
 
     return render_to_response(
-        "dashboard/adverseevents-list.html",
+        "adverse_event/list.html",
         {
             "events": events,
             "organs": organs

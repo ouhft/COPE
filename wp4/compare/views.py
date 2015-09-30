@@ -45,6 +45,40 @@ def dashboard_index(request):
 
 @login_required
 @csrf_protect
+def procurement_list(request):
+    new_donor = Donor()
+    current_person = StaffPerson.objects.get(user__id=request.user.id)
+    if current_person.has_job(StaffJob.PERFUSION_TECHNICIAN):
+        new_donor.perfusion_technician = current_person
+    donor_form = DonorStartForm(request.POST or None, request.FILES or None, prefix="donor", instance=new_donor)
+    if request.method == 'POST' and donor_form.is_valid():
+        donor = donor_form.save(request.user)
+        return redirect(reverse(
+            'compare:procurement-detail',
+            kwargs={'pk': donor.id}
+        ))
+
+    if current_person.has_job(
+            (StaffJob.SYSTEMS_ADMINISTRATOR, StaffJob.CENTRAL_COORDINATOR, StaffJob.NATIONAL_COORDINATOR)
+    ):
+        donors = Donor.objects.all()
+    elif current_person.has_job(StaffJob.PERFUSION_TECHNICIAN):
+        donors = Donor.objects.filter(perfusion_technician=current_person)
+    else:
+        donors = {}
+
+    return render_to_response(
+        "dashboard/procurement_list.html",
+        {
+            "donor_form": donor_form,
+            "donors": donors
+        },
+        context_instance=RequestContext(request)
+    )
+
+
+@login_required
+@csrf_protect
 def procurement_form(request, pk):
     all_valid = 0
     donor = get_object_or_404(Donor, pk=int(pk))
@@ -78,7 +112,7 @@ def procurement_form(request, pk):
         donor.randomise()  # Has to wait till the organ forms are saved
 
     return render_to_response(
-        "dashboard/procurement.html",
+        "dashboard/procurement_form.html",
         {
             "donor_form": donor_form,
             "left_organ_form": left_organ_form,
@@ -91,51 +125,22 @@ def procurement_form(request, pk):
 
 @login_required
 @csrf_protect
-def procurement_form_blank(request):
-    new_donor = Donor()
-    current_person = StaffPerson.objects.get(user__id=request.user.id)
-    if current_person.has_job(StaffJob.PERFUSION_TECHNICIAN):
-        new_donor.perfusion_technician = current_person
-    donor_form = DonorStartForm(request.POST or None, request.FILES or None, prefix="donor", instance=new_donor)
-    if request.method == 'POST' and donor_form.is_valid():
-        donor = donor_form.save(request.user)
-        return redirect(reverse(
-            'compare:procurement-detail',
-            kwargs={'pk': donor.id}
-        ))
-
-    if current_person.has_job(
-            (StaffJob.SYSTEMS_ADMINISTRATOR, StaffJob.CENTRAL_COORDINATOR, StaffJob.NATIONAL_COORDINATOR)
-    ):
-        donors = Donor.objects.all()
-    else:
-        donors = {}
-
-    return render_to_response(
-        "dashboard/procurement-start.html",
-        {
-            "donor_form": donor_form,
-            "donors": donors
-        },
-        context_instance=RequestContext(request)
-    )
-
-
-@login_required
-@csrf_protect
-def transplantation_form_list(request):
+def transplantation_list(request):
     current_person = StaffPerson.objects.get(user__id=request.user.id)
     if current_person.has_job(
             (StaffJob.SYSTEMS_ADMINISTRATOR, StaffJob.CENTRAL_COORDINATOR, StaffJob.NATIONAL_COORDINATOR)
     ):
-        recipients = Recipient.objects.all()
+        recipients = Recipient.objects.filter(successful_conclusion=False)
+        organs = Organ.objects.exclude(preservation__isnull=True)  # TODO: Add a filter to exclude organs with recipient forms
+    elif current_person.has_job(StaffJob.PERFUSION_TECHNICIAN):
+        recipients = Recipient.objects.filter(perfusion_technician=current_person)
         organs = Organ.objects.exclude(preservation__isnull=True)
     else:
         recipients = {}
         organs = {}
 
     return render_to_response(
-        "dashboard/transplantation-list.html",
+        "dashboard/transplantation_list.html",
         {
             "recipients": recipients,
             "organs": organs
@@ -172,7 +177,7 @@ def transplantation_form_new(request, pk):
     recipient_form = RecipientForm(prefix="recipient", instance=recipient)
 
     return render_to_response(
-        "dashboard/transplantation.html",
+        "dashboard/transplantation_form.html",
         {
             "recipient_form": recipient_form,
             "recipient": recipient
@@ -201,7 +206,7 @@ def transplantation_form(request, pk):
             recipient = new_recipient
 
     return render_to_response(
-        "dashboard/transplantation.html",
+        "dashboard/transplantation_form.html",
         {
             "recipient_form": recipient_form,
             "recipient": recipient

@@ -1,0 +1,37 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+{% load crispy_forms_tags %}
+
+{% block page_title %}Adverse Events{% endblock %}
+{% block page_header %}Adverse Events{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-6">
+            <h3>New Event</h3>
+            {% if organs|length > 0 %}
+                <ul>
+                    {% for organ in organs %}
+                        <li><a href="{% url 'adverse_event:new' organ.id %}">{{ organ.trial_id }}</a>
+                            - {{ organ.location }} / {{ organ.get_preservation_display }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No organs available</p>
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <h3>Existing Events</h3>
+            {% if events|length > 0 %}
+                <ul>
+                    {% for event in events %}
+                        <li><a href="{% url 'adverse_event:detail' event.id %}">{{ event.id }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No existing events available</p>
+            {% endif %}
+
+        </div>
+    </div>
+{% endblock %}
