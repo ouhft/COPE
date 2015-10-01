@@ -29,16 +29,16 @@ YES_NO_CHOICES = (
 
 
 class DonorForm(forms.ModelForm):
-    layout_1 = Layout(
+    layout_procedure = Layout(
         Field('retrieval_team', template="bootstrap3/layout/read-only.html"),
         'sequence_number',  # TODO: Work out how to hide this field if not admin
         Field('perfusion_technician', template="bootstrap3/layout/read-only.html"),
         'transplant_coordinator',
         DateTimeField('call_received'),
         'retrieval_hospital',
-        DateTimeField('scheduled_start'),  # -- Not needed for UK, identical to withdrawal
-        DateTimeField('technician_arrival'),  # -- Not needed for UK, identical to withdrawal
-        DateTimeField('ice_boxes_filled'),  # -- Not needed for UK, identical to withdrawal
+        DateTimeField('scheduled_start'),
+        DateTimeField('technician_arrival'),
+        DateTimeField('ice_boxes_filled'),
         DateTimeField('depart_perfusion_centre'),
         DateTimeField('arrival_at_donor_hospital'),
     )
@@ -48,7 +48,7 @@ class DonorForm(forms.ModelForm):
         Field('other_organs_liver', template="bootstrap3/layout/radioselect-buttons.html"),
         Field('other_organs_tissue', template="bootstrap3/layout/radioselect-buttons.html"),
     )
-    layout_2 = Layout(
+    layout_donor_details = Layout(
         Field('number', placeholder="___ ___ ____"),
         FieldWithNotKnown(DateField('date_of_birth', notknown=True), 'date_of_birth_unknown',
             label=Donor._meta.get_field("date_of_birth").verbose_name.title()),
@@ -70,7 +70,7 @@ class DonorForm(forms.ModelForm):
             layout_other_organs
         )
     )
-    layout_3 = Layout(
+    layout_preop = Layout(
         FieldWithFollowup('diagnosis', 'diagnosis_other'),
         Field('diabetes_melitus', template="bootstrap3/layout/radioselect-buttons.html"),
         Field('alcohol_abuse', template="bootstrap3/layout/radioselect-buttons.html"),
@@ -84,11 +84,11 @@ class DonorForm(forms.ModelForm):
         Field('vasopressine', template="bootstrap3/layout/radioselect-buttons.html"),
         'other_medication_details',
     )
-    layout_4 = Layout(
+    layout_labresults = Layout(
         InlineFields('last_creatinine', 'last_creatinine_unit'),
         InlineFields('max_creatinine', 'max_creatinine_unit')
     )
-    layout_6 = Layout(
+    layout_donor_procedure = Layout(
         DateTimeField('life_support_withdrawal'),
         DateTimeField('systolic_pressure_low'),
         DateTimeField('o2_saturation'),
@@ -103,7 +103,7 @@ class DonorForm(forms.ModelForm):
         'systemic_flush_volume_used',
         Field('heparin', template="bootstrap3/layout/radioselect-buttons.html"),
     )
-    layout_5 = Layout(
+    layout_samples = Layout(
         InlineFields(
             Field('donor_blood_1_EDTA', template="bootstrap3/layout/read-only.html"),
             StrictButton('<i class="glyphicon glyphicon-edit"></i>', css_class='btn-default', data_toggle="modal",
@@ -135,16 +135,19 @@ class DonorForm(forms.ModelForm):
     helper.html5_required = True
     helper.layout = Div(
         Div(
-            FormPanel("Procedure Data", layout_1),
-            FormPanel("Donor Preop Data", layout_3),
-            # FormPanel("Sampling Data", layout_5),
-            css_class="col-md-6", style="margin-top: 10px;"
+            FormPanel("Procedure Data", layout_procedure),
+            FormPanel("Donor Procedure", layout_donor_procedure),
+            css_class="col-md-4", style="margin-top: 10px;"
         ),
         Div(
-            FormPanel("Donor Details", layout_2),
-            FormPanel("Lab Results", layout_4),
-            FormPanel("Donor Procedure", layout_6),
-            css_class="col-md-6", style="margin-top: 10px;"
+            FormPanel("Donor Details", layout_donor_details),
+            css_class="col-md-4", style="margin-top: 10px;"
+        ),
+        Div(
+            FormPanel("Donor Preop Data", layout_preop),
+            FormPanel("Lab Results", layout_labresults),
+            # FormPanel("Sampling Data", layout_samples),
+            css_class="col-md-4", style="margin-top: 10px;"
         ),
         css_class='row'
     )
@@ -246,17 +249,17 @@ class DonorStartForm(forms.ModelForm):
 
 
 class OrganForm(forms.ModelForm):
-    layout_1 = Layout(
+    layout_system_data = Layout(
         'donor',
         Field('location', template="bootstrap3/layout/read-only.html"),
         Field('preservation', template="bootstrap3/layout/read-only.html"),
     )
 
-    layout_2 = Layout(
+    layout_samples = Layout(
         'perfusate_1', 'perfusate_2',
     )
 
-    layout_3 = Layout(
+    layout_inspection = Layout(
         FieldWithFollowup(
             Field('transplantable', template="bootstrap3/layout/radioselect-buttons.html"),
             'not_transplantable_reason'
@@ -273,7 +276,6 @@ class OrganForm(forms.ModelForm):
     layout_artificial_patches = Layout(
         Field('artificial_patch_size', template="bootstrap3/layout/radioselect-buttons.html"),
         'artificial_patch_number',
-
     )
 
     layout_perfusion_possible = Layout(
@@ -301,7 +303,7 @@ class OrganForm(forms.ModelForm):
         )
     )
 
-    layout_4 = Layout(
+    layout_perfusion = Layout(
         YesNoFieldWithAlternativeFollowups(
             'perfusion_possible',
             'perfusion_not_possible_because',
@@ -314,14 +316,17 @@ class OrganForm(forms.ModelForm):
     helper.html5_required = True
     helper.layout = Div(
         Div(
-            FormPanel("Inspection", layout_3),
-            FormPanel("Sampling Data", layout_2),
-            FormPanel("Preset Data", layout_1),
-            css_class="col-md-6", style="margin-top: 10px;"
+            FormPanel("Inspection", layout_inspection),
+            css_class="col-md-4", style="margin-top: 10px;"
         ),
         Div(
-            FormPanel("Perfusion Data", layout_4),
-            css_class="col-md-6", style="margin-top: 10px;"
+            FormPanel("Perfusion Data", layout_perfusion),
+            css_class="col-md-4", style="margin-top: 10px;"
+        ),
+        Div(
+            FormPanel("Sampling Data", layout_samples),
+            FormPanel("Preset Data", layout_system_data),
+            css_class="col-md-4", style="margin-top: 10px;"
         ),
         css_class='row'
     )

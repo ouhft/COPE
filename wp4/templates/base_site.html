@@ -48,18 +48,20 @@
     </footer>
 </div>
 
+{% block footer_nav %}{% endblock %}
+
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="{% static 'js/min/cope-min.js' %}"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <!--<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>-->
-{% include 'autocomplete_light/static.html' %}
 <script>
     function set_language(code) {
         $('#language').val(code);
         $('#language-form').submit();
     }
 </script>
+{% block footer_extra_scripts %}{% endblock %}
 </body>
 </html>

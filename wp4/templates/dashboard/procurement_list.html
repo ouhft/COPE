@@ -35,35 +35,40 @@
             <h2>Existing Cases
                 <small>({{ donors|length }} case{% if donors|length != 1 %}s{% endif %})</small>
             </h2>
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>Trial ID</th>
-                    <th>Number</th>
-                    <th>Age</th>
-                    <th>Gender</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% if donors|length > 0 %}
+            {% if donors|length > 0 %}
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Trial ID</th>
+                        <th>Number</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+                    </tr>
+                    </thead>
+                    <tbody>
                     {% for donor in donors %}
                         <tr>
                             <td><a href="{% url 'compare:procurement_detail' donor.id %}"
-                                   class="btn btn-xs btn-primary">{{ donor.trial_id }}</a></td>
+                                   class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i>
+                                {{ donor.trial_id }}
+                            </a></td>
                             <td>{{ donor.number }}</td>
                             <td>{{ donor.age }}</td>
                             <td>{{ donor.get_gender_display }}</td>
                         </tr>
                     {% endfor %}
-                {% else %}
-                    <tr>
-                        <td rowspan="4">No existing cases available. Contact us if you think this is in error.</td>
-                    </tr>
-                {% endif %}
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No existing cases available. Contact us if you think this is in error.</p>
+            {% endif %}
 
         </div>
     </div>
 
+{% endblock %}
+
+
+{% block footer_extra_scripts %}
+{% include 'autocomplete_light/static.html' %}
 {% endblock %}
