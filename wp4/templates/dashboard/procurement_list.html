@@ -9,7 +9,6 @@
     <div class="row">
         <div class="col-md-6">
             <h2>New Case</h2>
-
             <form method="post" action="{% url 'compare:procurement_list' %}" class="form">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -29,7 +28,6 @@
                     </div>
                 </div>
             </form>
-
         </div>
         <div class="col-md-6">
             <h2>Existing Cases
@@ -43,6 +41,7 @@
                         <th>Number</th>
                         <th>Age</th>
                         <th>Gender</th>
+                        <th>Randomised</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -55,6 +54,7 @@
                             <td>{{ donor.number }}</td>
                             <td>{{ donor.age }}</td>
                             <td>{{ donor.get_gender_display }}</td>
+                            <td>{% if donor.is_randomised %}Yes{% else %}No{% endif %}</td>
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -62,10 +62,8 @@
             {% else %}
                 <p>No existing cases available. Contact us if you think this is in error.</p>
             {% endif %}
-
         </div>
     </div>
-
 {% endblock %}
 
 

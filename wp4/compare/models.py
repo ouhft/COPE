@@ -154,7 +154,10 @@ class OrganPerson(VersionControlModel):
 class Donor(OrganPerson):
     # Donor Form Case data
     sequence_number = models.PositiveSmallIntegerField(verbose_name=_("DO02 sequence number"), default=0)
-    multiple_recipients = models.NullBooleanField(verbose_name=_("DO01 Multiple recipients"), default=None)
+    multiple_recipients = models.PositiveSmallIntegerField(
+        verbose_name=_('DO01 Multiple recipients'),
+        choices=YES_NO_UNKNOWN_CHOICES,
+        blank=True, null=True)
 
     # Procedure data
     retrieval_team = models.ForeignKey(RetrievalTeam, verbose_name=_("DO01 retrieval team"))
@@ -471,27 +474,31 @@ class Donor(OrganPerson):
 
     def randomise(self):
         # Randomise if eligible and not already done
-        if self.left_kidney().preservation is None \
+        left_kidney = self.left_kidney()
+        right_kidney = self.right_kidney()
+        if left_kidney.preservation == Organ.PRESERVATION_NOT_SET \
                 and self.multiple_recipients is not False \
-                and self.left_kidney().transplantable \
-                and self.right_kidney().transplantable:
+                and left_kidney.transplantable \
+                and right_kidney.transplantable:
             left_o2 = random() >= 0.5  # True/False
-            left_kidney = self.left_kidney()
-            right_kidney = self.right_kidney()
             if left_o2:
-                left_kidney.preservation = Organ.HMPO2
-                right_kidney.preservation = Organ.HMP
+                left_kidney.preservation = Organ.PRESERVATION_HMPO2
+                right_kidney.preservation = Organ.PRESERVATION_HMP
             else:
-                left_kidney.preservation = Organ.HMP
-                right_kidney.preservation = Organ.HMPO2
+                left_kidney.preservation = Organ.PRESERVATION_HMP
+                right_kidney.preservation = Organ.PRESERVATION_HMPO2
             left_kidney.save()
             right_kidney.save()
+            return True
+        return False
 
     def __unicode__(self):
         return '%s (%s)' % (self.number, self.trial_id())
 
     def bmi_value(self):
         # http://www.nhs.uk/chq/Pages/how-can-i-work-out-my-bmi.aspx?CategoryID=51 for formula
+        if self.height < 1 or self.weight < 1:
+            return _("Not Available")
         height_in_m = self.height / 100
         return (self.weight / height_in_m) / height_in_m
     bmi_value.short_description = 'BMI Value'
@@ -534,6 +541,11 @@ class Donor(OrganPerson):
             return ""
         return 'WP4%s%s' % (format(self.centre_code(), '02'), format(self.sequence_number, '03'))
     trial_id.short_description = 'Trial ID'
+
+    def is_randomised(self):
+        if self.left_kidney().preservation == Organ.PRESERVATION_NOT_SET:
+            return False
+        return True
 
 
 class PerfusionMachine(models.Model):
@@ -604,12 +616,6 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
         # NHS Form has: Good, Fair, Poor, Patchy, Unknown
     )
 
-    HMP = 0
-    HMPO2 = 1
-    PRESERVATION_CHOICES = (
-        (HMP, "HMP"),
-        (HMPO2, "HMP O2")
-    )
     removal = models.DateTimeField(
         verbose_name=_('OR21 time out'),
         blank=True, null=True
@@ -643,9 +649,17 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
     )
 
     # Randomisation data
+    PRESERVATION_HMP = 0
+    PRESERVATION_HMPO2 = 1
+    PRESERVATION_NOT_SET = 9
+    PRESERVATION_CHOICES = (
+        (PRESERVATION_NOT_SET, _("Not Set")),
+        (PRESERVATION_HMP, "HMP"),
+        (PRESERVATION_HMPO2, "HMP O2")
+    )
     # can_donate = models.BooleanField('Donor is eligible as DCD III and > 50 years old') -- donor info!
     # can_transplant = models.BooleanField('') -- derived from left and right being transplantable
-    preservation = models.PositiveSmallIntegerField(choices=PRESERVATION_CHOICES, blank=True, null=True)
+    preservation = models.PositiveSmallIntegerField(choices=PRESERVATION_CHOICES, default=PRESERVATION_NOT_SET)
 
     # Perfusion data
     SMALL = 1

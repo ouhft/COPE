@@ -29,6 +29,8 @@ YES_NO_CHOICES = (
 
 
 class DonorForm(forms.ModelForm):
+    retrieval_hospital = ModelChoiceField('HospitalAutoComplete')
+
     layout_procedure = Layout(
         Field('retrieval_team', template="bootstrap3/layout/read-only.html"),
         'sequence_number',  # TODO: Work out how to hide this field if not admin
@@ -41,6 +43,7 @@ class DonorForm(forms.ModelForm):
         DateTimeField('ice_boxes_filled'),
         DateTimeField('depart_perfusion_centre'),
         DateTimeField('arrival_at_donor_hospital'),
+        Field('multiple_recipients', template="bootstrap3/layout/radioselect-buttons.html"),
     )
     layout_other_organs = Layout(
         Field('other_organs_lungs', template="bootstrap3/layout/radioselect-buttons.html"),
@@ -152,12 +155,11 @@ class DonorForm(forms.ModelForm):
         css_class='row'
     )
 
-    retrieval_hospital = ModelChoiceField('HospitalAutoComplete')
-
     def __init__(self, *args, **kwargs):
         super(DonorForm, self).__init__(*args, **kwargs)
         self.fields['retrieval_team'].widget = forms.HiddenInput()
         self.fields['retrieval_hospital'].label = Donor._meta.get_field("retrieval_hospital").verbose_name.title()
+        self.fields['retrieval_hospital'].required = False
         self.fields['sequence_number'].widget = forms.HiddenInput()
         self.fields['multiple_recipients'].choices = NO_YES_CHOICES
         self.fields['perfusion_technician'].widget = forms.HiddenInput()
@@ -167,6 +169,7 @@ class DonorForm(forms.ModelForm):
         self.fields['ice_boxes_filled'].input_formats = DATETIME_INPUT_FORMATS
         self.fields['depart_perfusion_centre'].input_formats = DATETIME_INPUT_FORMATS
         self.fields['arrival_at_donor_hospital'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['multiple_recipients'].choices = YES_NO_UNKNOWN_CHOICES
         self.fields['number'].required = False
         self.fields['date_of_birth'].input_formats = DATE_INPUT_FORMATS
         self.fields['date_of_admission'].input_formats = DATE_INPUT_FORMATS
@@ -324,8 +327,8 @@ class OrganForm(forms.ModelForm):
             css_class="col-md-4", style="margin-top: 10px;"
         ),
         Div(
-            FormPanel("Sampling Data", layout_samples),
             FormPanel("Preset Data", layout_system_data),
+            FormPanel("Sampling Data", layout_samples),
             css_class="col-md-4", style="margin-top: 10px;"
         ),
         css_class='row'

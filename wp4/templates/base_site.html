@@ -25,9 +25,9 @@
 <body>
 <form action="{% url 'set_language' %}" method="post" id="language-form" name="language-form">
     {% csrf_token %}
-    <input type="hidden" name="language" id="language" value="" />
+    <input type="hidden" name="language" id="language" value=""/>
     {% with request.get_full_path as current_url %}
-    <input type="hidden" name="next" id="next" value="{{ current_url|cut:"/en-gb"|cut:"/fr-be"|cut:"/nl-nl" }}" />
+        <input type="hidden" name="next" id="next" value="{{ current_url|cut:"/en-gb"|cut:"/fr-be"|cut:"/nl-nl" }}"/>
     {% endwith %}
 </form>
 
@@ -35,15 +35,33 @@
 
 <div class="container">
     <h1 class="page-header">{% block page_header %}Dashboard{% endblock %}</h1>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+{#                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}#}
+                {{ message|safe }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
     {% block content %}{% endblock %}
     <hr>
     <footer>
         <p>COPE DB v0.2.3 (September 2015) : &copy; 2015 <a href="http://www.cope-eu.org/">COPE
             Consortium</a></p>
         <ul class="list-unstyled list-inline">
-            <li class=""><a href="http://www.cope-eu.org/"><img src="{% static 'img/cope-logo.png' %}" style="height: 50px;"></a></li>
-            <li class=""><a href="http://www.nds.ox.ac.uk/research/cope"><img src="{% static 'img/nds-logo.png' %}" style="height: 50px;"></a> </li>
-            <li class=""><a href="http://www.ox.ac.uk/"><img src="{% static 'img/ox_brand_cmyk_pos_rect.svg' %}" style="height: 50px;"></a></li>
+            <li class="">
+                <a href="http://www.cope-eu.org/"><img src="{% static 'img/cope-logo.png' %}" style="height: 50px;"></a>
+            </li>
+            <li class="">
+                <a href="http://www.nds.ox.ac.uk/research/cope"><img src="{% static 'img/nds-logo.png' %}" style="height: 50px;"></a>
+            </li>
+            <li class="">
+                <a href="http://www.ox.ac.uk/"><img src="{% static 'img/ox_brand_cmyk_pos_rect.svg' %}" style="height: 50px;"></a>
+            </li>
         </ul>
     </footer>
 </div>

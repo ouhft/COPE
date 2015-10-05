@@ -42,58 +42,51 @@
 
     <form method="post" action="{% url 'compare:procurement_detail' pk=donor.id %}" class="form-horizontal"
           id="procurement_form">
-        <!-- Tab panes -->
-        <div class="tab-content">
-            <div class="panel panel-primary" style="margin-top: 10px;">
-                <div class="panel-heading">
-                    <h3 class="panel-title">To be eligible for this trial...</h3>
-                </div>
+        <div class="panel {% if is_randomised %}panel-info{% else %}panel-primary{% endif %}"
+             style="margin-top: 10px;">
+            <div class="panel-heading" role="tab" id="collapseListGroupHeading1">
+                <h3 class="panel-title">
+                    <a class="" role="button" data-toggle="collapse" href="#collapseListGroup1"
+                       aria-expanded="{% if is_randomised %}false{% else %}true{% endif %}"
+                       aria-controls="collapseListGroup1">
+                        To be eligible for this trial you must satisfy the following conditions...<span
+                            class="caret"></span>
+                    </a>
+                </h3>
+            </div>
+            <div id="collapseListGroup1" class="panel-collapse collapse {% if not is_randomised %}in{% endif %}"
+                 role="tabpanel"
+                 aria-labelledby="collapseListGroupHeading1"
+                 aria-expanded="{% if is_randomised %}false{% else %}true{% endif %}" style="">
                 <ul class="list-group" id="eligibility-list">
-                    <li class="list-group-item list-group-item-success">DCD III <span class="badge"><i
-                            class="glyphicon glyphicon-thumbs-up"></i></span></li>
-                    <li class="list-group-item list-group-item-success">50 years old or more
-                        (is {{ donor.age }})<span class="badge"><i
-                                class="glyphicon glyphicon-thumbs-up"></i></span></li>
-                    <li class="list-group-item list-group-item-danger" id="randomise-left-kidney"><a
-                            href="javascript:highlightTransplantableField(true)">Left Kidney
-                        transplantable</a> <span
-                            class="badge"><i
-                            class="glyphicon glyphicon-thumbs-down"></i></span></li>
-                    <li class="list-group-item list-group-item-danger" id="randomise-right-kidney"><a
-                            href="javascript:highlightTransplantableField()">Right Kidney transplantable</a> <span
-                            class="badge"><i
-                            class="glyphicon glyphicon-thumbs-down"></i></span></li>
-                    <li class="list-group-item list-group-item-danger" id="randomise-recipients">Two separate
-                        recipients
+                    <li class="list-group-item list-group-item-success">
+                        DCD III
+                        <span class="badge"><i class="glyphicon glyphicon-thumbs-up"></i></span>
+                    </li>
+                    <li class="list-group-item list-group-item-success">
+                        50 years old or more (is {{ donor.age }})
+                        <span class="badge"><i class="glyphicon glyphicon-thumbs-up"></i></span>
+                    </li>
+                    <li class="list-group-item list-group-item-danger" id="randomise-left-kidney">
+                        <a href="javascript:highlightTransplantableField(true)">Left Kidney transplantable
+                            <span class="glyphicon glyphicon-circle-arrow-right"></span></a>
                         <span class="badge"><i class="glyphicon glyphicon-thumbs-down"></i></span>
-
-                        <div class="btn-group" data-toggle="buttons">
-                            <label class="btn btn-default {% if donor_form.multiple_recipients.value == False %}active{% endif %}">
-                                <input type="radio" name="donor-multiple_recipients"
-                                       id="id_donor-multiple_recipients_1" value="3" autocomplete="off"
-                                       {% if donor_form.multiple_recipients.value == False %}checked{% endif %}>No
-                            </label>
-                            <label class="btn btn-default {% if donor_form.multiple_recipients.value == True %}active{% endif %}">
-                                <input type="radio" name="donor-multiple_recipients"
-                                       id="id_donor-multiple_recipients_2" value="2" autocomplete="off"
-                                       {% if donor_form.multiple_recipients.value == True %}checked{% endif %}>Yes
-                            </label>
-                            <label class="btn btn-default {% if donor_form.multiple_recipients.value == None %}active{% endif %}">
-                                <input type="radio" name="donor-multiple_recipients"
-                                       id="id_donor-multiple_recipients_3" value="1" autocomplete="off"
-                                       {% if donor_form.multiple_recipients.value == None %}checked{% endif %}>Unknown
-                            </label>
-                        </div>
+                    </li>
+                    <li class="list-group-item list-group-item-danger" id="randomise-right-kidney">
+                        <a href="javascript:highlightTransplantableField()">Right Kidney transplantable
+                            <span class="glyphicon glyphicon-circle-arrow-right"></span></a>
+                        <span class="badge"><i class="glyphicon glyphicon-thumbs-down"></i></span>
+                    </li>
+                    <li class="list-group-item list-group-item-danger" id="randomise-recipients">
+                        <a href="javascript:highlightRecipientsField()">Two separate recipients
+                            <span class="glyphicon glyphicon-circle-arrow-right"></span></a>
+                        <span class="badge"><i class="glyphicon glyphicon-thumbs-down"></i></span>
                     </li>
                 </ul>
-                <div class="panel-footer">
-                    <button id="randomise-action" type="submit" name="randomise" class="btn btn-danger" disabled>
-                        {% if donor.left_kidney.preservation == 1 or donor.right_kidney.preservation == 1 %}Already
-                            Randomised{% else %}Randomise{% endif %}
-                    </button>
-                </div>
             </div>
+        </div>
 
+        <div class="tab-content">
             <!-- Nav tabs -->
             <ul class="nav nav-pills nav-justified" role="tablist">
                 <li role="presentation">
@@ -104,7 +97,7 @@
                         {% endif %}</a>
                 </li>
                 <li role="presentation" class="active"><a href="#donor" aria-controls="donor" role="tab"
-                                                          data-toggle="tab">Donor
+                                                          data-toggle="tab" id="donortab">Donor
                     {% if donor_form.errors|length > 0 %}
                         <span class="label label-danger">{{ donor_form.errors|length }}</span>
                     {% endif %}</a>
@@ -117,6 +110,7 @@
                         {% endif %}</a>
                 </li>
             </ul>
+            <!-- Tab panes -->
             <div role="tabpanel" class="tab-pane fade in active" id="donor">
                 <h2 class="sr-only visible-print">Donor</h2>
 
@@ -138,49 +132,48 @@
 
 {% block footer_nav %}
     <nav class="navbar navbar-default navbar-fixed-bottom">
-{#        <p class="navbar-text">Summary Information:</p>#}
-
         <div class="container">
-{#            <ul class="nav navbar-nav">#}
-{#                <li class="dropdown">#}
-{#                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"#}
-{#                       aria-expanded="false">Donor <span class="caret"></span></a>#}
-{##}
-{#                    <div class="panel panel-info dropdown-menu">#}
-{#                        <div class="panel-heading">#}
-{#                            <h3 class="panel-title">Donor</h3>#}
-{#                        </div>#}
-{#                        <ul class="list-group">#}
-{#                            <li class="list-group-item">#}
-{#                                Age: {{ donor.age }}#}
-{#                            </li>#}
-{#                            <li class="list-group-item">#}
-{#                                NHS Number: {{ donor.number }}#}
-{#                            </li>#}
-{#                            <li class="list-group-item">#}
-{#                                Donor hospital: {{ donor.retrieval_hospital.name }}#}
-{#                            </li>#}
-{#                            <li class="list-group-item">#}
-{#                                Transplant co-ordinator:{{ donor.transplant_coordinator.full_name }}<br>#}
-{#                                <i class="glyphicon glyphicon-phone"></i>: {{ donor.transplant_coordinator.telephone }}#}
-{#                            </li>#}
-{#                        </ul>#}
-{#                    </div>#}
-{#                </li>#}
-{#                <li class="dropdown">#}
-{#                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"#}
-{#                       aria-expanded="false">Dropdown <span class="caret"></span></a>#}
-{#                    <ul class="dropdown-menu">#}
-{#                        <li><a href="#">Action</a></li>#}
-{#                        <li><a href="#">Another action</a></li>#}
-{#                        <li><a href="#">Something else here</a></li>#}
-{#                        <li role="separator" class="divider"></li>#}
-{#                        <li><a href="#">Separated link</a></li>#}
-{#                        <li role="separator" class="divider"></li>#}
-{#                        <li><a href="#">One more separated link</a></li>#}
-{#                    </ul>#}
-{#                </li>#}
-{#            </ul>#}
+            {#        <p class="navbar-text">Summary Information:</p>#}
+            {#            <ul class="nav navbar-nav">#}
+            {#                <li class="dropdown">#}
+            {#                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"#}
+            {#                       aria-expanded="false">Donor <span class="caret"></span></a>#}
+            {##}
+            {#                    <div class="panel panel-info dropdown-menu">#}
+            {#                        <div class="panel-heading">#}
+            {#                            <h3 class="panel-title">Donor</h3>#}
+            {#                        </div>#}
+            {#                        <ul class="list-group">#}
+            {#                            <li class="list-group-item">#}
+            {#                                Age: {{ donor.age }}#}
+            {#                            </li>#}
+            {#                            <li class="list-group-item">#}
+            {#                                NHS Number: {{ donor.number }}#}
+            {#                            </li>#}
+            {#                            <li class="list-group-item">#}
+            {#                                Donor hospital: {{ donor.retrieval_hospital.name }}#}
+            {#                            </li>#}
+            {#                            <li class="list-group-item">#}
+            {#                                Transplant co-ordinator:{{ donor.transplant_coordinator.full_name }}<br>#}
+            {#                                <i class="glyphicon glyphicon-phone"></i>: {{ donor.transplant_coordinator.telephone }}#}
+            {#                            </li>#}
+            {#                        </ul>#}
+            {#                    </div>#}
+            {#                </li>#}
+            {#                <li class="dropdown">#}
+            {#                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"#}
+            {#                       aria-expanded="false">Dropdown <span class="caret"></span></a>#}
+            {#                    <ul class="dropdown-menu">#}
+            {#                        <li><a href="#">Action</a></li>#}
+            {#                        <li><a href="#">Another action</a></li>#}
+            {#                        <li><a href="#">Something else here</a></li>#}
+            {#                        <li role="separator" class="divider"></li>#}
+            {#                        <li><a href="#">Separated link</a></li>#}
+            {#                        <li role="separator" class="divider"></li>#}
+            {#                        <li><a href="#">One more separated link</a></li>#}
+            {#                    </ul>#}
+            {#                </li>#}
+            {#            </ul>#}
             <div class="navbar-right">
                 <input type="button" class="btn btn-primary navbar-btn" value="Save" id="nav_button_save"/>
             </div>
@@ -198,7 +191,17 @@
             $('#' + side + 'kidneytab').tab('show');
             var formgroup = $('input:radio[name=' + side + '-organ-transplantable]').parents('div.form-group');
             var buttons = $('input:radio[name=' + side + '-organ-transplantable]').parents('label');
-            // formgroup.fadeTo(1000, 0.5, function() { formgroup.fadeTo(800, 1); });
+            $('html, body').animate({scrollTop: formgroup.offset().top}, 500);
+            formgroup.addClass('has-warning');
+            buttons.removeClass('btn-default').addClass('btn-warning');
+            formgroup.fadeOut().fadeIn().fadeOut().fadeIn().fadeOut().fadeIn();
+        }
+
+        function highlightRecipientsField() {
+            $('#donortab').tab('show');
+            var formgroup = $('input:radio[name=donor-multiple_recipients]').parents('div.form-group');
+            var buttons = $('input:radio[name=donor-multiple_recipients]').parents('label');
+            $('html, body').animate({scrollTop: formgroup.offset().top}, 500);
             formgroup.addClass('has-warning');
             buttons.removeClass('btn-default').addClass('btn-warning');
             formgroup.fadeOut().fadeIn().fadeOut().fadeIn().fadeOut().fadeIn();
@@ -212,7 +215,8 @@
         }
 
         function clickRecipients(target) {
-            updateRandomiseRecipients($(target).children('input:radio').val() < 3);
+            {# Values: None=Unanswered, 0=No, 1=Yes, 2=Unknown #}
+            updateRandomiseRecipients($(target).children('input:radio').val() != 0);
         }
 
         function updateRandomiseKidney(yes, left) {
@@ -256,10 +260,10 @@
 
         function updateRandomiseButton() {
             var count = $('#eligibility-list').find('.glyphicon-thumbs-up').length;
-            if (count == 5 && {% if left_organ_form.preservation.value == None %}true{% else %}false{% endif %}) {
-                $('#randomise-action').attr("disabled", false);
+            if (count == 5 && {% if is_randomised %}false{% else %}true{% endif %}) {
+                $('#nav_button_save').toggleClass('btn-primary', false).toggleClass('btn-success', true).val("Save and Randomise");
             } else {
-                $('#randomise-action').attr("disabled", true);
+                $('#nav_button_save').toggleClass('btn-primary', true).toggleClass('btn-success', false).val("Save");
             }
         }
 
@@ -304,7 +308,8 @@
             updateRandomiseKidney({% if left_organ_form.transplantable.value %}true{% else %}false{% endif %}, true);
             updateRandomiseKidney({% if right_organ_form.transplantable.value %}true{% else %}false{% endif %}, false);
             updateRandomiseRecipients(
-                    {% if donor_form.multiple_recipients.value != False %}true{% else %}false{% endif %}
+                {# Values: None=Unanswered, 0=No, 1=Yes, 2=Unknown #}
+                {% if donor_form.multiple_recipients.value != 0 %}true{% else %}false{% endif %}
             );
             updateRandomiseButton();
             toggleModalContent(false);
@@ -342,14 +347,16 @@
                 toggleModalContent(false);
             })
 
-            // Autocomplete-light functions
-            $(document).bind('yourlabsWidgetReady', function () {
-                // Instantiate decks with RemoteAutocompleteWidget as override for all widgets with
-                // autocomplete 'remote'.
-                $('body').on('initialize', '.autocomplete-light-widget[data-widget-bootstrap=hospital-widget]', function () {
-                    $(this).yourlabsWidget(HospitalWidget);
-                });
-            });
+{#            // Autocomplete-light functions#}
+{#            $(document).bind('yourlabsWidgetReady', function () {#}
+{#                // Instantiate decks with RemoteAutocompleteWidget as override for all widgets with#}
+{#                // autocomplete 'remote'.#}
+{#                alert("binding attempted 1");#}
+{#                $('body').on('initialize', '.autocomplete-light-widget[data-widget-bootstrap=hospital-widget]', function () {#}
+{#                    $(this).yourlabsWidget(HospitalWidget);#}
+{#                    alert("binding attempted 2");#}
+{#                });#}
+{#            });#}
 
             // Navbar bottom actions
             $('footer').addClass('navbar_spacing');

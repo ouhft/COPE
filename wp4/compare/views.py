@@ -1,5 +1,6 @@
 # coding=utf-8
 
+from django.contrib import messages
 from django.http import Http404
 from django.template import RequestContext
 from django.shortcuts import get_object_or_404, render, render_to_response
@@ -44,7 +45,6 @@ def dashboard_index(request):
 
 
 @login_required
-@csrf_protect
 def procurement_list(request):
     new_donor = Donor()
     current_person = StaffPerson.objects.get(user__id=request.user.id)
@@ -78,7 +78,6 @@ def procurement_list(request):
 
 
 @login_required
-@csrf_protect
 def procurement_form(request, pk):
     all_valid = 0
     donor = get_object_or_404(Donor, pk=int(pk))
@@ -87,8 +86,11 @@ def procurement_form(request, pk):
         donor = donor_form.save(request.user)
         all_valid += 1
 
-    left_organ_form = OrganForm(request.POST or None, request.FILES or None, instance=donor.left_kidney(),
-                                prefix="left-organ")
+    left_organ_form = OrganForm(
+        request.POST or None,
+        request.FILES or None,
+        instance=donor.left_kidney(),
+        prefix="left-organ")
     if left_organ_form.is_valid():
         left_organ_form.save(request.user)
         all_valid += 1
@@ -98,18 +100,36 @@ def procurement_form(request, pk):
         request.FILES or None,
         instance=donor.right_kidney(),
         prefix="right-organ")
-
     if right_organ_form.is_valid():
         right_organ_form.save(request.user)
         all_valid += 1
 
-    # for form in right_organ_form_resource_formset.extra_forms:
-    #     form.initial['created_by'] = request.user.pk
+    is_randomised = donor.left_kidney().preservation != Organ.PRESERVATION_NOT_SET
+    print("DEBUG: is_randomised=%s" % is_randomised)
 
     # TODO: Add the extra test of if the Randomise button was pressed, opposed to just saving
     print("DEBUG: all_valid=%d" % all_valid)
     if all_valid == 3:
-        donor.randomise()  # Has to wait till the organ forms are saved
+        messages.success(request, 'Form has been <strong>successfully saved</strong>')
+        if not is_randomised and donor.randomise():  # Has to wait till the organ forms are saved
+            # Reload the forms with the modified results
+            left_organ_form = OrganForm(instance=donor.left_kidney(), prefix="left-organ")
+            right_organ_form = OrganForm(instance=donor.right_kidney(), prefix="right-organ")
+            is_randomised = True
+            messages.info(request, '<strong>This case has now been randomised!</strong> Preservation results: ' +
+                          'Left=%s and Right=%s' % (
+                              donor.left_kidney().get_preservation_display(),
+                              donor.right_kidney().get_preservation_display()
+                          ))
+    elif request.POST:
+        messages.warning(request, '<strong>Form was not saved</strong>, please check for errors below')
+
+    # messages.add_message(request, messages.INFO, 'Hello world.')
+    # messages.debug(request, '%s SQL <i>statements</i> were executed.' % 5)
+    # messages.info(request, 'Three credits remain in your account.')
+    # messages.success(request, 'Profile details updated.')
+    # messages.warning(request, 'Your account expires in three days.')
+    # messages.error(request, '<strong>Document</strong> deleted.')
 
     return render_to_response(
         "dashboard/procurement_form.html",
@@ -117,14 +137,14 @@ def procurement_form(request, pk):
             "donor_form": donor_form,
             "left_organ_form": left_organ_form,
             "right_organ_form": right_organ_form,
-            "donor": donor
+            "donor": donor,
+            "is_randomised": is_randomised
         },
         context_instance=RequestContext(request)
     )
 
 
 @login_required
-@csrf_protect
 def transplantation_list(request):
     current_person = StaffPerson.objects.get(user__id=request.user.id)
     if current_person.has_job(
@@ -150,7 +170,6 @@ def transplantation_list(request):
 
 
 @login_required
-@csrf_protect
 def transplantation_form_new(request, pk):
     """
     Setup a new Transplanation Form for a given Organ ID
@@ -187,7 +206,6 @@ def transplantation_form_new(request, pk):
 
 
 @login_required
-@csrf_protect
 def transplantation_form(request, pk):
     recipient = get_object_or_404(Recipient, pk=int(pk))
     recipient_form = RecipientForm(request.POST or None, request.FILES or None, instance=recipient, prefix="recipient")

@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/dev/ref/settings/
 """
 from __future__ import absolute_import, unicode_literals
 
+from django.contrib.messages import constants as message_constants
 from django.utils.translation import ugettext_lazy as _
 
 import environ
@@ -304,3 +305,8 @@ LOCALE_PATHS = (
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 REDIRECT_FIELD_NAME = 'redirect_to'
+
+# Rename the tag field for bootstrap styles
+MESSAGE_TAGS = {
+    message_constants.ERROR: 'danger'
+}
