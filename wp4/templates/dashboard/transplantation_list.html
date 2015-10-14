@@ -12,7 +12,7 @@
             {% if organs|length > 0 %}
                 <ul>
                     {% for organ in organs %}
-                        <li><a href="{% url 'compare:transplantation_list' organ.id %}">{{ organ.trial_id }}</a>
+                        <li><a href="{% url 'compare:transplantation_new' organ.id %}">{{ organ.trial_id }}</a>
                             - {{ organ.location }} / {{ organ.get_preservation_display }}</li>
                     {% endfor %}
                 </ul>

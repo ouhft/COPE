@@ -547,6 +547,24 @@ class Donor(OrganPerson):
             return False
         return True
 
+    def is_eligible(self):
+        """
+        :return: Number of eligible kidneys from this donor
+        """
+        eligible_kidney_count = 0
+        left_kidney = self.left_kidney()
+        right_kidney = self.right_kidney()
+        if left_kidney.preservation != Organ.PRESERVATION_NOT_SET \
+                and self.multiple_recipients is not False:
+            if left_kidney.transplantable:
+                eligible_kidney_count += 1
+            if right_kidney.transplantable:
+                eligible_kidney_count += 1
+        else:
+            eligible_kidney_count = -1
+        # print("DEBUG: eligible kidney count %d" % eligible_kidney_count)
+        return eligible_kidney_count
+
 
 class PerfusionMachine(models.Model):
     # Device accountability
@@ -809,8 +827,9 @@ class ProcurementResource(models.Model):
         max_length=5)
     lot_number = models.CharField(
         verbose_name=_('PR12 lot number'),
-        max_length=50)
-    expiry_date = models.DateField(verbose_name=_('PR13 expiry date'))
+        max_length=50,
+        blank=True)
+    expiry_date = models.DateField(verbose_name=_('PR13 expiry date'), blank=True, null=True)
     created_on = models.DateTimeField(default=timezone.now)
     created_by = models.ForeignKey(User)
 

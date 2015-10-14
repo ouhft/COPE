@@ -4,7 +4,6 @@ import autocomplete_light.shortcuts as al
 
 from .models import StaffPerson, StaffJob
 
-
 al.register(
     StaffPerson,
     name='TechnicianAutoComplete',

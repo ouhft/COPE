@@ -19,11 +19,9 @@
     {# a text input, that is the 'autocomplete input' #}
     <input type="text" name="{{ name }}-autocomplete" id="{{ widget.html_id }}-autocomplete" value="" {{ attrs }} />
     <script>
-{#    Added as a workaround to https://github.com/yourlabs/django-autocomplete-light/issues/498 #}
+        {#    Added as a workaround to https://github.com/yourlabs/django-autocomplete-light/issues/498 #}
         document.addEventListener("DOMContentLoaded", function (event) {
             $('#{{ widget.html_id }}-autocomplete').removeAttr("required");
-{#            $('#{{ widget.html_id }}').attr("required", "required");#}
-
         });
     </script>
 {% endblock %}
@@ -59,10 +57,10 @@
 {% block choice_template %}
     <span style="display:none" class="choice-template">
         {% comment %}
-        the contained element will be used to render options that are added to the select
-        via javascript, for example in django admin with the + sign
+            the contained element will be used to render options that are added to the select
+            via javascript, for example in django admin with the + sign
 
-        The text of the option will be inserted in the html of this tag
+            The text of the option will be inserted in the html of this tag
         {% endcomment %}
         <span class="choice prepend-remove append-option-html">
         </span>

@@ -11,8 +11,9 @@ from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
 
 from ..staff_person.models import StaffJob, StaffPerson
-from .models import Donor, Organ, Recipient
+from .models import Donor, Organ, Recipient, ProcurementResource
 from .forms import DonorForm, DonorStartForm, OrganForm, RecipientForm
+from .forms import ProcurementResourceLeftInlineFormSet, ProcurementResourceRightInlineFormSet
 
 
 # Some forced errors to allow for testing the Error Page Templates
@@ -54,7 +55,7 @@ def procurement_list(request):
     if request.method == 'POST' and donor_form.is_valid():
         donor = donor_form.save(request.user)
         return redirect(reverse(
-            'compare:procurement-detail',
+            'compare:procurement_detail',
             kwargs={'pk': donor.id}
         ))
 
@@ -81,28 +82,54 @@ def procurement_list(request):
 def procurement_form(request, pk):
     all_valid = 0
     donor = get_object_or_404(Donor, pk=int(pk))
+    current_person = StaffPerson.objects.get(user__id=request.user.id)
+
+    def procurement_initial_data(organ, creator):
+        return [
+            {'organ': organ.pk, 'type': ProcurementResource.DISPOSABLES, 'created_by': creator.pk},
+            {'organ': organ.pk, 'type': ProcurementResource.EXTRA_CANNULA_SMALL, 'created_by': creator.pk},
+            {'organ': organ.pk, 'type': ProcurementResource.EXTRA_CANNULA_LARGE, 'created_by': creator.pk},
+            {'organ': organ.pk, 'type': ProcurementResource.EXTRA_PATCH_HOLDER_SMALL, 'created_by': creator.pk},
+            {'organ': organ.pk, 'type': ProcurementResource.EXTRA_PATCH_HOLDER_LARGE, 'created_by': creator.pk},
+            {'organ': organ.pk, 'type': ProcurementResource.EXTRA_DOUBLE_CANNULA_SET, 'created_by': creator.pk},
+            {'organ': organ.pk, 'type': ProcurementResource.PERFUSATE_SOLUTION, 'created_by': creator.pk},
+        ]
+
     donor_form = DonorForm(request.POST or None, request.FILES or None, instance=donor, prefix="donor")
     if donor_form.is_valid():
         donor = donor_form.save(request.user)
         all_valid += 1
 
-    left_organ_form = OrganForm(
+    # ================================================ LEFT ORGAN
+    left_organ_form = OrganForm(request.POST or None, request.FILES or None,
+                                instance=donor.left_kidney(), prefix="left-organ")
+    left_organ_procurement_forms = ProcurementResourceLeftInlineFormSet(
         request.POST or None,
-        request.FILES or None,
-        instance=donor.left_kidney(),
-        prefix="left-organ")
-    if left_organ_form.is_valid():
+        prefix="left-organ-procurement",
+        initial=procurement_initial_data(donor.left_kidney(), current_person),
+        instance=donor.left_kidney())
+    if left_organ_form.is_valid() and left_organ_procurement_forms.is_valid():
         left_organ_form.save(request.user)
+        for p_form in left_organ_procurement_forms:
+            p_form.save()
         all_valid += 1
+    left_organ_error_count = left_organ_procurement_forms.total_error_count() + len(left_organ_form.errors)
 
+    # =============================================== RIGHT ORGAN
     right_organ_form = OrganForm(
         request.POST or None,
         request.FILES or None,
         instance=donor.right_kidney(),
         prefix="right-organ")
+    right_organ_procurement_form = ProcurementResourceRightInlineFormSet(
+        request.POST or None,
+        prefix="right-organ-procurement",
+        initial=procurement_initial_data(donor.right_kidney(), current_person),
+        instance=donor.right_kidney())
     if right_organ_form.is_valid():
         right_organ_form.save(request.user)
         all_valid += 1
+    right_organ_error_count = right_organ_procurement_form.total_error_count() + len(right_organ_form.errors)
 
     is_randomised = donor.left_kidney().preservation != Organ.PRESERVATION_NOT_SET
     print("DEBUG: is_randomised=%s" % is_randomised)
@@ -116,13 +143,14 @@ def procurement_form(request, pk):
             left_organ_form = OrganForm(instance=donor.left_kidney(), prefix="left-organ")
             right_organ_form = OrganForm(instance=donor.right_kidney(), prefix="right-organ")
             is_randomised = True
-            messages.info(request, '<strong>This case has now been randomised!</strong> Preservation results: ' +
-                          'Left=%s and Right=%s' % (
-                              donor.left_kidney().get_preservation_display(),
-                              donor.right_kidney().get_preservation_display()
-                          ))
+            messages.info(
+                request,
+                '<strong>This case has now been randomised!</strong> Preservation results: Left=%s and Right=%s'
+                % (donor.left_kidney().get_preservation_display(), donor.right_kidney().get_preservation_display()))
     elif request.POST:
-        messages.warning(request, '<strong>Form was not saved</strong>, please check for errors below')
+        messages.error(request,
+                       '<strong>Form was NOT saved</strong>, please correct the %d errors below' %
+                       (left_organ_error_count + right_organ_error_count + len(donor_form.errors)))
 
     # messages.add_message(request, messages.INFO, 'Hello world.')
     # messages.debug(request, '%s SQL <i>statements</i> were executed.' % 5)
@@ -131,12 +159,17 @@ def procurement_form(request, pk):
     # messages.warning(request, 'Your account expires in three days.')
     # messages.error(request, '<strong>Document</strong> deleted.')
 
+    # print("DEBUG: Formset contains %s" % left_organ_procurement_form)
     return render_to_response(
         "dashboard/procurement_form.html",
         {
             "donor_form": donor_form,
             "left_organ_form": left_organ_form,
+            "left_organ_procurement_form": left_organ_procurement_forms,
+            "left_organ_error_count": left_organ_error_count,
             "right_organ_form": right_organ_form,
+            "right_organ_procurement_form": right_organ_procurement_form,
+            "right_organ_error_count": right_organ_error_count,
             "donor": donor,
             "is_randomised": is_randomised
         },

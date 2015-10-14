@@ -7,7 +7,60 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-8">
+            <h2>Existing Cases
+                <small>({{ donors|length }} case{% if donors|length != 1 %}s{% endif %})</small>
+            </h2>
+            {% if donors|length > 0 %}
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Trial ID</th>
+                        <th>Number</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+                        <th>Eligible</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for donor in donors %}
+                        <tr>
+                            <td><a href="{% url 'compare:procurement_detail' donor.id %}"
+                                   class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i>
+                                {{ donor.trial_id }}
+                            </a></td>
+                            <td>{{ donor.number }}</td>
+                            <td>{{ donor.age }}</td>
+                            <td>{{ donor.get_gender_display }}</td>
+                            {% if donor.is_eligible == -1 %}
+                                <td class="info">
+                                    <i class="glyphicon glyphicon-info-sign"></i> Not randomised
+                                </td>
+                            {% elif donor.is_eligible == 0 %}
+                                <td class="danger">
+                                    <i class="glyphicon glyphicon-ban-circle"></i> No kidneys
+                                </td>
+                            {% elif donor.is_eligible == 1 %}
+                                <td class="warning">
+                                    <i class="glyphicon glyphicon-warning-sign"></i> 1 kidney
+                                </td>
+                            {% elif donor.is_eligible == 2 %}
+                                <td class="success">
+                                    <i class="glyphicon glyphicon-ok"></i> 2 kidneys
+                                </td>
+                            {% else %}
+                                <td>ERROR</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No existing cases available. Contact us if you think this is in error.</p>
+            {% endif %}
+        </div>
+
+        <div class="col-md-4">
             <h2>New Case</h2>
             <form method="post" action="{% url 'compare:procurement_list' %}" class="form">
                 <div class="panel panel-default">
@@ -24,49 +77,16 @@
                         {% endif %}
                         {% crispy donor_form %}
                     </div>
-                    <div class="panel-footer"><input type="submit" class="btn btn-success" value="Start new case"/>
+                    <div class="panel-footer">
+                        <input type="submit" class="btn btn-success" value="Start new case"/>
                     </div>
                 </div>
             </form>
-        </div>
-        <div class="col-md-6">
-            <h2>Existing Cases
-                <small>({{ donors|length }} case{% if donors|length != 1 %}s{% endif %})</small>
-            </h2>
-            {% if donors|length > 0 %}
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th>Trial ID</th>
-                        <th>Number</th>
-                        <th>Age</th>
-                        <th>Gender</th>
-                        <th>Randomised</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for donor in donors %}
-                        <tr>
-                            <td><a href="{% url 'compare:procurement_detail' donor.id %}"
-                                   class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i>
-                                {{ donor.trial_id }}
-                            </a></td>
-                            <td>{{ donor.number }}</td>
-                            <td>{{ donor.age }}</td>
-                            <td>{{ donor.get_gender_display }}</td>
-                            <td>{% if donor.is_randomised %}Yes{% else %}No{% endif %}</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            {% else %}
-                <p>No existing cases available. Contact us if you think this is in error.</p>
-            {% endif %}
         </div>
     </div>
 {% endblock %}
 
 
 {% block footer_extra_scripts %}
-{% include 'autocomplete_light/static.html' %}
+    {% include 'autocomplete_light/static.html' %}
 {% endblock %}

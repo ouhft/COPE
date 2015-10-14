@@ -92,8 +92,8 @@
                 <li role="presentation">
                     <a href="#leftkidney" aria-controls="leftkidney" role="tab" data-toggle="tab"
                        id="leftkidneytab">Left Kidney
-                        {% if left_organ_form.errors|length > 0 %}
-                            <span class="label label-danger">{{ left_organ_form.errors|length }}</span>
+                        {% if left_organ_error_count > 0 %}
+                            <span class="label label-danger">{{ left_organ_error_count }}</span>
                         {% endif %}</a>
                 </li>
                 <li role="presentation" class="active"><a href="#donor" aria-controls="donor" role="tab"
@@ -105,24 +105,67 @@
                 <li role="presentation">
                     <a href="#rightkidney" aria-controls="rightkidney" role="tab" data-toggle="tab"
                        id="rightkidneytab">Right Kidney
-                        {% if right_organ_form.errors|length > 0 %}
-                            <span class="label label-danger">{{ right_organ_form.errors|length }}</span>
+                        {% if right_organ_error_count > 0 %}
+                            <span class="label label-danger">{{ right_organ_error_count }}</span>
                         {% endif %}</a>
                 </li>
             </ul>
             <!-- Tab panes -->
             <div role="tabpanel" class="tab-pane fade in active" id="donor">
                 <h2 class="sr-only visible-print">Donor</h2>
+                {{ donor_form.errors }}
 
                 {% crispy donor_form %}
             </div>
             <div role="tabpanel" class="tab-pane fade" id="leftkidney">
                 <h2 class="sr-only visible-print">Left Kidney</h2>
-                {% crispy left_organ_form %}
+                <div class="row">
+                    {% crispy left_organ_form %}
+                    <div class="col-md-4" style="margin-top: 10px;">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Resources Used</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div style="padding: 0 1.2em;">
+                                    {{ left_organ_procurement_form.management_form|crispy }}
+                                    {% for form in left_organ_procurement_form %}
+                                        {{ form.id }}
+                                        {% for field in form %}
+                                            {% if field.errors %}
+                                                <p class="text-danger">{{ field.errors|striptags }}</p>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% crispy form form.helper%}
+                                        <hr/>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div role="tabpanel" class="tab-pane fade" id="rightkidney">
                 <h2 class="sr-only visible-print">Right Kidney</h2>
-                {% crispy right_organ_form %}
+                <div class="row">
+                    {% crispy right_organ_form %}
+                    <div class="col-md-4" style="margin-top: 10px;">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Resources Used</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div style="padding: 0 1.2em;">
+                                    {{ right_organ_procurement_form.management_form|crispy }}
+                                    {% for form in right_organ_procurement_form %}
+                                        {% crispy form %}
+                                        <hr/>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             {% csrf_token %}
         </div>
@@ -277,39 +320,21 @@
             }
         }
 
-        HospitalWidget = {
-            getValue: function (choice) {
-                // TODO: Secure this input so that it doesn't execute the contents of value!
-                var value = choice.data('value');
+        $(document).bind('yourlabsWidgetReady', function () {
+            $('body').on('initialize', '.autocomplete-light-widget[data-widget-bootstrap=hospital-widget]', function () {
+                // HospitalWidget in cope.js
+                $(this).yourlabsWidget(HospitalWidget);
+            });
+        });
 
-                if (value == 'create') {
-                    choice.html(this.input.val())
-
-                    $.ajax(this.autocomplete.url, {
-                        async: false,
-                        type: 'post',
-                        data: {
-                            'name': this.input.val(),
-                        },
-                        success: function (text, jqXHR, textStatus) {
-                            value = text;
-                        }
-                    });
-
-                    choice.data('value', value);
-                }
-
-                return value;
-            }
-        }
 
         document.addEventListener("DOMContentLoaded", function (event) {
             // Set initial states
             updateRandomiseKidney({% if left_organ_form.transplantable.value %}true{% else %}false{% endif %}, true);
             updateRandomiseKidney({% if right_organ_form.transplantable.value %}true{% else %}false{% endif %}, false);
             updateRandomiseRecipients(
-                {# Values: None=Unanswered, 0=No, 1=Yes, 2=Unknown #}
-                {% if donor_form.multiple_recipients.value != 0 %}true{% else %}false{% endif %}
+                    {# Values: None=Unanswered, 0=No, 1=Yes, 2=Unknown #}
+                    {% if donor_form.multiple_recipients.value != 0 %}true{% else %}false{% endif %}
             );
             updateRandomiseButton();
             toggleModalContent(false);
@@ -347,22 +372,12 @@
                 toggleModalContent(false);
             })
 
-{#            // Autocomplete-light functions#}
-{#            $(document).bind('yourlabsWidgetReady', function () {#}
-{#                // Instantiate decks with RemoteAutocompleteWidget as override for all widgets with#}
-{#                // autocomplete 'remote'.#}
-{#                alert("binding attempted 1");#}
-{#                $('body').on('initialize', '.autocomplete-light-widget[data-widget-bootstrap=hospital-widget]', function () {#}
-{#                    $(this).yourlabsWidget(HospitalWidget);#}
-{#                    alert("binding attempted 2");#}
-{#                });#}
-{#            });#}
-
             // Navbar bottom actions
             $('footer').addClass('navbar_spacing');
             $('#nav_button_save').on('click', function () {
                 $('#procurement_form').submit();
             });
-        });
+        })
+        ;
     </script>
 {% endblock %}

@@ -11,8 +11,9 @@ from crispy_forms.layout import Layout, Submit, Div, HTML, Field
 from crispy_forms.bootstrap import FormActions, StrictButton
 from autocomplete_light import ModelChoiceField
 
-from ..theme.layout import InlineFields, FieldWithFollowup, YesNoFieldWithAlternativeFollowups, FieldWithNotKnown, \
-    DateTimeField, DateField, FormPanel, DATETIME_INPUT_FORMATS, DATE_INPUT_FORMATS
+from ..theme.layout import InlineFields, FieldWithFollowup, YesNoFieldWithAlternativeFollowups, FieldWithNotKnown
+from ..theme.layout import DateTimeField, DateField, FormPanel
+from ..theme.layout import DATETIME_INPUT_FORMATS, DATE_INPUT_FORMATS
 from .models import Donor, Organ, Recipient, ProcurementResource
 from .models import YES_NO_UNKNOWN_CHOICES, LOCATION_CHOICES
 
@@ -30,6 +31,7 @@ YES_NO_CHOICES = (
 
 class DonorForm(forms.ModelForm):
     retrieval_hospital = ModelChoiceField('HospitalAutoComplete')
+    transplant_coordinator = ModelChoiceField('TransplantCoordinatorAutoComplete')
 
     layout_procedure = Layout(
         Field('retrieval_team', template="bootstrap3/layout/read-only.html"),
@@ -158,6 +160,9 @@ class DonorForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(DonorForm, self).__init__(*args, **kwargs)
         self.fields['retrieval_team'].widget = forms.HiddenInput()
+        self.fields['transplant_coordinator'].required = False
+        self.fields['transplant_coordinator'].label = Donor._meta\
+            .get_field("transplant_coordinator").verbose_name.title()
         self.fields['retrieval_hospital'].label = Donor._meta.get_field("retrieval_hospital").verbose_name.title()
         self.fields['retrieval_hospital'].required = False
         self.fields['sequence_number'].widget = forms.HiddenInput()
@@ -317,21 +322,17 @@ class OrganForm(forms.ModelForm):
     helper = FormHelper()
     helper.form_tag = False
     helper.html5_required = True
-    helper.layout = Div(
+    helper.layout = Layout(
         Div(
             FormPanel("Inspection", layout_inspection),
+            FormPanel("Preset Data", layout_system_data),
+            FormPanel("Sampling Data", layout_samples),
             css_class="col-md-4", style="margin-top: 10px;"
         ),
         Div(
             FormPanel("Perfusion Data", layout_perfusion),
             css_class="col-md-4", style="margin-top: 10px;"
-        ),
-        Div(
-            FormPanel("Preset Data", layout_system_data),
-            FormPanel("Sampling Data", layout_samples),
-            css_class="col-md-4", style="margin-top: 10px;"
-        ),
-        css_class='row'
+        )
     )
 
     def __init__(self, *args, **kwargs):
@@ -373,18 +374,21 @@ class ProcurementResourceForm(forms.ModelForm):
     helper = FormHelper()
     helper.form_tag = False
     helper.html5_required = True
-    helper.layout = Div(
-        Div(Div('type', style="padding: 0 5px;"), css_class="col-md-4"),
-        Div(Div('lot_number', style="padding: 0 5px;"), css_class="col-md-3"),
-        Div(Div(DateField('expiry_date'), style="padding: 0 5px;"), css_class="col-md-3"),
-        Div(Div('DELETE', style="padding: 0 5px;"), css_class="col-md-2"),
-        css_class="row"
+    helper.layout = Layout(
+        'organ',
+        Field('type', template="bootstrap3/layout/read-only.html"),
+        'lot_number',
+        DateField('expiry_date'),
+        'created_by'
     )
 
     def __init__(self, *args, **kwargs):
         super(ProcurementResourceForm, self).__init__(*args, **kwargs)
+        self.render_required_fields = True
         self.fields['organ'].widget = forms.HiddenInput()
+        self.fields['type'].widget = forms.HiddenInput()
         self.fields['expiry_date'].input_formats = DATE_INPUT_FORMATS
+        # self.fields['expiry_date'].required = False
         self.fields['created_by'].widget = forms.HiddenInput()
 
     class Meta:
@@ -393,14 +397,26 @@ class ProcurementResourceForm(forms.ModelForm):
         localized_fields = "__all__"
 
 
-ProcurementResourceInlineFormSet = forms.models.inlineformset_factory(
+ProcurementResourceLeftInlineFormSet = forms.models.inlineformset_factory(
     Organ,
     ProcurementResource,
     form=ProcurementResourceForm,
+    min_num=len(ProcurementResource.TYPE_CHOICES),
+    validate_min=True,
     max_num=len(ProcurementResource.TYPE_CHOICES),
-    extra=1,
-    can_delete=True
-)
+    validate_max=True,
+    extra=0,
+    can_delete=False)
+ProcurementResourceRightInlineFormSet = forms.models.inlineformset_factory(
+    Organ,
+    ProcurementResource,
+    form=ProcurementResourceForm,
+    min_num=len(ProcurementResource.TYPE_CHOICES),
+    validate_min=True,
+    max_num=len(ProcurementResource.TYPE_CHOICES),
+    validate_max=True,
+    extra=0,
+    can_delete=False)
 
 
 class LoginForm(AuthenticationForm):
@@ -429,8 +445,7 @@ class LoginForm(AuthenticationForm):
 class RecipientForm(forms.ModelForm):
     perfusion_technician = ModelChoiceField('TechnicianAutoComplete')
     transplant_hospital = ModelChoiceField('HospitalAutoComplete')
-    transplant_coordinator = ModelChoiceField(
-        'TransplantCoordinatorAutoComplete')
+    transplant_coordinator = ModelChoiceField('TransplantCoordinatorAutoComplete')
 
     layout_reallocation = Layout(
         FieldWithFollowup(

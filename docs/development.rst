@@ -144,4 +144,8 @@ Now we can head to PyCharm and make the project available, along with debug opti
 * You can now test by running the testserver (^R for shortcut, or see toolbar button)
 
 
+Useful things to remember
+=========================
+
+* `pip list --outdated` will list the installed packages that have been superceded
 

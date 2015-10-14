@@ -18,7 +18,7 @@ class HospitalAutoComplete(al.AutocompleteModelBase):
     }
     widget_attrs = {
         'data-widget-maximum-values': 1,
-        'data-widget-bootstrap': 'hospital-widget'
+        'data-widget-bootstrap': 'hospital-widget',
     }
 
     def autocomplete_html(self):
