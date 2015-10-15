@@ -88,7 +88,7 @@
 
         <div class="tab-content">
             <!-- Nav tabs -->
-            <ul class="nav nav-pills nav-justified" role="tablist">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
                 <li role="presentation">
                     <a href="#leftkidney" aria-controls="leftkidney" role="tab" data-toggle="tab"
                        id="leftkidneytab">Left Kidney
@@ -121,50 +121,14 @@
                 <h2 class="sr-only visible-print">Left Kidney</h2>
                 <div class="row">
                     {% crispy left_organ_form %}
-                    <div class="col-md-4" style="margin-top: 10px;">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Resources Used</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div style="padding: 0 1.2em;">
-                                    {{ left_organ_procurement_form.management_form|crispy }}
-                                    {% for form in left_organ_procurement_form %}
-                                        {{ form.id }}
-                                        {% for field in form %}
-                                            {% if field.errors %}
-                                                <p class="text-danger">{{ field.errors|striptags }}</p>
-                                            {% endif %}
-                                        {% endfor %}
-                                        {% crispy form form.helper%}
-                                        <hr/>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {% include "compare/snippets/procurement_resource_formset.html" with procurement_formset=left_organ_procurement_forms %}
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane fade" id="rightkidney">
                 <h2 class="sr-only visible-print">Right Kidney</h2>
                 <div class="row">
                     {% crispy right_organ_form %}
-                    <div class="col-md-4" style="margin-top: 10px;">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Resources Used</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div style="padding: 0 1.2em;">
-                                    {{ right_organ_procurement_form.management_form|crispy }}
-                                    {% for form in right_organ_procurement_form %}
-                                        {% crispy form %}
-                                        <hr/>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {% include "compare/snippets/procurement_resource_formset.html" with procurement_formset=right_organ_procurement_forms %}
                 </div>
             </div>
             {% csrf_token %}

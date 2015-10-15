@@ -203,7 +203,7 @@ class DonorForm(forms.ModelForm):
         self.fields['circulatory_arrest'].input_formats = DATETIME_INPUT_FORMATS
         self.fields['death_diagnosed'].input_formats = DATETIME_INPUT_FORMATS
         self.fields['perfusion_started'].input_formats = DATETIME_INPUT_FORMATS
-        self.fields['systemic_flush_used'].choices = Donor.FLUSH_SOLUTION_CHOICES
+        self.fields['systemic_flush_used'].choices = Donor.SOLUTION_CHOICES
         self.fields['heparin'].choices = NO_YES_CHOICES
         # self.fields[''].
         self.fields['donor_blood_1_EDTA'].widget = forms.HiddenInput()

@@ -69,7 +69,7 @@ def procurement_list(request):
         donors = {}
 
     return render_to_response(
-        "dashboard/procurement_list.html",
+        "compare/procurement_list.html",
         {
             "donor_form": donor_form,
             "donors": donors
@@ -121,16 +121,19 @@ def procurement_form(request, pk):
         request.FILES or None,
         instance=donor.right_kidney(),
         prefix="right-organ")
-    right_organ_procurement_form = ProcurementResourceRightInlineFormSet(
+    right_organ_procurement_forms = ProcurementResourceRightInlineFormSet(
         request.POST or None,
         prefix="right-organ-procurement",
         initial=procurement_initial_data(donor.right_kidney(), current_person),
         instance=donor.right_kidney())
-    if right_organ_form.is_valid():
+    if right_organ_form.is_valid() and right_organ_procurement_forms.is_valid():
         right_organ_form.save(request.user)
+        for p_form in right_organ_procurement_forms:
+            p_form.save()
         all_valid += 1
-    right_organ_error_count = right_organ_procurement_form.total_error_count() + len(right_organ_form.errors)
+    right_organ_error_count = right_organ_procurement_forms.total_error_count() + len(right_organ_form.errors)
 
+    # =============================================== MESSAGES
     is_randomised = donor.left_kidney().preservation != Organ.PRESERVATION_NOT_SET
     print("DEBUG: is_randomised=%s" % is_randomised)
 
@@ -161,14 +164,14 @@ def procurement_form(request, pk):
 
     # print("DEBUG: Formset contains %s" % left_organ_procurement_form)
     return render_to_response(
-        "dashboard/procurement_form.html",
+        "compare/procurement_form.html",
         {
             "donor_form": donor_form,
             "left_organ_form": left_organ_form,
-            "left_organ_procurement_form": left_organ_procurement_forms,
+            "left_organ_procurement_forms": left_organ_procurement_forms,
             "left_organ_error_count": left_organ_error_count,
             "right_organ_form": right_organ_form,
-            "right_organ_procurement_form": right_organ_procurement_form,
+            "right_organ_procurement_forms": right_organ_procurement_forms,
             "right_organ_error_count": right_organ_error_count,
             "donor": donor,
             "is_randomised": is_randomised
@@ -193,7 +196,7 @@ def transplantation_list(request):
         organs = {}
 
     return render_to_response(
-        "dashboard/transplantation_list.html",
+        "compare/transplantation_list.html",
         {
             "recipients": recipients,
             "organs": organs
@@ -229,7 +232,7 @@ def transplantation_form_new(request, pk):
     recipient_form = RecipientForm(prefix="recipient", instance=recipient)
 
     return render_to_response(
-        "dashboard/transplantation_form.html",
+        "compare/transplantation_form.html",
         {
             "recipient_form": recipient_form,
             "recipient": recipient
@@ -257,7 +260,7 @@ def transplantation_form(request, pk):
             recipient = new_recipient
 
     return render_to_response(
-        "dashboard/transplantation_form.html",
+        "compare/transplantation_form.html",
         {
             "recipient_form": recipient_form,
             "recipient": recipient
