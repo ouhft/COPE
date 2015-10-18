@@ -9,7 +9,7 @@
     <div class="row">
         <div class="col-md-8">
             <h2>Existing Cases
-                <small>({{ donors|length }} case{% if donors|length != 1 %}s{% endif %})</small>
+                <small>({{ donors|length }} case{{ donors|pluralize }})</small>
             </h2>
             {% if donors|length > 0 %}
                 <table class="table table-striped">
@@ -29,7 +29,7 @@
                                    class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i>
                                 {{ donor.trial_id }}
                             </a></td>
-                            <td>{{ donor.number }}</td>
+                            <td>{{ donor.number|default:"Unknown number" }}</td>
                             <td>{{ donor.age }}</td>
                             <td>{{ donor.get_gender_display }}</td>
                             {% if donor.is_eligible == -1 %}

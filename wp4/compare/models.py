@@ -717,8 +717,8 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
         return self.donor.trial_id() + self.location
 
     def __unicode__(self):
-        return '%s : %s kidney preserved with %s' % (
-            self.trial_id(), self.get_location_display(), self.get_preservation_display()
+        return '%s : %s' % (
+            self.trial_id(), "Randomised" if self.donor.is_randomised() else "Not yet eligible"
         )
 
     class Meta:
@@ -805,7 +805,7 @@ class Recipient(OrganPerson):
         verbose_name=_('DO11 arrival at donor hospital'),
         blank=True, null=True)
     journey_remarks = models.TextField(verbose_name=_("journey notes"), blank=True)
-    reallocated = models.BooleanField(verbose_name=_("reallocated"), default=False)
+    reallocated = models.NullBooleanField(verbose_name=_("reallocated"), blank=True, default=None)
     reallocation_reason = models.PositiveSmallIntegerField(
         verbose_name=_('reason for re-allocation'),
         choices=REALLOCATION_CHOICES,
@@ -861,7 +861,7 @@ class Recipient(OrganPerson):
     organ_cold_stored = models.BooleanField(verbose_name=_('kidney was cold stored?'), default=False)
     tape_broken = models.NullBooleanField(verbose_name=_('tape over regulator broken'), blank=True, null=True)
     removed_from_machine_at = models.DateTimeField(
-        verbose_name=_('kidney removed from matchine at'),
+        verbose_name=_('kidney removed from machine at'),
         blank=True, null=True)
     oxygen_full_and_open = models.PositiveSmallIntegerField(
         verbose_name=_('oxygen full and open'),
@@ -877,7 +877,7 @@ class Recipient(OrganPerson):
         verbose_name=_('incision'),
         choices=INCISION_CHOICES,
         blank=True, null=True)
-    transplant_side = models.CharField(verbose_name=_('transplant side'), max_length=1, choices=LOCATION_CHOICES)
+    transplant_side = models.CharField(verbose_name=_('transplant side'), max_length=1, choices=LOCATION_CHOICES, blank=True)
     arterial_problems = models.PositiveSmallIntegerField(
         verbose_name=_('arterial problems'),
         choices=ARTERIAL_PROBLEM_CHOICES,

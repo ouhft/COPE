@@ -7,7 +7,6 @@ urlpatterns = [
     url(r'^procurement/(?P<pk>[0-9]+)/$', views.procurement_form, name='procurement_detail'),
 
     url(r'^transplantation/$', views.transplantation_list, name='transplantation_list'),
-    url(r'^transplantation/new/(?P<pk>[0-9]+)/$', views.transplantation_form_new, name='transplantation_new'),
     url(r'^transplantation/(?P<pk>[0-9]+)/$', views.transplantation_form, name='transplantation_detail'),
 
     url(r'^errors/403$', views.error403, name='error_403'),

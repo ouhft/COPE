@@ -3,63 +3,79 @@
 {% load crispy_forms_tags %}
 {% load crispy_forms_field %}
 
-{% block page_title %}Transplantation{% endblock %}
-{% block page_header %}Transplantation - Case: {{ recipient.trial_id }}{% endblock %}
+{% block page_title %}Case: {{ organ.trial_id }} - Transplantation{% endblock %}
+{% block page_header %}
+    Transplantation
+    <small>Case: {{ organ.trial_id }}</small>
+{% endblock %}
+
 
 {% block content %}
-    <script type="text/javascript">
-        document.addEventListener("DOMContentLoaded", function (event) {
-        });
-    </script>
+    <form method="post" action="{% url 'compare:transplantation_detail' pk=organ.id %}" class="form-horizontal"
+          id="transplant-form">
+        {#        <h2 class="sr-only visible-print">Donor</h2>#}
+        {#        {{ recipient_form.errors }}#}
+        {#        {% crispy recipient_form %}#}
 
-    <form method="post" action="{% url 'compare:transplantation_detail' pk=recipient.id %}" class="form-horizontal">
-        <div class="row">
-            <div class="col-md-3">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Recipient</h3>
-                    </div>
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            Age: {{ recipient.age_from_dob }}
-                        </li>
-                        <li class="list-group-item">
-                            NHS Number: {{ recipient.number }}
-                        </li>
-                        <li class="list-group-item">
-                            Transplant hospital: {{ recipient.transplant_hospital.name }}
-                        </li>
-                        <li class="list-group-item">
-                            Transplant co-ordinator:{{ recipient.transplant_coordinator.full_name }}<br>
-                            <i class="glyphicon glyphicon-phone"></i>: {{ recipient.transplant_coordinator.telephone }}
-                        </li>
-                    </ul>
+
+        {{ recipient_formset.management_form|crispy }}
+        {% for form in recipient_formset %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Allocation Round {{ forloop.counter }}
                 </div>
+                <div class="panel-body">
+                    {{ form.id }}
+                    {% for field in form %}
+                        {% if field.errors %}
+                            <p class="text-danger">{{ field.errors|striptags }}</p>
+                        {% endif %}
+                    {% endfor %}
+                    {% crispy form form.helper %}
 
-                <p class="btn-group btn-group-lg">
-                    <input type="submit" class="btn btn-primary" value="Save"/>
-                    <input type="submit" class="btn btn-warning" value="Validate"/>
-                </p>
+                </div>
             </div>
+        {% endfor %}
 
-            <div class="col-md-9">
-                <h2 class="sr-only visible-print">Donor</h2>
-                {{ recipient_form.errors }}
-                {% crispy recipient_form %}
-            </div>
-            {% csrf_token %}
-        </div>
-        {#    TODO: Add navbar at the bottom of the page with the action buttons on them #}
+        <h2>Recipient</h2>
+        {% if recipient_form_loaded %}
+            {% crispy recipient_form %}
+        {% else %}
+            <p><span class="label label-info">Info</span> Please confirm that the organ has not been re-allocated. The
+                remainder of the form will appear after saving.</p>
+        {% endif %}
     </form>
 {% endblock %}
 
+
+{% block footer_nav %}
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container">
+            <div class="navbar-right">
+                <input type="button" class="btn btn-primary navbar-btn" value="Save" id="nav_button_save"/>
+            </div>
+        </div>
+    </nav>
+{% endblock %}
+
+
 {% block footer_extra_scripts %}
     {% include 'autocomplete_light/static.html' %}
+
     <script>
         $(document).bind('yourlabsWidgetReady', function () {
             // HospitalWidget in cope.js
             $('body').on('initialize', '.autocomplete-light-widget[data-widget-bootstrap=hospital-widget]', function () {
                 $(this).yourlabsWidget(HospitalWidget);
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function (event) {
+
+            // Navbar bottom actions
+            $('footer').addClass('navbar_spacing');
+            $('#nav_button_save').on('click', function () {
+                $('#transplant-form').submit();
             });
         });
     </script>

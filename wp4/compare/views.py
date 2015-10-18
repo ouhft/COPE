@@ -1,18 +1,18 @@
 # coding=utf-8
 
 from django.contrib import messages
+from django.db.models import Q, Count
 from django.http import Http404
 from django.template import RequestContext
 from django.shortcuts import get_object_or_404, render, render_to_response
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.csrf import csrf_protect
 from django.core.urlresolvers import reverse
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
 
 from ..staff_person.models import StaffJob, StaffPerson
 from .models import Donor, Organ, Recipient, ProcurementResource
-from .forms import DonorForm, DonorStartForm, OrganForm, RecipientForm
+from .forms import DonorForm, DonorStartForm, OrganForm, RecipientFormASet, RecipientFormB
 from .forms import ProcurementResourceLeftInlineFormSet, ProcurementResourceRightInlineFormSet
 
 
@@ -186,84 +186,98 @@ def transplantation_list(request):
     if current_person.has_job(
             (StaffJob.SYSTEMS_ADMINISTRATOR, StaffJob.CENTRAL_COORDINATOR, StaffJob.NATIONAL_COORDINATOR)
     ):
-        recipients = Recipient.objects.filter(successful_conclusion=False)
-        organs = Organ.objects.exclude(preservation__isnull=True)  # TODO: Add a filter to exclude organs with recipient forms
+        existing_cases = Organ.objects.filter(
+            Q(recipient__isnull=False),
+            Q(recipient__successful_conclusion=False)
+        ).annotate(copies=Count('recipient__id'))
+        new_cases = Organ.objects.filter(preservation__lte=1).exclude(recipient__isnull=False)
     elif current_person.has_job(StaffJob.PERFUSION_TECHNICIAN):
-        recipients = Recipient.objects.filter(perfusion_technician=current_person)
-        organs = Organ.objects.exclude(preservation__isnull=True)
+        existing_cases = Organ.objects.filter(recipient__perfusion_technician=current_person)
+        new_cases = Organ.objects.filter(preservation__lte=1).exclude(recipient__isnull=False)
     else:
-        recipients = {}
-        organs = {}
+        existing_cases = {}
+        new_cases = {}
 
     return render_to_response(
         "compare/transplantation_list.html",
         {
-            "recipients": recipients,
-            "organs": organs
+            "existing_cases": existing_cases,
+            "new_cases": new_cases
         },
         context_instance=RequestContext(request)
     )
 
 
 @login_required
-def transplantation_form_new(request, pk):
+def transplantation_form(request, pk=None):
     """
-    Setup a new Transplanation Form for a given Organ ID
-
     :param request:
-    :param pk: Organ primary key
+    :param pk: Organ primary key, as all recipients are tied to an organ
     :return:
     """
+    print("DEBUG: Got an organ pk of %s" % pk)
     organ = get_object_or_404(Organ, pk=int(pk))
-    if len(organ.recipient_set.all()) > 0:
-        # There's a form already created... use it!
-        recipient = organ.recipient_set.latest()  # TODO: This throws an error!
-    else:
-        recipient = Recipient()
+    current_person = StaffPerson.objects.get(user__id=request.user.id)
+    recipient_form = {}
+    recipient_form_loaded = False
+    recipient = Recipient()
+
+    # First time in, we need to create an initial recipient FormA, and recipient record
+    if len(organ.recipient_set.all()) == 0:
         recipient.organ = organ
         recipient.created_by = request.user
-
-        current_person = StaffPerson.objects.get(user__id=request.user.id)
         if current_person.has_job(StaffJob.PERFUSION_TECHNICIAN):
             recipient.perfusion_technician = current_person
-
         recipient.save()
+    else:  # Otherwise load the last recipient created
+        recipient = organ.recipient_set.latest()
 
-    recipient_form = RecipientForm(prefix="recipient", instance=recipient)
+    # Process Form A
+    recipient_formset = RecipientFormASet(request.POST or None, prefix="recipient-a",
+                                          queryset=organ.recipient_set.all())
+    if recipient_formset.is_valid():
+        last_form_index = len(recipient_formset)-1
+        for i, form in enumerate(recipient_formset):
+            print("DEBUG: i=%d" % i)
+            recipient = form.save(current_person.user)
+
+            if i == last_form_index:
+                # If this is the latest form A and reallocation has occurred, create a new recipient
+                if recipient.reallocated:
+                    print("DEBUG: Do the reallocation thing!")
+                    new_recipient = Recipient()
+                    new_recipient.organ = organ
+                    new_recipient.created_by = request.user
+                    if current_person.has_job(StaffJob.PERFUSION_TECHNICIAN):
+                        new_recipient.perfusion_technician = current_person
+                    new_recipient.save()
+
+                    recipient.recipient = new_recipient
+                    recipient.save()
+
+                    # Reload the formset to pick up the new addition
+                    recipient_formset = RecipientFormASet(prefix="recipient-a", queryset=organ.recipient_set.all())
+                    recipient = new_recipient
+    else:
+        print("DEBUG: Errors! %s" % recipient_formset.errors)
+
+    if recipient.reallocated is not None and not recipient.reallocated:
+        # Now process the potential Form B
+        recipient_form = RecipientFormB(request.POST or None, request.FILES or None,
+                                        instance=recipient, prefix="form-b")
+        recipient_form_loaded = True
+        if recipient_form.is_valid():
+            recipient_form.save()
+        else:
+            print("DEBUG: Recipient Errors! %s" % recipient_form.errors)
 
     return render_to_response(
         "compare/transplantation_form.html",
         {
+            "recipient_formset": recipient_formset,
             "recipient_form": recipient_form,
-            "recipient": recipient
-        },
-        context_instance=RequestContext(request)
-    )
-
-
-@login_required
-def transplantation_form(request, pk):
-    recipient = get_object_or_404(Recipient, pk=int(pk))
-    recipient_form = RecipientForm(request.POST or None, request.FILES or None, instance=recipient, prefix="recipient")
-    if recipient_form.is_valid():
-        recipient = recipient_form.save(request.user)
-
-        if recipient.reallocated:
-            # Start a new recipient form if the minimum information has been entered
-            new_recipient = Recipient()
-            new_recipient.organ = recipient.organ
-            new_recipient.created_by = request.user
-            current_person = StaffPerson.objects.get(user__id=request.user.id)
-            if current_person.has_job(StaffJob.PERFUSION_TECHNICIAN):
-                new_recipient.perfusion_technician = current_person
-            recipient_form = RecipientForm(instance=new_recipient, prefix="recipient")
-            recipient = new_recipient
-
-    return render_to_response(
-        "compare/transplantation_form.html",
-        {
-            "recipient_form": recipient_form,
-            "recipient": recipient
+            "organ": organ,
+            "recipient_form_loaded": recipient_form_loaded
         },
         context_instance=RequestContext(request)
     )

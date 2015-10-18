@@ -7,32 +7,58 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-md-6">
-            <h3>New Cases</h3>
-            {% if organs|length > 0 %}
-                <ul>
-                    {% for organ in organs %}
-                        <li><a href="{% url 'compare:transplantation_new' organ.id %}">{{ organ.trial_id }}</a>
-                            - {{ organ.location }} / {{ organ.get_preservation_display }}</li>
+        <div class="col-md-8">
+            <h2>
+                Recipients
+                <small>({{ existing_cases|length }} case{{ existing_cases|pluralize }})</small>
+            </h2>
+            {% if existing_cases|length > 0 %}
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Trial ID</th>
+                        <th>Number</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for case in existing_cases %}
+                        <tr>
+                            <td>
+                                <a href="{% url 'compare:transplantation_detail' case.id %}"
+                                   class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i>
+                                    {{ case.trial_id }}
+                                </a>
+                                {# TODO: Make this staff only #}
+{#                                <a href="{% url 'admin:compare_recipient_change' case.id %}"><i#}
+{#                                        class="glyphicon glyphicon-briefcase"></i></a>#}
+                            </td>
+                            <td>{{ case.number|default:"Unknown number" }}</td>
+                            <td>{{ case.age|default:"Unknown age" }}</td>
+                            <td>{{ case.get_gender_display }}</td>
+                        </tr>
                     {% endfor %}
-                </ul>
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No existing cases available. Contact us if you think this is in error.</p>
+            {% endif %}
+        </div>
+        <div class="col-md-4">
+            <h2>
+                Organs available
+                <small>({{ new_cases|length }} case{{ new_cases|pluralize }})</small>
+            </h2>
+            {% if new_cases|length > 0 %}
+                <div class="list-group">
+                    {% for case in new_cases %}
+                        <a href="{% url 'compare:transplantation_detail' case.id %}"
+                           class="list-group-item">{{ case.trial_id }}</a>
+                    {% endfor %}
+                </div>
             {% else %}
                 <p>No new cases available</p>
-            {% endif %}
-
-        </div>
-        <div class="col-md-6">
-            <h3>Existing Cases</h3>
-            {% if recipients|length > 0 %}
-                <ul>
-                    {% for recipient in recipients %}
-                        <li>
-                            <a href="{% url 'compare:transplantation_detail' recipient.id %}">{{ recipient.trial_id }}</a>
-                            - {{ recipient.number }} / {{ recipient.age }} / {{ recipient.gender }}</li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p>No existing cases available</p>
             {% endif %}
 
         </div>
