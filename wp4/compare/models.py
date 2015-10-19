@@ -127,7 +127,7 @@ class OrganPerson(VersionControlModel):
 
 class Donor(OrganPerson):
     # Donor Form Case data
-    sequence_number = models.PositiveSmallIntegerField(verbose_name=_("DO01 sequence number"), default=0)
+    sequence_number = models.PositiveSmallIntegerField(default=0)  # Internal value
     multiple_recipients = models.PositiveSmallIntegerField(
         verbose_name=_('DO02 Multiple recipients'),
         choices=YES_NO_UNKNOWN_CHOICES,
@@ -285,6 +285,7 @@ class Donor(OrganPerson):
         max_length=250,
         blank=True)
     systemic_flush_volume_used = models.PositiveSmallIntegerField(
+        # TODO: this doesn't appear on the paper forms??
         verbose_name=_('DO47 aortic - volume (ml)'),
         blank=True, null=True)
     heparin = models.NullBooleanField(
@@ -374,7 +375,7 @@ class Donor(OrganPerson):
 
         if self.systemic_flush_used and self.systemic_flush_used == self.SOLUTION_OTHER \
                 and not self.systemic_flush_used_other:
-            raise ValidationError(_("DOv10 Missing the details of the other systemic flush solution used"))
+            raise ValidationError(_("DOv11 Missing the details of the other systemic flush solution used"))
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         # On creation, get and save the sequence number from the retrieval team
@@ -408,7 +409,7 @@ class Donor(OrganPerson):
     def bmi_value(self):
         # http://www.nhs.uk/chq/Pages/how-can-i-work-out-my-bmi.aspx?CategoryID=51 for formula
         if self.height < 1 or self.weight < 1:
-            return _("Not Available")
+            return _("DOv12 Not Available")
         height_in_m = self.height / 100
         return (self.weight / height_in_m) / height_in_m
     bmi_value.short_description = 'BMI Value'

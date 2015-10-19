@@ -1,10 +1,8 @@
 #!/usr/bin/python
 # coding: utf-8
 from django import forms
-from django.conf import settings
 from django.utils import timezone
-from django.contrib.auth.forms import AuthenticationForm
-from django.utils.translation import ugettext_lazy as _, ungettext_lazy as __
+from django.utils.translation import ugettext_lazy as _
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Div, HTML, Field
@@ -112,25 +110,25 @@ class DonorForm(forms.ModelForm):
             Field('donor_blood_1_EDTA', template="bootstrap3/layout/read-only.html"),
             StrictButton('<i class="glyphicon glyphicon-edit"></i>', css_class='btn-default', data_toggle="modal",
                          data_target="#myModal", title="Add/Edit Sample", css_id="button_db1"),
-            label=_('DO91 db 1.1 edta')
+            label='FIXME'
         ),
         InlineFields(
             Field('donor_blood_1_SST', template="bootstrap3/layout/read-only.html"),
             StrictButton('<i class="glyphicon glyphicon-edit"></i>', css_class='btn-default', data_toggle="modal",
                          data_target="#myModal", title="Add/Edit Sample", css_id="button_db2"),
-            label=_('DO92 db 1.2 sst')
+            label='FIXME'
         ),
         InlineFields(
             Field('donor_urine_1', template="bootstrap3/layout/read-only.html"),
             StrictButton('<i class="glyphicon glyphicon-edit"></i>', css_class='btn-default', data_toggle="modal",
                          data_target="#myModal", title="Add/Edit Sample", css_id="button_du1"),
-            label=_('DO93 du 1')
+            label='FIXME'
         ),
         InlineFields(
             Field('donor_urine_2', template="bootstrap3/layout/read-only.html"),
             StrictButton('<i class="glyphicon glyphicon-edit"></i>', css_class='btn-default', data_toggle="modal",
                          data_target="#myModal", title="Add/Edit Sample", css_id="button_du2"),
-            label=_('DO94 du 2')
+            label='FIXME'
         ),
     )
 
