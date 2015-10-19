@@ -297,7 +297,8 @@ LANGUAGES = (
 )
 
 LOCALE_PATHS = (
-    str(ROOT_DIR.path('locale')),
+    # str(ROOT_DIR.path('locale')),
+    str(ROOT_DIR('locale')),
 )
 
 # REDIRECT_FIELD_NAME = 'redirect_to'
