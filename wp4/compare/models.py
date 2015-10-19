@@ -17,20 +17,18 @@ from ..samples.models import Sample
 NO = 0
 YES = 1
 UNKNOWN = 2
-# NOT_ANSWERED = 9   # will be recorded as a null value
 YES_NO_UNKNOWN_CHOICES = (
-    (UNKNOWN, _("MM03 Unknown")),
-    (NO, _("MM01 No")),
-    (YES, _("MM02 Yes"))
-) # Need Yes to be the last choice for any FieldWithFollowUp
+    (UNKNOWN, _("MMc03 Unknown")),
+    (NO, _("MMc01 No")),
+    (YES, _("MMc02 Yes"))
+)  # Need Yes to be the last choice for any FieldWithFollowUp
 
 
 LEFT = "L"
 RIGHT = "R"
 LOCATION_CHOICES = (
-    (LEFT, _('OR01 Left')),
-    (RIGHT, _('OR02 Right'))
-)
+    (LEFT, _('ORc01 Left')),
+    (RIGHT, _('ORc02 Right')))
 
 
 class VersionControlModel(models.Model):
@@ -48,11 +46,8 @@ class VersionControlModel(models.Model):
 
 class RetrievalTeam(models.Model):
     centre_code = models.PositiveSmallIntegerField(
-        verbose_name=_("HO02 centre code"),
-        validators=[
-            MinValueValidator(10),
-            MaxValueValidator(99)
-        ])
+        verbose_name=_("RT01 centre code"),
+        validators=[MinValueValidator(10), MaxValueValidator(99)])
     based_at = models.ForeignKey(Hospital, verbose_name=_("RT02 base hospital"))
     created_on = models.DateTimeField(default=timezone.now)
     created_by = models.ForeignKey(User)
@@ -83,18 +78,17 @@ class OrganPerson(VersionControlModel):
     MALE = 'M'
     FEMALE = 'F'
     GENDER_CHOICES = (
-        (MALE, _('DO20 Male')),
-        (FEMALE, _('DO21 Female'))
+        (MALE, _('OPc01 Male')),
+        (FEMALE, _('OPc02 Female'))
     )
 
     CAUCASIAN = 1
     BLACK = 2
     OTHER_ETHNICITY = 3
     ETHNICITY_CHOICES = (
-        (CAUCASIAN, _('DO22 Caucasian')),
-        (BLACK, _('DO23 Black')),
-        (OTHER_ETHNICITY, _('DO24 Other'))
-    )
+        (CAUCASIAN, _('OPc03 Caucasian')),
+        (BLACK, _('OPc04 Black')),
+        (OTHER_ETHNICITY, _('OPc05 Other')))
 
     BLOOD_O = 1
     BLOOD_A = 2
@@ -106,46 +100,26 @@ class OrganPerson(VersionControlModel):
         (BLOOD_A, 'A'),
         (BLOOD_B, 'B'),
         (BLOOD_AB, 'AB'),
-        (BLOOD_UNKNOWN, _('DO29 Unknown'))
-    )
+        (BLOOD_UNKNOWN, _('OPc06 Unknown')))
 
-    number = models.CharField(
-        verbose_name=_('DO30 NHSBT Number'),  # "ET Donor number/ NHSBT Number",
-        max_length=20,
-        blank=True,
-    )
-    date_of_birth = models.DateField(
-        verbose_name=_('DO32 date of birth'),
-        blank=True, null=True,
-    )
+    # "ET Donor number/ NHSBT Number",
+    number = models.CharField(verbose_name=_('OP01 NHSBT Number'), max_length=20, blank=True)
+    date_of_birth = models.DateField(verbose_name=_('OP02 date of birth'), blank=True, null=True)
     date_of_birth_unknown = models.BooleanField(default=False)  # Internal flag
-    gender = models.CharField(verbose_name=_('DO37 gender'), choices=GENDER_CHOICES, max_length=1, default=MALE)
+    gender = models.CharField(verbose_name=_('OP03 gender'), choices=GENDER_CHOICES, max_length=1, default=MALE)
     weight = models.PositiveSmallIntegerField(
-        verbose_name=_('DO39 Weight (kg)'),
-        validators=[
-            MinValueValidator(20),
-            MaxValueValidator(200)
-        ],
-        blank=True, null=True
-    )
+        verbose_name=_('OP04 Weight (kg)'),
+        validators=[MinValueValidator(20), MaxValueValidator(200)],
+        blank=True, null=True)
     height = models.PositiveSmallIntegerField(
-        verbose_name=_('DO40 Height (cm)'),
-        validators=[
-            MinValueValidator(100),
-            MaxValueValidator(250)
-        ],
-        blank=True, null=True
-    )
-    ethnicity = models.IntegerField(
-        verbose_name=_('DO41 ethnicity'),
-        choices=ETHNICITY_CHOICES,
-        blank=True, null=True
-    )
+        verbose_name=_('OP05 Height (cm)'),
+        validators=[MinValueValidator(100), MaxValueValidator(250)],
+        blank=True, null=True)
+    ethnicity = models.IntegerField(verbose_name=_('OP06 ethnicity'), choices=ETHNICITY_CHOICES, blank=True, null=True)
     blood_group = models.PositiveSmallIntegerField(
-        verbose_name=_('DO42 blood group'),
+        verbose_name=_('OP07 blood group'),
         choices=BLOOD_GROUP_CHOICES,
-        blank=True, null=True
-    )
+        blank=True, null=True)
 
     class Meta:
         abstract = True
@@ -153,9 +127,9 @@ class OrganPerson(VersionControlModel):
 
 class Donor(OrganPerson):
     # Donor Form Case data
-    sequence_number = models.PositiveSmallIntegerField(verbose_name=_("DO02 sequence number"), default=0)
+    sequence_number = models.PositiveSmallIntegerField(verbose_name=_("DO01 sequence number"), default=0)
     multiple_recipients = models.PositiveSmallIntegerField(
-        verbose_name=_('DO01 Multiple recipients'),
+        verbose_name=_('DO02 Multiple recipients'),
         choices=YES_NO_UNKNOWN_CHOICES,
         blank=True, null=True)
 
@@ -168,27 +142,16 @@ class Donor(OrganPerson):
         related_name="donor_perfusion_technician_set")
     transplant_coordinator = models.ForeignKey(
         StaffPerson,
-        verbose_name=_('DO04 name of the SN-OD'),  # 'name of transplant co-ordinator',
+        verbose_name=_('DO04 name of the SN-OD'),
         limit_choices_to={"jobs": StaffJob.TRANSPLANT_COORDINATOR},
         related_name="donor_transplant_coordinator_set",
         blank=True,
         null=True)
-    call_received = models.DateTimeField(
-        verbose_name=_('DO05 Consultant to MTO called at'),  # 'transplant co-ordinator received call at',
-        blank=True, null=True)
-    retrieval_hospital = models.ForeignKey(
-        Hospital,
-        verbose_name=_('DO06 donor hospital'),
-        blank=True, null=True)
-    scheduled_start = models.DateTimeField(
-        verbose_name=_('DO07 time of withdrawal therapy'),
-        blank=True, null=True)
-    technician_arrival = models.DateTimeField(
-        verbose_name=_('DO08 arrival time of technician at hub'),
-        blank=True, null=True)
-    ice_boxes_filled = models.DateTimeField(
-        verbose_name=_('DO09 ice boxes filled'),  # with sufficient amount of ice (for kidney assist)
-        blank=True, null=True)
+    call_received = models.DateTimeField(verbose_name=_('DO05 Consultant to MTO called at'), blank=True, null=True)
+    retrieval_hospital = models.ForeignKey(Hospital, verbose_name=_('DO06 donor hospital'), blank=True, null=True)
+    scheduled_start = models.DateTimeField(verbose_name=_('DO07 time of withdrawal therapy'), blank=True, null=True)
+    technician_arrival = models.DateTimeField(verbose_name=_('DO08 arrival time of technician'), blank=True, null=True)
+    ice_boxes_filled = models.DateTimeField(verbose_name=_('DO09 ice boxes filled'), blank=True, null=True)
     depart_perfusion_centre = models.DateTimeField(
         verbose_name=_('DO10 departure from base hospital at'),
         blank=True, null=True)
@@ -198,19 +161,17 @@ class Donor(OrganPerson):
 
     # Donor details (in addition to OrganPerson)
     age = models.PositiveSmallIntegerField(
-        verbose_name=_('DO31 age'),
+        verbose_name=_('DO12 age'),
         validators=[MinValueValidator(50), MaxValueValidator(99)])
-    date_of_admission = models.DateField(
-        verbose_name=_('DO33 date of admission into hospital'),
-        blank=True, null=True)
-    admitted_to_itu = models.BooleanField(verbose_name=_('DO34 admitted to ITU'), default=False)
-    date_admitted_to_itu = models.DateField(verbose_name=_('DO35 when admitted to ITU'), blank=True, null=True)
-    date_of_procurement = models.DateField(verbose_name=_('DO36 date of procurement'), blank=True, null=True)
-    other_organs_procured = models.BooleanField(verbose_name=_("DO43 other organs procured"), default=False)
-    other_organs_lungs = models.BooleanField(verbose_name=_("DO44 lungs"), default=False)
-    other_organs_pancreas = models.BooleanField(verbose_name=_("DO45 pancreas"), default=False)
-    other_organs_liver = models.BooleanField(verbose_name=_("DO46 liver"), default=False)
-    other_organs_tissue = models.BooleanField(verbose_name=_("DO47 tissue"), default=False)
+    date_of_admission = models.DateField(verbose_name=_('DO13 date of admission'), blank=True, null=True)
+    admitted_to_itu = models.BooleanField(verbose_name=_('DO14 admitted to ITU'), default=False)
+    date_admitted_to_itu = models.DateField(verbose_name=_('DO15 when admitted to ITU'), blank=True, null=True)
+    date_of_procurement = models.DateField(verbose_name=_('DO16 date of procurement'), blank=True, null=True)
+    other_organs_procured = models.BooleanField(verbose_name=_("DO17 other organs procured"), default=False)
+    other_organs_lungs = models.BooleanField(verbose_name=_("DO18 lungs"), default=False)
+    other_organs_pancreas = models.BooleanField(verbose_name=_("DO19 pancreas"), default=False)
+    other_organs_liver = models.BooleanField(verbose_name=_("DO20 liver"), default=False)
+    other_organs_tissue = models.BooleanField(verbose_name=_("DO21 tissue"), default=False)
 
     # DonorPreop data
     DIAGNOSIS_CEREBROVASCULAR_ACCIDENT = 1
@@ -218,60 +179,56 @@ class Donor(OrganPerson):
     DIAGNOSIS_TRAUMA = 3
     DIAGNOSIS_OTHER = 4
     DIAGNOSIS_CHOICES = (
-        (DIAGNOSIS_CEREBROVASCULAR_ACCIDENT, _("DO50 Cerebrovascular Accident")),
-        (DIAGNOSIS_HYPOXIA, _("DO51 Hypoxia")),
-        (DIAGNOSIS_TRAUMA, _("DO52 Trauma")),
-        (DIAGNOSIS_OTHER, _("DO53 Other")))
-    diagnosis = models.PositiveSmallIntegerField(
-        verbose_name=_('DO54 diagnosis'),
-        choices=DIAGNOSIS_CHOICES,
-        blank=True, null=True)
-    diagnosis_other = models.CharField(verbose_name=_('DO55 other diagnosis'), max_length=250, blank=True)
-    diabetes_melitus = models.PositiveSmallIntegerField(
-        verbose_name=_('DO56 diabetes mellitus'),
-        choices=YES_NO_UNKNOWN_CHOICES,
-        blank=True, null=True)
+        (DIAGNOSIS_CEREBROVASCULAR_ACCIDENT, _("DOc01 Cerebrovascular Accident")),
+        (DIAGNOSIS_HYPOXIA, _("DOc02 Hypoxia")),
+        (DIAGNOSIS_TRAUMA, _("DOc03 Trauma")),
+        (DIAGNOSIS_OTHER, _("DOc04 Other")))
+    diagnosis = models.PositiveSmallIntegerField(verbose_name=_('DO22 diagnosis'), choices=DIAGNOSIS_CHOICES,
+                                                 blank=True, null=True)
+    diagnosis_other = models.CharField(verbose_name=_('DO23 other diagnosis'), max_length=250, blank=True)
+    diabetes_melitus = models.PositiveSmallIntegerField(verbose_name=_('DO24 diabetes mellitus'),
+                                                        choices=YES_NO_UNKNOWN_CHOICES, blank=True, null=True)
     alcohol_abuse = models.PositiveSmallIntegerField(
-        verbose_name=_('DO57 alcohol abuse'),
+        verbose_name=_('DO25 alcohol abuse'),
         choices=YES_NO_UNKNOWN_CHOICES,
         blank=True, null=True)
     cardiac_arrest = models.NullBooleanField(
-        verbose_name=_('DO58 cardiac arrest'),  # 'Cardiac Arrest (During ITU stay, prior to Retrieval Procedure)',
+        verbose_name=_('DO26 cardiac arrest'),  # 'Cardiac Arrest (During ITU stay, prior to Retrieval Procedure)',
         blank=True, null=True)
     systolic_blood_pressure = models.PositiveSmallIntegerField(
-        verbose_name=_('DO59 last systolic blood pressure'),  # "Last Systolic Blood Pressure (Before switch off)",
+        verbose_name=_('DO27 last systolic blood pressure'),  # "Last Systolic Blood Pressure (Before switch off)",
         validators=[MinValueValidator(10), MaxValueValidator(200)],
         blank=True, null=True)
     diastolic_blood_pressure = models.PositiveSmallIntegerField(
-        verbose_name=_('DO60 last diastolic blood pressure'),  # "Last Diastolic Blood Pressure (Before switch off)",
+        verbose_name=_('DO28 last diastolic blood pressure'),  # "Last Diastolic Blood Pressure (Before switch off)",
         validators=[MinValueValidator(10), MaxValueValidator(200)],
         blank=True, null=True)
     diuresis_last_day = models.PositiveSmallIntegerField(
-        verbose_name=_('DO61 diuresis last day (ml)'),
+        verbose_name=_('DO29 diuresis last day (ml)'),
         blank=True, null=True)
     diuresis_last_day_unknown = models.BooleanField(default=False)  # Internal flag
     diuresis_last_hour = models.PositiveSmallIntegerField(
-        verbose_name=_('DO62 diuresis last hour (ml)'),
+        verbose_name=_('DO30 diuresis last hour (ml)'),
         blank=True, null=True)
     diuresis_last_hour_unknown = models.BooleanField(default=False)  # Internal flag
     dopamine = models.PositiveSmallIntegerField(
-        verbose_name=_('DO63 dopamine'),
+        verbose_name=_('DO31 dopamine'),
         choices=YES_NO_UNKNOWN_CHOICES,
         blank=True, null=True)
     dobutamine = models.PositiveSmallIntegerField(
-        verbose_name=_('DO64 dobutamine'),
+        verbose_name=_('DO32 dobutamine'),
         choices=YES_NO_UNKNOWN_CHOICES,
         blank=True, null=True)
     nor_adrenaline = models.PositiveSmallIntegerField(
-        verbose_name=_('DO65 nor adrenaline'),
+        verbose_name=_('DO33 nor adrenaline'),
         choices=YES_NO_UNKNOWN_CHOICES,
         blank=True, null=True)
     vasopressine = models.PositiveSmallIntegerField(
-        verbose_name=_('DO66 vasopressine'),
+        verbose_name=_('DO34 vasopressine'),
         choices=YES_NO_UNKNOWN_CHOICES,
         blank=True, null=True)
     other_medication_details = models.CharField(
-        verbose_name=_('DO67 other medication'),
+        verbose_name=_('DO35 other medication'),
         max_length=250,
         blank=True)
 
@@ -281,12 +238,10 @@ class Donor(OrganPerson):
     UNIT_CHOICES = (
         (UNIT_MGDL, "mg/dl"),
         (UNIT_UMOLL, "umol/L"))
-    last_creatinine = models.FloatField(
-        verbose_name=_('DO70 last creatinine'),
-        validators=[MinValueValidator(0.0), ],
-        blank=True, null=True)
+    last_creatinine = models.FloatField(verbose_name=_('DO36 last creatinine'), validators=[MinValueValidator(0.0), ],
+                                        blank=True, null=True)
     last_creatinine_unit = models.PositiveSmallIntegerField(choices=UNIT_CHOICES, default=UNIT_MGDL)
-    max_creatinine = models.FloatField(verbose_name=_('DO72 max creatinine'), blank=True, null=True)
+    max_creatinine = models.FloatField(verbose_name=_('DO37 max creatinine'), blank=True, null=True)
     max_creatinine_unit = models.PositiveSmallIntegerField(choices=UNIT_CHOICES, default=UNIT_MGDL)
 
     # Operation Data - Extraction
@@ -298,66 +253,66 @@ class Donor(OrganPerson):
         (SOLUTION_HTK, "HTK"),
         (SOLUTION_MARSHALL, "Marshall's"),
         (SOLUTION_UW, "UW"),
-        (SOLUTION_OTHER, "Other"))
+        (SOLUTION_OTHER, _("DOc04 Other")))
     life_support_withdrawal = models.DateTimeField(
-        verbose_name=_('DO80 withdrawal of life support'),
+        verbose_name=_('DO38 withdrawal of life support'),
         blank=True, null=True)
     systolic_pressure_low = models.DateTimeField(
-        verbose_name=_('DO81 systolic arterial pressure'),  # < 50 mm Hg (inadequate organ perfusion)
+        verbose_name=_('DO39 systolic arterial pressure'),  # < 50 mm Hg (inadequate organ perfusion)
         blank=True, null=True)
     o2_saturation = models.DateTimeField(
-        verbose_name=_('DO82 O2 saturation below 80%'),
+        verbose_name=_('DO40 O2 saturation below 80%'),
         blank=True, null=True)
     circulatory_arrest = models.DateTimeField(
-        verbose_name=_('DO83 end of cardiac output'),  # (=start of no touch period)',
+        verbose_name=_('DO41 end of cardiac output'),  # (=start of no touch period)',
         blank=True, null=True)
     length_of_no_touch = models.PositiveSmallIntegerField(
-        verbose_name=_('DO84 length of no touch period (minutes)'),
+        verbose_name=_('DO42 length of no touch period (minutes)'),
         blank=True, null=True,
         validators=[MinValueValidator(1), MaxValueValidator(60)])
     death_diagnosed = models.DateTimeField(
-        verbose_name=_('DO85 knife to skin time'),
+        verbose_name=_('DO43 knife to skin time'),
         blank=True, null=True)
     perfusion_started = models.DateTimeField(
-        verbose_name=_('DO86 start in-situ cold perfusion'),
+        verbose_name=_('DO44 start in-situ cold perfusion'),
         blank=True, null=True)
     systemic_flush_used = models.PositiveSmallIntegerField(
-        verbose_name=_('DO87 systemic (aortic) flush solution used'),
+        verbose_name=_('DO45 systemic (aortic) flush solution used'),
         choices=SOLUTION_CHOICES,
         blank=True, null=True)
     systemic_flush_used_other = models.CharField(
-        verbose_name=_('DO88 systemic flush used'),
+        verbose_name=_('DO46 systemic flush used'),
         max_length=250,
         blank=True)
     systemic_flush_volume_used = models.PositiveSmallIntegerField(
-        verbose_name=_('DO89 aortic - volume (ml)'),
+        verbose_name=_('DO47 aortic - volume (ml)'),
         blank=True, null=True)
     heparin = models.NullBooleanField(
-        verbose_name=_('DO90 heparin'),  # (administered to donor/in flush solution)
+        verbose_name=_('DO48 heparin'),  # (administered to donor/in flush solution)
         blank=True, null=True)
 
     # Sampling data
     donor_blood_1_EDTA = models.OneToOneField(
         Sample,
-        verbose_name=_('DO91 db 1.1 edta'),
+        verbose_name=_('DO49 db 1.1 edta'),
         related_name="donor_blood_1",
         limit_choices_to={'type': Sample.DONOR_BLOOD_1},
         blank=True, null=True)
     donor_blood_1_SST = models.OneToOneField(
         Sample,
-        verbose_name=_('DO92 db 1.2 sst'),
+        verbose_name=_('DO50 db 1.2 sst'),
         related_name="donor_blood_2",
         limit_choices_to={'type': Sample.DONOR_BLOOD_2},
         blank=True, null=True)
     donor_urine_1 = models.OneToOneField(
         Sample,
-        verbose_name=_('DO93 du 1'),
+        verbose_name=_('DO51 du 1'),
         related_name="donor_urine_1",
         limit_choices_to={'type': Sample.DONOR_URINE_1},
         blank=True, null=True)
     donor_urine_2 = models.OneToOneField(
         Sample,
-        verbose_name=_('DO94 du 2'),
+        verbose_name=_('DO52 du 2'),
         related_name="donor_urine_2",
         limit_choices_to={'type': Sample.DONOR_URINE_2},
         blank=True, null=True)
@@ -523,12 +478,8 @@ class Donor(OrganPerson):
 
 class PerfusionMachine(models.Model):
     # Device accountability
-    machine_serial_number = models.CharField(
-        verbose_name=_('PM01 machine serial number'),
-        max_length=50)
-    machine_reference_number = models.CharField(
-        verbose_name=_('PM02 machine reference number'),
-        max_length=50)
+    machine_serial_number = models.CharField(verbose_name=_('PM01 machine serial number'), max_length=50)
+    machine_reference_number = models.CharField(verbose_name=_('PM02 machine reference number'), max_length=50)
     created_on = models.DateTimeField(default=timezone.now)
     created_by = models.ForeignKey(User)
 
@@ -552,9 +503,9 @@ class PerfusionFile(models.Model):
 
 
 class Organ(VersionControlModel):  # Or specifically, a Kidney
-    donor = models.ForeignKey(Donor)
+    donor = models.ForeignKey(Donor)  # Internal value
     location = models.CharField(
-        verbose_name=_('OR03 kidney location'),
+        verbose_name=_('OR01 kidney location'),
         max_length=1,
         choices=LOCATION_CHOICES)
 
@@ -566,12 +517,12 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
     GRAFT_DAMAGE_OTHER = 6
     GRAFT_DAMAGE_NONE = 5
     GRAFT_DAMAGE_CHOICES = (
-        (GRAFT_DAMAGE_NONE, _("OR15 None")),
-        (GRAFT_DAMAGE_ARTERIAL, _("OR10 Arterial Damage")),
-        (GRAFT_DAMAGE_VENOUS, _("OR11 Venous Damage")),
-        (GRAFT_DAMAGE_URETERAL, _("OR12 Ureteral Damage")),
-        (GRAFT_DAMAGE_PARENCHYMAL, _("OR13 Parenchymal Damage")),
-        (GRAFT_DAMAGE_OTHER, _("OR14 Other Damage")))
+        (GRAFT_DAMAGE_NONE, _("ORc01 None")),
+        (GRAFT_DAMAGE_ARTERIAL, _("ORc02 Arterial Damage")),
+        (GRAFT_DAMAGE_VENOUS, _("ORc03 Venous Damage")),
+        (GRAFT_DAMAGE_URETERAL, _("ORc04 Ureteral Damage")),
+        (GRAFT_DAMAGE_PARENCHYMAL, _("ORc05 Parenchymal Damage")),
+        (GRAFT_DAMAGE_OTHER, _("ORc06 Other Damage")))
 
     WASHOUT_PERFUSION_HOMEGENOUS = 1
     WASHOUT_PERFUSION_PATCHY = 2
@@ -579,34 +530,27 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
     WASHOUT_PERFUSION_UNKNOWN = 9
     WASHOUT_PERFUSION_CHOICES = (
         # NHS Form has: Good, Fair, Poor, Patchy, Unknown
-        (WASHOUT_PERFUSION_HOMEGENOUS, _("OR16 Homogenous")),
-        (WASHOUT_PERFUSION_PATCHY, _("OR17 Patchy")),
-        (WASHOUT_PERFUSION_BLUE, _("OR18 Blue")),
-        (WASHOUT_PERFUSION_UNKNOWN, _("OR19 Unknown")))
+        (WASHOUT_PERFUSION_HOMEGENOUS, _("ORc07 Homogenous")),
+        (WASHOUT_PERFUSION_PATCHY, _("ORc08 Patchy")),
+        (WASHOUT_PERFUSION_BLUE, _("ORc09 Blue")),
+        (WASHOUT_PERFUSION_UNKNOWN, _("ORc10 Unknown")))
 
-    removal = models.DateTimeField(
-        verbose_name=_('OR21 time out'),
-        blank=True, null=True)
+    removal = models.DateTimeField(verbose_name=_('OR02 time out'), blank=True, null=True)
     renal_arteries = models.PositiveSmallIntegerField(
-        verbose_name=_('OR22 number of renal arteries'),
+        verbose_name=_('OR03 number of renal arteries'),
         blank=True, null=True)
     graft_damage = models.PositiveSmallIntegerField(
-        verbose_name=_('OR23 renal graft damage'),
+        verbose_name=_('OR04 renal graft damage'),
         choices=GRAFT_DAMAGE_CHOICES,
         default=GRAFT_DAMAGE_NONE)
-    graft_damage_other = models.CharField(
-        verbose_name=_('OR24 other damage done'),
-        max_length=250,
-        blank=True)
+    graft_damage_other = models.CharField(verbose_name=_('OR05 other damage done'), max_length=250, blank=True)
     washout_perfusion = models.PositiveSmallIntegerField(
-        verbose_name=_('OR25 perfusion characteristics'),
+        verbose_name=_('OR06 perfusion characteristics'),
         choices=WASHOUT_PERFUSION_CHOICES,
         blank=True, null=True)
-    transplantable = models.NullBooleanField(
-        verbose_name=_('OR26 is transplantable'),
-        blank=True, null=True)
+    transplantable = models.NullBooleanField(verbose_name=_('OR07 is transplantable'), blank=True, null=True)
     not_transplantable_reason = models.CharField(
-        verbose_name=_('OR27 not transplantable because'),
+        verbose_name=_('OR08 not transplantable because'),
         max_length=250,
         blank=True)
 
@@ -615,7 +559,7 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
     PRESERVATION_HMPO2 = 1
     PRESERVATION_NOT_SET = 9
     PRESERVATION_CHOICES = (
-        (PRESERVATION_NOT_SET, _("Not Set")),
+        (PRESERVATION_NOT_SET, _("ORc11 Not Set")),
         (PRESERVATION_HMP, "HMP"),
         (PRESERVATION_HMPO2, "HMP O2"))
     # can_donate = models.BooleanField('Donor is eligible as DCD III and > 50 years old') -- donor info!
@@ -627,88 +571,74 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
     PATCH_LARGE = 2
     PATCH_DOUBLE_ARTERY = 3
     PATCH_HOLDER_CHOICES = (
-        (PATCH_SMALL, _("OR30 Small")),
-        (PATCH_LARGE, _("OR31 Large")),
-        (PATCH_DOUBLE_ARTERY, _("OR32 Double Artery")))
+        (PATCH_SMALL, _("ORc12 Small")),
+        (PATCH_LARGE, _("ORc13 Large")),
+        (PATCH_DOUBLE_ARTERY, _("ORc14 Double Artery")))
     ARTIFICIAL_PATCH_CHOICES = (
-        (PATCH_SMALL, _("OR33 Small")),
-        (PATCH_LARGE, _("OR34 Large")))
+        (PATCH_SMALL, _("ORc12 Small")),
+        (PATCH_LARGE, _("ORc13 Large")))
     perfusion_possible = models.NullBooleanField(
-        verbose_name=_('OR35 machine perfusion possible?'),
+        verbose_name=_('OR09 machine perfusion possible?'),
         blank=True, null=True)
     perfusion_not_possible_because = models.CharField(
-        verbose_name=_('OR36 not possible because'),
+        verbose_name=_('OR10 not possible because'),
         max_length=250,
         blank=True)
-    perfusion_started = models.DateTimeField(
-        verbose_name=_('OR37 machine perfusion'),
-        blank=True, null=True)
+    perfusion_started = models.DateTimeField(verbose_name=_('OR11 machine perfusion'), blank=True, null=True)
     patch_holder = models.PositiveSmallIntegerField(
-        verbose_name=_('OR38 used patch holder'),
+        verbose_name=_('OR12 used patch holder'),
         choices=PATCH_HOLDER_CHOICES,
         blank=True, null=True)
-    artificial_patch_used = models.NullBooleanField(
-        verbose_name=_('OR39 artificial patch used'),
-        blank=True, null=True)
+    artificial_patch_used = models.NullBooleanField(verbose_name=_('OR13 artificial patch used'), blank=True, null=True)
     artificial_patch_size = models.PositiveSmallIntegerField(
-        verbose_name=_('OR40 artificial patch size'),
+        verbose_name=_('OR14 artificial patch size'),
         choices=ARTIFICIAL_PATCH_CHOICES,
         blank=True, null=True)
     artificial_patch_number = models.PositiveSmallIntegerField(
-        verbose_name=_('OR41 number of patches'),
+        verbose_name=_('OR15 number of patches'),
         blank=True,
         null=True,
         validators=[MinValueValidator(1), MaxValueValidator(2)])
     oxygen_bottle_full = models.NullBooleanField(
-        verbose_name=_('OR42 is oxygen bottle full'),
+        verbose_name=_('OR16 is oxygen bottle full'),
         blank=True, null=True)
-    oxygen_bottle_open = models.NullBooleanField(
-        verbose_name=_('OR43 oxygen bottle opened'),
-        blank=True, null=True)
-    oxygen_bottle_changed = models.NullBooleanField(
-        verbose_name=_('OR44 oxygen bottle changed'),
-        blank=True, null=True)
+    oxygen_bottle_open = models.NullBooleanField(verbose_name=_('OR17 oxygen bottle opened'), blank=True, null=True)
+    oxygen_bottle_changed = models.NullBooleanField(verbose_name=_('OR18 oxygen bottle changed'), blank=True, null=True)
     oxygen_bottle_changed_at = models.DateTimeField(
-        verbose_name=_('OR45 oxygen bottle changed at'),
+        verbose_name=_('OR19 oxygen bottle changed at'),
         blank=True, null=True)
     ice_container_replenished = models.NullBooleanField(
-        verbose_name=_('OR46 ice container replenished'),
+        verbose_name=_('OR20 ice container replenished'),
         blank=True, null=True)
     ice_container_replenished_at = models.DateTimeField(
-        verbose_name=_('OR47 ice container replenished at'),
+        verbose_name=_('OR21 ice container replenished at'),
         blank=True, null=True)
     perfusate_measurable = models.NullBooleanField(
-        verbose_name=_('OR48 perfusate measurable'),
         # logistically possible to measure pO2 perfusate (use blood gas analyser)',
+        verbose_name=_('OR22 perfusate measurable'),
         blank=True, null=True)
-    perfusate_measure = models.FloatField(
-        verbose_name=_('OR49 value pO2'),
-        blank=True, null=True)  # TODO: Check the value range for this
-    perfusion_machine = models.ForeignKey(
-        PerfusionMachine,
-        verbose_name=_('OR50 perfusion machine'),
-        blank=True, null=True)
-    perfusion_file = models.ForeignKey(
-        PerfusionFile,
-        verbose_name=_('OR51 machine file'),
-        blank=True, null=True)
+    perfusate_measure = models.FloatField(verbose_name=_('OR23 value pO2'), blank=True, null=True)
+    # TODO: Check the value range for perfusate_measure
+    perfusion_machine = models.ForeignKey(PerfusionMachine, verbose_name=_('OR24 perfusion machine'), blank=True,
+                                          null=True)
+    perfusion_file = models.ForeignKey(PerfusionFile, verbose_name=_('OR25 machine file'), blank=True, null=True)
 
     # Sampling data
     perfusate_1 = models.ForeignKey(
         Sample,
-        verbose_name=_('OR60 p1'),
+        verbose_name=_('OR26 p1'),
         related_name="kidney_perfusate_1",
         limit_choices_to={'type': Sample.KIDNEY_PERFUSATE_1},
         blank=True, null=True)
     perfusate_2 = models.ForeignKey(
         Sample,
-        verbose_name=_('OR60 p2'),
+        verbose_name=_('OR27 p2'),
         related_name="kidney_perfusate_2",
         limit_choices_to={'type': Sample.KIDNEY_PERFUSATE_2},
         blank=True, null=True)
     perfusate_3 = models.ForeignKey(
         Sample,
-        verbose_name=_('OR61 p3'),
+        verbose_name=_('OR28 p3'),
         related_name="kidney_perfusate_3",
         limit_choices_to={'type': Sample.KIDNEY_PERFUSATE_3},
         blank=True, null=True)
@@ -735,26 +665,17 @@ class ProcurementResource(models.Model):
     EXTRA_DOUBLE_CANNULA_SET = "DB-C"
     PERFUSATE_SOLUTION = "P"
     TYPE_CHOICES = (
-        (DISPOSABLES, _("PR01 Disposables")),
-        (EXTRA_CANNULA_SMALL, _("PR02 Extra cannula small (3mm)")),
-        (EXTRA_CANNULA_LARGE, _("PR03 Extra cannula large (5mm)")),
-        (EXTRA_PATCH_HOLDER_SMALL, _("PR04 Extra patch holder small")),
-        (EXTRA_PATCH_HOLDER_LARGE, _("PR05 Extra patch holder large")),
-        (EXTRA_DOUBLE_CANNULA_SET, _("PR06 Extra double cannula set")),
-        (PERFUSATE_SOLUTION, _("PR07 Perfusate solution")),
-    )
-    organ = models.ForeignKey(
-        Organ,
-        verbose_name=_('PR10 related kidney'))
-    type = models.CharField(
-        verbose_name=_('PR11 resource used'),
-        choices=TYPE_CHOICES,
-        max_length=5)
-    lot_number = models.CharField(
-        verbose_name=_('PR12 lot number'),
-        max_length=50,
-        blank=True)
-    expiry_date = models.DateField(verbose_name=_('PR13 expiry date'), blank=True, null=True)
+        (DISPOSABLES, _("PRc01 Disposables")),
+        (EXTRA_CANNULA_SMALL, _("PRc02 Extra cannula small (3mm)")),
+        (EXTRA_CANNULA_LARGE, _("PRc03 Extra cannula large (5mm)")),
+        (EXTRA_PATCH_HOLDER_SMALL, _("PRc04 Extra patch holder small")),
+        (EXTRA_PATCH_HOLDER_LARGE, _("PRc05 Extra patch holder large")),
+        (EXTRA_DOUBLE_CANNULA_SET, _("PRc06 Extra double cannula set")),
+        (PERFUSATE_SOLUTION, _("PRc07 Perfusate solution")))
+    organ = models.ForeignKey(Organ, verbose_name=_('PR01 related kidney'))
+    type = models.CharField(verbose_name=_('PR02 resource used'), choices=TYPE_CHOICES, max_length=5)
+    lot_number = models.CharField(verbose_name=_('PR03 lot number'), max_length=50, blank=True)
+    expiry_date = models.DateField(verbose_name=_('PR04 expiry date'), blank=True, null=True)
     created_on = models.DateTimeField(default=timezone.now)
     created_by = models.ForeignKey(User)
 
@@ -767,161 +688,164 @@ class ProcurementResource(models.Model):
 
 
 class Recipient(OrganPerson):
-    organ = models.ForeignKey(Organ)
+    organ = models.ForeignKey(Organ)  # Internal key
     # sequence_number = models.PositiveSmallIntegerField(default=0)
     # Allocation data
     REALLOCATION_CROSSMATCH = 1
     REALLOCATION_UNKNOWN = 2
     REALLOCATION_OTHER = 3
     REALLOCATION_CHOICES = (
-        (REALLOCATION_CROSSMATCH, _('RE01 Positive crossmatch')),
-        (REALLOCATION_UNKNOWN, _('RE02 Unknown')),
-        (REALLOCATION_OTHER, _('RE03 Other'))
-    )
+        (REALLOCATION_CROSSMATCH, _('REc01 Positive crossmatch')),
+        (REALLOCATION_UNKNOWN, _('REc02 Unknown')),
+        (REALLOCATION_OTHER, _('REc03 Other')))
     perfusion_technician = models.ForeignKey(
         StaffPerson,
-        verbose_name=_('DO03 name of transplant technician'),
+        verbose_name=_('RO01 name of transplant technician'),
         limit_choices_to={"jobs": StaffJob.PERFUSION_TECHNICIAN},
         related_name="recipient_perfusion_technician_set",
         blank=True, null=True)
     call_received = models.DateTimeField(
-        verbose_name=_('DO05 Consultant to MTO called at'),  # 'transplant co-ordinator received call at',
+        verbose_name=_('RE02 call received from transplant co-ordinator at'),
         blank=True, null=True)
-    transplant_hospital = models.ForeignKey(Hospital, verbose_name=_('DO06 donor hospital'), blank=True, null=True)
-    transplant_coordinator = models.ForeignKey(
+    transplant_hospital = models.ForeignKey(Hospital, verbose_name=_('RE03 transplant hospital'), blank=True, null=True)
+    theatre_contact = models.ForeignKey(
         StaffPerson,
-        verbose_name=_('DO04 name of the SN-OD'),  # 'name of transplant co-ordinator',
+        verbose_name=_('RE04 name of the theatre contact'),
         limit_choices_to={"jobs": StaffJob.TRANSPLANT_COORDINATOR},
         related_name="recipient_transplant_coordinator_set",
         blank=True, null=True)
-    scheduled_start = models.DateTimeField(verbose_name=_('DO07 time of withdrawal therapy'), blank=True, null=True)
+    scheduled_start = models.DateTimeField(verbose_name=_('RE05 scheduled start'), blank=True, null=True)
     technician_arrival = models.DateTimeField(
-        verbose_name=_('DO08 arrival time of technician at hub'),
+        verbose_name=_('RE06 arrival time at hub'),
         blank=True, null=True)
     depart_perfusion_centre = models.DateTimeField(
-        verbose_name=_('DO10 departure from base hospital at'),
+        verbose_name=_('RE07 departure from hub'),
         blank=True, null=True)
     arrival_at_recipient_hospital = models.DateTimeField(
-        verbose_name=_('DO11 arrival at donor hospital'),
+        verbose_name=_('RE08 arrival at transplant hospital'),
         blank=True, null=True)
-    journey_remarks = models.TextField(verbose_name=_("journey notes"), blank=True)
-    reallocated = models.NullBooleanField(verbose_name=_("reallocated"), blank=True, default=None)
+    journey_remarks = models.TextField(verbose_name=_("RE09 journey notes"), blank=True)
+    reallocated = models.NullBooleanField(verbose_name=_("RE10 reallocated"), blank=True, default=None)
     reallocation_reason = models.PositiveSmallIntegerField(
-        verbose_name=_('reason for re-allocation'),
+        verbose_name=_('RE11 reason for re-allocation'),
         choices=REALLOCATION_CHOICES,
         blank=True, null=True)
-    reallocation_reason_other = models.CharField(verbose_name=_('other reason'), max_length=250, blank=True)
+    reallocation_reason_other = models.CharField(verbose_name=_('RE12 other reason'), max_length=250, blank=True)
     reallocation_recipient = models.OneToOneField('Recipient', default=None, blank=True, null=True)
 
     # Recipient details (in addition to OrganPerson)
     RENAL_DISEASE_CHOICES = (
-        (1, _('Glomerular diseases')),
-        (2, _('Polycystic kidneys')),
-        (3, _('Uncertain etiology')),
-        (4, _('Tubular and interstitial diseases')),
-        (5, _('Retransplant graft failure')),
-        (6, _('diabetic nephropathyes')),
-        (7, _('hypertensive nephropathyes')),
-        (8, _('congenital rare disorders')),
-        (9, _('renovascular and other diseases')),
-        (10, _('neoplasms')),
-        (11, _('other')),)
+        (1, _('REc04 Glomerular diseases')),
+        (2, _('REc05 Polycystic kidneys')),
+        (3, _('REc06 Uncertain etiology')),
+        (4, _('REc07 Tubular and interstitial diseases')),
+        (5, _('REc08 Retransplant graft failure')),
+        (6, _('REc09 diabetic nephropathyes')),
+        (7, _('REc10 hypertensive nephropathyes')),
+        (8, _('REc11 congenital rare disorders')),
+        (9, _('REc12 renovascular and other diseases')),
+        (10, _('REc13 neoplasms')),
+        (11, _('REc14 other')),)
+    signed_consent = models.NullBooleanField(verbose_name=_("RE13 informed consent given"), blank=True, default=None)
+    single_kidney_transplant = models.NullBooleanField(verbose_name=_("RE14 receiving one kidney"), blank=True,
+                                                       default=None)
     renal_disease = models.PositiveSmallIntegerField(
-        verbose_name=_('DO54 renal disease'),
+        verbose_name=_('RE15 renal disease'),
         choices=RENAL_DISEASE_CHOICES,
         blank=True, null=True)
-    renal_disease_other = models.CharField(
-        verbose_name=_('DO55 other renal disease'),
-        max_length=250,
-        blank=True)
+    renal_disease_other = models.CharField(verbose_name=_('RE16 other renal disease'), max_length=250, blank=True)
     pre_transplant_diuresis = models.PositiveSmallIntegerField(
-        verbose_name=_('DO61 diuresis (ml/24hr)'),
+        verbose_name=_('RE17 diuresis (ml/24hr)'),
         blank=True, null=True)
 
     # Peri-operative data
     INCISION_CHOICES = (
-        (1, _('midline laparotomy')),
-        (2, _('hockey stick')),
-        (3, _('unknown')))
+        (1, _('REc15 midline laparotomy')),
+        (2, _('REc16 hockey stick')),
+        (3, _('REc17 unknown')))
     ARTERIAL_PROBLEM_CHOICES = (
-        (1, _('None')),
-        (2, _('ligated polar artery')),
-        (3, _('reconstructed polar artery')),
-        (4, _('repaired intima dissection')),
-        (5, _('other')))
+        (1, _('REc18 None')),
+        (2, _('REc19 ligated polar artery')),
+        (3, _('REc20 reconstructed polar artery')),
+        (4, _('REc21 repaired intima dissection')),
+        (5, _('REc22 other')))
     VENOUS_PROBLEM_CHOICES = (
-        (1, _('none')),
-        (2, _('laceration')),
-        (3, _('elongation plasty')),
-        (4, _('other')))
-    knife_to_skin = models.DateTimeField(verbose_name=_('DO85 knife to skin time'), blank=True, null=True)
-    perfusate_measure = models.FloatField(verbose_name=_('pO2 perfusate'), blank=True, null=True)
+        (1, _('REc23 none')),
+        (2, _('REc24 laceration')),
+        (3, _('REc25 elongation plasty')),
+        (4, _('REc26 other')))
+    knife_to_skin = models.DateTimeField(verbose_name=_('RE18 knife to skin time'), blank=True, null=True)
+    perfusate_measure = models.FloatField(verbose_name=_('RE19 pO2 perfusate'), blank=True, null=True)
     # TODO: Check the value range for perfusate_measure
-    perfusion_stopped = models.DateTimeField(verbose_name=_('stop machine perfusion'), blank=True, null=True)
-    organ_cold_stored = models.BooleanField(verbose_name=_('kidney was cold stored?'), default=False)
-    tape_broken = models.NullBooleanField(verbose_name=_('tape over regulator broken'), blank=True, null=True)
+    perfusion_stopped = models.DateTimeField(verbose_name=_('RE20 stop machine perfusion'), blank=True, null=True)
+    organ_cold_stored = models.BooleanField(verbose_name=_('RE21 kidney was cold stored?'), default=False)
+    tape_broken = models.NullBooleanField(verbose_name=_('RE22 tape over regulator broken'), blank=True, null=True)
     removed_from_machine_at = models.DateTimeField(
-        verbose_name=_('kidney removed from machine at'),
+        verbose_name=_('RE23 kidney removed from machine at'),
         blank=True, null=True)
     oxygen_full_and_open = models.PositiveSmallIntegerField(
-        verbose_name=_('oxygen full and open'),
+        verbose_name=_('RE24 oxygen full and open'),
         choices=YES_NO_UNKNOWN_CHOICES,
         blank=True, null=True)
-    organ_untransplantable = models.NullBooleanField(verbose_name=_('kidney discarded'), blank=True, null=True)
+    organ_untransplantable = models.NullBooleanField(verbose_name=_('RE25 kidney discarded'), blank=True, null=True)
     organ_untransplantable_reason = models.CharField(
-        verbose_name=_('untransplantable because'),
+        verbose_name=_('RE26 untransplantable because'),
         max_length=250,
         blank=True)
-    anesthesia_started_at = models.DateTimeField(verbose_name=_('start anesthesia at'), blank=True, null=True)
+    anesthesia_started_at = models.DateTimeField(verbose_name=_('RE27 start anesthesia at'), blank=True, null=True)
     incision = models.PositiveSmallIntegerField(
-        verbose_name=_('incision'),
+        verbose_name=_('RE28 incision'),
         choices=INCISION_CHOICES,
         blank=True, null=True)
-    transplant_side = models.CharField(verbose_name=_('transplant side'), max_length=1, choices=LOCATION_CHOICES, blank=True)
+    transplant_side = models.CharField(verbose_name=_('RE29 transplant side'), max_length=1, choices=LOCATION_CHOICES,
+                                       blank=True)
     arterial_problems = models.PositiveSmallIntegerField(
-        verbose_name=_('arterial problems'),
+        verbose_name=_('RE30 arterial problems'),
         choices=ARTERIAL_PROBLEM_CHOICES,
         blank=True, null=True)
-    arterial_problems_other = models.CharField(verbose_name=_('arterial problems other'), max_length=250, blank=True)
+    arterial_problems_other = models.CharField(verbose_name=_('RE31 arterial problems other'), max_length=250,
+                                               blank=True)
     venous_problems = models.PositiveSmallIntegerField(
-        verbose_name=_('venous problems'),
+        verbose_name=_('RE32 venous problems'),
         choices=VENOUS_PROBLEM_CHOICES,
         blank=True, null=True)
-    venous_problems_other = models.CharField(verbose_name=_('venous problems other'), max_length=250, blank=True)
-    anastomosis_started_at = models.DateTimeField(verbose_name=_('start anastomosis at'), blank=True, null=True)
-    reperfusion_started_at = models.DateTimeField(verbose_name=_('start reperfusion at'), blank=True, null=True)
+    venous_problems_other = models.CharField(verbose_name=_('RE33 venous problems other'), max_length=250, blank=True)
+    anastomosis_started_at = models.DateTimeField(verbose_name=_('RE34 start anastomosis at'), blank=True, null=True)
+    reperfusion_started_at = models.DateTimeField(verbose_name=_('RE35 start reperfusion at'), blank=True, null=True)
     mannitol_used = models.PositiveSmallIntegerField(
-        verbose_name=_('mannitol used'),
+        verbose_name=_('RE36 mannitol used'),
         choices=YES_NO_UNKNOWN_CHOICES,
         blank=True, null=True)
     other_diurectics = models.PositiveSmallIntegerField(
-        verbose_name=_('other diurectics used'),
+        verbose_name=_('RE37 other diurectics used'),
         choices=YES_NO_UNKNOWN_CHOICES,
         blank=True, null=True)
-    other_diurectics_details = models.CharField(verbose_name=_('other diurectics detail'), max_length=250, blank=True)
+    other_diurectics_details = models.CharField(verbose_name=_('RE38 other diurectics detail'), max_length=250,
+                                                blank=True)
     systolic_blood_pressure = models.PositiveSmallIntegerField(
-        verbose_name=_('systolic blood pressure at reperfusion'),
+        verbose_name=_('RE39 systolic blood pressure at reperfusion'),
         validators=[MinValueValidator(10), MaxValueValidator(200)],
         blank=True, null=True)
-    cvp = models.PositiveSmallIntegerField(verbose_name=_('cvp at reperfusion'), blank=True, null=True)
+    cvp = models.PositiveSmallIntegerField(verbose_name=_('RE40 cvp at reperfusion'), blank=True, null=True)
     intra_operative_diuresis = models.PositiveSmallIntegerField(
-        verbose_name=_('intra-operative diuresis'),
+        verbose_name=_('RE41 intra-operative diuresis'),
         choices=YES_NO_UNKNOWN_CHOICES,
         blank=True, null=True)
-    successful_conclusion = models.BooleanField(verbose_name=_("successful conclusion"), default=False)
-    operation_concluded_at = models.DateTimeField(verbose_name=_("operation concluded at"), null=True, blank=True)
+    successful_conclusion = models.BooleanField(verbose_name=_("RE42 successful conclusion"), default=False)
+    operation_concluded_at = models.DateTimeField(verbose_name=_("RE43 operation concluded at"), null=True, blank=True)
 
     # SAMPLE DATA
     # P#, RB1, RB2, ReK1R, ReK1F
 
     # Machine cleanup record
-    probe_cleaned = models.NullBooleanField(verbose_name=_('temperature and flow probe cleaned'), blank=True, null=True)
-    ice_removed = models.NullBooleanField(verbose_name=_('ice and water removed'), blank=True, null=True)
-    oxygen_flow_stopped = models.NullBooleanField(verbose_name=_('oxygen flow stopped'), blank=True, null=True)
-    oxygen_bottle_removed = models.NullBooleanField(verbose_name=_('oxygen bottle removed'), blank=True, null=True)
-    box_cleaned = models.NullBooleanField(verbose_name=_('box kidney assist cleaned'), blank=True, null=True)
-    batteries_charged = models.NullBooleanField(verbose_name=_('batteries charged'), blank=True, null=True)
-    cleaning_log = models.TextField(verbose_name=_("cleaning log notes"), blank=True)
+    probe_cleaned = models.NullBooleanField(verbose_name=_('RE44 temperature and flow probe cleaned'), blank=True,
+                                            null=True)
+    ice_removed = models.NullBooleanField(verbose_name=_('RE45 ice and water removed'), blank=True, null=True)
+    oxygen_flow_stopped = models.NullBooleanField(verbose_name=_('RE46 oxygen flow stopped'), blank=True, null=True)
+    oxygen_bottle_removed = models.NullBooleanField(verbose_name=_('RE47 oxygen bottle removed'), blank=True, null=True)
+    box_cleaned = models.NullBooleanField(verbose_name=_('RE48 box kidney assist cleaned'), blank=True, null=True)
+    batteries_charged = models.NullBooleanField(verbose_name=_('RE49 batteries charged'), blank=True, null=True)
+    cleaning_log = models.TextField(verbose_name=_("RE50 cleaning log notes"), blank=True)
 
     class Meta:
         order_with_respect_to = 'organ'
@@ -938,7 +862,7 @@ class Recipient(OrganPerson):
 
     def age_from_dob(self):
         if self.date_of_birth is None:
-            return "Unknown"
+            return "Unknown Age"
         today = datetime.date.today()
         if self.date_of_birth < today:
             years = today.year - self.date_of_birth.year

@@ -422,7 +422,7 @@ ProcurementResourceRightInlineFormSet = forms.models.inlineformset_factory(
 class RecipientFormA(forms.ModelForm):
     perfusion_technician = ModelChoiceField('TechnicianAutoComplete')
     transplant_hospital = ModelChoiceField('HospitalAutoComplete')
-    transplant_coordinator = ModelChoiceField('TransplantCoordinatorAutoComplete')
+    theatre_contact = ModelChoiceField('TheatreContactAutoComplete')
 
     layout_reallocation = Layout(
         FieldWithFollowup(
@@ -440,7 +440,7 @@ class RecipientFormA(forms.ModelForm):
                 'perfusion_technician',
                 DateTimeField('call_received'),
                 'transplant_hospital',
-                'transplant_coordinator',
+                'theatre_contact',
                 DateTimeField('scheduled_start'),
                 DateTimeField('technician_arrival'),
                 style="padding-right:0.5em"),
@@ -470,9 +470,9 @@ class RecipientFormA(forms.ModelForm):
         self.fields['call_received'].input_formats = DATETIME_INPUT_FORMATS
         self.fields['transplant_hospital'].required = False
         self.fields['transplant_hospital'].label = Recipient._meta.get_field("transplant_hospital").verbose_name.title()
-        self.fields['transplant_coordinator'].required = False
-        self.fields['transplant_coordinator'].label = Recipient._meta.get_field(
-            "transplant_coordinator").verbose_name.title()
+        self.fields['theatre_contact'].required = False
+        self.fields['theatre_contact'].label = Recipient._meta.get_field(
+            "theatre_contact").verbose_name.title()
         self.fields['scheduled_start'].input_formats = DATETIME_INPUT_FORMATS
         self.fields['technician_arrival'].input_formats = DATETIME_INPUT_FORMATS
         self.fields['depart_perfusion_centre'].input_formats = DATETIME_INPUT_FORMATS
@@ -484,6 +484,7 @@ class RecipientFormA(forms.ModelForm):
     class Meta:
         model = Recipient
         exclude = [
+            'signed_consent', 'single_kidney_transplant', 'number',
             'renal_disease', 'date_of_birth', 'gender', 'ethnicity', 'blood_group', 'knife_to_skin',
             'perfusion_stopped', 'organ_cold_stored', 'tape_broken', 'removed_from_machine_at', 'oxygen_full_and_open',
             'organ_untransplantable', 'anesthesia_started_at', 'incision', 'transplant_side', 'arterial_problems',
@@ -508,6 +509,8 @@ RecipientFormASet = forms.modelformset_factory(
 
 class RecipientFormB(forms.ModelForm):
     layout_recipient = Layout(
+        Field('signed_consent', template="bootstrap3/layout/radioselect-buttons.html"),
+        Field('single_kidney_transplant', template="bootstrap3/layout/radioselect-buttons.html"),
         Field('number', placeholder="___ ___ ____"),
         FieldWithNotKnown(
             DateField('date_of_birth', notknown=True),
@@ -588,9 +591,12 @@ class RecipientFormB(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(RecipientFormB, self).__init__(*args, **kwargs)
+        self.fields['signed_consent'].choices = NO_YES_CHOICES
+        self.fields['single_kidney_transplant'].choices = NO_YES_CHOICES
+
         self.fields['renal_disease'].choices = Recipient.RENAL_DISEASE_CHOICES
         self.fields['date_of_birth'].input_formats = DATE_INPUT_FORMATS
-        self.fields['gender'].widget = forms.HiddenInput()
+        self.fields['gender'].required = False
         self.fields['ethnicity'].choices = Recipient.ETHNICITY_CHOICES
         self.fields['blood_group'].choices = Recipient.BLOOD_GROUP_CHOICES
 
@@ -625,7 +631,7 @@ class RecipientFormB(forms.ModelForm):
     class Meta:
         model = Recipient
         exclude = [
-            'organ', 'perfusion_technician', 'call_received', 'transplant_hospital', 'transplant_coordinator',
+            'organ', 'perfusion_technician', 'call_received', 'transplant_hospital', 'theatre_contact',
             'scheduled_start', 'technician_arrival', 'depart_perfusion_centre', 'arrival_at_recipient_hospital',
             'journey_remarks', 'reallocated', 'reallocation_reason', 'reallocation_reason_other',
             'created_by', 'version', 'created_on', 'record_locked']

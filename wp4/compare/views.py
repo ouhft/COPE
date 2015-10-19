@@ -188,7 +188,7 @@ def transplantation_list(request):
     ):
         existing_cases = Organ.objects.filter(
             Q(recipient__isnull=False),
-            Q(recipient__successful_conclusion=False)
+            # Q(recipient__successful_conclusion=False)
         ).annotate(copies=Count('recipient__id'))
         new_cases = Organ.objects.filter(preservation__lte=1).exclude(recipient__isnull=False)
     elif current_person.has_job(StaffJob.PERFUSION_TECHNICIAN):
