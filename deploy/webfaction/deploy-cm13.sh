@@ -21,7 +21,7 @@ echo "Repository Updated : $PULL"
 if [ "$PULL" = "Already up-to-date." ]; then
     echo No further actions are required
 else
-    RETOUCH_CRON=$(chmod 755 COPE/deploy/deploy-cm13.sh)
+    RETOUCH_CRON=$(chmod 755 deploy/webfaction/deploy-cm13.sh)
     source $HOME/.virtualenvs/wp4_20150514/bin/activate
     PIP_UPDATE=$(pip install -r requirements/webfaction.txt)
     echo $PIP_UPDATE
