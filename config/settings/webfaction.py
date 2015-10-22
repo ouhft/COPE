@@ -5,8 +5,8 @@ Local settings
 - Use djangosecure
 
 '''
-from django.utils.translation import ugettext_lazy as _
 from __future__ import absolute_import, unicode_literals
+from django.utils.translation import ugettext_lazy as _
 
 from .common import *  # noqa
 
