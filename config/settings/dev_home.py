@@ -9,6 +9,7 @@ Local settings
 '''
 
 print("DEBUG: Loading settings from dev_home")
+from django.utils.translation import ugettext_lazy as _
 from .common import *  # noqa
 
 # DEBUG
@@ -16,6 +17,11 @@ from .common import *  # noqa
 DEBUG = env.bool('DJANGO_DEBUG', default=True)
 TEMPLATES[0]['OPTIONS']['debug'] = DEBUG
 CRISPY_FAIL_SILENTLY = not DEBUG
+# Debug language for seeing labels rather than translations
+LANGUAGES = LANGUAGES + (
+    ('en-db', _('SET04 Debug Language')),
+)
+
 
 # SECRET CONFIGURATION
 # ------------------------------------------------------------------------------

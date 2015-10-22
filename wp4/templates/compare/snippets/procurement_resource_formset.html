@@ -12,11 +12,11 @@
                 {{ procurement_formset.management_form|crispy }}
                 {% for form in procurement_formset %}
                     {{ form.id }}
-{#                    {% for field in form %}#}
-{#                        {% if field.errors %}#}
-{#                            <p class="text-danger">{{ field.errors|striptags }}</p>#}
-{#                        {% endif %}#}
-{#                    {% endfor %}#}
+                    {% for field in form %}
+                        {% if field.errors %}
+                            <p class="text-danger">{{ field.errors|striptags }}</p>
+                        {% endif %}
+                    {% endfor %}
                     {% crispy form form.helper %}
                     <hr/>
                 {% endfor %}

@@ -1,0 +1,1596 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.2.4\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-20 14:43+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: CARL MARSHALL <CARL.MARSHALL@NDS.OX.AC.UK>\n"
+"Language-Team: OXFORD <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: config/settings/common.py:294
+msgid "SET01 Great Britain"
+msgstr "SET01 Great Britain"
+
+#: config/settings/common.py:295
+msgid "SET02 Belgium"
+msgstr "SET02 Belgium"
+
+#: config/settings/common.py:296
+msgid "SET03 Netherlands"
+msgstr "SET03 Netherlands"
+
+#: config/settings/dev_home.py:22
+msgid "SET04 Debug Language"
+msgstr "SET04 Debug Language"
+
+#: wp4/adverse_event/models.py:38
+msgid "AE01 sequence number"
+msgstr "AE01 sequence number"
+
+#: wp4/adverse_event/models.py:39
+msgid "AE02 onset date"
+msgstr "AE02 onset date"
+
+#: wp4/adverse_event/models.py:40
+msgid "AE03 resolution date"
+msgstr "AE03 resolution date"
+
+#: wp4/adverse_event/models.py:42
+msgid "AE04"
+msgstr "AE04"
+
+#: wp4/adverse_event/models.py:43
+msgid "AE05 device related"
+msgstr "AE05 device related"
+
+#: wp4/adverse_event/models.py:45
+msgid "AE06 description"
+msgstr "AE06 description"
+
+#: wp4/adverse_event/models.py:46
+msgid "AE07 action"
+msgstr "AE07 action"
+
+#: wp4/adverse_event/models.py:47
+msgid "AE08 outcome"
+msgstr "AE08 outcome"
+
+#: wp4/adverse_event/models.py:50
+msgid "AE09 primary contact"
+msgstr "AE09 primary contact"
+
+#: wp4/adverse_event/models.py:82
+msgid "AEm1 adverse event"
+msgstr "AEm1 adverse event"
+
+#: wp4/adverse_event/models.py:83
+msgid "AEm2 adverse events"
+msgstr "AEm2 adverse events"
+
+#: wp4/compare/forms.py:19 wp4/compare/forms.py:25
+msgid "FF01 No"
+msgstr "FF01 No"
+
+#: wp4/compare/forms.py:20 wp4/compare/forms.py:24
+msgid "FF02 Yes"
+msgstr "FF02 Yes"
+
+#: wp4/compare/models.py:21
+msgid "MMc03 Unknown"
+msgstr "MMc03 Unknown"
+
+#: wp4/compare/models.py:22
+msgid "MMc01 No"
+msgstr "MMc01 No"
+
+#: wp4/compare/models.py:23
+msgid "MMc02 Yes"
+msgstr "MMc02 Yes"
+
+#: wp4/compare/models.py:30
+msgid "ORc01 Left"
+msgstr "ORc01 Left"
+
+#: wp4/compare/models.py:31
+msgid "ORc02 Right"
+msgstr "ORc02 Right"
+
+#: wp4/compare/models.py:49
+msgid "RT01 centre code"
+msgstr "RT01 centre code"
+
+#: wp4/compare/models.py:51
+msgid "RT02 base hospital"
+msgstr "RT02 base hospital"
+
+#: wp4/compare/models.py:70
+msgid "RTm1 retrieval team"
+msgstr "RTm1 retrieval team"
+
+#: wp4/compare/models.py:71
+msgid "RTm2 retrieval teams"
+msgstr "RTm2 retrieval teams"
+
+#: wp4/compare/models.py:81
+msgid "OPc01 Male"
+msgstr "OPc01 Male"
+
+#: wp4/compare/models.py:82
+msgid "OPc02 Female"
+msgstr "OPc02 Female"
+
+#: wp4/compare/models.py:89
+msgid "OPc03 Caucasian"
+msgstr "OPc03 Caucasian"
+
+#: wp4/compare/models.py:90
+msgid "OPc04 Black"
+msgstr "OPc04 Black"
+
+#: wp4/compare/models.py:91
+msgid "OPc05 Other"
+msgstr "OPc05 Other"
+
+#: wp4/compare/models.py:103
+msgid "OPc06 Unknown"
+msgstr "OPc06 Unknown"
+
+#: wp4/compare/models.py:106
+msgid "OP01 NHSBT Number"
+msgstr "OP01 NHSBT Number"
+
+#: wp4/compare/models.py:107
+msgid "OP02 date of birth"
+msgstr "OP02 date of birth"
+
+#: wp4/compare/models.py:109
+msgid "OP03 gender"
+msgstr "OP03 gender"
+
+#: wp4/compare/models.py:111
+msgid "OP04 Weight (kg)"
+msgstr "OP04 Weight (kg)"
+
+#: wp4/compare/models.py:115
+msgid "OP05 Height (cm)"
+msgstr "OP05 Height (cm)"
+
+#: wp4/compare/models.py:118
+msgid "OP06 ethnicity"
+msgstr "OP06 ethnicity"
+
+#: wp4/compare/models.py:120
+msgid "OP07 blood group"
+msgstr "OP07 blood group"
+
+#: wp4/compare/models.py:132
+msgid "DO02 Multiple recipients"
+msgstr "DO02 Multiple recipients"
+
+#: wp4/compare/models.py:137
+msgid "DO01 retrieval team"
+msgstr "DO01 retrieval team"
+
+#: wp4/compare/models.py:140
+msgid "DO03 name of transplant technician"
+msgstr "DO03 name of transplant technician"
+
+#: wp4/compare/models.py:145
+msgid "DO04 name of the SN-OD"
+msgstr "DO04 name of the SN-OD"
+
+#: wp4/compare/models.py:150
+msgid "DO05 Consultant to MTO called at"
+msgstr "DO05 Consultant to MTO called at"
+
+#: wp4/compare/models.py:151
+msgid "DO06 donor hospital"
+msgstr "DO06 donor hospital"
+
+#: wp4/compare/models.py:152
+msgid "DO07 time of withdrawal therapy"
+msgstr "DO07 time of withdrawal therapy"
+
+#: wp4/compare/models.py:153
+msgid "DO08 arrival time of technician"
+msgstr "DO08 arrival time of technician"
+
+#: wp4/compare/models.py:154
+msgid "DO09 ice boxes filled"
+msgstr "DO09 ice boxes filled"
+
+#: wp4/compare/models.py:156
+msgid "DO10 departure from base hospital at"
+msgstr "DO10 departure from base hospital at"
+
+#: wp4/compare/models.py:159
+msgid "DO11 arrival at donor hospital"
+msgstr "DO11 arrival at donor hospital"
+
+#: wp4/compare/models.py:164
+msgid "DO12 age"
+msgstr "DO12 age"
+
+#: wp4/compare/models.py:166
+msgid "DO13 date of admission"
+msgstr "DO13 date of admission"
+
+#: wp4/compare/models.py:167
+msgid "DO14 admitted to ITU"
+msgstr "DO14 admitted to ITU"
+
+#: wp4/compare/models.py:168
+msgid "DO15 when admitted to ITU"
+msgstr "DO15 when admitted to ITU"
+
+#: wp4/compare/models.py:169
+msgid "DO16 date of procurement"
+msgstr "DO16 date of procurement"
+
+#: wp4/compare/models.py:170
+msgid "DO17 other organs procured"
+msgstr "DO17 other organs procured"
+
+#: wp4/compare/models.py:171
+msgid "DO18 lungs"
+msgstr "DO18 lungs"
+
+#: wp4/compare/models.py:172
+msgid "DO19 pancreas"
+msgstr "DO19 pancreas"
+
+#: wp4/compare/models.py:173
+msgid "DO20 liver"
+msgstr "DO20 liver"
+
+#: wp4/compare/models.py:174
+msgid "DO21 tissue"
+msgstr "DO21 tissue"
+
+#: wp4/compare/models.py:182
+msgid "DOc01 Cerebrovascular Accident"
+msgstr "DOc01 Cerebrovascular Accident"
+
+#: wp4/compare/models.py:183
+msgid "DOc02 Hypoxia"
+msgstr "DOc02 Hypoxia"
+
+#: wp4/compare/models.py:184
+msgid "DOc03 Trauma"
+msgstr "DOc03 Trauma"
+
+#: wp4/compare/models.py:185 wp4/compare/models.py:256
+msgid "DOc04 Other"
+msgstr "DOc04 Other"
+
+#: wp4/compare/models.py:186
+msgid "DO22 diagnosis"
+msgstr "DO22 diagnosis"
+
+#: wp4/compare/models.py:188
+msgid "DO23 other diagnosis"
+msgstr "DO23 other diagnosis"
+
+#: wp4/compare/models.py:189
+msgid "DO24 diabetes mellitus"
+msgstr "DO24 diabetes mellitus"
+
+#: wp4/compare/models.py:192
+msgid "DO25 alcohol abuse"
+msgstr "DO25 alcohol abuse"
+
+#: wp4/compare/models.py:196
+msgid "DO26 cardiac arrest"
+msgstr "DO26 cardiac arrest"
+
+#: wp4/compare/models.py:199
+msgid "DO27 last systolic blood pressure"
+msgstr "DO27 last systolic blood pressure"
+
+#: wp4/compare/models.py:203
+msgid "DO28 last diastolic blood pressure"
+msgstr "DO28 last diastolic blood pressure"
+
+#: wp4/compare/models.py:207
+msgid "DO29 diuresis last day (ml)"
+msgstr "DO29 diuresis last day (ml)"
+
+#: wp4/compare/models.py:211
+msgid "DO30 diuresis last hour (ml)"
+msgstr "DO30 diuresis last hour (ml)"
+
+#: wp4/compare/models.py:215
+msgid "DO31 dopamine"
+msgstr "DO31 dopamine"
+
+#: wp4/compare/models.py:219
+msgid "DO32 dobutamine"
+msgstr "DO32 dobutamine"
+
+#: wp4/compare/models.py:223
+msgid "DO33 nor adrenaline"
+msgstr "DO33 nor adrenaline"
+
+#: wp4/compare/models.py:227
+msgid "DO34 vasopressine"
+msgstr "DO34 vasopressine"
+
+#: wp4/compare/models.py:231
+msgid "DO35 other medication"
+msgstr "DO35 other medication"
+
+#: wp4/compare/models.py:241
+msgid "DO36 last creatinine"
+msgstr "DO36 last creatinine"
+
+#: wp4/compare/models.py:244
+msgid "DO37 max creatinine"
+msgstr "DO37 max creatinine"
+
+#: wp4/compare/models.py:258
+msgid "DO38 withdrawal of life support"
+msgstr "DO38 withdrawal of life support"
+
+#: wp4/compare/models.py:261
+msgid "DO39 systolic arterial pressure"
+msgstr "DO39 systolic arterial pressure"
+
+#: wp4/compare/models.py:264
+msgid "DO40 O2 saturation below 80%"
+msgstr "DO40 O2 saturation below 80%"
+
+#: wp4/compare/models.py:267
+msgid "DO41 end of cardiac output"
+msgstr "DO41 end of cardiac output"
+
+#: wp4/compare/models.py:270
+msgid "DO42 length of no touch period (minutes)"
+msgstr "DO42 length of no touch period (minutes)"
+
+#: wp4/compare/models.py:274
+msgid "DO43 knife to skin time"
+msgstr "DO43 knife to skin time"
+
+#: wp4/compare/models.py:277
+msgid "DO44 start in-situ cold perfusion"
+msgstr "DO44 start in-situ cold perfusion"
+
+#: wp4/compare/models.py:280
+msgid "DO45 systemic (aortic) flush solution used"
+msgstr "DO45 systemic (aortic) flush solution used"
+
+#: wp4/compare/models.py:284
+msgid "DO46 systemic flush used"
+msgstr "DO46 systemic flush used"
+
+#: wp4/compare/models.py:289
+msgid "DO47 aortic - volume (ml)"
+msgstr "DO47 aortic - volume (ml)"
+
+#: wp4/compare/models.py:292
+msgid "DO48 heparin"
+msgstr "DO48 heparin"
+
+#: wp4/compare/models.py:298
+msgid "DO49 db 1.1 edta"
+msgstr "DO49 db 1.1 edta"
+
+#: wp4/compare/models.py:304
+msgid "DO50 db 1.2 sst"
+msgstr "DO50 db 1.2 sst"
+
+#: wp4/compare/models.py:310
+msgid "DO51 du 1"
+msgstr "DO51 du 1"
+
+#: wp4/compare/models.py:316
+msgid "DO52 du 2"
+msgstr "DO52 du 2"
+
+#: wp4/compare/models.py:324
+msgid "DOm1 donor"
+msgstr "DOm1 donor"
+
+#: wp4/compare/models.py:325
+msgid "DOm2 donors"
+msgstr "DOm2 donors"
+
+#: wp4/compare/models.py:332
+msgid ""
+"DOv01 Time travel detected! Arrival at donor hospital occurred before "
+"departure from perfusion centre"
+msgstr ""
+
+#: wp4/compare/models.py:337
+msgid "DOv02 Time travel detected! Donor's date of birth is in the future!"
+msgstr "DOv02 Time travel detected! Donor's date of birth is in the future!"
+
+#: wp4/compare/models.py:343
+#, python-format
+msgid ""
+"DOv03 Date of birth is less than 50 years from the date of procurement "
+"(%(num)d)"
+msgstr ""
+
+#: wp4/compare/models.py:348
+#, python-format
+msgid ""
+"DOv04 Date of birth is more than 100 years from the date of procurement "
+"(%(num)d)"
+msgstr ""
+
+#: wp4/compare/models.py:353
+#, python-format
+msgid ""
+"DOv05 Age does not match age as calculated (%(num)d years) from Date of Birth"
+msgstr ""
+
+#: wp4/compare/models.py:358
+msgid "DOv06 Date of procurement occurs before date of admission"
+msgstr "DOv06 Date of procurement occurs before date of admission"
+
+#: wp4/compare/models.py:361
+msgid "DOv07 Missing the date admitted to ITU"
+msgstr "DOv07 Missing the date admitted to ITU"
+
+#: wp4/compare/models.py:363
+msgid "DOv08 Missing the other diagnosis"
+msgstr "DOv08 Missing the other diagnosis"
+
+#: wp4/compare/models.py:371
+msgid "DOv09 Life support withdrawn before admission to hospital"
+msgstr "DOv09 Life support withdrawn before admission to hospital"
+
+#: wp4/compare/models.py:374
+msgid "DOv10 Donor was diagnosed as dead before circulation stopped"
+msgstr "DOv10 Donor was diagnosed as dead before circulation stopped"
+
+#: wp4/compare/models.py:378
+msgid "DOv11 Missing the details of the other systemic flush solution used"
+msgstr "DOv11 Missing the details of the other systemic flush solution used"
+
+#: wp4/compare/models.py:412
+msgid "DOv12 Not Available"
+msgstr "DOv12 Not Available"
+
+#: wp4/compare/models.py:482
+msgid "PM01 machine serial number"
+msgstr "PM01 machine serial number"
+
+#: wp4/compare/models.py:483
+msgid "PM02 machine reference number"
+msgstr "PM02 machine reference number"
+
+#: wp4/compare/models.py:491
+msgid "PMm1 perfusion machine"
+msgstr "PMm1 perfusion machine"
+
+#: wp4/compare/models.py:492
+msgid "PMm2 perfusion machines"
+msgstr "PMm2 perfusion machines"
+
+#: wp4/compare/models.py:496
+msgid "PF01 perfusion machine"
+msgstr "PF01 perfusion machine"
+
+#: wp4/compare/models.py:502
+msgid "PFm1 perfusion machine file"
+msgstr "PFm1 perfusion machine file"
+
+#: wp4/compare/models.py:503
+msgid "PFm2 perfusion machine files"
+msgstr "PFm2 perfusion machine files"
+
+#: wp4/compare/models.py:509
+msgid "OR01 kidney location"
+msgstr "OR01 kidney location"
+
+#: wp4/compare/models.py:521
+msgid "ORc01 None"
+msgstr "ORc01 None"
+
+#: wp4/compare/models.py:522
+msgid "ORc02 Arterial Damage"
+msgstr "ORc02 Arterial Damage"
+
+#: wp4/compare/models.py:523
+msgid "ORc03 Venous Damage"
+msgstr "ORc03 Venous Damage"
+
+#: wp4/compare/models.py:524
+msgid "ORc04 Ureteral Damage"
+msgstr "ORc04 Ureteral Damage"
+
+#: wp4/compare/models.py:525
+msgid "ORc05 Parenchymal Damage"
+msgstr "ORc05 Parenchymal Damage"
+
+#: wp4/compare/models.py:526
+msgid "ORc06 Other Damage"
+msgstr "ORc06 Other Damage"
+
+#: wp4/compare/models.py:534
+msgid "ORc07 Homogenous"
+msgstr "ORc07 Homogenous"
+
+#: wp4/compare/models.py:535
+msgid "ORc08 Patchy"
+msgstr "ORc08 Patchy"
+
+#: wp4/compare/models.py:536
+msgid "ORc09 Blue"
+msgstr "ORc09 Blue"
+
+#: wp4/compare/models.py:537
+msgid "ORc10 Unknown"
+msgstr "ORc10 Unknown"
+
+#: wp4/compare/models.py:539
+msgid "OR02 time out"
+msgstr "OR02 time out"
+
+#: wp4/compare/models.py:541
+msgid "OR03 number of renal arteries"
+msgstr "OR03 number of renal arteries"
+
+#: wp4/compare/models.py:544
+msgid "OR04 renal graft damage"
+msgstr "OR04 renal graft damage"
+
+#: wp4/compare/models.py:547
+msgid "OR05 other damage done"
+msgstr "OR05 other damage done"
+
+#: wp4/compare/models.py:549
+msgid "OR06 perfusion characteristics"
+msgstr "OR06 perfusion characteristics"
+
+#: wp4/compare/models.py:552
+msgid "OR07 is transplantable"
+msgstr "OR07 is transplantable"
+
+#: wp4/compare/models.py:554
+msgid "OR08 not transplantable because"
+msgstr "OR08 not transplantable because"
+
+#: wp4/compare/models.py:563
+msgid "ORc11 Not Set"
+msgstr "ORc11 Not Set"
+
+#: wp4/compare/models.py:575 wp4/compare/models.py:579
+msgid "ORc12 Small"
+msgstr "ORc12 Small"
+
+#: wp4/compare/models.py:576 wp4/compare/models.py:580
+msgid "ORc13 Large"
+msgstr "ORc13 Large"
+
+#: wp4/compare/models.py:577
+msgid "ORc14 Double Artery"
+msgstr "ORc14 Double Artery"
+
+#: wp4/compare/models.py:582
+msgid "OR09 machine perfusion possible?"
+msgstr "OR09 machine perfusion possible?"
+
+#: wp4/compare/models.py:585
+msgid "OR10 not possible because"
+msgstr "OR10 not possible because"
+
+#: wp4/compare/models.py:588
+msgid "OR11 machine perfusion"
+msgstr "OR11 machine perfusion"
+
+#: wp4/compare/models.py:590
+msgid "OR12 used patch holder"
+msgstr "OR12 used patch holder"
+
+#: wp4/compare/models.py:593
+msgid "OR13 artificial patch used"
+msgstr "OR13 artificial patch used"
+
+#: wp4/compare/models.py:595
+msgid "OR14 artificial patch size"
+msgstr "OR14 artificial patch size"
+
+#: wp4/compare/models.py:599
+msgid "OR15 number of patches"
+msgstr "OR15 number of patches"
+
+#: wp4/compare/models.py:604
+msgid "OR16 is oxygen bottle full"
+msgstr "OR16 is oxygen bottle full"
+
+#: wp4/compare/models.py:606
+msgid "OR17 oxygen bottle opened"
+msgstr "OR17 oxygen bottle opened"
+
+#: wp4/compare/models.py:607
+msgid "OR18 oxygen bottle changed"
+msgstr "OR18 oxygen bottle changed"
+
+#: wp4/compare/models.py:609
+msgid "OR19 oxygen bottle changed at"
+msgstr "OR19 oxygen bottle changed at"
+
+#: wp4/compare/models.py:612
+msgid "OR20 ice container replenished"
+msgstr "OR20 ice container replenished"
+
+#: wp4/compare/models.py:615
+msgid "OR21 ice container replenished at"
+msgstr "OR21 ice container replenished at"
+
+#: wp4/compare/models.py:619
+msgid "OR22 perfusate measurable"
+msgstr "OR22 perfusate measurable"
+
+#: wp4/compare/models.py:621
+msgid "OR23 value pO2"
+msgstr "OR23 value pO2"
+
+#: wp4/compare/models.py:623
+msgid "OR24 perfusion machine"
+msgstr "OR24 perfusion machine"
+
+#: wp4/compare/models.py:625
+msgid "OR25 machine file"
+msgstr "OR25 machine file"
+
+#: wp4/compare/models.py:630
+msgid "OR26 p1"
+msgstr "OR26 p1"
+
+#: wp4/compare/models.py:636
+msgid "OR27 p2"
+msgstr "OR27 p2"
+
+#: wp4/compare/models.py:642
+msgid "OR28 p3"
+msgstr "OR28 p3"
+
+#: wp4/compare/models.py:656
+msgid "ORm1 organ"
+msgstr "ORm1 organ"
+
+#: wp4/compare/models.py:657
+msgid "ORm2 organs"
+msgstr "ORm2 organs"
+
+#: wp4/compare/models.py:669
+msgid "PRc01 Disposables"
+msgstr "PRc01 Disposables"
+
+#: wp4/compare/models.py:670
+msgid "PRc02 Extra cannula small (3mm)"
+msgstr "PRc02 Extra cannula small (3mm)"
+
+#: wp4/compare/models.py:671
+msgid "PRc03 Extra cannula large (5mm)"
+msgstr "PRc03 Extra cannula large (5mm)"
+
+#: wp4/compare/models.py:672
+msgid "PRc04 Extra patch holder small"
+msgstr "PRc04 Extra patch holder small"
+
+#: wp4/compare/models.py:673
+msgid "PRc05 Extra patch holder large"
+msgstr "PRc05 Extra patch holder large"
+
+#: wp4/compare/models.py:674
+msgid "PRc06 Extra double cannula set"
+msgstr "PRc06 Extra double cannula set"
+
+#: wp4/compare/models.py:675
+msgid "PRc07 Perfusate solution"
+msgstr "PRc07 Perfusate solution"
+
+#: wp4/compare/models.py:676
+msgid "PR01 related kidney"
+msgstr "PR01 related kidney"
+
+#: wp4/compare/models.py:677
+msgid "PR02 resource used"
+msgstr "PR02 resource used"
+
+#: wp4/compare/models.py:678
+msgid "PR03 lot number"
+msgstr "PR03 lot number"
+
+#: wp4/compare/models.py:679
+msgid "PR04 expiry date"
+msgstr "PR04 expiry date"
+
+#: wp4/compare/models.py:687
+msgid "PRm1 procurement resource"
+msgstr "PRm1 procurement resource"
+
+#: wp4/compare/models.py:688
+msgid "PRm2 procurement resources"
+msgstr "PRm2 procurement resources"
+
+#: wp4/compare/models.py:699
+msgid "REc01 Positive crossmatch"
+msgstr "REc01 Positive crossmatch"
+
+#: wp4/compare/models.py:700
+msgid "REc02 Unknown"
+msgstr "REc02 Unknown"
+
+#: wp4/compare/models.py:701
+msgid "REc03 Other"
+msgstr "REc03 Other"
+
+#: wp4/compare/models.py:704
+msgid "RO01 name of transplant technician"
+msgstr "RO01 name of transplant technician"
+
+#: wp4/compare/models.py:709
+msgid "RE02 call received from transplant co-ordinator at"
+msgstr "RE02 call received from transplant co-ordinator at"
+
+#: wp4/compare/models.py:711
+msgid "RE03 transplant hospital"
+msgstr "RE03 transplant hospital"
+
+#: wp4/compare/models.py:714
+msgid "RE04 name of the theatre contact"
+msgstr "RE04 name of the theatre contact"
+
+#: wp4/compare/models.py:718
+msgid "RE05 scheduled start"
+msgstr "RE05 scheduled start"
+
+#: wp4/compare/models.py:720
+msgid "RE06 arrival time at hub"
+msgstr "RE06 arrival time at hub"
+
+#: wp4/compare/models.py:723
+msgid "RE07 departure from hub"
+msgstr "RE07 departure from hub"
+
+#: wp4/compare/models.py:726
+msgid "RE08 arrival at transplant hospital"
+msgstr "RE08 arrival at transplant hospital"
+
+#: wp4/compare/models.py:728
+msgid "RE09 journey notes"
+msgstr "RE09 journey notes"
+
+#: wp4/compare/models.py:729
+msgid "RE10 reallocated"
+msgstr "RE10 reallocated"
+
+#: wp4/compare/models.py:731
+msgid "RE11 reason for re-allocation"
+msgstr "RE11 reason for re-allocation"
+
+#: wp4/compare/models.py:734
+msgid "RE12 other reason"
+msgstr "RE12 other reason"
+
+#: wp4/compare/models.py:739
+msgid "REc04 Glomerular diseases"
+msgstr "REc04 Glomerular diseases"
+
+#: wp4/compare/models.py:740
+msgid "REc05 Polycystic kidneys"
+msgstr "REc05 Polycystic kidneys"
+
+#: wp4/compare/models.py:741
+msgid "REc06 Uncertain etiology"
+msgstr "REc06 Uncertain etiology"
+
+#: wp4/compare/models.py:742
+msgid "REc07 Tubular and interstitial diseases"
+msgstr "REc07 Tubular and interstitial diseases"
+
+#: wp4/compare/models.py:743
+msgid "REc08 Retransplant graft failure"
+msgstr "REc08 Retransplant graft failure"
+
+#: wp4/compare/models.py:744
+msgid "REc09 diabetic nephropathyes"
+msgstr "REc09 diabetic nephropathyes"
+
+#: wp4/compare/models.py:745
+msgid "REc10 hypertensive nephropathyes"
+msgstr "REc10 hypertensive nephropathyes"
+
+#: wp4/compare/models.py:746
+msgid "REc11 congenital rare disorders"
+msgstr "REc11 congenital rare disorders"
+
+#: wp4/compare/models.py:747
+msgid "REc12 renovascular and other diseases"
+msgstr "REc12 renovascular and other diseases"
+
+#: wp4/compare/models.py:748
+msgid "REc13 neoplasms"
+msgstr "REc13 neoplasms"
+
+#: wp4/compare/models.py:749
+msgid "REc14 other"
+msgstr "REc14 other"
+
+#: wp4/compare/models.py:750
+msgid "RE13 informed consent given"
+msgstr "RE13 informed consent given"
+
+#: wp4/compare/models.py:751
+msgid "RE14 receiving one kidney"
+msgstr "RE14 receiving one kidney"
+
+#: wp4/compare/models.py:754
+msgid "RE15 renal disease"
+msgstr "RE15 renal disease"
+
+#: wp4/compare/models.py:757
+msgid "RE16 other renal disease"
+msgstr "RE16 other renal disease"
+
+#: wp4/compare/models.py:759
+msgid "RE17 diuresis (ml/24hr)"
+msgstr "RE17 diuresis (ml/24hr)"
+
+#: wp4/compare/models.py:764
+msgid "REc15 midline laparotomy"
+msgstr "REc15 midline laparotomy"
+
+#: wp4/compare/models.py:765
+msgid "REc16 hockey stick"
+msgstr "REc16 hockey stick"
+
+#: wp4/compare/models.py:766
+msgid "REc17 unknown"
+msgstr "REc17 unknown"
+
+#: wp4/compare/models.py:768
+msgid "REc18 None"
+msgstr "REc18 None"
+
+#: wp4/compare/models.py:769
+msgid "REc19 ligated polar artery"
+msgstr "REc19 ligated polar artery"
+
+#: wp4/compare/models.py:770
+msgid "REc20 reconstructed polar artery"
+msgstr "REc20 reconstructed polar artery"
+
+#: wp4/compare/models.py:771
+msgid "REc21 repaired intima dissection"
+msgstr "REc21 repaired intima dissection"
+
+#: wp4/compare/models.py:772
+msgid "REc22 other"
+msgstr "REc22 other"
+
+#: wp4/compare/models.py:774
+msgid "REc23 none"
+msgstr "REc23 none"
+
+#: wp4/compare/models.py:775
+msgid "REc24 laceration"
+msgstr "REc24 laceration"
+
+#: wp4/compare/models.py:776
+msgid "REc25 elongation plasty"
+msgstr "REc25 elongation plasty"
+
+#: wp4/compare/models.py:777
+msgid "REc26 other"
+msgstr "REc26 other"
+
+#: wp4/compare/models.py:778
+msgid "RE18 knife to skin time"
+msgstr "RE18 knife to skin time"
+
+#: wp4/compare/models.py:779
+msgid "RE19 pO2 perfusate"
+msgstr "RE19 pO2 perfusate"
+
+#: wp4/compare/models.py:781
+msgid "RE20 stop machine perfusion"
+msgstr "RE20 stop machine perfusion"
+
+#: wp4/compare/models.py:782
+msgid "RE21 kidney was cold stored?"
+msgstr "RE21 kidney was cold stored?"
+
+#: wp4/compare/models.py:783
+msgid "RE22 tape over regulator broken"
+msgstr "RE22 tape over regulator broken"
+
+#: wp4/compare/models.py:785
+msgid "RE23 kidney removed from machine at"
+msgstr "RE23 kidney removed from machine at"
+
+#: wp4/compare/models.py:788
+msgid "RE24 oxygen full and open"
+msgstr "RE24 oxygen full and open"
+
+#: wp4/compare/models.py:791
+msgid "RE25 kidney discarded"
+msgstr "RE25 kidney discarded"
+
+#: wp4/compare/models.py:793
+msgid "RE26 untransplantable because"
+msgstr "RE26 untransplantable because"
+
+#: wp4/compare/models.py:796
+msgid "RE27 start anesthesia at"
+msgstr "RE27 start anesthesia at"
+
+#: wp4/compare/models.py:798
+msgid "RE28 incision"
+msgstr "RE28 incision"
+
+#: wp4/compare/models.py:801
+msgid "RE29 transplant side"
+msgstr "RE29 transplant side"
+
+#: wp4/compare/models.py:804
+msgid "RE30 arterial problems"
+msgstr "RE30 arterial problems"
+
+#: wp4/compare/models.py:807
+msgid "RE31 arterial problems other"
+msgstr "RE31 arterial problems other"
+
+#: wp4/compare/models.py:810
+msgid "RE32 venous problems"
+msgstr "RE32 venous problems"
+
+#: wp4/compare/models.py:813
+msgid "RE33 venous problems other"
+msgstr "RE33 venous problems other"
+
+#: wp4/compare/models.py:814
+msgid "RE34 start anastomosis at"
+msgstr "RE34 start anastomosis at"
+
+#: wp4/compare/models.py:815
+msgid "RE35 start reperfusion at"
+msgstr "RE35 start reperfusion at"
+
+#: wp4/compare/models.py:817
+msgid "RE36 mannitol used"
+msgstr "RE36 mannitol used"
+
+#: wp4/compare/models.py:821
+msgid "RE37 other diurectics used"
+msgstr "RE37 other diurectics used"
+
+#: wp4/compare/models.py:824
+msgid "RE38 other diurectics detail"
+msgstr "RE38 other diurectics detail"
+
+#: wp4/compare/models.py:827
+msgid "RE39 systolic blood pressure at reperfusion"
+msgstr "RE39 systolic blood pressure at reperfusion"
+
+#: wp4/compare/models.py:830
+msgid "RE40 cvp at reperfusion"
+msgstr "RE40 cvp at reperfusion"
+
+#: wp4/compare/models.py:832
+msgid "RE41 intra-operative diuresis"
+msgstr "RE41 intra-operative diuresis"
+
+#: wp4/compare/models.py:835
+msgid "RE42 successful conclusion"
+msgstr "RE42 successful conclusion"
+
+#: wp4/compare/models.py:836
+msgid "RE43 operation concluded at"
+msgstr "RE43 operation concluded at"
+
+#: wp4/compare/models.py:842
+msgid "RE44 temperature and flow probe cleaned"
+msgstr "RE44 temperature and flow probe cleaned"
+
+#: wp4/compare/models.py:844
+msgid "RE45 ice and water removed"
+msgstr "RE45 ice and water removed"
+
+#: wp4/compare/models.py:845
+msgid "RE46 oxygen flow stopped"
+msgstr "RE46 oxygen flow stopped"
+
+#: wp4/compare/models.py:846
+msgid "RE47 oxygen bottle removed"
+msgstr "RE47 oxygen bottle removed"
+
+#: wp4/compare/models.py:847
+msgid "RE48 box kidney assist cleaned"
+msgstr "RE48 box kidney assist cleaned"
+
+#: wp4/compare/models.py:848
+msgid "RE49 batteries charged"
+msgstr "RE49 batteries charged"
+
+#: wp4/compare/models.py:849
+msgid "RE50 cleaning log notes"
+msgstr "RE50 cleaning log notes"
+
+#: wp4/compare/models.py:854
+msgid "REm1 recipient"
+msgstr "REm1 recipient"
+
+#: wp4/compare/models.py:855
+msgid "REm2 recipients"
+msgstr "REm2 recipients"
+
+#: wp4/followups/models.py:43
+msgid "start date"
+msgstr "start date"
+
+#: wp4/followups/models.py:47
+msgid "Immunological"
+msgstr "Immunological"
+
+#: wp4/followups/models.py:48
+msgid "Preservation"
+msgstr "Preservation"
+
+#: wp4/followups/models.py:49
+msgid "Technical - artery"
+msgstr "Technical - artery"
+
+#: wp4/followups/models.py:50
+msgid "Technical - venous"
+msgstr "Technical - venous"
+
+#: wp4/followups/models.py:51
+msgid "Infection - bacterial"
+msgstr "Infection - bacterial"
+
+#: wp4/followups/models.py:52
+msgid "Infection - viral"
+msgstr "Infection - viral"
+
+#: wp4/followups/models.py:53 wp4/followups/models.py:110
+#: wp4/followups/models.py:204
+msgid "Other"
+msgstr "Other"
+
+#: wp4/followups/models.py:55 wp4/followups/models.py:57
+msgid "graft failure"
+msgstr "graft failure"
+
+#: wp4/followups/models.py:62
+msgid "Other failure type"
+msgstr "Other failure type"
+
+#: wp4/followups/models.py:65
+msgid "date of graft failure"
+msgstr "date of graft failure"
+
+#: wp4/followups/models.py:66
+msgid "graft removal"
+msgstr "graft removal"
+
+#: wp4/followups/models.py:67
+msgid "date of graft removal"
+msgstr "date of graft removal"
+
+#: wp4/followups/models.py:78
+msgid "creatinine 1"
+msgstr "creatinine 1"
+
+#: wp4/followups/models.py:86
+msgid "date of dialysis requirement 1"
+msgstr "date of dialysis requirement 1"
+
+#: wp4/followups/models.py:89
+msgid "CAPD"
+msgstr "CAPD"
+
+#: wp4/followups/models.py:90
+msgid "Hemodialysis"
+msgstr "Hemodialysis"
+
+#: wp4/followups/models.py:91
+msgid "Unknown"
+msgstr "Unknown"
+
+#: wp4/followups/models.py:95
+msgid "Dialysis type"
+msgstr "Dialysis type"
+
+#: wp4/followups/models.py:104
+msgid "Azathioprine"
+msgstr "Azathioprine"
+
+#: wp4/followups/models.py:105
+msgid "Cyclosporin"
+msgstr "Cyclosporin"
+
+#: wp4/followups/models.py:106
+msgid "MMF"
+msgstr "MMF"
+
+#: wp4/followups/models.py:107
+msgid "Prednisolone"
+msgstr "Prednisolone"
+
+#: wp4/followups/models.py:108
+msgid "Sirolomus"
+msgstr "Sirolomus"
+
+#: wp4/followups/models.py:109
+msgid "Tacrolimus"
+msgstr "Tacrolimus"
+
+#: wp4/followups/models.py:113
+msgid "Post tx immunosuppression"
+msgstr "Post tx immunosuppression"
+
+#: wp4/followups/models.py:118
+msgid "Other immunosuppression"
+msgstr "Other immunosuppression"
+
+#: wp4/followups/models.py:122
+msgid "rejection"
+msgstr "rejection"
+
+#: wp4/followups/models.py:124
+msgid "treated with prednisolone"
+msgstr "treated with prednisolone"
+
+#: wp4/followups/models.py:125
+msgid "treated with other drug"
+msgstr "treated with other drug"
+
+#: wp4/followups/models.py:127
+msgid "Other rejection drug"
+msgstr "Other rejection drug"
+
+#: wp4/followups/models.py:130
+msgid "biopsy proven"
+msgstr "biopsy proven"
+
+#: wp4/followups/models.py:132
+msgid "calcineurin inhibitor"
+msgstr "calcineurin inhibitor"
+
+#: wp4/followups/models.py:136
+msgid "general notes"
+msgstr "general notes"
+
+#: wp4/followups/models.py:145
+msgid "creatinine 2"
+msgstr "creatinine 2"
+
+#: wp4/followups/models.py:153
+msgid "creatinine 3"
+msgstr "creatinine 3"
+
+#: wp4/followups/models.py:161
+msgid "creatinine 4"
+msgstr "creatinine 4"
+
+#: wp4/followups/models.py:169
+msgid "creatinine 5"
+msgstr "creatinine 5"
+
+#: wp4/followups/models.py:177
+msgid "creatinine 6"
+msgstr "creatinine 6"
+
+#: wp4/followups/models.py:185
+msgid "creatinine 7"
+msgstr "creatinine 7"
+
+#: wp4/followups/models.py:193
+msgid "date of dialysis requirement 2"
+msgstr "date of dialysis requirement 2"
+
+#: wp4/followups/models.py:194
+msgid "date of dialysis requirement 3"
+msgstr "date of dialysis requirement 3"
+
+#: wp4/followups/models.py:195
+msgid "date of dialysis requirement 4"
+msgstr "date of dialysis requirement 4"
+
+#: wp4/followups/models.py:196
+msgid "date of dialysis requirement 5"
+msgstr "date of dialysis requirement 5"
+
+#: wp4/followups/models.py:197
+msgid "date of dialysis requirement 6"
+msgstr "date of dialysis requirement 6"
+
+#: wp4/followups/models.py:198
+msgid "date of dialysis requirement 7"
+msgstr "date of dialysis requirement 7"
+
+#: wp4/followups/models.py:201
+msgid "Delayed graft function"
+msgstr "Delayed graft function"
+
+#: wp4/followups/models.py:202
+msgid "Hyperkalemia"
+msgstr "Hyperkalemia"
+
+#: wp4/followups/models.py:203
+msgid "Fluid overload"
+msgstr "Fluid overload"
+
+#: wp4/followups/models.py:207
+msgid "Dialysis cause"
+msgstr "Dialysis cause"
+
+#: wp4/followups/models.py:212
+msgid "Other dialysis cause"
+msgstr "Other dialysis cause"
+
+#: wp4/followups/models.py:216
+msgid "HLA A"
+msgstr "HLA A"
+
+#: wp4/followups/models.py:217
+msgid "HLA B"
+msgstr "HLA B"
+
+#: wp4/followups/models.py:218
+msgid "HLA DR"
+msgstr "HLA DR"
+
+#: wp4/followups/models.py:221
+msgid "IL 2"
+msgstr "IL 2"
+
+#: wp4/followups/models.py:222
+msgid "ATG"
+msgstr "ATG"
+
+#: wp4/followups/models.py:225
+msgid "Induction therapy"
+msgstr "Induction therapy"
+
+#: wp4/followups/models.py:230
+msgid "date of primary post tx discharge"
+msgstr "date of primary post tx discharge"
+
+#: wp4/followups/models.py:246 wp4/followups/models.py:301
+#: wp4/followups/models.py:330
+msgid "urine creatinine"
+msgstr "urine creatinine"
+
+#: wp4/followups/models.py:255 wp4/followups/models.py:310
+#: wp4/followups/models.py:339
+msgid "creatinine clearance"
+msgstr "creatinine clearance"
+
+#: wp4/followups/models.py:260 wp4/followups/models.py:316
+#: wp4/followups/models.py:344
+msgid "currently on dialysis"
+msgstr "currently on dialysis"
+
+#: wp4/followups/models.py:265 wp4/followups/models.py:321
+#: wp4/followups/models.py:349
+msgid "number of dialysis sessions"
+msgstr "number of dialysis sessions"
+
+#: wp4/followups/models.py:268 wp4/followups/models.py:352
+msgid "rejection periods"
+msgstr "rejection periods"
+
+#: wp4/followups/models.py:270 wp4/followups/models.py:324
+#: wp4/followups/models.py:354
+msgid "graft function complications"
+msgstr "graft function complications"
+
+#: wp4/followups/models.py:273 wp4/followups/models.py:357
+msgid "qol mobility score"
+msgstr "qol mobility score"
+
+#: wp4/followups/models.py:277 wp4/followups/models.py:361
+msgid "qol self care score"
+msgstr "qol self care score"
+
+#: wp4/followups/models.py:281 wp4/followups/models.py:365
+msgid "qol usual activites score"
+msgstr "qol usual activites score"
+
+#: wp4/followups/models.py:285 wp4/followups/models.py:369
+msgid "qol pain or discomfort score"
+msgstr "qol pain or discomfort score"
+
+#: wp4/followups/models.py:289 wp4/followups/models.py:373
+msgid "qol anxiety or depression score"
+msgstr "qol anxiety or depression score"
+
+#: wp4/followups/models.py:293 wp4/followups/models.py:377
+msgid "vas score"
+msgstr "vas score"
+
+#: wp4/locations/models.py:16
+msgid "MM10 United Kingdom"
+msgstr "MM10 United Kingdom"
+
+#: wp4/locations/models.py:17
+msgid "MM11 Belgium"
+msgstr "MM11 Belgium"
+
+#: wp4/locations/models.py:18
+msgid "MM12 Netherlands"
+msgstr "MM12 Netherlands"
+
+#: wp4/locations/models.py:24
+msgid "HO01 hospital name"
+msgstr "HO01 hospital name"
+
+#: wp4/locations/models.py:25
+msgid "HO03 country"
+msgstr "HO03 country"
+
+#: wp4/locations/models.py:39
+msgid "HOm1 hospital"
+msgstr "HOm1 hospital"
+
+#: wp4/locations/models.py:40
+msgid "HOm2 hospitals"
+msgstr "HOm2 hospitals"
+
+#: wp4/samples/models.py:22
+msgid "SA10 Donor blood 1"
+msgstr "SA10 Donor blood 1"
+
+#: wp4/samples/models.py:23
+msgid "SA11 Donor blood 2"
+msgstr "SA11 Donor blood 2"
+
+#: wp4/samples/models.py:24
+msgid "SA12 Donor urine 1"
+msgstr "SA12 Donor urine 1"
+
+#: wp4/samples/models.py:25
+msgid "SA13 Donor urine 2"
+msgstr "SA13 Donor urine 2"
+
+#: wp4/samples/models.py:26
+msgid "SA14 Kidney perfusate 1"
+msgstr "SA14 Kidney perfusate 1"
+
+#: wp4/samples/models.py:27
+msgid "SA15 Kidney perfusate 1"
+msgstr "SA15 Kidney perfusate 1"
+
+#: wp4/samples/models.py:28
+msgid "SA16 Kidney perfusate 1"
+msgstr "SA16 Kidney perfusate 1"
+
+#: wp4/samples/models.py:29
+msgid "SA17 Recipient blood 1"
+msgstr "SA17 Recipient blood 1"
+
+#: wp4/samples/models.py:30
+msgid "SA18 Recipient blood 1"
+msgstr "SA18 Recipient blood 1"
+
+#: wp4/samples/models.py:31
+msgid "SA19 Kidney tissue 1"
+msgstr "SA19 Kidney tissue 1"
+
+#: wp4/samples/models.py:33
+msgid "SA05 sample type"
+msgstr "SA05 sample type"
+
+#: wp4/samples/models.py:34
+msgid "SA01 barcode number"
+msgstr "SA01 barcode number"
+
+#: wp4/samples/models.py:35
+msgid "SA02 date and time taken"
+msgstr "SA02 date and time taken"
+
+#: wp4/samples/models.py:36
+msgid "SA03 centrifugation"
+msgstr "SA03 centrifugation"
+
+#: wp4/samples/models.py:37
+msgid "SA04 comment"
+msgstr "SA04 comment"
+
+#: wp4/samples/models.py:67
+msgid "SAm1 sample"
+msgstr "SAm1 sample"
+
+#: wp4/samples/models.py:68
+msgid "SAm2 samples"
+msgstr "SAm2 samples"
+
+#: wp4/staff_person/models.py:49
+msgid "PE14 related user account"
+msgstr "PE14 related user account"
+
+#: wp4/staff_person/models.py:51
+msgid "PE10 first names"
+msgstr "PE10 first names"
+
+#: wp4/staff_person/models.py:52
+msgid "PE11 last names"
+msgstr "PE11 last names"
+
+#: wp4/staff_person/models.py:53
+msgid "PE12 jobs"
+msgstr "PE12 jobs"
+
+#: wp4/staff_person/models.py:54
+msgid "PE13 telephone number"
+msgstr "PE13 telephone number"
+
+#: wp4/staff_person/models.py:55
+msgid "PE15 email"
+msgstr "PE15 email"
+
+#: wp4/staff_person/models.py:79
+msgid "PEm1 person"
+msgstr "PEm1 person"
+
+#: wp4/staff_person/models.py:80
+msgid "PEm2 people"
+msgstr "PEm2 people"
+
+#: wp4/templates/admin/base_site.html:3
+msgid "COPE site admin"
+msgstr "COPE site admin"
+
+#: wp4/templates/admin/base_site.html:6
+msgid "COPE DB basic administration"
+msgstr "COPE DB basic administration"
+
+#: wp4/templates/autocomplete_light/widget.html:35
+msgid "Add another"
+msgstr "Add another"
+
+#: wp4/templates/registration/logged_out.html:7
+#: wp4/templates/registration/password_change_done.html:6
+#: wp4/templates/registration/password_reset_complete.html:6
+#: wp4/templates/registration/password_reset_confirm.html:6
+#: wp4/templates/registration/password_reset_done.html:6
+msgid "Home"
+msgstr "Home"
+
+#: wp4/templates/registration/logged_out.html:11
+msgid "Thanks for spending some quality time with the Web site today."
+msgstr "Thanks for spending some quality time with the Web site today."
+
+#: wp4/templates/registration/logged_out.html:13
+msgid "Log in again"
+msgstr "Log in again"
+
+#: wp4/templates/registration/password_change_done.html:3
+msgid "Documentation"
+msgstr "Documentation"
+
+#: wp4/templates/registration/password_change_done.html:3
+msgid "Change password"
+msgstr "Change password"
+
+#: wp4/templates/registration/password_change_done.html:3
+msgid "Log out"
+msgstr "Log out"
+
+#: wp4/templates/registration/password_change_done.html:7
+msgid "Password change"
+msgstr "Password change"
+
+#: wp4/templates/registration/password_change_done.html:14
+msgid "Your password was changed."
+msgstr "Your password was changed."
+
+#: wp4/templates/registration/password_change_form.html:29
+msgid "Please correct the error below."
+msgstr "Please correct the error below."
+
+#: wp4/templates/registration/password_change_form.html:29
+msgid "Please correct the errors below."
+msgstr "Please correct the errors below."
+
+#: wp4/templates/registration/password_change_form.html:34
+msgid ""
+"Please enter your old password, for security's sake, and then enter your new "
+"password twice so we can verify you typed it in correctly."
+msgstr ""
+
+#: wp4/templates/registration/password_change_form.html:62
+#: wp4/templates/registration/password_reset_confirm.html:24
+msgid "Change my password"
+msgstr "Change my password"
+
+#: wp4/templates/registration/password_reset_complete.html:7
+#: wp4/templates/registration/password_reset_done.html:7
+msgid "Password reset"
+msgstr "Password reset"
+
+#: wp4/templates/registration/password_reset_complete.html:16
+msgid "Your password has been set.  You may go ahead and log in now."
+msgstr "Your password has been set.  You may go ahead and log in now."
+
+#: wp4/templates/registration/password_reset_complete.html:18
+msgid "Log in"
+msgstr "Log in"
+
+#: wp4/templates/registration/password_reset_confirm.html:7
+msgid "Password reset confirmation"
+msgstr "Password reset confirmation"
+
+#: wp4/templates/registration/password_reset_confirm.html:17
+msgid ""
+"Please enter your new password twice so we can verify you typed it in "
+"correctly."
+msgstr ""
+
+#: wp4/templates/registration/password_reset_confirm.html:21
+msgid "New password:"
+msgstr "New password:"
+
+#: wp4/templates/registration/password_reset_confirm.html:23
+msgid "Confirm password:"
+msgstr "Confirm password:"
+
+#: wp4/templates/registration/password_reset_confirm.html:29
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used.  Please request a new password reset."
+msgstr ""
+
+#: wp4/templates/registration/password_reset_done.html:15
+msgid ""
+"We've emailed you instructions for setting your password, if an account "
+"exists with the email you entered. You should receive them shortly."
+msgstr ""
+
+#: wp4/templates/registration/password_reset_done.html:17
+msgid ""
+"If you don't receive an email, please make sure you've entered the address "
+"you registered with, and check your spam folder."
+msgstr ""
+
+#: wp4/templates/registration/password_reset_email.html:2
+#, python-format
+msgid ""
+"You're receiving this email because you requested a password reset for your "
+"user account at %(site_name)s."
+msgstr ""
+
+#: wp4/templates/registration/password_reset_email.html:4
+msgid "Please go to the following page and choose a new password:"
+msgstr "Please go to the following page and choose a new password:"
+
+#: wp4/templates/registration/password_reset_email.html:8
+msgid "Your username, in case you've forgotten:"
+msgstr "Your username, in case you've forgotten:"
+
+#: wp4/templates/registration/password_reset_email.html:10
+msgid "Thanks for using our site!"
+msgstr "Thanks for using our site!"
+
+#: wp4/templates/registration/password_reset_email.html:12
+#, python-format
+msgid "The %(site_name)s team"
+msgstr "The %(site_name)s team"
+
+#: wp4/templates/registration/password_reset_form.html:9
+msgid ""
+"Forgotten your password? Enter your email address below, and we'll email "
+"instructions for setting a new one."
+msgstr ""
+
+#: wp4/templates/registration/password_reset_form.html:32
+msgid "Reset my password"
+msgstr "Reset my password"

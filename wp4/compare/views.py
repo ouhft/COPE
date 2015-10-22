@@ -62,9 +62,9 @@ def procurement_list(request):
     if current_person.has_job(
             (StaffJob.SYSTEMS_ADMINISTRATOR, StaffJob.CENTRAL_COORDINATOR, StaffJob.NATIONAL_COORDINATOR)
     ):
-        donors = Donor.objects.all()
+        donors = Donor.objects.all().order_by('created_on')
     elif current_person.has_job(StaffJob.PERFUSION_TECHNICIAN):
-        donors = Donor.objects.filter(perfusion_technician=current_person)
+        donors = Donor.objects.filter(perfusion_technician=current_person).order_by('created_on')
     else:
         donors = {}
 
@@ -84,15 +84,15 @@ def procurement_form(request, pk):
     donor = get_object_or_404(Donor, pk=int(pk))
     current_person = StaffPerson.objects.get(user__id=request.user.id)
 
-    def procurement_initial_data(organ, creator):
+    def procurement_initial_data(organ, created_by_user):
         return [
-            {'organ': organ.pk, 'type': ProcurementResource.DISPOSABLES, 'created_by': creator.pk},
-            {'organ': organ.pk, 'type': ProcurementResource.EXTRA_CANNULA_SMALL, 'created_by': creator.pk},
-            {'organ': organ.pk, 'type': ProcurementResource.EXTRA_CANNULA_LARGE, 'created_by': creator.pk},
-            {'organ': organ.pk, 'type': ProcurementResource.EXTRA_PATCH_HOLDER_SMALL, 'created_by': creator.pk},
-            {'organ': organ.pk, 'type': ProcurementResource.EXTRA_PATCH_HOLDER_LARGE, 'created_by': creator.pk},
-            {'organ': organ.pk, 'type': ProcurementResource.EXTRA_DOUBLE_CANNULA_SET, 'created_by': creator.pk},
-            {'organ': organ.pk, 'type': ProcurementResource.PERFUSATE_SOLUTION, 'created_by': creator.pk},
+            {'organ': organ.pk, 'type': ProcurementResource.DISPOSABLES, 'created_by': created_by_user.pk},
+            {'organ': organ.pk, 'type': ProcurementResource.EXTRA_CANNULA_SMALL, 'created_by': created_by_user.pk},
+            {'organ': organ.pk, 'type': ProcurementResource.EXTRA_CANNULA_LARGE, 'created_by': created_by_user.pk},
+            {'organ': organ.pk, 'type': ProcurementResource.EXTRA_PATCH_HOLDER_SMALL, 'created_by': created_by_user.pk},
+            {'organ': organ.pk, 'type': ProcurementResource.EXTRA_PATCH_HOLDER_LARGE, 'created_by': created_by_user.pk},
+            {'organ': organ.pk, 'type': ProcurementResource.EXTRA_DOUBLE_CANNULA_SET, 'created_by': created_by_user.pk},
+            {'organ': organ.pk, 'type': ProcurementResource.PERFUSATE_SOLUTION, 'created_by': created_by_user.pk},
         ]
 
     donor_form = DonorForm(request.POST or None, request.FILES or None, instance=donor, prefix="donor")
@@ -106,12 +106,15 @@ def procurement_form(request, pk):
     left_organ_procurement_forms = ProcurementResourceLeftInlineFormSet(
         request.POST or None,
         prefix="left-organ-procurement",
-        initial=procurement_initial_data(donor.left_kidney(), current_person),
+        initial=procurement_initial_data(donor.left_kidney(), current_person.user),
         instance=donor.left_kidney())
     if left_organ_form.is_valid() and left_organ_procurement_forms.is_valid():
-        left_organ_form.save(request.user)
+        left_organ_instance = left_organ_form.save(request.user)
         for p_form in left_organ_procurement_forms:
-            p_form.save()
+            # Override organ, because on the first pass through, Organ won't have an id to be set in the formset
+            procurement_resource_instance = p_form.save(commit=False)
+            procurement_resource_instance.organ = left_organ_instance
+            procurement_resource_instance.save()
         all_valid += 1
     left_organ_error_count = left_organ_procurement_forms.total_error_count() + len(left_organ_form.errors)
 
@@ -124,12 +127,15 @@ def procurement_form(request, pk):
     right_organ_procurement_forms = ProcurementResourceRightInlineFormSet(
         request.POST or None,
         prefix="right-organ-procurement",
-        initial=procurement_initial_data(donor.right_kidney(), current_person),
+        initial=procurement_initial_data(donor.right_kidney(), current_person.user),
         instance=donor.right_kidney())
     if right_organ_form.is_valid() and right_organ_procurement_forms.is_valid():
-        right_organ_form.save(request.user)
+        right_organ_instance = right_organ_form.save(request.user)
         for p_form in right_organ_procurement_forms:
-            p_form.save()
+            # Override organ, because on the first pass through, Organ won't have an id to be set in the formset
+            procurement_resource_instance = p_form.save(commit=False)
+            procurement_resource_instance.organ = right_organ_instance
+            procurement_resource_instance.save()
         all_valid += 1
     right_organ_error_count = right_organ_procurement_forms.total_error_count() + len(right_organ_form.errors)
 
@@ -162,7 +168,6 @@ def procurement_form(request, pk):
     # messages.warning(request, 'Your account expires in three days.')
     # messages.error(request, '<strong>Document</strong> deleted.')
 
-    # print("DEBUG: Formset contains %s" % left_organ_procurement_form)
     return render_to_response(
         "compare/procurement_form.html",
         {

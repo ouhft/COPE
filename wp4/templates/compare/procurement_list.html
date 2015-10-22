@@ -16,6 +16,7 @@
                     <thead>
                     <tr>
                         <th>Trial ID</th>
+                        <th>Started on</th>
                         <th>Number</th>
                         <th>Age</th>
                         <th>Gender</th>
@@ -29,6 +30,7 @@
                                    class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i>
                                 {{ donor.trial_id }}
                             </a></td>
+                            <td>{{ donor.created_on }}</td>
                             <td>{{ donor.number|default:"Unknown number" }}</td>
                             <td>{{ donor.age }}</td>
                             <td>{{ donor.get_gender_display }}</td>

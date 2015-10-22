@@ -385,8 +385,8 @@ class ProcurementResourceForm(forms.ModelForm):
         self.render_required_fields = True
         self.fields['organ'].widget = forms.HiddenInput()
         self.fields['type'].widget = forms.HiddenInput()
+        self.fields['type'].choices = ProcurementResource.TYPE_CHOICES
         self.fields['expiry_date'].input_formats = DATE_INPUT_FORMATS
-        # self.fields['expiry_date'].required = False
         self.fields['created_by'].widget = forms.HiddenInput()
 
     class Meta:

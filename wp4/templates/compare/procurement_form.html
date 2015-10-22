@@ -93,20 +93,20 @@
                     <a href="#leftkidney" aria-controls="leftkidney" role="tab" data-toggle="tab"
                        id="leftkidneytab">Left Kidney
                         {% if left_organ_error_count > 0 %}
-                            <span class="label label-danger">{{ left_organ_error_count }}</span>
+                            <span class="label label-danger">{{ left_organ_error_count }} Error{{ left_organ_error_count|pluralize }}</span>
                         {% endif %}</a>
                 </li>
                 <li role="presentation" class="active"><a href="#donor" aria-controls="donor" role="tab"
                                                           data-toggle="tab" id="donortab">Donor
                     {% if donor_form.errors|length > 0 %}
-                        <span class="label label-danger">{{ donor_form.errors|length }}</span>
+                        <span class="label label-danger">{{ donor_form.errors|length }} Error{{ donor_form.errors|pluralize }}</span>
                     {% endif %}</a>
                 </li>
                 <li role="presentation">
                     <a href="#rightkidney" aria-controls="rightkidney" role="tab" data-toggle="tab"
                        id="rightkidneytab">Right Kidney
                         {% if right_organ_error_count > 0 %}
-                            <span class="label label-danger">{{ right_organ_error_count }}</span>
+                            <span class="label label-danger">{{ right_organ_error_count }} Error{{ right_organ_error_count|pluralize }}</span>
                         {% endif %}</a>
                 </li>
             </ul>
