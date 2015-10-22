@@ -10,6 +10,10 @@ from __future__ import absolute_import, unicode_literals
 from .common import *  # noqa
 
 print("DEBUG: Loading settings from webfaction")
+# Debug language for seeing labels rather than translations
+LANGUAGES = LANGUAGES + (
+    ('en-db', _('SET04 Debug Language')),
+)
 
 
 # SECRET CONFIGURATION

@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# CARL MARSHALL <CARL.MARSHALL@NDS.OX.AC.UK>, 2015.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.2.3\n"
+"Project-Id-Version: 0.2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-19 12:36+0000\n"
+"POT-Creation-Date: 2015-10-20 14:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: CARL MARSHALL <CARL.MARSHALL@NDS.OX.AC.UK>\n"
 "Language-Team: OXFORD <LL@li.org>\n"
@@ -28,6 +28,10 @@ msgstr "Belgium"
 #: config/settings/common.py:296
 msgid "SET03 Netherlands"
 msgstr "Netherlands"
+
+#: config/settings/dev_home.py:22
+msgid "SET04 Debug Language"
+msgstr "Debug Mode"
 
 #: wp4/adverse_event/models.py:38
 msgid "AE01 sequence number"
@@ -191,7 +195,7 @@ msgstr "Consultant called MTO at"
 
 #: wp4/compare/models.py:151
 msgid "DO06 donor hospital"
-msgstr "Hospital of retrieval"
+msgstr "Retrieval Hospital"
 
 #: wp4/compare/models.py:152
 msgid "DO07 time of withdrawal therapy"
@@ -634,9 +638,7 @@ msgstr "Ice container replenished at"
 
 #: wp4/compare/models.py:619
 msgid "OR22 perfusate measurable"
-msgstr ""
-"Is it logistically possible to measure pO2 perfusate (use blood gas "
-"analyser)?"
+msgstr "Is it logistically possible to measure pO2 perfusate (use blood gas analyser)?"
 
 #: wp4/compare/models.py:621
 msgid "OR23 value pO2"
@@ -736,7 +738,7 @@ msgstr "Other"
 
 #: wp4/compare/models.py:704
 msgid "RO01 name of transplant technician"
-msgstr "Name of transplant technician"
+msgstr "Name of MTO attending"
 
 #: wp4/compare/models.py:709
 msgid "RE02 call received from transplant co-ordinator at"
