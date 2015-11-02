@@ -12,7 +12,7 @@ from autocomplete_light import ModelChoiceField
 from ..theme.layout import InlineFields, FieldWithFollowup, YesNoFieldWithAlternativeFollowups, FieldWithNotKnown
 from ..theme.layout import DateTimeField, DateField, FormPanel
 from ..theme.layout import DATETIME_INPUT_FORMATS, DATE_INPUT_FORMATS
-from .models import Donor, Organ, Recipient, ProcurementResource
+from .models import OrganPerson, Donor, Organ, Recipient, ProcurementResource
 from .models import YES_NO_UNKNOWN_CHOICES, LOCATION_CHOICES
 
 NO_YES_CHOICES = (
@@ -24,6 +24,25 @@ YES_NO_CHOICES = (
     (True, _("FF02 Yes")),
     (False, _("FF01 No"))
 )
+
+
+class OrganPersonForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(OrganPersonForm, self).__init__(*args, **kwargs)
+
+    class Meta:
+        model = OrganPerson
+        exclude = ['created_by', 'version', 'created_on']
+        localized_fields = "__all__"
+
+    def save(self, user, *args, **kwargs):
+        person = super(OrganPersonForm, self).save(commit=False)
+        person.created_by = user
+        person.created_on = timezone.now()
+        person.version += 1
+        person.save()
+        return person
 
 
 class DonorForm(forms.ModelForm):

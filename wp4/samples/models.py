@@ -6,58 +6,70 @@ from django.utils.translation import ugettext_lazy as _, ungettext_lazy as __
 from django.utils import timezone
 
 
-# Mostly replaces Specimens -- TODO: Remodel this with SampleEvent and Specimen models, plus SampleWorksheet
-class Sample(models.Model):
-    DONOR_BLOOD_1 = 1
-    DONOR_BLOOD_2 = 2
-    DONOR_URINE_1 = 3
-    DONOR_URINE_2 = 4
-    KIDNEY_PERFUSATE_1 = 5
-    KIDNEY_PERFUSATE_2 = 6
-    KIDNEY_PERFUSATE_3 = 7
-    RECIPIENT_BLOOD_1 = 8
-    RECIPIENT_BLOOD_2 = 9
-    KIDNEY_TISSUE_1 = 10
+class Event(models.Model):
+    TYPE_BLOOD = 1
+    TYPE_URINE = 2
+    TYPE_PERFUSATE = 3
+    TYPE_TISSUE = 4
     TYPE_CHOICES = (
-        (DONOR_BLOOD_1, _("SA10 Donor blood 1")),
-        (DONOR_BLOOD_2, _("SA11 Donor blood 2")),
-        (DONOR_URINE_1, _("SA12 Donor urine 1")),
-        (DONOR_URINE_2, _("SA13 Donor urine 2")),
-        (KIDNEY_PERFUSATE_1, _("SA14 Kidney perfusate 1")),
-        (KIDNEY_PERFUSATE_2, _("SA15 Kidney perfusate 1")),
-        (KIDNEY_PERFUSATE_3, _("SA16 Kidney perfusate 1")),
-        (RECIPIENT_BLOOD_1, _("SA17 Recipient blood 1")),
-        (RECIPIENT_BLOOD_2, _("SA18 Recipient blood 1")),
-        (KIDNEY_TISSUE_1, _("SA19 Kidney tissue 1")),
+        (TYPE_BLOOD, _("EVc01 Blood")),
+        (TYPE_URINE, _("EVc02 Urine")),
+        (TYPE_PERFUSATE, _("EVc03 Perfusate")),
+        (TYPE_TISSUE, _("EVc04 Tissue")),
     )
-    type = models.PositiveSmallIntegerField(_("SA05 sample type"), choices=TYPE_CHOICES)
-    barcode = models.CharField(verbose_name=_("SA01 barcode number"), max_length=20)
-    taken_at = models.DateTimeField(verbose_name=_("SA02 date and time taken"))
-    centrifugation = models.DateTimeField(verbose_name=_("SA03 centrifugation"), null=True, blank=True)
-    comment = models.CharField(verbose_name=_("SA04 comment"), max_length=2000, blank=True)
-    #  TODO: Specimen state?
-    #  TODO: Who took the sample?
-    #  TODO: Difference between worksheet and specimen barcodes?
-    #  TODO: Reperfusion?
+    type = models.PositiveSmallIntegerField(_("EV01 event type"), choices=TYPE_CHOICES)
+    taken_at = models.DateTimeField(verbose_name=_("EV02 date and time taken"))
     created_on = models.DateTimeField(default=timezone.now)
     created_by = models.ForeignKey(User)
 
-    def linked_to(self):
-        if self.type is self.DONOR_BLOOD_1:
-            return self.donor_blood_1
-        if self.type is self.DONOR_BLOOD_2:
-            return self.donor_blood_2
-        if self.type is self.DONOR_URINE_1:
-            return self.donor_urine_1
-        if self.type is self.DONOR_URINE_2:
-            return self.donor_urine_2
-        if self.type is self.KIDNEY_PERFUSATE_1:
-            return self.kidney_perfusate_1
-        if self.type is self.KIDNEY_PERFUSATE_2:
-            return self.kidney_perfusate_2
-        if self.type is self.KIDNEY_PERFUSATE_3:
-            return self.kidney_perfusate_3
-        return None
+
+class BarCodedItem(models.Model):
+    barcode = models.CharField(verbose_name=_("SA01 barcode number"), max_length=20)
+    created_on = models.DateTimeField(default=timezone.now)
+    created_by = models.ForeignKey(User)
+
+    class Meta:
+        abstract = True
+
+
+class UrineSample(BarCodedItem):
+    event = models.ForeignKey(Event)
+    centrifuged_at = models.DateTimeField(verbose_name=_("SA02 centrifuged at"), null=True, blank=True)
+
+
+class PerfusateSample(BarCodedItem):
+    event = models.ForeignKey(Event)
+    centrifuged_at = models.DateTimeField(verbose_name=_("SA02 centrifuged at"), null=True, blank=True)
+
+
+class BloodSample(BarCodedItem):
+    event = models.ForeignKey(Event)
+    centrifuged_at = models.DateTimeField(verbose_name=_("SA02 centrifuged at"), null=True, blank=True)
+    blood_type = None
+
+
+class TissueSample(BarCodedItem):
+    event = models.ForeignKey(Event)
+    tissue_type = None
+
+
+class DonorWorksheet(BarCodedItem):
+    donor = None
+
+
+class RecipientWorksheet(BarCodedItem):
+    recipient = None
+
+
+class Deviation(models.Model):
+    description = None
+    occurred_at = None
+    created_on = models.DateTimeField(default=timezone.now)
+    created_by = models.ForeignKey(User)
+
+
+
+
 
     def __unicode__(self):
         return self.barcode

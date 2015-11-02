@@ -106,6 +106,9 @@ class OrganPerson(VersionControlModel):
     number = models.CharField(verbose_name=_('OP01 NHSBT Number'), max_length=20, blank=True)
     date_of_birth = models.DateField(verbose_name=_('OP02 date of birth'), blank=True, null=True)
     date_of_birth_unknown = models.BooleanField(default=False)  # Internal flag
+    # May be possible to get DoD from donor.death_diagnosed
+    date_of_death = models.DateField(verbose_name=_('OP02 date of death'), blank=True, null=True)
+    date_of_death_unknown = models.BooleanField(default=False)  # Internal flag
     gender = models.CharField(verbose_name=_('OP03 gender'), choices=GENDER_CHOICES, max_length=1, default=MALE)
     weight = models.PositiveSmallIntegerField(
         verbose_name=_('OP04 Weight (kg)'),
@@ -122,11 +125,31 @@ class OrganPerson(VersionControlModel):
         blank=True, null=True)
 
     class Meta:
-        abstract = True
+        ordering = ['number']
+        verbose_name = _('OPm1 trial person')
+        verbose_name_plural = _('OPm2 organ people')
+
+    def bmi_value(self):
+        # http://www.nhs.uk/chq/Pages/how-can-i-work-out-my-bmi.aspx?CategoryID=51 for formula
+        if self.height < 1 or self.weight < 1:
+            return _("DOv12 Not Available")
+        height_in_m = self.height / 100
+        return (self.weight / height_in_m) / height_in_m
+    bmi_value.short_description = 'BMI Value'
+
+    def age_from_dob(self):
+        # TODO: Use DoD to confirm aging stops at death
+        today = datetime.date.today()
+        if self.date_of_birth < today:
+            years = today.year - self.date_of_birth.year
+        else:
+            years = today.year - self.date_of_birth.year - 1
+        return years
 
 
-class Donor(OrganPerson):
+class Donor(VersionControlModel):
     # Donor Form Case data
+    person = models.OneToOneField(OrganPerson)  # Internal link
     sequence_number = models.PositiveSmallIntegerField(default=0)  # Internal value
     multiple_recipients = models.PositiveSmallIntegerField(
         verbose_name=_('DO02 Multiple recipients'),
@@ -293,30 +316,30 @@ class Donor(OrganPerson):
         blank=True, null=True)
 
     # Sampling data
-    donor_blood_1_EDTA = models.OneToOneField(
-        Sample,
-        verbose_name=_('DO49 db 1.1 edta'),
-        related_name="donor_blood_1",
-        limit_choices_to={'type': Sample.DONOR_BLOOD_1},
-        blank=True, null=True)
-    donor_blood_1_SST = models.OneToOneField(
-        Sample,
-        verbose_name=_('DO50 db 1.2 sst'),
-        related_name="donor_blood_2",
-        limit_choices_to={'type': Sample.DONOR_BLOOD_2},
-        blank=True, null=True)
-    donor_urine_1 = models.OneToOneField(
-        Sample,
-        verbose_name=_('DO51 du 1'),
-        related_name="donor_urine_1",
-        limit_choices_to={'type': Sample.DONOR_URINE_1},
-        blank=True, null=True)
-    donor_urine_2 = models.OneToOneField(
-        Sample,
-        verbose_name=_('DO52 du 2'),
-        related_name="donor_urine_2",
-        limit_choices_to={'type': Sample.DONOR_URINE_2},
-        blank=True, null=True)
+    # donor_blood_1_EDTA = models.OneToOneField(
+    #     Sample,
+    #     verbose_name=_('DO49 db 1.1 edta'),
+    #     related_name="donor_blood_1",
+    #     limit_choices_to={'type': Sample.DONOR_BLOOD_1},
+    #     blank=True, null=True)
+    # donor_blood_1_SST = models.OneToOneField(
+    #     Sample,
+    #     verbose_name=_('DO50 db 1.2 sst'),
+    #     related_name="donor_blood_2",
+    #     limit_choices_to={'type': Sample.DONOR_BLOOD_2},
+    #     blank=True, null=True)
+    # donor_urine_1 = models.OneToOneField(
+    #     Sample,
+    #     verbose_name=_('DO51 du 1'),
+    #     related_name="donor_urine_1",
+    #     limit_choices_to={'type': Sample.DONOR_URINE_1},
+    #     blank=True, null=True)
+    # donor_urine_2 = models.OneToOneField(
+    #     Sample,
+    #     verbose_name=_('DO52 du 2'),
+    #     related_name="donor_urine_2",
+    #     limit_choices_to={'type': Sample.DONOR_URINE_2},
+    #     blank=True, null=True)
 
     class Meta:
         order_with_respect_to = 'retrieval_team'
@@ -332,11 +355,11 @@ class Donor(OrganPerson):
                         "DOv01 Time travel detected! Arrival at donor hospital occurred before departure from "
                         "perfusion centre")
                 )
-        if self.date_of_birth:
-            if self.date_of_birth > datetime.datetime.now().date():
+        if self.person.date_of_birth:
+            if self.person.date_of_birth > datetime.datetime.now().date():
                 raise ValidationError(_("DOv02 Time travel detected! Donor's date of birth is in the future!"))
             if self.date_of_procurement:
-                age_difference = self.date_of_procurement - self.date_of_birth
+                age_difference = self.date_of_procurement - self.person.date_of_birth
                 age_difference_in_years = age_difference.days / 365.2425
                 if age_difference < datetime.timedelta(days=(365.2425 * 50)):
                     raise ValidationError(
@@ -348,10 +371,10 @@ class Donor(OrganPerson):
                         _("DOv04 Date of birth is more than 100 years from the date of procurement (%(num)d)"
                           % {'num': age_difference_in_years})
                     )
-            if self.age != self.age_from_dob():
+            if self.age != self.person.age_from_dob():
                 raise ValidationError(
                     _("DOv05 Age does not match age as calculated (%(num)d years) from Date of Birth"
-                      % {'num': self.age_from_dob()})
+                      % {'num': self.person.age_from_dob()})
                 )
         if self.date_of_procurement:
             if self.date_of_procurement < self.date_of_admission:
@@ -405,22 +428,6 @@ class Donor(OrganPerson):
 
     def __unicode__(self):
         return '%s (%s)' % (self.number, self.trial_id())
-
-    def bmi_value(self):
-        # http://www.nhs.uk/chq/Pages/how-can-i-work-out-my-bmi.aspx?CategoryID=51 for formula
-        if self.height < 1 or self.weight < 1:
-            return _("DOv12 Not Available")
-        height_in_m = self.height / 100
-        return (self.weight / height_in_m) / height_in_m
-    bmi_value.short_description = 'BMI Value'
-
-    def age_from_dob(self):
-        today = datetime.date.today()
-        if self.date_of_birth < today:
-            years = today.year - self.date_of_birth.year
-        else:
-            years = today.year - self.date_of_birth.year - 1
-        return years
 
     def left_kidney(self):
         try:
@@ -625,24 +632,24 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
     perfusion_file = models.ForeignKey(PerfusionFile, verbose_name=_('OR25 machine file'), blank=True, null=True)
 
     # Sampling data
-    perfusate_1 = models.ForeignKey(
-        Sample,
-        verbose_name=_('OR26 p1'),
-        related_name="kidney_perfusate_1",
-        limit_choices_to={'type': Sample.KIDNEY_PERFUSATE_1},
-        blank=True, null=True)
-    perfusate_2 = models.ForeignKey(
-        Sample,
-        verbose_name=_('OR27 p2'),
-        related_name="kidney_perfusate_2",
-        limit_choices_to={'type': Sample.KIDNEY_PERFUSATE_2},
-        blank=True, null=True)
-    perfusate_3 = models.ForeignKey(
-        Sample,
-        verbose_name=_('OR28 p3'),
-        related_name="kidney_perfusate_3",
-        limit_choices_to={'type': Sample.KIDNEY_PERFUSATE_3},
-        blank=True, null=True)
+    # perfusate_1 = models.ForeignKey(
+    #     Sample,
+    #     verbose_name=_('OR26 p1'),
+    #     related_name="kidney_perfusate_1",
+    #     limit_choices_to={'type': Sample.KIDNEY_PERFUSATE_1},
+    #     blank=True, null=True)
+    # perfusate_2 = models.ForeignKey(
+    #     Sample,
+    #     verbose_name=_('OR27 p2'),
+    #     related_name="kidney_perfusate_2",
+    #     limit_choices_to={'type': Sample.KIDNEY_PERFUSATE_2},
+    #     blank=True, null=True)
+    # perfusate_3 = models.ForeignKey(
+    #     Sample,
+    #     verbose_name=_('OR28 p3'),
+    #     related_name="kidney_perfusate_3",
+    #     limit_choices_to={'type': Sample.KIDNEY_PERFUSATE_3},
+    #     blank=True, null=True)
 
     def trial_id(self):
         return self.donor.trial_id() + self.location
@@ -688,8 +695,9 @@ class ProcurementResource(models.Model):
         verbose_name_plural = _('PRm2 procurement resources')
 
 
-class Recipient(OrganPerson):
-    organ = models.ForeignKey(Organ)  # Internal key
+class Recipient(VersionControlModel):
+    person = models.OneToOneField(OrganPerson)  # Internal link
+    organ = models.ForeignKey(Organ)  # Internal link
     # sequence_number = models.PositiveSmallIntegerField(default=0)
     # Allocation data
     REALLOCATION_CROSSMATCH = 1
