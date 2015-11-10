@@ -485,7 +485,7 @@ class Donor(VersionControlModel):
     centre_code.short_description = 'Centre Code'
 
     def trial_id(self):
-        print("DEBUG: donor.trial id: sequence number=%s" % self.sequence_number)
+        # print("DEBUG: donor.trial id: sequence number=%s" % self.sequence_number)
         if self.centre_code() == 0 or self.sequence_number < 1:
             return "No Trial ID Assigned (DO%s)" % format(self.id, '03')
         return 'WP4%s%s' % (format(self.centre_code(), '02'), format(self.sequence_number, '03'))

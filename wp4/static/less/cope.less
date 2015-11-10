@@ -33,7 +33,6 @@
 @flat-silver: #bdc3c7;
 @flat-asbestos: #7f8c8d;
 
-
 @import "./bootstrap/mixins.less";
 
 // Define handy mixins...
@@ -91,7 +90,6 @@
 @import "./bootstrap/utilities.less";
 @import "./bootstrap/responsive-utilities.less";
 
-
 // ====================================================================================================================
 // Import BOOTSTRAP-DATETIMEPICKER
 // ====================================================================================================================
@@ -107,10 +105,9 @@
   margin: -1px;
   padding: 0;
   overflow: hidden;
-  clip: rect(0,0,0,0);
+  clip: rect(0, 0, 0, 0);
   border: 0;
 }
-
 
 // ====================================================================================================================
 // LOCAL CSS RULES
@@ -217,14 +214,97 @@ footer > ul > li > img {
   margin-top: 0;
 }
 
-.nav-tabs > li  > a {
+.nav-tabs > li > a {
   background-color: #cccccc;
   border-color: #cccccc #cccccc #dddddd;
 }
+
 .nav-tabs > li.active > a {
   font-weight: bolder;
 }
 
+.bg-colour-turquoise {
+  background-color: @flat-turquoise;
+}
+
+.bg-colour-emerald {
+  background-color: @flat-emerald;
+}
+
+.bg-colour-peterriver {
+  background-color: @flat-peterriver;
+}
+
+.bg-colour-amethyst {
+  background-color: @flat-amethyst;
+}
+
+.bg-colour-wetasphalt {
+  background-color: @flat-wetasphalt;
+}
+
+.bg-colour-sunflower {
+  background-color: @flat-sunflower;
+}
+
+.bg-colour-carrot {
+  background-color: @flat-carrot;
+}
+
+.bg-colour-alizarin {
+  background-color: @flat-alizarin;
+}
+
+.bg-colour-clouds {
+  background-color: @flat-clouds;
+}
+
+.bg-colour-concreate {
+  background-color: @flat-concreate;
+}
+
+#donor > div > div > .panel-default {
+  border-color: @flat-pomegranate;
+  .panel-heading {
+    background-color: @flat-alizarin;
+    border-color: @flat-pomegranate;
+    h3 {
+      color: #ffffff;
+    }
+  }
+}
+
+.active > a#donortab {
+  background-color: @flat-alizarin;
+  border-color: @flat-pomegranate;
+  color: #ffffff;
+}
+
+#leftkidney > div > div > .panel-default {
+  border-color: @flat-orange;
+  .panel-heading {
+    background-color: @flat-sunflower;
+    border-color: @flat-orange;
+  }
+}
+
+.active > a#leftkidneytab {
+  background-color: @flat-sunflower;
+  border-color: @flat-orange;
+}
+
+#rightkidney > div > div > .panel-default {
+  border-color: @flat-nephritis;
+  .panel-heading {
+    background-color: @flat-emerald;
+    border-color: @flat-nephritis;
+  }
+}
+
+.active > a#rightkidneytab {
+  background-color: @flat-emerald;
+  border-color: @flat-nephritis;
+}
 
 /*
  * Placeholder dashboard ideas
@@ -280,7 +360,6 @@ h1[id] {
 .navbar-fixed-top {
   position: absolute !important
 }
-
 
 .form-control {
   margin-bottom: 0;

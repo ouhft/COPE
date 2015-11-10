@@ -26,14 +26,7 @@ YES_NO_CHOICES = (
 
 
 class OrganPersonForm(forms.ModelForm):
-    helper = FormHelper()
-    helper.form_tag = False
-    helper.html5_required = True
-    helper.layout = Layout(
-        # 'number', 'date_of_birth', 'date_of_birth_unknown',
-        # 'date_of_death', 'date_of_death_unknown',
-        # 'gender', 'weight', 'height', 'ethnicity', 'blood_group',
-
+    layout_person = Layout(
         Field('number', placeholder="___ ___ ____"),
         FieldWithNotKnown(DateField('date_of_birth', notknown=True), 'date_of_birth_unknown',
                           label=OrganPerson._meta.get_field("date_of_birth").verbose_name.title()),
@@ -42,7 +35,14 @@ class OrganPersonForm(forms.ModelForm):
         Field('gender', template="bootstrap3/layout/read-only.html"),
         'weight', 'height',
         Field('ethnicity', template="bootstrap3/layout/radioselect-buttons.html"),
-        Field('blood_group', template="bootstrap3/layout/radioselect-buttons.html"),
+        Field('blood_group', template="bootstrap3/layout/radioselect-buttons.html"))
+
+    helper = FormHelper()
+    helper.form_tag = False
+    helper.html5_required = True
+    helper.layout = Layout(
+        HTML("<div class=\"col-md-4\" style=\"margin-top: 10px\">"),
+        FormPanel("Donor Description", layout_person)
     )
 
     def __init__(self, *args, **kwargs):
@@ -164,14 +164,12 @@ class DonorForm(forms.ModelForm):
     helper = FormHelper()
     helper.form_tag = False
     helper.html5_required = True
-    helper.layout = Div(
+    helper.layout = Layout(
+        FormPanel("Donor Details", layout_donor_details),
+        HTML("</div>"),
         Div(
             FormPanel("Procedure Data", layout_procedure),
             FormPanel("Donor Procedure", layout_donor_procedure),
-            css_class="col-md-4", style="margin-top: 10px;"
-        ),
-        Div(
-            FormPanel("Donor Details", layout_donor_details),
             css_class="col-md-4", style="margin-top: 10px;"
         ),
         Div(
@@ -181,7 +179,6 @@ class DonorForm(forms.ModelForm):
             css_class="col-md-4", style="margin-top: 10px;"
         ),
         'person',
-        css_class='row'
     )
 
     def __init__(self, *args, **kwargs):

@@ -89,7 +89,7 @@
         <div class="tab-content">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs nav-justified" role="tablist">
-                <li role="presentation">
+                <li role="presentation" class="">
                     <a href="#leftkidney" aria-controls="leftkidney" role="tab" data-toggle="tab"
                        id="leftkidneytab">Left Kidney
                         {% if left_organ_error_count > 0 %}
@@ -102,7 +102,7 @@
                         <span class="label label-danger">{{ donor_form.errors|length }} Error{{ donor_form.errors|pluralize }}</span>
                     {% endif %}</a>
                 </li>
-                <li role="presentation">
+                <li role="presentation" class="">
                     <a href="#rightkidney" aria-controls="rightkidney" role="tab" data-toggle="tab"
                        id="rightkidneytab">Right Kidney
                         {% if right_organ_error_count > 0 %}
@@ -113,11 +113,12 @@
             <!-- Tab panes -->
             <div role="tabpanel" class="tab-pane fade in active" id="donor">
                 <h2 class="sr-only visible-print">Donor</h2>
-                {{ person_form.errors }}
-                {{ donor_form.errors }}
-
-                {% crispy person_form %}
-                {% crispy donor_form %}
+                <div class="row">
+                    {{ person_form.errors }}
+                    {{ donor_form.errors }}
+                    {% crispy person_form %}
+                    {% crispy donor_form %}
+                </div>
             </div>
             <div role="tabpanel" class="tab-pane fade" id="leftkidney">
                 <h2 class="sr-only visible-print">Left Kidney</h2>
