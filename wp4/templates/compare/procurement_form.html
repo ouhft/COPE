@@ -113,12 +113,17 @@
             <!-- Tab panes -->
             <div role="tabpanel" class="tab-pane fade in active" id="donor">
                 <h2 class="sr-only visible-print">Donor</h2>
+                {{ person_form.errors }}
                 {{ donor_form.errors }}
 
+                {% crispy person_form %}
                 {% crispy donor_form %}
             </div>
             <div role="tabpanel" class="tab-pane fade" id="leftkidney">
                 <h2 class="sr-only visible-print">Left Kidney</h2>
+                {{ left_organ_form.errors }}
+                {{ left_organ_procurement_forms.errors }}
+                {{ left_organ_procurement_forms.non_form_errors }}
                 <div class="row">
                     {% crispy left_organ_form %}
                     {% include "compare/snippets/procurement_resource_formset.html" with procurement_formset=left_organ_procurement_forms %}
@@ -126,6 +131,9 @@
             </div>
             <div role="tabpanel" class="tab-pane fade" id="rightkidney">
                 <h2 class="sr-only visible-print">Right Kidney</h2>
+                {{ right_organ_form.errors }}
+                {{ right_organ_procurement_forms.errors }}
+                {{ right_organ_procurement_forms.non_form_errors }}
                 <div class="row">
                     {% crispy right_organ_form %}
                     {% include "compare/snippets/procurement_resource_formset.html" with procurement_formset=right_organ_procurement_forms %}

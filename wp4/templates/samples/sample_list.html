@@ -1,0 +1,30 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+
+{% block page_title %}Samples{% endblock %}
+{% block page_header %}Samples - Listing{% endblock %}
+
+{% block content %}
+    <table class="table table-responsive">
+        <thead>
+        <tr>
+            <th>Recipient</th>
+            <th>Initial</th>
+            <th>3 Months</th>
+            <th>6 Months</th>
+            <th>1 Year</th>
+        </tr>
+        </thead>
+{#        {% for recipient in object_list %}#}
+{#            <tr>#}
+{#                <td>{{ recipient.trial_id }}</td>#}
+{#                <td>{{ recipient.followup_initial.pk }}</td>#}
+{#                <td>{{ recipient.followup_3m }}</td>#}
+{#                <td>{{ recipient.followup_6m }}</td>#}
+{#                <td>{{ recipient.followup_1y }}</td>#}
+{#            </tr>#}
+            {#            <li><a href="{% url "followup:initial_detail" pk=follow.pk %}">{{ follow }}</a> <a href="{% url "followup:initial_update" pk=follow.pk %}"><i title="edit" class="glyphicon glyphicon-edit"></i></a> </li>#}
+{#        {% endfor %}#}
+    </table>
+
+{% endblock %}

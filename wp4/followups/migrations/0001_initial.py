@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db import models, migrations
+from django.db import migrations, models
 import django.utils.timezone
 from django.conf import settings
 import django.core.validators
@@ -10,8 +10,8 @@ import django.core.validators
 class Migration(migrations.Migration):
 
     dependencies = [
+        ('compare', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('compare', '0006_recipient_cleaning_log'),
     ]
 
     operations = [
@@ -45,7 +45,7 @@ class Migration(migrations.Migration):
                 ('urine_creatinine', models.FloatField(blank=True, null=True, verbose_name='urine creatinine', validators=[django.core.validators.MinValueValidator(0.0)])),
                 ('urine_creatinine_unit', models.PositiveSmallIntegerField(default=1, choices=[(1, 'mg/dl'), (2, 'umol/L'), (3, 'mmol/L')])),
                 ('creatinine_clearance', models.FloatField(blank=True, null=True, verbose_name='creatinine clearance', validators=[django.core.validators.MinValueValidator(0.0)])),
-                ('currently_on_dialysis', models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='currently on dialysis', choices=[(2, 'MM03 Unknown'), (0, 'MM01 No'), (1, 'MM02 Yes')])),
+                ('currently_on_dialysis', models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='currently on dialysis', choices=[(2, 'MMc03 Unknown'), (0, 'MMc01 No'), (1, 'MMc02 Yes')])),
                 ('number_of_dialysis_sessions', models.PositiveSmallIntegerField(null=True, verbose_name='number of dialysis sessions', blank=True)),
                 ('rejection_periods', models.PositiveSmallIntegerField(null=True, verbose_name='rejection periods', blank=True)),
                 ('graft_complications', models.TextField(verbose_name='graft function complications', blank=True)),
@@ -56,7 +56,7 @@ class Migration(migrations.Migration):
                 ('qol_anxiety', models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='qol anxiety or depression score', validators=[django.core.validators.MinValueValidator(1), django.core.validators.MaxValueValidator(5)])),
                 ('vas_score', models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='vas score', validators=[django.core.validators.MinValueValidator(0), django.core.validators.MaxValueValidator(100)])),
                 ('created_by', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
-                ('organ', models.ForeignKey(to='compare.Organ')),
+                ('organ', models.OneToOneField(related_name='followup_1y', to='compare.Organ')),
             ],
             options={
                 'abstract': False,
@@ -92,7 +92,7 @@ class Migration(migrations.Migration):
                 ('urine_creatinine', models.FloatField(blank=True, null=True, verbose_name='urine creatinine', validators=[django.core.validators.MinValueValidator(0.0)])),
                 ('urine_creatinine_unit', models.PositiveSmallIntegerField(default=1, choices=[(1, 'mg/dl'), (2, 'umol/L'), (3, 'mmol/L')])),
                 ('creatinine_clearance', models.FloatField(blank=True, null=True, verbose_name='creatinine clearance', validators=[django.core.validators.MinValueValidator(0.0)])),
-                ('currently_on_dialysis', models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='currently on dialysis', choices=[(2, 'MM03 Unknown'), (0, 'MM01 No'), (1, 'MM02 Yes')])),
+                ('currently_on_dialysis', models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='currently on dialysis', choices=[(2, 'MMc03 Unknown'), (0, 'MMc01 No'), (1, 'MMc02 Yes')])),
                 ('number_of_dialysis_sessions', models.PositiveSmallIntegerField(null=True, verbose_name='number of dialysis sessions', blank=True)),
                 ('rejection_periods', models.PositiveSmallIntegerField(null=True, verbose_name='rejection periods', blank=True)),
                 ('graft_complications', models.TextField(verbose_name='graft function complications', blank=True)),
@@ -103,7 +103,7 @@ class Migration(migrations.Migration):
                 ('qol_anxiety', models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='qol anxiety or depression score', validators=[django.core.validators.MinValueValidator(1), django.core.validators.MaxValueValidator(5)])),
                 ('vas_score', models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='vas score', validators=[django.core.validators.MinValueValidator(0), django.core.validators.MaxValueValidator(100)])),
                 ('created_by', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
-                ('organ', models.ForeignKey(to='compare.Organ')),
+                ('organ', models.OneToOneField(related_name='followup_3m', to='compare.Organ')),
             ],
             options={
                 'abstract': False,
@@ -139,11 +139,11 @@ class Migration(migrations.Migration):
                 ('urine_creatinine', models.FloatField(blank=True, null=True, verbose_name='urine creatinine', validators=[django.core.validators.MinValueValidator(0.0)])),
                 ('urine_creatinine_unit', models.PositiveSmallIntegerField(default=1, choices=[(1, 'mg/dl'), (2, 'umol/L'), (3, 'mmol/L')])),
                 ('creatinine_clearance', models.FloatField(blank=True, null=True, verbose_name='creatinine clearance', validators=[django.core.validators.MinValueValidator(0.0)])),
-                ('currently_on_dialysis', models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='currently on dialysis', choices=[(2, 'MM03 Unknown'), (0, 'MM01 No'), (1, 'MM02 Yes')])),
+                ('currently_on_dialysis', models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='currently on dialysis', choices=[(2, 'MMc03 Unknown'), (0, 'MMc01 No'), (1, 'MMc02 Yes')])),
                 ('number_of_dialysis_sessions', models.PositiveSmallIntegerField(null=True, verbose_name='number of dialysis sessions', blank=True)),
                 ('graft_complications', models.TextField(verbose_name='graft function complications', blank=True)),
                 ('created_by', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
-                ('organ', models.ForeignKey(to='compare.Organ')),
+                ('organ', models.OneToOneField(related_name='followup_6m', to='compare.Organ')),
             ],
             options={
                 'abstract': False,
@@ -202,7 +202,7 @@ class Migration(migrations.Migration):
                 ('induction_therapy', models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='Induction therapy', choices=[(1, 'IL 2'), (2, 'ATG')])),
                 ('discharge_date', models.DateField(null=True, verbose_name='date of primary post tx discharge', blank=True)),
                 ('created_by', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
-                ('organ', models.ForeignKey(to='compare.Organ')),
+                ('organ', models.OneToOneField(related_name='followup_initial', to='compare.Organ')),
             ],
             options={
                 'abstract': False,

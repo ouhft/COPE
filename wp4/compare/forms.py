@@ -6,34 +6,58 @@ from django.utils.translation import ugettext_lazy as _
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Div, HTML, Field
-from crispy_forms.bootstrap import FormActions, StrictButton
+# from crispy_forms.bootstrap import FormActions, StrictButton
 from autocomplete_light import ModelChoiceField
 
 from ..theme.layout import InlineFields, FieldWithFollowup, YesNoFieldWithAlternativeFollowups, FieldWithNotKnown
 from ..theme.layout import DateTimeField, DateField, FormPanel
 from ..theme.layout import DATETIME_INPUT_FORMATS, DATE_INPUT_FORMATS
-from .models import OrganPerson, Donor, Organ, Recipient, ProcurementResource
+from .models import OrganPerson, Donor, Organ, OrganAllocation, Recipient, ProcurementResource
 from .models import YES_NO_UNKNOWN_CHOICES, LOCATION_CHOICES
 
+# Common CONSTANTS
 NO_YES_CHOICES = (
     (False, _("FF01 No")),
-    (True, _("FF02 Yes"))
-)
+    (True, _("FF02 Yes")))
 
 YES_NO_CHOICES = (
     (True, _("FF02 Yes")),
-    (False, _("FF01 No"))
-)
+    (False, _("FF01 No")))
 
 
 class OrganPersonForm(forms.ModelForm):
+    helper = FormHelper()
+    helper.form_tag = False
+    helper.html5_required = True
+    helper.layout = Layout(
+        # 'number', 'date_of_birth', 'date_of_birth_unknown',
+        # 'date_of_death', 'date_of_death_unknown',
+        # 'gender', 'weight', 'height', 'ethnicity', 'blood_group',
+
+        Field('number', placeholder="___ ___ ____"),
+        FieldWithNotKnown(DateField('date_of_birth', notknown=True), 'date_of_birth_unknown',
+                          label=OrganPerson._meta.get_field("date_of_birth").verbose_name.title()),
+        FieldWithNotKnown(DateField('date_of_death', notknown=True), 'date_of_death_unknown',
+                          label=OrganPerson._meta.get_field("date_of_death").verbose_name.title()),
+        Field('gender', template="bootstrap3/layout/read-only.html"),
+        'weight', 'height',
+        Field('ethnicity', template="bootstrap3/layout/radioselect-buttons.html"),
+        Field('blood_group', template="bootstrap3/layout/radioselect-buttons.html"),
+    )
 
     def __init__(self, *args, **kwargs):
         super(OrganPersonForm, self).__init__(*args, **kwargs)
+        self.fields['number'].required = False
+        self.fields['date_of_birth'].input_formats = DATE_INPUT_FORMATS
+        self.fields['gender'].widget = forms.HiddenInput()
+        self.fields['ethnicity'].choices = OrganPerson.ETHNICITY_CHOICES
+        self.fields['blood_group'].choices = OrganPerson.BLOOD_GROUP_CHOICES
 
     class Meta:
         model = OrganPerson
-        exclude = ['created_by', 'version', 'created_on']
+        fields = [
+            'number', 'date_of_birth', 'date_of_birth_unknown', 'date_of_death', 'date_of_death_unknown',
+            'gender', 'weight', 'height', 'ethnicity', 'blood_group']
         localized_fields = "__all__"
 
     def save(self, user, *args, **kwargs):
@@ -41,7 +65,8 @@ class OrganPersonForm(forms.ModelForm):
         person.created_by = user
         person.created_on = timezone.now()
         person.version += 1
-        person.save()
+        if kwargs.get("commit", True):
+            person.save()
         return person
 
 
@@ -61,19 +86,13 @@ class DonorForm(forms.ModelForm):
         DateTimeField('ice_boxes_filled'),
         DateTimeField('depart_perfusion_centre'),
         DateTimeField('arrival_at_donor_hospital'),
-        Field('multiple_recipients', template="bootstrap3/layout/radioselect-buttons.html"),
-    )
+        Field('multiple_recipients', template="bootstrap3/layout/radioselect-buttons.html"))
     layout_other_organs = Layout(
         Field('other_organs_lungs', template="bootstrap3/layout/radioselect-buttons.html"),
         Field('other_organs_pancreas', template="bootstrap3/layout/radioselect-buttons.html"),
         Field('other_organs_liver', template="bootstrap3/layout/radioselect-buttons.html"),
-        Field('other_organs_tissue', template="bootstrap3/layout/radioselect-buttons.html"),
-    )
+        Field('other_organs_tissue', template="bootstrap3/layout/radioselect-buttons.html"))
     layout_donor_details = Layout(
-        Field('number', placeholder="___ ___ ____"),
-        FieldWithNotKnown(DateField('date_of_birth', notknown=True), 'date_of_birth_unknown',
-                          label=Donor._meta.get_field("date_of_birth").verbose_name.title()),
-        # DateField('date_of_birth'),
         'age',
         DateField('date_of_admission'),
         FieldWithFollowup(
@@ -81,16 +100,10 @@ class DonorForm(forms.ModelForm):
             DateField('date_admitted_to_itu')
         ),
         DateField('date_of_procurement'),
-        Field('gender', template="bootstrap3/layout/read-only.html"),
-        # Field('gender', template="bootstrap3/layout/radioselect-buttons.html"),
-        'weight', 'height',
-        Field('ethnicity', template="bootstrap3/layout/radioselect-buttons.html"),
-        Field('blood_group', template="bootstrap3/layout/radioselect-buttons.html"),
         FieldWithFollowup(
             Field('other_organs_procured', template="bootstrap3/layout/radioselect-buttons.html"),
             layout_other_organs
-        )
-    )
+        ))
     layout_preop = Layout(
         FieldWithFollowup('diagnosis', 'diagnosis_other'),
         Field('diabetes_melitus', template="bootstrap3/layout/radioselect-buttons.html"),
@@ -103,12 +116,10 @@ class DonorForm(forms.ModelForm):
         Field('dobutamine', template="bootstrap3/layout/radioselect-buttons.html"),
         Field('nor_adrenaline', template="bootstrap3/layout/radioselect-buttons.html"),
         Field('vasopressine', template="bootstrap3/layout/radioselect-buttons.html"),
-        'other_medication_details',
-    )
+        'other_medication_details')
     layout_labresults = Layout(
         InlineFields('last_creatinine', 'last_creatinine_unit'),
-        InlineFields('max_creatinine', 'max_creatinine_unit')
-    )
+        InlineFields('max_creatinine', 'max_creatinine_unit'))
     layout_donor_procedure = Layout(
         DateTimeField('life_support_withdrawal'),
         DateTimeField('systolic_pressure_low'),
@@ -122,34 +133,33 @@ class DonorForm(forms.ModelForm):
             'systemic_flush_used_other'
         ),
         'systemic_flush_volume_used',
-        Field('heparin', template="bootstrap3/layout/radioselect-buttons.html"),
-    )
-    layout_samples = Layout(
-        InlineFields(
-            Field('donor_blood_1_EDTA', template="bootstrap3/layout/read-only.html"),
-            StrictButton('<i class="glyphicon glyphicon-edit"></i>', css_class='btn-default', data_toggle="modal",
-                         data_target="#myModal", title="Add/Edit Sample", css_id="button_db1"),
-            label='FIXME'
-        ),
-        InlineFields(
-            Field('donor_blood_1_SST', template="bootstrap3/layout/read-only.html"),
-            StrictButton('<i class="glyphicon glyphicon-edit"></i>', css_class='btn-default', data_toggle="modal",
-                         data_target="#myModal", title="Add/Edit Sample", css_id="button_db2"),
-            label='FIXME'
-        ),
-        InlineFields(
-            Field('donor_urine_1', template="bootstrap3/layout/read-only.html"),
-            StrictButton('<i class="glyphicon glyphicon-edit"></i>', css_class='btn-default', data_toggle="modal",
-                         data_target="#myModal", title="Add/Edit Sample", css_id="button_du1"),
-            label='FIXME'
-        ),
-        InlineFields(
-            Field('donor_urine_2', template="bootstrap3/layout/read-only.html"),
-            StrictButton('<i class="glyphicon glyphicon-edit"></i>', css_class='btn-default', data_toggle="modal",
-                         data_target="#myModal", title="Add/Edit Sample", css_id="button_du2"),
-            label='FIXME'
-        ),
-    )
+        Field('heparin', template="bootstrap3/layout/radioselect-buttons.html"))
+    # layout_samples = Layout(
+    #     InlineFields(
+    #         Field('donor_blood_1_EDTA', template="bootstrap3/layout/read-only.html"),
+    #         StrictButton('<i class="glyphicon glyphicon-edit"></i>', css_class='btn-default', data_toggle="modal",
+    #                      data_target="#myModal", title="Add/Edit Sample", css_id="button_db1"),
+    #         label='FIXME'
+    #     ),
+    #     InlineFields(
+    #         Field('donor_blood_1_SST', template="bootstrap3/layout/read-only.html"),
+    #         StrictButton('<i class="glyphicon glyphicon-edit"></i>', css_class='btn-default', data_toggle="modal",
+    #                      data_target="#myModal", title="Add/Edit Sample", css_id="button_db2"),
+    #         label='FIXME'
+    #     ),
+    #     InlineFields(
+    #         Field('donor_urine_1', template="bootstrap3/layout/read-only.html"),
+    #         StrictButton('<i class="glyphicon glyphicon-edit"></i>', css_class='btn-default', data_toggle="modal",
+    #                      data_target="#myModal", title="Add/Edit Sample", css_id="button_du1"),
+    #         label='FIXME'
+    #     ),
+    #     InlineFields(
+    #         Field('donor_urine_2', template="bootstrap3/layout/read-only.html"),
+    #         StrictButton('<i class="glyphicon glyphicon-edit"></i>', css_class='btn-default', data_toggle="modal",
+    #                      data_target="#myModal", title="Add/Edit Sample", css_id="button_du2"),
+    #         label='FIXME'
+    #     ),
+    # )
 
     helper = FormHelper()
     helper.form_tag = False
@@ -170,11 +180,13 @@ class DonorForm(forms.ModelForm):
             # FormPanel("Sampling Data", layout_samples),
             css_class="col-md-4", style="margin-top: 10px;"
         ),
+        'person',
         css_class='row'
     )
 
     def __init__(self, *args, **kwargs):
         super(DonorForm, self).__init__(*args, **kwargs)
+        self.fields['person'].widget = forms.HiddenInput()
         self.fields['retrieval_team'].widget = forms.HiddenInput()
         self.fields['transplant_coordinator'].required = False
         self.fields['transplant_coordinator'].label = Donor._meta \
@@ -191,16 +203,10 @@ class DonorForm(forms.ModelForm):
         self.fields['depart_perfusion_centre'].input_formats = DATETIME_INPUT_FORMATS
         self.fields['arrival_at_donor_hospital'].input_formats = DATETIME_INPUT_FORMATS
         self.fields['multiple_recipients'].choices = YES_NO_UNKNOWN_CHOICES
-        self.fields['number'].required = False
-        self.fields['date_of_birth'].input_formats = DATE_INPUT_FORMATS
         self.fields['date_of_admission'].input_formats = DATE_INPUT_FORMATS
         self.fields['admitted_to_itu'].choices = NO_YES_CHOICES
         self.fields['date_admitted_to_itu'].input_formats = DATE_INPUT_FORMATS
         self.fields['date_of_procurement'].input_formats = DATE_INPUT_FORMATS
-        # self.fields['gender'].choices = Donor.GENDER_CHOICES
-        self.fields['gender'].widget = forms.HiddenInput()
-        self.fields['ethnicity'].choices = Donor.ETHNICITY_CHOICES
-        self.fields['blood_group'].choices = Donor.BLOOD_GROUP_CHOICES
         self.fields['other_organs_procured'].choices = NO_YES_CHOICES
         self.fields['other_organs_lungs'].choices = NO_YES_CHOICES
         self.fields['other_organs_pancreas'].choices = NO_YES_CHOICES
@@ -222,14 +228,28 @@ class DonorForm(forms.ModelForm):
         self.fields['systemic_flush_used'].choices = Donor.SOLUTION_CHOICES
         self.fields['heparin'].choices = NO_YES_CHOICES
         # self.fields[''].
-        self.fields['donor_blood_1_EDTA'].widget = forms.HiddenInput()
-        self.fields['donor_blood_1_SST'].widget = forms.HiddenInput()
-        self.fields['donor_urine_1'].widget = forms.HiddenInput()
-        self.fields['donor_urine_2'].widget = forms.HiddenInput()
+        # self.fields['donor_blood_1_EDTA'].widget = forms.HiddenInput()
+        # self.fields['donor_blood_1_SST'].widget = forms.HiddenInput()
+        # self.fields['donor_urine_1'].widget = forms.HiddenInput()
+        # self.fields['donor_urine_2'].widget = forms.HiddenInput()
 
     class Meta:
         model = Donor
-        exclude = ['created_by', 'version', 'created_on']
+        fields = [
+            'person', 'sequence_number', 'multiple_recipients', 'retrieval_team', 'perfusion_technician',
+            'transplant_coordinator', 'call_received', 'retrieval_hospital', 'scheduled_start', 'technician_arrival',
+            'ice_boxes_filled', 'depart_perfusion_centre', 'arrival_at_donor_hospital', 'age',
+            'date_of_admission', 'admitted_to_itu', 'date_admitted_to_itu', 'date_of_procurement',
+            'other_organs_procured', 'other_organs_lungs', 'other_organs_pancreas', 'other_organs_liver',
+            'other_organs_tissue', 'diagnosis', 'diagnosis_other', 'diabetes_melitus', 'alcohol_abuse',
+            'cardiac_arrest', 'systolic_blood_pressure', 'diastolic_blood_pressure', 'diuresis_last_day',
+            'diuresis_last_day_unknown', 'diuresis_last_hour', 'diuresis_last_hour_unknown', 'dopamine',
+            'dobutamine', 'nor_adrenaline', 'vasopressine', 'other_medication_details', 'last_creatinine',
+            'last_creatinine_unit', 'max_creatinine', 'max_creatinine_unit', 'life_support_withdrawal',
+            'systolic_pressure_low', 'o2_saturation', 'circulatory_arrest', 'length_of_no_touch',
+            'death_diagnosed', 'perfusion_started', 'systemic_flush_used', 'systemic_flush_used_other',
+            'systemic_flush_volume_used', 'heparin'
+        ]
         localized_fields = "__all__"
 
     def save(self, user, *args, **kwargs):
@@ -237,12 +257,14 @@ class DonorForm(forms.ModelForm):
         donor.created_by = user
         donor.created_on = timezone.now()
         donor.version += 1
-        donor.save()
+        if kwargs.get("commit", True):
+            donor.save()
         return donor
 
 
 class DonorStartForm(forms.ModelForm):
     perfusion_technician = ModelChoiceField('TechnicianAutoComplete')
+    gender = forms.CharField(max_length=1, min_length=1)
 
     helper = FormHelper()
     helper.form_tag = False
@@ -256,8 +278,10 @@ class DonorStartForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(DonorStartForm, self).__init__(*args, **kwargs)
-        self.fields['perfusion_technician'].label = Recipient._meta.get_field(
+        self.fields['perfusion_technician'].label = Donor._meta.get_field(
             "perfusion_technician").verbose_name.title()
+        self.fields['gender'].label = OrganPerson._meta.get_field("gender").verbose_name.title()
+        self.fields['gender'].choices = OrganPerson.GENDER_CHOICES
 
     class Meta:
         model = Donor
@@ -269,7 +293,8 @@ class DonorStartForm(forms.ModelForm):
         donor.created_by = user
         donor.created_on = timezone.now()
         donor.version = 1
-        donor.save()
+        if kwargs.get("commit", True):
+            donor.save()
         return donor
 
 
@@ -383,7 +408,8 @@ class OrganForm(forms.ModelForm):
         organ.created_by = user
         organ.created_on = timezone.now()
         organ.version += 1
-        organ.save()
+        if kwargs.get("commit", True):
+            organ.save()
         return organ
 
 
@@ -396,8 +422,7 @@ class ProcurementResourceForm(forms.ModelForm):
         Field('type', template="bootstrap3/layout/read-only.html"),
         'lot_number',
         DateField('expiry_date'),
-        'created_by'
-    )
+        'created_by')
 
     def __init__(self, *args, **kwargs):
         super(ProcurementResourceForm, self).__init__(*args, **kwargs)
@@ -410,7 +435,7 @@ class ProcurementResourceForm(forms.ModelForm):
 
     class Meta:
         model = ProcurementResource
-        exclude = ('created_on',)
+        fields = ('organ', 'type', 'lot_number', 'expiry_date', 'created_by')
         localized_fields = "__all__"
 
 
@@ -436,7 +461,7 @@ ProcurementResourceRightInlineFormSet = forms.models.inlineformset_factory(
     can_delete=False)
 
 
-class RecipientFormA(forms.ModelForm):
+class AllocationForm(forms.ModelForm):
     perfusion_technician = ModelChoiceField('TechnicianAutoComplete')
     transplant_hospital = ModelChoiceField('HospitalAutoComplete')
     theatre_contact = ModelChoiceField('TheatreContactAutoComplete')
@@ -445,7 +470,7 @@ class RecipientFormA(forms.ModelForm):
         FieldWithFollowup(
             Field('reallocation_reason', template="bootstrap3/layout/radioselect-buttons.html"),
             'reallocation_reason_other', ),
-        'reallocation_recipient')
+        'reallocation')
 
     helper = FormHelper()
     helper.form_tag = False
@@ -479,7 +504,7 @@ class RecipientFormA(forms.ModelForm):
         ))
 
     def __init__(self, *args, **kwargs):
-        super(RecipientFormA, self).__init__(*args, **kwargs)
+        super(AllocationForm, self).__init__(*args, **kwargs)
         self.fields['organ'].widget = forms.HiddenInput()
         self.fields['perfusion_technician'].required = False
         self.fields['perfusion_technician'].label = Recipient._meta.get_field(
@@ -496,51 +521,37 @@ class RecipientFormA(forms.ModelForm):
         self.fields['arrival_at_recipient_hospital'].input_formats = DATETIME_INPUT_FORMATS
         self.fields['reallocated'].choices = NO_YES_CHOICES
         self.fields['reallocation_reason'].choices = Recipient.REALLOCATION_CHOICES
-        self.fields['reallocation_recipient'].widget = forms.HiddenInput()
+        self.fields['reallocation'].widget = forms.HiddenInput()
 
     class Meta:
-        model = Recipient
-        exclude = [
-            'signed_consent', 'single_kidney_transplant', 'number',
-            'renal_disease', 'date_of_birth', 'gender', 'ethnicity', 'blood_group', 'knife_to_skin',
-            'perfusion_stopped', 'organ_cold_stored', 'tape_broken', 'removed_from_machine_at', 'oxygen_full_and_open',
-            'organ_untransplantable', 'anesthesia_started_at', 'incision', 'transplant_side', 'arterial_problems',
-            'venous_problems', 'anastomosis_started_at', 'reperfusion_started_at', 'mannitol_used', 'other_diurectics',
-            'intra_operative_diuresis', 'successful_conclusion', 'operation_concluded_at', 'probe_cleaned',
-            'ice_removed', 'oxygen_flow_stopped', 'oxygen_bottle_removed', 'box_cleaned', 'batteries_charged',
-            'created_by', 'version', 'created_on', 'record_locked'
+        model = OrganAllocation
+        fields = [
+            'organ', 'perfusion_technician', 'call_received', 'transplant_hospital', 'theatre_contact',
+            'scheduled_start', 'technician_arrival', 'depart_perfusion_centre', 'arrival_at_recipient_hospital',
+            'journey_remarks', 'reallocated', 'reallocation_reason', 'reallocation_reason_other',
+            'reallocation'
         ]
         localized_fields = "__all__"
 
     def save(self, user, *args, **kwargs):
-        recipient = super(RecipientFormA, self).save(commit=False)
-        recipient.created_by = user
-        recipient.created_on = timezone.now()
-        recipient.version += 1
-        recipient.save()
-        return recipient
+        allocation_instance = super(AllocationForm, self).save(commit=False)
+        allocation_instance.created_by = user
+        allocation_instance.created_on = timezone.now()
+        allocation_instance.version += 1
+        if kwargs.get("commit", True):
+            allocation_instance.save()
+        return allocation_instance
 
-RecipientFormASet = forms.modelformset_factory(
-    Recipient, form=RecipientFormA, min_num=1, validate_min=True, can_delete=False, extra=0)
+AllocationFormSet = forms.modelformset_factory(
+    OrganAllocation, form=AllocationForm, min_num=1, validate_min=True, can_delete=False, extra=0)
 
 
-class RecipientFormB(forms.ModelForm):
+class RecipientForm(forms.ModelForm):
     layout_recipient = Layout(
         Field('signed_consent', template="bootstrap3/layout/radioselect-buttons.html"),
         Field('single_kidney_transplant', template="bootstrap3/layout/radioselect-buttons.html"),
-        Field('number', placeholder="___ ___ ____"),
-        FieldWithNotKnown(
-            DateField('date_of_birth', notknown=True),
-            'date_of_birth_unknown',
-            label=Recipient._meta.get_field("date_of_birth").verbose_name.title()),
-        Field('gender', template="bootstrap3/layout/radioselect-buttons.html"),
-        'weight',
-        'height',
-        Field('ethnicity', template="bootstrap3/layout/radioselect-buttons.html"),
-        Field('blood_group', template="bootstrap3/layout/radioselect-buttons.html"),
         FieldWithFollowup('renal_disease', 'renal_disease_other'),
-        'pre_transplant_diuresis'
-    )
+        'pre_transplant_diuresis')
 
     layout_perioperative_transplantable = Layout(
         DateTimeField('anesthesia_started_at'),
@@ -563,8 +574,7 @@ class RecipientFormB(forms.ModelForm):
         'cvp',
         Field('intra_operative_diuresis', template="bootstrap3/layout/radioselect-buttons.html"),
         Field('successful_conclusion', template="bootstrap3/layout/radioselect-buttons.html"),
-        DateTimeField('operation_concluded_at')
-    )
+        DateTimeField('operation_concluded_at'))
 
     layout_perioperative = Layout(
         'perfusate_measure',
@@ -577,8 +587,7 @@ class RecipientFormB(forms.ModelForm):
         YesNoFieldWithAlternativeFollowups(
             Field('organ_untransplantable', template="bootstrap3/layout/radioselect-buttons.html"),
             'organ_untransplantable_reason',
-            layout_perioperative_transplantable)
-    )
+            layout_perioperative_transplantable))
 
     layout_cleaning = Layout(
         Field('probe_cleaned', template="bootstrap3/layout/radioselect-buttons.html"),
@@ -587,8 +596,7 @@ class RecipientFormB(forms.ModelForm):
         Field('oxygen_bottle_removed', template="bootstrap3/layout/radioselect-buttons.html"),
         Field('box_cleaned', template="bootstrap3/layout/radioselect-buttons.html"),
         Field('batteries_charged', template="bootstrap3/layout/radioselect-buttons.html"),
-        'cleaning_log'
-    )
+        'cleaning_log')
 
     helper = FormHelper()
     helper.form_tag = False
@@ -607,15 +615,11 @@ class RecipientFormB(forms.ModelForm):
     )
 
     def __init__(self, *args, **kwargs):
-        super(RecipientFormB, self).__init__(*args, **kwargs)
+        super(RecipientForm, self).__init__(*args, **kwargs)
         self.fields['signed_consent'].choices = NO_YES_CHOICES
         self.fields['single_kidney_transplant'].choices = NO_YES_CHOICES
 
         self.fields['renal_disease'].choices = Recipient.RENAL_DISEASE_CHOICES
-        self.fields['date_of_birth'].input_formats = DATE_INPUT_FORMATS
-        self.fields['gender'].required = False
-        self.fields['ethnicity'].choices = Recipient.ETHNICITY_CHOICES
-        self.fields['blood_group'].choices = Recipient.BLOOD_GROUP_CHOICES
 
         self.fields['knife_to_skin'].input_formats = DATETIME_INPUT_FORMATS
         self.fields['perfusion_stopped'].input_formats = DATETIME_INPUT_FORMATS
@@ -647,10 +651,14 @@ class RecipientFormB(forms.ModelForm):
 
     class Meta:
         model = Recipient
-        exclude = [
-            'organ', 'perfusion_technician', 'call_received', 'transplant_hospital', 'theatre_contact',
-            'scheduled_start', 'technician_arrival', 'depart_perfusion_centre', 'arrival_at_recipient_hospital',
-            'journey_remarks', 'reallocated', 'reallocation_reason', 'reallocation_reason_other',
-            'created_by', 'version', 'created_on', 'record_locked']
+        fields = [
+            'signed_consent', 'single_kidney_transplant', 'renal_disease', 'knife_to_skin',
+            'perfusion_stopped', 'organ_cold_stored', 'tape_broken', 'removed_from_machine_at',
+            'oxygen_full_and_open', 'organ_untransplantable', 'anesthesia_started_at', 'incision',
+            'transplant_side', 'arterial_problems', 'venous_problems', 'anastomosis_started_at',
+            'reperfusion_started_at', 'mannitol_used', 'other_diurectics', 'intra_operative_diuresis',
+            'successful_conclusion', 'operation_concluded_at', 'probe_cleaned', 'ice_removed',
+            'oxygen_flow_stopped', 'oxygen_bottle_removed', 'box_cleaned', 'batteries_charged',
+        ]
         localized_fields = "__all__"
 

@@ -1,54 +1,88 @@
 [
-{
+  {
     "fields": {
-        "username": "tech1",
-        "first_name": "",
-        "last_name": "",
-        "is_active": true,
-        "is_superuser": false,
-        "is_staff": false,
-        "last_login": null,
-        "groups": [],
-        "user_permissions": [],
-        "password": "pbkdf2_sha256$20000$1TgbVpKpsRN0$klJIT8ZMZjlRIMIpRmUz/uc39a+AScvp88ZGEeb0S9k=",
-        "email": "",
-        "date_joined": "2015-09-13T20:17:54.485Z"
+      "name": "Perfusion Technicians"
+    },
+    "model": "auth.group",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "name": "Central Co-ordinators"
+    },
+    "model": "auth.group",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "username": "tech1",
+      "first_name": "Example",
+      "last_name": "Technician 1",
+      "is_active": true,
+      "is_superuser": false,
+      "is_staff": false,
+      "last_login": null,
+      "groups": [
+        1
+      ],
+      "user_permissions": [],
+      "password": "pbkdf2_sha256$20000$1TgbVpKpsRN0$klJIT8ZMZjlRIMIpRmUz/uc39a+AScvp88ZGEeb0S9k=",
+      "email": "",
+      "date_joined": "2015-09-13T20:17:54.485Z"
     },
     "model": "auth.user",
     "pk": 2
-},
-{
+  },
+  {
     "fields": {
-        "username": "ally",
-        "first_name": "",
-        "last_name": "",
-        "is_active": true,
-        "is_superuser": false,
-        "is_staff": true,
-        "last_login": null,
-        "groups": [
-            1
-        ],
-        "user_permissions": [],
-        "password": "pbkdf2_sha256$20000$HrQALZyNGL0f$uWjqUmJOH0jFZms6EMGzu4lww3DgLkHSXZ4qU2vUZdk=",
-        "email": "",
-        "date_joined": "2015-09-13T20:20:37Z"
+      "username": "ally",
+      "first_name": "Ally",
+      "last_name": "Bradley",
+      "is_active": true,
+      "is_superuser": false,
+      "is_staff": true,
+      "last_login": null,
+      "groups": [
+        2
+      ],
+      "user_permissions": [],
+      "password": "pbkdf2_sha256$20000$HrQALZyNGL0f$uWjqUmJOH0jFZms6EMGzu4lww3DgLkHSXZ4qU2vUZdk=",
+      "email": "",
+      "date_joined": "2015-09-13T20:20:37Z"
     },
     "model": "auth.user",
     "pk": 3
-},
+  },
   {
     "model": "staff_person.staffperson",
     "pk": 38,
     "fields": {
-      "first_names": "Perf",
-      "last_names": "Tech 1",
+      "first_names": "Example",
+      "last_names": "Technician 1",
       "jobs": [
         1
       ],
       "user": 2,
       "based_at": 10,
       "version": 1,
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.PerfusionMachine",
+    "pk": 1,
+    "fields": {
+      "machine_serial_number": "ABC1234",
+      "machine_reference_number": "PM 001",
+      "created_by": 1
+    }
+  },
+  {
+    "model": "compare.PerfusionMachine",
+    "pk": 2,
+    "fields": {
+      "machine_serial_number": "BCD2345",
+      "machine_reference_number": "PM 002",
       "created_by": 1
     }
   }

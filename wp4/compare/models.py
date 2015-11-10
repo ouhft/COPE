@@ -11,7 +11,6 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _, ungettext_lazy as __
 
 from ..staff_person.models import StaffJob, StaffPerson, Hospital
-from ..samples.models import Sample
 
 # Common CONSTANTS
 NO = 0
@@ -22,7 +21,6 @@ YES_NO_UNKNOWN_CHOICES = (
     (NO, _("MMc01 No")),
     (YES, _("MMc02 Yes"))
 )  # Need Yes to be the last choice for any FieldWithFollowUp
-
 
 LEFT = "L"
 RIGHT = "R"
@@ -69,6 +67,32 @@ class RetrievalTeam(models.Model):
         ordering = ['centre_code']
         verbose_name = _('RTm1 retrieval team')
         verbose_name_plural = _('RTm2 retrieval teams')
+
+
+class PerfusionMachine(models.Model):
+    # Device accountability
+    machine_serial_number = models.CharField(verbose_name=_('PM01 machine serial number'), max_length=50)
+    machine_reference_number = models.CharField(verbose_name=_('PM02 machine reference number'), max_length=50)
+    created_on = models.DateTimeField(default=timezone.now)
+    created_by = models.ForeignKey(User)
+
+    def __unicode__(self):
+        return 's/n: ' + self.machine_serial_number
+
+    class Meta:
+        verbose_name = _('PMm1 perfusion machine')
+        verbose_name_plural = _('PMm2 perfusion machines')
+
+
+class PerfusionFile(models.Model):
+    machine = models.ForeignKey(PerfusionMachine, verbose_name=_('PF01 perfusion machine'))
+    file = models.FileField(blank=True)
+    created_on = models.DateTimeField(default=timezone.now)
+    created_by = models.ForeignKey(User)
+
+    class Meta:
+        verbose_name = _('PFm1 perfusion machine file')
+        verbose_name_plural = _('PFm2 perfusion machine files')
 
 
 class OrganPerson(VersionControlModel):
@@ -355,7 +379,7 @@ class Donor(VersionControlModel):
                         "DOv01 Time travel detected! Arrival at donor hospital occurred before departure from "
                         "perfusion centre")
                 )
-        if self.person.date_of_birth:
+        if self.person_id is not None and self.person.date_of_birth:
             if self.person.date_of_birth > datetime.datetime.now().date():
                 raise ValidationError(_("DOv02 Time travel detected! Donor's date of birth is in the future!"))
             if self.date_of_procurement:
@@ -400,11 +424,11 @@ class Donor(VersionControlModel):
                 and not self.systemic_flush_used_other:
             raise ValidationError(_("DOv11 Missing the details of the other systemic flush solution used"))
 
-    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        # On creation, get and save the sequence number from the retrieval team
-        if self.sequence_number < 1:
-            self.sequence_number = self.retrieval_team.next_sequence_number()
-        super(Donor, self).save(force_insert, force_update, using, update_fields)
+    # def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+    #     # On creation, get and save the sequence number from the retrieval team
+    #     if self.sequence_number < 1:
+    #         self.sequence_number = self.retrieval_team.next_sequence_number()
+    #     super(Donor, self).save(force_insert, force_update, using, update_fields)
 
     def randomise(self):
         # Randomise if eligible and not already done
@@ -423,11 +447,16 @@ class Donor(VersionControlModel):
                 right_kidney.preservation = Organ.PRESERVATION_HMPO2
             left_kidney.save()
             right_kidney.save()
+
+            # On randomise (not save anymore), get and save the sequence number from the retrieval team
+            if self.sequence_number < 1:
+                self.sequence_number = self.retrieval_team.next_sequence_number()
             return True
         return False
 
     def __unicode__(self):
-        return '%s (%s)' % (self.number, self.trial_id())
+        # return '%s (%s)' % (self.person.number if self.person is not None else "n/a", self.trial_id())
+        return '%s' % (self.trial_id())
 
     def left_kidney(self):
         try:
@@ -455,8 +484,8 @@ class Donor(VersionControlModel):
     centre_code.short_description = 'Centre Code'
 
     def trial_id(self):
-        if self.centre_code() == 0:
-            return ""
+        if self.centre_code() == 0 or self.sequence_number < 1:
+            return "No Trial ID Assigned (DO%s)" % format(self.id, '03')
         return 'WP4%s%s' % (format(self.centre_code(), '02'), format(self.sequence_number, '03'))
     trial_id.short_description = 'Trial ID'
 
@@ -482,32 +511,6 @@ class Donor(VersionControlModel):
             eligible_kidney_count = -1
         # print("DEBUG: eligible kidney count %d" % eligible_kidney_count)
         return eligible_kidney_count
-
-
-class PerfusionMachine(models.Model):
-    # Device accountability
-    machine_serial_number = models.CharField(verbose_name=_('PM01 machine serial number'), max_length=50)
-    machine_reference_number = models.CharField(verbose_name=_('PM02 machine reference number'), max_length=50)
-    created_on = models.DateTimeField(default=timezone.now)
-    created_by = models.ForeignKey(User)
-
-    def __unicode__(self):
-        return 's/n: ' + self.machine_serial_number
-
-    class Meta:
-        verbose_name = _('PMm1 perfusion machine')
-        verbose_name_plural = _('PMm2 perfusion machines')
-
-
-class PerfusionFile(models.Model):
-    machine = models.ForeignKey(PerfusionMachine, verbose_name=_('PF01 perfusion machine'))
-    file = models.FileField(blank=True)
-    created_on = models.DateTimeField(default=timezone.now)
-    created_by = models.ForeignKey(User)
-
-    class Meta:
-        verbose_name = _('PFm1 perfusion machine file')
-        verbose_name_plural = _('PFm2 perfusion machine files')
 
 
 class Organ(VersionControlModel):  # Or specifically, a Kidney
@@ -695,11 +698,10 @@ class ProcurementResource(models.Model):
         verbose_name_plural = _('PRm2 procurement resources')
 
 
-class Recipient(VersionControlModel):
-    person = models.OneToOneField(OrganPerson)  # Internal link
+class OrganAllocation(VersionControlModel):
     organ = models.ForeignKey(Organ)  # Internal link
-    # sequence_number = models.PositiveSmallIntegerField(default=0)
-    # Allocation data
+
+    #  Allocation data
     REALLOCATION_CROSSMATCH = 1
     REALLOCATION_UNKNOWN = 2
     REALLOCATION_OTHER = 3
@@ -740,7 +742,25 @@ class Recipient(VersionControlModel):
         choices=REALLOCATION_CHOICES,
         blank=True, null=True)
     reallocation_reason_other = models.CharField(verbose_name=_('RE12 other reason'), max_length=250, blank=True)
-    reallocation_recipient = models.OneToOneField('Recipient', default=None, blank=True, null=True)
+    reallocation = models.OneToOneField('OrganAllocation', default=None, blank=True, null=True)
+
+    class Meta:
+        order_with_respect_to = 'organ'
+        verbose_name = _('OAm1 organ allocation')
+        verbose_name_plural = _('OAm2 organ allocations')
+        get_latest_by = 'created_on'
+
+
+class Recipient(VersionControlModel):
+    person = models.OneToOneField(OrganPerson)  # Internal link
+    organ = models.ForeignKey(Organ)  # Internal link
+    allocation = models.OneToOneField(OrganAllocation)  # Internal link
+
+    # Trial signoffs
+    signed_consent = models.NullBooleanField(
+        verbose_name=_("RE13 informed consent given"), blank=True, default=None)
+    single_kidney_transplant = models.NullBooleanField(
+        verbose_name=_("RE14 receiving one kidney"), blank=True, default=None)
 
     # Recipient details (in addition to OrganPerson)
     RENAL_DISEASE_CHOICES = (
@@ -755,9 +775,6 @@ class Recipient(VersionControlModel):
         (9, _('REc12 renovascular and other diseases')),
         (10, _('REc13 neoplasms')),
         (11, _('REc14 other')),)
-    signed_consent = models.NullBooleanField(verbose_name=_("RE13 informed consent given"), blank=True, default=None)
-    single_kidney_transplant = models.NullBooleanField(verbose_name=_("RE14 receiving one kidney"), blank=True,
-                                                       default=None)
     renal_disease = models.PositiveSmallIntegerField(
         verbose_name=_('RE15 renal disease'),
         choices=RENAL_DISEASE_CHOICES,
@@ -858,7 +875,6 @@ class Recipient(VersionControlModel):
 
     class Meta:
         order_with_respect_to = 'organ'
-        ordering = ['sequence_number']
         verbose_name = _('REm1 recipient')
         verbose_name_plural = _('REm2 recipients')
         get_latest_by = 'created_on'
@@ -870,14 +886,7 @@ class Recipient(VersionControlModel):
         return '%s (%s)' % (self.number, self.trial_id())
 
     def age_from_dob(self):
-        if self.date_of_birth is None:
-            return "Unknown Age"
-        today = datetime.date.today()
-        if self.date_of_birth < today:
-            years = today.year - self.date_of_birth.year
-        else:
-            years = today.year - self.date_of_birth.year - 1
-        return years
+        return self.person.age_from_dob()
 
     def trial_id(self):
         return self.organ.trial_id()

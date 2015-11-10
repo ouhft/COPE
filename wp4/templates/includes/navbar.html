@@ -22,6 +22,8 @@
                 <li class="{% active request url_procurement %}"><a href="{{ url_procurement }}">Procurement</a></li>
             {% url 'compare:transplantation_list' as url_transplantation %}
                 <li class="{% active request url_transplantation %}"><a href="{{ url_transplantation }}">Transplantation</a></li>
+            {% url 'samples:home' as url_samples %}
+                <li class="{% active request url_samples %}"><a href="{{ url_samples }}">Samples</a></li>
             {% url 'adverse_event:list' as url_adverseevents %}
                 <li class="{% active request url_adverseevents %}"><a href="{{ url_adverseevents }}">Adverse Events</a></li>
             {% url 'followup:list' as url_followup %}
