@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator, ValidationError
 from django.db import models
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _, ungettext_lazy as __
+from django.utils.translation import ugettext_lazy as _
 
 from ..staff_person.models import StaffJob, StaffPerson, Hospital
 
@@ -152,6 +152,24 @@ class OrganPerson(VersionControlModel):
         ordering = ['number']
         verbose_name = _('OPm1 trial person')
         verbose_name_plural = _('OPm2 organ people')
+
+    def clean(self):
+        if self.date_of_birth_unknown:
+            self.date_of_birth = None
+        if self.date_of_death_unknown:
+            self.date_of_death = None
+
+        if self.date_of_birth:
+            if self.date_of_birth > datetime.datetime.now().date():
+                raise ValidationError(_("OPv01 Time travel detected! Person's date of birth is in the future!"))
+
+        if self.date_of_death:
+            if self.date_of_death > datetime.datetime.now().date():
+                raise ValidationError(_("OPv02 Creepy prediction! Person's date of death is in the future!"))
+
+        if self.date_of_birth and self.date_of_death:
+            if self.date_of_death < self.date_of_birth:
+                raise ValidationError(_("OPv03 Time running backwards! Person's date of death is before they were born!"))
 
     def bmi_value(self):
         # http://www.nhs.uk/chq/Pages/how-can-i-work-out-my-bmi.aspx?CategoryID=51 for formula
@@ -380,8 +398,6 @@ class Donor(VersionControlModel):
                         "perfusion centre")
                 )
         if self.person_id is not None and self.person.date_of_birth:
-            if self.person.date_of_birth > datetime.datetime.now().date():
-                raise ValidationError(_("DOv02 Time travel detected! Donor's date of birth is in the future!"))
             if self.date_of_procurement:
                 age_difference = self.date_of_procurement - self.person.date_of_birth
                 age_difference_in_years = age_difference.days / 365.2425
@@ -400,7 +416,7 @@ class Donor(VersionControlModel):
                     _("DOv05 Age does not match age as calculated (%(num)d years) from Date of Birth"
                       % {'num': self.person.age_from_dob()})
                 )
-        if self.date_of_procurement:
+        if self.date_of_procurement and self.date_of_admission:
             if self.date_of_procurement < self.date_of_admission:
                 raise ValidationError(_("DOv06 Date of procurement occurs before date of admission"))
 
@@ -408,6 +424,9 @@ class Donor(VersionControlModel):
             raise ValidationError(_("DOv07 Missing the date admitted to ITU"))
         if self.diagnosis == self.DIAGNOSIS_OTHER and not self.diagnosis_other:
             raise ValidationError(_("DOv08 Missing the other diagnosis"))
+        if self.date_admitted_to_itu and self.date_of_admission:
+            if self.date_admitted_to_itu < self.date_of_admission:
+                raise ValidationError(_("DOv12 Donor in ICU before they were admitted to hospital"))
 
         if self.diuresis_last_day_unknown:
             self.diuresis_last_day = None
@@ -423,12 +442,6 @@ class Donor(VersionControlModel):
         if self.systemic_flush_used and self.systemic_flush_used == self.SOLUTION_OTHER \
                 and not self.systemic_flush_used_other:
             raise ValidationError(_("DOv11 Missing the details of the other systemic flush solution used"))
-
-    # def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-    #     # On creation, get and save the sequence number from the retrieval team
-    #     if self.sequence_number < 1:
-    #         self.sequence_number = self.retrieval_team.next_sequence_number()
-    #     super(Donor, self).save(force_insert, force_update, using, update_fields)
 
     def randomise(self):
         # Randomise if eligible and not already done
@@ -456,7 +469,6 @@ class Donor(VersionControlModel):
         return False
 
     def __unicode__(self):
-        # return '%s (%s)' % (self.person.number if self.person is not None else "n/a", self.trial_id())
         return '%s' % (self.trial_id())
 
     def left_kidney(self):

@@ -7260,18 +7260,18 @@ footer > ul > li > img {
   background-color: #95a5a6;
 }
 #donor > div > div > .panel-default {
-  border-color: #c0392b;
+  border-color: #8e44ad;
 }
 #donor > div > div > .panel-default .panel-heading {
-  background-color: #e74c3c;
-  border-color: #c0392b;
+  background-color: #9b59b6;
+  border-color: #8e44ad;
 }
 #donor > div > div > .panel-default .panel-heading h3 {
   color: #ffffff;
 }
 .active > a#donortab {
-  background-color: #e74c3c;
-  border-color: #c0392b;
+  background-color: #9b59b6;
+  border-color: #8e44ad;
   color: #ffffff;
 }
 #leftkidney > div > div > .panel-default {

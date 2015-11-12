@@ -121,6 +121,7 @@ def procurement_form(request, pk):
     if donor_form.is_valid():
         donor = donor_form.save(request.user)
         all_valid += 1
+    # print("DEBUG: donor_form has errors: %s" % donor_form.errors)
 
     # ================================================ LEFT ORGAN
     left_organ_form = OrganForm(request.POST or None, request.FILES or None,
@@ -142,8 +143,8 @@ def procurement_form(request, pk):
     left_organ_error_count = left_organ_procurement_forms.total_error_count() + len(left_organ_form.errors)
 
     # print("DEBUG: left_organ_error_count=%s from %s and %s" % (left_organ_error_count,left_organ_procurement_forms.total_error_count(), len(left_organ_form.errors)))
-    # print("DEBUG: left_organ_procurement_forms: %s" % left_organ_procurement_forms.errors)
-    # print("DEBUG: left_organ_procurement_forms 2: %s" % left_organ_procurement_forms.non_form_errors())
+    print("DEBUG: left_organ_procurement_forms: %s" % left_organ_procurement_forms.errors)
+    print("DEBUG: left_organ_procurement_forms 2: %s" % left_organ_procurement_forms.non_form_errors())
     # for p_form in left_organ_procurement_forms:
     #     print("DEBUG: p_form %s has %s" % (p_form, p_form.errors))
 

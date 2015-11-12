@@ -114,28 +114,50 @@
             <div role="tabpanel" class="tab-pane fade in active" id="donor">
                 <h2 class="sr-only visible-print">Donor</h2>
                 <div class="row">
-                    {{ person_form.errors }}
-                    {{ donor_form.errors }}
+                    {% if person_form.non_field_errors or donor_form.non_field_errors %}
+                        <div class="col-md-12" style="margin-top: 10px;">
+                        {% for error in person_form.non_field_errors %}
+                            <p class="alert alert-danger">{{ error }}</p>
+                        {% endfor %}
+                        {% for error in donor_form.non_field_errors %}
+                            <p class="alert alert-danger">{{ error }}</p>
+                        {% endfor %}
+                        </div>
+                    {% endif %}
                     {% crispy person_form %}
                     {% crispy donor_form %}
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane fade" id="leftkidney">
                 <h2 class="sr-only visible-print">Left Kidney</h2>
-                {{ left_organ_form.errors }}
-                {{ left_organ_procurement_forms.errors }}
-                {{ left_organ_procurement_forms.non_form_errors }}
                 <div class="row">
+                    {% if left_organ_form.non_field_errors or left_organ_procurement_forms.non_form_errors %}
+                        <div class="col-md-12" style="margin-top: 10px;">
+                        {% for error in left_organ_form.non_field_errors %}
+                            <p class="alert alert-danger">{{ error }}</p>
+                        {% endfor %}
+                        {% for error in left_organ_procurement_forms.non_form_errors %}
+                            <p class="alert alert-danger">{{ error }}</p>
+                        {% endfor %}
+                        </div>
+                    {% endif %}
                     {% crispy left_organ_form %}
                     {% include "compare/snippets/procurement_resource_formset.html" with procurement_formset=left_organ_procurement_forms %}
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane fade" id="rightkidney">
                 <h2 class="sr-only visible-print">Right Kidney</h2>
-                {{ right_organ_form.errors }}
-                {{ right_organ_procurement_forms.errors }}
-                {{ right_organ_procurement_forms.non_form_errors }}
                 <div class="row">
+                    {% if right_organ_form.non_field_errors or right_organ_procurement_forms.non_form_errors %}
+                        <div class="col-md-12" style="margin-top: 10px;">
+                        {% for error in right_organ_form.non_field_errors %}
+                            <p class="alert alert-danger">{{ error }}</p>
+                        {% endfor %}
+                        {% for error in right_organ_procurement_forms.non_form_errors %}
+                            <p class="alert alert-danger">{{ error }}</p>
+                        {% endfor %}
+                        </div>
+                    {% endif %}
                     {% crispy right_organ_form %}
                     {% include "compare/snippets/procurement_resource_formset.html" with procurement_formset=right_organ_procurement_forms %}
                 </div>

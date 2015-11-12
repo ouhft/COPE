@@ -330,33 +330,26 @@ class OrganForm(forms.ModelForm):
         DateTimeField('perfusion_started'),
         Field('patch_holder', template="bootstrap3/layout/radioselect-buttons.html"),
         FieldWithFollowup(
-
             Field('artificial_patch_used', template="bootstrap3/layout/radioselect-buttons.html"),
-            layout_artificial_patches
-        ),
+            layout_artificial_patches),
         Field('oxygen_bottle_full', template="bootstrap3/layout/radioselect-buttons.html"),
         Field('oxygen_bottle_open', template="bootstrap3/layout/radioselect-buttons.html"),
         FieldWithFollowup(
             Field('oxygen_bottle_changed', template="bootstrap3/layout/radioselect-buttons.html"),
-            DateTimeField('oxygen_bottle_changed_at')
-        ),
+            DateTimeField('oxygen_bottle_changed_at')),
         FieldWithFollowup(
             Field('ice_container_replenished', template="bootstrap3/layout/radioselect-buttons.html"),
-            DateTimeField('ice_container_replenished_at')
-        ),
+            DateTimeField('ice_container_replenished_at')),
         FieldWithFollowup(
             Field('perfusate_measurable', template="bootstrap3/layout/radioselect-buttons.html"),
-            'perfusate_measure'
-        )
-    )
+            'perfusate_measure'))
 
     layout_perfusion = Layout(
         YesNoFieldWithAlternativeFollowups(
             'perfusion_possible',
             'perfusion_not_possible_because',
             layout_perfusion_possible
-        ),
-    )
+        ))
 
     helper = FormHelper()
     helper.form_tag = False
@@ -371,8 +364,7 @@ class OrganForm(forms.ModelForm):
         Div(
             FormPanel("Perfusion Data", layout_perfusion),
             css_class="col-md-4", style="margin-top: 10px;"
-        )
-    )
+        ))
 
     def __init__(self, *args, **kwargs):
         super(OrganForm, self).__init__(*args, **kwargs)
