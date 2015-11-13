@@ -767,7 +767,7 @@ class OrganAllocation(VersionControlModel):
 
 class Recipient(VersionControlModel):
     person = models.OneToOneField(OrganPerson)  # Internal link
-    organ = models.ForeignKey(Organ)  # Internal link
+    organ = models.OneToOneField(Organ)  # Internal link
     allocation = models.OneToOneField(OrganAllocation)  # Internal link
 
     # Trial signoffs

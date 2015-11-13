@@ -12,7 +12,7 @@ from django.shortcuts import redirect
 from django.utils import timezone
 
 from ..staff_person.models import StaffJob, StaffPerson
-from .models import OrganPerson, Donor, Organ, Recipient, ProcurementResource
+from .models import OrganPerson, Donor, Organ, Recipient, ProcurementResource, OrganAllocation
 from .forms import OrganPersonForm, DonorForm, DonorStartForm, OrganForm, AllocationFormSet, RecipientForm
 from .forms import ProcurementResourceLeftInlineFormSet, ProcurementResourceRightInlineFormSet
 
@@ -250,67 +250,72 @@ def transplantation_form(request, pk=None):
     :param request:
     :param pk: Organ primary key, as all recipients are tied to an organ
     :return:
+
+    Process Allocation results until an allocation is set for one location, and then create and manage the
+    Recipient record.
     """
     print("DEBUG: Got an organ pk of %s" % pk)
     organ = get_object_or_404(Organ, pk=int(pk))
     current_person = StaffPerson.objects.get(user__id=request.user.id)
     recipient_form = {}
     recipient_form_loaded = False
-    recipient = Recipient()
 
-    # First time in, we need to create an initial recipient FormA, and recipient record
-    if len(organ.recipient_set.all()) == 0:
-        recipient.organ = organ
-        recipient.created_by = request.user
-        if current_person.has_job(StaffJob.PERFUSION_TECHNICIAN):
-            recipient.perfusion_technician = current_person
-        recipient.save()
-    else:  # Otherwise load the last recipient created
-        recipient = organ.recipient_set.latest()
-
-    # Process Form A
-    recipient_formset = AllocationFormSet(request.POST or None, prefix="recipient-a",
-                                          queryset=organ.recipient_set.all())
-    if recipient_formset.is_valid():
-        last_form_index = len(recipient_formset)-1
-        for i, form in enumerate(recipient_formset):
+    # Process Allocations
+    allocation_formset = AllocationFormSet(request.POST or None, prefix="allocation",
+                                           queryset=organ.organallocation_set.all())
+    if allocation_formset.is_valid():
+        last_form_index = len(allocation_formset)-1
+        for i, form in enumerate(allocation_formset):
             print("DEBUG: i=%d" % i)
-            recipient = form.save(current_person.user)
+            allocation = form.save(current_person.user)
 
             if i == last_form_index:
-                # If this is the latest form A and reallocation has occurred, create a new recipient
-                if recipient.reallocated:
+                # If this is the latest Allocation and reallocation has occurred, create a new Allocation
+                if allocation.reallocated:
                     print("DEBUG: Do the reallocation thing!")
-                    new_recipient = Recipient()
-                    new_recipient.organ = organ
-                    new_recipient.created_by = request.user
+                    new_allocation = OrganAllocation()
+                    new_allocation.organ = organ
+                    new_allocation.created_by = request.user
                     if current_person.has_job(StaffJob.PERFUSION_TECHNICIAN):
-                        new_recipient.perfusion_technician = current_person
-                    new_recipient.save()
+                        new_allocation.perfusion_technician = current_person
+                    new_allocation.save()
 
-                    recipient.recipient = new_recipient
-                    recipient.save()
+                    allocation.reallocation = new_allocation
+                    allocation.save()
 
                     # Reload the formset to pick up the new addition
-                    recipient_formset = AllocationFormSet(prefix="recipient-a", queryset=organ.recipient_set.all())
-                    recipient = new_recipient
+                    allocation_formset = AllocationFormSet(prefix="allocation", queryset=organ.organallocation_set.all())
+                    allocation = new_allocation
+                elif allocation.reallocated is not None:
+                    print("DEBUG: Starting the Recipient form")
+                    recipient = Recipient() if allocation.recipient is None else allocation.recipient
+                    recipient_person_form = OrganPersonForm(request.POST or None, request.FILES or None,)
+                    recipient_form = RecipientForm(request.POST or None, request.FILES or None,
+                                                   instance=recipient, prefix="recipient")
+                    recipient_form_loaded = True
+                    if recipient_form.is_valid():
+                        recipient_form.save()
+                    else:
+                        print("DEBUG: Recipient Errors! %s" % recipient_form.errors)
     else:
-        print("DEBUG: Errors! %s" % recipient_formset.errors)
-
-    if recipient.reallocated is not None and not recipient.reallocated:
-        # Now process the potential Form B
-        recipient_form = RecipientForm(request.POST or None, request.FILES or None,
-                                        instance=recipient, prefix="form-b")
-        recipient_form_loaded = True
-        if recipient_form.is_valid():
-            recipient_form.save()
-        else:
-            print("DEBUG: Recipient Errors! %s" % recipient_form.errors)
+        print("DEBUG: Errors! %s" % allocation_formset.errors)
+    #
+    # # First time in, we need to create an initial allocation record
+    # if len(organ.recipient_set.all()) == 0:
+    #     recipient.organ = organ
+    #     recipient.created_by = request.user
+    #     if current_person.has_job(StaffJob.PERFUSION_TECHNICIAN):
+    #         recipient.perfusion_technician = current_person
+    #     recipient.save()
+    # else:  # Otherwise load the last recipient created
+    #     recipient = organ.recipient_set.latest()
+    #
+    #
 
     return render_to_response(
         "compare/transplantation_form.html",
         {
-            "recipient_formset": recipient_formset,
+            "allocation_formset": allocation_formset,
             "recipient_form": recipient_form,
             "organ": organ,
             "recipient_form_loaded": recipient_form_loaded
