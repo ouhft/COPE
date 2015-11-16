@@ -180,9 +180,13 @@ class OrganPerson(VersionControlModel):
     bmi_value.short_description = 'BMI Value'
 
     def age_from_dob(self):
-        # TODO: Use DoD to confirm aging stops at death
+        # TODO: Get the date calculations fixed so they do actual math and then show the years
         today = datetime.date.today()
-        if self.date_of_birth < today:
+        if not self.date_of_birth:
+            return None
+        elif self.date_of_death:
+            years = self.date_of_death.year - self.date_of_birth
+        elif self.date_of_birth < today:
             years = today.year - self.date_of_birth.year
         else:
             years = today.year - self.date_of_birth.year - 1

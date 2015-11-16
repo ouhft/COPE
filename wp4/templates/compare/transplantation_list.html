@@ -6,6 +6,7 @@
 {% block page_header %}Transplantation - Cases{% endblock %}
 
 {% block content %}
+{#    exisiting_cases is a list of Organs, as is new_cases #}
     <div class="row">
         <div class="col-md-8">
             <h2>
@@ -34,9 +35,9 @@
 {#                                <a href="{% url 'admin:compare_recipient_change' case.id %}"><i#}
 {#                                        class="glyphicon glyphicon-briefcase"></i></a>#}
                             </td>
-                            <td>{{ case.number|default:"Unknown number" }}</td>
-                            <td>{{ case.age|default:"Unknown age" }}</td>
-                            <td>{{ case.get_gender_display }}</td>
+                            <td>{{ case.recipient.person.number|default:"Unknown number" }}</td>
+                            <td>{{ case.recipient.person.age_from_dob|default:"Unknown age" }}</td>
+                            <td>{{ case.recipient.person.get_gender_display }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>

@@ -11,15 +11,15 @@
 
 
 {% block content %}
-    <form method="post" action="{% url 'compare:transplantation_detail' pk=organ.id %}" class="form-horizontal"
+    <form method="post" action="{% url 'compare:transplantation_detail' pk=organ.id %}" class=""
           id="transplant-form">
         {#        <h2 class="sr-only visible-print">Donor</h2>#}
         {#        {{ recipient_form.errors }}#}
         {#        {% crispy recipient_form %}#}
 
 
-        {{ recipient_formset.management_form|crispy }}
-        {% for form in recipient_formset %}
+        {{ allocation_formset.management_form|crispy }}
+        {% for form in allocation_formset %}
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Allocation Round {{ forloop.counter }}
@@ -39,7 +39,20 @@
 
         <h2>Recipient</h2>
         {% if recipient_form_loaded %}
-            {% crispy recipient_form %}
+            <div class="row">
+                {% if person_form.non_field_errors or recipient_form.non_field_errors %}
+                    <div class="col-md-12" style="margin-top: 10px;">
+                        {% for error in person_form.non_field_errors %}
+                            <p class="alert alert-danger">{{ error }}</p>
+                        {% endfor %}
+                        {% for error in recipient_form.non_field_errors %}
+                            <p class="alert alert-danger">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {% crispy person_form %}
+                {% crispy recipient_form %}
+            </div>
         {% else %}
             <p><span class="label label-info">Info</span> Please confirm that the organ has not been re-allocated. The
                 remainder of the form will appear after saving.</p>

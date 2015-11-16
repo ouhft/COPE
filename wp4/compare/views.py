@@ -257,12 +257,38 @@ def transplantation_form(request, pk=None):
     print("DEBUG: Got an organ pk of %s" % pk)
     organ = get_object_or_404(Organ, pk=int(pk))
     current_person = StaffPerson.objects.get(user__id=request.user.id)
-    recipient_form = {}
+    person_form = None
+    recipient_form = None
     recipient_form_loaded = False
+    initial_organallocation = [
+            {'organ': organ.pk, 'created_by': current_person.pk},
+        ]
+
+    try:
+        if organ.recipient is not None:
+            print("DEBUG: Starting the Recipient form")
+            person_form = OrganPersonForm(request.POST or None, request.FILES or None, instance=organ.recipient.person,
+                                          prefix="donor-person")
+            if person_form.is_valid():
+                person = person_form.save(request.user)
+
+            recipient_form = RecipientForm(request.POST or None, request.FILES or None,
+                                           instance=organ.recipient, prefix="recipient")
+            if recipient_form.is_valid():
+                recipient_form.save()
+            else:
+                print("DEBUG: Recipient Errors! %s" % recipient_form.errors)
+
+            recipient_form_loaded = True
+    except AttributeError:
+        # This is the base class for RelatedObjectDoesNotExist exception
+        pass
 
     # Process Allocations
     allocation_formset = AllocationFormSet(request.POST or None, prefix="allocation",
+                                           initial=initial_organallocation,
                                            queryset=organ.organallocation_set.all())
+    print("DEBUG: allocation_formset=%s" % allocation_formset)
     if allocation_formset.is_valid():
         last_form_index = len(allocation_formset)-1
         for i, form in enumerate(allocation_formset):
@@ -285,40 +311,39 @@ def transplantation_form(request, pk=None):
 
                     # Reload the formset to pick up the new addition
                     allocation_formset = AllocationFormSet(prefix="allocation", queryset=organ.organallocation_set.all())
-                    allocation = new_allocation
-                elif allocation.reallocated is not None:
-                    print("DEBUG: Starting the Recipient form")
-                    recipient = Recipient() if allocation.recipient is None else allocation.recipient
-                    recipient_person_form = OrganPersonForm(request.POST or None, request.FILES or None,)
-                    recipient_form = RecipientForm(request.POST or None, request.FILES or None,
-                                                   instance=recipient, prefix="recipient")
-                    recipient_form_loaded = True
-                    if recipient_form.is_valid():
-                        recipient_form.save()
-                    else:
-                        print("DEBUG: Recipient Errors! %s" % recipient_form.errors)
+                # For a new set of objects, remember to create the Person for the Recipient first
+                elif allocation.reallocated is not None and not recipient_form_loaded:
+                    person = OrganPerson()
+                    person.created_by = current_person.user
+                    person.created_on = timezone.now()
+                    person.version += 1
+                    person.save()
+
+                    recipient = Recipient()
+                    recipient.person = person
+                    recipient.allocation = allocation
+                    recipient.organ = organ
+                    recipient.created_by = current_person.user
+                    recipient.created_on = timezone.now()
+                    recipient.version += 1
+                    recipient.save()
+
+                    messages.success(request, 'Form has been <strong>successfully saved</strong>')
+
+                    return redirect(reverse(
+                        'compare:transplantation_detail',
+                        kwargs={'pk': organ.id}
+                    ))
     else:
         print("DEBUG: Errors! %s" % allocation_formset.errors)
-    #
-    # # First time in, we need to create an initial allocation record
-    # if len(organ.recipient_set.all()) == 0:
-    #     recipient.organ = organ
-    #     recipient.created_by = request.user
-    #     if current_person.has_job(StaffJob.PERFUSION_TECHNICIAN):
-    #         recipient.perfusion_technician = current_person
-    #     recipient.save()
-    # else:  # Otherwise load the last recipient created
-    #     recipient = organ.recipient_set.latest()
-    #
-    #
 
     return render_to_response(
         "compare/transplantation_form.html",
         {
             "allocation_formset": allocation_formset,
+            "person_form": person_form,
             "recipient_form": recipient_form,
             "organ": organ,
             "recipient_form_loaded": recipient_form_loaded
         },
-        context_instance=RequestContext(request)
-    )
+        context_instance=RequestContext(request))

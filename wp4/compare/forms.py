@@ -32,7 +32,8 @@ class OrganPersonForm(forms.ModelForm):
                           label=OrganPerson._meta.get_field("date_of_birth").verbose_name.title()),
         FieldWithNotKnown(DateField('date_of_death', notknown=True), 'date_of_death_unknown',
                           label=OrganPerson._meta.get_field("date_of_death").verbose_name.title()),
-        Field('gender', template="bootstrap3/layout/read-only.html"),
+        # Field('gender', template="bootstrap3/layout/read-only.html"),
+        Field('gender', template="bootstrap3/layout/radioselect-buttons.html"),
         'weight', 'height',
         Field('ethnicity', template="bootstrap3/layout/radioselect-buttons.html"),
         Field('blood_group', template="bootstrap3/layout/radioselect-buttons.html"))
@@ -42,14 +43,15 @@ class OrganPersonForm(forms.ModelForm):
     helper.html5_required = True
     helper.layout = Layout(
         HTML("<div class=\"col-md-4\" style=\"margin-top: 10px\">"),
-        FormPanel("Donor Description", layout_person)
+        FormPanel("Patient Description", layout_person)
     )
 
     def __init__(self, *args, **kwargs):
         super(OrganPersonForm, self).__init__(*args, **kwargs)
         self.fields['number'].required = False
         self.fields['date_of_birth'].input_formats = DATE_INPUT_FORMATS
-        self.fields['gender'].widget = forms.HiddenInput()
+        # self.fields['gender'].widget = forms.HiddenInput()
+        self.fields['gender'].choices = OrganPerson.GENDER_CHOICES
         self.fields['ethnicity'].choices = OrganPerson.ETHNICITY_CHOICES
         self.fields['blood_group'].choices = OrganPerson.BLOOD_GROUP_CHOICES
 
@@ -496,20 +498,20 @@ class AllocationForm(forms.ModelForm):
         super(AllocationForm, self).__init__(*args, **kwargs)
         self.fields['organ'].widget = forms.HiddenInput()
         self.fields['perfusion_technician'].required = False
-        self.fields['perfusion_technician'].label = Recipient._meta.get_field(
+        self.fields['perfusion_technician'].label = OrganAllocation._meta.get_field(
             "perfusion_technician").verbose_name.title()
         self.fields['call_received'].input_formats = DATETIME_INPUT_FORMATS
         self.fields['transplant_hospital'].required = False
-        self.fields['transplant_hospital'].label = Recipient._meta.get_field("transplant_hospital").verbose_name.title()
+        self.fields['transplant_hospital'].label = OrganAllocation._meta.get_field("transplant_hospital").verbose_name.title()
         self.fields['theatre_contact'].required = False
-        self.fields['theatre_contact'].label = Recipient._meta.get_field(
+        self.fields['theatre_contact'].label = OrganAllocation._meta.get_field(
             "theatre_contact").verbose_name.title()
         self.fields['scheduled_start'].input_formats = DATETIME_INPUT_FORMATS
         self.fields['technician_arrival'].input_formats = DATETIME_INPUT_FORMATS
         self.fields['depart_perfusion_centre'].input_formats = DATETIME_INPUT_FORMATS
         self.fields['arrival_at_recipient_hospital'].input_formats = DATETIME_INPUT_FORMATS
         self.fields['reallocated'].choices = NO_YES_CHOICES
-        self.fields['reallocation_reason'].choices = Recipient.REALLOCATION_CHOICES
+        self.fields['reallocation_reason'].choices = OrganAllocation.REALLOCATION_CHOICES
         self.fields['reallocation'].widget = forms.HiddenInput()
 
     class Meta:
@@ -590,26 +592,29 @@ class RecipientForm(forms.ModelForm):
     helper = FormHelper()
     helper.form_tag = False
     helper.html5_required = True
-    helper.layout = Div(
-        Div(
-            FormPanel("Recipient Details", layout_recipient),
-            css_class="col-md-4"),
+    helper.layout = Layout(
+        FormPanel("Recipient Details", layout_recipient),
+        HTML("</div>"),
         Div(
             FormPanel("Peri-Operative Data", layout_perioperative),
-            css_class="col-md-4"),
+            css_class="col-md-4", style="margin-top: 10px;"
+        ),
         Div(
             FormPanel("Cleaning Log", layout_cleaning),
-            css_class="col-md-4"),
-        css_class="row"
-    )
+            css_class="col-md-4", style="margin-top: 10px;"
+        ),
+        'person', 'organ', 'allocation')
+
 
     def __init__(self, *args, **kwargs):
         super(RecipientForm, self).__init__(*args, **kwargs)
+        self.fields['person'].widget = forms.HiddenInput()
+        self.fields['organ'].widget = forms.HiddenInput()
+        self.fields['allocation'].widget = forms.HiddenInput()
+
         self.fields['signed_consent'].choices = NO_YES_CHOICES
         self.fields['single_kidney_transplant'].choices = NO_YES_CHOICES
-
         self.fields['renal_disease'].choices = Recipient.RENAL_DISEASE_CHOICES
-
         self.fields['knife_to_skin'].input_formats = DATETIME_INPUT_FORMATS
         self.fields['perfusion_stopped'].input_formats = DATETIME_INPUT_FORMATS
         self.fields['organ_cold_stored'].choices = NO_YES_CHOICES
@@ -641,13 +646,19 @@ class RecipientForm(forms.ModelForm):
     class Meta:
         model = Recipient
         fields = [
-            'signed_consent', 'single_kidney_transplant', 'renal_disease', 'knife_to_skin',
+            'person', 'organ', 'allocation',
+            'signed_consent', 'single_kidney_transplant', 'renal_disease', 'renal_disease_other',
+            'pre_transplant_diuresis', 'knife_to_skin', 'perfusate_measure',
             'perfusion_stopped', 'organ_cold_stored', 'tape_broken', 'removed_from_machine_at',
-            'oxygen_full_and_open', 'organ_untransplantable', 'anesthesia_started_at', 'incision',
-            'transplant_side', 'arterial_problems', 'venous_problems', 'anastomosis_started_at',
-            'reperfusion_started_at', 'mannitol_used', 'other_diurectics', 'intra_operative_diuresis',
+            'oxygen_full_and_open', 'organ_untransplantable', 'organ_untransplantable_reason',
+            'anesthesia_started_at', 'incision',
+            'transplant_side', 'arterial_problems', 'arterial_problems_other', 'venous_problems',
+            'venous_problems_other', 'anastomosis_started_at',
+            'reperfusion_started_at', 'mannitol_used', 'other_diurectics', 'other_diurectics_details',
+            'systolic_blood_pressure', 'cvp', 'intra_operative_diuresis',
             'successful_conclusion', 'operation_concluded_at', 'probe_cleaned', 'ice_removed',
             'oxygen_flow_stopped', 'oxygen_bottle_removed', 'box_cleaned', 'batteries_charged',
+            'cleaning_log'
         ]
         localized_fields = "__all__"
 
