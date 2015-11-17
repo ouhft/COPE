@@ -143,8 +143,8 @@ def procurement_form(request, pk):
     left_organ_error_count = left_organ_procurement_forms.total_error_count() + len(left_organ_form.errors)
 
     # print("DEBUG: left_organ_error_count=%s from %s and %s" % (left_organ_error_count,left_organ_procurement_forms.total_error_count(), len(left_organ_form.errors)))
-    print("DEBUG: left_organ_procurement_forms: %s" % left_organ_procurement_forms.errors)
-    print("DEBUG: left_organ_procurement_forms 2: %s" % left_organ_procurement_forms.non_form_errors())
+    # print("DEBUG: left_organ_procurement_forms: %s" % left_organ_procurement_forms.errors)
+    # print("DEBUG: left_organ_procurement_forms 2: %s" % left_organ_procurement_forms.non_form_errors())
     # for p_form in left_organ_procurement_forms:
     #     print("DEBUG: p_form %s has %s" % (p_form, p_form.errors))
 
@@ -288,7 +288,7 @@ def transplantation_form(request, pk=None):
     allocation_formset = AllocationFormSet(request.POST or None, prefix="allocation",
                                            initial=initial_organallocation,
                                            queryset=organ.organallocation_set.all())
-    print("DEBUG: allocation_formset=%s" % allocation_formset)
+    # print("DEBUG: allocation_formset=%s" % allocation_formset)
     if allocation_formset.is_valid():
         last_form_index = len(allocation_formset)-1
         for i, form in enumerate(allocation_formset):

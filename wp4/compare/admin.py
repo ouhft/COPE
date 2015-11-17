@@ -2,7 +2,8 @@ from django.contrib import admin
 from django.utils import timezone
 
 # Register your models here.
-from .models import Hospital, RetrievalTeam, Donor, PerfusionMachine, Recipient, Organ, ProcurementResource
+from .models import OrganPerson, RetrievalTeam, Donor, PerfusionMachine, PerfusionFile, Recipient, \
+    Organ, ProcurementResource, OrganAllocation
 
 
 class VersionControlAdmin(admin.ModelAdmin):
@@ -17,7 +18,9 @@ class VersionControlAdmin(admin.ModelAdmin):
 
 
 class RetrievalTeamAdmin(admin.ModelAdmin):
-    exclude = ('created_on', 'created_by')
+    list_display = ('based_at', 'centre_code')
+    ordering = ('centre_code',)
+    fields = ('centre_code', 'based_at')
 
     def save_model(self, request, obj, form, change):
         obj.created_by = request.user
@@ -27,7 +30,37 @@ class RetrievalTeamAdmin(admin.ModelAdmin):
 admin.site.register(RetrievalTeam, RetrievalTeamAdmin)
 
 
+class PerfusionMachineFileInline(admin.TabularInline):
+    model = PerfusionFile
+    fields = ('file',)
+
+
+class PerfusionMachineAdmin(admin.ModelAdmin):
+    fields = ('machine_serial_number', 'machine_reference_number')
+    inlines = [
+        PerfusionMachineFileInline,
+    ]
+
+    def save_model(self, request, obj, form, change):
+        obj.created_by = request.user
+        obj.created_on = timezone.now()
+        obj.save()
+
+admin.site.register(PerfusionMachine, PerfusionMachineAdmin)
+
+
+class OrganPersonAdmin(VersionControlAdmin):
+    list_display = ('__unicode__', 'number', 'gender', 'age_from_dob', 'date_of_death', 'recipient', 'donor')
+    ordering = ('id',)
+    fields = (
+        'number', 'date_of_birth', 'date_of_birth_unknown', 'date_of_death', 'date_of_death_unknown',
+        'gender', 'weight', 'height', 'ethnicity', 'blood_group')
+
+admin.site.register(OrganPerson, OrganPersonAdmin)
+
+
 class DonorAdmin(VersionControlAdmin):
+    list_display = ('__unicode__', 'person', 'sequence_number', 'retrieval_team', 'is_randomised', 'trial_id')
     fieldsets = [
         ('Case information', {'fields': ['sequence_number', 'multiple_recipients']}),
         ('Trial Procedure', {'fields': [
@@ -36,9 +69,10 @@ class DonorAdmin(VersionControlAdmin):
             'arrival_at_donor_hospital'
         ]}),
         ('Donor Details', {'fields': [
-            'number', 'date_of_birth', 'date_of_birth_unknown', 'age', 'date_of_admission', 'admitted_to_itu', 'date_admitted_to_itu',
-            'date_of_procurement', 'gender', 'weight', 'height', 'ethnicity', 'blood_group',
-            'other_organs_procured','other_organs_lungs','other_organs_pancreas', 'other_organs_liver', 'other_organs_tissue'
+            'person',
+            'age', 'date_of_admission', 'admitted_to_itu', 'date_admitted_to_itu',
+            'date_of_procurement', 'other_organs_procured',
+            'other_organs_lungs', 'other_organs_pancreas', 'other_organs_liver', 'other_organs_tissue'
         ]}),
         ('PreOp Data', {'fields': [
             'diagnosis', 'diagnosis_other', 'diabetes_melitus', 'alcohol_abuse', 'cardiac_arrest',
@@ -54,23 +88,9 @@ class DonorAdmin(VersionControlAdmin):
             'death_diagnosed', 'perfusion_started', 'systemic_flush_used', 'systemic_flush_used_other',
             'systemic_flush_volume_used', 'heparin'
         ]}),
-        ('Donor Samples', {'fields': [
-            'donor_blood_1_EDTA', 'donor_blood_1_SST', 'donor_urine_1', 'donor_urine_2'
-        ]})
     ]
 
 admin.site.register(Donor, DonorAdmin)
-
-
-class PerfusionMachineAdmin(admin.ModelAdmin):
-    exclude = ('created_on', 'created_by')
-
-    def save_model(self, request, obj, form, change):
-        obj.created_by = request.user
-        obj.created_on = timezone.now()
-        obj.save()
-
-admin.site.register(PerfusionMachine, PerfusionMachineAdmin)
 
 
 class ProcurementResourceInline(admin.TabularInline):
@@ -80,6 +100,8 @@ class ProcurementResourceInline(admin.TabularInline):
 
 
 class OrganAdmin(VersionControlAdmin):
+    list_display = ('__unicode__', 'location', 'transplantable', 'donor')
+    ordering = ('donor__id', 'location')
     fieldsets = [
         ('Context', {'fields': [
             'donor', 'location'
@@ -97,12 +119,11 @@ class OrganAdmin(VersionControlAdmin):
             'oxygen_bottle_open', 'oxygen_bottle_changed', 'oxygen_bottle_changed_at', 'ice_container_replenished',
             'ice_container_replenished_at', 'perfusate_measurable', 'perfusate_measure', 'perfusion_machine',
             'perfusion_file'
-        ]}),
-        ('Organ Samples', {'fields': [
-            'perfusate_1', 'perfusate_2', 'perfusate_3'
         ]})
     ]
-    inlines = [ProcurementResourceInline]
+    inlines = [
+        ProcurementResourceInline
+    ]
 
     def save_formset(self, request, form, formset, change):
         if formset.model == ProcurementResource:
@@ -117,7 +138,15 @@ class OrganAdmin(VersionControlAdmin):
 admin.site.register(Organ, OrganAdmin)
 
 
+class OrganAllocationAdmin(VersionControlAdmin):
+    ordering = ('organ__pk', 'created_on')
+    list_display = ('__unicode__', 'organ', 'perfusion_technician', 'transplant_hospital', 'reallocated', 'reallocation')
+
+admin.site.register(OrganAllocation, OrganAllocationAdmin)
+
+
 class RecipientAdmin(VersionControlAdmin):
-    pass
+    list_display = ('__unicode__', 'person', 'organ', 'allocation', 'signed_consent', 'successful_conclusion')
+    ordering = ('organ__pk', 'created_on')
 
 admin.site.register(Recipient, RecipientAdmin)

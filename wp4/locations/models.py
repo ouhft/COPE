@@ -22,9 +22,9 @@ COUNTRY_CHOICES = (
 # Consider making this part of a LOCATION class
 class Hospital(models.Model):
     name = models.CharField(verbose_name=_("HO01 hospital name"), max_length=100)
-    country = models.PositiveSmallIntegerField(verbose_name=_("HO03 country"), choices=COUNTRY_CHOICES)
-    is_active = models.BooleanField(default=True)
-    is_project_site = models.BooleanField(default=False)
+    country = models.PositiveSmallIntegerField(verbose_name=_("HO02 country"), choices=COUNTRY_CHOICES)
+    is_active = models.BooleanField(verbose_name=_("HO03 is active"), default=True)
+    is_project_site = models.BooleanField(verbose_name=_("HO04 is project site"), default=False)
     created_on = models.DateTimeField(default=timezone.now)
     created_by = models.ForeignKey(User)
 

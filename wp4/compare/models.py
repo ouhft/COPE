@@ -192,6 +192,11 @@ class OrganPerson(VersionControlModel):
             years = today.year - self.date_of_birth.year - 1
         return years
 
+    def __unicode__(self):
+        return '(%s, %s) %s' % (
+            self.get_gender_display(), self.age_from_dob(), self.number
+        )
+
 
 class Donor(VersionControlModel):
     # Donor Form Case data
@@ -768,6 +773,13 @@ class OrganAllocation(VersionControlModel):
         verbose_name_plural = _('OAm2 organ allocations')
         get_latest_by = 'created_on'
 
+    def __unicode__(self):
+        try:
+            recipient_string = self.recipient
+        except AttributeError:
+            recipient_string = "None"
+        return 'Organ: %s | Recipient: %s' % (self.organ.pk, recipient_string)
+
 
 class Recipient(VersionControlModel):
     person = models.OneToOneField(OrganPerson)  # Internal link
@@ -901,7 +913,7 @@ class Recipient(VersionControlModel):
         pass
 
     def __unicode__(self):
-        return '%s (%s)' % (self.number, self.trial_id())
+        return '%s (%s)' % (self.person.number, self.trial_id())
 
     def age_from_dob(self):
         return self.person.age_from_dob()

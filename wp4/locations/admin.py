@@ -7,6 +7,7 @@ from .models import Hospital
 
 
 class HospitalAdmin(admin.ModelAdmin):
+    list_display = ('name', 'country', 'is_active', 'is_project_site')
     exclude = ('created_on', 'created_by')
 
     def save_model(self, request, obj, form, change):
