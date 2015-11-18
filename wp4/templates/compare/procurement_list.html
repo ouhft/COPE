@@ -31,7 +31,7 @@
                                 {{ donor.trial_id }}
                             </a></td>
                             <td>{{ donor.created_on }}</td>
-                            <td>{{ donor.number|default:"Unknown number" }}</td>
+                            <td>{{ donor.person.number|default:"Unknown number" }}</td>
                             <td>{{ donor.age }}</td>
                             <td>{{ donor.person.get_gender_display }}</td>
                             {% if donor.is_eligible == -1 %}
