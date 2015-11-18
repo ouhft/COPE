@@ -24,8 +24,7 @@ if [ "$PULL" = "Already up-to-date." ]; then
 else
     RETOUCH_CRON=$(chmod 755 deploy/webfaction/deploy-cm13.sh)
     source $HOME/.virtualenvs/wp4_20150514/bin/activate
-    PIP_UPDATE=$(pip install -r requirements/webfaction.txt)
-    echo $PIP_UPDATE
+    pip install -r requirements/webfaction.txt
     echo " "
     COLLECT_FILES=$(python2.7 manage.py collectstatic --noinput)
     echo $COLLECT_FILES
