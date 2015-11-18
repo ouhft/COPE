@@ -50,7 +50,7 @@ class OrganPersonForm(forms.ModelForm):
         super(OrganPersonForm, self).__init__(*args, **kwargs)
         self.fields['number'].required = False
         self.fields['date_of_birth'].input_formats = DATE_INPUT_FORMATS
-        # self.fields['gender'].widget = forms.HiddenInput()
+        self.fields['date_of_death'].input_formats = DATE_INPUT_FORMATS
         self.fields['gender'].choices = OrganPerson.GENDER_CHOICES
         self.fields['ethnicity'].choices = OrganPerson.ETHNICITY_CHOICES
         self.fields['blood_group'].choices = OrganPerson.BLOOD_GROUP_CHOICES

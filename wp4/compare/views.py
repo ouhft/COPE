@@ -112,12 +112,15 @@ def procurement_form(request, pk):
     if person_form.is_valid():
         person = person_form.save(request.user)
         all_valid += 1
+    else:
+        print("DEBUG: person form errors: %s" % person_form.errors)
 
     donor_form = DonorForm(request.POST or None, request.FILES or None, instance=donor, prefix="donor")
     if donor_form.is_valid():
         donor = donor_form.save(request.user)
         all_valid += 1
-    # print("DEBUG: donor_form has errors: %s" % donor_form.errors)
+    else:
+        print("DEBUG: donor form errors: %s" % donor_form.errors)
 
     # ================================================ LEFT ORGAN
     left_organ_instance = donor.left_kidney()
@@ -178,7 +181,8 @@ def procurement_form(request, pk):
     elif request.POST:
         messages.error(request,
                        '<strong>Form was NOT saved</strong>, please correct the %d errors below' %
-                       (left_organ_error_count + right_organ_error_count + len(donor_form.errors)))
+                       (left_organ_error_count + right_organ_error_count + len(donor_form.errors) +
+                        len(person_form.errors)))
 
     # messages.add_message(request, messages.INFO, 'Hello world.')
     # messages.debug(request, '%s SQL <i>statements</i> were executed.' % 5)
