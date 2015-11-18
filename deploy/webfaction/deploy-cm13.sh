@@ -31,7 +31,6 @@ else
     echo $COLLECT_FILES
     echo " "
     CHECK=$(python2.7 manage.py check)
-    # TODO: Fix this next if statement to ignore the DEBUG output printed before this message string
     if [[ $CHECK == *"System check identified no issues (0 silenced)."* ]]; then
         MIGRATE=$(python2.7 manage.py migrate)
         echo "Migration completed : $MIGRATE"
