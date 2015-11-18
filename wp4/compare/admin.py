@@ -127,13 +127,17 @@ class OrganAdmin(VersionControlAdmin):
 
     def save_formset(self, request, form, formset, change):
         if formset.model == ProcurementResource:
-            instances = formset.save(commit=False)
-            for instance in instances:
-                instance.created_by = request.user
-                instance.created_on = timezone.now()
-                instance.save()
-        else:
-            formset.save()
+            for subform in formset:
+                subform.instance.created_by = request.user
+                subform.instance.created_on = timezone.now()
+        #
+        #     for instance in formset.save(commit=False):
+        #         instance.created_by = request.user
+        #         instance.created_on = timezone.now()
+        #         instance.save()
+        #     formset.save_m2m()
+        # else:
+        formset.save()
 
 admin.site.register(Organ, OrganAdmin)
 

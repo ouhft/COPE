@@ -101,18 +101,14 @@ def procurement_form(request, pk):
     current_person = StaffPerson.objects.get(user__id=request.user.id)
 
     def procurement_initial_data(organ, created_by_user):
-        return [
-            {'organ': organ.pk, 'type': ProcurementResource.DISPOSABLES, 'created_by': created_by_user.pk},
-            {'organ': organ.pk, 'type': ProcurementResource.EXTRA_CANNULA_SMALL, 'created_by': created_by_user.pk},
-            {'organ': organ.pk, 'type': ProcurementResource.EXTRA_CANNULA_LARGE, 'created_by': created_by_user.pk},
-            {'organ': organ.pk, 'type': ProcurementResource.EXTRA_PATCH_HOLDER_SMALL, 'created_by': created_by_user.pk},
-            {'organ': organ.pk, 'type': ProcurementResource.EXTRA_PATCH_HOLDER_LARGE, 'created_by': created_by_user.pk},
-            {'organ': organ.pk, 'type': ProcurementResource.EXTRA_DOUBLE_CANNULA_SET, 'created_by': created_by_user.pk},
-            {'organ': organ.pk, 'type': ProcurementResource.PERFUSATE_SOLUTION, 'created_by': created_by_user.pk},
-        ]
+        if len(organ.procurementresource_set.all()) < 7:
+            for resource in ProcurementResource.TYPE_CHOICES:
+                new_resource = ProcurementResource(organ=organ, type=resource[0], created_by=created_by_user)
+                new_resource.save()
 
     # ================================================ DONOR
-    person_form = OrganPersonForm(request.POST or None, request.FILES or None, instance=donor.person, prefix="donor-person")
+    person_form = OrganPersonForm(request.POST or None, request.FILES or None, instance=donor.person,
+                                  prefix="donor-person")
     if person_form.is_valid():
         person = person_form.save(request.user)
         all_valid += 1
@@ -124,50 +120,43 @@ def procurement_form(request, pk):
     # print("DEBUG: donor_form has errors: %s" % donor_form.errors)
 
     # ================================================ LEFT ORGAN
+    left_organ_instance = donor.left_kidney()
+    procurement_initial_data(donor.left_kidney(), current_person.user)
+    # print("DEBUG: left_organ_instance=%s" % left_organ_instance)
     left_organ_form = OrganForm(request.POST or None, request.FILES or None,
-                                instance=donor.left_kidney(), prefix="left-organ")
+                                instance=left_organ_instance, prefix="left-organ")
+    if left_organ_form.is_valid():
+        left_organ_instance = left_organ_form.save(request.user)
+        all_valid += 1
+
     left_organ_procurement_forms = ProcurementResourceLeftInlineFormSet(
         request.POST or None,
         prefix="left-organ-procurement",
-        initial=procurement_initial_data(donor.left_kidney(), current_person.user),
-        instance=donor.left_kidney())
-    if left_organ_form.is_valid():
-        left_organ_instance = left_organ_form.save(request.user)
-        if left_organ_procurement_forms.is_valid():
-            for p_form in left_organ_procurement_forms:
-                # Override organ, because on the first pass through, Organ won't have an id to be set in the formset
-                procurement_resource_instance = p_form.save(commit=False)
-                procurement_resource_instance.organ = left_organ_instance
-                procurement_resource_instance.save()
-            all_valid += 1
+        instance=left_organ_instance)
+    if left_organ_procurement_forms.is_valid():
+        left_organ_procurement_forms.save()
+        all_valid += 1
+
     left_organ_error_count = left_organ_procurement_forms.total_error_count() + len(left_organ_form.errors)
 
-    # print("DEBUG: left_organ_error_count=%s from %s and %s" % (left_organ_error_count,left_organ_procurement_forms.total_error_count(), len(left_organ_form.errors)))
-    # print("DEBUG: left_organ_procurement_forms: %s" % left_organ_procurement_forms.errors)
-    # print("DEBUG: left_organ_procurement_forms 2: %s" % left_organ_procurement_forms.non_form_errors())
-    # for p_form in left_organ_procurement_forms:
-    #     print("DEBUG: p_form %s has %s" % (p_form, p_form.errors))
-
     # =============================================== RIGHT ORGAN
-    right_organ_form = OrganForm(
-        request.POST or None,
-        request.FILES or None,
-        instance=donor.right_kidney(),
-        prefix="right-organ")
+    right_organ_instance = donor.right_kidney()
+    procurement_initial_data(donor.right_kidney(), current_person.user),
+    right_organ_form = OrganForm(request.POST or None, request.FILES or None, instance=right_organ_instance,
+                                 prefix="right-organ")
+    if right_organ_form.is_valid():
+        right_organ_instance = right_organ_form.save(request.user)
+        all_valid += 1
+
     right_organ_procurement_forms = ProcurementResourceRightInlineFormSet(
         request.POST or None,
         prefix="right-organ-procurement",
-        initial=procurement_initial_data(donor.right_kidney(), current_person.user),
-        instance=donor.right_kidney())
-    if right_organ_form.is_valid():
-        right_organ_instance = right_organ_form.save(request.user)
-        if right_organ_procurement_forms.is_valid():
-            for p_form in right_organ_procurement_forms:
-                # Override organ, because on the first pass through, Organ won't have an id to be set in the formset
-                procurement_resource_instance = p_form.save(commit=False)
-                procurement_resource_instance.organ = right_organ_instance
-                procurement_resource_instance.save()
-            all_valid += 1
+        # initial=procurement_initial_data(donor.right_kidney(), current_person.user),
+        instance=right_organ_instance)
+    if right_organ_procurement_forms.is_valid():
+        right_organ_procurement_forms.save()
+        all_valid += 1
+
     right_organ_error_count = right_organ_procurement_forms.total_error_count() + len(right_organ_form.errors)
 
     # =============================================== MESSAGES
@@ -175,7 +164,7 @@ def procurement_form(request, pk):
     # print("DEBUG: is_randomised=%s" % is_randomised)
 
     print("DEBUG: all_valid=%d" % all_valid)
-    if all_valid == 4:
+    if all_valid == 6:
         messages.success(request, 'Form has been <strong>successfully saved</strong>')
         if not is_randomised and donor.randomise():  # Has to wait till the organ forms are saved
             # Reload the forms with the modified results
@@ -224,7 +213,6 @@ def transplantation_list(request):
     ):
         existing_cases = Organ.objects.filter(
             Q(recipient__isnull=False),
-            # Q(recipient__successful_conclusion=False)
         ).annotate(copies=Count('recipient__id'))
         new_cases = Organ.objects.filter(preservation__lte=1).exclude(recipient__isnull=False)
     elif current_person.has_job(StaffJob.PERFUSION_TECHNICIAN):
@@ -260,9 +248,9 @@ def transplantation_form(request, pk=None):
     person_form = None
     recipient_form = None
     recipient_form_loaded = False
-    initial_organallocation = [
-            {'organ': organ.pk, 'created_by': current_person.pk},
-        ]
+    if len(organ.organallocation_set.all()) < 1:
+        initial_organallocation = OrganAllocation(organ=organ, created_by=current_person.user)
+        initial_organallocation.save()
 
     try:
         if organ.recipient is not None:
@@ -270,7 +258,9 @@ def transplantation_form(request, pk=None):
             person_form = OrganPersonForm(request.POST or None, request.FILES or None, instance=organ.recipient.person,
                                           prefix="donor-person")
             if person_form.is_valid():
-                person = person_form.save(request.user)
+                person_form.save(request.user)
+            else:
+                print("DEBUG: Person Errors! %s" % person_form.errors)
 
             recipient_form = RecipientForm(request.POST or None, request.FILES or None,
                                            instance=organ.recipient, prefix="recipient")
@@ -280,25 +270,21 @@ def transplantation_form(request, pk=None):
                 print("DEBUG: Recipient Errors! %s" % recipient_form.errors)
 
             recipient_form_loaded = True
-    except AttributeError:
-        # This is the base class for RelatedObjectDoesNotExist exception
+    except AttributeError:  # This is the base class for RelatedObjectDoesNotExist exception
         pass
 
     # Process Allocations
     allocation_formset = AllocationFormSet(request.POST or None, prefix="allocation",
-                                           initial=initial_organallocation,
                                            queryset=organ.organallocation_set.all())
-    # print("DEBUG: allocation_formset=%s" % allocation_formset)
     if allocation_formset.is_valid():
         last_form_index = len(allocation_formset)-1
         for i, form in enumerate(allocation_formset):
-            print("DEBUG: i=%d" % i)
             allocation = form.save(current_person.user)
 
             if i == last_form_index:
                 # If this is the latest Allocation and reallocation has occurred, create a new Allocation
                 if allocation.reallocated:
-                    print("DEBUG: Do the reallocation thing!")
+                    # print("DEBUG: Do the reallocation thing!")
                     new_allocation = OrganAllocation()
                     new_allocation.organ = organ
                     new_allocation.created_by = request.user
@@ -309,8 +295,12 @@ def transplantation_form(request, pk=None):
                     allocation.reallocation = new_allocation
                     allocation.save()
 
-                    # Reload the formset to pick up the new addition
-                    allocation_formset = AllocationFormSet(prefix="allocation", queryset=organ.organallocation_set.all())
+                    messages.success(request, 'Form has been <strong>successfully saved</strong>')
+
+                    return redirect(reverse(
+                        'compare:transplantation_detail',
+                        kwargs={'pk': organ.id}
+                    ))
                 # For a new set of objects, remember to create the Person for the Recipient first
                 elif allocation.reallocated is not None and not recipient_form_loaded:
                     person = OrganPerson()

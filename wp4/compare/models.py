@@ -481,22 +481,26 @@ class Donor(VersionControlModel):
         return '%s' % (self.trial_id())
 
     def left_kidney(self):
+        # Emulate a get_or_create call here
         try:
             return self.organ_set.filter(location__exact=LEFT)[0]
         except IndexError:  # Organ.DoesNotExist:
+            new_organ = Organ(location=LEFT, created_by=self.created_by)
             if self.id > 0:
-                return Organ(location=LEFT, donor=self)
-            else:
-                return Organ(location=LEFT)
+                new_organ.donor = self
+            new_organ.save()
+            return new_organ
 
     def right_kidney(self):
+        # Emulate a get_or_create call here
         try:
             return self.organ_set.filter(location__exact=RIGHT)[0]
         except IndexError:  # Organ.DoesNotExist:
+            new_organ = Organ(location=RIGHT, created_by=self.created_by)
             if self.id > 0:
-                return Organ(location=RIGHT, donor=self)
-            else:
-                return Organ(location=RIGHT)
+                new_organ.donor = self
+            new_organ.save()
+            return new_organ
 
     def centre_code(self):
         try:
