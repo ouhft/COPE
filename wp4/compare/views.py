@@ -214,10 +214,12 @@ def transplantation_list(request):
         existing_cases = Organ.objects.filter(
             Q(recipient__isnull=False),
         ).annotate(copies=Count('recipient__id'))
-        new_cases = Organ.objects.filter(preservation__lte=1).exclude(recipient__isnull=False)
+        new_cases = Organ.objects.filter(preservation__lte=1).exclude(recipient__isnull=False)\
+            .exclude(transplantable=False)
     elif current_person.has_job(StaffJob.PERFUSION_TECHNICIAN):
         existing_cases = Organ.objects.filter(recipient__perfusion_technician=current_person)
-        new_cases = Organ.objects.filter(preservation__lte=1).exclude(recipient__isnull=False)
+        new_cases = Organ.objects.filter(preservation__lte=1).exclude(recipient__isnull=False)\
+            .exclude(transplantable=False)
     else:
         existing_cases = {}
         new_cases = {}
