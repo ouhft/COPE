@@ -18,21 +18,25 @@ date
 cd $HOME/webapps/wp4_django/COPE
 PULL=$(git pull)
 echo "Repository Updated : $PULL"
+echo " "
 if [ "$PULL" = "Already up-to-date." ]; then
-    echo No further actions are required
+    echo "No further actions are required"
 else
     RETOUCH_CRON=$(chmod 755 deploy/webfaction/deploy-cm13.sh)
     source $HOME/.virtualenvs/wp4_20150514/bin/activate
     PIP_UPDATE=$(pip install -r requirements/webfaction.txt)
     echo $PIP_UPDATE
+    echo " "
     COLLECT_FILES=$(python2.7 manage.py collectstatic --noinput)
     echo $COLLECT_FILES
+    echo " "
     CHECK=$(python2.7 manage.py check)
+    # TODO: Fix this next if statement to ignore the DEBUG output printed before this message string
     if [ "$CHECK" = "System check identified no issues (0 silenced)." ]; then
         MIGRATE=$(python2.7 manage.py migrate)
         echo "Migration completed : $MIGRATE"
         APACHE=$(../apache2/bin/restart)
-        echo $APACHE
+        echo "Server restart called : $APACHE"
     else
         echo "System check failed : $CHECK"
     fi
