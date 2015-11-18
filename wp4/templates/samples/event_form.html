@@ -1,0 +1,45 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+
+{% block page_title %}Events{% endblock %}
+{% block page_header %}Sample Events - Listing{% endblock %}
+
+{% block content %}
+    {{ form.as_p }}
+
+    {% if object.type == 1 %}
+        {% if urinesample_formset|length < 1 %}
+            <p>No urine form</p>
+        {% else %}
+            {% for subform in urinesample_formset %}
+                {{ subform.as_p }}
+            {% endfor %}
+        {% endif %}
+    {% elif object.type == 2 %}
+        {% if bloodample_formset|length < 1 %}
+            <p>No blood form</p>
+        {% else %}
+            {% for subform in bloodample_formset %}
+                {{ subform.as_p }}
+            {% endfor %}
+        {% endif %}
+
+    {% elif object.type == 3 %}
+        {% if perfusatesample_formset|length < 1 %}
+            <p>No perfusate form</p>
+        {% else %}
+            {% for subform in perfusatesample_formset %}
+                {{ subform.as_p }}
+            {% endfor %}
+        {% endif %}
+
+    {% elif object.type == 4 %}
+        {% if tissuesample_formset|length < 1 %}
+            <p>No tissue form</p>
+        {% else %}
+            {% for subform in tissuesample_formset %}
+                {{ subform.as_p }}
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+{% endblock %}

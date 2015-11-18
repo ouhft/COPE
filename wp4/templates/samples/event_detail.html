@@ -1,0 +1,46 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+
+{% block page_title %}Events{% endblock %}
+{% block page_header %}Sample Events - Listing{% endblock %}
+
+{% block content %}
+    <p>Barcode: {{ event.barcode }}</p>
+    <p>Type: {{ event.get_type_display }}</p>
+
+    {% if event.type == 1 %}
+        {% if event.bloodsample_set.all|length < 1 %}
+            <p>No sample has been recorded</p>
+        {% else %}
+            {% for sample in event.bloodsample_set.all %}
+                <p>Blood sample: {{ sample }}</p>
+            {% endfor %}
+        {% endif %}
+    {% elif event.type == 2 %}
+        {% if event.urinesample_set.all|length < 1 %}
+            <p>No sample has been recorded</p>
+        {% else %}
+        {% for sample in event.urinesample_set.all %}
+            <p>Urine sample: {{ sample }}</p>
+        {% endfor %}
+        {% endif %}
+
+    {% elif event.type == 3 %}
+        {% if event.perfusatesample_set.all|length < 1 %}
+            <p>No sample has been recorded</p>
+        {% else %}
+        {% for sample in event.perfusatesample_set.all %}
+            <p>Perfusate sample: {{ sample }}</p>
+        {% endfor %}
+        {% endif %}
+
+    {% elif event.type == 4 %}
+        {% if event.tissuesample_set.all|length < 1 %}
+            <p>No sample has been recorded</p>
+        {% else %}
+        {% for sample in event.tissuesample_set.all %}
+            <p>Tissue sample: {{ sample }}</p>
+        {% endfor %}
+        {% endif %}
+    {% endif %}
+{% endblock %}

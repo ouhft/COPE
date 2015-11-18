@@ -1,0 +1,11 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+
+{% block page_title %}Samples{% endblock %}
+{% block page_header %}Samples - Listing{% endblock %}
+
+{% block content %}
+    <p><a href="{% url "samples:event_list" %}">Events</a></p>
+    <p><a href="{% url "samples:worksheet_list" %}">Worksheets</a></p>
+
+{% endblock %}

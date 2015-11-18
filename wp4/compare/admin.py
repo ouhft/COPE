@@ -130,13 +130,6 @@ class OrganAdmin(VersionControlAdmin):
             for subform in formset:
                 subform.instance.created_by = request.user
                 subform.instance.created_on = timezone.now()
-        #
-        #     for instance in formset.save(commit=False):
-        #         instance.created_by = request.user
-        #         instance.created_on = timezone.now()
-        #         instance.save()
-        #     formset.save_m2m()
-        # else:
         formset.save()
 
 admin.site.register(Organ, OrganAdmin)
