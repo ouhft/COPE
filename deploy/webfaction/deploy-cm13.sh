@@ -36,7 +36,7 @@ else
         APACHE=$(../apache2/bin/restart)
         echo "Server restart called : $APACHE"
     else
-        echo "System check failed : $CHECK"
+        echo "System check FAILED : $CHECK"
     fi
     deactivate
 fi
