@@ -19,13 +19,15 @@ class Event(models.Model):
         (TYPE_PERFUSATE, _("EVc03 Perfusate")),
         (TYPE_TISSUE, _("EVc04 Tissue")),
     )
-    type = models.PositiveSmallIntegerField(_("EV01 event type"), choices=TYPE_CHOICES)
+    type = models.PositiveSmallIntegerField(_("EV01 sample type"), choices=TYPE_CHOICES)
     taken_at = models.DateTimeField(verbose_name=_("EV02 date and time taken"))
     created_on = models.DateTimeField(default=timezone.now)
     created_by = models.ForeignKey(User)
 
     class Meta:
-        pass
+        ordering = ['taken_at']
+        verbose_name = _('EVm1 sample event')
+        verbose_name_plural = _('EVm2 sample events')
 
     def __unicode__(self):
         return "%s (%s)" % (self.get_type_display(), self.taken_at)
@@ -39,31 +41,43 @@ class BarCodedItem(models.Model):
     class Meta:
         abstract = True
 
+    def __unicode__(self):
+        return "%s" % self.barcode
+
 
 class Worksheet(BarCodedItem):
     person = models.ForeignKey(OrganPerson)
 
     class Meta:
-        pass
+        ordering = ['person']
+        verbose_name = _('WSm1 worksheet')
+        verbose_name_plural = _('WSm2 worksheets')
 
     def __unicode__(self):
         return "%s" % self.barcode
 
 
-class UrineSample(BarCodedItem):
+class WorksheetMixin(models.Model):
+    worksheet = models.ForeignKey(Worksheet, null=True, blank=True)
+    collected = models.NullBooleanField(verbose_name=_("WM01 sample collected?"), blank=True)
+    notes = models.TextField(verbose_name=_("WM02 notes"), blank=True)
+
+    class Meta:
+        abstract = True
+
+
+class UrineSample(BarCodedItem, WorksheetMixin):
     person = models.ForeignKey(OrganPerson)
     event = models.ForeignKey(Event, limit_choices_to={'type': Event.TYPE_URINE})
-    worksheet = models.ForeignKey(Worksheet, null=True, blank=True)
     centrifuged_at = models.DateTimeField(verbose_name=_("SA02 centrifuged at"), null=True, blank=True)
 
     class Meta:
-        pass
+        ordering = ['person', 'event__taken_at']
+        verbose_name = _('USm1 urine sample')
+        verbose_name_plural = _('USm2 urine samples')
 
-    def __unicode__(self):
-        return "%s" % self.barcode
 
-
-class BloodSample(BarCodedItem):
+class BloodSample(BarCodedItem, WorksheetMixin):
     SAMPLE_SST = 1
     SAMPLE_EDSA = 2
     SAMPLE_CHOICES = (
@@ -71,31 +85,27 @@ class BloodSample(BarCodedItem):
         (SAMPLE_EDSA, _("BSc02 Blood EDSA")))
     person = models.ForeignKey(OrganPerson)
     event = models.ForeignKey(Event, limit_choices_to={'type': Event.TYPE_BLOOD})
-    worksheet = models.ForeignKey(Worksheet, null=True, blank=True)
     centrifuged_at = models.DateTimeField(verbose_name=_("SA02 centrifuged at"), null=True, blank=True)
     blood_type = models.PositiveSmallIntegerField(verbose_name=_("BS02 blood sample type"), choices=SAMPLE_CHOICES)
 
     class Meta:
-        pass
+        ordering = ['person', 'event__taken_at']
+        verbose_name = _('BSm1 blood sample')
+        verbose_name_plural = _('BSm2 blood samples')
 
-    def __unicode__(self):
-        return "%s" % self.barcode
 
-
-class PerfusateSample(BarCodedItem):
+class PerfusateSample(BarCodedItem, WorksheetMixin):
     organ = models.ForeignKey(Organ)
     event = models.ForeignKey(Event, limit_choices_to={'type': Event.TYPE_PERFUSATE})
-    worksheet = models.ForeignKey(Worksheet, null=True, blank=True)
     centrifuged_at = models.DateTimeField(verbose_name=_("SA02 centrifuged at"), null=True, blank=True)
 
     class Meta:
-        pass
+        ordering = ['organ', 'event__taken_at']
+        verbose_name = _('PSm1 perfusate sample')
+        verbose_name_plural = _('PSm2 perfusate samples')
 
-    def __unicode__(self):
-        return "%s" % self.barcode
 
-
-class TissueSample(BarCodedItem):
+class TissueSample(BarCodedItem, WorksheetMixin):
     SAMPLE_R = "R"
     SAMPLE_F = "F"
     SAMPLE_CHOICES = (
@@ -103,33 +113,9 @@ class TissueSample(BarCodedItem):
         (SAMPLE_R, _("TSc02 ReK1R")))
     organ = models.ForeignKey(Organ)
     event = models.ForeignKey(Event, limit_choices_to={'type': Event.TYPE_TISSUE})
-    worksheet = models.ForeignKey(Worksheet, null=True, blank=True)
     tissue_type = models.CharField(max_length=1, choices=SAMPLE_CHOICES)
 
     class Meta:
-        pass
-
-    def __unicode__(self):
-        return "%s" % self.barcode
-
-
-class Deviation(models.Model):
-    worksheet = models.ForeignKey(Worksheet)
-    description = models.TextField()
-    occurred_at = models.DateTimeField()
-    created_on = models.DateTimeField(default=timezone.now)
-    created_by = models.ForeignKey(User)
-
-    class Meta:
-        pass
-
-    def __unicode__(self):
-        return "%s" % self.description
-
-    # def __unicode__(self):
-    #     return self.barcode
-    #
-    # class Meta:
-    #     ordering = ['taken_at']
-    #     verbose_name = _('SAm1 sample')
-    #     verbose_name_plural = _('SAm2 samples')
+        ordering = ['organ', 'event__taken_at']
+        verbose_name = _('TSm1 tissue sample')
+        verbose_name_plural = _('TSm2 tissue samples')

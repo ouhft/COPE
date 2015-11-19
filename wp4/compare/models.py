@@ -192,6 +192,14 @@ class OrganPerson(VersionControlModel):
             years = today.year - self.date_of_birth.year - 1
         return years
 
+    @property
+    def is_recipient(self):
+        return self.recipient is not None
+
+    @property
+    def is_donor(self):
+        return self.donor is not None
+
     def __unicode__(self):
         return '(%s, %s) %s' % (
             self.get_gender_display(), self.age_from_dob(), self.number

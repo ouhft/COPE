@@ -1,7 +1,7 @@
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.conf.urls.i18n import i18n_patterns
-# from django.conf import settings
+from django.conf import settings
 
 
 # if settings.DEBUG:
@@ -22,5 +22,8 @@ urlpatterns += i18n_patterns(
     url(r'^', include('wp4.compare.urls', namespace="compare")),
 )
 
-# if settings.DEBUG:
+if settings.DEBUG:
+    urlpatterns += (
+      url(r'^plate/', include('django_spaghetti.urls', namespace="spaghetti")),
+    )
 #     print("DEBUG: config.urls loaded")

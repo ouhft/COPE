@@ -5,5 +5,4 @@ django-vanilla-views==1.0.4
 django-autocomplete-light==2.2.10
 docutils==0.12
 django-environ==0.4.0
-django-extensions==1.5.9
 -e git+git://github.com/maraujop/django-crispy-forms.git@dev#egg=django-crispy-forms

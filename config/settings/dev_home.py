@@ -1,16 +1,18 @@
 # -*- coding: utf-8 -*-
-'''
+"""
 Local settings
 
 - Run in Debug mode
 - Use console backend for emails
 - Add Django Debug Toolbar
 - Add django-extensions as app
-'''
+- Add django-spaghetti-and-meatballs as app
+"""
 
-print("DEBUG: Loading settings from dev_home")
 from django.utils.translation import ugettext_lazy as _
 from .common import *  # noqa
+
+print("DEBUG: Loading settings from dev_home")
 
 # DEBUG
 # ------------------------------------------------------------------------------
@@ -21,7 +23,6 @@ CRISPY_FAIL_SILENTLY = not DEBUG
 LANGUAGES = LANGUAGES + (
     ('en-db', _('SET04 Debug Language')),
 )
-
 
 # SECRET CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -48,7 +49,7 @@ CACHES = {
 # django-debug-toolbar
 # ------------------------------------------------------------------------------
 MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
-INSTALLED_APPS += ('debug_toolbar', )
+INSTALLED_APPS += ('debug_toolbar',)
 
 INTERNAL_IPS = ('127.0.0.1',)
 
@@ -61,7 +62,26 @@ DEBUG_TOOLBAR_CONFIG = {
 
 # django-extensions
 # ------------------------------------------------------------------------------
-INSTALLED_APPS += ('django_extensions', )
+INSTALLED_APPS += ('django_extensions',)
+
+# django-spaghetti-and-meatballs
+# ------------------------------------------------------------------------------
+INSTALLED_APPS += ('django_spaghetti',)
+
+SPAGHETTI_SAUCE = {
+    'apps': [
+        'compare',
+        'locations',
+        'staff_person',
+        'adverse_event',
+        'samples',
+        'followups',
+        'theme'
+    ],
+    'show_fields': False,
+    'exclude': {}
+    # 'exclude': {'auth': ['user']}
+}
 
 # TESTING
 # ------------------------------------------------------------------------------

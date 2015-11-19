@@ -1,45 +1,107 @@
 {% extends "base_site.html" %}
 {% load l10n i18n %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_field %}
 
 {% block page_title %}Events{% endblock %}
-{% block page_header %}Sample Events - Listing{% endblock %}
+{% block page_header %}Sample Event{% endblock %}
 
 {% block content %}
-    {{ form.as_p }}
+    <form method="post" class="form-horizontal" id="event_form">
+        <div class="row">
+            {% if form.non_field_errors %}
+                <div class="col-md-12" style="margin-top: 10px;">
+                    {% for error in form.non_field_errors %}
+                        <p class="alert alert-danger">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% crispy form %}
+        </div>
 
-    {% if object.type == 1 %}
-        {% if urinesample_formset|length < 1 %}
-            <p>No urine form</p>
-        {% else %}
+
+        <div class="row">
+            {{ urinesample_formset.management_form|crispy }}
             {% for subform in urinesample_formset %}
-                {{ subform.as_p }}
+                {{ subform.id }}
+                {% for field in subform %}
+                    {% if field.errors %}
+                        <p class="text-danger">{{ field.errors|striptags }}</p>
+                    {% endif %}
+                {% endfor %}
+                {% crispy subform subform.helper %}
+                <hr/>
             {% endfor %}
-        {% endif %}
-    {% elif object.type == 2 %}
-        {% if bloodample_formset|length < 1 %}
-            <p>No blood form</p>
-        {% else %}
+        </div>
+
+
+        <div class="row">
+            {{ bloodample_formset.management_form|crispy }}
             {% for subform in bloodample_formset %}
-                {{ subform.as_p }}
+                {{ subform.id }}
+                {% for field in subform %}
+                    {% if field.errors %}
+                        <p class="text-danger">{{ field.errors|striptags }}</p>
+                    {% endif %}
+                {% endfor %}
+                {% crispy subform subform.helper %}
+                <hr/>
             {% endfor %}
-        {% endif %}
+        </div>
 
-    {% elif object.type == 3 %}
-        {% if perfusatesample_formset|length < 1 %}
-            <p>No perfusate form</p>
-        {% else %}
+
+        <div class="row">
+            {{ perfusatesample_formset.management_form|crispy }}
             {% for subform in perfusatesample_formset %}
-                {{ subform.as_p }}
+                {{ subform.id }}
+                {% for field in subform %}
+                    {% if field.errors %}
+                        <p class="text-danger">{{ field.errors|striptags }}</p>
+                    {% endif %}
+                {% endfor %}
+                {% crispy subform subform.helper %}
+                <hr/>
             {% endfor %}
-        {% endif %}
+        </div>
 
-    {% elif object.type == 4 %}
-        {% if tissuesample_formset|length < 1 %}
-            <p>No tissue form</p>
-        {% else %}
+
+        <div class="row">
+            {{ tissuesample_formset.management_form|crispy }}
             {% for subform in tissuesample_formset %}
-                {{ subform.as_p }}
+                {{ subform.id }}
+                {% for field in subform %}
+                    {% if field.errors %}
+                        <p class="text-danger">{{ field.errors|striptags }}</p>
+                    {% endif %}
+                {% endfor %}
+                {% crispy subform subform.helper %}
+                <hr/>
             {% endfor %}
-        {% endif %}
-    {% endif %}
+        </div>
+    </form>
+
+{% endblock %}
+
+
+{% block footer_nav %}
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container">
+            <div class="navbar-right">
+                <input type="button" class="btn btn-primary navbar-btn" value="Save" id="nav_button_save"/>
+            </div>
+        </div>
+    </nav>
+{% endblock %}
+
+
+{% block footer_extra_scripts %}
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function (event) {
+            // Navbar bottom actions
+            $('footer').addClass('navbar_spacing');
+            $('#nav_button_save').on('click', function () {
+                $('#event_form').submit();
+            });
+        });
+    </script>
 {% endblock %}

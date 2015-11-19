@@ -345,24 +345,6 @@
                 clickRecipients(this)
             });
 
-            // Sample model
-            $('#button_db1').on('click', function () {
-                ajaxGet('/sample/type/1', function (content) {
-                    //onSuccess
-                    $('#modal-content').html(content);
-                    toggleModalContent(true);
-                })
-            });
-            $('#button_db2').on('click', function () {
-
-            });
-            $('#button_du1').on('click', function () {
-
-            });
-            $('#button_du2').on('click', function () {
-
-            });
-
             $('#myModal').on('hidden.bs.modal', function (e) {
                 toggleModalContent(false);
             })
