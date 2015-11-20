@@ -741,42 +741,42 @@ class OrganAllocation(VersionControlModel):
     REALLOCATION_UNKNOWN = 2
     REALLOCATION_OTHER = 3
     REALLOCATION_CHOICES = (
-        (REALLOCATION_CROSSMATCH, _('REc01 Positive crossmatch')),
-        (REALLOCATION_UNKNOWN, _('REc02 Unknown')),
-        (REALLOCATION_OTHER, _('REc03 Other')))
+        (REALLOCATION_CROSSMATCH, _('OAc01 Positive crossmatch')),
+        (REALLOCATION_UNKNOWN, _('OAc02 Unknown')),
+        (REALLOCATION_OTHER, _('OAc03 Other')))
     perfusion_technician = models.ForeignKey(
         StaffPerson,
-        verbose_name=_('RO01 name of transplant technician'),
+        verbose_name=_('OA01 name of transplant technician'),
         limit_choices_to={"jobs": StaffJob.PERFUSION_TECHNICIAN},
         related_name="recipient_perfusion_technician_set",
         blank=True, null=True)
     call_received = models.DateTimeField(
-        verbose_name=_('RE02 call received from transplant co-ordinator at'),
+        verbose_name=_('OA02 call received from transplant co-ordinator at'),
         blank=True, null=True)
-    transplant_hospital = models.ForeignKey(Hospital, verbose_name=_('RE03 transplant hospital'), blank=True, null=True)
+    transplant_hospital = models.ForeignKey(Hospital, verbose_name=_('OA03 transplant hospital'), blank=True, null=True)
     theatre_contact = models.ForeignKey(
         StaffPerson,
-        verbose_name=_('RE04 name of the theatre contact'),
+        verbose_name=_('OA04 name of the theatre contact'),
         limit_choices_to={"jobs": StaffJob.TRANSPLANT_COORDINATOR},
         related_name="recipient_transplant_coordinator_set",
         blank=True, null=True)
-    scheduled_start = models.DateTimeField(verbose_name=_('RE05 scheduled start'), blank=True, null=True)
+    scheduled_start = models.DateTimeField(verbose_name=_('OA05 scheduled start'), blank=True, null=True)
     technician_arrival = models.DateTimeField(
-        verbose_name=_('RE06 arrival time at hub'),
+        verbose_name=_('OA06 arrival time at hub'),
         blank=True, null=True)
     depart_perfusion_centre = models.DateTimeField(
-        verbose_name=_('RE07 departure from hub'),
+        verbose_name=_('OA07 departure from hub'),
         blank=True, null=True)
     arrival_at_recipient_hospital = models.DateTimeField(
-        verbose_name=_('RE08 arrival at transplant hospital'),
+        verbose_name=_('OA08 arrival at transplant hospital'),
         blank=True, null=True)
-    journey_remarks = models.TextField(verbose_name=_("RE09 journey notes"), blank=True)
-    reallocated = models.NullBooleanField(verbose_name=_("RE10 reallocated"), blank=True, default=None)
+    journey_remarks = models.TextField(verbose_name=_("OA09 journey notes"), blank=True)
+    reallocated = models.NullBooleanField(verbose_name=_("OA10 reallocated"), blank=True, default=None)
     reallocation_reason = models.PositiveSmallIntegerField(
-        verbose_name=_('RE11 reason for re-allocation'),
+        verbose_name=_('OA11 reason for re-allocation'),
         choices=REALLOCATION_CHOICES,
         blank=True, null=True)
-    reallocation_reason_other = models.CharField(verbose_name=_('RE12 other reason'), max_length=250, blank=True)
+    reallocation_reason_other = models.CharField(verbose_name=_('OA12 other reason'), max_length=250, blank=True)
     reallocation = models.OneToOneField('OrganAllocation', default=None, blank=True, null=True)
 
     class Meta:
