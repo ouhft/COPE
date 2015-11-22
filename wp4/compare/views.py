@@ -12,6 +12,7 @@ from django.shortcuts import redirect
 from django.utils import timezone
 
 from ..staff_person.models import StaffJob, StaffPerson
+from ..samples.utils import create_donor_worksheet, create_recipient_worksheet
 from .models import OrganPerson, Donor, Organ, Recipient, ProcurementResource, OrganAllocation
 from .forms import OrganPersonForm, DonorForm, DonorStartForm, OrganForm, AllocationFormSet, RecipientForm
 from .forms import ProcurementResourceLeftInlineFormSet, ProcurementResourceRightInlineFormSet
@@ -64,6 +65,8 @@ def procurement_list(request):
         donor = donor_form.save(request.user, commit=False)
         donor.person = person
         donor.save()
+        # Create the sample place holders for this form
+        create_donor_worksheet(donor, request.user)
 
         return redirect(reverse(
             'compare:procurement_detail',
@@ -323,6 +326,9 @@ def transplantation_form(request, pk=None):
                     recipient.created_on = timezone.now()
                     recipient.version += 1
                     recipient.save()
+
+                    # create the related sample placeholder for this recipient
+                    create_recipient_worksheet(recipient, request.user)
 
                     messages.success(request, 'Form has been <strong>successfully saved</strong>')
 

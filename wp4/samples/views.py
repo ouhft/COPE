@@ -1,17 +1,15 @@
 #!/usr/bin/python
 # coding: utf-8
+from itertools import chain
 
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
-from django.http import Http404
 from django.shortcuts import get_object_or_404, render, render_to_response, redirect
 from django.template import RequestContext
-from django.views.decorators.csrf import csrf_protect
-from django.views.generic import ListView, CreateView, UpdateView, DetailView
 
-from braces.views import LoginRequiredMixin
+from ..compare.models import StaffPerson, StaffJob
 
-# from .models import Event, Worksheet
+from .models import Event, Worksheet
 # from .forms import EventForm, UrineSampleEventFormSet, BloodSampleEventFormSet, TissueSampleEventFormSet,\
 #     PerfusateSampleEventFormSet
 # from .forms import WorksheetForm, UrineSampleWorksheetFormSet, BloodSampleWorksheetFormSet, \
@@ -109,35 +107,31 @@ from braces.views import LoginRequiredMixin
 #     model = Worksheet
 
 
-
-
 @login_required
 def sample_home(request):
     #TODO: Make this into a search by Trial ID page, that will then get or create the correct worksheet
     #TODO: Have a worksheet editor form similar to the one in the admin interface
+
+    current_person = StaffPerson.objects.get(user__id=request.user.id)
+
+    if current_person.has_job(
+            (StaffJob.SYSTEMS_ADMINISTRATOR, StaffJob.CENTRAL_COORDINATOR, StaffJob.NATIONAL_COORDINATOR)
+    ):
+        current_worksheets = Worksheet.objects.all()
+    elif current_person.has_job(StaffJob.PERFUSION_TECHNICIAN):
+        donor_worksheets = Worksheet.objects\
+            .filter(person__donor__perfusion_technician=current_person)
+        recipient_worksheets = Worksheet.objects\
+            .filter(person__recipient__allocation__perfusion_technician=current_person)
+        current_worksheets = list(chain(donor_worksheets, recipient_worksheets))
+        # current_worksheets = current_worksheets.order_by('person')
+    else:
+        current_worksheets = {}
+
     return render_to_response(
         "samples/home.html",
-        context_instance=RequestContext(request)
-    )
-
-@login_required
-@csrf_protect
-# @ajax
-def sample_editor(request, pk=None, type=None):
-    # valid_types = [t[0] for t in Sample.TYPE_CHOICES]
-    # if pk is not None:
-    #     sample = get_object_or_404(Sample, pk=int(pk))
-    # elif type is not None and int(type) in valid_types:
-    #     sample = Sample(type=type)
-    # else:
-    #     raise Http404("This is a page isn't happy")
-    #
-    # sample_form = SampleForm(request.POST or None, request.FILES or None, instance=sample, prefix="sample")
-    # if sample_form.is_valid():
-    #     sample = sample_form.save(request.user)
-
-    return render_to_response(
-        "samples/sample-form.html",
-        {"sample_form": sample_form},
+        {
+            "current_worksheets": current_worksheets,
+        },
         context_instance=RequestContext(request)
     )

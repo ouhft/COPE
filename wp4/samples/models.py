@@ -1,7 +1,6 @@
 #!/usr/bin/python
 # coding: utf-8
 from __future__ import absolute_import, unicode_literals
-import datetime
 
 from django.contrib.auth.models import User
 from django.core.validators import ValidationError
@@ -9,19 +8,23 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from ..compare.models import OrganPerson, Organ
+from ..compare.models import OrganPerson, Organ, VersionControlModel
 
 
-class BarCodedItem(models.Model):
+class BarCodedItem(VersionControlModel):
     barcode = models.CharField(verbose_name=_("SA01 barcode number"), max_length=20, blank=True)
-    created_on = models.DateTimeField(default=timezone.now)
-    created_by = models.ForeignKey(User)
 
     class Meta:
         abstract = True
 
     def __unicode__(self):
         return "%s" % self.barcode
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        self.created_on = timezone.now()
+        self.version += 1
+        return super(BarCodedItem, self).save(force_insert, force_update, using, update_fields)
 
 
 class Worksheet(BarCodedItem):
@@ -33,10 +36,10 @@ class Worksheet(BarCodedItem):
         verbose_name_plural = _('WSm2 worksheets')
 
     def __unicode__(self):
-        return "%s" % self.barcode
+        return "%s" % (self.barcode if len(self.barcode) > 0 else self.person)
 
 
-class Event(models.Model):
+class Event(VersionControlModel):
     TYPE_BLOOD = 1
     TYPE_URINE = 2
     TYPE_PERFUSATE = 3
@@ -47,11 +50,30 @@ class Event(models.Model):
         (TYPE_PERFUSATE, _("EVc03 Perfusate")),
         (TYPE_TISSUE, _("EVc04 Tissue")),
     )
+    NAME_DONOR_BLOOD1 = 1
+    NAME_DONOR_URINE1 = 2
+    NAME_DONOR_URINE2 = 3
+    NAME_ORGAN_PERFUSATE1 = 4
+    NAME_ORGAN_PERFUSATE2 = 5
+    NAME_ORGAN_PERFUSATE3 = 6
+    NAME_ORGAN_TISSUE = 7
+    NAME_RECIPIENT_BLOOD1 = 8
+    NAME_RECIPIENT_BLOOD2 = 9
+    NAME_CHOICES = (
+        (NAME_DONOR_BLOOD1, _("EVc05 donor blood 1")),
+        (NAME_DONOR_URINE1, _("EVc06 donor urine 1")),
+        (NAME_DONOR_URINE2, _("EVc07 donor urine 2")),
+        (NAME_ORGAN_PERFUSATE1, _("EVc08 organ perfusate 1")),
+        (NAME_ORGAN_PERFUSATE2, _("EVc09 organ perfusate 2")),
+        (NAME_ORGAN_PERFUSATE3, _("EVc10 organ perfusate 3")),
+        (NAME_ORGAN_TISSUE, _("EVc11 organ tissue 1")),
+        (NAME_RECIPIENT_BLOOD1, _("EVc12 recipient blood 1")),
+        (NAME_RECIPIENT_BLOOD2, _("EVc13 recipient blood 2")),
+    )
     worksheet = models.ForeignKey(Worksheet)
     type = models.PositiveSmallIntegerField(_("EV01 sample type"), choices=TYPE_CHOICES)
+    name = models.PositiveSmallIntegerField(_("EV03 sample process name"), choices=NAME_CHOICES)
     taken_at = models.DateTimeField(verbose_name=_("EV02 date and time taken"), null=True, blank=True)
-    created_on = models.DateTimeField(default=timezone.now)
-    created_by = models.ForeignKey(User)
 
     class Meta:
         ordering = ['taken_at']
@@ -66,27 +88,41 @@ class Event(models.Model):
                 raise ValidationError(_("EVv01 this event should have two blood sample records"))
             if sample_set[0].blood_type == sample_set[1].blood_type:
                 raise ValidationError(_("EVv06 the blood samples must not have matching types"))
+            if self.name not in (Event.NAME_DONOR_BLOOD1, Event.NAME_RECIPIENT_BLOOD1, Event.NAME_RECIPIENT_BLOOD2):
+                raise ValidationError(_("EVv08 invalid name selected (please select a blood related name)"))
         if self.type == Event.TYPE_URINE:
             count = len(self.urinesample_set.all())
             if count > 0 and count != 1:
                 raise ValidationError(_("EVv02 this event should have one urine sample record"))
+            if self.name not in (Event.NAME_DONOR_URINE1, Event.NAME_DONOR_URINE2):
+                raise ValidationError(_("EVv09 invalid name selected (please select a urine related name)"))
         if self.type == Event.TYPE_PERFUSATE:
             count = len(self.perfusatesample_set.all())
             if count > 0 and count != 1:
                 raise ValidationError(_("EVv03 this event should have one perfusate sample record"))
+            if self.name not in (Event.NAME_ORGAN_PERFUSATE1, Event.NAME_ORGAN_PERFUSATE2, Event.NAME_ORGAN_PERFUSATE3):
+                raise ValidationError(_("EVv10 invalid name selected (please select a perfusate related name)"))
         if self.type == Event.TYPE_TISSUE:
             sample_set = self.tissuesample_set.all()
             count = len(sample_set)
             if count > 0 and count != 2:
                 raise ValidationError(_("EVv04 this event should have two tissue sample records"))
-            if sample_set[0].blood_type == sample_set[1].blood_type:
+            if sample_set[0].tissue_type and sample_set[1].tissue_type and sample_set[0].tissue_type == sample_set[1].tissue_type:
                 raise ValidationError(_("EVv07 the tissue samples must not have matching types"))
+            if self.name != Event.NAME_ORGAN_TISSUE:
+                raise ValidationError(_("EVv11 invalid name selected (please select a tissue related name)"))
         if self.taken_at:
             if self.taken_at > timezone.now():
                 raise ValidationError(_("EVv05 Time travel detected! Taken at date and time is in the future!"))
 
     def __unicode__(self):
         return "%s (%s)" % (self.get_type_display(), self.taken_at)
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        self.created_on = timezone.now()
+        self.version += 1
+        return super(Event, self).save(force_insert, force_update, using, update_fields)
 
 
 class DeviationMixin(models.Model):

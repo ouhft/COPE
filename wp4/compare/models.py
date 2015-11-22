@@ -4,6 +4,7 @@ from __future__ import absolute_import, unicode_literals
 from random import random
 import datetime
 
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator, ValidationError
 from django.db import models
@@ -37,7 +38,7 @@ class VersionControlModel(models.Model):
 
     # TODO: Add save method here that aborts saving if record_locked is already true
     # TODO: Add version control via django-reversion
-
+    # NB: Used in Samples App also
     class Meta:
         abstract = True
 
@@ -201,9 +202,14 @@ class OrganPerson(VersionControlModel):
         return self.donor is not None
 
     def __unicode__(self):
-        return '(%s, %s) %s' % (
-            self.get_gender_display(), self.age_from_dob(), self.number
-        )
+        if settings.DEBUG:
+            return '%s : (%s, %s) %s' % (
+                self.id, self.get_gender_display(), self.age_from_dob(), self.number
+            )
+        else:
+            return '(%s, %s) %s' % (
+                self.get_gender_display(), self.age_from_dob(), self.number
+            )
 
 
 class Donor(VersionControlModel):
@@ -373,32 +379,6 @@ class Donor(VersionControlModel):
     heparin = models.NullBooleanField(
         verbose_name=_('DO48 heparin'),  # (administered to donor/in flush solution)
         blank=True, null=True)
-
-    # Sampling data
-    # donor_blood_1_EDTA = models.OneToOneField(
-    #     Sample,
-    #     verbose_name=_('DO49 db 1.1 edta'),
-    #     related_name="donor_blood_1",
-    #     limit_choices_to={'type': Sample.DONOR_BLOOD_1},
-    #     blank=True, null=True)
-    # donor_blood_1_SST = models.OneToOneField(
-    #     Sample,
-    #     verbose_name=_('DO50 db 1.2 sst'),
-    #     related_name="donor_blood_2",
-    #     limit_choices_to={'type': Sample.DONOR_BLOOD_2},
-    #     blank=True, null=True)
-    # donor_urine_1 = models.OneToOneField(
-    #     Sample,
-    #     verbose_name=_('DO51 du 1'),
-    #     related_name="donor_urine_1",
-    #     limit_choices_to={'type': Sample.DONOR_URINE_1},
-    #     blank=True, null=True)
-    # donor_urine_2 = models.OneToOneField(
-    #     Sample,
-    #     verbose_name=_('DO52 du 2'),
-    #     related_name="donor_urine_2",
-    #     limit_choices_to={'type': Sample.DONOR_URINE_2},
-    #     blank=True, null=True)
 
     class Meta:
         order_with_respect_to = 'retrieval_team'
@@ -668,26 +648,6 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
     perfusion_machine = models.ForeignKey(PerfusionMachine, verbose_name=_('OR24 perfusion machine'), blank=True,
                                           null=True)
     perfusion_file = models.ForeignKey(PerfusionFile, verbose_name=_('OR25 machine file'), blank=True, null=True)
-
-    # Sampling data
-    # perfusate_1 = models.ForeignKey(
-    #     Sample,
-    #     verbose_name=_('OR26 p1'),
-    #     related_name="kidney_perfusate_1",
-    #     limit_choices_to={'type': Sample.KIDNEY_PERFUSATE_1},
-    #     blank=True, null=True)
-    # perfusate_2 = models.ForeignKey(
-    #     Sample,
-    #     verbose_name=_('OR27 p2'),
-    #     related_name="kidney_perfusate_2",
-    #     limit_choices_to={'type': Sample.KIDNEY_PERFUSATE_2},
-    #     blank=True, null=True)
-    # perfusate_3 = models.ForeignKey(
-    #     Sample,
-    #     verbose_name=_('OR28 p3'),
-    #     related_name="kidney_perfusate_3",
-    #     limit_choices_to={'type': Sample.KIDNEY_PERFUSATE_3},
-    #     blank=True, null=True)
 
     def trial_id(self):
         return self.donor.trial_id() + self.location

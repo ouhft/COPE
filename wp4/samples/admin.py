@@ -44,7 +44,9 @@ class TissueSampleInline(admin.TabularInline):
 
 
 class EventAdmin(admin.ModelAdmin):
-    fields = ('worksheet', 'type', 'taken_at')
+    fields = ('worksheet', 'type', 'name', 'taken_at')
+    list_display = ('id', 'worksheet', 'type', 'name', 'taken_at')
+    ordering = ('worksheet', 'type', 'taken_at')
 
     inlines = []  # Overrided by the get_inline_instances function below
 
@@ -114,7 +116,7 @@ admin.site.register(Event, EventAdmin)
 
 class EventInline(admin.TabularInline):
     model = Event
-    fields = ('worksheet', 'type', 'taken_at')
+    fields = ('worksheet', 'type', 'name', 'taken_at')
     can_delete = True
     extra = 1
 

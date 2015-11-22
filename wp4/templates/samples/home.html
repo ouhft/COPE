@@ -5,7 +5,43 @@
 {% block page_header %}Samples - Listing{% endblock %}
 
 {% block content %}
-    <p><a href="{% url "samples:event_list" %}">Events</a></p>
-    <p><a href="{% url "samples:worksheet_list" %}">Worksheets</a></p>
+{#    <p><a href="{% url "samples:event_list" %}">Events</a></p>#}
+{#    <p><a href="{% url "samples:worksheet_list" %}">Worksheets</a></p>#}
 
+    <table class="table table-responsive">
+    <thead>
+    <tr>
+        <th>Barcode</th>
+        <th>Person Number</th>
+        <th>Person Age</th>
+        <th>Person Gender</th>
+        <th>Is Donor</th>
+        <th>Is Recipient</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for worksheet in current_worksheets %}
+    <tr>
+        <td>{{ worksheet.barcode }}</td>
+        <td>{{ worksheet.person.number }}</td>
+        <td>{{ worksheet.person.age_from_dob }}</td>
+        <td>{{ worksheet.person.get_gender_display }}</td>
+        <td>{{ worksheet.person.is_donor }}</td>
+        <td>{{ worksheet.person.is_recipient }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+
+
+    <!--
+    Who can access what?
+    - Search routine that converts Trial IDs into Worksheets
+    - Show the current user any records that they are the registered technician for
+    What creates records?
+    - Worksheets generated per person, on Donor or Recipient creation -- DONE
+    - No creating individual records or structure from the UI (only the Admin). I.e. we pre-define the worksheets -- DONE
+      - Worksheet, Event and Sample creation varies between EU and UK patients - use retrieval team base location as guide -- DONE
+    - Users can only edit existing records then
+    -->
 {% endblock %}
