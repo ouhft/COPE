@@ -1,0 +1,71 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_field %}
+
+{% block page_title %}Samples{% endblock %}
+{% block page_header %}Sample Collection{% endblock %}
+
+{% block content %}
+    <form method="post" class="" id="sample_form">
+    <div class="row">
+        {% if worksheet_form.non_field_errors %}
+            <div class="col-md-12" style="margin-top: 10px;">
+                {% for error in worksheet_form.non_field_errors %}
+                    <p class="alert alert-danger">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% crispy worksheet_form %}
+    </div>
+    <hr/>
+
+    {% for event_row in events %}
+        <div class="row">
+            {% if event_row.form.non_field_errors %}
+                <div class="col-md-12" style="margin-top: 10px;">
+                    {% for error in event_row.form.non_field_errors %}
+                        <p class="alert alert-danger">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% crispy event_row.form %}
+
+            {{ event_row.formset.management_form|crispy }}
+            {% for subform in event_row.formset %}
+                {{ subform.id }}
+                {% for field in subform %}
+                    {% if field.errors %}
+                        <p class="text-danger">{{ field.errors|striptags }}</p>
+                    {% endif %}
+                {% endfor %}
+                {% crispy subform subform.helper %}
+            {% endfor %}
+        </div>
+    {% endfor %}
+
+{% endblock %}
+
+
+{% block footer_nav %}
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container">
+            <div class="navbar-right">
+                <input type="button" class="btn btn-primary navbar-btn" value="Save" id="nav_button_save"/>
+            </div>
+        </div>
+    </nav>
+{% endblock %}
+
+
+{% block footer_extra_scripts %}
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function (event) {
+            // Navbar bottom actions
+            $('footer').addClass('navbar_spacing');
+            $('#nav_button_save').on('click', function () {
+                $('#sample_form').submit();
+            });
+        });
+    </script>
+{% endblock %}

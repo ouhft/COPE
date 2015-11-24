@@ -6,6 +6,7 @@ import datetime
 
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.validators import MinValueValidator, MaxValueValidator, ValidationError
 from django.db import models
 from django.utils import timezone
@@ -132,8 +133,8 @@ class OrganPerson(VersionControlModel):
     date_of_birth = models.DateField(verbose_name=_('OP02 date of birth'), blank=True, null=True)
     date_of_birth_unknown = models.BooleanField(default=False)  # Internal flag
     # May be possible to get DoD from donor.death_diagnosed
-    date_of_death = models.DateField(verbose_name=_('OP02 date of death'), blank=True, null=True)
-    date_of_death_unknown = models.BooleanField(default=False)  # Internal flag
+    # date_of_death = models.DateField(verbose_name=_('OP08 date of death'), blank=True, null=True)
+    # date_of_death_unknown = models.BooleanField(default=False)  # Internal flag
     gender = models.CharField(verbose_name=_('OP03 gender'), choices=GENDER_CHOICES, max_length=1, default=MALE)
     weight = models.PositiveSmallIntegerField(
         verbose_name=_('OP04 Weight (kg)'),
@@ -193,13 +194,33 @@ class OrganPerson(VersionControlModel):
             years = today.year - self.date_of_birth.year - 1
         return years
 
+    def trial_id(self):
+        if self.is_donor:
+            return self.donor.trial_id()
+        if self.is_recipient:
+            print("DEBUG: Organ Person Recipient=%s" % self.recipient)
+            return self.recipient.trial_id()
+        return _("OPm01 No Trial ID Assigned")
+
     @property
     def is_recipient(self):
-        return self.recipient is not None
+        try:
+            return self.recipient is not None
+        except ObjectDoesNotExist:
+            return False
 
     @property
     def is_donor(self):
-        return self.donor is not None
+        try:
+            return self.donor is not None
+        except ObjectDoesNotExist:
+            return False
+
+    @property
+    def date_of_death(self):
+        if self.is_donor and self.donor.death_diagnosed:
+            return self.donor.death_diagnosed.date()
+        return None
 
     def __unicode__(self):
         if settings.DEBUG:
@@ -650,6 +671,7 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
     perfusion_file = models.ForeignKey(PerfusionFile, verbose_name=_('OR25 machine file'), blank=True, null=True)
 
     def trial_id(self):
+        print("DEBUG: Organ trial ID=%s" % (self.donor.trial_id() + self.location))
         return self.donor.trial_id() + self.location
 
     def __unicode__(self):
@@ -891,4 +913,5 @@ class Recipient(VersionControlModel):
         return self.person.age_from_dob()
 
     def trial_id(self):
+        print("DEBUG: Recipient trial id=%s" % self.organ.trial_id())
         return self.organ.trial_id()

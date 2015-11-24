@@ -12,7 +12,7 @@ from ..compare.models import OrganPerson, Organ, VersionControlModel
 
 
 class BarCodedItem(VersionControlModel):
-    barcode = models.CharField(verbose_name=_("SA01 barcode number"), max_length=20, blank=True)
+    barcode = models.CharField(verbose_name=_("BC01 barcode number"), max_length=20, blank=True)
 
     class Meta:
         abstract = True
@@ -28,7 +28,7 @@ class BarCodedItem(VersionControlModel):
 
 
 class Worksheet(BarCodedItem):
-    person = models.ForeignKey(OrganPerson)
+    person = models.ForeignKey(OrganPerson)  # Internal key
 
     class Meta:
         ordering = ['person']
@@ -70,7 +70,7 @@ class Event(VersionControlModel):
         (NAME_RECIPIENT_BLOOD1, _("EVc12 recipient blood 1")),
         (NAME_RECIPIENT_BLOOD2, _("EVc13 recipient blood 2")),
     )
-    worksheet = models.ForeignKey(Worksheet)
+    worksheet = models.ForeignKey(Worksheet)  # Internal key
     type = models.PositiveSmallIntegerField(_("EV01 sample type"), choices=TYPE_CHOICES)
     name = models.PositiveSmallIntegerField(_("EV03 sample process name"), choices=NAME_CHOICES)
     taken_at = models.DateTimeField(verbose_name=_("EV02 date and time taken"), null=True, blank=True)
@@ -129,8 +129,8 @@ class DeviationMixin(models.Model):
     """
     In place of Deviation records on a worksheet, we have a way of tracking them per sample
     """
-    collected = models.NullBooleanField(verbose_name=_("WM01 sample collected?"), blank=True)
-    notes = models.TextField(verbose_name=_("WM02 notes"), blank=True)
+    collected = models.NullBooleanField(verbose_name=_("DM01 sample collected?"), blank=True)
+    notes = models.TextField(verbose_name=_("DM02 notes"), blank=True)
 
     class Meta:
         abstract = True
@@ -142,8 +142,8 @@ class BloodSample(BarCodedItem, DeviationMixin):
     SAMPLE_CHOICES = (
         (SAMPLE_SST, _("BSc01 Blood SST")),
         (SAMPLE_EDSA, _("BSc02 Blood EDSA")))
-    person = models.ForeignKey(OrganPerson)
-    event = models.ForeignKey(Event, limit_choices_to={'type': Event.TYPE_BLOOD})
+    person = models.ForeignKey(OrganPerson, verbose_name=_("BS03 sample from"))
+    event = models.ForeignKey(Event, limit_choices_to={'type': Event.TYPE_BLOOD})  # Internal key
     centrifuged_at = models.DateTimeField(verbose_name=_("BS01 centrifuged at"), null=True, blank=True)
     blood_type = models.PositiveSmallIntegerField(verbose_name=_("BS02 blood sample type"), choices=SAMPLE_CHOICES)
 
@@ -168,7 +168,7 @@ class BloodSample(BarCodedItem, DeviationMixin):
 
 
 class UrineSample(BarCodedItem, DeviationMixin):
-    person = models.ForeignKey(OrganPerson)
+    person = models.ForeignKey(OrganPerson, verbose_name=_("US02 sample from"))
     event = models.ForeignKey(Event, limit_choices_to={'type': Event.TYPE_URINE})
     centrifuged_at = models.DateTimeField(verbose_name=_("US01 centrifuged at"), null=True, blank=True)
 
@@ -193,7 +193,7 @@ class UrineSample(BarCodedItem, DeviationMixin):
 
 
 class PerfusateSample(BarCodedItem, DeviationMixin):
-    organ = models.ForeignKey(Organ)
+    organ = models.ForeignKey(Organ, verbose_name=_("PS02 sample from"))
     event = models.ForeignKey(Event, limit_choices_to={'type': Event.TYPE_PERFUSATE})
     centrifuged_at = models.DateTimeField(verbose_name=_("PS01 centrifuged at"), null=True, blank=True)
 
@@ -223,9 +223,9 @@ class TissueSample(BarCodedItem, DeviationMixin):
     SAMPLE_CHOICES = (
         (SAMPLE_F, _("TSc01 ReK1F")),
         (SAMPLE_R, _("TSc02 ReK1R")))
-    organ = models.ForeignKey(Organ)
+    organ = models.ForeignKey(Organ, verbose_name=_("TS01 sample from"))
     event = models.ForeignKey(Event, limit_choices_to={'type': Event.TYPE_TISSUE})
-    tissue_type = models.CharField(max_length=1, choices=SAMPLE_CHOICES)
+    tissue_type = models.CharField(max_length=1, choices=SAMPLE_CHOICES, verbose_name=_("TS02 tissue sample type"))
 
     class Meta:
         ordering = ['organ', 'event__taken_at']

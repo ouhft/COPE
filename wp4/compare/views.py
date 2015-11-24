@@ -224,7 +224,7 @@ def transplantation_list(request):
         new_cases = Organ.objects.filter(preservation__lte=1).exclude(recipient__isnull=False)\
             .exclude(transplantable=False)
     elif current_person.has_job(StaffJob.PERFUSION_TECHNICIAN):
-        existing_cases = Organ.objects.filter(recipient__perfusion_technician=current_person)
+        existing_cases = Organ.objects.filter(recipient__allocation__perfusion_technician=current_person)
         new_cases = Organ.objects.filter(preservation__lte=1).exclude(recipient__isnull=False)\
             .exclude(transplantable=False)
     else:

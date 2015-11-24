@@ -50,10 +50,10 @@ admin.site.register(PerfusionMachine, PerfusionMachineAdmin)
 
 
 class OrganPersonAdmin(VersionControlAdmin):
-    list_display = ('__unicode__', 'number', 'gender', 'age_from_dob', 'date_of_death', 'recipient', 'donor')
+    list_display = ('__unicode__', 'number', 'gender', 'age_from_dob',  'recipient', 'donor')  # 'date_of_death',
     ordering = ('id',)
     fields = (
-        'number', 'date_of_birth', 'date_of_birth_unknown', 'date_of_death', 'date_of_death_unknown',
+        'number', 'date_of_birth', 'date_of_birth_unknown',  #'date_of_death', 'date_of_death_unknown',
         'gender', 'weight', 'height', 'ethnicity', 'blood_group')
 
 admin.site.register(OrganPerson, OrganPersonAdmin)

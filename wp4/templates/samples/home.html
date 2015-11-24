@@ -5,32 +5,38 @@
 {% block page_header %}Samples - Listing{% endblock %}
 
 {% block content %}
-{#    <p><a href="{% url "samples:event_list" %}">Events</a></p>#}
-{#    <p><a href="{% url "samples:worksheet_list" %}">Worksheets</a></p>#}
+    {#    <p><a href="{% url "samples:event_list" %}">Events</a></p>#}
+    {#    <p><a href="{% url "samples:worksheet_list" %}">Worksheets</a></p>#}
 
     <table class="table table-responsive">
-    <thead>
-    <tr>
-        <th>Barcode</th>
-        <th>Person Number</th>
-        <th>Person Age</th>
-        <th>Person Gender</th>
-        <th>Is Donor</th>
-        <th>Is Recipient</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for worksheet in current_worksheets %}
-    <tr>
-        <td>{{ worksheet.barcode }}</td>
-        <td>{{ worksheet.person.number }}</td>
-        <td>{{ worksheet.person.age_from_dob }}</td>
-        <td>{{ worksheet.person.get_gender_display }}</td>
-        <td>{{ worksheet.person.is_donor }}</td>
-        <td>{{ worksheet.person.is_recipient }}</td>
-    </tr>
-    {% endfor %}
-    </tbody>
+        <thead>
+        <tr>
+            <th>System ID</th>
+            <th>Barcode</th>
+            <th>Trial ID</th>
+            <th>Person Number</th>
+            <th>Person Age</th>
+            <th>Person Gender</th>
+            <th>Is Donor</th>
+            <th>Is Recipient</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for worksheet in current_worksheets %}
+            <tr>
+                {% with worksheet.id|stringformat:"03d" as internal_id %}
+                    <td><a href="{% url "samples:update" pk=worksheet.id %}" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> {{ "WS"|add:internal_id }}</a></td>
+                {% endwith %}
+                <td>{{ worksheet.barcode|default:"Not Set" }}</td>
+                <td>{{ worksheet.person.trial_id }}</td>
+                <td>{{ worksheet.person.number }}</td>
+                <td>{{ worksheet.person.age_from_dob }}</td>
+                <td>{{ worksheet.person.get_gender_display }}</td>
+                <td>{{ worksheet.person.is_donor }}</td>
+                <td>{{ worksheet.person.is_recipient }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
     </table>
 
 

@@ -14,8 +14,8 @@ urlpatterns = [
     # url(regex=r"^worksheet/(?P<pk>\d+)/$", view=views.WorksheetDetailView.as_view(), name="worksheet_detail"),
 
 
+    url(r'^(?P<pk>[0-9]+)/$', views.sample_form, name='update'),
     url(r'^$', views.sample_home, name='home'),
 
     # url(r'^type/(?P<type>[0-9]+)/$', views.sample_editor, name='new'),
-    # url(r'^(?P<pk>[0-9]+)/$', views.sample_editor, name='update'),
 ]

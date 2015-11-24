@@ -30,8 +30,8 @@ class OrganPersonForm(forms.ModelForm):
         Field('number', placeholder="___ ___ ____"),
         FieldWithNotKnown(DateField('date_of_birth', notknown=True), 'date_of_birth_unknown',
                           label=OrganPerson._meta.get_field("date_of_birth").verbose_name.title()),
-        FieldWithNotKnown(DateField('date_of_death', notknown=True), 'date_of_death_unknown',
-                          label=OrganPerson._meta.get_field("date_of_death").verbose_name.title()),
+        # FieldWithNotKnown(DateField('date_of_death', notknown=True), 'date_of_death_unknown',
+        #                   label=OrganPerson._meta.get_field("date_of_death").verbose_name.title()),
         # Field('gender', template="bootstrap3/layout/read-only.html"),
         Field('gender', template="bootstrap3/layout/radioselect-buttons.html"),
         'weight', 'height',
@@ -50,7 +50,7 @@ class OrganPersonForm(forms.ModelForm):
         super(OrganPersonForm, self).__init__(*args, **kwargs)
         self.fields['number'].required = False
         self.fields['date_of_birth'].input_formats = DATE_INPUT_FORMATS
-        self.fields['date_of_death'].input_formats = DATE_INPUT_FORMATS
+        # self.fields['date_of_death'].input_formats = DATE_INPUT_FORMATS
         self.fields['gender'].choices = OrganPerson.GENDER_CHOICES
         self.fields['ethnicity'].choices = OrganPerson.ETHNICITY_CHOICES
         self.fields['blood_group'].choices = OrganPerson.BLOOD_GROUP_CHOICES
@@ -58,7 +58,7 @@ class OrganPersonForm(forms.ModelForm):
     class Meta:
         model = OrganPerson
         fields = [
-            'number', 'date_of_birth', 'date_of_birth_unknown', 'date_of_death', 'date_of_death_unknown',
+            'number', 'date_of_birth', 'date_of_birth_unknown',  # 'date_of_death', 'date_of_death_unknown',
             'gender', 'weight', 'height', 'ethnicity', 'blood_group']
         localized_fields = "__all__"
 
@@ -136,32 +136,6 @@ class DonorForm(forms.ModelForm):
         ),
         'systemic_flush_volume_used',
         Field('heparin', template="bootstrap3/layout/radioselect-buttons.html"))
-    # layout_samples = Layout(
-    #     InlineFields(
-    #         Field('donor_blood_1_EDTA', template="bootstrap3/layout/read-only.html"),
-    #         StrictButton('<i class="glyphicon glyphicon-edit"></i>', css_class='btn-default', data_toggle="modal",
-    #                      data_target="#myModal", title="Add/Edit Sample", css_id="button_db1"),
-    #         label='FIXME'
-    #     ),
-    #     InlineFields(
-    #         Field('donor_blood_1_SST', template="bootstrap3/layout/read-only.html"),
-    #         StrictButton('<i class="glyphicon glyphicon-edit"></i>', css_class='btn-default', data_toggle="modal",
-    #                      data_target="#myModal", title="Add/Edit Sample", css_id="button_db2"),
-    #         label='FIXME'
-    #     ),
-    #     InlineFields(
-    #         Field('donor_urine_1', template="bootstrap3/layout/read-only.html"),
-    #         StrictButton('<i class="glyphicon glyphicon-edit"></i>', css_class='btn-default', data_toggle="modal",
-    #                      data_target="#myModal", title="Add/Edit Sample", css_id="button_du1"),
-    #         label='FIXME'
-    #     ),
-    #     InlineFields(
-    #         Field('donor_urine_2', template="bootstrap3/layout/read-only.html"),
-    #         StrictButton('<i class="glyphicon glyphicon-edit"></i>', css_class='btn-default', data_toggle="modal",
-    #                      data_target="#myModal", title="Add/Edit Sample", css_id="button_du2"),
-    #         label='FIXME'
-    #     ),
-    # )
 
     helper = FormHelper()
     helper.form_tag = False
