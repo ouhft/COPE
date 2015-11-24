@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # coding: utf-8
 from django import forms
+from django.conf import settings
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
@@ -11,7 +12,6 @@ from autocomplete_light import ModelChoiceField
 
 from ..theme.layout import InlineFields, FieldWithFollowup, YesNoFieldWithAlternativeFollowups, FieldWithNotKnown
 from ..theme.layout import DateTimeField, DateField, FormPanel
-from ..theme.layout import DATETIME_INPUT_FORMATS, DATE_INPUT_FORMATS
 from .models import OrganPerson, Donor, Organ, OrganAllocation, Recipient, ProcurementResource
 from .models import YES_NO_UNKNOWN_CHOICES, LOCATION_CHOICES
 
@@ -49,7 +49,7 @@ class OrganPersonForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(OrganPersonForm, self).__init__(*args, **kwargs)
         self.fields['number'].required = False
-        self.fields['date_of_birth'].input_formats = DATE_INPUT_FORMATS
+        self.fields['date_of_birth'].input_formats = settings.DATE_INPUT_FORMATS
         # self.fields['date_of_death'].input_formats = DATE_INPUT_FORMATS
         self.fields['gender'].choices = OrganPerson.GENDER_CHOICES
         self.fields['ethnicity'].choices = OrganPerson.ETHNICITY_CHOICES
@@ -169,17 +169,17 @@ class DonorForm(forms.ModelForm):
         self.fields['sequence_number'].widget = forms.HiddenInput()
         self.fields['multiple_recipients'].choices = NO_YES_CHOICES
         self.fields['perfusion_technician'].widget = forms.HiddenInput()
-        self.fields['call_received'].input_formats = DATETIME_INPUT_FORMATS
-        self.fields['scheduled_start'].input_formats = DATETIME_INPUT_FORMATS
-        self.fields['technician_arrival'].input_formats = DATETIME_INPUT_FORMATS
-        self.fields['ice_boxes_filled'].input_formats = DATETIME_INPUT_FORMATS
-        self.fields['depart_perfusion_centre'].input_formats = DATETIME_INPUT_FORMATS
-        self.fields['arrival_at_donor_hospital'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['call_received'].input_formats = settings.DATETIME_INPUT_FORMATS
+        self.fields['scheduled_start'].input_formats = settings.DATETIME_INPUT_FORMATS
+        self.fields['technician_arrival'].input_formats = settings.DATETIME_INPUT_FORMATS
+        self.fields['ice_boxes_filled'].input_formats = settings.DATETIME_INPUT_FORMATS
+        self.fields['depart_perfusion_centre'].input_formats = settings.DATETIME_INPUT_FORMATS
+        self.fields['arrival_at_donor_hospital'].input_formats = settings.DATETIME_INPUT_FORMATS
         self.fields['multiple_recipients'].choices = YES_NO_UNKNOWN_CHOICES
-        self.fields['date_of_admission'].input_formats = DATE_INPUT_FORMATS
+        self.fields['date_of_admission'].input_formats = settings.DATE_INPUT_FORMATS
         self.fields['admitted_to_itu'].choices = NO_YES_CHOICES
-        self.fields['date_admitted_to_itu'].input_formats = DATE_INPUT_FORMATS
-        self.fields['date_of_procurement'].input_formats = DATE_INPUT_FORMATS
+        self.fields['date_admitted_to_itu'].input_formats = settings.DATE_INPUT_FORMATS
+        self.fields['date_of_procurement'].input_formats = settings.DATE_INPUT_FORMATS
         self.fields['other_organs_procured'].choices = NO_YES_CHOICES
         self.fields['other_organs_lungs'].choices = NO_YES_CHOICES
         self.fields['other_organs_pancreas'].choices = NO_YES_CHOICES
@@ -192,12 +192,12 @@ class DonorForm(forms.ModelForm):
         self.fields['dobutamine'].choices = YES_NO_UNKNOWN_CHOICES
         self.fields['nor_adrenaline'].choices = YES_NO_UNKNOWN_CHOICES
         self.fields['vasopressine'].choices = YES_NO_UNKNOWN_CHOICES
-        self.fields['life_support_withdrawal'].input_formats = DATETIME_INPUT_FORMATS
-        self.fields['systolic_pressure_low'].input_formats = DATETIME_INPUT_FORMATS
-        self.fields['o2_saturation'].input_formats = DATETIME_INPUT_FORMATS
-        self.fields['circulatory_arrest'].input_formats = DATETIME_INPUT_FORMATS
-        self.fields['death_diagnosed'].input_formats = DATETIME_INPUT_FORMATS
-        self.fields['perfusion_started'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['life_support_withdrawal'].input_formats = settings.DATETIME_INPUT_FORMATS
+        self.fields['systolic_pressure_low'].input_formats = settings.DATETIME_INPUT_FORMATS
+        self.fields['o2_saturation'].input_formats = settings.DATETIME_INPUT_FORMATS
+        self.fields['circulatory_arrest'].input_formats = settings.DATETIME_INPUT_FORMATS
+        self.fields['death_diagnosed'].input_formats = settings.DATETIME_INPUT_FORMATS
+        self.fields['perfusion_started'].input_formats = settings.DATETIME_INPUT_FORMATS
         self.fields['systemic_flush_used'].choices = Donor.SOLUTION_CHOICES
         self.fields['heparin'].choices = NO_YES_CHOICES
         # self.fields[''].
@@ -347,20 +347,20 @@ class OrganForm(forms.ModelForm):
         self.fields['donor'].widget = forms.HiddenInput()
         self.fields['location'].widget = forms.HiddenInput()
         self.fields['preservation'].widget = forms.HiddenInput()
-        self.fields['removal'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['removal'].input_formats = settings.DATETIME_INPUT_FORMATS
         self.fields['washout_perfusion'].choices = Organ.WASHOUT_PERFUSION_CHOICES
         self.fields['transplantable'].choices = YES_NO_CHOICES
         self.fields['perfusion_possible'].choices = YES_NO_CHOICES
-        self.fields['perfusion_started'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['perfusion_started'].input_formats = settings.DATETIME_INPUT_FORMATS
         self.fields['patch_holder'].choices = Organ.PATCH_HOLDER_CHOICES
         self.fields['artificial_patch_used'].choices = NO_YES_CHOICES
         self.fields['artificial_patch_size'].choices = Organ.ARTIFICIAL_PATCH_CHOICES
         self.fields['oxygen_bottle_full'].choices = NO_YES_CHOICES
         self.fields['oxygen_bottle_open'].choices = NO_YES_CHOICES
         self.fields['oxygen_bottle_changed'].choices = NO_YES_CHOICES
-        self.fields['oxygen_bottle_changed_at'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['oxygen_bottle_changed_at'].input_formats = settings.DATETIME_INPUT_FORMATS
         self.fields['ice_container_replenished'].choices = NO_YES_CHOICES
-        self.fields['ice_container_replenished_at'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['ice_container_replenished_at'].input_formats = settings.DATETIME_INPUT_FORMATS
         self.fields['perfusate_measurable'].choices = NO_YES_CHOICES
 
     class Meta:
@@ -395,7 +395,7 @@ class ProcurementResourceForm(forms.ModelForm):
         self.fields['organ'].widget = forms.HiddenInput()
         self.fields['type'].widget = forms.HiddenInput()
         self.fields['type'].choices = ProcurementResource.TYPE_CHOICES
-        self.fields['expiry_date'].input_formats = DATE_INPUT_FORMATS
+        self.fields['expiry_date'].input_formats = settings.DATE_INPUT_FORMATS
         self.fields['created_by'].widget = forms.HiddenInput()
 
     class Meta:
@@ -474,16 +474,16 @@ class AllocationForm(forms.ModelForm):
         self.fields['perfusion_technician'].required = False
         self.fields['perfusion_technician'].label = OrganAllocation._meta.get_field(
             "perfusion_technician").verbose_name.title()
-        self.fields['call_received'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['call_received'].input_formats = settings.DATETIME_INPUT_FORMATS
         self.fields['transplant_hospital'].required = False
         self.fields['transplant_hospital'].label = OrganAllocation._meta.get_field("transplant_hospital").verbose_name.title()
         self.fields['theatre_contact'].required = False
         self.fields['theatre_contact'].label = OrganAllocation._meta.get_field(
             "theatre_contact").verbose_name.title()
-        self.fields['scheduled_start'].input_formats = DATETIME_INPUT_FORMATS
-        self.fields['technician_arrival'].input_formats = DATETIME_INPUT_FORMATS
-        self.fields['depart_perfusion_centre'].input_formats = DATETIME_INPUT_FORMATS
-        self.fields['arrival_at_recipient_hospital'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['scheduled_start'].input_formats = settings.DATETIME_INPUT_FORMATS
+        self.fields['technician_arrival'].input_formats = settings.DATETIME_INPUT_FORMATS
+        self.fields['depart_perfusion_centre'].input_formats = settings.DATETIME_INPUT_FORMATS
+        self.fields['arrival_at_recipient_hospital'].input_formats = settings.DATETIME_INPUT_FORMATS
         self.fields['reallocated'].choices = NO_YES_CHOICES
         self.fields['reallocation_reason'].choices = OrganAllocation.REALLOCATION_CHOICES
         self.fields['reallocation'].widget = forms.HiddenInput()
@@ -589,26 +589,26 @@ class RecipientForm(forms.ModelForm):
         self.fields['signed_consent'].choices = NO_YES_CHOICES
         self.fields['single_kidney_transplant'].choices = NO_YES_CHOICES
         self.fields['renal_disease'].choices = Recipient.RENAL_DISEASE_CHOICES
-        self.fields['knife_to_skin'].input_formats = DATETIME_INPUT_FORMATS
-        self.fields['perfusion_stopped'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['knife_to_skin'].input_formats = settings.DATETIME_INPUT_FORMATS
+        self.fields['perfusion_stopped'].input_formats = settings.DATETIME_INPUT_FORMATS
         self.fields['organ_cold_stored'].choices = NO_YES_CHOICES
         self.fields['tape_broken'].choices = YES_NO_UNKNOWN_CHOICES
-        self.fields['removed_from_machine_at'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['removed_from_machine_at'].input_formats = settings.DATETIME_INPUT_FORMATS
         self.fields['oxygen_full_and_open'].choices = YES_NO_UNKNOWN_CHOICES
         self.fields['organ_untransplantable'].choices = NO_YES_CHOICES
-        self.fields['anesthesia_started_at'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['anesthesia_started_at'].input_formats = settings.DATETIME_INPUT_FORMATS
         self.fields['incision'].choices = Recipient.INCISION_CHOICES
         self.fields['transplant_side'].choices = LOCATION_CHOICES
         self.fields['transplant_side'].required = False
         self.fields['arterial_problems'].choices = Recipient.ARTERIAL_PROBLEM_CHOICES
         self.fields['venous_problems'].choices = Recipient.VENOUS_PROBLEM_CHOICES
-        self.fields['anastomosis_started_at'].input_formats = DATETIME_INPUT_FORMATS
-        self.fields['reperfusion_started_at'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['anastomosis_started_at'].input_formats = settings.DATETIME_INPUT_FORMATS
+        self.fields['reperfusion_started_at'].input_formats = settings.DATETIME_INPUT_FORMATS
         self.fields['mannitol_used'].choices = YES_NO_UNKNOWN_CHOICES
         self.fields['other_diurectics'].choices = YES_NO_UNKNOWN_CHOICES
         self.fields['intra_operative_diuresis'].choices = YES_NO_UNKNOWN_CHOICES
         self.fields['successful_conclusion'].choices = NO_YES_CHOICES
-        self.fields['operation_concluded_at'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['operation_concluded_at'].input_formats = settings.DATETIME_INPUT_FORMATS
 
         self.fields['probe_cleaned'].choices = NO_YES_CHOICES
         self.fields['ice_removed'].choices = NO_YES_CHOICES

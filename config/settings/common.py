@@ -143,6 +143,20 @@ USE_L10N = True
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#use-tz
 USE_TZ = True
 
+DATETIME_INPUT_FORMATS = (
+    '%d-%m-%Y %H:%M',  # '25-10-2006 14:30'
+    '%Y-%m-%d %H:%M',  # '2006-10-25 14:30'
+    '%d/%m/%Y %H:%M',  # '25/10/2006 14:30'
+    '%Y/%m/%d %H:%M',  # '2006/10/25 14:30'
+)
+
+DATE_INPUT_FORMATS = (
+    '%d-%m-%Y',  # '25-10-2006'
+    '%Y-%m-%d',  # '2006-10-25'
+    '%d/%m/%Y',  # '25/10/2006'
+    '%Y/%m/%d',  # '2006/10/25'
+)
+
 # TEMPLATE CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#templates

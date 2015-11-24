@@ -1,14 +1,16 @@
 #!/usr/bin/python
 # coding: utf-8
 from django import forms
+from django.conf import settings
 from django.forms.models import inlineformset_factory
 # from django import forms
 # from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, Div
-from ..theme.layout import FieldWithFollowup, DateTimeField, DateField, DATETIME_INPUT_FORMATS, DATE_INPUT_FORMATS, \
-    FormPanel
+
+from ..theme.layout import FieldWithFollowup, DateTimeField, FormPanel
 from .models import Event, Worksheet, UrineSample, BloodSample, TissueSample, PerfusateSample
 
 # Common CONSTANTS
@@ -58,7 +60,7 @@ class EventForm(forms.ModelForm):
         # self.fields['type'].choices = Event.TYPE_CHOICES
         self.fields['type'].widget = forms.HiddenInput()
         self.fields['name'].widget = forms.HiddenInput()
-        self.fields['taken_at'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['taken_at'].input_formats = settings.DATETIME_INPUT_FORMATS
 
     class Meta:
         model = Event
@@ -104,7 +106,7 @@ class BloodSampleForm(forms.ModelForm):
         self.fields['blood_type'].widget = forms.HiddenInput()
         self.fields['person'].widget = forms.HiddenInput()
         self.fields['collected'].choices = NO_YES_CHOICES
-        self.fields['centrifuged_at'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['centrifuged_at'].input_formats = settings.DATETIME_INPUT_FORMATS
         self.fields['created_by'].widget = forms.HiddenInput()
 
     class Meta:
@@ -147,7 +149,7 @@ class UrineSampleForm(forms.ModelForm):
         self.fields['event'].widget = forms.HiddenInput()
         self.fields['person'].widget = forms.HiddenInput()
         self.fields['collected'].choices = NO_YES_CHOICES
-        self.fields['centrifuged_at'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['centrifuged_at'].input_formats = settings.DATETIME_INPUT_FORMATS
         self.fields['created_by'].widget = forms.HiddenInput()
 
     class Meta:
@@ -190,7 +192,7 @@ class PerfusateSampleForm(forms.ModelForm):
         self.fields['event'].widget = forms.HiddenInput()
         self.fields['organ'].widget = forms.HiddenInput()
         self.fields['collected'].choices = NO_YES_CHOICES
-        self.fields['centrifuged_at'].input_formats = DATETIME_INPUT_FORMATS
+        self.fields['centrifuged_at'].input_formats = settings.DATETIME_INPUT_FORMATS
         self.fields['created_by'].widget = forms.HiddenInput()
 
     class Meta:

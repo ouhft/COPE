@@ -1,13 +1,14 @@
 #!/usr/bin/python
 # coding: utf-8
 from django import forms
+from django.conf import settings
 from django.utils import timezone
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.bootstrap import FormActions
 from crispy_forms.layout import Layout, Div, Submit, Button
 
-from ..theme.layout import DateTimeField, DATETIME_INPUT_FORMATS, DATE_INPUT_FORMATS, FormPanel
+from ..theme.layout import FormPanel
 from .models import FollowUpInitial, FollowUp3M, FollowUp6M, FollowUp1Y
 
 
@@ -108,7 +109,7 @@ class FollowUpInitialForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(FollowUpInitialForm, self).__init__(*args, **kwargs)
         self.fields['organ'].widget = forms.HiddenInput()
-        self.fields['start_date'].input_formats = DATE_INPUT_FORMATS
+        self.fields['start_date'].input_formats = settings.DATE_INPUT_FORMATS
 
     def save(self, user):
         instance = super(FollowUpInitialForm, self).save(commit=False)
