@@ -157,7 +157,6 @@ def procurement_form(request, pk):
     right_organ_procurement_forms = ProcurementResourceRightInlineFormSet(
         request.POST or None,
         prefix="right-organ-procurement",
-        # initial=procurement_initial_data(donor.right_kidney(), current_person.user),
         instance=right_organ_instance)
     if right_organ_procurement_forms.is_valid():
         right_organ_procurement_forms.save()

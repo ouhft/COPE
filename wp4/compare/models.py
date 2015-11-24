@@ -198,7 +198,6 @@ class OrganPerson(VersionControlModel):
         if self.is_donor:
             return self.donor.trial_id()
         if self.is_recipient:
-            print("DEBUG: Organ Person Recipient=%s" % self.recipient)
             return self.recipient.trial_id()
         return _("OPm01 No Trial ID Assigned")
 
@@ -519,7 +518,6 @@ class Donor(VersionControlModel):
     centre_code.short_description = 'Centre Code'
 
     def trial_id(self):
-        # print("DEBUG: donor.trial id: sequence number=%s" % self.sequence_number)
         if self.centre_code() == 0 or self.sequence_number < 1:
             return "No Trial ID Assigned (DO%s)" % format(self.id, '03')
         return 'WP4%s%s' % (format(self.centre_code(), '02'), format(self.sequence_number, '03'))
@@ -545,7 +543,6 @@ class Donor(VersionControlModel):
                 eligible_kidney_count += 1
         else:
             eligible_kidney_count = -1
-        # print("DEBUG: eligible kidney count %d" % eligible_kidney_count)
         return eligible_kidney_count
 
 
@@ -671,7 +668,6 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
     perfusion_file = models.ForeignKey(PerfusionFile, verbose_name=_('OR25 machine file'), blank=True, null=True)
 
     def trial_id(self):
-        print("DEBUG: Organ trial ID=%s" % (self.donor.trial_id() + self.location))
         return self.donor.trial_id() + self.location
 
     def __unicode__(self):
@@ -913,5 +909,4 @@ class Recipient(VersionControlModel):
         return self.person.age_from_dob()
 
     def trial_id(self):
-        print("DEBUG: Recipient trial id=%s" % self.organ.trial_id())
         return self.organ.trial_id()

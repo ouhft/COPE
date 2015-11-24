@@ -5,19 +5,19 @@ import string, random
 from crispy_forms.layout import LayoutObject, Div, HTML, Field, render_field, render_to_string, TEMPLATE_PACK, flatatt
 
 
-DATETIME_INPUT_FORMATS = [
+DATETIME_INPUT_FORMATS = (
     '%d-%m-%Y %H:%M',  # '25-10-2006 14:30'
     '%Y-%m-%d %H:%M',  # '2006-10-25 14:30'
     '%d/%m/%Y %H:%M',  # '25/10/2006 14:30'
     '%Y/%m/%d %H:%M',  # '2006/10/25 14:30'
-]
+)
 
-DATE_INPUT_FORMATS = [
+DATE_INPUT_FORMATS = (
     '%d-%m-%Y',  # '25-10-2006'
     '%Y-%m-%d',  # '2006-10-25'
     '%d/%m/%Y',  # '25/10/2006'
     '%Y/%m/%d',  # '2006/10/25'
-]
+)
 
 
 def FormPanel(title, layout, panel_status=None):

@@ -59,28 +59,34 @@ def sample_form(request, pk=None):
         worksheet_form.instance.created_by = current_person.user
         worksheet = worksheet_form.save()
 
-    # event_formset = EventFormSet(request.POST or None, prefix="events", instance=worksheet)
     events = []
     for i, event in enumerate(worksheet.event_set.all()):
         event_prefix = "event_%d" % i
+        # print("DEBUG: event1 id=%s" % event.id)
         event_form = EventForm(request.POST or None, instance=event, prefix=event_prefix)
         if event_form.is_valid():
             event_form.instance.created_by = current_person.user
             event = event_form.save()
 
-        if event.type == Event.TYPE_BLOOD:
-            event_formset = BloodSampleFormSet(request.POST or None, instance=event, prefix="blood")
-        elif event.type == Event.TYPE_URINE:
-            event_formset = UrineSampleFormSet(request.POST or None, instance=event, prefix="urine")
-        elif event.type == Event.TYPE_PERFUSATE:
-            event_formset = PerfusateSampleFormSet(request.POST or None, instance=event, prefix="perfusate")
-        elif event.type == Event.TYPE_TISSUE:
-            event_formset = TissueSampleFormSet(request.POST or None, instance=event, prefix="tissue")
+        print("DEBUG: event_form: %s" % event_form)
+        # print("DEBUG: event2 id=%s" % event.id)
 
+        if event.type == Event.TYPE_BLOOD:
+            event_formset = BloodSampleFormSet(request.POST or None, instance=event, prefix="blood_%d" % i)
+        elif event.type == Event.TYPE_URINE:
+            event_formset = UrineSampleFormSet(request.POST or None, instance=event, prefix="urine_%d" % i)
+        elif event.type == Event.TYPE_PERFUSATE:
+            event_formset = PerfusateSampleFormSet(request.POST or None, instance=event, prefix="perfusate_%d" % i)
+        elif event.type == Event.TYPE_TISSUE:
+            event_formset = TissueSampleFormSet(request.POST or None, instance=event, prefix="tissue_%d" % i)
+
+        # print("DEBUG: event_formset: %s" % event_formset)
+        # print("DEBUG: event3 id=%s" % event.id)
         if event_formset.is_valid():
             for subform in event_formset:
                 subform.instance.created_by = current_person.user
             event_formset.save()
+        # print("DEBUG: event_formset is valid (%s) and errors=%s" % (event_formset.is_valid(), event_formset.errors))
 
         events.append({"form": event_form, "formset": event_formset})
 

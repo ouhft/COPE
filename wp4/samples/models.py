@@ -76,7 +76,7 @@ class Event(VersionControlModel):
     taken_at = models.DateTimeField(verbose_name=_("EV02 date and time taken"), null=True, blank=True)
 
     class Meta:
-        ordering = ['taken_at']
+        ordering = ['type', 'name']
         verbose_name = _('EVm1 sample event')
         verbose_name_plural = _('EVm2 sample events')
 
@@ -142,10 +142,10 @@ class BloodSample(BarCodedItem, DeviationMixin):
     SAMPLE_CHOICES = (
         (SAMPLE_SST, _("BSc01 Blood SST")),
         (SAMPLE_EDSA, _("BSc02 Blood EDSA")))
-    person = models.ForeignKey(OrganPerson, verbose_name=_("BS03 sample from"))
     event = models.ForeignKey(Event, limit_choices_to={'type': Event.TYPE_BLOOD})  # Internal key
-    centrifuged_at = models.DateTimeField(verbose_name=_("BS01 centrifuged at"), null=True, blank=True)
     blood_type = models.PositiveSmallIntegerField(verbose_name=_("BS02 blood sample type"), choices=SAMPLE_CHOICES)
+    person = models.ForeignKey(OrganPerson, verbose_name=_("BS03 sample from"))
+    centrifuged_at = models.DateTimeField(verbose_name=_("BS01 centrifuged at"), null=True, blank=True)
 
     class Meta:
         ordering = ['person', 'event__taken_at']

@@ -5,11 +5,10 @@ from django.forms.models import inlineformset_factory
 # from django import forms
 # from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, Div
-
-from ..theme.layout import FieldWithFollowup, DateTimeField, DateField, DATETIME_INPUT_FORMATS, DATE_INPUT_FORMATS, FormPanel
+from ..theme.layout import FieldWithFollowup, DateTimeField, DateField, DATETIME_INPUT_FORMATS, DATE_INPUT_FORMATS, \
+    FormPanel
 from .models import Event, Worksheet, UrineSample, BloodSample, TissueSample, PerfusateSample
 
 # Common CONSTANTS
@@ -47,7 +46,7 @@ class EventForm(forms.ModelForm):
     helper.html5_required = True
     helper.layout = Layout(
         Div(Field('name', template="bootstrap3/layout/read-only.html"), css_class="col-md-6"),
-        Div(DateField('taken_at'), css_class="col-md-6"),
+        Div(DateTimeField('taken_at'), css_class="col-md-6"),
         'worksheet',
         'type',
     )
@@ -59,7 +58,7 @@ class EventForm(forms.ModelForm):
         # self.fields['type'].choices = Event.TYPE_CHOICES
         self.fields['type'].widget = forms.HiddenInput()
         self.fields['name'].widget = forms.HiddenInput()
-        self.fields['taken_at'].input_formats = DATE_INPUT_FORMATS
+        self.fields['taken_at'].input_formats = DATETIME_INPUT_FORMATS
 
     class Meta:
         model = Event
@@ -73,7 +72,7 @@ EventFormSet = inlineformset_factory(
 class BloodSampleForm(forms.ModelForm):
     layout_collected = Layout(
         'barcode',
-        DateField('centrifuged_at'),
+        DateTimeField('centrifuged_at'),
     )
     helper = FormHelper()
     helper.form_tag = False
@@ -81,26 +80,38 @@ class BloodSampleForm(forms.ModelForm):
     helper.layout = Layout(
         'event',
         'person',
-        Field('blood_type', template="bootstrap3/layout/read-only"),
-        FieldWithFollowup(
-            Field('collected', template="bootstrap3/layout/radioselect-buttons.html"),
-            layout_collected
-        ),
         'created_by',
-        'notes')
+        Div(
+            Field('blood_type', template="bootstrap3/layout/read-only.html"),
+            css_class="col-md-4"
+        ),
+        Div(
+            FieldWithFollowup(
+                Field('collected', template="bootstrap3/layout/radioselect-buttons.html"),
+                layout_collected
+            ),
+            css_class="col-md-4"
+        ),
+        Div(
+            'notes',
+            css_class="col-md-4"
+        ))
 
     def __init__(self, *args, **kwargs):
         super(BloodSampleForm, self).__init__(*args, **kwargs)
         self.render_required_fields = True
-        # self.fields['blood_type'].input_formats = BloodSample.SAMPLE_CHOICES
-        self.fields['collected'].choices = YES_NO_CHOICES
-        self.fields['centrifuged_at'].input_formats = DATE_INPUT_FORMATS
+        self.fields['event'].widget = forms.HiddenInput()
+        self.fields['blood_type'].widget = forms.HiddenInput()
+        self.fields['person'].widget = forms.HiddenInput()
+        self.fields['collected'].choices = NO_YES_CHOICES
+        self.fields['centrifuged_at'].input_formats = DATETIME_INPUT_FORMATS
         self.fields['created_by'].widget = forms.HiddenInput()
 
     class Meta:
         model = BloodSample
         fields = ('event', 'collected', 'barcode', 'person', 'blood_type', 'centrifuged_at', 'notes', 'created_by')
         localized_fields = "__all__"
+
 
 BloodSampleFormSet = inlineformset_factory(
     Event, BloodSample, form=BloodSampleForm, extra=0, can_delete=False)
@@ -109,7 +120,7 @@ BloodSampleFormSet = inlineformset_factory(
 class UrineSampleForm(forms.ModelForm):
     layout_collected = Layout(
         'barcode',
-        DateField('centrifuged_at'),
+        DateTimeField('centrifuged_at'),
     )
     helper = FormHelper()
     helper.form_tag = False
@@ -117,19 +128,26 @@ class UrineSampleForm(forms.ModelForm):
     helper.layout = Layout(
         'event',
         'person',
-        FieldWithFollowup(
-            Field('collected', template="bootstrap3/layout/radioselect-buttons.html"),
-            layout_collected
-        ),
         'created_by',
-        'notes')
+        Div(
+            FieldWithFollowup(
+                Field('collected', template="bootstrap3/layout/radioselect-buttons.html"),
+                layout_collected
+            ),
+            css_class="col-md-8"
+        ),
+        Div(
+            'notes',
+            css_class="col-md-4"
+        ))
 
     def __init__(self, *args, **kwargs):
         super(UrineSampleForm, self).__init__(*args, **kwargs)
         self.render_required_fields = True
-        self.fields['collected'].choices = YES_NO_CHOICES
         self.fields['event'].widget = forms.HiddenInput()
-        self.fields['centrifuged_at'].input_formats = DATE_INPUT_FORMATS
+        self.fields['person'].widget = forms.HiddenInput()
+        self.fields['collected'].choices = NO_YES_CHOICES
+        self.fields['centrifuged_at'].input_formats = DATETIME_INPUT_FORMATS
         self.fields['created_by'].widget = forms.HiddenInput()
 
     class Meta:
@@ -137,33 +155,49 @@ class UrineSampleForm(forms.ModelForm):
         fields = ('event', 'collected', 'barcode', 'person', 'centrifuged_at', 'notes', 'created_by')
         localized_fields = "__all__"
 
+
 UrineSampleFormSet = inlineformset_factory(
     Event, UrineSample, form=UrineSampleForm, extra=0, can_delete=False)
 
 
 class PerfusateSampleForm(forms.ModelForm):
+    layout_collected = Layout(
+        'barcode',
+        DateTimeField('centrifuged_at'),
+    )
     helper = FormHelper()
     helper.form_tag = False
     helper.html5_required = True
     helper.layout = Layout(
-        'collected',
-        'barcode',
-        'organ',
         'event',
-        DateField('centrifuged_at'),
+        'organ',
         'created_by',
-        'notes')
+        Div(
+            FieldWithFollowup(
+                Field('collected', template="bootstrap3/layout/radioselect-buttons.html"),
+                layout_collected
+            ),
+            css_class="col-md-8"
+        ),
+        Div(
+            'notes',
+            css_class="col-md-4"
+        ))
 
     def __init__(self, *args, **kwargs):
         super(PerfusateSampleForm, self).__init__(*args, **kwargs)
         self.render_required_fields = True
-        self.fields['centrifuged_at'].input_formats = DATE_INPUT_FORMATS
+        self.fields['event'].widget = forms.HiddenInput()
+        self.fields['organ'].widget = forms.HiddenInput()
+        self.fields['collected'].choices = NO_YES_CHOICES
+        self.fields['centrifuged_at'].input_formats = DATETIME_INPUT_FORMATS
         self.fields['created_by'].widget = forms.HiddenInput()
 
     class Meta:
         model = PerfusateSample
         fields = ('collected', 'barcode', 'organ', 'event', 'centrifuged_at', 'notes', 'created_by')
         localized_fields = "__all__"
+
 
 PerfusateSampleFormSet = inlineformset_factory(
     Event, PerfusateSample, form=PerfusateSampleForm, extra=0, can_delete=False)
@@ -172,33 +206,45 @@ PerfusateSampleFormSet = inlineformset_factory(
 class TissueSampleForm(forms.ModelForm):
     layout_collected = Layout(
         'barcode',
-        'event',
-        Field('tissue_type', template="bootstrap3/layout/radioselect-buttons.html"),
     )
 
     helper = FormHelper()
     helper.form_tag = False
     helper.html5_required = True
     helper.layout = Layout(
+        'event',
         'organ',
-        FieldWithFollowup(
-            Field('collected', template="bootstrap3/layout/radioselect-buttons.html"),
-            layout_collected
+        'created_by',
+        Div(
+            Field('tissue_type', template="bootstrap3/layout/read-only.html"),
+            css_class="col-md-4"
         ),
-        'notes',
-        'created_by',)
+        Div(
+            FieldWithFollowup(
+                Field('collected', template="bootstrap3/layout/radioselect-buttons.html"),
+                layout_collected
+            ),
+            css_class="col-md-4"
+        ),
+        Div(
+            'notes',
+            css_class="col-md-4"
+        ))
 
     def __init__(self, *args, **kwargs):
         super(TissueSampleForm, self).__init__(*args, **kwargs)
         self.render_required_fields = True
+        self.fields['event'].widget = forms.HiddenInput()
+        self.fields['organ'].widget = forms.HiddenInput()
         self.fields['collected'].choices = NO_YES_CHOICES
-        self.fields['tissue_type'].input_formats = TissueSample.SAMPLE_CHOICES
+        self.fields['tissue_type'].widget = forms.HiddenInput()
         self.fields['created_by'].widget = forms.HiddenInput()
 
     class Meta:
         model = TissueSample
         fields = ('collected', 'barcode', 'organ', 'event', 'tissue_type', 'notes', 'created_by')
         localized_fields = "__all__"
+
 
 TissueSampleFormSet = inlineformset_factory(
     Event, TissueSample, form=TissueSampleForm, extra=0, can_delete=False)
