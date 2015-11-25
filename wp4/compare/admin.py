@@ -64,13 +64,13 @@ class DonorAdmin(VersionControlAdmin):
     fieldsets = [
         ('Case information', {'fields': ['sequence_number', 'multiple_recipients']}),
         ('Trial Procedure', {'fields': [
-            'retrieval_team', 'perfusion_technician', 'transplant_coordinator', 'call_received', 'retrieval_hospital',
-            'scheduled_start', 'technician_arrival', 'ice_boxes_filled', 'depart_perfusion_centre',
-            'arrival_at_donor_hospital'
+            'retrieval_team', 'perfusion_technician', 'transplant_coordinator', 'call_received', 'call_received_unknown', 'retrieval_hospital',
+            'scheduled_start', 'scheduled_start_unknown', 'technician_arrival', 'technician_arrival_unknown', 'ice_boxes_filled', 'ice_boxes_filled_unknown', 'depart_perfusion_centre',
+            'depart_perfusion_centre_unknown', 'arrival_at_donor_hospital', 'arrival_at_donor_hospital_unknown'
         ]}),
         ('Donor Details', {'fields': [
             'person',
-            'age', 'date_of_admission', 'admitted_to_itu', 'date_admitted_to_itu',
+            'age', 'date_of_admission', 'date_of_admission_unknown', 'admitted_to_itu', 'date_admitted_to_itu', 'date_admitted_to_itu_unknown',
             'date_of_procurement', 'other_organs_procured',
             'other_organs_lungs', 'other_organs_pancreas', 'other_organs_liver', 'other_organs_tissue'
         ]}),
@@ -84,8 +84,8 @@ class DonorAdmin(VersionControlAdmin):
             'last_creatinine', 'last_creatinine_unit', 'max_creatinine', 'max_creatinine_unit'
         ]}),
         ('Operation Data', {'fields': [
-            'life_support_withdrawal', 'systolic_pressure_low', 'o2_saturation', 'circulatory_arrest', 'length_of_no_touch',
-            'death_diagnosed', 'perfusion_started', 'systemic_flush_used', 'systemic_flush_used_other',
+            'life_support_withdrawal', 'systolic_pressure_low', 'systolic_pressure_low_unknown', 'o2_saturation', 'o2_saturation_unknown', 'circulatory_arrest', 'circulatory_arrest_unknown', 'length_of_no_touch',
+            'death_diagnosed', 'perfusion_started', 'perfusion_started_unknown', 'systemic_flush_used', 'systemic_flush_used_other',
             'systemic_flush_volume_used', 'heparin'
         ]}),
     ]
@@ -95,7 +95,7 @@ admin.site.register(Donor, DonorAdmin)
 
 class ProcurementResourceInline(admin.TabularInline):
     model = ProcurementResource
-    exclude = ('created_on', 'created_by')
+    fields = ('type', 'lot_number', 'expiry_date', 'expiry_date_unknown')
     can_delete = True
 
 
@@ -116,8 +116,8 @@ class OrganAdmin(VersionControlAdmin):
         ('Perfusion', {'fields': [
             'perfusion_possible', 'perfusion_not_possible_because', 'perfusion_started', 'patch_holder',
             'artificial_patch_used', 'artificial_patch_size', 'artificial_patch_number', 'oxygen_bottle_full',
-            'oxygen_bottle_open', 'oxygen_bottle_changed', 'oxygen_bottle_changed_at', 'ice_container_replenished',
-            'ice_container_replenished_at', 'perfusate_measurable', 'perfusate_measure', 'perfusion_machine',
+            'oxygen_bottle_open', 'oxygen_bottle_changed', 'oxygen_bottle_changed_at', 'oxygen_bottle_changed_at_unknown', 'ice_container_replenished',
+            'ice_container_replenished_at', 'ice_container_replenished_at_unknown', 'perfusate_measurable', 'perfusate_measure', 'perfusion_machine',
             'perfusion_file'
         ]})
     ]
@@ -138,6 +138,11 @@ admin.site.register(Organ, OrganAdmin)
 class OrganAllocationAdmin(VersionControlAdmin):
     ordering = ('organ__pk', 'created_on')
     list_display = ('__unicode__', 'organ', 'perfusion_technician', 'transplant_hospital', 'reallocated', 'reallocation')
+    fields = ('organ', 'perfusion_technician', 'call_received', 'call_received_unknown', 'transplant_hospital',
+              'theatre_contact', 'scheduled_start', 'scheduled_start_unknown', 'technician_arrival',
+              'technician_arrival_unknown', 'depart_perfusion_centre', 'depart_perfusion_centre_unknown',
+              'arrival_at_recipient_hospital', 'arrival_at_recipient_hospital_unknown', 'journey_remarks',
+              'reallocated', 'reallocation_reason', 'reallocation_reason_other')
 
 admin.site.register(OrganAllocation, OrganAllocationAdmin)
 
@@ -145,5 +150,16 @@ admin.site.register(OrganAllocation, OrganAllocationAdmin)
 class RecipientAdmin(VersionControlAdmin):
     list_display = ('__unicode__', 'person', 'organ', 'allocation', 'signed_consent', 'successful_conclusion')
     ordering = ('organ__pk', 'created_on')
+    fields = ('person', 'organ', 'allocation', 'signed_consent', 'single_kidney_transplant', 'renal_disease',
+              'renal_disease_other', 'pre_transplant_diuresis', 'knife_to_skin', 'perfusate_measure',
+              'perfusion_stopped', 'organ_cold_stored', 'tape_broken', 'removed_from_machine_at',
+              'oxygen_full_and_open', 'organ_untransplantable', 'organ_untransplantable_reason',
+              'anesthesia_started_at', 'incision', 'transplant_side', 'arterial_problems', 'arterial_problems_other',
+              'venous_problems', 'venous_problems_other', 'anastomosis_started_at', 'anastomosis_started_at_unknown',
+              'reperfusion_started_at', 'reperfusion_started_at_unknown', 'mannitol_used', 'other_diurectics',
+              'other_diurectics_details', 'systolic_blood_pressure','cvp','intra_operative_diuresis','successful_conclusion',
+              'operation_concluded_at', 'probe_cleaned', 'ice_removed', 'oxygen_flow_stopped', 'oxygen_bottle_removed',
+              'box_cleaned', 'batteries_charged', 'cleaning_log'
+              )
 
 admin.site.register(Recipient, RecipientAdmin)

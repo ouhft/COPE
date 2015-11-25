@@ -32,7 +32,6 @@ class OrganPersonForm(forms.ModelForm):
                           label=OrganPerson._meta.get_field("date_of_birth").verbose_name.title()),
         # FieldWithNotKnown(DateField('date_of_death', notknown=True), 'date_of_death_unknown',
         #                   label=OrganPerson._meta.get_field("date_of_death").verbose_name.title()),
-        # Field('gender', template="bootstrap3/layout/read-only.html"),
         Field('gender', template="bootstrap3/layout/radioselect-buttons.html"),
         'weight', 'height',
         Field('ethnicity', template="bootstrap3/layout/radioselect-buttons.html"),
@@ -81,13 +80,19 @@ class DonorForm(forms.ModelForm):
         'sequence_number',  # TODO: Work out how to hide this field if not admin
         Field('perfusion_technician', template="bootstrap3/layout/read-only.html"),
         'transplant_coordinator',
-        DateTimeField('call_received'),
+        FieldWithNotKnown(DateTimeField('call_received', notknown=True), 'call_received_unknown',
+                          label=Donor._meta.get_field("call_received").verbose_name.title()),
         'retrieval_hospital',
-        DateTimeField('scheduled_start'),
-        DateTimeField('technician_arrival'),
-        DateTimeField('ice_boxes_filled'),
-        DateTimeField('depart_perfusion_centre'),
-        DateTimeField('arrival_at_donor_hospital'),
+        FieldWithNotKnown(DateTimeField('scheduled_start', notknown=True), 'scheduled_start_unknown',
+                          label=Donor._meta.get_field("scheduled_start").verbose_name.title()),
+        FieldWithNotKnown(DateTimeField('technician_arrival', notknown=True), 'technician_arrival_unknown',
+                          label=Donor._meta.get_field("technician_arrival").verbose_name.title()),
+        FieldWithNotKnown(DateTimeField('ice_boxes_filled', notknown=True), 'ice_boxes_filled_unknown',
+                          label=Donor._meta.get_field("ice_boxes_filled").verbose_name.title()),
+        FieldWithNotKnown(DateTimeField('depart_perfusion_centre', notknown=True), 'depart_perfusion_centre_unknown',
+                          label=Donor._meta.get_field("depart_perfusion_centre").verbose_name.title()),
+        FieldWithNotKnown(DateTimeField('arrival_at_donor_hospital', notknown=True), 'arrival_at_donor_hospital_unknown',
+                          label=Donor._meta.get_field("arrival_at_donor_hospital").verbose_name.title()),
         Field('multiple_recipients', template="bootstrap3/layout/radioselect-buttons.html"))
     layout_other_organs = Layout(
         Field('other_organs_lungs', template="bootstrap3/layout/radioselect-buttons.html"),
@@ -96,10 +101,12 @@ class DonorForm(forms.ModelForm):
         Field('other_organs_tissue', template="bootstrap3/layout/radioselect-buttons.html"))
     layout_donor_details = Layout(
         'age',
-        DateField('date_of_admission'),
+        FieldWithNotKnown(DateField('date_of_admission', notknown=True), 'date_of_admission_unknown',
+                          label=Donor._meta.get_field("date_of_admission").verbose_name.title()),
         FieldWithFollowup(
             Field('admitted_to_itu', template="bootstrap3/layout/radioselect-buttons.html"),
-            DateField('date_admitted_to_itu')
+            FieldWithNotKnown(DateField('date_admitted_to_itu', notknown=True), 'date_admitted_to_itu_unknown',
+                              label=Donor._meta.get_field("date_admitted_to_itu").verbose_name.title()),
         ),
         DateField('date_of_procurement'),
         FieldWithFollowup(
@@ -124,12 +131,16 @@ class DonorForm(forms.ModelForm):
         InlineFields('max_creatinine', 'max_creatinine_unit'))
     layout_donor_procedure = Layout(
         DateTimeField('life_support_withdrawal'),
-        DateTimeField('systolic_pressure_low'),
-        DateTimeField('o2_saturation'),
-        DateTimeField('circulatory_arrest'),
+        FieldWithNotKnown(DateTimeField('systolic_pressure_low', notknown=True), 'systolic_pressure_low_unknown',
+                          label=Donor._meta.get_field("systolic_pressure_low").verbose_name.title()),
+        FieldWithNotKnown(DateTimeField('o2_saturation', notknown=True), 'o2_saturation_unknown',
+                          label=Donor._meta.get_field("o2_saturation").verbose_name.title()),
+        FieldWithNotKnown(DateTimeField('circulatory_arrest', notknown=True), 'circulatory_arrest_unknown',
+                          label=Donor._meta.get_field("circulatory_arrest").verbose_name.title()),
         'length_of_no_touch',
         DateTimeField('death_diagnosed'),
-        DateTimeField('perfusion_started'),
+        FieldWithNotKnown(DateTimeField('perfusion_started', notknown=True), 'perfusion_started_unknown',
+                          label=Donor._meta.get_field("perfusion_started").verbose_name.title()),
         FieldWithFollowup(
             Field('systemic_flush_used', template="bootstrap3/layout/radioselect-buttons.html"),
             'systemic_flush_used_other'
@@ -151,7 +162,6 @@ class DonorForm(forms.ModelForm):
         Div(
             FormPanel("Donor Preop Data", layout_preop),
             FormPanel("Lab Results", layout_labresults),
-            # FormPanel("Sampling Data", layout_samples),
             css_class="col-md-4", style="margin-top: 10px;"
         ),
         'person',
@@ -200,27 +210,28 @@ class DonorForm(forms.ModelForm):
         self.fields['perfusion_started'].input_formats = settings.DATETIME_INPUT_FORMATS
         self.fields['systemic_flush_used'].choices = Donor.SOLUTION_CHOICES
         self.fields['heparin'].choices = NO_YES_CHOICES
-        # self.fields[''].
-        # self.fields['donor_blood_1_EDTA'].widget = forms.HiddenInput()
-        # self.fields['donor_blood_1_SST'].widget = forms.HiddenInput()
-        # self.fields['donor_urine_1'].widget = forms.HiddenInput()
-        # self.fields['donor_urine_2'].widget = forms.HiddenInput()
 
     class Meta:
         model = Donor
         fields = [
             'person', 'sequence_number', 'multiple_recipients', 'retrieval_team', 'perfusion_technician',
-            'transplant_coordinator', 'call_received', 'retrieval_hospital', 'scheduled_start', 'technician_arrival',
-            'ice_boxes_filled', 'depart_perfusion_centre', 'arrival_at_donor_hospital', 'age',
-            'date_of_admission', 'admitted_to_itu', 'date_admitted_to_itu', 'date_of_procurement',
+            'transplant_coordinator', 'call_received', 'call_received_unknown', 'retrieval_hospital',
+            'scheduled_start', 'scheduled_start_unknown', 'technician_arrival', 'technician_arrival_unknown',
+            'ice_boxes_filled', 'ice_boxes_filled_unknown', 'depart_perfusion_centre',
+            'depart_perfusion_centre_unknown', 'arrival_at_donor_hospital', 'arrival_at_donor_hospital_unknown', 'age',
+            'date_of_admission', 'date_of_admission_unknown', 'admitted_to_itu', 'date_admitted_to_itu',
+            'date_admitted_to_itu_unknown', 'date_of_procurement',
             'other_organs_procured', 'other_organs_lungs', 'other_organs_pancreas', 'other_organs_liver',
             'other_organs_tissue', 'diagnosis', 'diagnosis_other', 'diabetes_melitus', 'alcohol_abuse',
             'cardiac_arrest', 'systolic_blood_pressure', 'diastolic_blood_pressure', 'diuresis_last_day',
             'diuresis_last_day_unknown', 'diuresis_last_hour', 'diuresis_last_hour_unknown', 'dopamine',
             'dobutamine', 'nor_adrenaline', 'vasopressine', 'other_medication_details', 'last_creatinine',
             'last_creatinine_unit', 'max_creatinine', 'max_creatinine_unit', 'life_support_withdrawal',
-            'systolic_pressure_low', 'o2_saturation', 'circulatory_arrest', 'length_of_no_touch',
-            'death_diagnosed', 'perfusion_started', 'systemic_flush_used', 'systemic_flush_used_other',
+            'systolic_pressure_low', 'systolic_pressure_low_unknown', 'o2_saturation',
+            'o2_saturation_unknown', 'circulatory_arrest', 'circulatory_arrest_unknown', 'length_of_no_touch',
+            'death_diagnosed',
+            'perfusion_started', 'perfusion_started_unknown',
+            'systemic_flush_used', 'systemic_flush_used_other',
             'systemic_flush_volume_used', 'heparin'
         ]
         localized_fields = "__all__"
@@ -275,12 +286,7 @@ class OrganForm(forms.ModelForm):
     layout_system_data = Layout(
         'donor',
         Field('location', template="bootstrap3/layout/read-only.html"),
-        Field('preservation', template="bootstrap3/layout/read-only.html"),
-    )
-
-    layout_samples = Layout(
-        'perfusate_1', 'perfusate_2',
-    )
+        Field('preservation', template="bootstrap3/layout/read-only.html"),)
 
     layout_inspection = Layout(
         FieldWithFollowup(
@@ -293,13 +299,11 @@ class OrganForm(forms.ModelForm):
             'graft_damage',
             'graft_damage_other'
         ),
-        Field('washout_perfusion', template="bootstrap3/layout/radioselect-buttons.html"),
-    )
+        Field('washout_perfusion', template="bootstrap3/layout/radioselect-buttons.html"),)
 
     layout_artificial_patches = Layout(
         Field('artificial_patch_size', template="bootstrap3/layout/radioselect-buttons.html"),
-        'artificial_patch_number',
-    )
+        'artificial_patch_number',)
 
     layout_perfusion_possible = Layout(
         'perfusion_machine',
@@ -312,10 +316,15 @@ class OrganForm(forms.ModelForm):
         Field('oxygen_bottle_open', template="bootstrap3/layout/radioselect-buttons.html"),
         FieldWithFollowup(
             Field('oxygen_bottle_changed', template="bootstrap3/layout/radioselect-buttons.html"),
-            DateTimeField('oxygen_bottle_changed_at')),
+            FieldWithNotKnown(DateTimeField('oxygen_bottle_changed_at', notknown=True), 'oxygen_bottle_changed_at_unknown',
+                              label=Organ._meta.get_field("oxygen_bottle_changed_at").verbose_name.title()),
+        ),
         FieldWithFollowup(
             Field('ice_container_replenished', template="bootstrap3/layout/radioselect-buttons.html"),
-            DateTimeField('ice_container_replenished_at')),
+            FieldWithNotKnown(DateTimeField('ice_container_replenished_at', notknown=True),
+                              'ice_container_replenished_at_unknown', label=Organ._meta.get_field(
+                    "ice_container_replenished_at").verbose_name.title()),
+        ),
         FieldWithFollowup(
             Field('perfusate_measurable', template="bootstrap3/layout/radioselect-buttons.html"),
             'perfusate_measure'))
@@ -365,7 +374,17 @@ class OrganForm(forms.ModelForm):
 
     class Meta:
         model = Organ
-        exclude = ['perfusate_1', 'perfusate_2', 'created_by', 'version', 'created_on', 'perfusion_file']
+        fields = [
+            'donor', 'location', 'removal', 'renal_arteries', 'graft_damage', 'graft_damage_other',
+            'washout_perfusion', 'transplantable', 'not_transplantable_reason', 'preservation',
+            'perfusion_possible', 'perfusion_not_possible_because', 'perfusion_started', 'patch_holder',
+            'artificial_patch_used', 'artificial_patch_size', 'artificial_patch_number',
+            'oxygen_bottle_full', 'oxygen_bottle_open', 'oxygen_bottle_changed', 'oxygen_bottle_changed_at',
+            'oxygen_bottle_changed_at_unknown', 'ice_container_replenished', 'ice_container_replenished_at',
+            'ice_container_replenished_at_unknown', 'perfusate_measurable', 'perfusate_measure', 'perfusion_machine',
+            # 'perfusion_file
+
+        ]
         localized_fields = "__all__"
 
     def save(self, user, *args, **kwargs):
@@ -386,7 +405,8 @@ class ProcurementResourceForm(forms.ModelForm):
         'organ',
         Field('type', template="bootstrap3/layout/read-only.html"),
         'lot_number',
-        DateField('expiry_date'),
+        FieldWithNotKnown(DateField('expiry_date', notknown=True), 'expiry_date_unknown',
+                          label=ProcurementResource._meta.get_field("expiry_date").verbose_name.title()),
         'created_by')
 
     def __init__(self, *args, **kwargs):
@@ -400,7 +420,7 @@ class ProcurementResourceForm(forms.ModelForm):
 
     class Meta:
         model = ProcurementResource
-        fields = ('organ', 'type', 'lot_number', 'expiry_date', 'created_by')
+        fields = ('organ', 'type', 'lot_number', 'expiry_date', 'expiry_date_unknown', 'created_by')
         localized_fields = "__all__"
 
 
@@ -445,18 +465,23 @@ class AllocationForm(forms.ModelForm):
         Div(
             Div(
                 'perfusion_technician',
-                DateTimeField('call_received'),
+                FieldWithNotKnown(DateTimeField('call_received', notknown=True), 'call_received_unknown',
+                                  label=OrganAllocation._meta.get_field("call_received").verbose_name.title()),
                 'transplant_hospital',
                 'theatre_contact',
-                DateTimeField('scheduled_start'),
-                DateTimeField('technician_arrival'),
+                FieldWithNotKnown(DateTimeField('scheduled_start', notknown=True), 'scheduled_start_unknown',
+                                  label=OrganAllocation._meta.get_field("scheduled_start").verbose_name.title()),
+                FieldWithNotKnown(DateTimeField('technician_arrival', notknown=True), 'technician_arrival_unknown',
+                                  label=OrganAllocation._meta.get_field("technician_arrival").verbose_name.title()),
                 style="padding-right:0.5em"),
             css_class="col-md-4"
         ),
         Div(
             Div(
-                DateTimeField('depart_perfusion_centre'),
-                DateTimeField('arrival_at_recipient_hospital'),
+                FieldWithNotKnown(DateTimeField('depart_perfusion_centre', notknown=True), 'depart_perfusion_centre_unknown',
+                                  label=OrganAllocation._meta.get_field("depart_perfusion_centre").verbose_name.title()),
+                FieldWithNotKnown(DateTimeField('arrival_at_recipient_hospital', notknown=True), 'arrival_at_recipient_hospital_unknown',
+                                  label=OrganAllocation._meta.get_field("arrival_at_recipient_hospital").verbose_name.title()),
                 'journey_remarks',
                 style="padding-right:0.5em"),
             css_class="col-md-4"
@@ -491,8 +516,11 @@ class AllocationForm(forms.ModelForm):
     class Meta:
         model = OrganAllocation
         fields = [
-            'organ', 'perfusion_technician', 'call_received', 'transplant_hospital', 'theatre_contact',
-            'scheduled_start', 'technician_arrival', 'depart_perfusion_centre', 'arrival_at_recipient_hospital',
+            'organ', 'perfusion_technician', 'call_received', 'call_received_unknown',
+            'transplant_hospital', 'theatre_contact',
+            'scheduled_start', 'scheduled_start_unknown', 'technician_arrival',
+            'technician_arrival_unknown', 'depart_perfusion_centre', 'depart_perfusion_centre_unknown',
+            'arrival_at_recipient_hospital', 'arrival_at_recipient_hospital_unknown',
             'journey_remarks', 'reallocated', 'reallocation_reason', 'reallocation_reason_other',
             'reallocation'
         ]
@@ -529,8 +557,10 @@ class RecipientForm(forms.ModelForm):
         FieldWithFollowup(
             'venous_problems',
             'venous_problems_other'),
-        DateTimeField('anastomosis_started_at'),
-        DateTimeField('reperfusion_started_at'),
+        FieldWithNotKnown(DateTimeField('anastomosis_started_at', notknown=True), 'anastomosis_started_at_unknown',
+                          label=Recipient._meta.get_field("anastomosis_started_at").verbose_name.title()),
+        FieldWithNotKnown(DateTimeField('reperfusion_started_at', notknown=True), 'reperfusion_started_at_unknown',
+                          label=Recipient._meta.get_field("reperfusion_started_at").verbose_name.title()),
         Field('mannitol_used', template="bootstrap3/layout/radioselect-buttons.html"),
         FieldWithFollowup(
             Field('other_diurectics', template="bootstrap3/layout/radioselect-buttons.html"),
@@ -627,8 +657,9 @@ class RecipientForm(forms.ModelForm):
             'oxygen_full_and_open', 'organ_untransplantable', 'organ_untransplantable_reason',
             'anesthesia_started_at', 'incision',
             'transplant_side', 'arterial_problems', 'arterial_problems_other', 'venous_problems',
-            'venous_problems_other', 'anastomosis_started_at',
-            'reperfusion_started_at', 'mannitol_used', 'other_diurectics', 'other_diurectics_details',
+            'venous_problems_other', 'anastomosis_started_at', 'anastomosis_started_at_unknown',
+            'reperfusion_started_at', 'reperfusion_started_at_unknown', 'mannitol_used',
+            'other_diurectics', 'other_diurectics_details',
             'systolic_blood_pressure', 'cvp', 'intra_operative_diuresis',
             'successful_conclusion', 'operation_concluded_at', 'probe_cleaned', 'ice_removed',
             'oxygen_flow_stopped', 'oxygen_bottle_removed', 'box_cleaned', 'batteries_charged',

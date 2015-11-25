@@ -263,24 +263,32 @@ class Donor(VersionControlModel):
         blank=True,
         null=True)
     call_received = models.DateTimeField(verbose_name=_('DO05 Consultant to MTO called at'), blank=True, null=True)
+    call_received_unknown = models.BooleanField(default=False)  # Internal flag
     retrieval_hospital = models.ForeignKey(Hospital, verbose_name=_('DO06 donor hospital'), blank=True, null=True)
     scheduled_start = models.DateTimeField(verbose_name=_('DO07 time of withdrawal therapy'), blank=True, null=True)
+    scheduled_start_unknown = models.BooleanField(default=False)  # Internal flag
     technician_arrival = models.DateTimeField(verbose_name=_('DO08 arrival time of technician'), blank=True, null=True)
+    technician_arrival_unknown = models.BooleanField(default=False)  # Internal flag
     ice_boxes_filled = models.DateTimeField(verbose_name=_('DO09 ice boxes filled'), blank=True, null=True)
+    ice_boxes_filled_unknown = models.BooleanField(default=False)  # Internal flag
     depart_perfusion_centre = models.DateTimeField(
         verbose_name=_('DO10 departure from base hospital at'),
         blank=True, null=True)
+    depart_perfusion_centre_unknown = models.BooleanField(default=False)  # Internal flag
     arrival_at_donor_hospital = models.DateTimeField(
         verbose_name=_('DO11 arrival at donor hospital'),
         blank=True, null=True)
+    arrival_at_donor_hospital_unknown = models.BooleanField(default=False)  # Internal flag
 
     # Donor details (in addition to OrganPerson)
     age = models.PositiveSmallIntegerField(
         verbose_name=_('DO12 age'),
         validators=[MinValueValidator(50), MaxValueValidator(99)])
     date_of_admission = models.DateField(verbose_name=_('DO13 date of admission'), blank=True, null=True)
+    date_of_admission_unknown = models.BooleanField(default=False)  # Internal flag
     admitted_to_itu = models.BooleanField(verbose_name=_('DO14 admitted to ITU'), default=False)
     date_admitted_to_itu = models.DateField(verbose_name=_('DO15 when admitted to ITU'), blank=True, null=True)
+    date_admitted_to_itu_unknown = models.BooleanField(default=False)  # Internal flag
     date_of_procurement = models.DateField(verbose_name=_('DO16 date of procurement'), blank=True, null=True)
     other_organs_procured = models.BooleanField(verbose_name=_("DO17 other organs procured"), default=False)
     other_organs_lungs = models.BooleanField(verbose_name=_("DO18 lungs"), default=False)
@@ -375,12 +383,15 @@ class Donor(VersionControlModel):
     systolic_pressure_low = models.DateTimeField(
         verbose_name=_('DO39 systolic arterial pressure'),  # < 50 mm Hg (inadequate organ perfusion)
         blank=True, null=True)
+    systolic_pressure_low_unknown = models.BooleanField(default=False)  # Internal flag
     o2_saturation = models.DateTimeField(
         verbose_name=_('DO40 O2 saturation below 80%'),
         blank=True, null=True)
+    o2_saturation_unknown = models.BooleanField(default=False)  # Internal flag
     circulatory_arrest = models.DateTimeField(
         verbose_name=_('DO41 end of cardiac output'),  # (=start of no touch period)',
         blank=True, null=True)
+    circulatory_arrest_unknown = models.BooleanField(default=False)  # Internal flag
     length_of_no_touch = models.PositiveSmallIntegerField(
         verbose_name=_('DO42 length of no touch period (minutes)'),
         blank=True, null=True,
@@ -391,6 +402,7 @@ class Donor(VersionControlModel):
     perfusion_started = models.DateTimeField(
         verbose_name=_('DO44 start in-situ cold perfusion'),
         blank=True, null=True)
+    perfusion_started_unknown = models.BooleanField(default=False)  # Internal flag
     systemic_flush_used = models.PositiveSmallIntegerField(
         verbose_name=_('DO45 systemic (aortic) flush solution used'),
         choices=SOLUTION_CHOICES,
@@ -658,12 +670,14 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
     oxygen_bottle_changed_at = models.DateTimeField(
         verbose_name=_('OR19 oxygen bottle changed at'),
         blank=True, null=True)
+    oxygen_bottle_changed_at_unknown = models.BooleanField(default=False)  # Internal flag
     ice_container_replenished = models.NullBooleanField(
         verbose_name=_('OR20 ice container replenished'),
         blank=True, null=True)
     ice_container_replenished_at = models.DateTimeField(
         verbose_name=_('OR21 ice container replenished at'),
         blank=True, null=True)
+    ice_container_replenished_at_unknown = models.BooleanField(default=False)  # Internal flag
     perfusate_measurable = models.NullBooleanField(
         # logistically possible to measure pO2 perfusate (use blood gas analyser)',
         verbose_name=_('OR22 perfusate measurable'),
@@ -720,6 +734,7 @@ class ProcurementResource(models.Model):
     type = models.CharField(verbose_name=_('PR02 resource used'), choices=TYPE_CHOICES, max_length=5)
     lot_number = models.CharField(verbose_name=_('PR03 lot number'), max_length=50, blank=True)
     expiry_date = models.DateField(verbose_name=_('PR04 expiry date'), blank=True, null=True)
+    expiry_date_unknown = models.BooleanField(default=False)  # Internal flag
     created_on = models.DateTimeField(default=timezone.now)
     created_by = models.ForeignKey(User)
 
@@ -751,6 +766,7 @@ class OrganAllocation(VersionControlModel):
     call_received = models.DateTimeField(
         verbose_name=_('OA02 call received from transplant co-ordinator at'),
         blank=True, null=True)
+    call_received_unknown = models.BooleanField(default=False)  # Internal flag
     transplant_hospital = models.ForeignKey(Hospital, verbose_name=_('OA03 transplant hospital'), blank=True, null=True)
     theatre_contact = models.ForeignKey(
         StaffPerson,
@@ -759,15 +775,19 @@ class OrganAllocation(VersionControlModel):
         related_name="recipient_transplant_coordinator_set",
         blank=True, null=True)
     scheduled_start = models.DateTimeField(verbose_name=_('OA05 scheduled start'), blank=True, null=True)
+    scheduled_start_unknown = models.BooleanField(default=False)  # Internal flag
     technician_arrival = models.DateTimeField(
         verbose_name=_('OA06 arrival time at hub'),
         blank=True, null=True)
+    technician_arrival_unknown = models.BooleanField(default=False)  # Internal flag
     depart_perfusion_centre = models.DateTimeField(
         verbose_name=_('OA07 departure from hub'),
         blank=True, null=True)
+    depart_perfusion_centre_unknown = models.BooleanField(default=False)  # Internal flag
     arrival_at_recipient_hospital = models.DateTimeField(
         verbose_name=_('OA08 arrival at transplant hospital'),
         blank=True, null=True)
+    arrival_at_recipient_hospital_unknown = models.BooleanField(default=False)  # Internal flag
     journey_remarks = models.TextField(verbose_name=_("OA09 journey notes"), blank=True)
     reallocated = models.NullBooleanField(verbose_name=_("OA10 reallocated"), blank=True, default=None)
     reallocation_reason = models.PositiveSmallIntegerField(
@@ -877,7 +897,9 @@ class Recipient(VersionControlModel):
         blank=True, null=True)
     venous_problems_other = models.CharField(verbose_name=_('RE33 venous problems other'), max_length=250, blank=True)
     anastomosis_started_at = models.DateTimeField(verbose_name=_('RE34 start anastomosis at'), blank=True, null=True)
+    anastomosis_started_at_unknown = models.BooleanField(default=False)  # Internal flag
     reperfusion_started_at = models.DateTimeField(verbose_name=_('RE35 start reperfusion at'), blank=True, null=True)
+    reperfusion_started_at_unknown = models.BooleanField(default=False)  # Internal flag
     mannitol_used = models.PositiveSmallIntegerField(
         verbose_name=_('RE36 mannitol used'),
         choices=YES_NO_UNKNOWN_CHOICES,
