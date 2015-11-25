@@ -7,7 +7,7 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-9">
             <h2>Existing Cases
                 <small>({{ donors|length }} case{{ donors|pluralize }})</small>
             </h2>
@@ -17,10 +17,12 @@
                     <tr>
                         <th>Trial ID</th>
                         <th>Last updated on</th>
+                        <th>Country</th>
                         <th>Number</th>
                         <th>Age</th>
                         <th>Gender</th>
                         <th>Eligible</th>
+                        <th>Samples</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -31,6 +33,8 @@
                                 {{ donor.trial_id }}
                             </a></td>
                             <td>{{ donor.created_on }}</td>
+{#                        TODO: Replace this text with a flag image #}
+                            <td>{{ donor.retrieval_team.based_at.get_country_display }}</td>
                             <td>{{ donor.person.number|default:"Unknown number" }}</td>
                             <td>{{ donor.age }}</td>
                             <td>{{ donor.person.get_gender_display }}</td>
@@ -53,6 +57,14 @@
                             {% else %}
                                 <td>ERROR</td>
                             {% endif %}
+
+                            {% if donor.person.worksheet %}
+                                <td>
+                                    <a href="{% url 'samples:update' pk=donor.person.worksheet.id %}">{{ donor.person.worksheet }}</a>
+                                </td>
+                            {% else %}
+                                <td>No Worksheet</td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -62,8 +74,9 @@
             {% endif %}
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3">
             <h2>New Case</h2>
+
             <form method="post" action="{% url 'compare:procurement_list' %}" class="form">
                 <div class="panel panel-default">
                     <div class="panel-heading">

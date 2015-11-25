@@ -44,13 +44,16 @@
 
                     // set onchange function for radio buttons
                     var lastValue = $('input:radio[name=' + radiogroupname + ']:last').val();
-                    radiogroup.on("change", function () {
-                        if ($('input:radio[name=' + radiogroupname + ']:checked').val() == lastValue) {
-                            $('#{{ fieldID }}_secondary').slideDown(); //.show();
-                        } else {
-                            $('#{{ fieldID }}_secondary').slideUp().find('input').val('');
-                        }
-                    });
+{#                    console.log("DEBUG: isDisabled=" + radiogroup.is(':disabled'));#}
+                    if (!radiogroup.is(':disabled')) {
+                        radiogroup.on("change", function () {
+                            if ($('input:radio[name=' + radiogroupname + ']:checked').val() == lastValue) {
+                                $('#{{ fieldID }}_secondary').slideDown(); //.show();
+                            } else {
+                                $('#{{ fieldID }}_secondary').slideUp().find('input').val('');
+                            }
+                        });
+                    }
                 }
             });
         </script>

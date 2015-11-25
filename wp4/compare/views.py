@@ -76,7 +76,7 @@ def procurement_list(request):
     if current_person.has_job(
             (StaffJob.SYSTEMS_ADMINISTRATOR, StaffJob.CENTRAL_COORDINATOR, StaffJob.NATIONAL_COORDINATOR)
     ):
-        donors = Donor.objects.all().order_by('-pk')
+        donors = Donor.objects.all().order_by('retrieval_team__centre_code', '-pk')
     elif current_person.has_job(StaffJob.PERFUSION_TECHNICIAN):
         donors = Donor.objects.filter(perfusion_technician=current_person).order_by('-pk')
     else:
@@ -221,9 +221,7 @@ def transplantation_list(request):
     if current_person.has_job(
             (StaffJob.SYSTEMS_ADMINISTRATOR, StaffJob.CENTRAL_COORDINATOR, StaffJob.NATIONAL_COORDINATOR)
     ):
-        existing_cases = Organ.objects.filter(
-            Q(recipient__isnull=False),
-        ).annotate(copies=Count('recipient__id'))
+        existing_cases = Organ.objects.filter(recipient__isnull=False).order_by('donor__retrieval_team__centre_code', 'location')
         new_cases = Organ.objects.filter(preservation__lte=1).exclude(recipient__isnull=False)\
             .exclude(transplantable=False)
     elif current_person.has_job(StaffJob.PERFUSION_TECHNICIAN):
@@ -254,7 +252,7 @@ def transplantation_form(request, pk=None):
     Process Allocation results until an allocation is set for one location, and then create and manage the
     Recipient record.
     """
-    print("DEBUG: Got an organ pk of %s" % pk)
+    # print("DEBUG: Got an organ pk of %s" % pk)
     organ = get_object_or_404(Organ, pk=int(pk))
     current_person = StaffPerson.objects.get(user__id=request.user.id)
     person_form = None
@@ -270,7 +268,7 @@ def transplantation_form(request, pk=None):
 
     try:
         if organ.recipient is not None:
-            print("DEBUG: Starting the Recipient form")
+            # print("DEBUG: Starting the Recipient form")
             person_form = OrganPersonForm(request.POST or None, request.FILES or None, instance=organ.recipient.person,
                                           prefix="donor-person")
             if person_form.is_valid():
@@ -311,12 +309,6 @@ def transplantation_form(request, pk=None):
                     allocation.reallocation = new_allocation
                     allocation.save()
 
-                    messages.success(request, 'Form has been <strong>successfully saved</strong>')
-
-                    return redirect(reverse(
-                        'compare:transplantation_detail',
-                        kwargs={'pk': organ.id}
-                    ))
                 # For a new set of objects, remember to create the Person for the Recipient first
                 elif allocation.reallocated is not None and not recipient_form_loaded:
                     person = OrganPerson()
@@ -337,16 +329,21 @@ def transplantation_form(request, pk=None):
                     # create the related sample placeholder for this recipient
                     create_recipient_worksheet(recipient, request.user)
 
-                    messages.success(request, 'Form has been <strong>successfully saved</strong>')
+        messages.success(request, 'Form has been <strong>successfully saved</strong>')
 
-                    return redirect(reverse(
-                        'compare:transplantation_detail',
-                        kwargs={'pk': organ.id}
-                    ))
-                else:
-                    messages.success(request, 'Form has been <strong>successfully saved</strong>')
+        return redirect(reverse(
+            'compare:transplantation_detail',
+            kwargs={'pk': organ.id}
+        ))
     else:
         print("DEBUG: Errors! %s" % allocation_formset.errors)
+
+    # Disable the reallocation question for any that have been saved with a reallocation value
+    # for subform in allocation_formset:
+    #     print("DEBUG: subform=%s" % subform.instance.reallocated)
+    #     if subform.instance.reallocated is not None:
+    #         subform.fields["reallocated"].disabled = True
+    # TODO: FIX THIS - disabling the radiobuttons causes the fields to not be submitted, and thus the value is reset to None
 
     # Load the relevant samples worksheet
     if recipient_form_loaded:

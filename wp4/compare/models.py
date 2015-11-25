@@ -221,6 +221,13 @@ class OrganPerson(VersionControlModel):
             return self.donor.death_diagnosed.date()
         return None
 
+    @property
+    def worksheet(self):
+        for worksheet in self.worksheet_set.all():
+            return worksheet
+        return None
+
+
     def __unicode__(self):
         if settings.DEBUG:
             return '%s : (%s, %s) %s' % (
@@ -669,6 +676,19 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
 
     def trial_id(self):
         return self.donor.trial_id() + self.location
+
+    def is_allocated(self):
+        for allocation in self.organallocation_set.all():
+            if allocation.reallocated == False and self.recipient.allocation is not None:
+                return True
+        return False
+
+    def reallocation_count(self):
+        count = 0
+        for allocation in self.organallocation_set.all():
+            if allocation.reallocated == True:
+                count += 1
+        return count
 
     def __unicode__(self):
         return '%s : %s' % (

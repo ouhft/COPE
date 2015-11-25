@@ -10,16 +10,23 @@
     {% endif %}
     <div class="btn-group" data-toggle="buttons">
         {% for choice in field.field.choices %}
-            <label class="btn btn-default {% if choice.0|stringformat:"s" == field.value|stringformat:"s" %}
+
+            {% if field.field.disabled %}
+                <label class="btn {% if choice.0|stringformat:"s" == field.value|stringformat:"s" %}
+                   btn-primary{% else %}btn-default{% endif %} disabled">
+            {% else %}
+                <label class="btn btn-default {% if choice.0|stringformat:"s" == field.value|stringformat:"s" %}
                    active{% endif %}">
-                <input type="radio"
-                       {% if choice.0|stringformat:"s" == field.value|stringformat:"s" %}checked{% endif %}
-                       name="{{ field.html_name }}"
-                       id="id_{{ field.html_name }}_{{ forloop.counter }}"
-                       value="{{ choice.0|unlocalize }}"
-                       {{ field.field.widget.attrs|flatatt }}
-                       autocomplete="off">{{ choice.1|localize }}
-            </label>
+            {% endif %}
+        <input type="radio"
+               {% if choice.0|stringformat:"s" == field.value|stringformat:"s" %}checked{% endif %}
+               name="{{ field.html_name }}"
+               id="id_{{ field.html_name }}_{{ forloop.counter }}"
+               value="{{ choice.0|unlocalize }}"
+                {{ field.field.widget.attrs|flatatt }}
+               {% if field.field.disabled %}disabled{% endif %}
+               autocomplete="off">{{ choice.1|localize }}
+        </label>
         {% endfor %}
     </div>
     {% include 'bootstrap3/layout/help_text_and_errors.html' %}

@@ -8,7 +8,7 @@
 {% block content %}
 {#    exisiting_cases is a list of Organs, as is new_cases #}
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-9">
             <h2>
                 Recipients
                 <small>({{ existing_cases|length }} case{{ existing_cases|pluralize }})</small>
@@ -18,9 +18,12 @@
                     <thead>
                     <tr>
                         <th>Trial ID</th>
+                        <th>Last Updated</th>
+                        <th>Allocated?</th>
                         <th>Number</th>
                         <th>Age</th>
                         <th>Gender</th>
+                        <th>Samples</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -35,9 +38,20 @@
 {#                                <a href="{% url 'admin:compare_recipient_change' case.id %}"><i#}
 {#                                        class="glyphicon glyphicon-briefcase"></i></a>#}
                             </td>
+                            <td>{{ case.created_on }}</td>
+                            {% if case.is_allocated %}
+                            <td class="success"><i class="glyphicon glyphicon-ok"></i> {{ case.is_allocated|yesno }} ({{ case.reallocation_count }})</td>
+                            {% else %}
+                            <td class="danger"><i class="glyphicon glyphicon-ban-circle"></i> {{ case.is_allocated|yesno }} ({{ case.reallocation_count }})</td>
+                            {% endif %}
                             <td>{{ case.recipient.person.number|default:"Unknown number" }}</td>
                             <td>{{ case.recipient.person.age_from_dob|default:"Unknown age" }}</td>
                             <td>{{ case.recipient.person.get_gender_display }}</td>
+                        {% if case.recipient.person.worksheet %}
+                            <td><a href="{% url 'samples:update' pk=case.recipient.person.worksheet.id %}">{{ case.recipient.person.worksheet }}</a></td>
+                        {% else %}
+                            <td>No Worksheet</td>
+                        {% endif %}
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -46,9 +60,9 @@
                 <p>No existing cases available. Contact us if you think this is in error.</p>
             {% endif %}
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <h2>
-                Organs available
+                Organs available<br>
                 <small>({{ new_cases|length }} case{{ new_cases|pluralize }})</small>
             </h2>
             {% if new_cases|length > 0 %}
