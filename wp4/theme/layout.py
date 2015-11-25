@@ -80,6 +80,9 @@ class ComboField(LayoutObject):
             try:
                 field_instance = form.fields[self.field1]
                 self.label_html = field_instance.label
+                # self.label_for = field_instance.
+                # TODO: sort out the actual primary field label id so we can put it in the html
+                # print("DEBUG: label %s" % dir(field_instance))
             except KeyError:
                 # If we can't find a name to use, generate a random one
                 # http://stackoverflow.com/questions/2257441/random-string-generation-with-upper-case-letters-and-digits-in-python
@@ -97,8 +100,20 @@ class ComboField(LayoutObject):
             self.field_template2, self.label_class, layout_object=self,
             template_pack=template_pack
         )
+        # print("DEBUG: self.field1=%s" % self.field1)
+        # print("DEBUG: self.field2=%s" % self.field2)
+        # print("DEBUG: render():form=%s" % form.fields.keys())
+        # print("DEBUG: render():form=%s" % dir(form))
+        # print("DEBUG: render():form.prefix=%s" % form.prefix)
 
-        context.update({'multifield': self, 'primary_field': primary_output, 'secondary_field': secondary_output})
+        group_id = "%s-%s" % (form.prefix, self.label_html)
+
+        context.update({
+            'multifield': self,
+            'primary_field': primary_output,
+            'secondary_field': secondary_output,
+            'group_id': group_id
+        })
         return render_to_string(self.template, context)
 
 

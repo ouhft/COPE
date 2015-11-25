@@ -3,17 +3,17 @@
 <div class="form-group{% if multifield.css_class %} {{ multifield.css_class }}{% endif %}">
     {% if multifield.label_html %}
         <label {% if multifield.label_class %}class="control-label {{ multifield.label_class }}"{% endif %}
-               for="{{ primary_field.id_for_label }}">{{ multifield.label_html|safe }}</label>
+               for="">{{ multifield.label_html|safe }}</label>
     {% endif %}
 
-    <div class="input-group" id="{{ multifield.label_html|slugify }}">
+    <div class="input-group" id="{{ group_id|slugify }}">
         {{ secondary_field|safe }}
         {{ primary_field|safe }}
     </div>
     <script type="text/javascript">
         document.addEventListener("DOMContentLoaded", function (event) {
-            var checkbox = $('#{{ multifield.label_html|slugify }}').find('input:checkbox');
-            var input = $('#{{ multifield.label_html|slugify }}').find('input:text');
+            var checkbox = $('#{{ group_id|slugify }}').find('input:checkbox');
+            var input = $('#{{ group_id|slugify }}').find('input:text');
             if (checkbox.exists()) {
                 var checkboxname = checkbox.attr('name');
                 // Set initial state
