@@ -158,8 +158,8 @@ class OrganPerson(VersionControlModel):
     def clean(self):
         if self.date_of_birth_unknown:
             self.date_of_birth = None
-        if self.date_of_death_unknown:
-            self.date_of_death = None
+        # if self.date_of_death_unknown:
+        #     self.date_of_death = None
 
         if self.date_of_birth:
             if self.date_of_birth > datetime.datetime.now().date():

@@ -1,5 +1,6 @@
 {% load crispy_forms_field crispy_forms_filters %}
-{% load l10n %}
+{% load l10n i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 
 {% if 'notknown="True"' not in flat_attrs %}
 <div{% if div.css_id %} id="{{ div.css_id }}"{% endif %}
@@ -22,10 +23,16 @@
     </div>
     <script type="text/javascript">
         document.addEventListener("DOMContentLoaded", function(event) {
+{#            Dynamically change the placeholder and data-date-format text based on present locale #}
+            if('{{ LANGUAGE_CODE }}' == 'en-gb' && $('#{{ field.id_for_label }}').attr('data-date-format') == 'DD-MM-YYYY HH:mm') {
+                $('#{{ field.id_for_label }}').attr('data-date-format', 'YYYY-MM-DD HH:mm');
+                $('#{{ field.id_for_label }}').attr('placeholder', 'YYYY-MM-DD HH:mm');
+            }
             $('#{{ field.id_for_label }}').parent().datetimepicker({
-                locale: 'en-gb',
-                maxDate: moment()
+                locale: '{{ LANGUAGE_CODE }}',
+{#                maxDate: moment()    --- TODO: Modify this to stop future dates from being selected #}
             });
+{#            console.log("DEBUG: moment.locale() =" + moment.locale() );#}
         });
     </script>
     {% include 'bootstrap3/layout/help_text_and_errors.html' %}

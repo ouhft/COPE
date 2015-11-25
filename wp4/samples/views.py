@@ -68,7 +68,7 @@ def sample_form(request, pk=None):
             event_form.instance.created_by = current_person.user
             event = event_form.save()
 
-        print("DEBUG: event_form: %s" % event_form)
+        # print("DEBUG: event_form: %s" % event_form)
         # print("DEBUG: event2 id=%s" % event.id)
 
         if event.type == Event.TYPE_BLOOD:

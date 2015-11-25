@@ -2,7 +2,7 @@
 # coding: utf-8
 import string, random
 
-from django.conf import settings
+from django.utils import formats, translation
 
 from crispy_forms.layout import LayoutObject, Div, HTML, Field, render_field, render_to_string, TEMPLATE_PACK, flatatt
 
@@ -27,11 +27,21 @@ def FormColumnPanel(title, layout):
 
 
 def DateTimeField(field_name, **kwargs):
+    # correct_format = formats.get_format("SHORT_DATETIME_FORMAT", lang=translation.get_language())
+    # print("DEBUG: DateTimeField:correct_format=%s" % correct_format)
+    # print("DEBUG: DateTimeField:kwargs=%s" % kwargs)
+    # print("DEBUG: DateTimeField:translation.get_language()=%s" % translation.get_language())
+    date_format_string = "DD-MM-YYYY HH:mm"
+    # NB: Can't set correct date_format here because this only fires when initialised, and thus any subsequent
+    # language changes are not picked up here. Also, django date format is not the same as the format used
+    # by the date picker
     return Field(field_name, template="bootstrap3/layout/datetimefield.html",
-                 data_date_format="DD-MM-YYYY HH:mm", placeholder="DD-MM-YYYY HH:mm", **kwargs)
+                 data_date_format=date_format_string, placeholder=date_format_string, **kwargs)
 
 
 def DateField(field_name, **kwargs):
+    # correct_format = formats.get_format("SHORT_DATE_FORMAT", lang=translation.get_language())
+    # print("DEBUG: DateField:correct_format=%s" % correct_format)
     return Field(field_name, template="bootstrap3/layout/datetimefield.html",
                  data_date_format="DD-MM-YYYY", placeholder="DD-MM-YYYY", **kwargs)
 
