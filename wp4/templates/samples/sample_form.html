@@ -8,15 +8,37 @@
 
 {% block content %}
     <form method="post" class="" id="sample_form">
-    {% if worksheet_form.non_field_errors %}
-        <div class="col-md-12" style="margin-top: 10px;">
-            {% for error in worksheet_form.non_field_errors %}
-                <p class="alert alert-danger">{{ error }}</p>
-            {% endfor %}
-        </div>
-    {% endif %}
-    {% crispy worksheet_form %}
 
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Samples Worksheet</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                {% if worksheet_form.non_field_errors %}
+                    <div class="col-md-12" style="margin-top: 10px;">
+                        {% for error in worksheet_form.non_field_errors %}
+                            <p class="alert alert-danger">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {% crispy worksheet_form %}
+            </div>
+            {% if worksheet_form.instance.person.is_donor %}
+                <p><a href="{% url 'compare:procurement_detail' pk=worksheet_form.instance.person.donor.id %}"
+                      class="btn btn-default">Go to Procurement Record</a></p>
+            {% else %}
+                <p>
+                    <a href="{% url 'compare:transplantation_detail' pk=worksheet_form.instance.person.recipient.organ.id %}"
+                       class="btn btn-default">Go to Transplant Record</a></p>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if events|length_is:0 %}
+        <p class="alert alert-warning">There are no samples to be collected from this UK Donor. However, please ensure that
+        relevant Perfusate samples are taken for the Organ(s) and sent on to the relevant Recipient technician.</p>
+    {% endif %}
     {% for event_row in events %}
         <div class="panel panel-default">
             <div class="panel-heading">

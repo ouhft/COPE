@@ -109,6 +109,10 @@
                             <span class="label label-danger">{{ right_organ_error_count }} Error{{ right_organ_error_count|pluralize }}</span>
                         {% endif %}</a>
                 </li>
+                <li role="presentation" class="">
+                    <a href="#samples" aria-controls="samples" role="tab" data-toggle="tab"
+                       id="samplestab">Samples</a>
+                </li>
             </ul>
             <!-- Tab panes -->
             <div role="tabpanel" class="tab-pane fade in active" id="donor">
@@ -161,6 +165,11 @@
                     {% crispy right_organ_form %}
                     {% include "compare/snippets/procurement_resource_formset.html" with procurement_formset=right_organ_procurement_forms %}
                 </div>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="samples">
+                <h2 class="sr-only visible-print">Samples</h2>
+                <p class="alert alert-warning">Please ensure you have successfully saved before clicking on the link below</p>
+                <p><a href="{% url 'samples:update' pk=worksheet.id %}" class="btn btn-default">Goto Samples Worksheet ({{ worksheet }})</a></p>
             </div>
             {% csrf_token %}
         </div>

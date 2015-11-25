@@ -36,7 +36,7 @@ class Worksheet(BarCodedItem):
         verbose_name_plural = _('WSm2 worksheets')
 
     def __unicode__(self):
-        return "%s" % (self.barcode if len(self.barcode) > 0 else self.person)
+        return "%s" % (self.barcode if len(self.barcode) > 0 else "%s - No Barcode entered" % self.id)
 
 
 class Event(VersionControlModel):

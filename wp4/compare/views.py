@@ -193,6 +193,9 @@ def procurement_form(request, pk):
     # messages.warning(request, 'Your account expires in three days.')
     # messages.error(request, '<strong>Document</strong> deleted.')
 
+    # Load the relevant samples worksheet
+    worksheet = donor.person.worksheet_set.all()[0]
+
     return render_to_response(
         "compare/procurement_form.html",
         {
@@ -205,7 +208,8 @@ def procurement_form(request, pk):
             "right_organ_procurement_forms": right_organ_procurement_forms,
             "right_organ_error_count": right_organ_error_count,
             "donor": donor,
-            "is_randomised": is_randomised
+            "is_randomised": is_randomised,
+            "worksheet": worksheet,
         },
         context_instance=RequestContext(request)
     )
@@ -257,7 +261,11 @@ def transplantation_form(request, pk=None):
     recipient_form = None
     recipient_form_loaded = False
     if len(organ.organallocation_set.all()) < 1:
-        initial_organallocation = OrganAllocation(organ=organ, created_by=current_person.user)
+        if current_person.has_job(StaffJob.PERFUSION_TECHNICIAN):
+            initial_organallocation = OrganAllocation(organ=organ, created_by=current_person.user,
+                                                      perfusion_technician=current_person)
+        else:
+            initial_organallocation = OrganAllocation(organ=organ, created_by=current_person.user)
         initial_organallocation.save()
 
     try:
@@ -335,8 +343,16 @@ def transplantation_form(request, pk=None):
                         'compare:transplantation_detail',
                         kwargs={'pk': organ.id}
                     ))
+                else:
+                    messages.success(request, 'Form has been <strong>successfully saved</strong>')
     else:
         print("DEBUG: Errors! %s" % allocation_formset.errors)
+
+    # Load the relevant samples worksheet
+    if recipient_form_loaded:
+        worksheet = organ.recipient.person.worksheet_set.all()[0]
+    else:
+        worksheet = None
 
     return render_to_response(
         "compare/transplantation_form.html",
@@ -345,6 +361,7 @@ def transplantation_form(request, pk=None):
             "person_form": person_form,
             "recipient_form": recipient_form,
             "organ": organ,
-            "recipient_form_loaded": recipient_form_loaded
+            "recipient_form_loaded": recipient_form_loaded,
+            "worksheet": worksheet
         },
         context_instance=RequestContext(request))

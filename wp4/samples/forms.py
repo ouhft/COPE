@@ -24,14 +24,13 @@ YES_NO_CHOICES = (
 
 
 class WorksheetForm(forms.ModelForm):
-    layout_worksheet = Layout(
-        Div(Field('person', template="bootstrap3/layout/read-only.html"), css_class="col-md-6"),
-        Div('barcode', css_class="col-md-6"),
-    )
     helper = FormHelper()
     helper.form_tag = False
     helper.html5_required = True
-    helper.layout = FormPanel("Worksheet", layout_worksheet)
+    helper.layout = Layout(
+        Div(Field('person', template="bootstrap3/layout/read-only.html"), css_class="col-md-6"),
+        Div('barcode', css_class="col-md-6"),
+    )
 
     def __init__(self, *args, **kwargs):
         super(WorksheetForm, self).__init__(*args, **kwargs)
