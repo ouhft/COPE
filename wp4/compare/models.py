@@ -156,6 +156,7 @@ class OrganPerson(VersionControlModel):
         verbose_name_plural = _('OPm2 organ people')
 
     def clean(self):
+        # Clean the fields that at Not Known
         if self.date_of_birth_unknown:
             self.date_of_birth = None
         # if self.date_of_death_unknown:
@@ -426,6 +427,36 @@ class Donor(VersionControlModel):
         verbose_name_plural = _('DOm2 donors')
 
     def clean(self):
+        # Clean the fields that at Not Known
+        if self.call_received_unknown:
+            self.call_received = None
+        if self.scheduled_start_unknown:
+            self.scheduled_start = None
+        if self.technician_arrival_unknown:
+            self.technician_arrival = None
+        if self.ice_boxes_filled_unknown:
+            self.ice_boxes_filled = None
+        if self.depart_perfusion_centre_unknown:
+            self.depart_perfusion_centre = None
+        if self.arrival_at_donor_hospital_unknown:
+            self.arrival_at_donor_hospital = None
+        if self.date_of_admission_unknown:
+            self.date_of_admission = None
+        if self.date_admitted_to_itu_unknown:
+            self.date_admitted_to_itu = None
+        if self.diuresis_last_day_unknown:
+            self.diuresis_last_day = None
+        if self.diuresis_last_hour_unknown:
+            self.diuresis_last_hour = None
+        if self.systolic_pressure_low_unknown:
+            self.systolic_pressure_low = None
+        if self.o2_saturation_unknown:
+            self.o2_saturation = None
+        if self.circulatory_arrest_unknown:
+            self.circulatory_arrest = None
+        if self.perfusion_started_unknown:
+            self.perfusion_started = None
+
         if self.arrival_at_donor_hospital and self.depart_perfusion_centre:
             if self.arrival_at_donor_hospital < self.depart_perfusion_centre:
                 raise ValidationError(
@@ -463,11 +494,6 @@ class Donor(VersionControlModel):
         if self.date_admitted_to_itu and self.date_of_admission:
             if self.date_admitted_to_itu < self.date_of_admission:
                 raise ValidationError(_("DOv12 Donor in ICU before they were admitted to hospital"))
-
-        if self.diuresis_last_day_unknown:
-            self.diuresis_last_day = None
-        if self.diuresis_last_hour_unknown:
-            self.diuresis_last_hour = None
 
         if self.life_support_withdrawal and self.life_support_withdrawal.date() < self.date_of_admission:
             raise ValidationError(_("DOv09 Life support withdrawn before admission to hospital"))
@@ -688,6 +714,13 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
                                           null=True)
     perfusion_file = models.ForeignKey(PerfusionFile, verbose_name=_('OR25 machine file'), blank=True, null=True)
 
+    def clean(self):
+        # Clean the fields that at Not Known
+        if self.oxygen_bottle_changed_at_unknown:
+            self.oxygen_bottle_changed_at = None
+        if self.ice_container_replenished_at_unknown:
+            self.ice_container_replenished_at = None
+
     def trial_id(self):
         return self.donor.trial_id() + self.location
 
@@ -744,6 +777,11 @@ class ProcurementResource(models.Model):
     class Meta:
         verbose_name = _('PRm1 procurement resource')
         verbose_name_plural = _('PRm2 procurement resources')
+
+    def clean(self):
+        # Clean the fields that at Not Known
+        if self.expiry_date_unknown:
+            self.expiry_date = None
 
 
 class OrganAllocation(VersionControlModel):
@@ -802,6 +840,19 @@ class OrganAllocation(VersionControlModel):
         verbose_name = _('OAm1 organ allocation')
         verbose_name_plural = _('OAm2 organ allocations')
         get_latest_by = 'created_on'
+
+    def clean(self):
+        # Clean the fields that at Not Known
+        if self.call_received_unknown:
+            self.call_received = None
+        if self.scheduled_start_unknown:
+            self.scheduled_start = None
+        if self.technician_arrival_unknown:
+            self.technician_arrival = None
+        if self.depart_perfusion_centre_unknown:
+            self.depart_perfusion_centre = None
+        if self.arrival_at_recipient_hospital_unknown:
+            self.arrival_at_recipient_hospital = None
 
     def __unicode__(self):
         try:
@@ -942,7 +993,11 @@ class Recipient(VersionControlModel):
         get_latest_by = 'created_on'
 
     def clean(self):
-        pass
+        # Clean the fields that at Not Known
+        if self.anastomosis_started_at_unknown:
+            self.anastomosis_started_at = None
+        if self.reperfusion_started_at_unknown:
+            self.reperfusion_started_at = None
 
     def __unicode__(self):
         return '%s (%s)' % (self.person.number, self.trial_id())
