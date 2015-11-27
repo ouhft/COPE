@@ -18,6 +18,6 @@ class VersionControlAdmin(admin.ModelAdmin):
 
 
 class StaffPersonAdmin(VersionControlAdmin):
-    pass
+    list_display = ('id', 'first_names', 'last_names', 'user', 'telephone', 'email', 'based_at')
 
 admin.site.register(StaffPerson, StaffPersonAdmin)

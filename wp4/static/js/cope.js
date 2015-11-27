@@ -27,30 +27,3 @@ $.fn.exists = function () {
 
 // Django-ajax
 // @codekit-append "../js-plugins/jquery.ajax.js"
-
-// Autocomplete-light extra widgets
-HospitalWidget = {
-    getValue: function (choice) {
-        // TODO: Secure this input so that it doesn't execute the contents of value!
-        var value = choice.data('value');
-
-        if (value == 'create') {
-            choice.html(this.input.val())
-
-            $.ajax(this.autocomplete.url, {
-                async: false,
-                type: 'post',
-                data: {
-                    'name': this.input.val(),
-                },
-                success: function (text, jqXHR, textStatus) {
-                    value = text;
-                }
-            });
-
-            choice.data('value', value);
-        }
-
-        return value;
-    }
-}

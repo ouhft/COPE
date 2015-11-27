@@ -4,6 +4,7 @@ from __future__ import absolute_import, unicode_literals
 
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _, ungettext_lazy as __
 
@@ -22,6 +23,12 @@ class VersionControlModel(models.Model):
 
     class Meta:
         abstract = True
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        self.created_on = timezone.now()
+        self.version += 1
+        return super(VersionControlModel, self).save(force_insert, force_update, using, update_fields)
 
 
 class StaffJob(models.Model):
@@ -78,3 +85,6 @@ class StaffPerson(VersionControlModel):
     class Meta:
         verbose_name = _('PEm1 person')
         verbose_name_plural = _('PEm2 people')
+
+    def get_absolute_url(self):
+        return reverse("staff_person:detail", kwargs={"pk": self.id})

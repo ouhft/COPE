@@ -1,0 +1,27 @@
+{% extends "base_site.html" %}
+
+{% block page_title %}People{% endblock %}
+{% block page_header %}People{% endblock %}
+
+{% block content %}
+    <h2>{{ staffperson.full_name }} <a href="{% url 'staff_person:update' staffperson.id %}" class="btn btn-sm btn-primary"><i
+                            class="glyphicon glyphicon-edit"></i></a></h2>
+    <dl class="dl-horizontal">
+    <dt>Based At</dt>
+    <dd>{{ staffperson.based_at }}</dd>
+    <dt>Telephone</dt>
+    <dd>{{ staffperson.telephone|default:"Unknown" }}</dd>
+    <dt>Email</dt>
+    <dd>{{ staffperson.email|default:"Unknown" }}</dd>
+    <dt>Jobs</dt>
+    <dd>
+        <ul>
+            {% for job in staffperson.jobs.all %}
+            <li>{{ job.description }}</li>
+            {% endfor %}
+        </ul>
+    </dd>
+    </dl>
+
+    <p><a href="{%  url "staff_person:list" %}">Return to listings</a></p>
+{% endblock %}

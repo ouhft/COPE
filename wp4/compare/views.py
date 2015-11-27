@@ -194,7 +194,10 @@ def procurement_form(request, pk):
     # messages.error(request, '<strong>Document</strong> deleted.')
 
     # Load the relevant samples worksheet
-    worksheet = donor.person.worksheet_set.all()[0]
+    if len(donor.person.worksheet_set.all()) > 0:
+        worksheet = donor.person.worksheet_set.all()[0]
+    else:
+        worksheet = None
 
     return render_to_response(
         "compare/procurement_form.html",
@@ -346,7 +349,7 @@ def transplantation_form(request, pk=None):
     # TODO: FIX THIS - disabling the radiobuttons causes the fields to not be submitted, and thus the value is reset to None
 
     # Load the relevant samples worksheet
-    if recipient_form_loaded:
+    if recipient_form_loaded and len(organ.recipient.person.worksheet_set.all()):
         worksheet = organ.recipient.person.worksheet_set.all()[0]
     else:
         worksheet = None

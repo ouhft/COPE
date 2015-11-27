@@ -1,0 +1,25 @@
+{% load crispy_forms_field crispy_forms_filters %}
+{% load l10n i18n %}
+
+<div class="form-group {{ field.css_class|default:"" }}">
+    {# TODO: Add errors and error state #}
+    {{ field.label_tag }}
+
+    <div class="input-group" id="{{ field.html_name }}-group">
+        <input class="form-control" type="text" id="{{ field.html_name }}-display" readonly value="KEY TEXT HERE">
+        <span class="input-group-addon">
+            <a href="#"><i class="glyphicon glyphicon-search"></i></a>
+        </span>
+        <span class="hidden">{{ field.as_widget }}</span>
+        <script>
+            // Initialise display
+            document.addEventListener("DOMContentLoaded", function(event) {
+                $("#{{ field.html_name }}-display").val($("#{{ field.id_for_label }} :selected").text());
+            });
+        </script>
+    </div>
+
+    {% if field.help_text %}
+        <p id="hint_{{ field.auto_id }}" class="help-block">{{ field.help_text|safe }}</p>
+    {% endif %}
+</div>

@@ -1,0 +1,46 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_field %}
+
+{% block page_title %}People{% endblock %}
+{% block page_header %}People{% endblock %}
+
+{% block content %}
+    <form method="post" class="" id="person_form">
+
+        {% if form.non_field_errors %}
+            <div class="col-md-12" style="margin-top: 10px;">
+                {% for error in form.non_field_errors %}
+                    <p class="alert alert-danger">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% crispy form %}
+    </form>
+
+{% endblock %}
+
+
+{% block footer_nav %}
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container">
+            <div class="navbar-right">
+                <input type="button" class="btn btn-primary navbar-btn" value="Save" id="nav_button_save"/>
+            </div>
+        </div>
+    </nav>
+{% endblock %}
+
+
+{% block footer_extra_scripts %}
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function (event) {
+            // Navbar bottom actions
+            $('footer').addClass('navbar_spacing');
+            $('#nav_button_save').on('click', function () {
+                $('#person_form').submit();
+            });
+        });
+    </script>
+{% endblock %}

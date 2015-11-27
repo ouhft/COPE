@@ -201,3 +201,7 @@ class YesNoFieldWithAlternativeFollowups(LayoutObject):
             'tertiary_field': tertiary_output
         })
         return render_to_string(self.template, context)
+
+
+def ForeignKeyModal(field_name, **kwargs):
+    return Field(field_name, template="bootstrap3/foreign-key-modal.html", **kwargs)
