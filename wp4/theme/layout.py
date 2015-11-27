@@ -205,3 +205,11 @@ class YesNoFieldWithAlternativeFollowups(LayoutObject):
 
 def ForeignKeyModal(field_name, **kwargs):
     return Field(field_name, template="bootstrap3/foreign-key-modal.html", **kwargs)
+
+
+class AjaxReturnIDMixin(object):
+    def get_context_data(self, **kwargs):
+        # Get the DOM id from the request data on return_id and make available to template
+        context = super(AjaxReturnIDMixin, self).get_context_data(**kwargs)
+        context['return_id'] = self.request.GET.get("return_id")
+        return context

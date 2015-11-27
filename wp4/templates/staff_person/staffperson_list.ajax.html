@@ -1,0 +1,11 @@
+{% if staffperson_list %}
+    <ul class="list-group">
+        {% for person in staffperson_list %}
+    <a href="javascript:selectAndCloseForeignKeyModal('{{ return_id }}', {{ person.id }}, '{{ person.full_name }}');" class="list-group-item"><strong>{{ person.full_name }}</strong> ({{ person.based_at.name }})</a>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No people are available.</p>
+{% endif %}
+<p><a href="javascript:changeForeignKeyModalToAdd('{{ return_id }}')" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Add
+    Person</a></p>

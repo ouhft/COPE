@@ -18,15 +18,16 @@ class StaffPersonForm(forms.ModelForm):
     helper.layout = Layout(
         'first_names',
         'last_names',
+        'based_at',
         'user',
         'telephone',
         'email',
-        'based_at',
         InlineCheckboxes('jobs'),
     )
 
     def __init__(self, *args, **kwargs):
         super(StaffPersonForm, self).__init__(*args, **kwargs)
+        self.render_required_fields = True
         # self.fields['jobs'].widget = forms.HiddenInput()
 
 

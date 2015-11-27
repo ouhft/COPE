@@ -6,18 +6,24 @@
     {{ field.label_tag }}
 
     <div class="input-group" id="{{ field.html_name }}-group">
-        <input class="form-control" type="text" id="{{ field.html_name }}-display" readonly value="KEY TEXT HERE">
-        <span class="input-group-addon">
-            <a href="#"><i class="glyphicon glyphicon-search"></i></a>
+        <span class="input-group-addon {% if field.value == None %}hidden{% endif %}">
+            <a href="javascript:openForeignKeyModalForEdit('{{ field.id_for_label }}')"><i
+                    class="glyphicon glyphicon-edit"></i></a>
         </span>
-        <span class="hidden">{{ field.as_widget }}</span>
-        <script>
-            // Initialise display
-            document.addEventListener("DOMContentLoaded", function(event) {
-                $("#{{ field.html_name }}-display").val($("#{{ field.id_for_label }} :selected").text());
-            });
-        </script>
+        <input class="form-control" type="text" id="{{ field.id_for_label }}-display" readonly value="Name here">
+        <span class="input-group-addon">
+            <a href="javascript:openForeignKeyModalForSearch('{{ field.id_for_label }}')"><i
+                    class="glyphicon glyphicon-search"></i></a>
+        </span>
     </div>
+
+    <span class="hidden">{{ field.as_widget }}</span>
+    <script>
+        // Initialise display
+        document.addEventListener("DOMContentLoaded", function (event) {
+            $("#{{ field.id_for_label }}-display").val($("#{{ field.id_for_label }} :selected").text());
+        });
+    </script>
 
     {% if field.help_text %}
         <p id="hint_{{ field.auto_id }}" class="help-block">{{ field.help_text|safe }}</p>

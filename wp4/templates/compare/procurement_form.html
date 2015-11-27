@@ -32,7 +32,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-primary hidden" id="modal-action-button">Save changes</button>
                 </div>
             </div>
             <!-- /.modal-content -->
@@ -282,24 +282,6 @@
             }
         }
 
-        function toggleModalContent(display) {
-            if (display) {
-                $('#modal-progressbar').delay(1000).slideUp('slow');
-                $('#modal-content').delay(1000).slideDown('slow');
-            } else {
-                $('#modal-content').hide();
-                $('#modal-progressbar').show();
-            }
-        }
-
-{#        $(document).bind('yourlabsWidgetReady', function () {#}
-{#            $('body').on('initialize', '.autocomplete-light-widget[data-widget-bootstrap=hospital-widget]', function () {#}
-{#                // HospitalWidget in cope.js#}
-{#                $(this).yourlabsWidget(HospitalWidget);#}
-{#            });#}
-{#        });#}
-{##}
-
         document.addEventListener("DOMContentLoaded", function (event) {
             // Set initial states
             updateRandomiseKidney({% if left_organ_form.transplantable.value %}true{% else %}false{% endif %}, true);
@@ -309,7 +291,6 @@
                     {% if donor_form.multiple_recipients.value != 0 %}true{% else %}false{% endif %}
             );
             updateRandomiseButton();
-            toggleModalContent(false);
 
             // Apply update functions
             $('input:radio[name=left-organ-transplantable]').parents('label').on('click', function () {
@@ -322,14 +303,16 @@
                 clickRecipients(this)
             });
 
-            $('#myModal').on('hidden.bs.modal', function (e) {
-                toggleModalContent(false);
-            })
-
             // Navbar bottom actions
             $('footer').addClass('navbar_spacing');
             $('#nav_button_save').on('click', function () {
                 $('#procurement_form').submit();
+            });
+
+            // Initialise the Modal widget
+            toggleModalContent(false);
+            $('#myModal').on('hidden.bs.modal', function (e) {
+                toggleModalContent(false);
             });
         });
     </script>
