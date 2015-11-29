@@ -78,7 +78,7 @@ function openForeignKeyModal(keyName, dbValue) {
             ajaxURL += (dbValue < 1 ? "person/" : "person/" + dbValue + "/");
             ajaxDATA = {"pk": dbValue, "q": 2, "return_id": keyName}
             ajaxSUCCESS = function (returnHTML) {
-                console.log("DEBUG: openForeignKeyModal() returnHTML=" + returnHTML);
+                //console.log("DEBUG: openForeignKeyModal() returnHTML=" + returnHTML);
                 $('#myModal').modal('show');
                 toggleModalContent(true, returnHTML);
             };
@@ -118,9 +118,8 @@ function openForeignKeyModal(keyName, dbValue) {
 
 function changeForeignKeyModalToAdd(keyName) {
     var ajaxURL = getBaseURL();
-    ajaxDATA = {"return_id": keyName}
-    var ajaxSUCCESS = function () {
-    };
+    var ajaxDATA = {"return_id": keyName};
+    var ajaxSUCCESS = function () { };
 
     switch (keyName) {
         case "id_donor-transplant_coordinator":
@@ -129,6 +128,7 @@ function changeForeignKeyModalToAdd(keyName) {
             ajaxSUCCESS = function (returnHTML) {
                 $('#myModal').modal('show');
                 toggleModalContent(true, returnHTML);
+                $("#person_form").find("#id_jobs").val("[2]");  // Add the default job role
             };
             break;
         case "id_donor-retrieval_hospital":

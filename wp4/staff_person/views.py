@@ -2,7 +2,8 @@
 # coding: utf-8
 
 from django import forms
-from django.views.generic import FormView
+from django.contrib import messages
+from django.core.urlresolvers import reverse
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
 
 from braces.views import LoginRequiredMixin
@@ -36,22 +37,30 @@ class AjaxFormMixin(object):
     def form_valid(self, form):
         form.instance.created_by = self.request.user
         if self.request.is_ajax():
-            context = self.get_context_data()
-            context['form_saved'] = True
-        return super(AjaxFormMixin, self).form_valid(form)
+            self.object = form.save()
+            return self.render_to_response(self.get_context_data(form=form))
+        else:
+            return super(AjaxFormMixin, self).form_valid(form)
+
+    def form_invalid(self, form):
+        print("DEBUG: form_invalid() errors: %s" % form.errors)
+        error_count = len(form.errors)
+        error_pluralise = "" if error_count == 1 else "s"
+        messages.error(
+            self.request,
+            '<strong>Form was NOT saved</strong>, please correct the %d error%s below' %
+            (error_count, error_pluralise)
+        )
+        return super(AjaxFormMixin, self).form_invalid(form)
 
     def get_form(self, form_class=None):
         form = super(AjaxFormMixin, self).get_form(form_class)
+        # Both post() and get() call get_form() first, so this is best place to intercept ajax changes
         if self.request.is_ajax():
             form.fields['user'].widget = forms.HiddenInput()
             form.fields['jobs'].widget = forms.HiddenInput()
-        return form
-
-    def get_template_names(self):
-        # print("DEBUG: get_template_names():is_ajax? %s" % self.request.is_ajax())
-        if self.request.is_ajax():
             self.template_name = "staff_person/staffperson_form.ajax.html"
-        return super(AjaxFormMixin, self).get_template_names()
+        return form
 
 
 # ============================================  CBVs
@@ -59,7 +68,7 @@ class StaffPersonListView(AjaxReturnIDMixin, AjaxListSearchMixin, LoginRequiredM
     model = StaffPerson
 
 
-class StaffPersonDetailView(LoginRequiredMixin, DetailView):
+class StaffPersonDetailView(AjaxReturnIDMixin, LoginRequiredMixin, DetailView):
     model = StaffPerson
 
 
@@ -69,4 +78,3 @@ class StaffPersonCreateView(AjaxReturnIDMixin, AjaxFormMixin, LoginRequiredMixin
 
 class StaffPersonUpdateView(AjaxReturnIDMixin, AjaxFormMixin, LoginRequiredMixin, UpdateView):
     model = StaffPerson
-

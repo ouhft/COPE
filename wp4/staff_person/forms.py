@@ -1,14 +1,14 @@
 #!/usr/bin/python
 # coding: utf-8
+import re
+
 from django import forms
-from django.forms.models import inlineformset_factory
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Field, Div
+from crispy_forms.layout import Layout
 from crispy_forms.bootstrap import InlineCheckboxes
 
-# from ..theme.layout import FieldWithFollowup, DateTimeField, FormPanel
-from .models import StaffJob, StaffPerson
+from .models import StaffPerson
 
 
 class StaffPersonForm(forms.ModelForm):
@@ -25,33 +25,16 @@ class StaffPersonForm(forms.ModelForm):
         InlineCheckboxes('jobs'),
     )
 
-    def __init__(self, *args, **kwargs):
-        super(StaffPersonForm, self).__init__(*args, **kwargs)
+    def __init__(self, data=None, *args, **kwargs):
+        # Special intercept and clean of data to account for jQuery.serialise data mangling of lists
+        if data is not None:
+            jquery_serialise_list_pattern = re.compile("^\[(\d+,?\s?)+\]$")
+            if isinstance(data['jobs'], type(u'')) and jquery_serialise_list_pattern.match(data['jobs']):
+                data = data.copy()  # make it mutable
+                data['jobs'] = [int(i) for i in data['jobs'][1:-1].split(",")]
+        super(StaffPersonForm, self).__init__(data=data, *args, **kwargs)
         self.render_required_fields = True
-        # self.fields['jobs'].widget = forms.HiddenInput()
-
 
     class Meta:
         model = StaffPerson
         fields = ('user', 'first_names', 'last_names', 'telephone', 'email', 'based_at', 'jobs')
-
-#
-# class StaffJobForm(forms.ModelForm):
-#     helper = FormHelper()
-#     helper.form_tag = False
-#     helper.html5_required = True
-#     helper.layout = Layout(
-#         'description',
-#     )
-#
-#     # def __init__(self, *args, **kwargs):
-#     #     super(StaffJobForm, self).__init__(*args, **kwargs)
-#
-#     class Meta:
-#         model = StaffJob
-#         fields = ('description',)
-#
-#
-# StaffJobFormset = inlineformset_factory(
-#     StaffPerson, StaffJob., form=StaffJobForm, min_num=1, validate_min=True
-# )

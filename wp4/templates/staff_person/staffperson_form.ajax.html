@@ -2,42 +2,49 @@
 {% load crispy_forms_tags %}
 {% load crispy_forms_field %}
 
-<form class="" id="person_form">
-    {% if form.non_field_errors %}
-        <div class="col-md-12" style="margin-top: 10px;">
-            {% for error in form.non_field_errors %}
-                <p class="alert alert-danger">{{ error }}</p>
-            {% endfor %}
-        </div>
-    {% endif %}
-    {% crispy form %}
-</form>
+{% if form.is_valid %}
+    <script type="text/javascript">
+        selectAndCloseForeignKeyModal('{{ return_id }}', {{ form.instance.pk }}, '{{ form.instance.full_name }}');
+    </script>
+{% else %}
 
-<script type="text/javascript">
-    // Initialise the modal
-    $('#myModalLabel').text("Manage Staff");
-    $('#modal-action-button').text("Save and Use").removeClass("hidden");
-    $('#modal-action-button').attr("onClick", "javascript:saveForeignKeyModal();");
-    function saveForeignKeyModal() {
-        var ajaxDATA = $.extend($("#person_form").serialize(), {"return_id": '{{ return_id }}'});
-        console.log("DEBUG: posting person form with: " + ajaxDATA['first_names']);
-        $.ajax({
-            url: getBaseURL() + "person/{{ form.instance.pk }}/",
-            type: "POST",  // This is comply with CBV premise that POST saves forms
-            data: ajaxDATA,
-            success: function (htmlContent) {
-                $('#modal-content').html(htmlContent);
-            },
-            error: function (xhr, errmsg, err) {
-                // Show an error
-                alert("ERROR: Problem when communicating with server.\n\n" +
-                        "Error message: (" + xhr.status + ") " + errmsg + "\n\n" +
-                        "Please let the admin team know you've seen this error.");
-                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
-                $('#myModal').modal('hide');
-            }
-        });
-    }
-</script>
+    {% include "includes/messages.html" %}
 
-<p>Form successful: {{ form_saved }}</p>
+    <form class="" id="person_form">
+        {% if form.non_field_errors %}
+            <div class="col-md-12" style="margin-top: 10px;">
+                {% for error in form.non_field_errors %}
+                    <p class="alert alert-danger">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% crispy form %}
+        <input type="hidden" name="return_id" value="{{ return_id }}">
+    </form>
+
+    <script type="text/javascript">
+        // Initialise the modal
+        $('#myModalLabel').text("Manage Staff");
+        $('#modal-action-button').text("Save and Use").removeClass("hidden");
+        $('#modal-action-button').attr("onClick", "saveForeignKeyModal();");
+
+        function saveForeignKeyModal() {
+            $.ajax({
+                url: getBaseURL() + "person/{{ form.instance.pk|default:"add" }}/",
+                type: "POST",  // This is comply with CBV premise that POST saves forms
+                data: $("#person_form").serializeArray(),
+                success: function (htmlContent) {
+                    $('#modal-content').html(htmlContent);
+                },
+                error: function (xhr, errmsg, err) {
+                    // Show an error
+                    alert("ERROR: Problem when communicating with server.\n\n" +
+                            "Error message: (" + xhr.status + ") " + errmsg + "\n\n" +
+                            "Please let the admin team know you've seen this error.");
+                    console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+                    $('#myModal').modal('hide');
+                }
+            });
+        }
+    </script>
+{% endif %}

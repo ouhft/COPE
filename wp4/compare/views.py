@@ -1,7 +1,7 @@
 # coding=utf-8
 
 from django.contrib import messages
-from django.db.models import Q, Count
+# from django.db.models import Q, Count
 from django.http import Http404
 from django.template import RequestContext
 from django.shortcuts import get_object_or_404, render, render_to_response

@@ -7,12 +7,12 @@
 
     <div class="input-group" id="{{ field.html_name }}-group">
         <span class="input-group-addon {% if field.value == None %}hidden{% endif %}">
-            <a href="javascript:openForeignKeyModalForEdit('{{ field.id_for_label }}')"><i
+            <a href="#" onclick="openForeignKeyModalForEdit('{{ field.id_for_label }}')"><i
                     class="glyphicon glyphicon-edit"></i></a>
         </span>
         <input class="form-control" type="text" id="{{ field.id_for_label }}-display" readonly value="Name here">
         <span class="input-group-addon">
-            <a href="javascript:openForeignKeyModalForSearch('{{ field.id_for_label }}')"><i
+            <a href="#" onclick="openForeignKeyModalForSearch('{{ field.id_for_label }}')"><i
                     class="glyphicon glyphicon-search"></i></a>
         </span>
     </div>
