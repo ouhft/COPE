@@ -24,7 +24,10 @@ urlpatterns += i18n_patterns(
 )
 
 if settings.DEBUG:
-    urlpatterns += (
-      url(r'^plate/', include('django_spaghetti.urls', namespace="spaghetti")),
-    )
+    try:
+        urlpatterns += (
+          url(r'^plate/', include('django_spaghetti.urls', namespace="spaghetti")),
+        )
+    except ImportError:
+        pass
 #     print("DEBUG: config.urls loaded")
