@@ -98,6 +98,13 @@
     }
   },
   {
+    "model": "staff_person.staffjob",
+    "pk": 15,
+    "fields": {
+      "description": "Transplant Theatre Contact"
+    }
+  },
+  {
     "model": "staff_person.staffperson",
     "pk": 1,
     "fields": {

@@ -4,6 +4,7 @@ from __future__ import absolute_import, unicode_literals
 
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _, ungettext_lazy as __
 
@@ -38,3 +39,6 @@ class Hospital(models.Model):
         ordering = ['country', 'name']
         verbose_name = _('HOm1 hospital')
         verbose_name_plural = _('HOm2 hospitals')
+
+    def get_absolute_url(self):
+        return reverse("locations:detail", kwargs={"pk": self.pk})

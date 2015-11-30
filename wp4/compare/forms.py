@@ -467,8 +467,8 @@ class AllocationForm(forms.ModelForm):
                 'perfusion_technician',
                 FieldWithNotKnown(DateTimeField('call_received', notknown=True), 'call_received_unknown',
                                   label=OrganAllocation._meta.get_field("call_received").verbose_name.title()),
-                'transplant_hospital',
-                'theatre_contact',
+                ForeignKeyModal('transplant_hospital'),
+                ForeignKeyModal('theatre_contact'),
                 FieldWithNotKnown(DateTimeField('scheduled_start', notknown=True), 'scheduled_start_unknown',
                                   label=OrganAllocation._meta.get_field("scheduled_start").verbose_name.title()),
                 FieldWithNotKnown(DateTimeField('technician_arrival', notknown=True), 'technician_arrival_unknown',
@@ -500,11 +500,6 @@ class AllocationForm(forms.ModelForm):
         self.fields['perfusion_technician'].label = OrganAllocation._meta.get_field(
             "perfusion_technician").verbose_name.title()
         self.fields['call_received'].input_formats = settings.DATETIME_INPUT_FORMATS
-        self.fields['transplant_hospital'].required = False
-        self.fields['transplant_hospital'].label = OrganAllocation._meta.get_field("transplant_hospital").verbose_name.title()
-        self.fields['theatre_contact'].required = False
-        self.fields['theatre_contact'].label = OrganAllocation._meta.get_field(
-            "theatre_contact").verbose_name.title()
         self.fields['scheduled_start'].input_formats = settings.DATETIME_INPUT_FORMATS
         self.fields['technician_arrival'].input_formats = settings.DATETIME_INPUT_FORMATS
         self.fields['depart_perfusion_centre'].input_formats = settings.DATETIME_INPUT_FORMATS

@@ -809,7 +809,7 @@ class OrganAllocation(VersionControlModel):
     theatre_contact = models.ForeignKey(
         StaffPerson,
         verbose_name=_('OA04 name of the theatre contact'),
-        limit_choices_to={"jobs": StaffJob.TRANSPLANT_COORDINATOR},
+        limit_choices_to={"jobs": StaffJob.THEATRE_CONTACT},
         related_name="recipient_transplant_coordinator_set",
         blank=True, null=True)
     scheduled_start = models.DateTimeField(verbose_name=_('OA05 scheduled start'), blank=True, null=True)

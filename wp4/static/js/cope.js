@@ -71,33 +71,41 @@ function openForeignKeyModal(keyName, dbValue) {
     var ajaxDATA = {}
     var ajaxSUCCESS = function () {
     };
-
-    switch (keyName) {
-        case "id_donor-transplant_coordinator":
-            //console.log("DEBUG: loading modal for transplant co-ord");
-            ajaxURL += (dbValue < 1 ? "person/" : "person/" + dbValue + "/");
-            ajaxDATA = {"pk": dbValue, "q": 2, "return_id": keyName}
-            ajaxSUCCESS = function (returnHTML) {
-                //console.log("DEBUG: openForeignKeyModal() returnHTML=" + returnHTML);
-                $('#myModal').modal('show');
-                toggleModalContent(true, returnHTML);
-            };
-            break;
-        case "id_donor-retrieval_hospital":
-            //console.log("DEBUG: loading modal for retrieval hospital");
-            ajaxURL += "location/add/";
-            ajaxDATA = {"pk": dbValue, "return_id": keyName}
-            ajaxSUCCESS = function (returnHTML) {
-                $('#myModal').modal('show');
-                toggleModalContent(true, returnHTML);
-            };
-            break;
-        default:
-            alert("ERROR: Unknown id for the search request (" + keyName + ") \n\n" +
-                "Please let the admin team know you've seen this error.");
-            return false;
+    var keyNameSplit = keyName.split("-");
+    if (keyName == "id_donor-transplant_coordinator") {
+        //console.log("DEBUG: loading modal for transplant co-ord");
+        ajaxURL += (dbValue < 1 ? "person/" : "person/" + dbValue + "/");
+        ajaxDATA = {"pk": dbValue, "q": 2, "return_id": keyName}
+        ajaxSUCCESS = function (returnHTML) {
+            //console.log("DEBUG: openForeignKeyModal() returnHTML=" + returnHTML);
+            $('#myModal').modal('show');
+            toggleModalContent(true, returnHTML);
+        };
+    } else if (keyNameSplit[0] == "id_allocation" && keyNameSplit[2] == "theatre_contact") {
+        //console.log("DEBUG: loading modal for transplant hospital");
+        ajaxURL += (dbValue < 1 ? "person/" : "person/" + dbValue + "/");
+        ajaxDATA = {"pk": dbValue, "q": 15, "return_id": keyName}
+        ajaxSUCCESS = function (returnHTML) {
+            //console.log("DEBUG: openForeignKeyModal() returnHTML=" + returnHTML);
+            $('#myModal').modal('show');
+            toggleModalContent(true, returnHTML);
+        };
+    } else if (keyName == "id_donor-retrieval_hospital" ||
+        (keyNameSplit[0] == "id_allocation" && keyNameSplit[2] == "transplant_hospital")) {
+        //console.log("DEBUG: loading modal for hospital");
+        ajaxURL += (dbValue < 1 ? "location/" : "location/" + dbValue + "/");
+        ajaxDATA = {"pk": dbValue, "return_id": keyName}
+        ajaxSUCCESS = function (returnHTML) {
+            //console.log("DEBUG: openForeignKeyModal() returnHTML=" + returnHTML);
+            $('#myModal').modal('show');
+            toggleModalContent(true, returnHTML);
+        };
+    } else {
+        alert("ERROR: Unknown id for the search request (" + keyName + ") \n\n" +
+            "Please let the admin team know you've seen this error.");
+        return false;
     }
-    console.log("DEBUG: openForeignKeyModal() calling url: " + ajaxURL);
+    //console.log("DEBUG: openForeignKeyModal() calling url: " + ajaxURL);
 
     $.ajax({
         url: ajaxURL,
@@ -119,32 +127,39 @@ function openForeignKeyModal(keyName, dbValue) {
 function changeForeignKeyModalToAdd(keyName) {
     var ajaxURL = getBaseURL();
     var ajaxDATA = {"return_id": keyName};
-    var ajaxSUCCESS = function () { };
-
-    switch (keyName) {
-        case "id_donor-transplant_coordinator":
-            //console.log("DEBUG: loading modal for transplant co-ord");
-            ajaxURL += "person/add";
-            ajaxSUCCESS = function (returnHTML) {
-                $('#myModal').modal('show');
-                toggleModalContent(true, returnHTML);
-                $("#person_form").find("#id_jobs").val("[2]");  // Add the default job role
-            };
-            break;
-        case "id_donor-retrieval_hospital":
-            //console.log("DEBUG: loading modal for retrieval hospital");
-            ajaxURL += "location/add/";
-            ajaxSUCCESS = function (returnHTML) {
-                $('#myModal').modal('show');
-                toggleModalContent(true, returnHTML);
-            };
-            break;
-        default:
-            alert("ERROR: Unknown id for the search request (" + keyName + ") \n\n" +
-                "Please let the admin team know you've seen this error.");
-            return false;
+    var ajaxSUCCESS = function () {
+    };
+    var keyNameSplit = keyName.split("-");
+    if (keyName == "id_donor-transplant_coordinator") {
+        //console.log("DEBUG: loading modal for transplant co-ord");
+        ajaxURL += "person/add";
+        ajaxSUCCESS = function (returnHTML) {
+            $('#myModal').modal('show');
+            toggleModalContent(true, returnHTML);
+            $("#person_form").find("#id_jobs").val("[2]");  // Add the default job role
+        };
+    } else if (keyNameSplit[0] == "id_allocation" && keyNameSplit[2] == "theatre_contact") {
+        //console.log("DEBUG: loading modal for transplant hospital");
+        ajaxURL += "person/add";
+        ajaxSUCCESS = function (returnHTML) {
+            $('#myModal').modal('show');
+            toggleModalContent(true, returnHTML);
+            $("#person_form").find("#id_jobs").val("[15]");  // Add the default job role
+        };
+    } else if (keyName == "id_donor-retrieval_hospital" ||
+        (keyNameSplit[0] == "id_allocation" && keyNameSplit[2] == "transplant_hospital")) {
+        //console.log("DEBUG: loading modal for retrieval hospital");
+        ajaxURL += "location/add/";
+        ajaxSUCCESS = function (returnHTML) {
+            $('#myModal').modal('show');
+            toggleModalContent(true, returnHTML);
+        };
+    } else {
+        alert("ERROR: Unknown id for the search request (" + keyName + ") \n\n" +
+            "Please let the admin team know you've seen this error.");
+        return false;
     }
-    console.log("DEBUG: changeForeignKeyModalToAdd() calling url: " + ajaxURL);
+    //console.log("DEBUG: changeForeignKeyModalToAdd() calling url: " + ajaxURL);
 
     $.ajax({
         url: ajaxURL,
@@ -168,10 +183,14 @@ function selectAndCloseForeignKeyModal(keyName, inputValue, inputText) {
 }
 
 function returnFromForeignKeyModal(keyName, inputValue, inputText) {
-    console.log("DEBUG: returnFromForeignKeyModal " + '#' + keyName + '-display with ' + inputText);
+    //console.log("DEBUG: returnFromForeignKeyModal " + '#' + keyName + '-display with ' + inputText);
     $('#' + keyName + '-display').val(inputText);
-    console.log("DEBUG: returnFromForeignKeyModal " + '#' + keyName + ' with ' + inputValue);
+    //console.log("DEBUG: returnFromForeignKeyModal " + '#' + keyName + ' with ' + inputValue);
+    // Hack, add the key regardless of if it already exists
+    $('#' + keyName).append($("<option></option>").attr("value",inputValue).text(inputText));
+    // Now select it
     $('#' + keyName).val(inputValue);
+    $('#' + keyName + '-edit').toggleClass("hidden", false);
 }
 
 // Initialise common functions

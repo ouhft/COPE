@@ -3,7 +3,6 @@
 
 from django import forms
 from django.contrib import messages
-from django.core.urlresolvers import reverse
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
 
 from braces.views import LoginRequiredMixin

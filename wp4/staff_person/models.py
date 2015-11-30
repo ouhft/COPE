@@ -44,6 +44,7 @@ class StaffJob(models.Model):
     LOCAL_INVESTIGATOR = 8
     OTHER_PROJECT_MEMBER = 9
     BIOBANK_COORDINATOR = 10
+    THEATRE_CONTACT = 15
 
     description = models.CharField(max_length=100)
     # TODO: Work out how to get localised values from this

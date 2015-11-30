@@ -1,0 +1,21 @@
+{% if hospital_list %}
+    <ul class="list-group">
+        {% for hospital in hospital_list %}
+            <a href="#"
+               onclick="selectAndCloseForeignKeyModal('{{ return_id }}', {{ hospital.id }}, '{{ hospital.name }}');"
+               class="list-group-item"><i class="glyphicon glyphicon-save"></i> <strong>{{ hospital.name }}</strong>
+                ({{ hospital.get_country_display }})</a>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No hospitals are available.</p>
+{% endif %}
+<p><a href="#" onclick="changeForeignKeyModalToAdd('{{ return_id }}')" class="btn btn-primary"><i
+        class="glyphicon glyphicon-plus"></i> Add
+    Hospital</a></p>
+
+
+<script type="text/javascript">
+    // Initialise the modal
+    $('#myModalLabel').text("Manage Hospitals");
+</script>

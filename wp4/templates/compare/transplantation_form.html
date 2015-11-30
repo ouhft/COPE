@@ -52,20 +52,22 @@
                 {% crispy person_form %}
                 {% crispy recipient_form %}
             </div>
+            {% if worksheet %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Samples</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p class="alert alert-warning">Please ensure you have successfully saved before clicking on the
+                            link
+                            below</p>
 
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Samples</h3>
+                        <p><a href="{% url 'samples:update' pk=worksheet.id %}" class="btn btn-default">Goto Samples
+                            Worksheet
+                            ({{ worksheet }})</a></p>
+                    </div>
                 </div>
-                <div class="panel-body">
-                    <p class="alert alert-warning">Please ensure you have successfully saved before clicking on the link
-                        below</p>
-
-                    <p><a href="{% url 'samples:update' pk=worksheet.id %}" class="btn btn-default">Goto Samples
-                        Worksheet
-                        ({{ worksheet }})</a></p>
-                </div>
-            </div>
+            {% endif %}
         {% else %}
             <p><span class="label label-info">Info</span> Please confirm that the organ has not been re-allocated. The
                 remainder of the form will appear after saving.</p>
