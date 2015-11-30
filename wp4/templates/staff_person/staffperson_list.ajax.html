@@ -3,7 +3,7 @@
         {% for person in staffperson_list %}
             <a href="#"
                onclick="selectAndCloseForeignKeyModal('{{ return_id }}', {{ person.id }}, '{{ person.full_name }}');"
-               class="list-group-item"><strong>{{ person.full_name }}</strong> ({{ person.based_at.name }})</a>
+               class="list-group-item"><i class="glyphicon glyphicon-save"></i> <strong>{{ person.full_name }}</strong> ({{ person.based_at.name }})</a>
         {% endfor %}
     </ul>
 {% else %}
