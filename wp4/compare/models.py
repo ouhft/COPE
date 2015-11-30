@@ -495,8 +495,9 @@ class Donor(VersionControlModel):
             if self.date_admitted_to_itu < self.date_of_admission:
                 raise ValidationError(_("DOv12 Donor in ICU before they were admitted to hospital"))
 
-        if self.life_support_withdrawal and (self.life_support_withdrawal.date() < self.date_of_admission):
-            raise ValidationError(_("DOv09 Life support withdrawn before admission to hospital"))
+        if self.life_support_withdrawal:
+            if self.life_support_withdrawal.date() < self.date_of_admission:
+                raise ValidationError(_("DOv09 Life support withdrawn before admission to hospital"))
         if self.circulatory_arrest and self.death_diagnosed:
             if self.circulatory_arrest > self.death_diagnosed:
                 raise ValidationError(_("DOv10 Donor was diagnosed as dead before circulation stopped"))
