@@ -188,7 +188,7 @@ class OrganPerson(VersionControlModel):
         if not self.date_of_birth:
             return None
         elif self.date_of_death:
-            years = self.date_of_death.year - self.date_of_birth
+            years = self.date_of_death.year - self.date_of_birth.year
         elif self.date_of_birth < today:
             years = today.year - self.date_of_birth.year
         else:
