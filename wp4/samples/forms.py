@@ -3,7 +3,6 @@
 from django import forms
 from django.conf import settings
 from django.forms.models import inlineformset_factory
-# from django import forms
 # from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 

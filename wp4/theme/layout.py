@@ -2,7 +2,7 @@
 # coding: utf-8
 import string, random
 
-from django.utils import formats, translation
+# from django.utils import formats, translation
 
 from crispy_forms.layout import LayoutObject, Div, HTML, Field, render_field, render_to_string, TEMPLATE_PACK, flatatt
 
@@ -201,3 +201,20 @@ class YesNoFieldWithAlternativeFollowups(LayoutObject):
             'tertiary_field': tertiary_output
         })
         return render_to_string(self.template, context)
+
+
+def ForeignKeyModal(field_name, **kwargs):
+    return Field(field_name, template="bootstrap3/foreign-key-modal.html", **kwargs)
+
+
+class AjaxReturnIDMixin(object):
+    def get_context_data(self, **kwargs):
+        # Get the DOM id from the request data on return_id and make available to template
+        context = super(AjaxReturnIDMixin, self).get_context_data(**kwargs)
+        return_id = self.request.GET.get("return_id", None)
+        # print("DEBUG: get_context_data() return_id-1=%s" % return_id)
+        if return_id is None:
+            return_id = self.request.POST.get("return_id", None)
+        context['return_id'] = return_id
+        # print("DEBUG: get_context_data() return_id-2=%s" % return_id)
+        return context

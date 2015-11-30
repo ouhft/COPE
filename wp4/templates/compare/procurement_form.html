@@ -11,36 +11,7 @@
 
 
 {% block content %}
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-                </div>
-                <div class="modal-body" id="modal-content">
-                    <p>One fine body&hellip;</p>
-                </div>
-                <div class="modal-body" id="modal-progressbar">
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100"
-                             aria-valuemin="0" aria-valuemax="100" style="width: 100%">
-                            <span class="sr-only">Loading</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
-    <form method="post" action="{% url 'compare:procurement_detail' pk=donor.id %}" class="form-horizontal"
+    <form method="post" action="{% url 'compare:procurement_detail' pk=donor.id %}" class=""
           id="procurement_form">
         <div class="panel {% if is_randomised %}panel-info{% else %}panel-primary{% endif %}"
              style="margin-top: 10px;">
@@ -117,15 +88,16 @@
             <!-- Tab panes -->
             <div role="tabpanel" class="tab-pane fade in active" id="donor">
                 <h2 class="sr-only visible-print">Donor</h2>
+
                 <div class="row">
                     {% if person_form.non_field_errors or donor_form.non_field_errors %}
                         <div class="col-md-12" style="margin-top: 10px;">
-                        {% for error in person_form.non_field_errors %}
-                            <p class="alert alert-danger">{{ error }}</p>
-                        {% endfor %}
-                        {% for error in donor_form.non_field_errors %}
-                            <p class="alert alert-danger">{{ error }}</p>
-                        {% endfor %}
+                            {% for error in person_form.non_field_errors %}
+                                <p class="alert alert-danger">{{ error }}</p>
+                            {% endfor %}
+                            {% for error in donor_form.non_field_errors %}
+                                <p class="alert alert-danger">{{ error }}</p>
+                            {% endfor %}
                         </div>
                     {% endif %}
                     {% crispy person_form %}
@@ -134,15 +106,16 @@
             </div>
             <div role="tabpanel" class="tab-pane fade" id="leftkidney">
                 <h2 class="sr-only visible-print">Left Kidney</h2>
+
                 <div class="row">
                     {% if left_organ_form.non_field_errors or left_organ_procurement_forms.non_form_errors %}
                         <div class="col-md-12" style="margin-top: 10px;">
-                        {% for error in left_organ_form.non_field_errors %}
-                            <p class="alert alert-danger">{{ error }}</p>
-                        {% endfor %}
-                        {% for error in left_organ_procurement_forms.non_form_errors %}
-                            <p class="alert alert-danger">{{ error }}</p>
-                        {% endfor %}
+                            {% for error in left_organ_form.non_field_errors %}
+                                <p class="alert alert-danger">{{ error }}</p>
+                            {% endfor %}
+                            {% for error in left_organ_procurement_forms.non_form_errors %}
+                                <p class="alert alert-danger">{{ error }}</p>
+                            {% endfor %}
                         </div>
                     {% endif %}
                     {% crispy left_organ_form %}
@@ -151,15 +124,16 @@
             </div>
             <div role="tabpanel" class="tab-pane fade" id="rightkidney">
                 <h2 class="sr-only visible-print">Right Kidney</h2>
+
                 <div class="row">
                     {% if right_organ_form.non_field_errors or right_organ_procurement_forms.non_form_errors %}
                         <div class="col-md-12" style="margin-top: 10px;">
-                        {% for error in right_organ_form.non_field_errors %}
-                            <p class="alert alert-danger">{{ error }}</p>
-                        {% endfor %}
-                        {% for error in right_organ_procurement_forms.non_form_errors %}
-                            <p class="alert alert-danger">{{ error }}</p>
-                        {% endfor %}
+                            {% for error in right_organ_form.non_field_errors %}
+                                <p class="alert alert-danger">{{ error }}</p>
+                            {% endfor %}
+                            {% for error in right_organ_procurement_forms.non_form_errors %}
+                                <p class="alert alert-danger">{{ error }}</p>
+                            {% endfor %}
                         </div>
                     {% endif %}
                     {% crispy right_organ_form %}
@@ -168,8 +142,14 @@
             </div>
             <div role="tabpanel" class="tab-pane fade" id="samples">
                 <h2 class="sr-only visible-print">Samples</h2>
-                <p class="alert alert-warning">Please ensure you have successfully saved before clicking on the link below</p>
-                <p><a href="{% url 'samples:update' pk=worksheet.id %}" class="btn btn-default">Goto Samples Worksheet ({{ worksheet }})</a></p>
+                {% if worksheet %}
+                    <p class="alert alert-warning">Please ensure you have successfully saved before clicking on the link
+                        below</p>
+                    <p><a href="{% url 'samples:update' pk=worksheet.id %}" class="btn btn-default">Goto Samples
+                        Worksheet ({{ worksheet }})</a></p>
+                {% else %}
+                    <p>No worksheet has been created for this case. Please report to Sys-Admin.</p>
+                {% endif %}
             </div>
             {% csrf_token %}
         </div>
@@ -180,47 +160,6 @@
 {% block footer_nav %}
     <nav class="navbar navbar-default navbar-fixed-bottom">
         <div class="container">
-            {#        <p class="navbar-text">Summary Information:</p>#}
-            {#            <ul class="nav navbar-nav">#}
-            {#                <li class="dropdown">#}
-            {#                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"#}
-            {#                       aria-expanded="false">Donor <span class="caret"></span></a>#}
-            {##}
-            {#                    <div class="panel panel-info dropdown-menu">#}
-            {#                        <div class="panel-heading">#}
-            {#                            <h3 class="panel-title">Donor</h3>#}
-            {#                        </div>#}
-            {#                        <ul class="list-group">#}
-            {#                            <li class="list-group-item">#}
-            {#                                Age: {{ donor.age }}#}
-            {#                            </li>#}
-            {#                            <li class="list-group-item">#}
-            {#                                NHS Number: {{ donor.number }}#}
-            {#                            </li>#}
-            {#                            <li class="list-group-item">#}
-            {#                                Donor hospital: {{ donor.retrieval_hospital.name }}#}
-            {#                            </li>#}
-            {#                            <li class="list-group-item">#}
-            {#                                Transplant co-ordinator:{{ donor.transplant_coordinator.full_name }}<br>#}
-            {#                                <i class="glyphicon glyphicon-phone"></i>: {{ donor.transplant_coordinator.telephone }}#}
-            {#                            </li>#}
-            {#                        </ul>#}
-            {#                    </div>#}
-            {#                </li>#}
-            {#                <li class="dropdown">#}
-            {#                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"#}
-            {#                       aria-expanded="false">Dropdown <span class="caret"></span></a>#}
-            {#                    <ul class="dropdown-menu">#}
-            {#                        <li><a href="#">Action</a></li>#}
-            {#                        <li><a href="#">Another action</a></li>#}
-            {#                        <li><a href="#">Something else here</a></li>#}
-            {#                        <li role="separator" class="divider"></li>#}
-            {#                        <li><a href="#">Separated link</a></li>#}
-            {#                        <li role="separator" class="divider"></li>#}
-            {#                        <li><a href="#">One more separated link</a></li>#}
-            {#                    </ul>#}
-            {#                </li>#}
-            {#            </ul>#}
             <div class="navbar-right">
                 <input type="button" class="btn btn-primary navbar-btn" value="Save" id="nav_button_save"/>
             </div>
@@ -314,24 +253,6 @@
             }
         }
 
-        function toggleModalContent(display) {
-            if (display) {
-                $('#modal-progressbar').delay(1000).slideUp('slow');
-                $('#modal-content').delay(1000).slideDown('slow');
-            } else {
-                $('#modal-content').hide();
-                $('#modal-progressbar').show();
-            }
-        }
-
-        $(document).bind('yourlabsWidgetReady', function () {
-            $('body').on('initialize', '.autocomplete-light-widget[data-widget-bootstrap=hospital-widget]', function () {
-                // HospitalWidget in cope.js
-                $(this).yourlabsWidget(HospitalWidget);
-            });
-        });
-
-
         document.addEventListener("DOMContentLoaded", function (event) {
             // Set initial states
             updateRandomiseKidney({% if left_organ_form.transplantable.value %}true{% else %}false{% endif %}, true);
@@ -341,7 +262,6 @@
                     {% if donor_form.multiple_recipients.value != 0 %}true{% else %}false{% endif %}
             );
             updateRandomiseButton();
-            toggleModalContent(false);
 
             // Apply update functions
             $('input:radio[name=left-organ-transplantable]').parents('label').on('click', function () {
@@ -353,10 +273,6 @@
             $('input:radio[name=donor-multiple_recipients]').parents('label').on('click', function () {
                 clickRecipients(this)
             });
-
-            $('#myModal').on('hidden.bs.modal', function (e) {
-                toggleModalContent(false);
-            })
 
             // Navbar bottom actions
             $('footer').addClass('navbar_spacing');

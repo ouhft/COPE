@@ -4,6 +4,8 @@ from __future__ import absolute_import, unicode_literals
 
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
+from django.core.validators import RegexValidator
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _, ungettext_lazy as __
 
@@ -23,6 +25,12 @@ class VersionControlModel(models.Model):
     class Meta:
         abstract = True
 
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        self.created_on = timezone.now()
+        self.version += 1
+        return super(VersionControlModel, self).save(force_insert, force_update, using, update_fields)
+
 
 class StaffJob(models.Model):
     # pk values for StaffJob taken from fixtures/persons.json
@@ -36,6 +44,7 @@ class StaffJob(models.Model):
     LOCAL_INVESTIGATOR = 8
     OTHER_PROJECT_MEMBER = 9
     BIOBANK_COORDINATOR = 10
+    THEATRE_CONTACT = 15
 
     description = models.CharField(max_length=100)
     # TODO: Work out how to get localised values from this
@@ -46,21 +55,24 @@ class StaffJob(models.Model):
 
 # Create your models here.
 class StaffPerson(VersionControlModel):
+    phone_regex = RegexValidator(
+        regex=r'^\+?1?\d{9,15}$',
+        message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed."
+    )
+
     user = models.OneToOneField(User, verbose_name=_("PE14 related user account"), blank=True, null=True,
                                 related_name="profile")
     first_names = models.CharField(verbose_name=_("PE10 first names"), max_length=50)
     last_names = models.CharField(verbose_name=_("PE11 last names"), max_length=50)
     jobs = models.ManyToManyField(StaffJob, verbose_name=_("PE12 jobs"))
-    telephone = models.CharField(verbose_name=_("PE13 telephone number"), max_length=20, blank=True)
+    telephone = models.CharField(verbose_name=_("PE13 telephone number"), validators=[phone_regex],
+                                 max_length=15, blank=True)
     email = models.EmailField(verbose_name=_("PE15 email"), blank=True)
     based_at = models.ForeignKey(Hospital, blank=True, null=True)
 
     def full_name(self):
         return self.first_names + ' ' + self.last_names
     full_name.short_description = 'Name'
-
-    # def get_absolute_url(self):
-    #     return reverse('person-detail', kwargs={'pk': self.pk})
 
     def has_job(self, acceptable_jobs):
         jobs_list = [x.id for x in self.jobs.all()]
@@ -78,3 +90,6 @@ class StaffPerson(VersionControlModel):
     class Meta:
         verbose_name = _('PEm1 person')
         verbose_name_plural = _('PEm2 people')
+
+    def get_absolute_url(self):
+        return reverse("staff_person:detail", kwargs={"pk": self.pk})

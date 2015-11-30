@@ -1,0 +1,31 @@
+{% load crispy_forms_field crispy_forms_filters %}
+{% load l10n i18n %}
+
+<div class="form-group {{ field.css_class|default:"" }}">
+    {# TODO: Add errors and error state #}
+    {{ field.label_tag }}
+
+    <div class="input-group" id="{{ field.html_name }}-group">
+        <span class="input-group-addon {% if field.value == None or field.value == "" %}hidden{% endif %}" id="{{ field.id_for_label }}-edit">
+            <a href="#" onclick="openForeignKeyModalForEdit('{{ field.id_for_label }}')"><i
+                    class="glyphicon glyphicon-edit"></i></a>
+        </span>
+        <input class="form-control" type="text" id="{{ field.id_for_label }}-display" readonly value="Name here">
+        <span class="input-group-addon">
+            <a href="#" onclick="openForeignKeyModalForSearch('{{ field.id_for_label }}')"><i
+                    class="glyphicon glyphicon-search"></i></a>
+        </span>
+    </div>
+
+    <span class="hidden">{{ field.as_widget }}</span>
+    <script>
+        // Initialise display
+        document.addEventListener("DOMContentLoaded", function (event) {
+            $("#{{ field.id_for_label }}-display").val($("#{{ field.id_for_label }} :selected").text());
+        });
+    </script>
+
+    {% if field.help_text %}
+        <p id="hint_{{ field.auto_id }}" class="help-block">{{ field.help_text|safe }}</p>
+    {% endif %}
+</div>

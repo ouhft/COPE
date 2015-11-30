@@ -28,29 +28,172 @@ $.fn.exists = function () {
 // Django-ajax
 // @codekit-append "../js-plugins/jquery.ajax.js"
 
-// Autocomplete-light extra widgets
-HospitalWidget = {
-    getValue: function (choice) {
-        // TODO: Secure this input so that it doesn't execute the contents of value!
-        var value = choice.data('value');
 
-        if (value == 'create') {
-            choice.html(this.input.val())
-
-            $.ajax(this.autocomplete.url, {
-                async: false,
-                type: 'post',
-                data: {
-                    'name': this.input.val(),
-                },
-                success: function (text, jqXHR, textStatus) {
-                    value = text;
-                }
-            });
-
-            choice.data('value', value);
+function toggleModalContent(display, htmlContent) {
+    if (display) {
+        if (htmlContent == "") {
+            htmlContent = "<p>Nothing to see here</p>";
         }
-
-        return value;
+        $('#modal-content').html(htmlContent);
+        $('#modal-progressbar').delay(1000).slideUp('slow');
+        $('#modal-content').delay(1000).slideDown('slow');
+    } else {
+        $('#modal-content').hide();
+        $('#modal-action-button').text("Unset").toggleClass("hidden", true);
+        $('#modal-progressbar').show();
     }
 }
+
+function getBaseURL() {
+    // Return the protocol, host, and first level of path (i.e. locale)
+    var newURL = window.location.protocol + "//" + window.location.host + "/";
+    var pathArray = window.location.pathname.split("/");
+    //console.log("DEBUG: newURL=" + newURL);
+    //console.log("DEBUG: pathArray=" + pathArray);
+    return newURL + pathArray[1] + "/";
+}
+
+// Methods for the ForeignKeyModal functionality I've added to CrispyForms
+function openForeignKeyModalForEdit(keyName) {
+    var dbValue = $("#" + keyName + " :selected").val();
+    return openForeignKeyModal(keyName, dbValue);
+}
+
+function openForeignKeyModalForSearch(keyName) {
+    return openForeignKeyModal(keyName, 0);
+}
+
+function openForeignKeyModal(keyName, dbValue) {
+    // Open the modal, load the relevant url, display the relevant status
+    // Presumes existence of "#myModal" in page
+
+    var ajaxURL = getBaseURL();
+    var ajaxDATA = {}
+    var ajaxSUCCESS = function () {
+    };
+    var keyNameSplit = keyName.split("-");
+    if (keyName == "id_donor-transplant_coordinator") {
+        //console.log("DEBUG: loading modal for transplant co-ord");
+        ajaxURL += (dbValue < 1 ? "person/" : "person/" + dbValue + "/");
+        ajaxDATA = {"pk": dbValue, "q": 2, "return_id": keyName}
+        ajaxSUCCESS = function (returnHTML) {
+            //console.log("DEBUG: openForeignKeyModal() returnHTML=" + returnHTML);
+            $('#myModal').modal('show');
+            toggleModalContent(true, returnHTML);
+        };
+    } else if (keyNameSplit[0] == "id_allocation" && keyNameSplit[2] == "theatre_contact") {
+        //console.log("DEBUG: loading modal for transplant hospital");
+        ajaxURL += (dbValue < 1 ? "person/" : "person/" + dbValue + "/");
+        ajaxDATA = {"pk": dbValue, "q": 15, "return_id": keyName}
+        ajaxSUCCESS = function (returnHTML) {
+            //console.log("DEBUG: openForeignKeyModal() returnHTML=" + returnHTML);
+            $('#myModal').modal('show');
+            toggleModalContent(true, returnHTML);
+        };
+    } else if (keyName == "id_donor-retrieval_hospital" ||
+        (keyNameSplit[0] == "id_allocation" && keyNameSplit[2] == "transplant_hospital")) {
+        //console.log("DEBUG: loading modal for hospital");
+        ajaxURL += (dbValue < 1 ? "location/" : "location/" + dbValue + "/");
+        ajaxDATA = {"pk": dbValue, "return_id": keyName}
+        ajaxSUCCESS = function (returnHTML) {
+            //console.log("DEBUG: openForeignKeyModal() returnHTML=" + returnHTML);
+            $('#myModal').modal('show');
+            toggleModalContent(true, returnHTML);
+        };
+    } else {
+        alert("ERROR: Unknown id for the search request (" + keyName + ") \n\n" +
+            "Please let the admin team know you've seen this error.");
+        return false;
+    }
+    //console.log("DEBUG: openForeignKeyModal() calling url: " + ajaxURL);
+
+    $.ajax({
+        url: ajaxURL,
+        type: "GET",  // This is comply with CBV premise that GET loads forms
+        data: ajaxDATA,
+        success: ajaxSUCCESS,
+        error: function (xhr, errmsg, err) {
+            // Show an error
+            alert("ERROR: Problem when communicating with server.\n\n" +
+                "Error message: (" + xhr.status + ") " + errmsg + "\n\n" +
+                "Please let the admin team know you've seen this error.");
+            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            $('#myModal').modal('hide');
+        }
+    });
+    return true;
+}
+
+function changeForeignKeyModalToAdd(keyName) {
+    var ajaxURL = getBaseURL();
+    var ajaxDATA = {"return_id": keyName};
+    var ajaxSUCCESS = function () {
+    };
+    var keyNameSplit = keyName.split("-");
+    if (keyName == "id_donor-transplant_coordinator") {
+        //console.log("DEBUG: loading modal for transplant co-ord");
+        ajaxURL += "person/add";
+        ajaxSUCCESS = function (returnHTML) {
+            $('#myModal').modal('show');
+            toggleModalContent(true, returnHTML);
+            $("#person_form").find("#id_jobs").val("[2]");  // Add the default job role
+        };
+    } else if (keyNameSplit[0] == "id_allocation" && keyNameSplit[2] == "theatre_contact") {
+        //console.log("DEBUG: loading modal for transplant hospital");
+        ajaxURL += "person/add";
+        ajaxSUCCESS = function (returnHTML) {
+            $('#myModal').modal('show');
+            toggleModalContent(true, returnHTML);
+            $("#person_form").find("#id_jobs").val("[15]");  // Add the default job role
+        };
+    } else if (keyName == "id_donor-retrieval_hospital" ||
+        (keyNameSplit[0] == "id_allocation" && keyNameSplit[2] == "transplant_hospital")) {
+        //console.log("DEBUG: loading modal for retrieval hospital");
+        ajaxURL += "location/add/";
+        ajaxSUCCESS = function (returnHTML) {
+            $('#myModal').modal('show');
+            toggleModalContent(true, returnHTML);
+        };
+    } else {
+        alert("ERROR: Unknown id for the search request (" + keyName + ") \n\n" +
+            "Please let the admin team know you've seen this error.");
+        return false;
+    }
+    //console.log("DEBUG: changeForeignKeyModalToAdd() calling url: " + ajaxURL);
+
+    $.ajax({
+        url: ajaxURL,
+        type: "GET",  // This is comply with CBV premise that GET loads forms
+        data: ajaxDATA,
+        success: ajaxSUCCESS,
+        error: function (xhr, errmsg, err) {
+            // Show an error
+            alert("ERROR: Problem when communicating with server.\n\n" +
+                "Error message: (" + xhr.status + ") " + errmsg + "\n\n" +
+                "Please let the admin team know you've seen this error.");
+            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            $('#myModal').modal('hide');
+        }
+    });
+}
+
+function selectAndCloseForeignKeyModal(keyName, inputValue, inputText) {
+    returnFromForeignKeyModal(keyName, inputValue, inputText);
+    $('#myModal').modal('hide');
+}
+
+function returnFromForeignKeyModal(keyName, inputValue, inputText) {
+    //console.log("DEBUG: returnFromForeignKeyModal " + '#' + keyName + '-display with ' + inputText);
+    $('#' + keyName + '-display').val(inputText);
+    //console.log("DEBUG: returnFromForeignKeyModal " + '#' + keyName + ' with ' + inputValue);
+    // Hack, add the key regardless of if it already exists
+    $('#' + keyName).append($("<option></option>").attr("value",inputValue).text(inputText));
+    // Now select it
+    $('#' + keyName).val(inputValue);
+    $('#' + keyName + '-edit').toggleClass("hidden", false);
+}
+
+// Initialise common functions
+document.addEventListener("DOMContentLoaded", function (event) {
+    // Set initial states
+});

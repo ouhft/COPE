@@ -10,7 +10,7 @@ from crispy_forms.layout import Layout, Submit, Div, HTML, Field
 # from crispy_forms.bootstrap import FormActions, StrictButton
 from autocomplete_light import ModelChoiceField
 
-from ..theme.layout import InlineFields, FieldWithFollowup, YesNoFieldWithAlternativeFollowups, FieldWithNotKnown
+from ..theme.layout import InlineFields, FieldWithFollowup, YesNoFieldWithAlternativeFollowups, FieldWithNotKnown, ForeignKeyModal
 from ..theme.layout import DateTimeField, DateField, FormPanel
 from .models import OrganPerson, Donor, Organ, OrganAllocation, Recipient, ProcurementResource
 from .models import YES_NO_UNKNOWN_CHOICES, LOCATION_CHOICES
@@ -72,17 +72,17 @@ class OrganPersonForm(forms.ModelForm):
 
 
 class DonorForm(forms.ModelForm):
-    retrieval_hospital = ModelChoiceField('HospitalAutoComplete')
-    transplant_coordinator = ModelChoiceField('TransplantCoordinatorAutoComplete')
+    # retrieval_hospital = ModelChoiceField('HospitalAutoComplete')
+    # transplant_coordinator = ModelChoiceField('StaffPersonTransplantCoordinatorAutoComplete')
 
     layout_procedure = Layout(
         Field('retrieval_team', template="bootstrap3/layout/read-only.html"),
         'sequence_number',  # TODO: Work out how to hide this field if not admin
         Field('perfusion_technician', template="bootstrap3/layout/read-only.html"),
-        'transplant_coordinator',
+        ForeignKeyModal('transplant_coordinator'),
         FieldWithNotKnown(DateTimeField('call_received', notknown=True), 'call_received_unknown',
                           label=Donor._meta.get_field("call_received").verbose_name.title()),
-        'retrieval_hospital',
+        ForeignKeyModal('retrieval_hospital'),
         FieldWithNotKnown(DateTimeField('scheduled_start', notknown=True), 'scheduled_start_unknown',
                           label=Donor._meta.get_field("scheduled_start").verbose_name.title()),
         FieldWithNotKnown(DateTimeField('technician_arrival', notknown=True), 'technician_arrival_unknown',
@@ -448,8 +448,8 @@ ProcurementResourceRightInlineFormSet = forms.models.inlineformset_factory(
 
 class AllocationForm(forms.ModelForm):
     perfusion_technician = ModelChoiceField('TechnicianAutoComplete')
-    transplant_hospital = ModelChoiceField('HospitalAutoComplete')
-    theatre_contact = ModelChoiceField('TheatreContactAutoComplete')
+    # transplant_hospital = ModelChoiceField('HospitalAutoComplete')
+    # theatre_contact = ModelChoiceField('StaffPersonTheatreContactAutoComplete')
 
     layout_reallocation = Layout(
         FieldWithFollowup(
@@ -467,8 +467,8 @@ class AllocationForm(forms.ModelForm):
                 'perfusion_technician',
                 FieldWithNotKnown(DateTimeField('call_received', notknown=True), 'call_received_unknown',
                                   label=OrganAllocation._meta.get_field("call_received").verbose_name.title()),
-                'transplant_hospital',
-                'theatre_contact',
+                ForeignKeyModal('transplant_hospital'),
+                ForeignKeyModal('theatre_contact'),
                 FieldWithNotKnown(DateTimeField('scheduled_start', notknown=True), 'scheduled_start_unknown',
                                   label=OrganAllocation._meta.get_field("scheduled_start").verbose_name.title()),
                 FieldWithNotKnown(DateTimeField('technician_arrival', notknown=True), 'technician_arrival_unknown',
@@ -500,11 +500,6 @@ class AllocationForm(forms.ModelForm):
         self.fields['perfusion_technician'].label = OrganAllocation._meta.get_field(
             "perfusion_technician").verbose_name.title()
         self.fields['call_received'].input_formats = settings.DATETIME_INPUT_FORMATS
-        self.fields['transplant_hospital'].required = False
-        self.fields['transplant_hospital'].label = OrganAllocation._meta.get_field("transplant_hospital").verbose_name.title()
-        self.fields['theatre_contact'].required = False
-        self.fields['theatre_contact'].label = OrganAllocation._meta.get_field(
-            "theatre_contact").verbose_name.title()
         self.fields['scheduled_start'].input_formats = settings.DATETIME_INPUT_FORMATS
         self.fields['technician_arrival'].input_formats = settings.DATETIME_INPUT_FORMATS
         self.fields['depart_perfusion_centre'].input_formats = settings.DATETIME_INPUT_FORMATS

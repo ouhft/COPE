@@ -11,7 +11,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>{% block page_title %}Home{% endblock %} :: COPE DB - WP4:Compare</title>
+    <title>{% block page_title %}Home{% endblock %} :: COPE DB</title>
 
     <link href="{% static 'css/cope.css' %}" rel="stylesheet">
 
@@ -36,31 +36,55 @@
 <div class="container">
     <h1 class="page-header">{% block page_header %}Dashboard{% endblock %}</h1>
 
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-{#                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}#}
-                {{ message|safe }}
+    {#    Common modal #}
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+                <div class="modal-body" id="modal-content">
+                    <p>One fine body&hellip;</p>
+                </div>
+                <div class="modal-body" id="modal-progressbar">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100"
+                             aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                            <span class="sr-only">Loading</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary hidden" id="modal-action-button">Save changes</button>
+                </div>
             </div>
-        {% endfor %}
-    {% endif %}
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+    {% include "includes/messages.html" %}
 
     {% block content %}{% endblock %}
     <hr>
     <footer>
-        <p>COPE DB v0.3.3 (Nov 2015) : &copy; 2015 <a href="http://www.cope-eu.org/">COPE
+        <p>COPE DB v0.3.4 (Nov 2015) : &copy; 2015 <a href="http://www.cope-eu.org/">COPE
             Consortium</a></p>
         <ul class="list-unstyled list-inline">
             <li class="">
                 <a href="http://www.cope-eu.org/"><img src="{% static 'img/cope-logo.png' %}" style="height: 50px;"></a>
             </li>
             <li class="">
-                <a href="http://www.nds.ox.ac.uk/research/cope"><img src="{% static 'img/nds-logo.png' %}" style="height: 50px;"></a>
+                <a href="http://www.nds.ox.ac.uk/research/cope"><img src="{% static 'img/nds-logo.png' %}"
+                                                                     style="height: 50px;"></a>
             </li>
             <li class="">
-                <a href="http://www.ox.ac.uk/"><img src="{% static 'img/ox_brand_cmyk_pos_rect.svg' %}" style="height: 50px;"></a>
+                <a href="http://www.ox.ac.uk/"><img src="{% static 'img/ox_brand_cmyk_pos_rect.svg' %}"
+                                                    style="height: 50px;"></a>
             </li>
         </ul>
     </footer>
@@ -79,6 +103,11 @@
         $('#language').val(code);
         $('#language-form').submit();
     }
+    // Initialise the Modal widget
+    toggleModalContent(false);
+    $('#myModal').on('hidden.bs.modal', function (e) {
+        toggleModalContent(false);
+    });
 </script>
 {% block footer_extra_scripts %}{% endblock %}
 </body>

@@ -1,0 +1,31 @@
+{% extends "base_site.html" %}
+
+{% block page_title %}Locations{% endblock %}
+{% block page_header %}Locations{% endblock %}
+
+{% block content %}
+    {% if hospital_list %}
+        <table class="table table-responsive table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Country</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for hospital in hospital_list %}
+                <tr>
+                    <td>{{ hospital.id }}</td>
+                    <td><a href="{% url 'locations:update' hospital.id %}" class="btn btn-xs btn-primary"><i
+                            class="glyphicon glyphicon-edit"></i> {{ hospital.name }}</a></td>
+                    <td>{{ hospital.get_country_display }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No hospitals are available.</p>
+    {% endif %}
+    <p><a href="{% url "locations:add" %}" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Add Hospital</a></p>
+{% endblock %}

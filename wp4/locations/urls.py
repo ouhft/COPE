@@ -7,22 +7,22 @@ from . import views
 urlpatterns = [
     url(
         regex=r'^add/$',
-        view=views.StaffPersonCreateView.as_view(),
+        view=views.HospitalCreateView.as_view(),
         name='add'
     ),
     url(
         regex=r'^(?P<pk>[0-9]+)/details/$',
-        view=views.StaffPersonDetailView.as_view(),
+        view=views.HospitalDetailView.as_view(),
         name='detail'
     ),
     url(
         regex=r'^(?P<pk>[0-9]+)/$',
-        view=views.StaffPersonUpdateView.as_view(),
+        view=views.HospitalUpdateView.as_view(),
         name='update'
     ),
     url(
         regex=r'^$',
-        view=views.StaffPersonListView.as_view(),
+        view=views.HospitalListView.as_view(),
         name='list'
     ),
 ]
