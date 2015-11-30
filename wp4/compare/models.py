@@ -8,11 +8,13 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.validators import MinValueValidator, MaxValueValidator, ValidationError
-from django.db import models
+from django.db import models, transaction
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from ..staff_person.models import StaffJob, StaffPerson, Hospital
+from ..staff_person.models import StaffJob, StaffPerson
+from ..locations.models import Hospital, UNITED_KINGDOM, BELGIUM, NETHERLANDS, COUNTRY_CHOICES
+
 
 # Common CONSTANTS
 NO = 0
@@ -29,6 +31,10 @@ RIGHT = "R"
 LOCATION_CHOICES = (
     (LEFT, _('ORc01 Left')),
     (RIGHT, _('ORc02 Right')))
+
+
+def random_5050():
+    return random() >= 0.5  # True/False
 
 
 class VersionControlModel(models.Model):
@@ -506,6 +512,7 @@ class Donor(VersionControlModel):
                 and not self.systemic_flush_used_other:
             raise ValidationError(_("DOv11 Missing the details of the other systemic flush solution used"))
 
+    @transaction.atomic
     def randomise(self):
         # Randomise if eligible and not already done
         left_kidney = self.left_kidney()
@@ -514,7 +521,8 @@ class Donor(VersionControlModel):
                 and self.multiple_recipients is not False \
                 and left_kidney.transplantable \
                 and right_kidney.transplantable:
-            left_o2 = random() >= 0.5  # True/False
+            # left_o2 = random() >= 0.5  # True/False
+            left_o2 = Randomisation.get_and_assign_result(self.retrieval_team.based_at.country, self)
             if left_o2:
                 left_kidney.preservation = Organ.PRESERVATION_HMPO2
                 right_kidney.preservation = Organ.PRESERVATION_HMP
@@ -1008,3 +1016,24 @@ class Recipient(VersionControlModel):
 
     def trial_id(self):
         return self.organ.trial_id()
+
+
+class Randomisation(models.Model):
+    """
+    Populated from the supplied CSV file via the fixture. A 'True' result is HMPO2 for the Left Organ
+    """
+    donor = models.OneToOneField(Donor, null=True, blank=True, default=None)  # Internal key
+    country = models.PositiveSmallIntegerField(verbose_name=_("RA01 country"), choices=COUNTRY_CHOICES)
+    result = models.BooleanField(verbose_name=_("RA02 result"), default=random_5050)
+    allocated_on = models.DateTimeField(default=timezone.now)
+
+    @staticmethod
+    def get_and_assign_result(country_code, link_donor):
+        options = Randomisation.objects.filter(country=country_code, donor=None).order_by('id')
+        if len(options) < 1:
+            raise Exception()
+        result = options[0]
+        result.donor = link_donor
+        result.save()
+        return result.result
+
