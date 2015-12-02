@@ -2,8 +2,7 @@ from django.contrib import admin
 from django.utils import timezone
 
 # Register your models here.
-from .models import OrganPerson, RetrievalTeam, Donor, PerfusionMachine, PerfusionFile, Recipient, \
-    Organ, ProcurementResource, OrganAllocation
+from .models import OrganPerson, RetrievalTeam, Donor, Recipient, Organ, ProcurementResource, OrganAllocation
 
 
 class VersionControlAdmin(admin.ModelAdmin):
@@ -28,25 +27,6 @@ class RetrievalTeamAdmin(admin.ModelAdmin):
         obj.save()
 
 admin.site.register(RetrievalTeam, RetrievalTeamAdmin)
-
-
-class PerfusionMachineFileInline(admin.TabularInline):
-    model = PerfusionFile
-    fields = ('file',)
-
-
-class PerfusionMachineAdmin(admin.ModelAdmin):
-    fields = ('machine_serial_number', 'machine_reference_number')
-    inlines = [
-        PerfusionMachineFileInline,
-    ]
-
-    def save_model(self, request, obj, form, change):
-        obj.created_by = request.user
-        obj.created_on = timezone.now()
-        obj.save()
-
-admin.site.register(PerfusionMachine, PerfusionMachineAdmin)
 
 
 class OrganPersonAdmin(VersionControlAdmin):
@@ -97,6 +77,7 @@ class ProcurementResourceInline(admin.TabularInline):
     model = ProcurementResource
     fields = ('type', 'lot_number', 'expiry_date', 'expiry_date_unknown')
     can_delete = True
+    extra = 0
 
 
 class OrganAdmin(VersionControlAdmin):

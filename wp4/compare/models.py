@@ -14,6 +14,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from ..staff_person.models import StaffJob, StaffPerson
 from ..locations.models import Hospital, UNITED_KINGDOM, BELGIUM, NETHERLANDS, COUNTRY_CHOICES
+from ..perfusion_machine.models import PerfusionFile, PerfusionMachine
 
 
 # Common CONSTANTS
@@ -75,32 +76,6 @@ class RetrievalTeam(models.Model):
         ordering = ['centre_code']
         verbose_name = _('RTm1 retrieval team')
         verbose_name_plural = _('RTm2 retrieval teams')
-
-
-class PerfusionMachine(models.Model):
-    # Device accountability
-    machine_serial_number = models.CharField(verbose_name=_('PM01 machine serial number'), max_length=50)
-    machine_reference_number = models.CharField(verbose_name=_('PM02 machine reference number'), max_length=50)
-    created_on = models.DateTimeField(default=timezone.now)
-    created_by = models.ForeignKey(User)
-
-    def __unicode__(self):
-        return 's/n: ' + self.machine_serial_number
-
-    class Meta:
-        verbose_name = _('PMm1 perfusion machine')
-        verbose_name_plural = _('PMm2 perfusion machines')
-
-
-class PerfusionFile(models.Model):
-    machine = models.ForeignKey(PerfusionMachine, verbose_name=_('PF01 perfusion machine'))
-    file = models.FileField(blank=True)
-    created_on = models.DateTimeField(default=timezone.now)
-    created_by = models.ForeignKey(User)
-
-    class Meta:
-        verbose_name = _('PFm1 perfusion machine file')
-        verbose_name_plural = _('PFm2 perfusion machine files')
 
 
 class OrganPerson(VersionControlModel):
@@ -254,6 +229,7 @@ class Donor(VersionControlModel):
         verbose_name=_('DO02 Multiple recipients'),
         choices=YES_NO_UNKNOWN_CHOICES,
         blank=True, null=True)
+    form_completed = models.BooleanField(default=False)  # Internal value
 
     # Procedure data
     retrieval_team = models.ForeignKey(RetrievalTeam, verbose_name=_("DO01 retrieval team"))
@@ -875,6 +851,7 @@ class Recipient(VersionControlModel):
     person = models.OneToOneField(OrganPerson)  # Internal link
     organ = models.OneToOneField(Organ)  # Internal link
     allocation = models.OneToOneField(OrganAllocation)  # Internal link
+    form_completed = models.BooleanField(default=False)  # Internal value
 
     # Trial signoffs
     signed_consent = models.NullBooleanField(
@@ -981,9 +958,6 @@ class Recipient(VersionControlModel):
         blank=True, null=True)
     successful_conclusion = models.BooleanField(verbose_name=_("RE42 successful conclusion"), default=False)
     operation_concluded_at = models.DateTimeField(verbose_name=_("RE43 operation concluded at"), null=True, blank=True)
-
-    # SAMPLE DATA
-    # P#, RB1, RB2, ReK1R, ReK1F
 
     # Machine cleanup record
     probe_cleaned = models.NullBooleanField(verbose_name=_('RE44 temperature and flow probe cleaned'), blank=True,

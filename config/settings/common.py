@@ -55,6 +55,7 @@ LOCAL_APPS = (
     'wp4.compare',
     'wp4.locations',
     'wp4.staff_person',
+    'wp4.perfusion_machine',
     'wp4.adverse_event',
     'wp4.samples',
     'wp4.followups',
@@ -218,7 +219,7 @@ STATICFILES_FINDERS = (
 # MEDIA CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#media-root
-MEDIA_ROOT = str(APPS_DIR('media'))
+MEDIA_ROOT = str(ROOT_DIR('media'))
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#media-url
 MEDIA_URL = '/media/'
