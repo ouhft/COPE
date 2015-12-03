@@ -11,7 +11,7 @@
 
 
 {% block content %}
-    <form method="post" action="{% url 'compare:procurement_detail' pk=donor.id %}" class=""
+    <form method="post" action="{% url 'wp4:compare:procurement_detail' pk=donor.id %}" class=""
           id="procurement_form">
         <div class="panel {% if is_randomised %}panel-info{% else %}panel-primary{% endif %}"
              style="margin-top: 10px;">
@@ -145,7 +145,7 @@
                 {% if worksheet %}
                     <p class="alert alert-warning">Please ensure you have successfully saved before clicking on the link
                         below</p>
-                    <p><a href="{% url 'samples:update' pk=worksheet.id %}" class="btn btn-default">Goto Samples
+                    <p><a href="{% url 'wp4:samples:update' pk=worksheet.id %}" class="btn btn-default">Goto Samples
                         Worksheet ({{ worksheet }})</a></p>
                 {% else %}
                     <p>No worksheet has been created for this case. Please report to Sys-Admin.</p>

@@ -28,7 +28,7 @@
                     <tbody>
                     {% for donor in donors %}
                         <tr>
-                            <td><a href="{% url 'compare:procurement_detail' donor.id %}"
+                            <td><a href="{% url 'wp4:compare:procurement_detail' donor.id %}"
                                    class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i>
                                 {{ donor.trial_id }}
                             </a></td>
@@ -60,7 +60,7 @@
 
                             {% if donor.person.worksheet %}
                                 <td>
-                                    <a href="{% url 'samples:update' pk=donor.person.worksheet.id %}">{{ donor.person.worksheet }}</a>
+                                    <a href="{% url 'wp4:samples:update' pk=donor.person.worksheet.id %}">{{ donor.person.worksheet }}</a>
                                 </td>
                             {% else %}
                                 <td>No Worksheet</td>
@@ -77,7 +77,7 @@
         <div class="col-md-3">
             <h2>New Case</h2>
 
-            <form method="post" action="{% url 'compare:procurement_list' %}" class="form">
+            <form method="post" action="{% url 'wp4:compare:procurement_list' %}" class="form">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Start a new donor case</h3>

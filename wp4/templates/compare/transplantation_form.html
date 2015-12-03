@@ -11,7 +11,7 @@
 
 
 {% block content %}
-    <form method="post" action="{% url 'compare:transplantation_detail' pk=organ.id %}" class=""
+    <form method="post" action="{% url 'wp4:compare:transplantation_detail' pk=organ.id %}" class=""
           id="transplant-form">
         {#        <h2 class="sr-only visible-print">Donor</h2>#}
         {#        {{ recipient_form.errors }}#}
@@ -62,7 +62,7 @@
                             link
                             below</p>
 
-                        <p><a href="{% url 'samples:update' pk=worksheet.id %}" class="btn btn-default">Goto Samples
+                        <p><a href="{% url 'wp4:samples:update' pk=worksheet.id %}" class="btn btn-default">Goto Samples
                             Worksheet
                             ({{ worksheet }})</a></p>
                     </div>

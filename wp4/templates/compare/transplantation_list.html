@@ -30,7 +30,7 @@
                     {% for case in existing_cases %}
                         <tr>
                             <td>
-                                <a href="{% url 'compare:transplantation_detail' case.id %}"
+                                <a href="{% url 'wp4:compare:transplantation_detail' case.id %}"
                                    class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i>
                                     {{ case.trial_id }}
                                 </a>
@@ -48,7 +48,7 @@
                             <td>{{ case.recipient.person.age_from_dob|default:"Unknown age" }}</td>
                             <td>{{ case.recipient.person.get_gender_display }}</td>
                         {% if case.recipient.person.worksheet %}
-                            <td><a href="{% url 'samples:update' pk=case.recipient.person.worksheet.id %}">{{ case.recipient.person.worksheet }}</a></td>
+                            <td><a href="{% url 'wp4:samples:update' pk=case.recipient.person.worksheet.id %}">{{ case.recipient.person.worksheet }}</a></td>
                         {% else %}
                             <td>No Worksheet</td>
                         {% endif %}
@@ -68,7 +68,7 @@
             {% if new_cases|length > 0 %}
                 <div class="list-group">
                     {% for case in new_cases %}
-                        <a href="{% url 'compare:transplantation_detail' case.id %}"
+                        <a href="{% url 'wp4:compare:transplantation_detail' case.id %}"
                            class="list-group-item">{{ case.trial_id }}</a>
                     {% endfor %}
                 </div>

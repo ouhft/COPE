@@ -9,32 +9,32 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{% url 'compare:home' %}">COPE DB Online Trials System</a>
+            <a class="navbar-brand" href="{% url 'home' %}">COPE DB Online Trials System</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
 
             {# ================================================== LOGGED IN =================================================== #}
             {% if user.is_authenticated %}
                 <ul class="nav navbar-nav navbar-right">
-                    {% url 'compare:home' as url_home %}
+                    {% url 'home' as url_home %}
                     <li class="{% active request url_home %}"><a href="{{ url_home }}">Home</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false">WP4: Compare <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            {% url 'compare:procurement_list' as url_procurement %}
+                            {% url 'wp4:compare:procurement_list' as url_procurement %}
                             <li class="{% active request url_procurement %}"><a
                                     href="{{ url_procurement }}">Procurement</a>
                             </li>
-                            {% url 'compare:transplantation_list' as url_transplantation %}
+                            {% url 'wp4:compare:transplantation_list' as url_transplantation %}
                             <li class="{% active request url_transplantation %}"><a href="{{ url_transplantation }}">Transplantation</a>
                             </li>
-                            {% url 'samples:home' as url_samples %}
+                            {% url 'wp4:samples:home' as url_samples %}
                             <li class="{% active request url_samples %}"><a href="{{ url_samples }}">Samples</a></li>
-                            {% url 'adverse_event:list' as url_adverseevents %}
+                            {% url 'wp4:adverse_event:list' as url_adverseevents %}
                             <li class="{% active request url_adverseevents %}"><a href="{{ url_adverseevents }}">Adverse
                                 Events</a></li>
-                            {% url 'followup:list' as url_followup %}
+                            {% url 'wp4:followup:list' as url_followup %}
                             <li class="{% active request url_followup %}"><a href="{{ url_followup }}">Follow Up</a>
                             </li>
                         </ul>

@@ -25,11 +25,11 @@
                 {% crispy worksheet_form %}
             </div>
             {% if worksheet_form.instance.person.is_donor %}
-                <p><a href="{% url 'compare:procurement_detail' pk=worksheet_form.instance.person.donor.id %}"
+                <p><a href="{% url 'wp4:compare:procurement_detail' pk=worksheet_form.instance.person.donor.id %}"
                       class="btn btn-default">Go to Procurement Record</a></p>
             {% else %}
                 <p>
-                    <a href="{% url 'compare:transplantation_detail' pk=worksheet_form.instance.person.recipient.organ.id %}"
+                    <a href="{% url 'wp4:compare:transplantation_detail' pk=worksheet_form.instance.person.recipient.organ.id %}"
                        class="btn btn-default">Go to Transplant Record</a></p>
             {% endif %}
         </div>
