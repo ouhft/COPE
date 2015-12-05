@@ -7,10 +7,12 @@ import string, random
 from crispy_forms.layout import LayoutObject, Div, HTML, Field, render_field, render_to_string, TEMPLATE_PACK, flatatt
 
 
-def FormPanel(title, layout, panel_status=None):
+def FormPanel(title, layout, panel_status=None, panel_hidden=None):
     css_status = "default"
     if panel_status is not None:
         css_status = panel_status
+    if panel_hidden:
+        css_status += " hidden"
     return Div(
         # TODO: Work out how to i18n this later!
         Div(HTML("<h3 class=\"panel-title\">%s</h3>" % title), css_class="panel-heading"),

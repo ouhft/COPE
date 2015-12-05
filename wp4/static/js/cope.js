@@ -74,7 +74,7 @@ function openForeignKeyModal(keyName, dbValue) {
     var keyNameSplit = keyName.split("-");
     if (keyName == "id_donor-transplant_coordinator") {
         //console.log("DEBUG: loading modal for transplant co-ord");
-        ajaxURL += (dbValue < 1 ? "person/" : "person/" + dbValue + "/");
+        ajaxURL += (dbValue < 1 ? "wp4/person/" : "wp4/person/" + dbValue + "/");
         ajaxDATA = {"pk": dbValue, "q": 2, "return_id": keyName}
         ajaxSUCCESS = function (returnHTML) {
             //console.log("DEBUG: openForeignKeyModal() returnHTML=" + returnHTML);
@@ -83,7 +83,7 @@ function openForeignKeyModal(keyName, dbValue) {
         };
     } else if (keyNameSplit[0] == "id_allocation" && keyNameSplit[2] == "theatre_contact") {
         //console.log("DEBUG: loading modal for transplant hospital");
-        ajaxURL += (dbValue < 1 ? "person/" : "person/" + dbValue + "/");
+        ajaxURL += (dbValue < 1 ? "wp4/person/" : "wp4/person/" + dbValue + "/");
         ajaxDATA = {"pk": dbValue, "q": 15, "return_id": keyName}
         ajaxSUCCESS = function (returnHTML) {
             //console.log("DEBUG: openForeignKeyModal() returnHTML=" + returnHTML);
@@ -93,7 +93,7 @@ function openForeignKeyModal(keyName, dbValue) {
     } else if (keyName == "id_donor-retrieval_hospital" ||
         (keyNameSplit[0] == "id_allocation" && keyNameSplit[2] == "transplant_hospital")) {
         //console.log("DEBUG: loading modal for hospital");
-        ajaxURL += (dbValue < 1 ? "location/" : "location/" + dbValue + "/");
+        ajaxURL += (dbValue < 1 ? "wp4/location/" : "wp4/location/" + dbValue + "/");
         ajaxDATA = {"pk": dbValue, "return_id": keyName}
         ajaxSUCCESS = function (returnHTML) {
             //console.log("DEBUG: openForeignKeyModal() returnHTML=" + returnHTML);
@@ -132,7 +132,7 @@ function changeForeignKeyModalToAdd(keyName) {
     var keyNameSplit = keyName.split("-");
     if (keyName == "id_donor-transplant_coordinator") {
         //console.log("DEBUG: loading modal for transplant co-ord");
-        ajaxURL += "person/add";
+        ajaxURL += "wp4/person/add";
         ajaxSUCCESS = function (returnHTML) {
             $('#myModal').modal('show');
             toggleModalContent(true, returnHTML);
@@ -140,7 +140,7 @@ function changeForeignKeyModalToAdd(keyName) {
         };
     } else if (keyNameSplit[0] == "id_allocation" && keyNameSplit[2] == "theatre_contact") {
         //console.log("DEBUG: loading modal for transplant hospital");
-        ajaxURL += "person/add";
+        ajaxURL += "wp4/person/add";
         ajaxSUCCESS = function (returnHTML) {
             $('#myModal').modal('show');
             toggleModalContent(true, returnHTML);
@@ -149,7 +149,7 @@ function changeForeignKeyModalToAdd(keyName) {
     } else if (keyName == "id_donor-retrieval_hospital" ||
         (keyNameSplit[0] == "id_allocation" && keyNameSplit[2] == "transplant_hospital")) {
         //console.log("DEBUG: loading modal for retrieval hospital");
-        ajaxURL += "location/add/";
+        ajaxURL += "wp4/location/add/";
         ajaxSUCCESS = function (returnHTML) {
             $('#myModal').modal('show');
             toggleModalContent(true, returnHTML);

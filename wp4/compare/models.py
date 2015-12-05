@@ -488,6 +488,13 @@ class Donor(VersionControlModel):
                 and not self.systemic_flush_used_other:
             raise ValidationError(_("DOv11 Missing the details of the other systemic flush solution used"))
 
+        if self.form_completed:
+            if self.retrieval_hospital is None:
+                raise ValidationError(_("DOv12 Missing retrieval hospital"))
+            if self.person.number == "":
+                raise ValidationError(_("DOv13 Please enter the NHSBT number"))
+
+
     @transaction.atomic
     def randomise(self):
         # Randomise if eligible and not already done
@@ -705,6 +712,18 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
             self.oxygen_bottle_changed_at = None
         if self.ice_container_replenished_at_unknown:
             self.ice_container_replenished_at = None
+
+        if not self.transplantable and self.not_transplantable_reason == "":
+            raise ValidationError(_("ORv01 Please enter a reason for not being transplantable"))
+
+        if not self.perfusion_possible and self.perfusion_not_possible_because == "":
+            raise ValidationError(_("ORv02 Please enter a reason perfusion wasn't possible"))
+
+        if self.perfusion_possible and self.perfusion_started is None:
+            raise ValidationError(_("ORv02 Please enter the time perfusion started at"))
+
+        if self.donor.form_completed:
+            pass
 
     def trial_id(self):
         return self.donor.trial_id() + self.location

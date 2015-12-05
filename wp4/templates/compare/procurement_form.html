@@ -148,7 +148,7 @@
                     <p><a href="{% url 'wp4:samples:update' pk=worksheet.id %}" class="btn btn-default">Goto Samples
                         Worksheet ({{ worksheet }})</a></p>
                 {% else %}
-                    <p>No worksheet has been created for this case. Please report to Sys-Admin.</p>
+                    <p class="text-danger" style="margin-top: 1em;">No worksheet has been created for this case. Please report to Sys-Admin.</p>
                 {% endif %}
             </div>
             {% csrf_token %}
@@ -205,6 +205,10 @@
             updateRandomiseRecipients($(target).children('input:radio').val() != 0);
         }
 
+        function clickCompleted(target) {
+            updateCloseButton();
+        }
+
         function updateRandomiseKidney(yes, left) {
             var side = (left ? "left" : "right");
             if (yes) {
@@ -253,6 +257,15 @@
             }
         }
 
+        function updateCloseButton() {
+            var isCompleted = $('input:radio[name=donor-form_completed]:checked').val() != "False"
+            if (isCompleted) {
+                $('#nav_button_save').toggleClass('btn-primary', false).toggleClass('btn-danger', true).val("Save and Close");
+            } else {
+                $('#nav_button_save').toggleClass('btn-primary', true).toggleClass('btn-danger', false).val("Save");
+            }
+        }
+
         document.addEventListener("DOMContentLoaded", function (event) {
             // Set initial states
             updateRandomiseKidney({% if left_organ_form.transplantable.value %}true{% else %}false{% endif %}, true);
@@ -262,6 +275,11 @@
                     {% if donor_form.multiple_recipients.value != 0 %}true{% else %}false{% endif %}
             );
             updateRandomiseButton();
+            updateCloseButton();
+
+            // Reveal the form completed panel if no errors. NB: Non-randomised cases can be completed.
+            var errorCount = {{ donor_form.errors|length }} + {{ person_form.errors|length }} + {{ left_organ_error_count }} + {{ right_organ_error_count }};
+            if (errorCount==0) { $("DIV.panel-danger").toggleClass("hidden", false); }
 
             // Apply update functions
             $('input:radio[name=left-organ-transplantable]').parents('label').on('click', function () {
@@ -272,6 +290,9 @@
             });
             $('input:radio[name=donor-multiple_recipients]').parents('label').on('click', function () {
                 clickRecipients(this)
+            });
+            $('input:radio[name=donor-form_completed]').parents('label').on('change', function () {
+                clickCompleted(this)
             });
 
             // Navbar bottom actions

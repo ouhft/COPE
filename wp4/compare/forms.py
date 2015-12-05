@@ -72,9 +72,6 @@ class OrganPersonForm(forms.ModelForm):
 
 
 class DonorForm(forms.ModelForm):
-    # retrieval_hospital = ModelChoiceField('HospitalAutoComplete')
-    # transplant_coordinator = ModelChoiceField('StaffPersonTransplantCoordinatorAutoComplete')
-
     layout_procedure = Layout(
         Field('retrieval_team', template="bootstrap3/layout/read-only.html"),
         'sequence_number',  # TODO: Work out how to hide this field if not admin
@@ -93,12 +90,14 @@ class DonorForm(forms.ModelForm):
                           label=Donor._meta.get_field("depart_perfusion_centre").verbose_name.title()),
         FieldWithNotKnown(DateTimeField('arrival_at_donor_hospital', notknown=True), 'arrival_at_donor_hospital_unknown',
                           label=Donor._meta.get_field("arrival_at_donor_hospital").verbose_name.title()),
-        Field('multiple_recipients', template="bootstrap3/layout/radioselect-buttons.html"))
+        Field('multiple_recipients', template="bootstrap3/layout/radioselect-buttons.html")
+    )
     layout_other_organs = Layout(
         Field('other_organs_lungs', template="bootstrap3/layout/radioselect-buttons.html"),
         Field('other_organs_pancreas', template="bootstrap3/layout/radioselect-buttons.html"),
         Field('other_organs_liver', template="bootstrap3/layout/radioselect-buttons.html"),
-        Field('other_organs_tissue', template="bootstrap3/layout/radioselect-buttons.html"))
+        Field('other_organs_tissue', template="bootstrap3/layout/radioselect-buttons.html")
+    )
     layout_donor_details = Layout(
         'age',
         FieldWithNotKnown(DateField('date_of_admission', notknown=True), 'date_of_admission_unknown',
@@ -112,7 +111,8 @@ class DonorForm(forms.ModelForm):
         FieldWithFollowup(
             Field('other_organs_procured', template="bootstrap3/layout/radioselect-buttons.html"),
             layout_other_organs
-        ))
+        )
+    )
     layout_preop = Layout(
         FieldWithFollowup('diagnosis', 'diagnosis_other'),
         Field('diabetes_melitus', template="bootstrap3/layout/radioselect-buttons.html"),
@@ -125,10 +125,12 @@ class DonorForm(forms.ModelForm):
         Field('dobutamine', template="bootstrap3/layout/radioselect-buttons.html"),
         Field('nor_adrenaline', template="bootstrap3/layout/radioselect-buttons.html"),
         Field('vasopressine', template="bootstrap3/layout/radioselect-buttons.html"),
-        'other_medication_details')
+        'other_medication_details'
+    )
     layout_labresults = Layout(
         InlineFields('last_creatinine', 'last_creatinine_unit'),
-        InlineFields('max_creatinine', 'max_creatinine_unit'))
+        InlineFields('max_creatinine', 'max_creatinine_unit')
+    )
     layout_donor_procedure = Layout(
         DateTimeField('life_support_withdrawal'),
         FieldWithNotKnown(DateTimeField('systolic_pressure_low', notknown=True), 'systolic_pressure_low_unknown',
@@ -146,7 +148,16 @@ class DonorForm(forms.ModelForm):
             'systemic_flush_used_other'
         ),
         'systemic_flush_volume_used',
-        Field('heparin', template="bootstrap3/layout/radioselect-buttons.html"))
+        Field('heparin', template="bootstrap3/layout/radioselect-buttons.html")
+    )
+    layout_complete = Layout(
+        FieldWithFollowup(
+            Field('form_completed', template="bootstrap3/layout/radioselect-buttons.html"),
+            HTML("<p class=\"text-danger\">Once all errors have been cleared, clicking Save And Close below will " +
+                 "result in this form being closed and locked. No further edits will be possible without contacting " +
+                 "the admin team.</p>")
+        )
+    )
 
     helper = FormHelper()
     helper.form_tag = False
@@ -162,6 +173,7 @@ class DonorForm(forms.ModelForm):
         Div(
             FormPanel("Donor Preop Data", layout_preop),
             FormPanel("Lab Results", layout_labresults),
+            FormPanel("Complete Submission", layout_complete, panel_status="danger", panel_hidden=True),
             css_class="col-md-4", style="margin-top: 10px;"
         ),
         'person',
@@ -171,11 +183,6 @@ class DonorForm(forms.ModelForm):
         super(DonorForm, self).__init__(*args, **kwargs)
         self.fields['person'].widget = forms.HiddenInput()
         self.fields['retrieval_team'].widget = forms.HiddenInput()
-        self.fields['transplant_coordinator'].required = False
-        self.fields['transplant_coordinator'].label = Donor._meta \
-            .get_field("transplant_coordinator").verbose_name.title()
-        self.fields['retrieval_hospital'].label = Donor._meta.get_field("retrieval_hospital").verbose_name.title()
-        self.fields['retrieval_hospital'].required = False
         self.fields['sequence_number'].widget = forms.HiddenInput()
         self.fields['multiple_recipients'].choices = NO_YES_CHOICES
         self.fields['perfusion_technician'].widget = forms.HiddenInput()
@@ -210,6 +217,7 @@ class DonorForm(forms.ModelForm):
         self.fields['perfusion_started'].input_formats = settings.DATETIME_INPUT_FORMATS
         self.fields['systemic_flush_used'].choices = Donor.SOLUTION_CHOICES
         self.fields['heparin'].choices = NO_YES_CHOICES
+        self.fields['form_completed'].choices = NO_YES_CHOICES
 
     class Meta:
         model = Donor
@@ -232,7 +240,8 @@ class DonorForm(forms.ModelForm):
             'death_diagnosed',
             'perfusion_started', 'perfusion_started_unknown',
             'systemic_flush_used', 'systemic_flush_used_other',
-            'systemic_flush_volume_used', 'heparin'
+            'systemic_flush_volume_used', 'heparin',
+            'form_completed'
         ]
         localized_fields = "__all__"
 
@@ -286,8 +295,8 @@ class OrganForm(forms.ModelForm):
     layout_system_data = Layout(
         'donor',
         Field('location', template="bootstrap3/layout/read-only.html"),
-        Field('preservation', template="bootstrap3/layout/read-only.html"),)
-
+        Field('preservation', template="bootstrap3/layout/read-only.html")
+    )
     layout_inspection = Layout(
         FieldWithFollowup(
             Field('transplantable', template="bootstrap3/layout/radioselect-buttons.html"),
@@ -299,12 +308,12 @@ class OrganForm(forms.ModelForm):
             'graft_damage',
             'graft_damage_other'
         ),
-        Field('washout_perfusion', template="bootstrap3/layout/radioselect-buttons.html"),)
-
+        Field('washout_perfusion', template="bootstrap3/layout/radioselect-buttons.html")
+    )
     layout_artificial_patches = Layout(
         Field('artificial_patch_size', template="bootstrap3/layout/radioselect-buttons.html"),
-        'artificial_patch_number',)
-
+        'artificial_patch_number'
+    )
     layout_perfusion_possible = Layout(
         'perfusion_machine',
         DateTimeField('perfusion_started'),
@@ -313,7 +322,11 @@ class OrganForm(forms.ModelForm):
             Field('artificial_patch_used', template="bootstrap3/layout/radioselect-buttons.html"),
             layout_artificial_patches),
         Field('oxygen_bottle_full', template="bootstrap3/layout/radioselect-buttons.html"),
-        Field('oxygen_bottle_open', template="bootstrap3/layout/radioselect-buttons.html"),
+        FieldWithFollowup(
+            Field('oxygen_bottle_open', template="bootstrap3/layout/radioselect-buttons.html"),
+            HTML("<p class=\"text-warning\"><i class=\"glyphicon glyphicon-warning-sign\"></i> The bottle should be " +
+                 "open!</p>")
+        ),
         FieldWithFollowup(
             Field('oxygen_bottle_changed', template="bootstrap3/layout/radioselect-buttons.html"),
             FieldWithNotKnown(DateTimeField('oxygen_bottle_changed_at', notknown=True), 'oxygen_bottle_changed_at_unknown',
@@ -327,14 +340,20 @@ class OrganForm(forms.ModelForm):
         ),
         FieldWithFollowup(
             Field('perfusate_measurable', template="bootstrap3/layout/radioselect-buttons.html"),
-            'perfusate_measure'))
-
+            'perfusate_measure')
+    )
+    layout_perfusion_not_possible = Layout(
+        'perfusion_not_possible_because',
+        HTML("<p class=\"text-warning\"><i class=\"glyphicon glyphicon-warning-sign\"></i> Please remember to enter " +
+             "resources used</p>")
+    )
     layout_perfusion = Layout(
         YesNoFieldWithAlternativeFollowups(
             'perfusion_possible',
-            'perfusion_not_possible_because',
+            layout_perfusion_not_possible,
             layout_perfusion_possible
-        ))
+        )
+    )
 
     helper = FormHelper()
     helper.form_tag = False
@@ -365,7 +384,7 @@ class OrganForm(forms.ModelForm):
         self.fields['artificial_patch_used'].choices = NO_YES_CHOICES
         self.fields['artificial_patch_size'].choices = Organ.ARTIFICIAL_PATCH_CHOICES
         self.fields['oxygen_bottle_full'].choices = NO_YES_CHOICES
-        self.fields['oxygen_bottle_open'].choices = NO_YES_CHOICES
+        self.fields['oxygen_bottle_open'].choices = YES_NO_CHOICES
         self.fields['oxygen_bottle_changed'].choices = NO_YES_CHOICES
         self.fields['oxygen_bottle_changed_at'].input_formats = settings.DATETIME_INPUT_FORMATS
         self.fields['ice_container_replenished'].choices = NO_YES_CHOICES
