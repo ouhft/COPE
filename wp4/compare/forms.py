@@ -558,8 +558,8 @@ class RecipientForm(forms.ModelForm):
         Field('signed_consent', template="bootstrap3/layout/radioselect-buttons.html"),
         Field('single_kidney_transplant', template="bootstrap3/layout/radioselect-buttons.html"),
         FieldWithFollowup('renal_disease', 'renal_disease_other'),
-        'pre_transplant_diuresis')
-
+        'pre_transplant_diuresis'
+    )
     layout_perioperative_transplantable = Layout(
         DateTimeField('anesthesia_started_at'),
         DateTimeField('knife_to_skin'),
@@ -583,8 +583,8 @@ class RecipientForm(forms.ModelForm):
         'cvp',
         Field('intra_operative_diuresis', template="bootstrap3/layout/radioselect-buttons.html"),
         Field('successful_conclusion', template="bootstrap3/layout/radioselect-buttons.html"),
-        DateTimeField('operation_concluded_at'))
-
+        DateTimeField('operation_concluded_at')
+    )
     layout_perioperative = Layout(
         'perfusate_measure',
         DateTimeField('perfusion_stopped'),
@@ -596,8 +596,8 @@ class RecipientForm(forms.ModelForm):
         YesNoFieldWithAlternativeFollowups(
             Field('organ_untransplantable', template="bootstrap3/layout/radioselect-buttons.html"),
             'organ_untransplantable_reason',
-            layout_perioperative_transplantable))
-
+            layout_perioperative_transplantable)
+    )
     layout_cleaning = Layout(
         Field('probe_cleaned', template="bootstrap3/layout/radioselect-buttons.html"),
         Field('ice_removed', template="bootstrap3/layout/radioselect-buttons.html"),
@@ -605,7 +605,16 @@ class RecipientForm(forms.ModelForm):
         Field('oxygen_bottle_removed', template="bootstrap3/layout/radioselect-buttons.html"),
         Field('box_cleaned', template="bootstrap3/layout/radioselect-buttons.html"),
         Field('batteries_charged', template="bootstrap3/layout/radioselect-buttons.html"),
-        'cleaning_log')
+        'cleaning_log'
+    )
+    layout_complete = Layout(
+        FieldWithFollowup(
+            Field('form_completed', template="bootstrap3/layout/radioselect-buttons.html"),
+            HTML("<p class=\"text-danger\">Once all errors have been cleared, clicking Save And Close below will " +
+                 "result in this form being closed and locked. No further edits will be possible without contacting " +
+                 "the admin team.</p>")
+        )
+    )
 
     helper = FormHelper()
     helper.form_tag = False
@@ -619,10 +628,10 @@ class RecipientForm(forms.ModelForm):
         ),
         Div(
             FormPanel("Cleaning Log", layout_cleaning),
+            FormPanel("Complete Submission", layout_complete, panel_status="danger", panel_hidden=True),
             css_class="col-md-4", style="margin-top: 10px;"
         ),
         'person', 'organ', 'allocation')
-
 
     def __init__(self, *args, **kwargs):
         super(RecipientForm, self).__init__(*args, **kwargs)
@@ -660,6 +669,7 @@ class RecipientForm(forms.ModelForm):
         self.fields['oxygen_bottle_removed'].choices = NO_YES_CHOICES
         self.fields['box_cleaned'].choices = NO_YES_CHOICES
         self.fields['batteries_charged'].choices = NO_YES_CHOICES
+        self.fields['form_completed'].choices = NO_YES_CHOICES
 
     class Meta:
         model = Recipient
@@ -677,7 +687,7 @@ class RecipientForm(forms.ModelForm):
             'systolic_blood_pressure', 'cvp', 'intra_operative_diuresis',
             'successful_conclusion', 'operation_concluded_at', 'probe_cleaned', 'ice_removed',
             'oxygen_flow_stopped', 'oxygen_bottle_removed', 'box_cleaned', 'batteries_charged',
-            'cleaning_log'
+            'cleaning_log', 'form_completed'
         ]
         localized_fields = "__all__"
 

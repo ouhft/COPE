@@ -8,10 +8,10 @@
 {% block content %}
     <div class="row">
         <div class="col-md-9">
-            <h2>Existing Cases
-                <small>({{ donors|length }} case{{ donors|pluralize }})</small>
+            <h2>Open Cases
+                <small>({{ open_donors|length }} case{{ open_donors|pluralize }})</small>
             </h2>
-            {% if donors|length > 0 %}
+            {% if open_donors|length > 0 %}
                 <table class="table table-striped">
                     <thead>
                     <tr>
@@ -26,14 +26,14 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for donor in donors %}
+                    {% for donor in open_donors %}
                         <tr>
                             <td><a href="{% url 'wp4:compare:procurement_detail' donor.id %}"
                                    class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i>
                                 {{ donor.trial_id }}
                             </a></td>
                             <td>{{ donor.created_on }}</td>
-{#                        TODO: Replace this text with a flag image #}
+                            {#                        TODO: Replace this text with a flag image #}
                             <td>{{ donor.retrieval_team.based_at.get_country_display }}</td>
                             <td>{{ donor.person.number|default:"Unknown number" }}</td>
                             <td>{{ donor.age }}</td>
@@ -70,8 +70,72 @@
                     </tbody>
                 </table>
             {% else %}
-                <p>No existing cases available. Contact us if you think this is in error.</p>
+                <p>No open cases available. Contact us if you think this is in error.</p>
             {% endif %}
+
+            {% if closed_donors|length > 0 %}
+            <h2>Closed Cases
+                <small>({{ closed_donors|length }} case{{ closed_donors|pluralize }})</small>
+            </h2>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Trial ID</th>
+                        <th>Last updated on</th>
+                        <th>Country</th>
+                        <th>Number</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+                        <th>Eligible</th>
+                        <th>Samples</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for donor in closed_donors %}
+                        <tr>
+                            <td><a href="{% url 'wp4:compare:procurement_detail' donor.id %}"
+                                   class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i>
+                                {{ donor.trial_id }}
+                            </a></td>
+                            <td>{{ donor.created_on }}</td>
+                            {#                        TODO: Replace this text with a flag image #}
+                            <td>{{ donor.retrieval_team.based_at.get_country_display }}</td>
+                            <td>{{ donor.person.number|default:"Unknown number" }}</td>
+                            <td>{{ donor.age }}</td>
+                            <td>{{ donor.person.get_gender_display }}</td>
+                            {% if donor.is_eligible == -1 %}
+                                <td class="info">
+                                    <i class="glyphicon glyphicon-info-sign"></i> Not randomised
+                                </td>
+                            {% elif donor.is_eligible == 0 %}
+                                <td class="danger">
+                                    <i class="glyphicon glyphicon-ban-circle"></i> No kidneys
+                                </td>
+                            {% elif donor.is_eligible == 1 %}
+                                <td class="warning">
+                                    <i class="glyphicon glyphicon-warning-sign"></i> 1 kidney
+                                </td>
+                            {% elif donor.is_eligible == 2 %}
+                                <td class="success">
+                                    <i class="glyphicon glyphicon-ok"></i> 2 kidneys
+                                </td>
+                            {% else %}
+                                <td>ERROR</td>
+                            {% endif %}
+
+                            {% if donor.person.worksheet %}
+                                <td>
+                                    <a href="{% url 'wp4:samples:update' pk=donor.person.worksheet.id %}">{{ donor.person.worksheet }}</a>
+                                </td>
+                            {% else %}
+                                <td>No Worksheet</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+
         </div>
 
         <div class="col-md-3">

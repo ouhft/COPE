@@ -7,7 +7,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 
-class CreatedByAbstract(models.Model):
+class CreatedByModelMixin(models.Model):
     created_on = models.DateTimeField(default=timezone.now)
     created_by = models.ForeignKey(User)
 
@@ -18,10 +18,10 @@ class CreatedByAbstract(models.Model):
              update_fields=None):
         print("DEBUG: CreatedByMixin:save() called")
         self.created_on = timezone.now()
-        return super(CreatedByAbstract, self).save(force_insert, force_update, using, update_fields)
+        return super(CreatedByModelMixin, self).save(force_insert, force_update, using, update_fields)
 
 
-class PerfusionMachine(CreatedByAbstract):
+class PerfusionMachine(CreatedByModelMixin):
     # Device accountability
     machine_serial_number = models.CharField(verbose_name=_('PM01 machine serial number'), max_length=50)
     machine_reference_number = models.CharField(verbose_name=_('PM02 machine reference number'), max_length=50)
@@ -34,7 +34,7 @@ class PerfusionMachine(CreatedByAbstract):
         verbose_name_plural = _('PMm2 perfusion machines')
 
 
-class PerfusionFile(CreatedByAbstract):
+class PerfusionFile(CreatedByModelMixin):
     machine = models.ForeignKey(PerfusionMachine, verbose_name=_('PF01 perfusion machine'))
     file = models.FileField(blank=True, upload_to='perfusion_files')
 

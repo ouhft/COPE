@@ -1,7 +1,6 @@
 {% load crispy_forms_field crispy_forms_filters %}
 {% load l10n i18n %}
-
-{#<div class="input-group-addon">#}
+<!-- START: wp4/templates/bootstrap3/multi-notknown-field.html -->
 {% if field|is_checkbox %}
     <span class="input-group-btn" data-toggle="buttons">
         <label class="btn btn-default {% if field.value|lower == "true" %}
@@ -24,4 +23,4 @@
     {% endif %}
     {% crispy_field field %}
 {% endif %}
-{#</div>#}
+<!-- END: wp4/templates/bootstrap3/multi-notknown-field.html -->

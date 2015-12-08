@@ -38,24 +38,28 @@ def procurement_list(request):
         create_donor_worksheet(donor, request.user)
 
         return redirect(reverse(
-            'compare:procurement_detail',
+            'wp4:compare:procurement_detail',
             kwargs={'pk': donor.id}
         ))
 
     if current_person.has_job(
             (StaffJob.SYSTEMS_ADMINISTRATOR, StaffJob.CENTRAL_COORDINATOR, StaffJob.NATIONAL_COORDINATOR)
     ):
-        donors = Donor.objects.all().order_by('retrieval_team__centre_code', '-pk')
+        open_donors = Donor.objects.filter(form_completed=False).order_by('retrieval_team__centre_code', '-pk')
+        closed_donors = Donor.objects.filter(form_completed=True).order_by('retrieval_team__centre_code', '-pk')
     elif current_person.has_job(StaffJob.PERFUSION_TECHNICIAN):
-        donors = Donor.objects.filter(perfusion_technician=current_person).order_by('-pk')
+        open_donors = Donor.objects.filter(perfusion_technician=current_person).order_by('-pk')
+        closed_donors = []
     else:
-        donors = {}
+        open_donors = []
+        closed_donors = []
 
     return render_to_response(
         "compare/procurement_list.html",
         {
             "donor_form": donor_form,
-            "donors": donors
+            "open_donors": open_donors,
+            "closed_donors": closed_donors,
         },
         context_instance=RequestContext(request)
     )
@@ -304,7 +308,7 @@ def transplantation_form(request, pk=None):
         messages.success(request, 'Form has been <strong>successfully saved</strong>')
 
         return redirect(reverse(
-            'compare:transplantation_detail',
+            'wp4:compare:transplantation_detail',
             kwargs={'pk': organ.id}
         ))
     else:

@@ -1,49 +1,23 @@
 {% load crispy_forms_filters crispy_forms_field %}
 {% load l10n i18n %}
+<!-- START: wp4/templates/bootstrap3/layout/multi-notknown-field.html -->
 <div class="form-group{% if multifield.css_class %} {{ multifield.css_class }}{% endif %}">
     {% if multifield.label_html %}
         <label {% if multifield.label_class %}class="control-label {{ multifield.label_class }}"{% endif %}
                for="">{{ multifield.label_html|safe }}</label>
     {% endif %}
 
-    <div class="input-group" id="{{ group_id|slugify }}">
+    <div class="input-group date" id="{{ group_id|slugify }}">
         {{ secondary_field|safe }}
         {{ primary_field|safe }}
     </div>
-    <script type="text/javascript">
-        document.addEventListener("DOMContentLoaded", function (event) {
-            var checkbox = $('#{{ group_id|slugify }}').find('input:checkbox');
-            var input = $('#{{ group_id|slugify }}').find('input:text');
-            if (checkbox.exists()) {
-                var checkboxname = checkbox.attr('name');
-                // Set initial state
-                $(document).ready(function () {
-                    if ($('input:checkbox[name=' + checkboxname + ']:last').is(':checked')) {
-                        input.val("").attr("disabled",true);
-                    } else {
-                        input.attr("disabled", false);
-                    }
-                })
-
-                // set onchange function for the checkbox
-                checkbox.on("change", function () {
-                    if ($('input:checkbox[name=' + checkboxname + ']:checked').is(':checked')) {
-                        input.val("").attr("disabled",true);
-                    } else {
-                        input.attr("disabled",false);
-                    }
-                });
-            }
-        });
-    </script>
     {#    {% include 'bootstrap3/layout/help_text_and_errors.html' %}#}
-    {#    TODO: Fix bug where reposting form with errors in this field will cause the error messages to be appended, not cleared#}
     {% if form_show_errors %}
         {% for field in multifield.bound_fields %}
             {% if field.errors %}
                 {% for error in field.errors %}
                     <span id="error_{{ forloop.counter }}_{{ field.auto_id }}"
-                          class="help-block"><strong>{{ error }}</strong></span>
+                          class="text-danger"><strong>{{ error }}</strong></span>
                 {% endfor %}
             {% endif %}
         {% endfor %}
@@ -54,3 +28,36 @@
         {% endif %}
     {% endfor %}
 </div>
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function (event) {
+        console.log("layout/multi-notknown-field.html initialising: {{ group_id|slugify }}");
+        var checkbox = $('#{{ group_id|slugify }}').find('input:checkbox');
+        var input = $('#{{ group_id|slugify }}').find('input:text');
+        if (checkbox.exists()) {
+            var checkboxname = checkbox.attr('name');
+            console.log("layout/multi-notknown-field.html checkboxname=" + checkboxname);
+            // Set initial state
+            $(document).ready(function () {
+                if ($('input:checkbox[name=' + checkboxname + ']:last').is(':checked')) {
+                    input.val("").attr("disabled", true);
+                } else {
+                    input.attr("disabled", false);
+                }
+            })
+
+            // set onchange function for the checkbox
+            checkbox.on("change", function () {
+                if ($('input:checkbox[name=' + checkboxname + ']:checked').is(':checked')) {
+                    input.val("").attr("disabled", true);
+                    console.log("input disabled");
+                } else {
+                    input.attr("disabled", false);
+                    console.log("input enabled");
+                }
+            });
+        } else {
+            console.log("layout/multi-notknown-field.html - checkbox not found");
+        }
+    });
+</script>
+<!-- END: wp4/templates/bootstrap3/layout/multi-notknown-field.html -->

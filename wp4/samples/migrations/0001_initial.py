@@ -9,7 +9,7 @@ from django.conf import settings
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('compare', '0002_auto_20151116_1301'),
+        ('compare', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
@@ -18,12 +18,14 @@ class Migration(migrations.Migration):
             name='BloodSample',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('barcode', models.CharField(max_length=20, verbose_name='SA01 barcode number')),
+                ('version', models.PositiveIntegerField(default=0)),
                 ('created_on', models.DateTimeField(default=django.utils.timezone.now)),
-                ('collected', models.NullBooleanField(verbose_name='WM01 sample collected?')),
-                ('notes', models.TextField(verbose_name='WM02 notes', blank=True)),
-                ('centrifuged_at', models.DateTimeField(null=True, verbose_name='SA02 centrifuged at', blank=True)),
+                ('record_locked', models.BooleanField(default=False)),
+                ('barcode', models.CharField(max_length=20, verbose_name='BC01 barcode number', blank=True)),
+                ('collected', models.NullBooleanField(verbose_name='DM01 sample collected?')),
+                ('notes', models.TextField(verbose_name='DM02 notes', blank=True)),
                 ('blood_type', models.PositiveSmallIntegerField(verbose_name='BS02 blood sample type', choices=[(1, 'BSc01 Blood SST'), (2, 'BSc02 Blood EDSA')])),
+                ('centrifuged_at', models.DateTimeField(null=True, verbose_name='BS01 centrifuged at', blank=True)),
                 ('created_by', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
             options={
@@ -36,13 +38,16 @@ class Migration(migrations.Migration):
             name='Event',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('type', models.PositiveSmallIntegerField(verbose_name='EV01 sample type', choices=[(1, 'EVc01 Blood'), (2, 'EVc02 Urine'), (3, 'EVc03 Perfusate'), (4, 'EVc04 Tissue')])),
-                ('taken_at', models.DateTimeField(verbose_name='EV02 date and time taken')),
+                ('version', models.PositiveIntegerField(default=0)),
                 ('created_on', models.DateTimeField(default=django.utils.timezone.now)),
+                ('record_locked', models.BooleanField(default=False)),
+                ('type', models.PositiveSmallIntegerField(verbose_name='EV01 sample type', choices=[(1, 'EVc01 Blood'), (2, 'EVc02 Urine'), (3, 'EVc03 Perfusate'), (4, 'EVc04 Tissue')])),
+                ('name', models.PositiveSmallIntegerField(verbose_name='EV03 sample process name', choices=[(1, 'EVc05 donor blood 1'), (2, 'EVc06 donor urine 1'), (3, 'EVc07 donor urine 2'), (4, 'EVc08 organ perfusate 1'), (5, 'EVc09 organ perfusate 2'), (6, 'EVc10 organ perfusate 3'), (7, 'EVc11 organ tissue 1'), (8, 'EVc12 recipient blood 1'), (9, 'EVc13 recipient blood 2')])),
+                ('taken_at', models.DateTimeField(null=True, verbose_name='EV02 date and time taken', blank=True)),
                 ('created_by', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
             options={
-                'ordering': ['taken_at'],
+                'ordering': ['type', 'name'],
                 'verbose_name': 'EVm1 sample event',
                 'verbose_name_plural': 'EVm2 sample events',
             },
@@ -51,14 +56,16 @@ class Migration(migrations.Migration):
             name='PerfusateSample',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('barcode', models.CharField(max_length=20, verbose_name='SA01 barcode number')),
+                ('version', models.PositiveIntegerField(default=0)),
                 ('created_on', models.DateTimeField(default=django.utils.timezone.now)),
-                ('collected', models.NullBooleanField(verbose_name='WM01 sample collected?')),
-                ('notes', models.TextField(verbose_name='WM02 notes', blank=True)),
-                ('centrifuged_at', models.DateTimeField(null=True, verbose_name='SA02 centrifuged at', blank=True)),
+                ('record_locked', models.BooleanField(default=False)),
+                ('barcode', models.CharField(max_length=20, verbose_name='BC01 barcode number', blank=True)),
+                ('collected', models.NullBooleanField(verbose_name='DM01 sample collected?')),
+                ('notes', models.TextField(verbose_name='DM02 notes', blank=True)),
+                ('centrifuged_at', models.DateTimeField(null=True, verbose_name='PS01 centrifuged at', blank=True)),
                 ('created_by', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
                 ('event', models.ForeignKey(to='samples.Event')),
-                ('organ', models.ForeignKey(to='compare.Organ')),
+                ('organ', models.ForeignKey(verbose_name='PS02 sample from', to='compare.Organ')),
             ],
             options={
                 'ordering': ['organ', 'event__taken_at'],
@@ -70,14 +77,16 @@ class Migration(migrations.Migration):
             name='TissueSample',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('barcode', models.CharField(max_length=20, verbose_name='SA01 barcode number')),
+                ('version', models.PositiveIntegerField(default=0)),
                 ('created_on', models.DateTimeField(default=django.utils.timezone.now)),
-                ('collected', models.NullBooleanField(verbose_name='WM01 sample collected?')),
-                ('notes', models.TextField(verbose_name='WM02 notes', blank=True)),
-                ('tissue_type', models.CharField(max_length=1, choices=[(b'F', 'TSc01 ReK1F'), (b'R', 'TSc02 ReK1R')])),
+                ('record_locked', models.BooleanField(default=False)),
+                ('barcode', models.CharField(max_length=20, verbose_name='BC01 barcode number', blank=True)),
+                ('collected', models.NullBooleanField(verbose_name='DM01 sample collected?')),
+                ('notes', models.TextField(verbose_name='DM02 notes', blank=True)),
+                ('tissue_type', models.CharField(max_length=1, verbose_name='TS02 tissue sample type', choices=[('F', 'TSc01 ReK1F'), ('R', 'TSc02 ReK1R')])),
                 ('created_by', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
                 ('event', models.ForeignKey(to='samples.Event')),
-                ('organ', models.ForeignKey(to='compare.Organ')),
+                ('organ', models.ForeignKey(verbose_name='TS01 sample from', to='compare.Organ')),
             ],
             options={
                 'ordering': ['organ', 'event__taken_at'],
@@ -89,14 +98,16 @@ class Migration(migrations.Migration):
             name='UrineSample',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('barcode', models.CharField(max_length=20, verbose_name='SA01 barcode number')),
+                ('version', models.PositiveIntegerField(default=0)),
                 ('created_on', models.DateTimeField(default=django.utils.timezone.now)),
-                ('collected', models.NullBooleanField(verbose_name='WM01 sample collected?')),
-                ('notes', models.TextField(verbose_name='WM02 notes', blank=True)),
-                ('centrifuged_at', models.DateTimeField(null=True, verbose_name='SA02 centrifuged at', blank=True)),
+                ('record_locked', models.BooleanField(default=False)),
+                ('barcode', models.CharField(max_length=20, verbose_name='BC01 barcode number', blank=True)),
+                ('collected', models.NullBooleanField(verbose_name='DM01 sample collected?')),
+                ('notes', models.TextField(verbose_name='DM02 notes', blank=True)),
+                ('centrifuged_at', models.DateTimeField(null=True, verbose_name='US01 centrifuged at', blank=True)),
                 ('created_by', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
                 ('event', models.ForeignKey(to='samples.Event')),
-                ('person', models.ForeignKey(to='compare.OrganPerson')),
+                ('person', models.ForeignKey(verbose_name='US02 sample from', to='compare.OrganPerson')),
             ],
             options={
                 'ordering': ['person', 'event__taken_at'],
@@ -108,8 +119,10 @@ class Migration(migrations.Migration):
             name='Worksheet',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('barcode', models.CharField(max_length=20, verbose_name='SA01 barcode number')),
+                ('version', models.PositiveIntegerField(default=0)),
                 ('created_on', models.DateTimeField(default=django.utils.timezone.now)),
+                ('record_locked', models.BooleanField(default=False)),
+                ('barcode', models.CharField(max_length=20, verbose_name='BC01 barcode number', blank=True)),
                 ('created_by', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
                 ('person', models.ForeignKey(to='compare.OrganPerson')),
             ],
@@ -132,6 +145,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='bloodsample',
             name='person',
-            field=models.ForeignKey(to='compare.OrganPerson'),
+            field=models.ForeignKey(verbose_name='BS03 sample from', to='compare.OrganPerson'),
         ),
     ]

@@ -52,12 +52,12 @@ THIRD_PARTY_PRE_DJANGO_APPS = (
 
 # Apps specific for this project go here.
 LOCAL_APPS = (
-    'wp4.compare',
     'wp4.locations',
     'wp4.staff_person',
     'wp4.perfusion_machine',
-    'wp4.adverse_event',
     'wp4.samples',
+    'wp4.compare',
+    'wp4.adverse_event',
     'wp4.followups',
     'wp4.theme'
 )

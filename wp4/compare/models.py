@@ -16,6 +16,7 @@ from ..staff_person.models import StaffJob, StaffPerson
 from ..locations.models import Hospital, UNITED_KINGDOM, BELGIUM, NETHERLANDS, COUNTRY_CHOICES
 from ..perfusion_machine.models import PerfusionFile, PerfusionMachine
 
+from .validators import validate_between_1900_2050, validate_not_in_past, validate_not_in_future
 
 # Common CONSTANTS
 NO = 0
@@ -45,7 +46,7 @@ class VersionControlModel(models.Model):
     record_locked = models.BooleanField(default=False)
 
     # TODO: Add save method here that aborts saving if record_locked is already true
-    # TODO: Add version control via django-reversion
+    #  TODO: Add version control via django-reversion
     # NB: Used in Samples App also
     class Meta:
         abstract = True
@@ -111,7 +112,8 @@ class OrganPerson(VersionControlModel):
 
     # "ET Donor number/ NHSBT Number",
     number = models.CharField(verbose_name=_('OP01 NHSBT Number'), max_length=20, blank=True)
-    date_of_birth = models.DateField(verbose_name=_('OP02 date of birth'), blank=True, null=True)
+    date_of_birth = models.DateField(verbose_name=_('OP02 date of birth'), blank=True, null=True,
+                                     validators=[validate_not_in_future])
     date_of_birth_unknown = models.BooleanField(default=False)  # Internal flag
     # May be possible to get DoD from donor.death_diagnosed
     # date_of_death = models.DateField(verbose_name=_('OP08 date of death'), blank=True, null=True)
@@ -143,9 +145,9 @@ class OrganPerson(VersionControlModel):
         # if self.date_of_death_unknown:
         #     self.date_of_death = None
 
-        if self.date_of_birth:
-            if self.date_of_birth > datetime.datetime.now().date():
-                raise ValidationError(_("OPv01 Time travel detected! Person's date of birth is in the future!"))
+        # if self.date_of_birth:
+        #     if self.date_of_birth > datetime.datetime.now().date():
+        #         raise ValidationError(_("OPv01 Time travel detected! Person's date of birth is in the future!"))
 
         if self.date_of_death:
             if self.date_of_death > datetime.datetime.now().date():
@@ -153,7 +155,8 @@ class OrganPerson(VersionControlModel):
 
         if self.date_of_birth and self.date_of_death:
             if self.date_of_death < self.date_of_birth:
-                raise ValidationError(_("OPv03 Time running backwards! Person's date of death is before they were born!"))
+                raise ValidationError(
+                    _("OPv03 Time running backwards! Person's date of death is before they were born!"))
 
     def bmi_value(self):
         # http://www.nhs.uk/chq/Pages/how-can-i-work-out-my-bmi.aspx?CategoryID=51 for formula
@@ -161,6 +164,7 @@ class OrganPerson(VersionControlModel):
             return _("DOv12 Not Available")
         height_in_m = self.height / 100
         return (self.weight / height_in_m) / height_in_m
+
     bmi_value.short_description = 'BMI Value'
 
     def age_from_dob(self):
@@ -209,7 +213,6 @@ class OrganPerson(VersionControlModel):
             return worksheet
         return None
 
-
     def __unicode__(self):
         if settings.DEBUG:
             return '%s : (%s, %s) %s' % (
@@ -245,29 +248,36 @@ class Donor(VersionControlModel):
         related_name="donor_transplant_coordinator_set",
         blank=True,
         null=True)
-    call_received = models.DateTimeField(verbose_name=_('DO05 Consultant to MTO called at'), blank=True, null=True)
+    call_received = models.DateTimeField(verbose_name=_('DO05 Consultant to MTO called at'), blank=True, null=True,
+                                         validators=[validate_between_1900_2050, validate_not_in_future])
     call_received_unknown = models.BooleanField(default=False)  # Internal flag
     retrieval_hospital = models.ForeignKey(Hospital, verbose_name=_('DO06 donor hospital'), blank=True, null=True)
-    scheduled_start = models.DateTimeField(verbose_name=_('DO07 time of withdrawal therapy'), blank=True, null=True)
+    scheduled_start = models.DateTimeField(verbose_name=_('DO07 time of withdrawal therapy'), blank=True, null=True,
+                                           validators=[validate_between_1900_2050])
     scheduled_start_unknown = models.BooleanField(default=False)  # Internal flag
-    technician_arrival = models.DateTimeField(verbose_name=_('DO08 arrival time of technician'), blank=True, null=True)
+    technician_arrival = models.DateTimeField(verbose_name=_('DO08 arrival time of technician'), blank=True, null=True,
+                                              validators=[validate_between_1900_2050, validate_not_in_future])
     technician_arrival_unknown = models.BooleanField(default=False)  # Internal flag
-    ice_boxes_filled = models.DateTimeField(verbose_name=_('DO09 ice boxes filled'), blank=True, null=True)
+    ice_boxes_filled = models.DateTimeField(verbose_name=_('DO09 ice boxes filled'), blank=True, null=True,
+                                            validators=[validate_between_1900_2050, validate_not_in_future])
     ice_boxes_filled_unknown = models.BooleanField(default=False)  # Internal flag
     depart_perfusion_centre = models.DateTimeField(
         verbose_name=_('DO10 departure from base hospital at'),
-        blank=True, null=True)
+        blank=True, null=True,
+        validators=[validate_between_1900_2050, validate_not_in_future])
     depart_perfusion_centre_unknown = models.BooleanField(default=False)  # Internal flag
     arrival_at_donor_hospital = models.DateTimeField(
         verbose_name=_('DO11 arrival at donor hospital'),
-        blank=True, null=True)
+        blank=True, null=True,
+        validators=[validate_between_1900_2050, validate_not_in_future])
     arrival_at_donor_hospital_unknown = models.BooleanField(default=False)  # Internal flag
 
     # Donor details (in addition to OrganPerson)
     age = models.PositiveSmallIntegerField(
         verbose_name=_('DO12 age'),
         validators=[MinValueValidator(50), MaxValueValidator(99)])
-    date_of_admission = models.DateField(verbose_name=_('DO13 date of admission'), blank=True, null=True)
+    date_of_admission = models.DateField(verbose_name=_('DO13 date of admission'), blank=True, null=True,
+                                         validators=[validate_between_1900_2050, validate_not_in_future])
     date_of_admission_unknown = models.BooleanField(default=False)  # Internal flag
     admitted_to_itu = models.BooleanField(verbose_name=_('DO14 admitted to ITU'), default=False)
     date_admitted_to_itu = models.DateField(verbose_name=_('DO15 when admitted to ITU'), blank=True, null=True)
@@ -362,18 +372,22 @@ class Donor(VersionControlModel):
         (SOLUTION_OTHER, _("DOc04 Other")))
     life_support_withdrawal = models.DateTimeField(
         verbose_name=_('DO38 withdrawal of life support'),
-        blank=True, null=True)
+        blank=True, null=True,
+        validators=[validate_between_1900_2050, validate_not_in_future])
     systolic_pressure_low = models.DateTimeField(
         verbose_name=_('DO39 systolic arterial pressure'),  # < 50 mm Hg (inadequate organ perfusion)
-        blank=True, null=True)
+        blank=True, null=True,
+        validators=[validate_between_1900_2050, validate_not_in_future])
     systolic_pressure_low_unknown = models.BooleanField(default=False)  # Internal flag
     o2_saturation = models.DateTimeField(
         verbose_name=_('DO40 O2 saturation below 80%'),
-        blank=True, null=True)
+        blank=True, null=True,
+        validators=[validate_between_1900_2050, validate_not_in_future])
     o2_saturation_unknown = models.BooleanField(default=False)  # Internal flag
     circulatory_arrest = models.DateTimeField(
         verbose_name=_('DO41 end of cardiac output'),  # (=start of no touch period)',
-        blank=True, null=True)
+        blank=True, null=True,
+        validators=[validate_between_1900_2050, validate_not_in_future])
     circulatory_arrest_unknown = models.BooleanField(default=False)  # Internal flag
     length_of_no_touch = models.PositiveSmallIntegerField(
         verbose_name=_('DO42 length of no touch period (minutes)'),
@@ -381,10 +395,12 @@ class Donor(VersionControlModel):
         validators=[MinValueValidator(1), MaxValueValidator(60)])
     death_diagnosed = models.DateTimeField(
         verbose_name=_('DO43 knife to skin time'),
-        blank=True, null=True)
+        blank=True, null=True,
+        validators=[validate_between_1900_2050, validate_not_in_future])
     perfusion_started = models.DateTimeField(
         verbose_name=_('DO44 start in-situ cold perfusion'),
-        blank=True, null=True)
+        blank=True, null=True,
+        validators=[validate_between_1900_2050, validate_not_in_future])
     perfusion_started_unknown = models.BooleanField(default=False)  # Internal flag
     systemic_flush_used = models.PositiveSmallIntegerField(
         verbose_name=_('DO45 systemic (aortic) flush solution used'),
@@ -494,7 +510,6 @@ class Donor(VersionControlModel):
             if self.person.number == "":
                 raise ValidationError(_("DOv13 Please enter the NHSBT number"))
 
-
     @transaction.atomic
     def randomise(self):
         # Randomise if eligible and not already done
@@ -552,12 +567,14 @@ class Donor(VersionControlModel):
             return self.retrieval_team.centre_code
         except RetrievalTeam.DoesNotExist:
             return 0
+
     centre_code.short_description = 'Centre Code'
 
     def trial_id(self):
         if self.centre_code() == 0 or self.sequence_number < 1:
             return "No Trial ID Assigned (DO%s)" % format(self.id, '03')
         return 'WP4%s%s' % (format(self.centre_code(), '02'), format(self.sequence_number, '03'))
+
     trial_id.short_description = 'Trial ID'
 
     def is_randomised(self):
@@ -616,10 +633,12 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
         (WASHOUT_PERFUSION_BLUE, _("ORc09 Blue")),
         (WASHOUT_PERFUSION_UNKNOWN, _("ORc10 Unknown")))
 
-    removal = models.DateTimeField(verbose_name=_('OR02 time out'), blank=True, null=True)
+    removal = models.DateTimeField(verbose_name=_('OR02 time out'), blank=True, null=True,
+                                   validators=[validate_between_1900_2050, validate_not_in_future])
     renal_arteries = models.PositiveSmallIntegerField(
         verbose_name=_('OR03 number of renal arteries'),
-        blank=True, null=True)
+        blank=True, null=True,
+        validators=[MinValueValidator(0), MaxValueValidator(5)])
     graft_damage = models.PositiveSmallIntegerField(
         verbose_name=_('OR04 renal graft damage'),
         choices=GRAFT_DAMAGE_CHOICES,
@@ -665,7 +684,8 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
         verbose_name=_('OR10 not possible because'),
         max_length=250,
         blank=True)
-    perfusion_started = models.DateTimeField(verbose_name=_('OR11 machine perfusion'), blank=True, null=True)
+    perfusion_started = models.DateTimeField(verbose_name=_('OR11 machine perfusion'), blank=True, null=True,
+                                             validators=[validate_between_1900_2050, validate_not_in_future])
     patch_holder = models.PositiveSmallIntegerField(
         verbose_name=_('OR12 used patch holder'),
         choices=PATCH_HOLDER_CHOICES,
@@ -687,14 +707,16 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
     oxygen_bottle_changed = models.NullBooleanField(verbose_name=_('OR18 oxygen bottle changed'), blank=True, null=True)
     oxygen_bottle_changed_at = models.DateTimeField(
         verbose_name=_('OR19 oxygen bottle changed at'),
-        blank=True, null=True)
+        blank=True, null=True,
+        validators=[validate_between_1900_2050, validate_not_in_future])
     oxygen_bottle_changed_at_unknown = models.BooleanField(default=False)  # Internal flag
     ice_container_replenished = models.NullBooleanField(
         verbose_name=_('OR20 ice container replenished'),
         blank=True, null=True)
     ice_container_replenished_at = models.DateTimeField(
         verbose_name=_('OR21 ice container replenished at'),
-        blank=True, null=True)
+        blank=True, null=True,
+        validators=[validate_between_1900_2050, validate_not_in_future])
     ice_container_replenished_at_unknown = models.BooleanField(default=False)  # Internal flag
     perfusate_measurable = models.NullBooleanField(
         # logistically possible to measure pO2 perfusate (use blood gas analyser)',
@@ -713,13 +735,13 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
         if self.ice_container_replenished_at_unknown:
             self.ice_container_replenished_at = None
 
-        if not self.transplantable and self.not_transplantable_reason == "":
+        if self.transplantable is False and self.not_transplantable_reason == "":
             raise ValidationError(_("ORv01 Please enter a reason for not being transplantable"))
 
-        if not self.perfusion_possible and self.perfusion_not_possible_because == "":
+        if self.perfusion_possible is False and self.perfusion_not_possible_because == "":
             raise ValidationError(_("ORv02 Please enter a reason perfusion wasn't possible"))
 
-        if self.perfusion_possible and self.perfusion_started is None:
+        if self.perfusion_possible is True and self.perfusion_started is None:
             raise ValidationError(_("ORv02 Please enter the time perfusion started at"))
 
         if self.donor.form_completed:
@@ -807,28 +829,33 @@ class OrganAllocation(VersionControlModel):
         blank=True, null=True)
     call_received = models.DateTimeField(
         verbose_name=_('OA02 call received from transplant co-ordinator at'),
-        blank=True, null=True)
+        blank=True, null=True,
+        validators=[validate_between_1900_2050, validate_not_in_future])
     call_received_unknown = models.BooleanField(default=False)  # Internal flag
-    transplant_hospital = models.ForeignKey(Hospital, verbose_name=_('OA03 transplant hospital'), blank=True, null=True)
+    transplant_hospital = models.ForeignKey(Hospital, verbose_name=_('OA03 transplant hospital'))
     theatre_contact = models.ForeignKey(
         StaffPerson,
         verbose_name=_('OA04 name of the theatre contact'),
         limit_choices_to={"jobs": StaffJob.THEATRE_CONTACT},
         related_name="recipient_transplant_coordinator_set",
         blank=True, null=True)
-    scheduled_start = models.DateTimeField(verbose_name=_('OA05 scheduled start'), blank=True, null=True)
+    scheduled_start = models.DateTimeField(verbose_name=_('OA05 scheduled start'), blank=True, null=True,
+                                           validators=[validate_between_1900_2050])
     scheduled_start_unknown = models.BooleanField(default=False)  # Internal flag
     technician_arrival = models.DateTimeField(
         verbose_name=_('OA06 arrival time at hub'),
-        blank=True, null=True)
+        blank=True, null=True,
+        validators=[validate_between_1900_2050, validate_not_in_future])
     technician_arrival_unknown = models.BooleanField(default=False)  # Internal flag
     depart_perfusion_centre = models.DateTimeField(
         verbose_name=_('OA07 departure from hub'),
-        blank=True, null=True)
+        blank=True, null=True,
+        validators=[validate_between_1900_2050, validate_not_in_future])
     depart_perfusion_centre_unknown = models.BooleanField(default=False)  # Internal flag
     arrival_at_recipient_hospital = models.DateTimeField(
         verbose_name=_('OA08 arrival at transplant hospital'),
-        blank=True, null=True)
+        blank=True, null=True,
+        validators=[validate_between_1900_2050, validate_not_in_future])
     arrival_at_recipient_hospital_unknown = models.BooleanField(default=False)  # Internal flag
     journey_remarks = models.TextField(verbose_name=_("OA09 journey notes"), blank=True)
     reallocated = models.NullBooleanField(verbose_name=_("OA10 reallocated"), blank=True, default=None)
@@ -916,15 +943,18 @@ class Recipient(VersionControlModel):
         (2, _('REc24 laceration')),
         (3, _('REc25 elongation plasty')),
         (4, _('REc26 other')))
-    knife_to_skin = models.DateTimeField(verbose_name=_('RE18 knife to skin time'), blank=True, null=True)
+    knife_to_skin = models.DateTimeField(verbose_name=_('RE18 knife to skin time'), blank=True, null=True,
+                                         validators=[validate_between_1900_2050, validate_not_in_future])
     perfusate_measure = models.FloatField(verbose_name=_('RE19 pO2 perfusate'), blank=True, null=True)
     # TODO: Check the value range for perfusate_measure
-    perfusion_stopped = models.DateTimeField(verbose_name=_('RE20 stop machine perfusion'), blank=True, null=True)
+    perfusion_stopped = models.DateTimeField(verbose_name=_('RE20 stop machine perfusion'), blank=True, null=True,
+                                             validators=[validate_between_1900_2050, validate_not_in_future])
     organ_cold_stored = models.BooleanField(verbose_name=_('RE21 kidney was cold stored?'), default=False)
     tape_broken = models.NullBooleanField(verbose_name=_('RE22 tape over regulator broken'), blank=True, null=True)
     removed_from_machine_at = models.DateTimeField(
         verbose_name=_('RE23 kidney removed from machine at'),
-        blank=True, null=True)
+        blank=True, null=True,
+        validators=[validate_between_1900_2050, validate_not_in_future])
     oxygen_full_and_open = models.PositiveSmallIntegerField(
         verbose_name=_('RE24 oxygen full and open'),
         choices=YES_NO_UNKNOWN_CHOICES,
@@ -934,7 +964,8 @@ class Recipient(VersionControlModel):
         verbose_name=_('RE26 untransplantable because'),
         max_length=250,
         blank=True)
-    anesthesia_started_at = models.DateTimeField(verbose_name=_('RE27 start anesthesia at'), blank=True, null=True)
+    anesthesia_started_at = models.DateTimeField(verbose_name=_('RE27 start anesthesia at'), blank=True, null=True,
+                                                 validators=[validate_between_1900_2050, validate_not_in_future])
     incision = models.PositiveSmallIntegerField(
         verbose_name=_('RE28 incision'),
         choices=INCISION_CHOICES,
@@ -952,9 +983,11 @@ class Recipient(VersionControlModel):
         choices=VENOUS_PROBLEM_CHOICES,
         blank=True, null=True)
     venous_problems_other = models.CharField(verbose_name=_('RE33 venous problems other'), max_length=250, blank=True)
-    anastomosis_started_at = models.DateTimeField(verbose_name=_('RE34 start anastomosis at'), blank=True, null=True)
+    anastomosis_started_at = models.DateTimeField(verbose_name=_('RE34 start anastomosis at'), blank=True, null=True,
+                                                  validators=[validate_between_1900_2050, validate_not_in_future])
     anastomosis_started_at_unknown = models.BooleanField(default=False)  # Internal flag
-    reperfusion_started_at = models.DateTimeField(verbose_name=_('RE35 start reperfusion at'), blank=True, null=True)
+    reperfusion_started_at = models.DateTimeField(verbose_name=_('RE35 start reperfusion at'), blank=True, null=True,
+                                                  validators=[validate_between_1900_2050, validate_not_in_future])
     reperfusion_started_at_unknown = models.BooleanField(default=False)  # Internal flag
     mannitol_used = models.PositiveSmallIntegerField(
         verbose_name=_('RE36 mannitol used'),
@@ -976,7 +1009,8 @@ class Recipient(VersionControlModel):
         choices=YES_NO_UNKNOWN_CHOICES,
         blank=True, null=True)
     successful_conclusion = models.BooleanField(verbose_name=_("RE42 successful conclusion"), default=False)
-    operation_concluded_at = models.DateTimeField(verbose_name=_("RE43 operation concluded at"), null=True, blank=True)
+    operation_concluded_at = models.DateTimeField(verbose_name=_("RE43 operation concluded at"), null=True, blank=True,
+                                                  validators=[validate_between_1900_2050, validate_not_in_future])
 
     # Machine cleanup record
     probe_cleaned = models.NullBooleanField(verbose_name=_('RE44 temperature and flow probe cleaned'), blank=True,
@@ -1029,4 +1063,3 @@ class Randomisation(models.Model):
         result.donor = link_donor
         result.save()
         return result.result
-

@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django.db import migrations, models
 import django.utils.timezone
 from django.conf import settings
+import django.core.validators
 
 
 class Migration(migrations.Migration):
@@ -30,7 +31,7 @@ class Migration(migrations.Migration):
                 ('record_locked', models.BooleanField(default=False)),
                 ('first_names', models.CharField(max_length=50, verbose_name='PE10 first names')),
                 ('last_names', models.CharField(max_length=50, verbose_name='PE11 last names')),
-                ('telephone', models.CharField(max_length=20, verbose_name='PE13 telephone number', blank=True)),
+                ('telephone', models.CharField(blank=True, max_length=15, verbose_name='PE13 telephone number', validators=[django.core.validators.RegexValidator(regex='^\\+?1?\\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")])),
                 ('email', models.EmailField(max_length=254, verbose_name='PE15 email', blank=True)),
                 ('based_at', models.ForeignKey(blank=True, to='locations.Hospital', null=True)),
                 ('created_by', models.ForeignKey(to=settings.AUTH_USER_MODEL)),

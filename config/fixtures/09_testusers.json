@@ -69,7 +69,7 @@
     }
   },
   {
-    "model": "compare.PerfusionMachine",
+    "model": "perfusion_machine.PerfusionMachine",
     "pk": 1,
     "fields": {
       "machine_serial_number": "ABC1234",
@@ -78,7 +78,7 @@
     }
   },
   {
-    "model": "compare.PerfusionMachine",
+    "model": "perfusion_machine.PerfusionMachine",
     "pk": 2,
     "fields": {
       "machine_serial_number": "BCD2345",

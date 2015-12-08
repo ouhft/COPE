@@ -31,6 +31,17 @@
 		"outputPathIsSetByUser": 0,
 		"processed": 1
 		},
+	"\/img\/locale\/en-db.png": {
+		"fileType": 32768,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 620,
+		"inputAbbreviatedPath": "\/img\/locale\/en-db.png",
+		"outputAbbreviatedPath": "\/img\/locale\/en-db.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
 	"\/img\/locale\/en-gb.png": {
 		"fileType": 32768,
 		"ignore": 0,
@@ -194,7 +205,7 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
-		"syntaxCheckerStyle": 0
+		"syntaxCheckerStyle": 1
 		},
 	"\/js-plugins\/popover.js": {
 		"fileType": 64,
