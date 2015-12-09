@@ -389,10 +389,10 @@
                 var eData,
                     dataOptions = {};
 
-                if (element.is('input') || options.inline) {
+                if (element.is('input[type=text]') || options.inline) {
                     eData = element.data();
                 } else {
-                    eData = element.find('input').data();
+                    eData = element.find('input[type=text]').data();
                 }
 
                 if (eData.dateOptions && eData.dateOptions instanceof Object) {
@@ -417,7 +417,7 @@
 
                 if (options.widgetParent) {
                     parent = options.widgetParent.append(widget);
-                } else if (element.is('input')) {
+                } else if (element.is('input[type=text]')) {
                     parent = element.after(widget).parent();
                 } else if (options.inline) {
                     parent = element.append(widget);
@@ -1317,7 +1317,7 @@
                     'focus': options.allowInputToggle ? show : ''
                 });
 
-                if (element.is('input')) {
+                if (element.is('input[type=text]')) {
                     input.on({
                         'focus': show
                     });
@@ -1336,7 +1336,7 @@
                     'focus': options.allowInputToggle ? hide : ''
                 });
 
-                if (element.is('input')) {
+                if (element.is('input[type=text]')) {
                     input.off({
                         'focus': show
                     });
@@ -2298,12 +2298,12 @@
         };
 
         // initializing element and component attributes
-        if (element.is('input')) {
+        if (element.is('input[type=text]')) {
             input = element;
         } else {
             input = element.find(options.datepickerInput);
             if (input.size() === 0) {
-                input = element.find('input');
+                input = element.find('input[type=text]');
             } else if (!input.is('input')) {
                 throw new Error('CSS class "' + options.datepickerInput + '" cannot be applied to non input element');
             }
@@ -2318,7 +2318,7 @@
             }
         }
 
-        if (!options.inline && !input.is('input')) {
+        if (!options.inline && !input.is('input[type=text]')) {
             throw new Error('Could not initialize DateTimePicker without an input element');
         }
 
