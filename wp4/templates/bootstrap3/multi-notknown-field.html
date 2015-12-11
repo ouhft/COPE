@@ -3,7 +3,7 @@
 <!-- START: wp4/templates/bootstrap3/multi-notknown-field.html -->
 {% if field|is_checkbox %}
     <span class="input-group-btn" data-toggle="buttons">
-        <label class="btn btn-default {% if field.value|lower == "true" %}
+        <label class="btn {% if labelclass != "control-label has-error" %}btn-default{% else %}btn-danger{% endif %} {% if field.value|lower == "true" %}
                    active{% endif %}" title="Not Known">
             <input type="checkbox"
             {% if field.value|lower == "true" %}checked{% endif %}

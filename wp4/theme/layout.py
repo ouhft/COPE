@@ -4,7 +4,32 @@ import string, random
 
 # from django.utils import formats, translation
 
-from crispy_forms.layout import LayoutObject, Div, HTML, Field, render_field, render_to_string, TEMPLATE_PACK, flatatt
+from crispy_forms.layout import LayoutObject, Layout, Div, HTML, Field, render_field, render_to_string, TEMPLATE_PACK, flatatt
+
+
+def get_field_name(input):
+    if isinstance(input, str):
+        return input
+    elif isinstance(input, HTML):
+        return input
+    elif isinstance(input, FieldWithNotKnown):
+        return get_field_name(input.field1)
+    else:
+        names = input.get_field_names()
+        # print("DEBUG: names[0][1]=%s" % names[0][1])
+        return names[0][1]
+# # if not isinstance(self.field2, str):
+# #     print("DEBUG: ComboField: dir(field2)= %s" % dir(self.field2))
+# if isinstance(self.field1, Field):
+#     print("DEBUG: ComboField: field1 (Field).get_field_names= %s" % self.field1.get_field_names())
+# # 'attrs', 'fields', 'get_field_names', 'get_layout_objects', 'get_rendered_fields', 'get_template_name', 'render', 'template', 'wrapper_class'  -- layout.Field object
+# if isinstance(self.field1, Layout):
+#     print("DEBUG: ComboField: field1 (Layout).get_field_names= %s" % self.field1.get_field_names())
+# # 'fields', 'get_field_names', 'get_layout_objects', 'get_rendered_fields', 'get_template_name', 'render' -- layout.Layout object
+# # 'html', 'render' -- layout.HTML object
+# if isinstance(self.field1, FieldWithNotKnown):
+#     print("DEBUG: ComboField: field1 (FieldWithNotKnown).get_field_names= %s" % self.field1.get_field_names())
+# # 'css_class', 'css_id', 'field1', 'field2', 'field_template1', 'field_template2', 'flat_attrs', 'get_field_names', 'get_layout_objects', 'get_rendered_fields', 'get_template_name', 'label_class', 'label_html', 'render', 'template' -- layout.FieldWithNotKnown object
 
 
 def FormPanel(title, layout, panel_status=None, panel_hidden=None):
@@ -68,21 +93,43 @@ class ComboField(LayoutObject):
     def render(self, form, form_style, context, template_pack=TEMPLATE_PACK):
         # If a field within MultiField contains errors
         has_errors = False
-        if context['form_show_errors']:
-            if self.field1 in form.errors or self.field2 in form.errors:
-                has_errors = True
+        field_errors = []
+        # print("==============================================================================")
+        # print("DEBUG: self.field1=%s" % self.field1)
+        # print("DEBUG: self.field2=%s" % self.field2)
 
+        # print("DEBUG: ComboField: context['form_show_errors']=%s" % context['form_show_errors'])
+        if context['form_show_errors']:
+            # print("DEBUG: form.errors.as_data=%s" % form.errors.as_data())
+            # 'as_data', 'as_json', 'as_text', 'as_ul', 'clear', 'copy', 'fromkeys', 'get', 'has_key', 'items', 'iteritems', 'iterkeys', 'itervalues', 'keys', 'pop', 'popitem', 'setdefault', 'update', 'values', 'viewitems', 'viewkeys', 'viewvalues' -- dir(form.errors)
+            if get_field_name(self.field1) in form.errors or get_field_name(self.field2) in form.errors:
+                has_errors = True
+                try:
+                    field_errors = form.errors[get_field_name(self.field1)]
+                except KeyError:
+                    pass
+                try:
+                    field_errors += form.errors[get_field_name(self.field2)]
+                except KeyError:
+                    pass
+
+        # print("DEBUG: ComboField: has_errors=%s" % has_errors)
         if has_errors:
             if "has-error" not in self.css_class:
                 self.css_class += " has-error"
             if "has-error" not in self.label_class:
                 self.label_class += " has-error"
+        else:
+            # Cleanup because this gets recycled, annoyingly.
+            if "has-error" in self.css_class:
+                self.css_class = self.css_class.replace("has-error", "")
+            if "has-error" in self.label_class:
+                self.label_class = self.label_class.replace("has-error", "")
 
         if self.label_html == u'unset':
             try:
-                field_instance = form.fields[self.field1]
+                field_instance = form.fields[get_field_name(self.field1)]
                 self.label_html = field_instance.label
-                # self.label_for = field_instance.
                 # TODO: sort out the actual primary field label id so we can put it in the html
                 # print("DEBUG: label %s" % dir(field_instance))
             except KeyError:
@@ -102,8 +149,6 @@ class ComboField(LayoutObject):
             self.field_template2, self.label_class, layout_object=self,
             template_pack=template_pack
         )
-        # print("DEBUG: self.field1=%s" % self.field1)
-        # print("DEBUG: self.field2=%s" % self.field2)
         # print("DEBUG: render():form=%s" % form.fields.keys())
         # print("DEBUG: render():form=%s" % dir(form))
         # print("DEBUG: render():form.prefix=%s" % form.prefix)
@@ -114,7 +159,9 @@ class ComboField(LayoutObject):
             'multifield': self,
             'primary_field': primary_output,
             'secondary_field': secondary_output,
-            'group_id': group_id
+            'group_id': group_id,
+            'field_errors': field_errors
+            # 'form_field': form.fields[get_field_name(self.field1)]
         })
         return render_to_string(self.template, context)
 

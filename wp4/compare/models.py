@@ -3,7 +3,6 @@
 from __future__ import absolute_import, unicode_literals
 from random import random
 import datetime
-
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
@@ -11,11 +10,9 @@ from django.core.validators import MinValueValidator, MaxValueValidator, Validat
 from django.db import models, transaction
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-
 from ..staff_person.models import StaffJob, StaffPerson
 from ..locations.models import Hospital, UNITED_KINGDOM, BELGIUM, NETHERLANDS, COUNTRY_CHOICES
 from ..perfusion_machine.models import PerfusionFile, PerfusionMachine
-
 from .validators import validate_between_1900_2050, validate_not_in_past, validate_not_in_future
 
 # Common CONSTANTS
@@ -280,9 +277,11 @@ class Donor(VersionControlModel):
                                          validators=[validate_between_1900_2050, validate_not_in_future])
     date_of_admission_unknown = models.BooleanField(default=False)  # Internal flag
     admitted_to_itu = models.BooleanField(verbose_name=_('DO14 admitted to ITU'), default=False)
-    date_admitted_to_itu = models.DateField(verbose_name=_('DO15 when admitted to ITU'), blank=True, null=True)
+    date_admitted_to_itu = models.DateField(verbose_name=_('DO15 when admitted to ITU'), blank=True, null=True,
+                                            validators=[validate_between_1900_2050, validate_not_in_future])
     date_admitted_to_itu_unknown = models.BooleanField(default=False)  # Internal flag
-    date_of_procurement = models.DateField(verbose_name=_('DO16 date of procurement'), blank=True, null=True)
+    date_of_procurement = models.DateField(verbose_name=_('DO16 date of procurement'), blank=True, null=True,
+                                           validators=[validate_between_1900_2050, validate_not_in_future])
     other_organs_procured = models.BooleanField(verbose_name=_("DO17 other organs procured"), default=False)
     other_organs_lungs = models.BooleanField(verbose_name=_("DO18 lungs"), default=False)
     other_organs_pancreas = models.BooleanField(verbose_name=_("DO19 pancreas"), default=False)
