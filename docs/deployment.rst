@@ -343,18 +343,54 @@ Restarting server with ``sudo shutdown -r now`` to test the above configurations
 SSL Certificate
 ---------------
 
-https://help.ubuntu.com/lts/serverguide/certificates-and-security.html
+Help via:
 
+* https://help.ubuntu.com/lts/serverguide/certificates-and-security.html
+* https://wiki.it.ox.ac.uk/itss/CertificateService
 
+Steps for request::
 
+    cd .ssh/
+    mkdir ssl-cert
+    cd ssl-cert/
+    vi website.ssl.cfg
+
+Into which we used the following::
+
+    [ req ]
+        prompt                 = no
+        default_bits           = 2048
+        default_md             = sha256
+        distinguished_name     = dn
+    [ dn ]
+        C                      = GB
+        ST                     = Oxfordshire
+        L                      = Oxford
+        O                      = University of Oxford
+        OU                     = Nuffield Department of Surgical Sciences
+        CN                     = cope.nds.ox.ac.uk
+
+And then::
+
+    openssl req -new -keyout private.pem -out cope.nds.csr -config ./website.ssl.cfg -batch -verbose -nodes
+
+    Using configuration from ./website.ssl.cfg
+    Generating a 2048 bit RSA private key
+    .............................................+++
+    ..............................................+++
+    writing new private key to 'private.pem'
+    -----
+
+Which resulted in a private.pem and cope.nds.csr files being created. The contents of the cope.nds.csr was then submitted
+to Trend via their port (see ITSS wiki link) and emailed to the ITS3 team for confirmation.
+
+Port 443 has been confirmed as open on the MSD firewall for cope.nds.ox.ac.uk
 
 
 **TODO**
 
 * Remove the SSL redirect off command from local.env
-* Check port 443 is open on MSD-IT firewall
 * Configure Nginx to do the SSL certificate
-* Register for and SSL cert
 * Run the django-secure scan
 
 
