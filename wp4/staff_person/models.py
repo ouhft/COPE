@@ -92,4 +92,4 @@ class StaffPerson(VersionControlModel):
         verbose_name_plural = _('PEm2 people')
 
     def get_absolute_url(self):
-        return reverse("staff_person:detail", kwargs={"pk": self.pk})
+        return reverse("wp4:staff_person:detail", kwargs={"pk": self.pk})
