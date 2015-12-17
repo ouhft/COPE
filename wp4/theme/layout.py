@@ -14,10 +14,16 @@ def get_field_name(input):
         return input
     elif isinstance(input, FieldWithNotKnown):
         return get_field_name(input.field1)
+    elif isinstance(input, FieldWithFollowup):
+        return get_field_name(input.field1)
     else:
-        names = input.get_field_names()
-        # print("DEBUG: names[0][1]=%s" % names[0][1])
-        return names[0][1]
+        try:
+            names = input.get_field_names()
+            # print("DEBUG: names[0][1]=%s" % names[0][1])
+            return names[0][1]
+        except AttributeError:
+            # There are some layouts that have no inputs in
+            return ""
 # # if not isinstance(self.field2, str):
 # #     print("DEBUG: ComboField: dir(field2)= %s" % dir(self.field2))
 # if isinstance(self.field1, Field):

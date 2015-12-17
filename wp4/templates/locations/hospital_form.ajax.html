@@ -30,7 +30,7 @@
 
         function saveForeignKeyModal() {
             $.ajax({
-                url: getBaseURL() + "location/{{ form.instance.pk|default:"add" }}/",
+                url: getBaseURL() + "wp4/location/{{ form.instance.pk|default:"add" }}/",
                 type: "POST",  // This is comply with CBV premise that POST saves forms
                 data: $("#hospital_form").serializeArray(),
                 success: function (htmlContent) {

@@ -831,7 +831,7 @@ class OrganAllocation(VersionControlModel):
         blank=True, null=True,
         validators=[validate_between_1900_2050, validate_not_in_future])
     call_received_unknown = models.BooleanField(default=False)  # Internal flag
-    transplant_hospital = models.ForeignKey(Hospital, verbose_name=_('OA03 transplant hospital'))
+    transplant_hospital = models.ForeignKey(Hospital, verbose_name=_('OA03 transplant hospital'), blank=True, null=True)
     theatre_contact = models.ForeignKey(
         StaffPerson,
         verbose_name=_('OA04 name of the theatre contact'),
@@ -883,6 +883,12 @@ class OrganAllocation(VersionControlModel):
             self.depart_perfusion_centre = None
         if self.arrival_at_recipient_hospital_unknown:
             self.arrival_at_recipient_hospital = None
+
+        if self.reallocated is not None:
+            if self.transplant_hospital is None:
+                raise ValidationError(_("OAv01 Please enter a transplant hospital to continue"))
+            if self.perfusion_technician is None:
+                raise ValidationError(_("OAv02 Please enter the name of the transplant technician"))
 
     def __unicode__(self):
         try:
