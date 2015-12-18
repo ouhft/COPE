@@ -382,15 +382,63 @@ And then::
     -----
 
 Which resulted in a private.pem and cope.nds.csr files being created. The contents of the cope.nds.csr was then submitted
-to Trend via their port (see ITSS wiki link) and emailed to the ITS3 team for confirmation.
+to Trend via their port (see ITSS wiki link) and emailed to the ITS3 team for confirmation. One phone confirmation
+from ITS3 later, and an email arrives with the certificates zipped up, and a (supposedly the equivalent) .pem file of the
+bundle. However, the .pem does not validate against the csr and private.pem (see https://www.sslshopper.com/certificate-key-matcher.html
+or run the openssl validation checks below).
+
+Copy the files to the server (scp), and put them into ``~/.ssh/ssl-cert/``. Run unzip on the zip bundle, to get 3 .crt
+files returned. This now gives us::
+
+    -rw-rw-r-- 1 copeuser copeuser 1218 Dec 14 18:20 AffirmTrust_Commercial.crt
+    -rw-r--r-- 1 copeuser copeuser 3624 Dec 17 16:21 all-certificate.zip
+    -rw-rw-r-- 1 copeuser copeuser 1086 Dec 14 17:48 cope.nds.csr
+    -rw-rw-r-- 1 copeuser copeuser 1642 Dec 14 18:20 cope.nds.ox.ac.uk.crt
+    -rw-rw-r-- 1 copeuser copeuser 1704 Dec 14 17:48 private.pem
+    -rw-r--r-- 1 copeuser copeuser 2813 Dec 17 16:21 s2cabundle.pem
+    -rw-rw-r-- 1 copeuser copeuser 1630 Dec 14 18:20 Trend_Micro_S2_CA.crt
+    -rw-rw-r-- 1 copeuser copeuser  465 Dec 14 17:45 website.ssl.cfg
+
+Long story short, because we can't validate the s2cabundle.pem file, we need to create our own .crt (or .pem, same thing)
+file by concatinating the three supplied certificates in the correct order, thus we do::
+
+    cat cope.nds.ox.ac.uk.crt AffirmTrust_Commercial.crt Trend_Micro_S2_CA.crt > cope.nds.crt
+
+    # Validation can now be done to confirm these all match!
+    copeuser@cope:~/.ssh/ssl-cert$ openssl rsa -noout -modulus -in private.pem | openssl md5
+    (stdin)= cf0888a35d5070123c032249b4010244
+    copeuser@cope:~/.ssh/ssl-cert$ openssl req -noout -modulus -in cope.nds.csr | openssl md5
+    (stdin)= cf0888a35d5070123c032249b4010244
+    copeuser@cope:~/.ssh/ssl-cert$ openssl x509 -noout -modulus -in cope.nds.ox.ac.uk.crt  | openssl md5
+    (stdin)= cf0888a35d5070123c032249b4010244
+
+Now we'll put a copy of this combined certificate chain, and our private key, in a folder accessible by the NGINX
+process, as that is acting as the SSL proxy server (see the configuration in ``cope-repo/
+deploy/production/etc/nginx/sites-available/cope.conf`` for how Nginx will use these)::
+
+    mkdir -p /sites/etc/ngix/ssl/    # Yes, there is a typo in nginx
+    cp private.pem /sites/etc/ngix/ssl/
+    cp cope.nds.crt /sites/etc/ngix/ssl/
+
+With those in place, and using the config file above, you can got to ``sudo supervisorctl`` and then
+``restart all``, and lo and behold, we have service on port 443.
+
+It's worth noting that ``SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTOCOL', 'https')`` needed to be
+added to the production.py settings file so that Django can detect if https is being used, otherwise
+when you set ``DJANGO_SECURE_SSL_REDIRECT=True`` in the ``local.env`` file, you will get a redirect loop
+in the browser.
+
+The string "HTTP_X_FORWARDED_PROTOCOL" is derived from ``proxy_set_header X-Forwarded-Protocol $scheme;`` in the nginx conf combined with the note from https://docs.djangoproject.com/en/dev/ref/settings/#secure-proxy-ssl-header saying::
+
+    Note that the header needs to be in the format as used by request.META – all caps and likely starting with HTTP_. (Remember, Django automatically adds 'HTTP_' to the start of x-header names before making the header available in request.META.)
 
 Port 443 has been confirmed as open on the MSD firewall for cope.nds.ox.ac.uk
 
 
+
+
 **TODO**
 
-* Remove the SSL redirect off command from local.env
-* Configure Nginx to do the SSL certificate
 * Run the django-secure scan
 
 
