@@ -8,7 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Div, HTML, Field
 # from crispy_forms.bootstrap import FormActions, StrictButton
-from autocomplete_light import ModelChoiceField
+from autocomplete_light.fields import ModelChoiceField
 
 from ..theme.layout import InlineFields, FieldWithFollowup, YesNoFieldWithAlternativeFollowups, FieldWithNotKnown, ForeignKeyModal
 from ..theme.layout import DateTimeField, DateField, FormPanel
