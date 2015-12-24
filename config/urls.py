@@ -21,9 +21,9 @@ urlpatterns += i18n_patterns(
     url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^wp4/', include(wp4_urls, namespace='wp4')),
 
-    url(r'^errors/403$', error403, name='error_403'),
-    url(r'^errors/404$', error404, name='error_404'),
-    url(r'^errors/500$', error500, name='error_500'),
+    url(r'^errors/403/$', error403, name='error_403'),
+    url(r'^errors/404/$', error404, name='error_404'),
+    url(r'^errors/500/$', error500, name='error_500'),
 
     url(r'^$', dashboard_index, name='home'),
 )

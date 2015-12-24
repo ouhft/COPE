@@ -9,6 +9,7 @@ from .staff_person import urls as staffperson_urls
 from .locations import urls as locations_urls
 from .samples import urls as samples_urls
 from .compare import urls as compare_urls
+from .views import wp4_index
 
 urlpatterns = [
     url(r'^followup/', include(followup_urls, namespace="followup")),
@@ -17,4 +18,9 @@ urlpatterns = [
     url(r'^location/', include(locations_urls, namespace="locations")),
     url(r'^sample/', include(samples_urls, namespace="samples")),
     url(r'^compare/', include(compare_urls, namespace="compare")),
+    url(
+        regex=r'^$',
+        view=wp4_index,
+        name='index'
+    )
 ]

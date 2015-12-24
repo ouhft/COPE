@@ -1,20 +1,6 @@
 [
   {
     "fields": {
-      "name": "Perfusion Technicians"
-    },
-    "model": "auth.group",
-    "pk": 1
-  },
-  {
-    "fields": {
-      "name": "Central Co-ordinators"
-    },
-    "model": "auth.group",
-    "pk": 2
-  },
-  {
-    "fields": {
       "username": "tech1",
       "first_name": "Example",
       "last_name": "Technician 1",
@@ -35,7 +21,7 @@
   },
   {
     "fields": {
-      "username": "ally",
+      "username": "abradley",
       "first_name": "Ally",
       "last_name": "Bradley",
       "is_active": true,
@@ -54,6 +40,26 @@
     "pk": 3
   },
   {
+    "fields": {
+      "username": "smertens",
+      "first_name": "Sarah",
+      "last_name": "Mertens",
+      "is_active": true,
+      "is_superuser": false,
+      "is_staff": true,
+      "last_login": null,
+      "groups": [
+        2
+      ],
+      "user_permissions": [],
+      "password": "pbkdf2_sha256$20000$JyezqfXOVKwX$w1nRr5Bg8k2xn75Q6ikIWJD1fLYMc42G9e58yYs1rI0=",
+      "email": "",
+      "date_joined": "2015-12-21T18:21:14Z"
+    },
+    "model": "auth.user",
+    "pk": 4
+  },
+  {
     "model": "staff_person.staffperson",
     "pk": 38,
     "fields": {
@@ -67,6 +73,25 @@
       "version": 1,
       "created_by": 1
     }
+  },
+  {
+    "fields": {
+      "first_names": "Sarah",
+      "based_at": 10,
+      "jobs": [
+        4
+      ],
+      "last_names": "Mertens",
+      "record_locked": false,
+      "created_by": 1,
+      "telephone": "",
+      "created_on": "2015-12-21T18:26:32.029Z",
+      "version": 2,
+      "user": 4,
+      "email": ""
+    },
+    "model": "staff_person.staffperson",
+    "pk": 39
   },
   {
     "model": "perfusion_machine.PerfusionMachine",
