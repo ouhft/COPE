@@ -74,7 +74,7 @@ class OrganPersonForm(forms.ModelForm):
 class DonorForm(forms.ModelForm):
     layout_procedure = Layout(
         Field('retrieval_team', template="bootstrap3/layout/read-only.html"),
-        'sequence_number',  # TODO: Work out how to hide this field if not admin
+        'sequence_number',
         Field('perfusion_technician', template="bootstrap3/layout/read-only.html"),
         ForeignKeyModal('transplant_coordinator'),
         FieldWithNotKnown(DateTimeField('call_received', notknown=True), 'call_received_unknown',

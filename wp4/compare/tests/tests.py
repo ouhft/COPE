@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 
 from selenium import webdriver
+from selenium.webdriver.support.ui import Select
 
 from wp4.locations.models import Hospital, UNITED_KINGDOM, BELGIUM, NETHERLANDS
 from wp4.staff_person.models import StaffJob, StaffPerson
@@ -161,7 +162,25 @@ class ProcurementTestCase(CoreDataMixin, LiveServerTestCase):
         procurement_item.click()
 
         # Check we are now on the Procurement listing screen
+        page_header = self.browser.find_element_by_css_selector('.page-header')
+        self.assertEqual('Procurement', page_header.text)
+        sub_headers = self.browser.find_elements_by_tag_name('h2')
+        self.assertEqual('Open Cases (0 cases)', sub_headers[0].text)
+        self.assertEqual('New Case', sub_headers[1].text)
 
+        # Fill in the new case form
+        new_case_form = self.browser.find_element_by_id('new-case-form')
+
+        retrieval_team_input = Select(new_case_form.find_element_by_css_selector('select[name=donor-retrieval_team'))
+        retrieval_team_input.select_by_value("1")  # Oxford, Churchill
+        self.assertEqual(retrieval_team_input.all_selected_options[0].text, '(15) Churchill Hospital, Oxford, United Kingdon')
+
+        # Name of MTO is a typeahead field, and we're a technician, so check we are selected
+        mto_text = self.browser.find_element_by_id('id_donor-perfusion_technician-deck')
+        self.assertContains('Transplant Technician', mto_text.text)
+
+        # password_input.send_keys('techpass')
+        # password_input.submit()
 
         # import pdb;pdb.set_trace()
         self.fail('Incomplete Test')
