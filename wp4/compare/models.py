@@ -419,7 +419,6 @@ class Donor(VersionControlModel):
 
     class Meta:
         order_with_respect_to = 'retrieval_team'
-        ordering = ['sequence_number']
         verbose_name = _('DOm1 donor')
         verbose_name_plural = _('DOm2 donors')
 

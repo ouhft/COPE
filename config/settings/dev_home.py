@@ -20,9 +20,9 @@ DEBUG = env.bool('DJANGO_DEBUG', default=True)
 TEMPLATES[0]['OPTIONS']['debug'] = DEBUG
 CRISPY_FAIL_SILENTLY = not DEBUG
 # Debug language for seeing labels rather than translations
-LANGUAGES = LANGUAGES + (
+LANGUAGES = LANGUAGES + [
     ('en-db', _('SET04 Debug Language')),
-)
+]
 
 # SECRET CONFIGURATION
 # ------------------------------------------------------------------------------

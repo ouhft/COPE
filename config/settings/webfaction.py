@@ -12,9 +12,9 @@ from .common import *  # noqa
 
 print("DEBUG: Loading settings from webfaction")
 # Debug language for seeing labels rather than translations
-LANGUAGES = LANGUAGES + (
+LANGUAGES = LANGUAGES + [
     ('en-db', _('SET04 Debug Language')),
-)
+]
 
 
 # SECRET CONFIGURATION
@@ -26,10 +26,10 @@ SECRET_KEY = env("DJANGO_SECRET_KEY")
 
 # django-secure
 # ------------------------------------------------------------------------------
-INSTALLED_APPS += ("djangosecure", )
-SECURITY_MIDDLEWARE = (
+INSTALLED_APPS += ["djangosecure", ]
+SECURITY_MIDDLEWARE = [
     'djangosecure.middleware.SecurityMiddleware',
-)
+]
 MIDDLEWARE_CLASSES = SECURITY_MIDDLEWARE + MIDDLEWARE_CLASSES
 
 # set this to 60 seconds and then to 518400 when you can prove it works

@@ -25,7 +25,7 @@ if not env.bool("LOCAL_ENV_SET", default=False):
 
 # APP CONFIGURATION
 # ------------------------------------------------------------------------------
-DJANGO_APPS = (
+DJANGO_APPS = [
     # Default Django apps:
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,19 +39,19 @@ DJANGO_APPS = (
 
     # Admin
     'django.contrib.admin',
-)
-THIRD_PARTY_APPS = (
+]
+THIRD_PARTY_APPS = [
     'crispy_forms',  # Form layouts
     # 'allauth',  # registration
     # 'allauth.account',  # registration
     # 'allauth.socialaccount',  # registration
-)
-THIRD_PARTY_PRE_DJANGO_APPS = (
+]
+THIRD_PARTY_PRE_DJANGO_APPS = [
     'autocomplete_light',
-)
+]
 
 # Apps specific for this project go here.
-LOCAL_APPS = (
+LOCAL_APPS = [
     'wp4.locations',
     'wp4.staff_person',
     'wp4.perfusion_machine',
@@ -60,13 +60,13 @@ LOCAL_APPS = (
     'wp4.adverse_event',
     'wp4.followups',
     'wp4.theme'
-)
+]
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = THIRD_PARTY_PRE_DJANGO_APPS + DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 # MIDDLEWARE CONFIGURATION
 # ------------------------------------------------------------------------------
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE_CLASSES = [
     # Make sure djangosecure.middleware.SecurityMiddleware is listed first
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -77,7 +77,7 @@ MIDDLEWARE_CLASSES = (
     # 'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-)
+]
 
 # MIGRATIONS CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -93,9 +93,9 @@ DEBUG = env.bool("DJANGO_DEBUG", False)
 # FIXTURE CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-FIXTURE_DIRS
-FIXTURE_DIRS = (
+FIXTURE_DIRS = [
     str(APPS_DIR.path('fixtures')),
-)
+]
 
 # EMAIL CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -104,9 +104,9 @@ EMAIL_BACKEND = env('DJANGO_EMAIL_BACKEND', default='django.core.mail.backends.s
 # MANAGER CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#admins
-ADMINS = (
-    ("""Carl Marshall""", 'carl.marshall@nds.ox.ac.uk'),
-)
+ADMINS = [
+    ("Carl Marshall", 'carl.marshall@nds.ox.ac.uk'),
+]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#managers
 MANAGERS = ADMINS
@@ -144,19 +144,19 @@ USE_L10N = True
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#use-tz
 USE_TZ = True
 
-DATETIME_INPUT_FORMATS = (
+DATETIME_INPUT_FORMATS = [
     '%d-%m-%Y %H:%M',  # '25-10-2006 14:30'
     '%Y-%m-%d %H:%M',  # '2006-10-25 14:30'
     '%d/%m/%Y %H:%M',  # '25/10/2006 14:30'
     '%Y/%m/%d %H:%M',  # '2006/10/25 14:30'
-)
+]
 
-DATE_INPUT_FORMATS = (
+DATE_INPUT_FORMATS = [
     '%d-%m-%Y',  # '25-10-2006'
     '%Y-%m-%d',  # '2006-10-25'
     '%d/%m/%Y',  # '25/10/2006'
     '%Y/%m/%d',  # '2006/10/25'
-)
+]
 
 # TEMPLATE CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -206,15 +206,15 @@ STATIC_ROOT = str(ROOT_DIR('staticfiles'))
 STATIC_URL = '/static/'
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
-STATICFILES_DIRS = (
+STATICFILES_DIRS = [
     str(APPS_DIR.path('static')),
-)
+]
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-finders
-STATICFILES_FINDERS = (
+STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-)
+]
 
 # MEDIA CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -233,10 +233,10 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # AUTHENTICATION CONFIGURATION
 # ------------------------------------------------------------------------------
-AUTHENTICATION_BACKENDS = (
+AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     # 'allauth.account.auth_backends.AuthenticationBackend',
-)
+]
 
 # Some really nice defaults
 ACCOUNT_AUTHENTICATION_METHOD = 'username'
@@ -305,16 +305,16 @@ LOGGING = {
 
 # Your common stuff: Below this line define 3rd party library settings
 
-LANGUAGES = (
+LANGUAGES = [
     ('en-gb', _('SET01 Great Britain')),
     ('fr-be', _('SET02 Belgium')),
     ('nl-nl', _('SET03 Netherlands')),
-)
+]
 
-LOCALE_PATHS = (
+LOCALE_PATHS = [
     # str(ROOT_DIR.path('locale')),
     str(ROOT_DIR('locale')),
-)
+]
 
 # REDIRECT_FIELD_NAME = 'redirect_to'
 

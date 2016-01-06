@@ -24,4 +24,9 @@ urlpatterns = [
         view=views.transplantation_form,
         name='transplantation_detail'
     ),
+    url(
+        regex=r'^$',
+        view=views.index,
+        name='index'
+    )
 ]

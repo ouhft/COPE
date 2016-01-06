@@ -17,6 +17,11 @@ from .forms import ProcurementResourceLeftInlineFormSet, ProcurementResourceRigh
 
 
 @login_required
+def index(request):
+    return render(request, 'compare/index.html', {})
+
+
+@login_required
 def procurement_list(request):
     new_donor = Donor()
     current_person = StaffPerson.objects.get(user__id=request.user.id)
@@ -146,6 +151,7 @@ def procurement_form(request, pk):
         messages.success(request, 'Form has been <strong>successfully saved</strong>')
         if not is_randomised and donor.randomise():  # Has to wait till the organ forms are saved
             # Reload the forms with the modified results
+            donor_form = DonorForm(instance=donor, prefix="donor")
             left_organ_form = OrganForm(instance=donor.left_kidney(), prefix="left-organ")
             right_organ_form = OrganForm(instance=donor.right_kidney(), prefix="right-organ")
             is_randomised = True

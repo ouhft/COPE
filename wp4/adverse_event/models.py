@@ -78,6 +78,6 @@ class AdverseEvent(VersionControlModel):
 
     class Meta:
         order_with_respect_to = 'organ'
-        ordering = ['sequence_number']
+        # ordering = ['sequence_number']
         verbose_name = _('AEm1 adverse event')
         verbose_name_plural = _('AEm2 adverse events')
