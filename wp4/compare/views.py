@@ -240,14 +240,18 @@ def transplantation_form(request, pk=None):
     person_form = None
     recipient_form = None
     recipient_form_loaded = False
+    errors_found = 0
+
+    # First time in? Create an allocation record (and set the TT if user is a Perfusion Technician
     if len(organ.organallocation_set.all()) < 1:
         if current_person.has_job(StaffJob.PERFUSION_TECHNICIAN):
-            initial_organallocation = OrganAllocation(organ=organ, created_by=current_person.user,
-                                                      perfusion_technician=current_person)
+            initial_organ_allocation = OrganAllocation(organ=organ, created_by=current_person.user,
+                                                       perfusion_technician=current_person)
         else:
-            initial_organallocation = OrganAllocation(organ=organ, created_by=current_person.user)
-        initial_organallocation.save()
+            initial_organ_allocation = OrganAllocation(organ=organ, created_by=current_person.user)
+        initial_organ_allocation.save()
 
+    # See if we can process the forms associated with the eventual recipient
     try:
         if organ.recipient is not None:
             # print("DEBUG: Starting the Recipient form")
@@ -256,6 +260,7 @@ def transplantation_form(request, pk=None):
             if person_form.is_valid():
                 person_form.save(request.user)
             else:
+                errors_found += 1
                 print("DEBUG: Person Errors! %s" % person_form.errors)
 
             recipient_form = RecipientForm(request.POST or None, request.FILES or None,
@@ -263,6 +268,7 @@ def transplantation_form(request, pk=None):
             if recipient_form.is_valid():
                 recipient_form.save()
             else:
+                errors_found += 1
                 print("DEBUG: Recipient Errors! %s" % recipient_form.errors)
 
             recipient_form_loaded = True
@@ -272,7 +278,7 @@ def transplantation_form(request, pk=None):
     # Process Allocations
     allocation_formset = AllocationFormSet(request.POST or None, prefix="allocation",
                                            queryset=organ.organallocation_set.all())
-    if allocation_formset.is_valid():
+    if allocation_formset.is_valid() and errors_found == 0:
         last_form_index = len(allocation_formset)-1
         for i, form in enumerate(allocation_formset):
             allocation = form.save(current_person.user)
@@ -311,14 +317,16 @@ def transplantation_form(request, pk=None):
                     # create the related sample placeholder for this recipient
                     create_recipient_worksheet(recipient, request.user)
 
+        # There should be no errors when we redirect here
         messages.success(request, 'Form has been <strong>successfully saved</strong>')
-
-        return redirect(reverse(
-            'wp4:compare:transplantation_detail',
-            kwargs={'pk': organ.id}
-        ))
+        return redirect(reverse('wp4:compare:transplantation_detail', kwargs={'pk': organ.id}))
     else:
-        print("DEBUG: Errors! %s" % allocation_formset.errors)
+        if request.POST:
+            errors_found += 1
+            print("DEBUG: allocation_formset Errors! %s" % allocation_formset.errors)
+        else:
+            errors_found = -1
+            # Else we're just loading the page/form
 
     # Disable the reallocation question for any that have been saved with a reallocation value
     # for subform in allocation_formset:
@@ -332,6 +340,12 @@ def transplantation_form(request, pk=None):
         worksheet = organ.recipient.person.worksheet_set.all()[0]
     else:
         worksheet = None
+
+    print("DEBUG: Second Error Message Update")
+    if errors_found > 0:
+        messages.error(request, 'Form has <strong>NOT</strong> been saved. Please correct the errors below')
+
+    print("DEBUG: errors_found %d" % errors_found)
 
     return render_to_response(
         "compare/transplantation_form.html",
