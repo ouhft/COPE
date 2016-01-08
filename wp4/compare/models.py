@@ -230,6 +230,7 @@ class Donor(VersionControlModel):
         choices=YES_NO_UNKNOWN_CHOICES,
         blank=True, null=True)
     form_completed = models.BooleanField(default=False)  # Internal value
+    admin_notes = models.TextField(verbose_name=_("DO50 Admin notes"), blank=True)
 
     # Procedure data
     retrieval_team = models.ForeignKey(RetrievalTeam, verbose_name=_("DO01 retrieval team"))
@@ -604,6 +605,7 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
         verbose_name=_('OR01 kidney location'),
         max_length=1,
         choices=LOCATION_CHOICES)
+    admin_notes = models.TextField(verbose_name=_("DO50 Admin notes"), blank=True)
 
     # Inspection data
     GRAFT_DAMAGE_ARTERIAL = 1

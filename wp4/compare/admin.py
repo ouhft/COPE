@@ -42,7 +42,7 @@ admin.site.register(OrganPerson, OrganPersonAdmin)
 class DonorAdmin(VersionControlAdmin):
     list_display = ('__unicode__', 'person', 'sequence_number', 'retrieval_team', 'is_randomised', 'trial_id')
     fieldsets = [
-        ('Case information', {'fields': ['sequence_number', 'multiple_recipients']}),
+        ('Case information', {'fields': ['sequence_number', 'multiple_recipients', 'admin_notes']}),
         ('Trial Procedure', {'fields': [
             'retrieval_team', 'perfusion_technician', 'transplant_coordinator', 'call_received', 'call_received_unknown', 'retrieval_hospital',
             'scheduled_start', 'scheduled_start_unknown', 'technician_arrival', 'technician_arrival_unknown', 'ice_boxes_filled', 'ice_boxes_filled_unknown', 'depart_perfusion_centre',
@@ -85,7 +85,7 @@ class OrganAdmin(VersionControlAdmin):
     ordering = ('donor__id', 'location')
     fieldsets = [
         ('Context', {'fields': [
-            'donor', 'location'
+            'donor', 'location', 'admin_notes'
         ]}),
         ('Inspection', {'fields': [
             'removal', 'renal_arteries', 'graft_damage', 'graft_damage_other', 'washout_perfusion', 'transplantable',
