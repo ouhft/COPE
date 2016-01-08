@@ -11,7 +11,7 @@ from django.db import models, transaction
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from ..staff_person.models import StaffJob, StaffPerson
-from ..locations.models import Hospital, UNITED_KINGDOM, BELGIUM, NETHERLANDS, COUNTRY_CHOICES
+from ..locations.models import Hospital, PAPER_UNITED_KINGDOM, PAPER_EUROPE, COUNTRY_CHOICES
 from ..perfusion_machine.models import PerfusionFile, PerfusionMachine
 from .validators import validate_between_1900_2050, validate_not_in_past, validate_not_in_future
 
@@ -230,6 +230,7 @@ class Donor(VersionControlModel):
         choices=YES_NO_UNKNOWN_CHOICES,
         blank=True, null=True)
     form_completed = models.BooleanField(default=False)  # Internal value
+    admin_notes = models.TextField(verbose_name=_("DO50 Admin notes"), blank=True)
 
     # Procedure data
     retrieval_team = models.ForeignKey(RetrievalTeam, verbose_name=_("DO01 retrieval team"))
@@ -604,6 +605,7 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
         verbose_name=_('OR01 kidney location'),
         max_length=1,
         choices=LOCATION_CHOICES)
+    admin_notes = models.TextField(verbose_name=_("DO50 Admin notes"), blank=True)
 
     # Inspection data
     GRAFT_DAMAGE_ARTERIAL = 1
@@ -1060,6 +1062,9 @@ class Randomisation(models.Model):
 
     @staticmethod
     def get_and_assign_result(country_code, link_donor):
+        # Pre-DB Data input for Paper UK
+        # TODO: REMOVE ME BEFORE WE GO LIVE!!
+        country_code = PAPER_UNITED_KINGDOM
         options = Randomisation.objects.filter(country=country_code, donor=None).order_by('id')
         if len(options) < 1:
             raise Exception()

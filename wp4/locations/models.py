@@ -13,6 +13,8 @@ from django.utils.translation import ugettext_lazy as _, ungettext_lazy as __
 UNITED_KINGDOM = 1
 BELGIUM = 4
 NETHERLANDS = 5
+PAPER_UNITED_KINGDOM = 8   # Used for the randomisation data in pre-DB recording
+PAPER_EUROPE = 9
 COUNTRY_CHOICES = (
     (UNITED_KINGDOM, _('MM10 United Kingdom')),
     (BELGIUM, _('MM11 Belgium')),

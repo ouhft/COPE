@@ -3630,5 +3630,53 @@
       "country": 5,
       "result": true
     }
+  },
+    {
+    "model": "compare.randomisation",
+    "pk": 455,
+    "fields": {
+      "country": 8,
+      "result": false
+    }
+  },
+  {
+    "model": "compare.randomisation",
+    "pk": 456,
+    "fields": {
+      "country": 8,
+      "result": true
+    }
+  },
+  {
+    "model": "compare.randomisation",
+    "pk": 457,
+    "fields": {
+      "country": 8,
+      "result": true
+    }
+  },
+  {
+    "model": "compare.randomisation",
+    "pk": 458,
+    "fields": {
+      "country": 8,
+      "result": false
+    }
+  },
+  {
+    "model": "compare.randomisation",
+    "pk": 459,
+    "fields": {
+      "country": 8,
+      "result": false
+    }
+  },
+  {
+    "model": "compare.randomisation",
+    "pk": 460,
+    "fields": {
+      "country": 8,
+      "result": true
+    }
   }
 ]
