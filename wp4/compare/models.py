@@ -1064,7 +1064,7 @@ class Randomisation(models.Model):
     def get_and_assign_result(country_code, link_donor):
         # Pre-DB Data input for Paper UK
         # TODO: REMOVE ME BEFORE WE GO LIVE!!
-        country_code = PAPER_UNITED_KINGDOM
+        country_code = PAPER_EUROPE
         options = Randomisation.objects.filter(country=country_code, donor=None).order_by('id')
         if len(options) < 1:
             raise Exception()
