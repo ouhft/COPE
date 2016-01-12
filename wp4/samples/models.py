@@ -8,10 +8,10 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from ..compare.models import OrganPerson, Organ, VersionControlModel
+import wp4.compare.models as compare_models
 
 
-class BarCodedItem(VersionControlModel):
+class BarCodedItem(compare_models.VersionControlModel):
     barcode = models.CharField(verbose_name=_("BC01 barcode number"), max_length=20, blank=True)
 
     class Meta:
@@ -144,7 +144,7 @@ class BloodSample(BarCodedItem, DeviationMixin):
         (SAMPLE_EDSA, _("BSc02 Blood EDSA")))
     event = models.ForeignKey(Event, limit_choices_to={'type': Event.TYPE_BLOOD})  # Internal key
     blood_type = models.PositiveSmallIntegerField(verbose_name=_("BS02 blood sample type"), choices=SAMPLE_CHOICES)
-    person = models.ForeignKey(OrganPerson, verbose_name=_("BS03 sample from"))
+    person = models.ForeignKey(compare_models.OrganPerson, verbose_name=_("BS03 sample from"))
     centrifuged_at = models.DateTimeField(verbose_name=_("BS01 centrifuged at"), null=True, blank=True)
 
     class Meta:
@@ -168,7 +168,7 @@ class BloodSample(BarCodedItem, DeviationMixin):
 
 
 class UrineSample(BarCodedItem, DeviationMixin):
-    person = models.ForeignKey(OrganPerson, verbose_name=_("US02 sample from"))
+    person = models.ForeignKey(compare_models.OrganPerson, verbose_name=_("US02 sample from"))
     event = models.ForeignKey(Event, limit_choices_to={'type': Event.TYPE_URINE})
     centrifuged_at = models.DateTimeField(verbose_name=_("US01 centrifuged at"), null=True, blank=True)
 
@@ -193,7 +193,7 @@ class UrineSample(BarCodedItem, DeviationMixin):
 
 
 class PerfusateSample(BarCodedItem, DeviationMixin):
-    organ = models.ForeignKey(Organ, verbose_name=_("PS02 sample from"))
+    organ = models.ForeignKey(compare_models.Organ, verbose_name=_("PS02 sample from"))
     event = models.ForeignKey(Event, limit_choices_to={'type': Event.TYPE_PERFUSATE})
     centrifuged_at = models.DateTimeField(verbose_name=_("PS01 centrifuged at"), null=True, blank=True)
 
@@ -223,7 +223,7 @@ class TissueSample(BarCodedItem, DeviationMixin):
     SAMPLE_CHOICES = (
         (SAMPLE_F, _("TSc01 ReK1F")),
         (SAMPLE_R, _("TSc02 ReK1R")))
-    organ = models.ForeignKey(Organ, verbose_name=_("TS01 sample from"))
+    organ = models.ForeignKey(compare_models.Organ, verbose_name=_("TS01 sample from"))
     event = models.ForeignKey(Event, limit_choices_to={'type': Event.TYPE_TISSUE})
     tissue_type = models.CharField(max_length=1, choices=SAMPLE_CHOICES, verbose_name=_("TS02 tissue sample type"))
 
