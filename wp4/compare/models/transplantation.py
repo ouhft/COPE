@@ -7,11 +7,13 @@ from django.utils.translation import ugettext_lazy as _
 from wp4.staff_person.models import StaffJob, StaffPerson
 from wp4.locations.models import Hospital
 from ..validators import validate_between_1900_2050, validate_not_in_future
-import wp4.compare.models as compare_models
+from .core import VersionControlModel, OrganPerson
+from .core import YES_NO_UNKNOWN_CHOICES, LOCATION_CHOICES
+from .organ import Organ
 
 
-class OrganAllocation(compare_models.VersionControlModel):
-    organ = models.ForeignKey(compare_models.Organ)  # Internal link
+class OrganAllocation(VersionControlModel):
+    organ = models.ForeignKey(Organ)  # Internal link
 
     #  Allocation data
     REALLOCATION_CROSSMATCH = 1
@@ -99,9 +101,9 @@ class OrganAllocation(compare_models.VersionControlModel):
         return 'Organ: %s | Recipient: %s' % (self.organ.pk, recipient_string)
 
 
-class Recipient(compare_models.VersionControlModel):
-    person = models.OneToOneField(compare_models.OrganPerson)  # Internal link
-    organ = models.OneToOneField(compare_models.Organ)  # Internal link
+class Recipient(VersionControlModel):
+    person = models.OneToOneField(OrganPerson)  # Internal link
+    organ = models.OneToOneField(Organ)  # Internal link
     allocation = models.OneToOneField(OrganAllocation)  # Internal link
     form_completed = models.BooleanField(default=False)  # Internal value
 
@@ -163,7 +165,7 @@ class Recipient(compare_models.VersionControlModel):
         validators=[validate_between_1900_2050, validate_not_in_future])
     oxygen_full_and_open = models.PositiveSmallIntegerField(
         verbose_name=_('RE24 oxygen full and open'),
-        choices=compare_models.YES_NO_UNKNOWN_CHOICES,
+        choices=YES_NO_UNKNOWN_CHOICES,
         blank=True, null=True)
     organ_untransplantable = models.NullBooleanField(verbose_name=_('RE25 kidney discarded'), blank=True, null=True)
     organ_untransplantable_reason = models.CharField(
@@ -176,7 +178,7 @@ class Recipient(compare_models.VersionControlModel):
         verbose_name=_('RE28 incision'),
         choices=INCISION_CHOICES,
         blank=True, null=True)
-    transplant_side = models.CharField(verbose_name=_('RE29 transplant side'), max_length=1, choices=compare_models.LOCATION_CHOICES,
+    transplant_side = models.CharField(verbose_name=_('RE29 transplant side'), max_length=1, choices=LOCATION_CHOICES,
                                        blank=True)
     arterial_problems = models.PositiveSmallIntegerField(
         verbose_name=_('RE30 arterial problems'),
@@ -197,11 +199,11 @@ class Recipient(compare_models.VersionControlModel):
     reperfusion_started_at_unknown = models.BooleanField(default=False)  # Internal flag
     mannitol_used = models.PositiveSmallIntegerField(
         verbose_name=_('RE36 mannitol used'),
-        choices=compare_models.YES_NO_UNKNOWN_CHOICES,
+        choices=YES_NO_UNKNOWN_CHOICES,
         blank=True, null=True)
     other_diurectics = models.PositiveSmallIntegerField(
         verbose_name=_('RE37 other diurectics used'),
-        choices=compare_models.YES_NO_UNKNOWN_CHOICES,
+        choices=YES_NO_UNKNOWN_CHOICES,
         blank=True, null=True)
     other_diurectics_details = models.CharField(verbose_name=_('RE38 other diurectics detail'), max_length=250,
                                                 blank=True)
@@ -212,7 +214,7 @@ class Recipient(compare_models.VersionControlModel):
     cvp = models.PositiveSmallIntegerField(verbose_name=_('RE40 cvp at reperfusion'), blank=True, null=True)
     intra_operative_diuresis = models.PositiveSmallIntegerField(
         verbose_name=_('RE41 intra-operative diuresis'),
-        choices=compare_models.YES_NO_UNKNOWN_CHOICES,
+        choices=YES_NO_UNKNOWN_CHOICES,
         blank=True, null=True)
     successful_conclusion = models.BooleanField(verbose_name=_("RE42 successful conclusion"), default=False)
     operation_concluded_at = models.DateTimeField(verbose_name=_("RE43 operation concluded at"), null=True, blank=True,

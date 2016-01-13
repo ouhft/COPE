@@ -8,15 +8,17 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 from wp4.perfusion_machine.models import PerfusionMachine, PerfusionFile
 from ..validators import validate_between_1900_2050, validate_not_in_future
-import wp4.compare.models as compare_models
+from .core import VersionControlModel
+from .core import LOCATION_CHOICES, PRESERVATION_CHOICES, PRESERVATION_NOT_SET
+from .donor import Donor
 
 
-class Organ(compare_models.VersionControlModel):  # Or specifically, a Kidney
-    donor = models.ForeignKey(compare_models.Donor)  # Internal value
+class Organ(VersionControlModel):  # Or specifically, a Kidney
+    donor = models.ForeignKey(Donor)  # Internal value
     location = models.CharField(
         verbose_name=_('OR01 kidney location'),
         max_length=1,
-        choices=compare_models.LOCATION_CHOICES)
+        choices=LOCATION_CHOICES)
     admin_notes = models.TextField(verbose_name=_("DO50 Admin notes"), blank=True)
 
     # Inspection data
@@ -69,7 +71,7 @@ class Organ(compare_models.VersionControlModel):  # Or specifically, a Kidney
     # Randomisation data
     # can_donate = models.BooleanField('Donor is eligible as DCD III and > 50 years old') -- donor info!
     # can_transplant = models.BooleanField('') -- derived from left and right being transplantable
-    preservation = models.PositiveSmallIntegerField(choices=compare_models.PRESERVATION_CHOICES, default=compare_models.PRESERVATION_NOT_SET)
+    preservation = models.PositiveSmallIntegerField(choices=PRESERVATION_CHOICES, default=PRESERVATION_NOT_SET)
 
     # Perfusion data
     PATCH_SMALL = 1

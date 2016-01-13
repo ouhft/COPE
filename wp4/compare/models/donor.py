@@ -2,28 +2,32 @@
 # coding: utf-8
 from __future__ import absolute_import, unicode_literals
 import datetime
+from random import random
 from django.core.validators import MinValueValidator, MaxValueValidator, ValidationError
 from django.db import models, transaction
 from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
 from wp4.staff_person.models import StaffJob, StaffPerson
 from wp4.locations.models import Hospital
 from ..validators import validate_between_1900_2050, validate_not_in_future
-import wp4.compare.models as compare_models
+from .core import VersionControlModel, OrganPerson, RetrievalTeam
+from .core import YES_NO_UNKNOWN_CHOICES, PRESERVATION_HMP, PRESERVATION_HMPO2, PRESERVATION_NOT_SET
+from .core import LEFT, RIGHT
 
 
-class Donor(compare_models.VersionControlModel):
+class Donor(VersionControlModel):
     # Donor Form Case data
-    person = models.OneToOneField(compare_models.OrganPerson)  # Internal link
+    person = models.OneToOneField(OrganPerson)  # Internal link
     sequence_number = models.PositiveSmallIntegerField(default=0)  # Internal value
     multiple_recipients = models.PositiveSmallIntegerField(
         verbose_name=_('DO02 Multiple recipients'),
-        choices=compare_models.YES_NO_UNKNOWN_CHOICES,
+        choices=YES_NO_UNKNOWN_CHOICES,
         blank=True, null=True)
     form_completed = models.BooleanField(default=False)  # Internal value
     admin_notes = models.TextField(verbose_name=_("DO50 Admin notes"), blank=True)
 
     # Procedure data
-    retrieval_team = models.ForeignKey(compare_models.RetrievalTeam, verbose_name=_("DO01 retrieval team"))
+    retrieval_team = models.ForeignKey(RetrievalTeam, verbose_name=_("DO01 retrieval team"))
     perfusion_technician = models.ForeignKey(
         StaffPerson,
         verbose_name=_('DO03 name of transplant technician'),
@@ -94,12 +98,12 @@ class Donor(compare_models.VersionControlModel):
     diagnosis_other = models.CharField(verbose_name=_('DO23 other diagnosis'), max_length=250, blank=True)
     diabetes_melitus = models.PositiveSmallIntegerField(
         verbose_name=_('DO24 diabetes mellitus'),
-        choices=compare_models.YES_NO_UNKNOWN_CHOICES,
+        choices=YES_NO_UNKNOWN_CHOICES,
         blank=True, null=True
     )
     alcohol_abuse = models.PositiveSmallIntegerField(
         verbose_name=_('DO25 alcohol abuse'),
-        choices=compare_models.YES_NO_UNKNOWN_CHOICES,
+        choices=YES_NO_UNKNOWN_CHOICES,
         blank=True, null=True)
     cardiac_arrest = models.NullBooleanField(
         verbose_name=_('DO26 cardiac arrest'),  # 'Cardiac Arrest (During ITU stay, prior to Retrieval Procedure)',
@@ -122,19 +126,19 @@ class Donor(compare_models.VersionControlModel):
     diuresis_last_hour_unknown = models.BooleanField(default=False)  # Internal flag
     dopamine = models.PositiveSmallIntegerField(
         verbose_name=_('DO31 dopamine'),
-        choices=compare_models.YES_NO_UNKNOWN_CHOICES,
+        choices=YES_NO_UNKNOWN_CHOICES,
         blank=True, null=True)
     dobutamine = models.PositiveSmallIntegerField(
         verbose_name=_('DO32 dobutamine'),
-        choices=compare_models.YES_NO_UNKNOWN_CHOICES,
+        choices=YES_NO_UNKNOWN_CHOICES,
         blank=True, null=True)
     nor_adrenaline = models.PositiveSmallIntegerField(
         verbose_name=_('DO33 nor adrenaline'),
-        choices=compare_models.YES_NO_UNKNOWN_CHOICES,
+        choices=YES_NO_UNKNOWN_CHOICES,
         blank=True, null=True)
     vasopressine = models.PositiveSmallIntegerField(
         verbose_name=_('DO34 vasopressine'),
-        choices=compare_models.YES_NO_UNKNOWN_CHOICES,
+        choices=YES_NO_UNKNOWN_CHOICES,
         blank=True, null=True)
     other_medication_details = models.CharField(
         verbose_name=_('DO35 other medication'),
@@ -307,18 +311,18 @@ class Donor(compare_models.VersionControlModel):
         # Randomise if eligible and not already done
         left_kidney = self.left_kidney()
         right_kidney = self.right_kidney()
-        if left_kidney.preservation == compare_models.PRESERVATION_NOT_SET \
+        if left_kidney.preservation == PRESERVATION_NOT_SET \
                 and self.multiple_recipients is not False \
                 and left_kidney.transplantable \
                 and right_kidney.transplantable:
             # left_o2 = random() >= 0.5  # True/False
-            left_o2 = compare_models.Randomisation.get_and_assign_result(self.retrieval_team.based_at.country, self)
+            left_o2 = Randomisation.get_and_assign_result(self.retrieval_team.based_at.country, self)
             if left_o2:
-                left_kidney.preservation = compare_models.PRESERVATION_HMPO2
-                right_kidney.preservation = compare_models.PRESERVATION_HMP
+                left_kidney.preservation = PRESERVATION_HMPO2
+                right_kidney.preservation = PRESERVATION_HMP
             else:
-                left_kidney.preservation = compare_models.PRESERVATION_HMP
-                right_kidney.preservation = compare_models.PRESERVATION_HMPO2
+                left_kidney.preservation = PRESERVATION_HMP
+                right_kidney.preservation = PRESERVATION_HMPO2
             left_kidney.save()
             right_kidney.save()
 
@@ -335,9 +339,9 @@ class Donor(compare_models.VersionControlModel):
     def left_kidney(self):
         # Emulate a get_or_create call here
         try:
-            return self.organ_set.filter(location__exact=compare_models.LEFT)[0]
+            return self.organ_set.filter(location__exact=LEFT)[0]
         except IndexError:  # Organ.DoesNotExist:
-            new_organ = compare_models.Organ(location=compare_models.LEFT, created_by=self.created_by)
+            new_organ = Organ(location=LEFT, created_by=self.created_by)
             if self.id > 0:
                 new_organ.donor = self
             new_organ.save()
@@ -346,9 +350,9 @@ class Donor(compare_models.VersionControlModel):
     def right_kidney(self):
         # Emulate a get_or_create call here
         try:
-            return self.organ_set.filter(location__exact=compare_models.RIGHT)[0]
+            return self.organ_set.filter(location__exact=RIGHT)[0]
         except IndexError:  # Organ.DoesNotExist:
-            new_organ = compare_models.Organ(location=compare_models.RIGHT, created_by=self.created_by)
+            new_organ = Organ(location=RIGHT, created_by=self.created_by)
             if self.id > 0:
                 new_organ.donor = self
             new_organ.save()
@@ -357,7 +361,7 @@ class Donor(compare_models.VersionControlModel):
     def centre_code(self):
         try:
             return self.retrieval_team.centre_code
-        except compare_models.RetrievalTeam.DoesNotExist:
+        except RetrievalTeam.DoesNotExist:
             return 0
 
     centre_code.short_description = 'Centre Code'
@@ -370,7 +374,7 @@ class Donor(compare_models.VersionControlModel):
     trial_id.short_description = 'Trial ID'
 
     def is_randomised(self):
-        if self.left_kidney().preservation == compare_models.PRESERVATION_NOT_SET:
+        if self.left_kidney().preservation == PRESERVATION_NOT_SET:
             return False
         return True
 
@@ -381,7 +385,7 @@ class Donor(compare_models.VersionControlModel):
         eligible_kidney_count = 0
         left_kidney = self.left_kidney()
         right_kidney = self.right_kidney()
-        if left_kidney.preservation != compare_models.PRESERVATION_NOT_SET \
+        if left_kidney.preservation != PRESERVATION_NOT_SET \
                 and self.multiple_recipients is not False:
             if left_kidney.transplantable:
                 eligible_kidney_count += 1
@@ -391,3 +395,39 @@ class Donor(compare_models.VersionControlModel):
             eligible_kidney_count = -1
         return eligible_kidney_count
 
+
+LIVE_UNITED_KINGDOM = 1
+LIVE_EUROPE = 2
+PAPER_EUROPE = 3
+PAPER_UNITED_KINGDOM = 4
+LIST_CHOICES = (
+    (LIVE_UNITED_KINGDOM, _("RNc01 UK Live list")),
+    (LIVE_EUROPE, _("RNc02 Europe Live list")),
+    (PAPER_UNITED_KINGDOM, _("RNc03 UK Offline list")),
+    (PAPER_EUROPE, _("RNc04 Europe Offline list")),
+)
+
+
+def random_5050():
+    return random() >= 0.5  # True/False
+
+
+class Randomisation(models.Model):
+    """
+    Populated from the supplied CSV file via the fixture. A 'True' result is HMP+O2 for the Left Organ
+    """
+    donor = models.OneToOneField(Donor, null=True, blank=True, default=None)  # Internal key
+    list_code = models.PositiveSmallIntegerField(verbose_name=_("RA01 list code"), choices=LIST_CHOICES)
+    result = models.BooleanField(verbose_name=_("RA02 result"), default=random_5050)
+    allocated_on = models.DateTimeField(verbose_name=_("RA03 allocated on"), default=timezone.now)
+
+    @staticmethod
+    def get_and_assign_result(list_code, link_donor):
+        options = Randomisation.objects.filter(country=list_code, donor=None).order_by('id')
+        if len(options) < 1:
+            raise Exception("No remaining values for randomisation")
+        result = options[0]
+        result.donor = link_donor
+        result.allocated_on = timezone.now()
+        result.save()
+        return result.result
