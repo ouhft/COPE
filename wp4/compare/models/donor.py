@@ -13,6 +13,7 @@ from ..validators import validate_between_1900_2050, validate_not_in_future
 from .core import VersionControlModel, OrganPerson, RetrievalTeam
 from .core import YES_NO_UNKNOWN_CHOICES, PRESERVATION_HMP, PRESERVATION_HMPO2, PRESERVATION_NOT_SET
 from .core import LEFT, RIGHT
+from .core import LIST_CHOICES
 
 
 class Donor(VersionControlModel):
@@ -307,7 +308,7 @@ class Donor(VersionControlModel):
                 raise ValidationError(_("DOv13 Please enter the NHSBT number"))
 
     @transaction.atomic
-    def randomise(self):
+    def randomise(self, is_online=True):
         # Randomise if eligible and not already done
         left_kidney = self.left_kidney()
         right_kidney = self.right_kidney()
@@ -315,9 +316,7 @@ class Donor(VersionControlModel):
                 and self.multiple_recipients is not False \
                 and left_kidney.transplantable \
                 and right_kidney.transplantable:
-            # left_o2 = random() >= 0.5  # True/False
-            left_o2 = Randomisation.get_and_assign_result(self.retrieval_team.based_at.country, self)
-            if left_o2:
+            if Randomisation.get_and_assign_result(self.retrieval_team.get_randomisation_list(is_online), self):
                 left_kidney.preservation = PRESERVATION_HMPO2
                 right_kidney.preservation = PRESERVATION_HMP
             else:
@@ -338,10 +337,11 @@ class Donor(VersionControlModel):
 
     def left_kidney(self):
         # Emulate a get_or_create call here
+        import wp4.compare.models.organ as organ_model
         try:
             return self.organ_set.filter(location__exact=LEFT)[0]
         except IndexError:  # Organ.DoesNotExist:
-            new_organ = Organ(location=LEFT, created_by=self.created_by)
+            new_organ = organ_model.Organ(location=LEFT, created_by=self.created_by)
             if self.id > 0:
                 new_organ.donor = self
             new_organ.save()
@@ -349,10 +349,11 @@ class Donor(VersionControlModel):
 
     def right_kidney(self):
         # Emulate a get_or_create call here
+        import wp4.compare.models.organ as organ_model
         try:
             return self.organ_set.filter(location__exact=RIGHT)[0]
         except IndexError:  # Organ.DoesNotExist:
-            new_organ = Organ(location=RIGHT, created_by=self.created_by)
+            new_organ = organ_model.Organ(location=RIGHT, created_by=self.created_by)
             if self.id > 0:
                 new_organ.donor = self
             new_organ.save()
@@ -396,18 +397,6 @@ class Donor(VersionControlModel):
         return eligible_kidney_count
 
 
-LIVE_UNITED_KINGDOM = 1
-LIVE_EUROPE = 2
-PAPER_EUROPE = 3
-PAPER_UNITED_KINGDOM = 4
-LIST_CHOICES = (
-    (LIVE_UNITED_KINGDOM, _("RNc01 UK Live list")),
-    (LIVE_EUROPE, _("RNc02 Europe Live list")),
-    (PAPER_UNITED_KINGDOM, _("RNc03 UK Offline list")),
-    (PAPER_EUROPE, _("RNc04 Europe Offline list")),
-)
-
-
 def random_5050():
     return random() >= 0.5  # True/False
 
@@ -433,4 +422,4 @@ class Randomisation(models.Model):
         return result.result
 
     def __unicode__(self):
-        return '%s: %s' % (self.donor, self.result)
+        return '%s : %s' % (format(self.id, '03'), self.get_list_code_display())

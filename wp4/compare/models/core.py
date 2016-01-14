@@ -9,7 +9,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator, Validat
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
-from wp4.locations.models import Hospital
+from wp4.locations.models import Hospital, UNITED_KINGDOM, BELGIUM, NETHERLANDS
 from ..validators import validate_not_in_future
 
 # Common CONSTANTS
@@ -37,6 +37,18 @@ PRESERVATION_CHOICES = (
     (PRESERVATION_NOT_SET, _("ORc11 Not Set")),
     (PRESERVATION_HMP, "HMP"),
     (PRESERVATION_HMPO2, "HMP O2"))
+
+# Originally from Randomisation
+LIVE_UNITED_KINGDOM = 1
+LIVE_EUROPE = 2
+PAPER_EUROPE = 3
+PAPER_UNITED_KINGDOM = 4
+LIST_CHOICES = (
+    (LIVE_UNITED_KINGDOM, _("RNc01 UK Live list")),
+    (LIVE_EUROPE, _("RNc02 Europe Live list")),
+    (PAPER_UNITED_KINGDOM, _("RNc03 UK Offline list")),
+    (PAPER_EUROPE, _("RNc04 Europe Offline list")),
+)
 
 
 class VersionControlModel(models.Model):
@@ -211,6 +223,24 @@ class RetrievalTeam(models.Model):
         except models.Model.DoesNotExist:
             number = 1
         return number
+
+    def get_randomisation_list(self, is_online=True):
+        """
+        Returns the id of the relevant randomisation list for the location of this team
+        :param is_online: True, select from the online lists. False, select from the offline lists
+        :return: int matching one of the LIST_CHOICE constants
+        """
+        if self.based_at.country == UNITED_KINGDOM:
+            if is_online:
+                return LIVE_UNITED_KINGDOM
+            else:
+                return PAPER_UNITED_KINGDOM
+        else:
+            if is_online:
+                return LIVE_EUROPE
+            else:
+                return PAPER_EUROPE
+
 
     def name(self):
         return '(%d) %s' % (self.centre_code, self.based_at.full_description())

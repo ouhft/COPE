@@ -12,6 +12,7 @@ from django.utils import timezone
 from ..staff_person.models import StaffJob, StaffPerson
 from ..samples.utils import create_donor_worksheet, create_recipient_worksheet
 from .models import OrganPerson, Donor, Organ, Recipient, ProcurementResource, OrganAllocation
+from .models import PRESERVATION_NOT_SET
 from .forms import OrganPersonForm, DonorForm, DonorStartForm, OrganForm, AllocationFormSet, RecipientForm
 from .forms import ProcurementResourceLeftInlineFormSet, ProcurementResourceRightInlineFormSet
 
@@ -143,12 +144,13 @@ def procurement_form(request, pk):
     right_organ_error_count = right_organ_procurement_forms.total_error_count() + len(right_organ_form.errors)
 
     # =============================================== MESSAGES
-    is_randomised = donor.left_kidney().preservation != Organ.PRESERVATION_NOT_SET
+    is_randomised = donor.left_kidney().preservation != PRESERVATION_NOT_SET
     # print("DEBUG: is_randomised=%s" % is_randomised)
 
     print("DEBUG: all_valid=%d" % all_valid)
     if all_valid == 6:
         messages.success(request, 'Form has been <strong>successfully saved</strong>')
+        # TODO: Determine if this is an online or offline randomisation
         if not is_randomised and donor.randomise():  # Has to wait till the organ forms are saved
             # Reload the forms with the modified results
             donor_form = DonorForm(instance=donor, prefix="donor")
