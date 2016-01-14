@@ -431,3 +431,6 @@ class Randomisation(models.Model):
         result.allocated_on = timezone.now()
         result.save()
         return result.result
+
+    def __unicode__(self):
+        return '%s: %s' % (self.donor, self.result)

@@ -8,7 +8,8 @@ from .core import PRESERVATION_HMP, PRESERVATION_HMPO2, PRESERVATION_NOT_SET, PR
 from .core import VersionControlModel, OrganPerson, RetrievalTeam
 
 from .donor import LIVE_UNITED_KINGDOM, LIVE_EUROPE, PAPER_EUROPE, PAPER_UNITED_KINGDOM, LIST_CHOICES
-from .donor import Donor, Randomisation
+from .donor import Donor, Randomisation, random_5050
 
 from .organ import Organ, ProcurementResource
+
 from .transplantation import OrganAllocation, Recipient
