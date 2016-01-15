@@ -7,8 +7,10 @@ from django.core.validators import MinValueValidator, MaxValueValidator, Validat
 from django.db import models, transaction
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
+
 from wp4.staff_person.models import StaffJob, StaffPerson
 from wp4.locations.models import Hospital
+
 from ..validators import validate_between_1900_2050, validate_not_in_future
 from .core import VersionControlModel, OrganPerson, RetrievalTeam
 from .core import YES_NO_UNKNOWN_CHOICES, PRESERVATION_HMP, PRESERVATION_HMPO2, PRESERVATION_NOT_SET
@@ -316,7 +318,10 @@ class Donor(VersionControlModel):
                 and self.multiple_recipients is not False \
                 and left_kidney.transplantable \
                 and right_kidney.transplantable:
-            if Randomisation.get_and_assign_result(self.retrieval_team.get_randomisation_list(is_online), self):
+            if Randomisation.get_and_assign_result(
+                self.retrieval_team.get_randomisation_list(is_online),
+                self
+            ):
                 left_kidney.preservation = PRESERVATION_HMPO2
                 right_kidney.preservation = PRESERVATION_HMP
             else:

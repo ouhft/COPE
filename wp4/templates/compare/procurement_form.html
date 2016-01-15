@@ -13,22 +13,22 @@
 {% block content %}
     <form method="post" action="{% url 'wp4:compare:procurement_detail' pk=donor.id %}" class=""
           id="procurement_form">
-        <div class="panel {% if is_randomised %}panel-info{% else %}panel-primary{% endif %}"
+        <div class="panel {% if donor.is_randomised %}panel-info{% else %}panel-primary{% endif %}"
              style="margin-top: 10px;">
             <div class="panel-heading" role="tab" id="collapseListGroupHeading1">
                 <h3 class="panel-title">
                     <a class="" role="button" data-toggle="collapse" href="#collapseListGroup1"
-                       aria-expanded="{% if is_randomised %}false{% else %}true{% endif %}"
+                       aria-expanded="{% if donor.is_randomised %}false{% else %}true{% endif %}"
                        aria-controls="collapseListGroup1">
                         To be eligible for this trial you must satisfy the following conditions...<span
                             class="caret"></span>
                     </a>
                 </h3>
             </div>
-            <div id="collapseListGroup1" class="panel-collapse collapse {% if not is_randomised %}in{% endif %}"
+            <div id="collapseListGroup1" class="panel-collapse collapse {% if not donor.is_randomised %}in{% endif %}"
                  role="tabpanel"
                  aria-labelledby="collapseListGroupHeading1"
-                 aria-expanded="{% if is_randomised %}false{% else %}true{% endif %}" style="">
+                 aria-expanded="{% if donor.is_randomised %}false{% else %}true{% endif %}" style="">
                 <ul class="list-group" id="eligibility-list">
                     <li class="list-group-item list-group-item-success">
                         DCD III
@@ -250,7 +250,7 @@
 
         function updateRandomiseButton() {
             var count = $('#eligibility-list').find('.glyphicon-thumbs-up').length;
-            if (count == 5 && {% if is_randomised %}false{% else %}true{% endif %}) {
+            if (count == 5 && {% if donor.is_randomised %}false{% else %}true{% endif %}) {
                 $('#nav_button_save').toggleClass('btn-primary', false).toggleClass('btn-success', true).val("Save and Randomise");
             } else {
                 $('#nav_button_save').toggleClass('btn-primary', true).toggleClass('btn-success', false).val("Save");

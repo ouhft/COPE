@@ -217,9 +217,18 @@ class RetrievalTeam(models.Model):
     created_on = models.DateTimeField(default=timezone.now)
     created_by = models.ForeignKey(User)
 
-    def next_sequence_number(self):
+    def next_sequence_number(self, is_online=True):
+        """
+        Return the next available sequence number, taking into account that the donor must already be
+        linked to a randomisation record, and thus we're able to deduce if this is an online or offline
+        case.
+        :param: is_online: bool. Are we looking for the online or the offline sequence
+        :return: int, next free number
+        """
+        list_code = self.get_randomisation_list(is_online)
+        donor_set = self.donor_set.filter(randomisation__list_code=list_code)
         try:
-            number = self.donor_set.latest('sequence_number').sequence_number + 1
+            number = donor_set.latest('sequence_number').sequence_number + 1
         except models.Model.DoesNotExist:
             number = 1
         return number
@@ -240,7 +249,6 @@ class RetrievalTeam(models.Model):
                 return LIVE_EUROPE
             else:
                 return PAPER_EUROPE
-
 
     def name(self):
         return '(%d) %s' % (self.centre_code, self.based_at.full_description())

@@ -289,6 +289,7 @@ class DonorStartForm(forms.ModelForm):
             "perfusion_technician").verbose_name.title()
         self.fields['gender'].label = OrganPerson._meta.get_field("gender").verbose_name.title()
         self.fields['gender'].choices = OrganPerson.GENDER_CHOICES
+        self.fields['online'].required = False
         self.fields['online'].choices = YES_NO_CHOICES
 
     class Meta:
@@ -304,6 +305,22 @@ class DonorStartForm(forms.ModelForm):
         if kwargs.get("commit", True):
             donor.save()
         return donor
+
+    def clean(self):
+        cleaned_data = super(DonorStartForm, self).clean()
+        online = cleaned_data.get("online")
+        randomisation = cleaned_data.get("randomisation")
+        retrieval_team = cleaned_data.get("retrieval_team")
+        if not online:
+            if not randomisation:
+                self.add_error('randomisation', forms.ValidationError("Please select an Offline Case ID"))
+            elif randomisation.list_code != retrieval_team.get_randomisation_list(False):
+                self.add_error(
+                    'randomisation',
+                    forms.ValidationError("Please select an Offline Case ID for the same region as the Retrieval team")
+                )
+
+        return cleaned_data
 
 
 class OrganForm(forms.ModelForm):
