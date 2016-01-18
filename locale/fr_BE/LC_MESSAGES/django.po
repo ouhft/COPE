@@ -259,7 +259,7 @@ msgstr "Name of the transplant coordinator"
 
 #: wp4/compare/models/donor.py:47
 msgid "DO05 Consultant to MTO called at"
-msgstr "Consultant called transplant technician at"
+msgstr "transplant coordinator called transplant technician at"
 
 #: wp4/compare/models/donor.py:50
 msgid "DO06 donor hospital"
@@ -518,7 +518,7 @@ msgstr "Missing the details of the other systemic flush solution used"
 
 #: wp4/compare/models/donor.py:309
 msgid "DOv12 Missing retrieval hospital"
-msgstr "Retrieval Team"
+msgstr "donor hospital"
 
 #: wp4/compare/models/donor.py:311
 msgid "DOv13 Please enter the NHSBT number"
@@ -788,7 +788,7 @@ msgstr "Name of TT attending"
 
 #: wp4/compare/models/transplantation.py:33
 msgid "OA02 call received from transplant co-ordinator at"
-msgstr "Call received from transplant co-ordinator at "
+msgstr "Call received from transplant technician involved with donor procedure at "
 
 #: wp4/compare/models/transplantation.py:37
 msgid "OA03 transplant hospital"
