@@ -33,9 +33,9 @@ Once you are logged into the system, the Navbar will update to something similar
 
 In the upper right corner of the page, on the Navbar you should now see some new links and menus. Working from the right hand edge to the left, we have:
 
-* Logout - the "power on/off" icon is to securely log you out of the system. You should use this anytime you leave your computer or the website.
-* Locale - the "globe" icon is to allow you to select your current location and will update the system to use terminology appropriate to your country
-* User - the "person outline" icon is the User menu and shows some basic information about your account, and a link to Change Password
-* WP4 Menu - The text "WP4: Compare" has a small menu linking to the various sections of the website, we'll cover more of this in a moment.
-* Home - will take you back to the system home page from earlier (though still logged in).
+* **Logout** - the "power on/off" icon is to securely log you out of the system. You should use this anytime you leave your computer or the website.
+* **Locale** - the "globe" icon is to allow you to select your current location and will update the system to use terminology appropriate to your country
+* **User** - the "person outline" icon is the User menu and shows some basic information about your account, and a link to Change Password
+* **WP4 Menu** - The text "WP4: Compare" has a small menu linking to the various sections of the website, we'll cover more of this in a moment.
+* **Home** - will take you back to the system home page from earlier (though still logged in).
 

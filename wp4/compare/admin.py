@@ -40,7 +40,7 @@ admin.site.register(OrganPerson, OrganPersonAdmin)
 
 
 class DonorAdmin(VersionControlAdmin):
-    list_display = ('__unicode__', 'person', 'sequence_number', 'retrieval_team', 'is_randomised', 'trial_id')
+    list_display = ('__unicode__', 'person', 'sequence_number', 'retrieval_team', 'perfusion_technician', 'is_randomised', 'trial_id')
     fieldsets = [
         ('Case information', {'fields': ['sequence_number', 'multiple_recipients', 'admin_notes']}),
         ('Trial Procedure', {'fields': [
