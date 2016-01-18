@@ -89,7 +89,7 @@ msgstr "Yes"
 
 #: wp4/compare/forms.py:271
 msgid "DSF02 Online Randomisation?"
-msgstr ""
+msgstr "Working online?"
 
 #: wp4/compare/forms.py:278
 #, fuzzy
@@ -99,7 +99,7 @@ msgstr "Not available"
 
 #: wp4/compare/forms.py:279
 msgid "DSF01 Offline Case ID"
-msgstr ""
+msgstr "Offline Case ID"
 
 #: wp4/compare/models/core.py:20
 msgid "MMc03 Unknown"
@@ -127,19 +127,19 @@ msgstr "Not set"
 
 #: wp4/compare/models/core.py:47
 msgid "RNc01 UK Live list"
-msgstr ""
+msgstr "UK Online List"
 
 #: wp4/compare/models/core.py:48
 msgid "RNc02 Europe Live list"
-msgstr ""
+msgstr "Europe Online List"
 
 #: wp4/compare/models/core.py:49
 msgid "RNc03 UK Offline list"
-msgstr ""
+msgstr "UK OFFline List"
 
 #: wp4/compare/models/core.py:50
 msgid "RNc04 Europe Offline list"
-msgstr ""
+msgstr "Europe OFFline list"
 
 #: wp4/compare/models/core.py:74
 msgid "OPc01 Male"
@@ -203,7 +203,7 @@ msgstr "Organ People"
 
 #: wp4/compare/models/core.py:139
 msgid "OPv02 Creepy prediction! Person's date of death is in the future!"
-msgstr " Donor’s date of birth is in the future.  Please make a correction"
+msgstr "Donor’s date of death is in the future. Please make a correction"
 
 #: wp4/compare/models/core.py:144
 msgid ""
@@ -502,7 +502,7 @@ msgstr "Missing the other diagnosis"
 
 #: wp4/compare/models/donor.py:294
 msgid "DOv12 Donor in ICU before they were admitted to hospital"
-msgstr ""
+msgstr "Donor admitted to ICU before admission to hospital"
 
 #: wp4/compare/models/donor.py:298
 msgid "DOv09 Life support withdrawn before admission to hospital"
@@ -518,27 +518,27 @@ msgstr "Missing the details of the other systemic flush solution used"
 
 #: wp4/compare/models/donor.py:309
 msgid "DOv12 Missing retrieval hospital"
-msgstr "Retrieval Team"
+msgstr "Please enter the donor hospital"
 
 #: wp4/compare/models/donor.py:311
 msgid "DOv13 Please enter the NHSBT number"
-msgstr ""
+msgstr "Missing the hospital number for the donor"
 
 #: wp4/compare/models/donor.py:429
 #, fuzzy
 #| msgid "RT01 centre code"
 msgid "RA01 list code"
-msgstr "Centre Code"
+msgstr "List Code"
 
 #: wp4/compare/models/donor.py:430
 msgid "RA02 result"
-msgstr ""
+msgstr "Result"
 
 #: wp4/compare/models/donor.py:431
 #, fuzzy
 #| msgid "OA10 reallocated"
 msgid "RA03 allocated on"
-msgstr "Was the kidney re-allocated to another transplant centre?"
+msgstr "Result allocated on"
 
 #: wp4/compare/models/organ.py:19
 msgid "OR01 kidney location"
@@ -630,7 +630,7 @@ msgstr "Is machine perfusion possible?"
 
 #: wp4/compare/models/organ.py:91
 msgid "OR10 not possible because"
-msgstr "Why was machine perfusion not possible?  Please provide details"
+msgstr "Why was machine perfusion not possible? Please provide details"
 
 #: wp4/compare/models/organ.py:94
 msgid "OR11 machine perfusion"
@@ -696,7 +696,7 @@ msgstr "Data file from the machine"
 
 #: wp4/compare/models/organ.py:146
 msgid "ORv01 Please enter a reason for not being transplantable"
-msgstr ""
+msgstr "Please enter a reason for not being transplantable"
 
 #: wp4/compare/models/organ.py:149
 #, fuzzy
@@ -832,23 +832,21 @@ msgstr "Details of other reason"
 
 #: wp4/compare/models/transplantation.py:73
 msgid "OAm1 organ allocation"
-msgstr "Reason for re-allocation"
+msgstr "Organ Allocation"
 
 #: wp4/compare/models/transplantation.py:74
 msgid "OAm2 organ allocations"
-msgstr "Organs"
+msgstr "Organ Allocations"
 
 #: wp4/compare/models/transplantation.py:92
-#, fuzzy
 #| msgid "OA08 arrival at transplant hospital"
 msgid "OAv01 Please enter a transplant hospital to continue"
-msgstr "Arrival time at transplant hospital"
+msgstr "Please enter a transplant hospital to continue"
 
 #: wp4/compare/models/transplantation.py:94
-#, fuzzy
 #| msgid "OA01 name of transplant technician"
 msgid "OAv02 Please enter the name of the transplant technician"
-msgstr "Name of TT attending"
+msgstr "Please enter the name of the transplant technician"
 
 #: wp4/compare/models/transplantation.py:112
 msgid "RE13 informed consent given"
@@ -1108,11 +1106,11 @@ msgstr "Start date"
 
 #: wp4/followups/models.py:47
 msgid "Immunological"
-msgstr ""
+msgstr "Immunological"
 
 #: wp4/followups/models.py:48
 msgid "Preservation"
-msgstr "Immunological"
+msgstr "Preservation"
 
 #: wp4/followups/models.py:49
 msgid "Technical - artery"
@@ -1510,7 +1508,7 @@ msgstr "RKT Kidney Biopsy after reperfusion"
 
 #: wp4/samples/models.py:70
 msgid "EVc12 recipient blood 1"
-msgstr " RB1 Blood sample after anaesthesia "
+msgstr "RB1 Blood sample after anaesthesia "
 
 #: wp4/samples/models.py:71
 msgid "EVc13 recipient blood 2"
@@ -1578,7 +1576,7 @@ msgstr "Invalid name"
 
 #: wp4/samples/models.py:116
 msgid "EVv05 Time travel detected! Taken at date and time is in the future!"
-msgstr "Time travel detected! Donor's date of birth is in the future!"
+msgstr "Time travel detected! Taken at date and time is in the future!"
 
 #: wp4/samples/models.py:132
 msgid "DM01 sample collected?"
@@ -1627,12 +1625,12 @@ msgstr "Time sample taken?"
 #: wp4/samples/models.py:164
 msgid ""
 "BSv02 Time travel detected! Centrifuged at date and time is in the future!"
-msgstr "Time travel detected! Donor's date of birth is in the future!"
+msgstr "Time travel detected! Centrifuged at date and time is in the future!"
 
 #: wp4/samples/models.py:167
 msgid "BSv03 Body in spin dryer! Sample was centrifuged before it was taken?"
 msgstr ""
-"Time given of centrifugation is before sample was taken.  Please correct"
+"Time given of centrifugation is before sample was taken. Please correct"
 
 #: wp4/samples/models.py:171
 msgid "US02 sample from"
@@ -1652,7 +1650,7 @@ msgstr "Urine samples"
 
 #: wp4/samples/models.py:183
 msgid "USv01 you must enter some notes about why this sample was not collected"
-msgstr " Please provide details about why this urine sample was not collected "
+msgstr "Please provide details about why this urine sample was not collected "
 
 #: wp4/samples/models.py:185
 msgid "USv04 Please record the time the sample was taken"
@@ -1661,7 +1659,7 @@ msgstr "Time sample taken"
 #: wp4/samples/models.py:189
 msgid ""
 "USv02 Time travel detected! Centrifuged at date and time is in the future!"
-msgstr "Time travel detected! Donor's date of birth is in the future!"
+msgstr "Time travel detected! Centrifuged at date and time is in the future!"
 
 #: wp4/samples/models.py:192
 msgid "USv03 Body in spin dryer! Sample was centrifuged before it was taken?"
@@ -1700,7 +1698,7 @@ msgstr "Time perfusate taken"
 #: wp4/samples/models.py:214
 msgid ""
 "PSv02 Time travel detected! Centrifuged at date and time is in the future!"
-msgstr "Time travel detected! Donor's date of birth is in the future!"
+msgstr "Time travel detected! Centrifuged at date and time is in the future!"
 
 #: wp4/samples/models.py:217
 msgid "PSv03 Body in spin dryer! Sample was centrifuged before it was taken?"
@@ -1766,19 +1764,19 @@ msgstr "Email address"
 
 #: wp4/staff_person/models.py:91
 msgid "PEm1 person"
-msgstr "Person"
+msgstr "Staff Person"
 
 #: wp4/staff_person/models.py:92
 msgid "PEm2 people"
-msgstr "People"
+msgstr "Staff People"
 
 #: wp4/templates/admin/base_site.html:3
 msgid "COPE site admin"
-msgstr "COPE WP4 site admin"
+msgstr "COPE site admin"
 
 #: wp4/templates/admin/base_site.html:6
 msgid "COPE DB basic administration"
-msgstr " COPE WP4 DB basic administration "
+msgstr " COPE DB basic administration "
 
 #: wp4/templates/autocomplete_light/widget.html:35
 msgid "Add another"
