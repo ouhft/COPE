@@ -35,6 +35,11 @@
 
 <div class="container">
     <h1 class="page-header">{% block page_header %}Dashboard{% endblock %}</h1>
+    <ol class="breadcrumb">
+        {% block page_trail %}
+        <li class="active">Home</li>
+        {% endblock %}
+    </ol>
 
     {#    Common modal #}
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

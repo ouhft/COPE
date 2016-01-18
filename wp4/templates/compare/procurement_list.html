@@ -4,6 +4,11 @@
 
 {% block page_title %}Procurement{% endblock %}
 {% block page_header %}Procurement{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="#">WP4: Compare</a></li>
+    <li class="active">Procurement</li>
+{% endblock %}
 
 {% block content %}
     <div class="row">

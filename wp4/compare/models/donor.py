@@ -16,6 +16,7 @@ from .core import VersionControlModel, OrganPerson, RetrievalTeam
 from .core import YES_NO_UNKNOWN_CHOICES, PRESERVATION_HMP, PRESERVATION_HMPO2, PRESERVATION_NOT_SET
 from .core import LEFT, RIGHT
 from .core import LIST_CHOICES
+from .core import PAPER_EUROPE, PAPER_UNITED_KINGDOM
 
 
 class Donor(VersionControlModel):
@@ -373,11 +374,25 @@ class Donor(VersionControlModel):
     centre_code.short_description = 'Centre Code'
 
     def trial_id(self):
+        trial_id = "WP4" + format(self.centre_code(), '02')
         if self.centre_code() == 0 or self.sequence_number < 1:
-            return "No Trial ID Assigned (DO%s)" % format(self.id, '03')
-        return 'WP4%s%s' % (format(self.centre_code(), '02'), format(self.sequence_number, '03'))
+            trial_id = "No Trial ID Assigned (DO%s)" % format(self.id, '03')
+        elif self.is_offline():
+            trial_id += "9" + format(self.sequence_number, '02')
+        else:
+            trial_id += format(self.sequence_number, '03')
+        return trial_id
 
     trial_id.short_description = 'Trial ID'
+
+    def is_offline(self):
+        # print("DEBUG: is_online called for %s" % self.id)
+        try:
+            # print("DEBUG: is_online: self.randomisation = %s" % self.randomisation)
+            return self.randomisation.list_code in [PAPER_EUROPE, PAPER_UNITED_KINGDOM]
+        except:
+            pass  # We have no idea what error is being thrown or caught because there is no error!
+        return False
 
     def is_randomised(self):
         if self.left_kidney().preservation == PRESERVATION_NOT_SET:
@@ -417,7 +432,7 @@ class Randomisation(models.Model):
 
     @staticmethod
     def get_and_assign_result(list_code, link_donor):
-        options = Randomisation.objects.filter(country=list_code, donor=None).order_by('id')
+        options = Randomisation.objects.filter(list_code=list_code, donor=None).order_by('id')
         if len(options) < 1:
             raise Exception("No remaining values for randomisation")
         result = options[0]

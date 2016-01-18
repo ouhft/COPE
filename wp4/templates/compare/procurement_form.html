@@ -8,6 +8,12 @@
     Procurement
     <small>Case: {{ donor.trial_id }}</small>
 {% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="#">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:compare:procurement_list' %}">Procurement</a></li>
+    <li class="active">Edit Case</li>
+{% endblock %}
 
 
 {% block content %}

@@ -65,7 +65,7 @@ def procurement_list(request):
             randomisation.allocated_on = timezone.now()
             randomisation.save()
 
-            donor.sequence_number = donor.retrieval_team.next_sequence_number()
+            donor.sequence_number = donor.retrieval_team.next_sequence_number(False)
             donor.save()
 
             left_kidney = donor.left_kidney()
@@ -130,7 +130,7 @@ def procurement_form(request, pk):
             donor_form = DonorForm(instance=donor, prefix="donor")
             left_organ_form = OrganForm(instance=donor.left_kidney(), prefix="left-organ")
             right_organ_form = OrganForm(instance=donor.right_kidney(), prefix="right-organ")
-            messages.info(
+            messages.warning(
                 request,
                 '<strong>This case has now been randomised!</strong> Preservation results: Left=%s and Right=%s'
                 % (donor.left_kidney().get_preservation_display(), donor.right_kidney().get_preservation_display()))

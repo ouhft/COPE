@@ -225,12 +225,15 @@ class RetrievalTeam(models.Model):
         :param: is_online: bool. Are we looking for the online or the offline sequence
         :return: int, next free number
         """
+        print("DEBUG: next_sequence_number called with is_online=%s" % is_online)
         list_code = self.get_randomisation_list(is_online)
+        print("DEBUG: next_sequence_number list_code=%s" % list_code)
         donor_set = self.donor_set.filter(randomisation__list_code=list_code)
         try:
             number = donor_set.latest('sequence_number').sequence_number + 1
         except models.Model.DoesNotExist:
             number = 1
+        print("DEBUG: next_sequence_number number=%s" % number)
         return number
 
     def get_randomisation_list(self, is_online=True):
