@@ -2,11 +2,7 @@
 
 Welcome to the COPE DB Online Trials System. This guide provides an overview of what to expect as a user.
 
-## WP4: Compare
-
-The system is currently focussed on the WP4 trial.
-
-### Overview
+## Overview
 By visiting the system at https://cope.nds.ox.ac.uk/ you should see a page similar to the one below:
 
 ![Screenshot of the home page](static/screen_index.png)
@@ -38,4 +34,16 @@ In the upper right corner of the page, on the Navbar you should now see some new
 * **User** - the "person outline" icon is the User menu and shows some basic information about your account, and a link to Change Password
 * **WP4 Menu** - The text "WP4: Compare" has a small menu linking to the various sections of the website, we'll cover more of this in a moment.
 * **Home** - will take you back to the system home page from earlier (though still logged in).
+
+## WP4: Compare
+
+The system is currently focussed on the WP4 trial. There are two key sections: Procurement and Transplantation
+
+### Procurement
+
+![Procurement screenhot showing an emtpy listing](static/screen_procurement_empty.png)
+
+When you first start and click on Procurement (Procurment Files on the Home page, or WP4:Compare -> Procurement in the Navbar) you are likely to see an empty screen similar to above. On the left would be a list of cases you are currently working on (Open Cases). On the right is a small form to start off a New Case.
+
+#### New Cases
 
