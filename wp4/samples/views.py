@@ -3,11 +3,10 @@
 from itertools import chain
 
 from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse
-from django.shortcuts import get_object_or_404, render, render_to_response, redirect
+from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 
-from ..compare.models import StaffPerson, StaffJob
+from wp4.staff_person.models import StaffPerson, StaffJob
 
 from .models import Worksheet, Event
 from .forms import WorksheetForm, EventForm, BloodSampleFormSet, UrineSampleFormSet, PerfusateSampleFormSet, TissueSampleFormSet

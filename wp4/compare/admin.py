@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils import timezone
 
 # Register your models here.
-from .models import OrganPerson, RetrievalTeam, Donor, Recipient, Organ, ProcurementResource, OrganAllocation
+from .models import OrganPerson, RetrievalTeam, Donor, Recipient, Organ, ProcurementResource, OrganAllocation, Randomisation
 
 
 class VersionControlAdmin(admin.ModelAdmin):
@@ -144,3 +144,11 @@ class RecipientAdmin(VersionControlAdmin):
               )
 
 admin.site.register(Recipient, RecipientAdmin)
+
+
+class RandomisationAdmin(admin.ModelAdmin):
+    list_display = ('id', 'list_code', 'donor', 'result', 'allocated_on')
+    ordering = ('id',)
+    fields = ('donor', 'result', 'allocated_on')
+
+admin.site.register(Randomisation, RandomisationAdmin)

@@ -12,8 +12,8 @@ from autocomplete_light.fields import ModelChoiceField
 
 from ..theme.layout import InlineFields, FieldWithFollowup, YesNoFieldWithAlternativeFollowups, FieldWithNotKnown, ForeignKeyModal
 from ..theme.layout import DateTimeField, DateField, FormPanel
-from .models import OrganPerson, Donor, Organ, OrganAllocation, Recipient, ProcurementResource
-from .models import YES_NO_UNKNOWN_CHOICES, LOCATION_CHOICES
+from .models import OrganPerson, Donor, Organ, OrganAllocation, Recipient, ProcurementResource, Randomisation
+from .models import YES_NO_UNKNOWN_CHOICES, LOCATION_CHOICES, PAPER_EUROPE, PAPER_UNITED_KINGDOM
 
 # Common CONSTANTS
 NO_YES_CHOICES = (
@@ -254,10 +254,30 @@ class DonorForm(forms.ModelForm):
             donor.save()
         return donor
 
+    # def clean(self):
+    #     cleaned_data = super(DonorForm, self).clean()
+    #     form_completed = cleaned_data.get("form_completed")
+    #     retrieval_hospital = cleaned_data.get("retrieval_hospital")
+    #     if form_completed:
+    #         if not retrieval_hospital:
+    #             self.add_error('retrieval_hospital', forms.ValidationError(_("DOv12 Missing retrieval hospital")))
+    #
+    #     return cleaned_data
+
 
 class DonorStartForm(forms.ModelForm):
     perfusion_technician = ModelChoiceField('TechnicianAutoComplete')
     gender = forms.CharField(max_length=1, min_length=1)
+    online = forms.BooleanField(initial=True, label=_("DSF02 Online Randomisation?"))
+    randomisation = forms.ModelChoiceField(
+        Randomisation.objects.filter(
+            donor__isnull=True,
+            list_code__in=[PAPER_EUROPE, PAPER_UNITED_KINGDOM]
+        ),
+        required=False,
+        empty_label=_("DSF03 Not Applicable"),
+        label=_("DSF01 Offline Case ID")
+    )
 
     helper = FormHelper()
     helper.form_tag = False
@@ -267,6 +287,10 @@ class DonorStartForm(forms.ModelForm):
         'perfusion_technician',
         'age',
         Field('gender', template="bootstrap3/layout/radioselect-buttons.html"),
+        FieldWithFollowup(
+            Field('online', template="bootstrap3/layout/radioselect-buttons.html"),
+            'randomisation'
+        )
     )
 
     def __init__(self, *args, **kwargs):
@@ -275,6 +299,8 @@ class DonorStartForm(forms.ModelForm):
             "perfusion_technician").verbose_name.title()
         self.fields['gender'].label = OrganPerson._meta.get_field("gender").verbose_name.title()
         self.fields['gender'].choices = OrganPerson.GENDER_CHOICES
+        self.fields['online'].required = False
+        self.fields['online'].choices = YES_NO_CHOICES
 
     class Meta:
         model = Donor
@@ -289,6 +315,22 @@ class DonorStartForm(forms.ModelForm):
         if kwargs.get("commit", True):
             donor.save()
         return donor
+
+    def clean(self):
+        cleaned_data = super(DonorStartForm, self).clean()
+        online = cleaned_data.get("online")
+        randomisation = cleaned_data.get("randomisation")
+        retrieval_team = cleaned_data.get("retrieval_team")
+        if not online:
+            if not randomisation:
+                self.add_error('randomisation', forms.ValidationError("Please select an Offline Case ID"))
+            elif randomisation.list_code != retrieval_team.get_randomisation_list(False):
+                self.add_error(
+                    'randomisation',
+                    forms.ValidationError("Please select an Offline Case ID for the same region as the Retrieval team")
+                )
+
+        return cleaned_data
 
 
 class OrganForm(forms.ModelForm):

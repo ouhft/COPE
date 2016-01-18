@@ -9,9 +9,11 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import redirect
 from django.utils import timezone
 
-from ..staff_person.models import StaffJob, StaffPerson
-from ..samples.utils import create_donor_worksheet, create_recipient_worksheet
-from .models import OrganPerson, Donor, Organ, Recipient, ProcurementResource, OrganAllocation
+from wp4.staff_person.models import StaffJob, StaffPerson
+from wp4.samples.utils import create_donor_worksheet, create_recipient_worksheet
+
+from .models import OrganPerson, Donor, Organ, Recipient, ProcurementResource, OrganAllocation, Randomisation
+from .models import PRESERVATION_HMPO2, PRESERVATION_HMP
 from .forms import OrganPersonForm, DonorForm, DonorStartForm, OrganForm, AllocationFormSet, RecipientForm
 from .forms import ProcurementResourceLeftInlineFormSet, ProcurementResourceRightInlineFormSet
 
@@ -27,6 +29,13 @@ def procurement_list(request):
     current_person = StaffPerson.objects.get(user__id=request.user.id)
     if current_person.has_job(StaffJob.PERFUSION_TECHNICIAN):
         new_donor.perfusion_technician = current_person
+
+    def create_procurement_initial_data(organ, created_by_user):
+        for resource in ProcurementResource.TYPE_CHOICES:
+            new_resource = ProcurementResource(organ=organ, type=resource[0], created_by=created_by_user)
+            new_resource.save()
+
+    # Process the new case form
     donor_form = DonorStartForm(request.POST or None, request.FILES or None, prefix="donor", instance=new_donor)
     if request.method == 'POST' and donor_form.is_valid():
         # This is a new set of objects, so remember to create the Person for the Donor first
@@ -39,21 +48,53 @@ def procurement_list(request):
         donor = donor_form.save(request.user, commit=False)
         donor.person = person
         donor.save()
+        # Create the organs and the procurement resources
+        create_procurement_initial_data(donor.left_kidney(), current_person.user)
+        create_procurement_initial_data(donor.right_kidney(), current_person.user)
         # Create the sample place holders for this form
         create_donor_worksheet(donor, request.user)
+
+        is_online = donor_form.cleaned_data.get("online")
+        print("DEBUG: donor_start_form: online: %s" % is_online)
+        if not is_online:
+            # Randomisation has been done, so link to the donor, and set the basic organ parameters
+            randomisation = donor_form.cleaned_data.get("randomisation")
+            print("DEBUG: donor_start_form: randomisation: %s" % randomisation)
+            # randomisation = Randomisation.objects.get(randomisation_id)
+            randomisation.donor = donor
+            randomisation.allocated_on = timezone.now()
+            randomisation.save()
+
+            donor.sequence_number = donor.retrieval_team.next_sequence_number(False)
+            donor.save()
+
+            left_kidney = donor.left_kidney()
+            left_kidney.transplantable = True
+            left_kidney.preservation = PRESERVATION_HMPO2 if randomisation.result else PRESERVATION_HMP
+            left_kidney.save()
+
+            right_kidney = donor.right_kidney()
+            right_kidney.transplantable = True
+            right_kidney.preservation = PRESERVATION_HMP if randomisation.result else PRESERVATION_HMPO2
+            right_kidney.save()
+
+            messages.success(request, '<strong>Offline</strong> case has been successfully started')
 
         return redirect(reverse(
             'wp4:compare:procurement_detail',
             kwargs={'pk': donor.id}
         ))
+    else:
+        print("DEBUG: donor form errors: %s" % donor_form.errors)
 
+    # Build the list display for current cases
     if current_person.has_job(
             (StaffJob.SYSTEMS_ADMINISTRATOR, StaffJob.CENTRAL_COORDINATOR, StaffJob.NATIONAL_COORDINATOR)
     ):
         open_donors = Donor.objects.filter(form_completed=False).order_by('retrieval_team__centre_code', '-pk')
         closed_donors = Donor.objects.filter(form_completed=True).order_by('retrieval_team__centre_code', '-pk')
     elif current_person.has_job(StaffJob.PERFUSION_TECHNICIAN):
-        open_donors = Donor.objects.filter(perfusion_technician=current_person).order_by('-pk')
+        open_donors = Donor.objects.filter(perfusion_technician=current_person, form_completed=False).order_by('-pk')
         closed_donors = []
     else:
         open_donors = []
@@ -73,6 +114,7 @@ def procurement_list(request):
 @login_required
 def procurement_form(request, pk):
     """
+    Process a procurement form collection for a given donor primary key
     :param request:
     :param pk: Donor ID. We get all related information from the donor record
     :return:
@@ -81,15 +123,27 @@ def procurement_form(request, pk):
     donor = get_object_or_404(Donor, pk=int(pk))
     current_person = StaffPerson.objects.get(user__id=request.user.id)
 
-    def procurement_initial_data(organ, created_by_user):
-        if len(organ.procurementresource_set.all()) < 7:
-            for resource in ProcurementResource.TYPE_CHOICES:
-                new_resource = ProcurementResource(organ=organ, type=resource[0], created_by=created_by_user)
-                new_resource.save()
+    def randomise(donor, donor_form, left_organ_form, right_organ_form):
+        # NB: Offline randomisations will have happened on case creation, so this is only ever online randomisations
+        if not donor.is_randomised() and donor.randomise():
+            # Reload the forms with the modified results
+            donor_form = DonorForm(instance=donor, prefix="donor")
+            left_organ_form = OrganForm(instance=donor.left_kidney(), prefix="left-organ")
+            right_organ_form = OrganForm(instance=donor.right_kidney(), prefix="right-organ")
+            messages.warning(
+                request,
+                '<strong>This case has now been randomised!</strong> Preservation results: Left=%s and Right=%s'
+                % (donor.left_kidney().get_preservation_display(), donor.right_kidney().get_preservation_display()))
+        return donor_form, left_organ_form, right_organ_form
+
 
     # ================================================ DONOR
-    person_form = OrganPersonForm(request.POST or None, request.FILES or None, instance=donor.person,
-                                  prefix="donor-person")
+    person_form = OrganPersonForm(
+        request.POST or None,
+        request.FILES or None,
+        instance=donor.person,
+        prefix="donor-person"
+    )
     if person_form.is_valid():
         person = person_form.save(request.user)
         all_valid += 1
@@ -105,10 +159,13 @@ def procurement_form(request, pk):
 
     # ================================================ LEFT ORGAN
     left_organ_instance = donor.left_kidney()
-    procurement_initial_data(donor.left_kidney(), current_person.user)
     # print("DEBUG: left_organ_instance=%s" % left_organ_instance)
-    left_organ_form = OrganForm(request.POST or None, request.FILES or None,
-                                instance=left_organ_instance, prefix="left-organ")
+    left_organ_form = OrganForm(
+        request.POST or None,
+        request.FILES or None,
+        instance=left_organ_instance,
+        prefix="left-organ"
+    )
     if left_organ_form.is_valid():
         left_organ_instance = left_organ_form.save(request.user)
         all_valid += 1
@@ -116,7 +173,8 @@ def procurement_form(request, pk):
     left_organ_procurement_forms = ProcurementResourceLeftInlineFormSet(
         request.POST or None,
         prefix="left-organ-procurement",
-        instance=left_organ_instance)
+        instance=left_organ_instance
+    )
     if left_organ_procurement_forms.is_valid():
         left_organ_procurement_forms.save()
         all_valid += 1
@@ -125,9 +183,12 @@ def procurement_form(request, pk):
 
     # =============================================== RIGHT ORGAN
     right_organ_instance = donor.right_kidney()
-    procurement_initial_data(donor.right_kidney(), current_person.user),
-    right_organ_form = OrganForm(request.POST or None, request.FILES or None, instance=right_organ_instance,
-                                 prefix="right-organ")
+    right_organ_form = OrganForm(
+        request.POST or None,
+        request.FILES or None,
+        instance=right_organ_instance,
+        prefix="right-organ"
+    )
     if right_organ_form.is_valid():
         right_organ_instance = right_organ_form.save(request.user)
         all_valid += 1
@@ -143,28 +204,21 @@ def procurement_form(request, pk):
     right_organ_error_count = right_organ_procurement_forms.total_error_count() + len(right_organ_form.errors)
 
     # =============================================== MESSAGES
-    is_randomised = donor.left_kidney().preservation != Organ.PRESERVATION_NOT_SET
-    # print("DEBUG: is_randomised=%s" % is_randomised)
 
-    print("DEBUG: all_valid=%d" % all_valid)
+    # print("DEBUG: all_valid=%d" % all_valid)
     if all_valid == 6:
         messages.success(request, 'Form has been <strong>successfully saved</strong>')
-        if not is_randomised and donor.randomise():  # Has to wait till the organ forms are saved
-            # Reload the forms with the modified results
-            donor_form = DonorForm(instance=donor, prefix="donor")
-            left_organ_form = OrganForm(instance=donor.left_kidney(), prefix="left-organ")
-            right_organ_form = OrganForm(instance=donor.right_kidney(), prefix="right-organ")
-            is_randomised = True
-            messages.info(
-                request,
-                '<strong>This case has now been randomised!</strong> Preservation results: Left=%s and Right=%s'
-                % (donor.left_kidney().get_preservation_display(), donor.right_kidney().get_preservation_display()))
+        # This has to wait till the organ forms are saved...
+        donor_form, left_organ_form, right_organ_form = randomise(donor, donor_form, left_organ_form, right_organ_form)
     elif request.POST:
-        messages.error(request,
-                       '<strong>Form was NOT saved</strong>, please correct the %d errors below' %
-                       (left_organ_error_count + right_organ_error_count + len(donor_form.errors) +
-                        len(person_form.errors)))
+        error_count = left_organ_error_count + right_organ_error_count + len(donor_form.errors) + \
+            len(person_form.errors)
+        messages.error(
+            request,
+            '<strong>Form was NOT saved</strong>, please correct the %d errors below' % error_count
+        )
 
+    # MESSAGES NOTES
     # messages.add_message(request, messages.INFO, 'Hello world.')
     # messages.debug(request, '%s SQL <i>statements</i> were executed.' % 5)
     # messages.info(request, 'Three credits remain in your account.')
@@ -190,7 +244,6 @@ def procurement_form(request, pk):
             "right_organ_procurement_forms": right_organ_procurement_forms,
             "right_organ_error_count": right_organ_error_count,
             "donor": donor,
-            "is_randomised": is_randomised,
             "worksheet": worksheet,
         },
         context_instance=RequestContext(request)

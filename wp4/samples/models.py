@@ -8,7 +8,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from ..compare.models import OrganPerson, Organ, VersionControlModel
+from ..compare.models import OrganPerson, VersionControlModel, Organ
 
 
 class BarCodedItem(VersionControlModel):
