@@ -43,7 +43,7 @@ The system is currently focussed on the WP4 trial. There are two key sections: P
 
 ![Procurement screenhot showing an emtpy listing](static/screen_procurement_empty.png)
 
-When you first start and click on Procurement (Procurment Files on the Home page, or WP4:Compare -> Procurement in the Navbar) you are likely to see an empty screen similar to above. On the left would be a list of cases you are currently working on (Open Cases). On the right is a small form to start off a New Case.
+When you first start and click on Procurement (*Procurement Files* on the *Home* page, or `WP4:Compare -> Procurement` in the Navbar) you are likely to see an empty screen similar to above. On the left would be a list of cases you are currently working on (Open Cases). On the right is a small form to start off a New Case.
 
 #### New Cases
 
