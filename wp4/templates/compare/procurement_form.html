@@ -164,6 +164,7 @@
 
 
 {% block footer_nav %}
+    {% if not donor.form_completed %}
     <nav class="navbar navbar-default navbar-fixed-bottom">
         <div class="container">
             <div class="navbar-right">
@@ -171,6 +172,7 @@
             </div>
         </div>
     </nav>
+    {% endif %}
 {% endblock %}
 
 

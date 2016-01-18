@@ -254,6 +254,16 @@ class DonorForm(forms.ModelForm):
             donor.save()
         return donor
 
+    # def clean(self):
+    #     cleaned_data = super(DonorForm, self).clean()
+    #     form_completed = cleaned_data.get("form_completed")
+    #     retrieval_hospital = cleaned_data.get("retrieval_hospital")
+    #     if form_completed:
+    #         if not retrieval_hospital:
+    #             self.add_error('retrieval_hospital', forms.ValidationError(_("DOv12 Missing retrieval hospital")))
+    #
+    #     return cleaned_data
+
 
 class DonorStartForm(forms.ModelForm):
     perfusion_technician = ModelChoiceField('TechnicianAutoComplete')
