@@ -13,8 +13,8 @@ By visiting the system at [https://cope.nds.ox.ac.uk/]() you should see a page s
 
 A few key areas are:
 
-* **The Navbar** - in blue, at the top of the screen. 
-* **Page title** - largest text just under the Navbar]
+* **The Navbar** - in blue, at the top of the screen 
+* **Page title** - largest text just under the Navbar
 * **Page trail** - Otherwise called Breadcrumbs, this should help you locate where in the system you are presently viewing
 * **Footer** - At the bottom of the page, under a pale grey line are links to the supporting organisations and information about the current system version
 * **Page Content** - is everything between the Footer and the Page Trail
@@ -44,7 +44,7 @@ In the upper right corner of the page, on the Navbar you should now see some new
 There are a few conventions to be aware of that are used to help you collect accurate data easily as possible.
 
 #### Questions with followups
-Some questions (typically ones with "other" options, or Yes/No answers) will have additional questions related to the answer given for the first one. You should be aware of these causing the form to add questions (sliding into view) in real-time, and directly below the question you've just answered. 
+Some questions will have additional questions related to the answer given; You should be aware of these causing the form to add questions (sliding into view) directly below the question you've just answered. 
 
 #### Date & Time questions
 These can be recognised by the grey "calendar" icon to the right of the text entry, and placeholder text similar to `DD-MM-YYYY` (for dates) or `DD-MM-YYYY HH:MM` (for dates and times). You can type dates into these fields directly, or you can click on the icon to the right to get a calendar popup widget displayed, such as:
@@ -63,7 +63,7 @@ You will need to click off of the calendar area to hide the display and leave ju
 
 #### Not Known
 
-There are questions that we know will result in some headscratching or examples of where local processes do not collect something we are asking for. In these cases, we want you to mark these special fields with Not Known. Some have the answer as Unknown in the list, and you can select that when appropriate. Others will need you to identify them by the Circle with diagonal bar across it, to the left of the input fields, and to click on that icon. It will disable the data entry for that question and mark it as Not Known.
+There are questions that we know will result in some headscratching or examples of where local processes do not collect something we are asking for. In these cases, we want you to mark these special fields with Not Known. Some have the answer as Unknown in the list, and you can select that when appropriate. Others will need you to identify them by the Circle with diagonal bar across it (see the date time example images above), to the left of the input fields, and to click on that icon. It will disable the data entry for that question and mark it as Not Known.
 
 To change your mind, click it again, and the field will be re-enabled for use.
 
@@ -151,9 +151,13 @@ The co-ordinator will do one of two things:
 * Assuming they can access the system, they can enter the basic information needed to randomise based on feedback from you. The case should then appear on your list of Open Cases when you next get online access and you can resume data entry.
 * If the system is offline (such as for maintenance), then they will have access to a small list of values to allow them to randomise the case offline. Upon consulting this list, they will give you an Offline Case ID (three digit number), which you (or they, presuming they have your notes) can use upon regaining access to the system to link up with the correct randomisation record.
 
-**In short:** Work ONline throughout. If no connection, contact co-ordinator. Use paper notes to record details that you can't get into the system immediately, but resume online once you can.
+**In short:** Work *Online* throughout. If no connection, contact co-ordinator. Use paper notes to record details that you can't get into the system immediately, but resume online once you can.
 
 Once you have entered the basic information, you can click `Start new case` to move onto the main data entry form
+
+#### Existing cases
+
+If you have a case currently on the go as a Technician, you should see it displayed in your Open Cases listing. Clicking on the Case ID link (in blue in the left hand column) will let you resume editing the case.
 
 #### Editing a Case
 
@@ -177,7 +181,7 @@ Of the data collection areas, there are four tabs containing sets of questions:
 
 **You can enter data in any order you wish, and you can save the form at any time to ensure data is not lost.** Answers are partially validated on each save, and you need to clear all errors to complete a save, otherwise changes will be lost. When data entry for the case is ready to complete and be signed off, there will be extra checks made on the data to help identify any recurring issues with data quality.
 
-#### Donor data
+##### Donor data
 
 On the donor tab we have 6 subsections, and an extra question related to data entry completion. These areas are:
 
@@ -188,5 +192,123 @@ On the donor tab we have 6 subsections, and an extra question related to data en
 * Donor Procedure - data from during the extraction
 * Lab Results - local records of creatinine
 
-The system will prompt you on saving to complete any missing related information as you work through the form, so be used to saving frequently and looking for the success or error message that will appear on the top of the form:
+##### Organ data
 
+The Left and Right Kidney tabs are essentially identical (apart from their colouring), and can be summarised as thus:
+
+* Inspection - recording information related to the condition of the kidney. Note, it is possible to change your answers as more information comes to light (see randomisation notes below for example)
+* Preset Data - this is data set in the system, and notably, displays the results of the randomisation
+* Perfusion Data - details relating to how the machine and setup works out
+* Resources Used - this is an audit of materials and consumables used for this organ. Please complete this regardless of the outcome of the kidney
+
+**Samples** will be covered later in this manual.
+
+#### When all is said and done
+
+If you feel you have completed all the information you can gather for the case, the last step is to select Form Completed -> Yes, and then click on the updated Save and Close button on the Action Bar.
+
+![](static/screen_procurement_form_save_and_close.png)
+
+Closing the form (assuming no errors are detected) will lock the form from further editing by non-Admin users. If you do discover further information or errors, please contact the COPE Admin team.
+
+### Randomisation
+
+A key function of this system is to tell you how to set up the transport of the kidneys. The checklist at the top of the Procurement form will give you a summary of the criteria that need to be passed. Clicking on the small circles with arrows in next to one of the last three items will highlight the relevant question in the form for you to answer.
+
+For example, clicking on `Left Kidney transplantable`, will result in...
+
+![](static/screen_procurement_form_randomise_leftkidney.png)
+
+... the Left Kidney tab being selected, and the Transplantable? question being highlighted with orange pulses. Similarly, clicking on `Two separate recipients` will result in...
+
+![](static/screen_procurement_form_randomise_recipients.png)
+
+... the Donor tab being selected, and the Multiple Recipients question at the bottom of the Procedure Data group being highlighted with orange pulses.
+
+Selecting the relevant answers on these questions will result in the checklist row turning green (and the thumb down icon on the right turning into a thumb up), and if all five thumbs are up, the Save button on the Action Bar will change to Save and Randomise.
+
+![](static/screen_procurement_form_save_and_randomise.png)
+
+**Note:** It is still possible for the save to be stalled by errors in the form, so please check the feedback messages after pressing the button!
+
+After a successful save, you should now see messsages and changes such as the following:
+
+![](static/screen_procurement_form_save_and_randomise_success.png)
+
+* Form has been successfully saved
+* This case has been randomised! Preservation results: Left=HMP and Right=HMP O2
+* The checklist has collapsed down to a light blue bar - you can click on it to expand the list again
+* On the Action Bar, the Save button has returned to Save only
+* The Trial ID has been updated in the Page Title (WP421001 in this example)
+* On the Kidney tabs, the Preset Data field for Preservation will have been updated with the randomisation results
+
+#### If the facts change...
+
+Understandably during the course of the procedure, and early positive inspection leading to a timely randomisation (allowing the Technician to set up the machines), can be overriden by later events. Back table inspection may find serious damage or other issues with the kidney, and the surgeon can now deem the organs to not be transplantable.
+
+We want you to record these changes of data as they happen. Even if you've done a randomisation, you can subsequently declare the organ not transplantable (remember to give a reason in the followup question), and then save the form again. Similarly with the recipient data - it may be unknown at the start when you need to randomise, but later it turns out that there are not two separate recipients. Again, save the changes and update the relevant notes.
+
+### Transplantation
+
+![](static/screen_transplantation_empty.png)
+
+Following procurement of a kidney, the next stage of recording is picked up by the Transplant Technician assigned to the Recipient location. Organs that have been procured, but not yet assigned to recipients will appear on the right side of the Tranplantation listing screen (see above), and can be identified by their Trial ID. Cases that you are currently working on will appear in the listing on the left hand side of the Page Content area.
+
+Let's look at the next stage of the Left Kidney that was procured earlier in this manual. Clicking on case WP421001L will allow us to allocate the kidney to a location.
+
+![](static/screen_transplantation_allocation_1.png)
+
+Again, if you are a Technician, you will see your name appear as the answer to Name of TT Attending under Allocation Round 1. This can be changed for another technician by following the instructions for a Typeahead Field.
+
+The key activity here is to track the allocation for the organ, and any subsequent changes to that allocation. Underneath the Allocation Round 1 box you can see Recipient with a note directing you to answer the question about re-allocation (right hand column of the Allocation set). 
+
+Answering Yes and clicking Save will result in another Allocation Round appearing, as shown below:
+
+![](static/screen_transplantation_allocation_2.png)
+
+Once there are no more re-allocations, clicking save will result in the Recipient Form appearing for completion.
+
+![](static/screen_transplantation_allocation_3.png)
+
+This fairly small form contains sections on:
+
+* Patient Description - same questions as for Donor:Patient Description
+* Recipient Details - additional questions about the Recipient
+* Peri-Operative data - reporting on what happens for the implantation
+* Cleaning Log - the todo list for finishing off
+
+![](static/screen_transplantation_recipient.png)
+
+### Sample Collection and Recording
+
+At the end of the Transplantation:Recipient form (seen above) you can see a section marked Samples, and similarly, on the Transplant:Samples tab:
+
+![](static/screen_procurement_form_samples.png)
+
+Following the warning advice to save before clicking, clicking on the `Goto Samples Worksheet` button will take you into the Samples data collection system.
+
+We anticipate that various people will be involved in recording sample data, and those users may not be the technicians involved in the procurement of the sample - for example, Perfusate 1 and 2 from the Donor Procurement proceedure are likely to be recorded by the recieving technician, and consequently, those samples are logged on the Recipient Worksheet.
+
+![](static/screen_samples_worksheet.png)
+
+The Samples Worksheet is a fairly long form with not a lot of questions being asked. Depending on whether this is a Donor or Recipient Worksheet, there will be a range of sections covering Perfusate, Urine, Blood, and Biopsy data. The first thing to record is the Barcode number for the Worksheet that will accompany the samples back to the lab.
+
+![](static/screen_samples_perfusate.png)
+
+Each type of sample has a slightly different collection of data. Urine and Perfusate, for example, are single events that result in one sample, which needs to be processed in a centrifuge.
+
+The Notes field on each sample is to record any Deviations from procedure so that our Biobank project team can follow up accordingly.
+
+![](static/screen_samples_blood.png)
+
+Blood and Biopsy sections result in two Samples from just one collection event, and again, will ask the relevant sub-questions.
+
+Remeber to keep Saving as often as you can, and that partial information will be stored (assuming there are no errors detected).
+
+## Work in Progress
+
+This system remains a work in progress as new features are added and any issues that arise are corrected. Please expect this manual to change frequently to reflect this work, and ensure that any downloaded copies are kept up to date.
+
+Please direct any queries to the COPE Admin Team.
+
+**END**
