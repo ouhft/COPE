@@ -285,9 +285,9 @@
             updateRandomiseButton();
             updateCloseButton();
 
-            // Reveal the form completed panel if no errors. NB: Non-randomised cases can be completed.
-            var errorCount = {{ donor_form.errors|length }} + {{ person_form.errors|length }} + {{ left_organ_error_count }} + {{ right_organ_error_count }};
-            if (errorCount==0) { $("DIV.panel-danger").toggleClass("hidden", false); }
+{#            // Reveal the form completed panel if no errors. NB: Non-randomised cases can be completed.#}
+{#            var errorCount = {{ donor_form.errors|length }} + {{ person_form.errors|length }} + {{ left_organ_error_count }} + {{ right_organ_error_count }};#}
+{#            if (errorCount==0) { $("DIV.panel-danger").toggleClass("hidden", false); }#}
 
             // Apply update functions
             $('input:radio[name=left-organ-transplantable]').parents('label').on('click', function () {

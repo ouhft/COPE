@@ -150,12 +150,18 @@ class DonorForm(forms.ModelForm):
         'systemic_flush_volume_used',
         Field('heparin', template="bootstrap3/layout/radioselect-buttons.html")
     )
+    layout_almost_complete = Layout(
+        'not_randomised_because',
+        'not_randomised_because_other',
+        HTML("<p class=\"text-danger\">Once all errors have been cleared, clicking Save And Close below will " +
+            "result in this form being closed and locked. No further edits will be possible without contacting " +
+            "the admin team.</p>"
+        )
+    )
     layout_complete = Layout(
         FieldWithFollowup(
             Field('form_completed', template="bootstrap3/layout/radioselect-buttons.html"),
-            HTML("<p class=\"text-danger\">Once all errors have been cleared, clicking Save And Close below will " +
-                 "result in this form being closed and locked. No further edits will be possible without contacting " +
-                 "the admin team.</p>")
+            layout_almost_complete
         )
     )
 
@@ -173,7 +179,7 @@ class DonorForm(forms.ModelForm):
         Div(
             FormPanel("Donor Preop Data", layout_preop),
             FormPanel("Lab Results", layout_labresults),
-            FormPanel("Complete Submission", layout_complete, panel_status="danger", panel_hidden=True),
+            FormPanel("Complete Submission", layout_complete, panel_status="danger"),  # , panel_hidden=False
             css_class="col-md-4", style="margin-top: 10px;"
         ),
         'person',
@@ -241,7 +247,7 @@ class DonorForm(forms.ModelForm):
             'perfusion_started', 'perfusion_started_unknown',
             'systemic_flush_used', 'systemic_flush_used_other',
             'systemic_flush_volume_used', 'heparin',
-            'form_completed'
+            'form_completed', 'not_randomised_because', 'not_randomised_because_other'
         ]
         localized_fields = "__all__"
 
@@ -254,15 +260,26 @@ class DonorForm(forms.ModelForm):
             donor.save()
         return donor
 
-    # def clean(self):
-    #     cleaned_data = super(DonorForm, self).clean()
-    #     form_completed = cleaned_data.get("form_completed")
-    #     retrieval_hospital = cleaned_data.get("retrieval_hospital")
-    #     if form_completed:
-    #         if not retrieval_hospital:
-    #             self.add_error('retrieval_hospital', forms.ValidationError(_("DOv12 Missing retrieval hospital")))
-    #
-    #     return cleaned_data
+    def clean(self):
+        cleaned_data = super(DonorForm, self).clean()
+        form_completed = cleaned_data.get("form_completed")
+        if form_completed:
+            not_randomised_because = cleaned_data.get("not_randomised_because")
+            if not_randomised_because == 0 and not self.instance.is_randomised():
+                self.add_error('not_randomised_because', forms.ValidationError(_("DFv01 Please enter a valid reason for this case to not be randomised")))
+
+            not_randomised_because_other = cleaned_data.get("not_randomised_because_other")
+            if (not_randomised_because == 2 or not_randomised_because == 5) and not_randomised_because_other == '':
+                self.add_error('not_randomised_because_other', forms.ValidationError(_("DFv02 Please add additional information")))
+
+            retrieval_hospital = cleaned_data.get("not_randomised_because")
+            if not retrieval_hospital:
+                self.add_error('retrieval_hospital', forms.ValidationError(_("DFv03 Missing retrieval hospital")))
+
+        if self.errors:
+            cleaned_data["form_completed"] = False
+
+        return cleaned_data
 
 
 class DonorStartForm(forms.ModelForm):

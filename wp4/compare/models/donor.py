@@ -20,6 +20,15 @@ from .core import PAPER_EUROPE, PAPER_UNITED_KINGDOM
 
 
 class Donor(VersionControlModel):
+    NON_RANDOMISATION_CHOICES = (
+        (0, _("DOc15 Not Applicable")),
+        (1, _("DOc10 Donor not proceeding")),
+        (2, _("DOc11 One or more kidneys allocated to non-trial location")),
+        (3, _("DOc12 Kidneys not allocated")),
+        (4, _("DOc13 Kidneys not transplanable")),
+        (5, _("DOc14 Other")),
+    )
+
     # Donor Form Case data
     person = models.OneToOneField(OrganPerson)  # Internal link
     sequence_number = models.PositiveSmallIntegerField(default=0)  # Internal value
@@ -28,6 +37,12 @@ class Donor(VersionControlModel):
         choices=YES_NO_UNKNOWN_CHOICES,
         blank=True, null=True)
     form_completed = models.BooleanField(default=False)  # Internal value
+    not_randomised_because = models.PositiveSmallIntegerField(
+        verbose_name=_("DO51 Why was this not randomised?"),
+        choices=NON_RANDOMISATION_CHOICES,
+        default=0
+    )
+    not_randomised_because_other = models.CharField(verbose_name=_('DO52 More details'), max_length=250, blank=True)
     admin_notes = models.TextField(verbose_name=_("DO50 Admin notes"), blank=True)
 
     # Procedure data

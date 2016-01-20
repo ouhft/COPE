@@ -207,10 +207,16 @@ def procurement_form(request, pk):
 
     # print("DEBUG: all_valid=%d" % all_valid)
     if all_valid == 6:
-        messages.success(request, 'Form has been <strong>successfully saved</strong>')
+        if donor.form_completed:
+            messages.success(request, 'Form has been successfully saved <strong>and CLOSED</strong>')
+        else:
+            messages.success(request, 'Form has been <strong>successfully saved</strong>')
         # This has to wait till the organ forms are saved...
         donor_form, left_organ_form, right_organ_form = randomise(donor, donor_form, left_organ_form, right_organ_form)
     elif request.POST:
+        donor.form_completed = False  # Can't say the form is completed if there are errors
+        donor.save()
+
         error_count = left_organ_error_count + right_organ_error_count + len(donor_form.errors) + \
             len(person_form.errors)
         messages.error(
