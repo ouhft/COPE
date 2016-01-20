@@ -104,9 +104,11 @@ class OrganPerson(VersionControlModel):
     # date_of_death = models.DateField(verbose_name=_('OP08 date of death'), blank=True, null=True)
     # date_of_death_unknown = models.BooleanField(default=False)  # Internal flag
     gender = models.CharField(verbose_name=_('OP03 gender'), choices=GENDER_CHOICES, max_length=1, default=MALE)
-    weight = models.PositiveSmallIntegerField(
+    weight = models.DecimalField(
+        max_digits=4,
+        decimal_places=1,
         verbose_name=_('OP04 Weight (kg)'),
-        validators=[MinValueValidator(20), MaxValueValidator(200)],
+        validators=[MinValueValidator(20.0), MaxValueValidator(200.0)],
         blank=True, null=True)
     height = models.PositiveSmallIntegerField(
         verbose_name=_('OP05 Height (cm)'),
