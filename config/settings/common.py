@@ -42,6 +42,8 @@ DJANGO_APPS = [
 ]
 THIRD_PARTY_APPS = [
     'crispy_forms',  # Form layouts
+    'reversion',  # Data version control
+    'reversion_compare',
     # 'allauth',  # registration
     # 'allauth.account',  # registration
     # 'allauth.socialaccount',  # registration
@@ -77,6 +79,7 @@ MIDDLEWARE_CLASSES = [
     # 'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'reversion.middleware.RevisionMiddleware',
 ]
 
 # MIGRATIONS CONFIGURATION

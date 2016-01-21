@@ -1,11 +1,12 @@
 from django.contrib import admin
 from django.utils import timezone
+from reversion_compare.admin import CompareVersionAdmin
 
 # Register your models here.
 from .models import OrganPerson, RetrievalTeam, Donor, Recipient, Organ, ProcurementResource, OrganAllocation, Randomisation
 
 
-class VersionControlAdmin(admin.ModelAdmin):
+class VersionControlAdmin(CompareVersionAdmin):
     exclude = ('version', 'created_on', 'created_by', 'record_locked')
 
     def save_model(self, request, obj, form, change):
@@ -16,7 +17,7 @@ class VersionControlAdmin(admin.ModelAdmin):
         obj.save()
 
 
-class RetrievalTeamAdmin(admin.ModelAdmin):
+class RetrievalTeamAdmin(CompareVersionAdmin):
     list_display = ('based_at', 'centre_code')
     ordering = ('centre_code',)
     fields = ('centre_code', 'based_at')
@@ -146,7 +147,7 @@ class RecipientAdmin(VersionControlAdmin):
 admin.site.register(Recipient, RecipientAdmin)
 
 
-class RandomisationAdmin(admin.ModelAdmin):
+class RandomisationAdmin(CompareVersionAdmin):
     list_display = ('id', 'list_code', 'donor', 'result', 'allocated_on')
     ordering = ('id',)
     fields = ('donor', 'result', 'allocated_on')
