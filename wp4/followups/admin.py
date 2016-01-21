@@ -2,11 +2,12 @@
 # coding: utf-8
 from django.contrib import admin
 from django.utils import timezone
+from reversion_compare.admin import CompareVersionAdmin
 
 from .models import FollowUpInitial
 
 
-class VersionControlAdmin(admin.ModelAdmin):
+class VersionControlAdmin(CompareVersionAdmin):
     exclude = ('version', 'created_on', 'created_by', 'record_locked')
 
     def save_model(self, request, obj, form, change):

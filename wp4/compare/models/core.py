@@ -52,16 +52,24 @@ LIST_CHOICES = (
 
 
 class VersionControlModel(models.Model):
+    """
+    Internal common attributes to aide record auditing
+    """
     version = models.PositiveIntegerField(default=0)
     created_on = models.DateTimeField(default=timezone.now)
     created_by = models.ForeignKey(User)
     record_locked = models.BooleanField(default=False)
 
     # TODO: Add save method here that aborts saving if record_locked is already true
-    # TODO: Add version control via django-reversion
-    # NB: Used in Samples App also
+    # NB: Used in Samples and FollowUp Apps too
     class Meta:
         abstract = True
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        self.created_on = timezone.now()
+        self.version += 1
+        return super(VersionControlModel, self).save(force_insert, force_update, using, update_fields)
 
 
 class OrganPerson(VersionControlModel):

@@ -6,30 +6,10 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.core.validators import RegexValidator
-from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _, ungettext_lazy as __
+from django.utils.translation import ugettext_lazy as _
 
-from ..locations.models import Hospital
-
-
-# TODO: Stop this being implemented twice (see also compare.models). Here to stop an import error with circular import
-class VersionControlModel(models.Model):
-    version = models.PositiveIntegerField(default=0)
-    created_on = models.DateTimeField(default=timezone.now)
-    created_by = models.ForeignKey(User)
-    record_locked = models.BooleanField(default=False)
-
-    # TODO: Add save method here that aborts saving if record_locked is already true
-    # TODO: Add version control via django-reversion
-
-    class Meta:
-        abstract = True
-
-    def save(self, force_insert=False, force_update=False, using=None,
-             update_fields=None):
-        self.created_on = timezone.now()
-        self.version += 1
-        return super(VersionControlModel, self).save(force_insert, force_update, using, update_fields)
+from wp4.locations.models import Hospital
+from wp4.compare.models import VersionControlModel
 
 
 class StaffJob(models.Model):
