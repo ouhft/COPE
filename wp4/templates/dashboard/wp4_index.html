@@ -21,8 +21,9 @@
     </ul>
 
     <h3>Administrator Functions</h3>
-    <ul>
-        <li><a href="{% url 'wp4:admin_europe_list' %}">Europe OFFLINE list</a></li>
-        <li><a href="{% url 'wp4:admin_uk_list' %}">United Kingdom OFFLINE list</a></li>
+    <ul class="list-group">
+        <a href="{% url 'wp4:admin_europe_list' %}" class="list-group-item">Europe OFFLINE list</a>
+        <a href="{% url 'wp4:admin_uk_list' %}" class="list-group-item">United Kingdom OFFLINE list</a>
+        <a href="{% url 'wp4:admin_index' %}" class="list-group-item list-group-item-info">Administration Home</a>
     </ul>
 {% endblock %}
