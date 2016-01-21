@@ -5,6 +5,12 @@
 
 {% block page_title %}Samples{% endblock %}
 {% block page_header %}Sample Collection{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:samples:home' %}">Samples</a></li>
+    <li class="active">Edit Worksheet</li>
+{% endblock %}
 
 {% block content %}
     <form method="post" class="" id="sample_form">

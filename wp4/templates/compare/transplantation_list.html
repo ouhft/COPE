@@ -4,6 +4,11 @@
 
 {% block page_title %}Transplantation{% endblock %}
 {% block page_header %}Transplantation - Cases{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li class="active">Transplantation</li>
+{% endblock %}
 
 {% block content %}
 {#    exisiting_cases is a list of Organs, as is new_cases #}

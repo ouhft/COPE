@@ -8,6 +8,12 @@
     Transplantation
     <small>Case: {{ organ.trial_id }}</small>
 {% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:compare:transplantation_list' %}">Transplantation</a></li>
+    <li class="active">Edit Case</li>
+{% endblock %}
 
 
 {% block content %}

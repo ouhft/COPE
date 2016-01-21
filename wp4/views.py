@@ -28,3 +28,15 @@ def dashboard_index(request):
 @login_required
 def wp4_index(request):
     return render(request, 'dashboard/wp4_index.html', {})
+
+@login_required
+def administrator_index(request):
+    return render(request, 'dashboard/administrator_index.html', {})
+
+@login_required
+def administrator_uk_list(request):
+    return render(request, 'dashboard/administrator_index.html', {})
+
+@login_required
+def administrator_europe_list(request):
+    return render(request, 'dashboard/administrator_index.html', {})

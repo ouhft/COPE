@@ -1,10 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base_site.html" %}
+{% load l10n i18n %}
 
-</body>
-</html>
+{% block page_title %}Work Package 4: Compare{% endblock %}
+{% block page_header %}Work Package 4: Compare{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li class="active">WP4: Compare</li>
+{% endblock %}
+
+{% block content %}
+    <p>This section supports activities on Work Package 4: Compare (WP4) which is a Kidney preservation trial.
+
+    <h3>Actions available</h3>
+    <ul class="list-group">
+        <a href="{% url 'wp4:compare:procurement_list' %}" class="list-group-item">Procurement Forms</a>
+        <a href="{% url 'wp4:compare:transplantation_list' %}" class="list-group-item">Transplantation Forms</a>
+        <a href="{% url 'wp4:samples:home' %}" class="list-group-item">Sample Collection</a>
+{#        <a href="{% url 'wp4:followup:list' %}" class="list-group-item">Follow Ups Forms</a>#}
+{#        <a href="{% url 'wp4:adverse_event:list' %}" class="list-group-item">Adverse Event Forms</a>#}
+    </ul>
+
+    <h3>Administrator Functions</h3>
+    <ul>
+        <li><a href="{% url 'wp4:admin_europe_list' %}">Europe OFFLINE list</a></li>
+        <li><a href="{% url 'wp4:admin_uk_list' %}">United Kingdom OFFLINE list</a></li>
+    </ul>
+{% endblock %}
