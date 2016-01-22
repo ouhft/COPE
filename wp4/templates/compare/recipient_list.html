@@ -2,7 +2,12 @@
 {% load l10n i18n %}
 
 {% block page_title %}Follow Up{% endblock %}
-{% block page_header %}Recipients for Follow Ups - Listing{% endblock %}
+{% block page_header %}Follow Up{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li class="active">Follow Up</li>
+{% endblock %}
 
 {% block content %}
     <table class="table table-responsive">
@@ -18,13 +23,14 @@
         {% for recipient in object_list %}
             <tr>
                 <td>{{ recipient.trial_id }}</td>
-                <td>{{ recipient.followup_initial.pk }}</td>
-                <td>{{ recipient.followup_3m }}</td>
-                <td>{{ recipient.followup_6m }}</td>
-                <td>{{ recipient.followup_1y }}</td>
+                <td>
+                    <a href="{% url 'wp4:followup:initial_detail' pk=recipient.organ.followup_initial.pk %}"><i title="edit" class="glyphicon glyphicon-search"></i></a>
+                    <a href="{% url 'wp4:followup:initial_update' pk=recipient.organ.followup_initial.pk %}"><i title="edit" class="glyphicon glyphicon-edit"></i></a>
+                </td>
+                <td><a href="#">{{ recipient.organ.followup_3m }}</a></td>
+                <td><a href="#">{{ recipient.organ.followup_6m }}</a></td>
+                <td><a href="#">{{ recipient.organ.followup_1y }}</a></td>
             </tr>
-            {#            <li><a href="{% url "followup:initial_detail" pk=follow.pk %}">{{ follow }}</a> <a href="{% url "followup:initial_update" pk=follow.pk %}"><i title="edit" class="glyphicon glyphicon-edit"></i></a> </li>#}
         {% endfor %}
     </table>
-
 {% endblock %}

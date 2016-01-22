@@ -6,7 +6,7 @@ from . import views
 
 
 urlpatterns = [
-    url(r'^$', views.FollowUpList.as_view(), name='list'),
+    url(r'^$', views.FollowUpList.as_view(), name='index'),
 
     url(r'^initial/$', views.FollowUpInitialList.as_view(), name='initial_list'),
     url(r'^initial/(?P<pk>[0-9]+)/$', views.FollowUpInitialDetail.as_view(), name='initial_detail'),

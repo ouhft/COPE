@@ -14,6 +14,7 @@ from wp4.compare.models import VersionControlModel, Organ, YES_NO_UNKNOWN_CHOICE
 
 class FollowUpBase(VersionControlModel):
     start_date = models.DateField(verbose_name=_("FB01 start date"), default=timezone.now)
+    completed = models.BooleanField(verbose_name=_("FB21 form completed"), default=False)
 
     FAILURE_OTHER = 10
     FAILURE_CHOICES = (
@@ -26,6 +27,7 @@ class FollowUpBase(VersionControlModel):
         (FAILURE_OTHER, _("FBc07 Other")),
     )
     graft_failure = models.NullBooleanField(verbose_name=_("FB02 graft failure"), blank=True)
+    graft_failure_date = models.DateField(verbose_name=_("FB05 date of graft failure"), null=True, blank=True)
     graft_failure_type = models.PositiveSmallIntegerField(
         verbose_name=_("FB03 graft failure"),
         choices=FAILURE_CHOICES,
@@ -35,7 +37,6 @@ class FollowUpBase(VersionControlModel):
         verbose_name=_("FB04 Other failure type"),
         max_length=200,
         blank=True)
-    graft_failure_date = models.DateField(verbose_name=_("FB05 date of graft failure"), null=True, blank=True)
     graft_removal = models.NullBooleanField(verbose_name=_("FB06 graft removal"), blank=True)
     graft_removal_date = models.DateField(verbose_name=_("FB07 date of graft removal"), null=True, blank=True)
 
@@ -70,7 +71,8 @@ class FollowUpBase(VersionControlModel):
         verbose_name=_("FB11 Dialysis type"),
         choices=DIALYSIS_TYPE_CHOICES,
         null=True,
-        blank=True)
+        blank=True
+    )
 
     # dialysis_cause
     # number_of_dialysis
@@ -88,11 +90,13 @@ class FollowUpBase(VersionControlModel):
         verbose_name=_("FB12 Post tx immunosuppression"),
         choices=IMMUNOSUPPRESSION_CHOICES,
         null=True,
-        blank=True)
+        blank=True
+    )
     immunosuppression_other = models.CharField(
         verbose_name=_("FB13 Other immunosuppression"),
         max_length=200,
-        blank=True)
+        blank=True
+    )
 
     rejection = models.NullBooleanField(verbose_name=_("FB14 rejection"), blank=True)
     # rejection_periods
@@ -242,6 +246,10 @@ class FollowUpInitial(FollowUpBase):
 
     discharge_date = models.DateField(verbose_name=_("FI26 date of primary post tx discharge"), null=True, blank=True)
 
+    class Meta:
+        verbose_name = _("FIm1 Initial FollowUp")
+        verbose_name_plural = _("FIm2 Initial FollowUps")
+
     def __unicode__(self):
         return '%s (%s)' % (self.trial_id(), self.start_date)
 
@@ -323,6 +331,10 @@ class FollowUp3M(FollowUpBase):
         blank=True, null=True
     )
 
+    class Meta:
+        verbose_name = _("F3m1 3 Month FollowUp")
+        verbose_name_plural = _("F3m2 3 Month FollowUps")
+
     def __unicode__(self):
         return '%s (%s)' % (self.trial_id(), self.start_date)
 
@@ -373,6 +385,10 @@ class FollowUp6M(FollowUpBase):
         blank=True
     )
     graft_complications = models.TextField(verbose_name=_("F605 graft function complications"), blank=True)
+
+    class Meta:
+        verbose_name = _("F6m1 6 Month FollowUp")
+        verbose_name_plural = _("F6m2 6 Month FollowUps")
 
     def __unicode__(self):
         return '%s (%s)' % (self.trial_id(), self.start_date)
@@ -452,6 +468,10 @@ class FollowUp1Y(FollowUpBase):
         validators=[MinValueValidator(0), MaxValueValidator(100)],
         blank=True, null=True
     )
+
+    class Meta:
+        verbose_name = _("FYm1 1 Year FollowUp")
+        verbose_name_plural = _("FYm2 1 Year FollowUps")
 
     def __unicode__(self):
         return '%s (%s)' % (self.trial_id(), self.start_date)

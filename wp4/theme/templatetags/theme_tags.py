@@ -2,8 +2,10 @@ __author__ = 'carl'
 
 import time
 import os
+
 from django import template
 from django.conf import settings
+
 import wp4
 
 register = template.Library()
@@ -32,3 +34,11 @@ def version_date():
 @register.simple_tag
 def copyright_date_string():
     return "2015-" + time.strftime('%Y', time.gmtime())
+
+# http://stackoverflow.com/a/14498938/3687274
+@register.simple_tag
+def get_verbose_field_name(instance, field_name):
+    """
+    Returns verbose_name for a field.
+    """
+    return instance._meta.get_field(field_name).verbose_name.title()

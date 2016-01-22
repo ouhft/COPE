@@ -39,9 +39,9 @@
 {#                            {% url 'wp4:adverse_event:list' as url_adverseevents %}#}
 {#                            <li class="{% active request url_adverseevents %}"><a href="{{ url_adverseevents }}">Adverse#}
 {#                                Events</a></li>#}
-{#                            {% url 'wp4:followup:list' as url_followup %}#}
-{#                            <li class="{% active request url_followup %}"><a href="{{ url_followup }}">Follow Up</a>#}
-{#                            </li>#}
+                            {% url 'wp4:followup:index' as url_followup %}
+                            <li class="{% active request url_followup %}"><a href="{{ url_followup }}">Follow Up</a>
+                            </li>
                         </ul>
                     </li>
                 {% if user.is_staff %}
