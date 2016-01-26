@@ -190,7 +190,6 @@ class DonorForm(forms.ModelForm):
         self.fields['person'].widget = forms.HiddenInput()
         self.fields['retrieval_team'].widget = forms.HiddenInput()
         self.fields['sequence_number'].widget = forms.HiddenInput()
-        self.fields['multiple_recipients'].choices = NO_YES_CHOICES
         self.fields['perfusion_technician'].widget = forms.HiddenInput()
         self.fields['call_received'].input_formats = settings.DATETIME_INPUT_FORMATS
         self.fields['scheduled_start'].input_formats = settings.DATETIME_INPUT_FORMATS

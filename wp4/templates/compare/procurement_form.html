@@ -280,7 +280,8 @@
             updateRandomiseKidney({% if right_organ_form.transplantable.value %}true{% else %}false{% endif %}, false);
             updateRandomiseRecipients(
                     {# Values: None=Unanswered, 0=No, 1=Yes, 2=Unknown #}
-                    {% if donor_form.multiple_recipients.value != 0 %}true{% else %}false{% endif %}
+                    // value={{ donor_form.multiple_recipients.value|add:"0" }}
+                    {% if donor_form.multiple_recipients.value|add:"0" != 0 %}true{% else %}false{% endif %}
             );
             updateRandomiseButton();
             updateCloseButton();
