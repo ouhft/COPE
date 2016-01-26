@@ -2,6 +2,7 @@
 # coding: utf-8
 from __future__ import absolute_import, unicode_literals
 import datetime
+from bdateutil import relativedelta
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
@@ -163,17 +164,10 @@ class OrganPerson(VersionControlModel):
     bmi_value.short_description = 'BMI Value'
 
     def age_from_dob(self):
-        # TODO: Get the date calculations fixed so they do actual math and then show the years
-        today = datetime.date.today()
-        if not self.date_of_birth:
-            return None
-        elif self.date_of_death:
-            years = self.date_of_death.year - self.date_of_birth.year
-        elif self.date_of_birth < today:
-            years = today.year - self.date_of_birth.year
-        else:
-            years = today.year - self.date_of_birth.year - 1
-        return years
+        the_end = self.date_of_death if self.date_of_death else datetime.date.today()
+        if self.date_of_birth:
+            return relativedelta(the_end, self.date_of_birth).years
+        return None
 
     def trial_id(self):
         if self.is_donor:
