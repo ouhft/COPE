@@ -10,8 +10,8 @@ from crispy_forms.layout import Layout, Submit, Div, HTML, Field
 # from crispy_forms.bootstrap import FormActions, StrictButton
 from autocomplete_light.fields import ModelChoiceField
 
-from ..theme.layout import InlineFields, FieldWithFollowup, YesNoFieldWithAlternativeFollowups, FieldWithNotKnown, ForeignKeyModal
-from ..theme.layout import DateTimeField, DateField, FormPanel
+from wp4.theme.layout import InlineFields, FieldWithFollowup, YesNoFieldWithAlternativeFollowups, FieldWithNotKnown, ForeignKeyModal
+from wp4.theme.layout import DateTimeField, DateField, FormPanel
 from .models import OrganPerson, Donor, Organ, OrganAllocation, Recipient, ProcurementResource, Randomisation
 from .models import YES_NO_UNKNOWN_CHOICES, LOCATION_CHOICES, PAPER_EUROPE, PAPER_UNITED_KINGDOM
 

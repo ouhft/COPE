@@ -254,7 +254,7 @@ class FollowUpInitial(FollowUpBase):
         return '%s (%s)' % (self.trial_id(), self.start_date)
 
     def get_absolute_url(self):
-        return reverse('followup:initial_detail', kwargs={'pk': self.pk})
+        return reverse('wp4:followup:initial_detail', kwargs={'pk': self.pk})
 
     def trial_id(self):
         return self.organ.trial_id()

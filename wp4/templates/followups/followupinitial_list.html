@@ -1,15 +1,26 @@
 {% extends "base_site.html" %}
 {% load l10n i18n %}
 
-{% block page_title %}Follow Up{% endblock %}
-{% block page_header %}Follow Ups - Listing{% endblock %}
+{% block page_title %}Initial (Days 1-7) - Follow Up{% endblock %}
+{% block page_header %}
+    Initial (Days 1-7) - Follow Up
+    <small>Listing</small>
+{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:followup:index' %}">Follow Up</a></li>
+    <li class="active">Initial</li>
+{% endblock %}
 
 {% block content %}
     <ul>
         {% for follow in initial_list %}
-            <li><a href="{% url "followup:initial_detail" pk=follow.pk %}">{{ follow }}</a> <a
-                    href="{% url "followup:initial_update" pk=follow.pk %}"><i title="edit"
-                                                                               class="glyphicon glyphicon-edit"></i></a>
+            <li>{{ follow }}
+                <a href="{% url 'wp4:followup:initial_detail' pk=follow.pk %}"><i title="edit"
+                                                                                                            class="glyphicon glyphicon-search"></i></a>
+                <a href="{% url 'wp4:followup:initial_update' pk=follow.pk %}"><i title="edit"
+                                                                                                            class="glyphicon glyphicon-edit"></i></a>
             </li>
         {% endfor %}
     </ul>

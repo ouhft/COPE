@@ -3,72 +3,97 @@
 from django import forms
 from django.conf import settings
 from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.bootstrap import FormActions
-from crispy_forms.layout import Layout, Div, Submit, Button
+from crispy_forms.layout import Layout, Div, Submit, Button, Field
 
-from ..theme.layout import FormPanel
+from wp4.theme.layout import FormPanel, DateTimeField, DateField, InlineFields, FieldWithFollowup, YesNoFieldWithAlternativeFollowups, FieldWithNotKnown
+from wp4.compare.models import YES_NO_UNKNOWN_CHOICES
 from .models import FollowUpInitial, FollowUp3M, FollowUp6M, FollowUp1Y
+
+# Common CONSTANTS
+NO_YES_CHOICES = (
+    (False, _("FF01 No")),
+    (True, _("FF02 Yes")))
+
+YES_NO_CHOICES = (
+    (True, _("FF02 Yes")),
+    (False, _("FF01 No")))
 
 
 class FollowUpInitialForm(forms.ModelForm):
+    layout_graft_failure = Layout(
+        DateField('graft_failure_date'),
+        FieldWithFollowup(
+            'graft_failure_type',
+            'graft_failure_type_other'
+        )
+    )
     layout_graft = Layout(
-        'start_date',
-        'graft_failure',
-        'graft_failure_type',
-        'graft_failure_type_other',
-        'graft_failure_date',
-        'graft_removal',
-        'graft_removal_date',
+        DateField('start_date'),
+        FieldWithFollowup(
+            Field('graft_failure', template="bootstrap3/layout/radioselect-buttons.html"),
+            layout_graft_failure
+        ),
+        FieldWithFollowup(
+            Field('graft_removal', template="bootstrap3/layout/radioselect-buttons.html"),
+            DateField('graft_removal_date')
+        )
     )
     layout_serum = Layout(
-        'serum_creatinine_1',
-        'serum_creatinine_1_unit',
-        'serum_creatinine_2',
-        'serum_creatinine_2_unit',
-        'serum_creatinine_3',
-        'serum_creatinine_3_unit',
-        'serum_creatinine_4',
-        'serum_creatinine_4_unit',
-        'serum_creatinine_5',
-        'serum_creatinine_5_unit',
-        'serum_creatinine_6',
-        'serum_creatinine_6_unit',
-        'serum_creatinine_7',
-        'serum_creatinine_7_unit',
+        InlineFields('serum_creatinine_1', 'serum_creatinine_1_unit'),
+        InlineFields('serum_creatinine_2', 'serum_creatinine_2_unit'),
+        InlineFields('serum_creatinine_3', 'serum_creatinine_3_unit'),
+        InlineFields('serum_creatinine_4', 'serum_creatinine_4_unit'),
+        InlineFields('serum_creatinine_5', 'serum_creatinine_5_unit'),
+        InlineFields('serum_creatinine_6', 'serum_creatinine_6_unit'),
+        InlineFields('serum_creatinine_7', 'serum_creatinine_7_unit')
     )
     layout_dialysis = Layout(
-        'dialysis_requirement_1',
-        'dialysis_requirement_2',
-        'dialysis_requirement_3',
-        'dialysis_requirement_4',
-        'dialysis_requirement_5',
-        'dialysis_requirement_6',
-        'dialysis_requirement_7',
-        'dialysis_type',
-        'dialysis_cause',
-        'dialysis_cause_other',
+        DateField('dialysis_requirement_1'),
+        DateField('dialysis_requirement_2'),
+        DateField('dialysis_requirement_3'),
+        DateField('dialysis_requirement_4'),
+        DateField('dialysis_requirement_5'),
+        DateField('dialysis_requirement_6'),
+        DateField('dialysis_requirement_7'),
+        Field('dialysis_type', template="bootstrap3/layout/radioselect-buttons.html"),
+        FieldWithFollowup(
+            'dialysis_cause',
+            'dialysis_cause_other'
+        )
     )
     layout_hla = Layout(
         'hla_mismatch_a',
         'hla_mismatch_b',
         'hla_mismatch_dr',
-        'induction_therapy',
-        'immunosuppression',
-        'immunosuppression_other',
+        Field('induction_therapy', template="bootstrap3/layout/radioselect-buttons.html"),
+        FieldWithFollowup(
+            'immunosuppression',
+            'immunosuppression_other'
+        )
+    )
+    layout_rejection_yes = Layout(
+        Field('rejection_prednisolone', template="bootstrap3/layout/radioselect-buttons.html"),
+        FieldWithFollowup(
+            Field('rejection_drug', template="bootstrap3/layout/radioselect-buttons.html"),
+            'rejection_drug_other'
+        ),
+        Field('rejection_biopsy', template="bootstrap3/layout/radioselect-buttons.html"),
     )
     layout_rejection = Layout(
-        'rejection',
-        'rejection_prednisolone',
-        'rejection_drug',
-        'rejection_drug_other',
-        'rejection_biopsy',
-        'calcineurin',
-        'discharge_date',
+        FieldWithFollowup(
+            Field('rejection', template="bootstrap3/layout/radioselect-buttons.html"),
+            layout_rejection_yes
+        ),
+        Field('calcineurin', template="bootstrap3/layout/radioselect-buttons.html"),
+        DateField('discharge_date')
     )
     layout_notes = Layout(
-        'notes'
+        'notes',
+        Field('completed', template="bootstrap3/layout/radioselect-buttons.html")
     )
 
     helper = FormHelper()
@@ -77,28 +102,33 @@ class FollowUpInitialForm(forms.ModelForm):
     helper.layout = Layout(
         Div(
             Div(
-                FormPanel("1", layout_graft),
-                FormPanel("4", layout_hla),
+                FormPanel("Graft Update", layout_graft),
+                FormPanel("HLA", layout_hla),
                 css_class="col-md-4", style="margin-top: 10px;"
             ),
             Div(
-                FormPanel("2", layout_serum),
-                FormPanel("5", layout_rejection),
+                FormPanel("Creatinine", layout_serum),
                 css_class="col-md-4", style="margin-top: 10px;"
             ),
             Div(
-                FormPanel("3", layout_dialysis),
+                FormPanel("Dialysis", layout_dialysis),
                 css_class="col-md-4", style="margin-top: 10px;"
             ),
             css_class='row'
         ),
 
-        FormPanel("6", layout_notes),
-        FormActions(
-            'organ',
-            Submit('save', 'Save changes'),
-            Button('cancel', 'Cancel')
-        )
+        Div(
+            Div(
+                FormPanel("Rejection", layout_rejection),
+                css_class="col-md-4", style="margin-top: 10px;"
+            ),
+            Div(
+                FormPanel("General Comments", layout_notes),
+                css_class="col-md-8", style="margin-top: 10px;"
+            ),
+            css_class='row'
+        ),
+        'organ',
     )
 
     class Meta:
@@ -110,6 +140,17 @@ class FollowUpInitialForm(forms.ModelForm):
         super(FollowUpInitialForm, self).__init__(*args, **kwargs)
         self.fields['organ'].widget = forms.HiddenInput()
         self.fields['start_date'].input_formats = settings.DATE_INPUT_FORMATS
+        self.fields['graft_failure'].choices = NO_YES_CHOICES
+        self.fields['graft_removal'].choices = NO_YES_CHOICES
+        self.fields['dialysis_type'].choices = FollowUpInitial.DIALYSIS_TYPE_CHOICES
+        self.fields['induction_therapy'].choices = FollowUpInitial.INDUCTION_CHOICES
+        self.fields['rejection'].choices = NO_YES_CHOICES
+        self.fields['rejection_prednisolone'].choices = NO_YES_CHOICES
+        self.fields['rejection_drug'].choices = NO_YES_CHOICES
+        self.fields['rejection_biopsy'].choices = NO_YES_CHOICES
+        self.fields['calcineurin'].choices = NO_YES_CHOICES
+
+        self.fields['completed'].choices = NO_YES_CHOICES
 
     def save(self, user):
         instance = super(FollowUpInitialForm, self).save(commit=False)

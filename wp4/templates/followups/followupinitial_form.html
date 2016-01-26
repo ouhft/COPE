@@ -3,9 +3,32 @@
 {% load crispy_forms_tags %}
 {% load crispy_forms_field %}
 
-{% block page_title %}Follow Up{% endblock %}
-{% block page_header %}Initial Follow Up - {{ form.instance.trial_id }}{% endblock %}
+{% block page_title %}Initial (Days 1-7) - Follow Up{% endblock %}
+{% block page_header %}
+    Initial (Days 1-7) - Follow Up
+    <small>Case ID: {{ initial_obj.trial_id }}</small>
+{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:followup:index' %}">Follow Up</a></li>
+    <li><a href="{% url 'wp4:followup:initial_list' %}">Initial</a></li>
+    <li class="active">Edit Report for {{ initial_obj.trial_id }}</li>
+{% endblock %}
 
 {% block content %}
     {% crispy form %}
+{% endblock %}
+
+
+{% block footer_nav %}
+    {% if not initial_obj.completed %}
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container">
+            <div class="navbar-right">
+                <input type="button" class="btn btn-primary navbar-btn" value="Save" id="nav_button_save"/>
+            </div>
+        </div>
+    </nav>
+    {% endif %}
 {% endblock %}

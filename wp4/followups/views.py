@@ -34,11 +34,13 @@ class FollowUpInitialDetail(LoginRequiredMixin, DetailView):
 class FollowUpInitialAdd(LoginRequiredMixin, CreateView):
     model = FollowUpInitial
     fields = ['organ']
+    context_object_name = 'initial_obj'
 
 
 class FollowUpInitialUpdate(LoginRequiredMixin, UpdateView):
     model = FollowUpInitial
     form_class = FollowUpInitialForm
+    context_object_name = 'initial_obj'
 
     def form_valid(self, form):
         instance = form.save(self.request.user)
