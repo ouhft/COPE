@@ -1,8 +1,8 @@
 #!/usr/bin/python
 # coding: utf-8
 from __future__ import absolute_import, unicode_literals
-import datetime
 from random import random
+from bdateutil import relativedelta
 from django.core.validators import MinValueValidator, MaxValueValidator, ValidationError
 from django.db import models, transaction
 from django.utils.translation import ugettext_lazy as _
@@ -278,24 +278,23 @@ class Donor(VersionControlModel):
                         "perfusion centre")
                 )
         if self.person_id is not None and self.person.date_of_birth:
-            if self.date_of_procurement:
-                age_difference = self.date_of_procurement - self.person.date_of_birth
-                age_difference_in_years = age_difference.days / 365.2425
-                if age_difference < datetime.timedelta(days=(365.2425 * 50)):
-                    raise ValidationError(
-                        _("DOv03 Date of birth is less than 50 years from the date of procurement (%(num)d)"
-                          % {'num': age_difference_in_years})
-                    )
-                if age_difference > datetime.timedelta(days=(365.2425 * 100)):
-                    raise ValidationError(
-                        _("DOv04 Date of birth is more than 100 years from the date of procurement (%(num)d)"
-                          % {'num': age_difference_in_years})
-                    )
             if self.age != self.person.age_from_dob():
                 raise ValidationError(
                     _("DOv05 Age does not match age as calculated (%(num)d years) from Date of Birth"
                       % {'num': self.person.age_from_dob()})
                 )
+            if self.date_of_procurement:
+                calculated_age = relativedelta(self.date_of_procurement, self.date_of_birth).years
+                if calculated_age < 50:
+                    raise ValidationError(
+                        _("DOv03 Date of birth is less than 50 years from the date of procurement (%(num)d)"
+                          % {'num': calculated_age})
+                    )
+                elif calculated_age > 100:
+                    raise ValidationError(
+                        _("DOv04 Date of birth is more than 100 years from the date of procurement (%(num)d)"
+                          % {'num': calculated_age})
+                    )
         if self.date_of_procurement and self.date_of_admission:
             if self.date_of_procurement < self.date_of_admission:
                 raise ValidationError(_("DOv06 Date of procurement occurs before date of admission"))

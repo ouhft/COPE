@@ -9,7 +9,8 @@ from .staff_person import urls as staffperson_urls
 from .locations import urls as locations_urls
 from .samples import urls as samples_urls
 from .compare import urls as compare_urls
-from .views import wp4_index, administrator_index, administrator_uk_list, administrator_europe_list
+from .views import wp4_index
+from .views import administrator_index, administrator_uk_list, administrator_europe_list
 
 urlpatterns = [
     url(r'^followup/', include(followup_urls, namespace="followup")),

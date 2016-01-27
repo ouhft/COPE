@@ -4,6 +4,7 @@
 # from django.contrib import messages
 from django.http import Http404
 from django.shortcuts import render
+from django.conf import settings
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.exceptions import PermissionDenied
 from django.utils import timezone
@@ -26,6 +27,22 @@ def error500(request):
 # Legitimate pages
 def dashboard_index(request):
     return render(request, 'dashboard/index.html', {})
+
+
+@login_required
+def dashboard_changelog(request):
+    file_path = settings.ROOT_DIR + 'docs/changelog.md'
+    with open(str(file_path), 'r') as markdown_file:
+        document = markdown_file.read()
+        return render(request, 'dashboard/changelog.html', {'document': document})
+
+
+def dashboard_usermanual(request):
+    file_path = settings.ROOT_DIR + 'docs/user_manual.md'
+    with open(str(file_path), 'r') as markdown_file:
+        document = markdown_file.read()
+        return render(request, 'dashboard/user_manual.html', {'document': document})
+
 
 @login_required
 def wp4_index(request):

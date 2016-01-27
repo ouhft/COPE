@@ -1,7 +1,6 @@
 #!/usr/bin/python
 # coding: utf-8
 from __future__ import absolute_import, unicode_literals
-import datetime
 from bdateutil import relativedelta
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -146,7 +145,7 @@ class OrganPerson(VersionControlModel):
         #         raise ValidationError(_("OPv01 Time travel detected! Person's date of birth is in the future!"))
 
         if self.date_of_death:
-            if self.date_of_death > datetime.datetime.now().date():
+            if self.date_of_death > timezone.now().date():
                 raise ValidationError(_("OPv02 Creepy prediction! Person's date of death is in the future!"))
 
         if self.date_of_birth and self.date_of_death:
@@ -164,15 +163,27 @@ class OrganPerson(VersionControlModel):
     bmi_value.short_description = 'BMI Value'
 
     def age_from_dob(self):
-        the_end = self.date_of_death if self.date_of_death else datetime.date.today()
+        """
+        Determines a person's age from their Date of Birth, compared initially against a Date of Death
+        (if it exists), or against the current date if not applicable.
+        :return: int, age in years
+        """
+        the_end = self.date_of_death if self.date_of_death else timezone.now().date()
         if self.date_of_birth:
             return relativedelta(the_end, self.date_of_birth).years
         return None
 
     def trial_id(self):
+        """
+        Returns the composite trial id string based on whether this is a donor or recipient
+        :return: string, WP4cctnns - where: cc = 2 digit centre code;
+            t = single digit, 0 for online, 9 for offline randomisation;
+            nn = 2 digit sequence number, starting at 01;
+            s = optional single character denoting organ location, L for Left, R for Right
+        """
         if self.is_donor:
             return self.donor.trial_id()
-        if self.is_recipient:
+        elif self.is_recipient:
             return self.recipient.trial_id()
         return _("OPm01 No Trial ID Assigned")
 
@@ -192,6 +203,10 @@ class OrganPerson(VersionControlModel):
 
     @property
     def date_of_death(self):
+        """
+        Returns a date of death for a DONOR only, if their death_diagnosis is recorded
+        :return: date
+        """
         if self.is_donor and self.donor.death_diagnosed:
             return self.donor.death_diagnosed.date()
         return None

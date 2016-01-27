@@ -1,21 +1,36 @@
 {% extends "base_site.html" %}
-{% load l10n i18n %}
+{% load l10n i18n staticfiles %}
 
 {% block page_header %}Welcome to the COPE DB Online Trials System{% endblock %}
 
 {% block content %}
-    <p>This online system is here to support activities for the COPE Consortium clinical trials. </p>
+    <p>This online system is here to support activities for the COPE Consortium clinical trials.</p>
+    <div class="row">
+        <div class="col-md-4">
+            <h2>System News and Information</h2>
+            <p>For the latest changes, view the <a href="{% url 'changelog' %}">Changelog</a></p>
+            <p class="alert alert-warning" role="alert">
+                <a href="{% url 'user_manual' %}" class="alert-link"><i class="glyphicon glyphicon-search"></i> View the User Manual</a> here, <br>
+                or <a href="{% static 'docs/user_manual_v0-4-5.pdf' %}" class="alert-link"><i class="glyphicon glyphicon-download"></i> Download a copy</a> of it.
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h2>WP4: Compare</h2>
+            <p>This section supports activities on Work Package 4: Compare (WP4) which is a Kidney preservation trial.
 
-    <h2>WP4: Compare</h2>
-    <p>This section supports activities on Work Package 4: Compare (WP4) which is a Kidney preservation trial.
+            <ul class="list-group">
+                <a href="{% url 'wp4:index' %}" class="list-group-item list-group-item-info">WP4: Home</a>
+                <a href="{% url 'wp4:compare:procurement_list' %}" class="list-group-item">Procurement Forms</a>
+                <a href="{% url 'wp4:compare:transplantation_list' %}" class="list-group-item">Transplantation Forms</a>
+                <a href="{% url 'wp4:samples:home' %}" class="list-group-item">Sample Collection</a>
+                <a href="{% url 'wp4:followup:index' %}" class="list-group-item">Follow Ups Forms</a>
+                {#        <a href="{% url 'wp4:adverse_event:list' %}" class="list-group-item">Adverse Event Forms</a>#}
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <h2>WP7: Biobank</h2>
+            <p>Schedule for development in Q1 2016</p>
+        </div>
+    </div>
 
-    <h3>Actions available</h3>
-    <ul class="list-group">
-        <a href="{% url 'wp4:compare:procurement_list' %}" class="list-group-item">Procurement Forms</a>
-        <a href="{% url 'wp4:compare:transplantation_list' %}" class="list-group-item">Transplantation Forms</a>
-        <a href="{% url 'wp4:samples:home' %}" class="list-group-item">Sample Collection</a>
-        <a href="{% url 'wp4:followup:index' %}" class="list-group-item">Follow Ups Forms</a>
-{#        <a href="{% url 'wp4:adverse_event:list' %}" class="list-group-item">Adverse Event Forms</a>#}
-        <a href="{% url 'wp4:index' %}" class="list-group-item list-group-item-info">WP4: Home</a>
-    </ul>
 {% endblock %}

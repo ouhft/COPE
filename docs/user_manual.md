@@ -9,7 +9,7 @@ Welcome to the COPE DB Online Trials System. This guide provides an overview of 
 ## Overview
 By visiting the system at [https://cope.nds.ox.ac.uk/]() you should see a page similar to the one below:
 
-![Screenshot of the home page](static/screen_index.png)
+![Screenshot of the home page](static/docs/user_manual/screen_index.png)
 
 A few key areas are:
 
@@ -29,7 +29,7 @@ Clicking on the Login button on the NavBar or any link that goes to a secure pag
 
 Once you are logged into the system, the Navbar will update to something similar to the image below:
 
-![Navbar with user menu on display](static/screen_index_loggedin.png)
+![Navbar with user menu on display](static/docs/user_manual/screen_index_loggedin.png)
 
 In the upper right corner of the page, on the Navbar you should now see some new links and menus. Working from the right hand edge to the left, we have:
 
@@ -49,7 +49,7 @@ Some questions will have additional questions related to the answer given; You s
 #### Date & Time questions
 These can be recognised by the grey "calendar" icon to the right of the text entry, and placeholder text similar to `DD-MM-YYYY` (for dates) or `DD-MM-YYYY HH:MM` (for dates and times). You can type dates into these fields directly, or you can click on the icon to the right to get a calendar popup widget displayed, such as:
 
-![Examples of the Date and Time picker](static/screen_procurement_form_datetime.png)
+![Examples of the Date and Time picker](static/docs/user_manual/screen_procurement_form_datetime.png)
 
 In the above image we can see 5 examples.
 
@@ -73,25 +73,25 @@ There are a range of questions where we want to know about either people, or loc
 
 Apart from the question label as the first clue, you can identify these fields by the greyed out appearance (so that you can't type directly into them), and the magnifying glass icon to the right hand side. Clicking on the magnifying glass will bring up another window with the currently available option in.
 
-![Manage Staff popup showing existing staff](static/screen_procurement_form_manage_staff_list.png)
+![Manage Staff popup showing existing staff](static/docs/user_manual/screen_procurement_form_manage_staff_list.png)
 
 Using the example of "Name of the SN-OD", this is the list of people known to the system so far. If the correct answer is one of these people, clicking on them will close the window and put the answer in the form. If the answer is someone else, then clicking on Add Person will let us create a new staff member.
 
-![Manage Staff popup showing add new person form](static/screen_procurement_form_manage_staff_form.png)
+![Manage Staff popup showing add new person form](static/docs/user_manual/screen_procurement_form_manage_staff_form.png)
 
 To complete this form (shown above) we need to know their first name and last names as a minimum. However, since this is to aide contacting people in case of followups, we really want to know more, like where they are based (pick an existing location - if one doesn't exist, you'll have to create it via another question first), their telephone number, and an email address.
 
 Whilst it is possible to edit the contact information of existing people, please do so with care, as this information may be critical for other cases also.
 
-![](static/screen_procurement_form_manage_location_list1.png)
+![](static/docs/user_manual/screen_procurement_form_manage_location_list1.png)
 
 When dealing with either locations or people, the list may grow to be larger than the available screenspace. In which case it will fill from top to bottom as shown above (with Manage Hospitals), and you can scroll the screen to find the correct entry, or to the bottom to find the Add Hospital Option.
 
-![](static/screen_procurement_form_manage_location_list2.png)
+![](static/docs/user_manual/screen_procurement_form_manage_location_list2.png)
 
 Adding a new location is a little easier than a person, and only requires two bits of information at this stage: Name of the location, and the country it is based in.
 
-![](static/screen_procurement_form_manage_location_form.png)
+![](static/docs/user_manual/screen_procurement_form_manage_location_form.png)
 
 As with both forms, clicking Save and Use will save the data (making it available for other cases) and use the result to populate the form field.
 
@@ -105,19 +105,19 @@ There are a limited number of fields where you can find an answer by typing part
 
 Upon saving you should see a message such as:
 
-![](static/screen_procurement_form_save_success.png)
+![](static/docs/user_manual/screen_procurement_form_save_success.png)
 
 If you have made a mistake, then you will see errors highlighted in a variety of ways (dependant upon the type of mistake).
 
-![](static/screen_procurement_form_save_failed.png)
+![](static/docs/user_manual/screen_procurement_form_save_failed.png)
 
 There will be the general error message at the top of the page content area (in this example counting one error).
 
-![](static/screen_procurement_form_save_failed_dob.png)
+![](static/docs/user_manual/screen_procurement_form_save_failed_dob.png)
 
 When the answer relates to a specific field, it may be highlighted directly with advice given below it (such as in the Date of Birth example above).
 
-![](static/screen_procurement_form_save_failed_extrainfo.png)
+![](static/docs/user_manual/screen_procurement_form_save_failed_extrainfo.png)
 
 And it is possible to have multiple mistakes highlighted on save, in which case you may see an error count in the tabs affected, as well as help messages above the forms.
 
@@ -129,7 +129,7 @@ The system is currently focussed on the WP4 trial. There are two key sections: P
 
 ### Procurement
 
-![Procurement screenhot showing an emtpy listing](static/screen_procurement_empty.png)
+![Procurement screenhot showing an emtpy listing](static/docs/user_manual/screen_procurement_empty.png)
 
 When you first start and click on Procurement (*Procurement Files* on the *Home* page, or `WP4:Compare -> Procurement` in the Navbar) you are likely to see an empty screen similar to above. On the left would be a list of cases you are currently working on (Open Cases). On the right is a small form to start off a New Case.
 
@@ -163,7 +163,7 @@ If you have a case currently on the go as a Technician, you should see it displa
 
 In this example, we have started a case as *Example Technician 1*, with the retrieval team from *Royal London Hospital, UK*. The donor is *Female*, and *54 years old*. We have confirmed that we are working *Online* presently.
 
-![Screenshot of Procurement form for Case DO026](static/screen_procurement_form_case26_1.png)
+![Screenshot of Procurement form for Case DO026](static/docs/user_manual/screen_procurement_form_case26_1.png)
 
 Four key areas to point out in this initial screen view of the case:
 
@@ -207,7 +207,7 @@ The Left and Right Kidney tabs are essentially identical (apart from their colou
 
 If you feel you have completed all the information you can gather for the case, the last step is to select Form Completed -> Yes, and then click on the updated Save and Close button on the Action Bar.
 
-![](static/screen_procurement_form_save_and_close.png)
+![](static/docs/user_manual/screen_procurement_form_save_and_close.png)
 
 Closing the form (assuming no errors are detected) will lock the form from further editing by non-Admin users. If you do discover further information or errors, please contact the COPE Admin team.
 
@@ -217,23 +217,23 @@ A key function of this system is to tell you how to set up the transport of the 
 
 For example, clicking on `Left Kidney transplantable`, will result in...
 
-![](static/screen_procurement_form_randomise_leftkidney.png)
+![](static/docs/user_manual/screen_procurement_form_randomise_leftkidney.png)
 
 ... the Left Kidney tab being selected, and the Transplantable? question being highlighted with orange pulses. Similarly, clicking on `Two separate recipients` will result in...
 
-![](static/screen_procurement_form_randomise_recipients.png)
+![](static/docs/user_manual/screen_procurement_form_randomise_recipients.png)
 
 ... the Donor tab being selected, and the Multiple Recipients question at the bottom of the Procedure Data group being highlighted with orange pulses.
 
 Selecting the relevant answers on these questions will result in the checklist row turning green (and the thumb down icon on the right turning into a thumb up), and if all five thumbs are up, the Save button on the Action Bar will change to Save and Randomise.
 
-![](static/screen_procurement_form_save_and_randomise.png)
+![](static/docs/user_manual/screen_procurement_form_save_and_randomise.png)
 
 **Note:** It is still possible for the save to be stalled by errors in the form, so please check the feedback messages after pressing the button!
 
 After a successful save, you should now see messsages and changes such as the following:
 
-![](static/screen_procurement_form_save_and_randomise_success.png)
+![](static/docs/user_manual/screen_procurement_form_save_and_randomise_success.png)
 
 * Form has been successfully saved
 * This case has been randomised! Preservation results: Left=HMP and Right=HMP O2
@@ -250,13 +250,13 @@ We want you to record these changes of data as they happen. Even if you've done 
 
 ### Transplantation
 
-![](static/screen_transplantation_empty.png)
+![](static/docs/user_manual/screen_transplantation_empty.png)
 
 Following procurement of a kidney, the next stage of recording is picked up by the Transplant Technician assigned to the Recipient location. Organs that have been procured, but not yet assigned to recipients will appear on the right side of the Tranplantation listing screen (see above), and can be identified by their Trial ID. Cases that you are currently working on will appear in the listing on the left hand side of the Page Content area.
 
 Let's look at the next stage of the Left Kidney that was procured earlier in this manual. Clicking on case WP421001L will allow us to allocate the kidney to a location.
 
-![](static/screen_transplantation_allocation_1.png)
+![](static/docs/user_manual/screen_transplantation_allocation_1.png)
 
 Again, if you are a Technician, you will see your name appear as the answer to Name of TT Attending under Allocation Round 1. This can be changed for another technician by following the instructions for a Typeahead Field.
 
@@ -264,11 +264,11 @@ The key activity here is to track the allocation for the organ, and any subseque
 
 Answering Yes and clicking Save will result in another Allocation Round appearing, as shown below:
 
-![](static/screen_transplantation_allocation_2.png)
+![](static/docs/user_manual/screen_transplantation_allocation_2.png)
 
 Once there are no more re-allocations, clicking save will result in the Recipient Form appearing for completion.
 
-![](static/screen_transplantation_allocation_3.png)
+![](static/docs/user_manual/screen_transplantation_allocation_3.png)
 
 This fairly small form contains sections on:
 
@@ -277,29 +277,29 @@ This fairly small form contains sections on:
 * Peri-Operative data - reporting on what happens for the implantation
 * Cleaning Log - the todo list for finishing off
 
-![](static/screen_transplantation_recipient.png)
+![](static/docs/user_manual/screen_transplantation_recipient.png)
 
 ### Sample Collection and Recording
 
 At the end of the Transplantation:Recipient form (seen above) you can see a section marked Samples, and similarly, on the Transplant:Samples tab:
 
-![](static/screen_procurement_form_samples.png)
+![](static/docs/user_manual/screen_procurement_form_samples.png)
 
 Following the warning advice to save before clicking, clicking on the `Goto Samples Worksheet` button will take you into the Samples data collection system.
 
 We anticipate that various people will be involved in recording sample data, and those users may not be the technicians involved in the procurement of the sample - for example, Perfusate 1 and 2 from the Donor Procurement proceedure are likely to be recorded by the recieving technician, and consequently, those samples are logged on the Recipient Worksheet.
 
-![](static/screen_samples_worksheet.png)
+![](static/docs/user_manual/screen_samples_worksheet.png)
 
 The Samples Worksheet is a fairly long form with not a lot of questions being asked. Depending on whether this is a Donor or Recipient Worksheet, there will be a range of sections covering Perfusate, Urine, Blood, and Biopsy data. The first thing to record is the Barcode number for the Worksheet that will accompany the samples back to the lab.
 
-![](static/screen_samples_perfusate.png)
+![](static/docs/user_manual/screen_samples_perfusate.png)
 
 Each type of sample has a slightly different collection of data. Urine and Perfusate, for example, are single events that result in one sample, which needs to be processed in a centrifuge.
 
 The Notes field on each sample is to record any Deviations from procedure so that our Biobank project team can follow up accordingly.
 
-![](static/screen_samples_blood.png)
+![](static/docs/user_manual/screen_samples_blood.png)
 
 Blood and Biopsy sections result in two Samples from just one collection event, and again, will ask the relevant sub-questions.
 

@@ -5,7 +5,8 @@ from django.contrib import admin
 from django.conf.urls.i18n import i18n_patterns
 from django.conf import settings
 
-from wp4.views import error403, error404, error500, dashboard_index
+from wp4.views import error403, error404, error500
+from wp4.views import dashboard_index, dashboard_changelog, dashboard_usermanual
 from wp4 import urls as wp4_urls
 
 # if settings.DEBUG:
@@ -25,6 +26,8 @@ urlpatterns += i18n_patterns(
     url(r'^errors/404/$', error404, name='error_404'),
     url(r'^errors/500/$', error500, name='error_500'),
 
+    url(r'^changelog$', dashboard_changelog, name='changelog'),
+    url(r'^user-manual$', dashboard_usermanual, name='user_manual'),
     url(r'^$', dashboard_index, name='home'),
 )
 

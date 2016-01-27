@@ -1,0 +1,13 @@
+{% extends "base_site.html" %}
+{% load l10n i18n theme_tags %}
+
+{% block page_title %}Changelog{% endblock %}
+{% block page_header %}Changelog{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li class="active">Changelog</li>
+{% endblock %}
+
+{% block content %}
+    {{ document|markdownify|safe }}
+{% endblock %}
