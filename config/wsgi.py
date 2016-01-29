@@ -12,10 +12,13 @@ import sys
 
 from django.core.wsgi import get_wsgi_application
 
-# Determine location and therefore which settings to consult
-sys.stderr.write("DEBUG: getcwd=%s" % os.getcwd())
+LOCATION_FILE = 'location.env'
 
-with open('location.env', 'r') as location_file:
+# Determine location and therefore which settings to consult
+if os.getcwd() == '/home/cm13':
+    LOCATION_FILE = '/home/cm13/webapps/wp4_django/COPE/' + LOCATION_FILE
+
+with open(LOCATION_FILE, 'r') as location_file:
     environment_string = location_file.read().replace('\n', '')
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings." + environment_string)
