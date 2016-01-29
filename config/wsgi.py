@@ -12,6 +12,7 @@ import os
 from django.core.wsgi import get_wsgi_application
 
 # Determine location and therefore which settings to consult
+print("DEBUG: getcwd=%s" % os.getcwd())
 with open('location.env', 'r') as location_file:
     environment_string = location_file.read().replace('\n', '')
 
