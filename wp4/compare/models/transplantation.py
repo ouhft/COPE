@@ -22,17 +22,20 @@ class OrganAllocation(VersionControlModel):
     REALLOCATION_CHOICES = (
         (REALLOCATION_CROSSMATCH, _('OAc01 Positive crossmatch')),
         (REALLOCATION_UNKNOWN, _('OAc02 Unknown')),
-        (REALLOCATION_OTHER, _('OAc03 Other')))
+        (REALLOCATION_OTHER, _('OAc03 Other'))
+    )
     perfusion_technician = models.ForeignKey(
         StaffPerson,
         verbose_name=_('OA01 name of transplant technician'),
         limit_choices_to={"jobs": StaffJob.PERFUSION_TECHNICIAN},
         related_name="recipient_perfusion_technician_set",
-        blank=True, null=True)
+        blank=True, null=True
+    )
     call_received = models.DateTimeField(
         verbose_name=_('OA02 call received from transplant co-ordinator at'),
         blank=True, null=True,
-        validators=[validate_between_1900_2050, validate_not_in_future])
+        validators=[validate_between_1900_2050, validate_not_in_future]
+    )
     call_received_unknown = models.BooleanField(default=False)  # Internal flag
     transplant_hospital = models.ForeignKey(Hospital, verbose_name=_('OA03 transplant hospital'), blank=True, null=True)
     theatre_contact = models.ForeignKey(
@@ -40,31 +43,39 @@ class OrganAllocation(VersionControlModel):
         verbose_name=_('OA04 name of the theatre contact'),
         limit_choices_to={"jobs": StaffJob.THEATRE_CONTACT},
         related_name="recipient_transplant_coordinator_set",
-        blank=True, null=True)
-    scheduled_start = models.DateTimeField(verbose_name=_('OA05 scheduled start'), blank=True, null=True,
-                                           validators=[validate_between_1900_2050])
+        blank=True, null=True
+    )
+    scheduled_start = models.DateTimeField(
+        verbose_name=_('OA05 scheduled start'),
+        blank=True, null=True,
+        validators=[validate_between_1900_2050]
+    )
     scheduled_start_unknown = models.BooleanField(default=False)  # Internal flag
     technician_arrival = models.DateTimeField(
         verbose_name=_('OA06 arrival time at hub'),
         blank=True, null=True,
-        validators=[validate_between_1900_2050, validate_not_in_future])
+        validators=[validate_between_1900_2050, validate_not_in_future]
+    )
     technician_arrival_unknown = models.BooleanField(default=False)  # Internal flag
     depart_perfusion_centre = models.DateTimeField(
         verbose_name=_('OA07 departure from hub'),
         blank=True, null=True,
-        validators=[validate_between_1900_2050, validate_not_in_future])
+        validators=[validate_between_1900_2050, validate_not_in_future]
+    )
     depart_perfusion_centre_unknown = models.BooleanField(default=False)  # Internal flag
     arrival_at_recipient_hospital = models.DateTimeField(
         verbose_name=_('OA08 arrival at transplant hospital'),
         blank=True, null=True,
-        validators=[validate_between_1900_2050, validate_not_in_future])
+        validators=[validate_between_1900_2050, validate_not_in_future]
+    )
     arrival_at_recipient_hospital_unknown = models.BooleanField(default=False)  # Internal flag
     journey_remarks = models.TextField(verbose_name=_("OA09 journey notes"), blank=True)
     reallocated = models.NullBooleanField(verbose_name=_("OA10 reallocated"), blank=True, default=None)
     reallocation_reason = models.PositiveSmallIntegerField(
         verbose_name=_('OA11 reason for re-allocation'),
         choices=REALLOCATION_CHOICES,
-        blank=True, null=True)
+        blank=True, null=True
+    )
     reallocation_reason_other = models.CharField(verbose_name=_('OA12 other reason'), max_length=250, blank=True)
     reallocation = models.OneToOneField('OrganAllocation', default=None, blank=True, null=True)
 
@@ -109,9 +120,11 @@ class Recipient(VersionControlModel):
 
     # Trial signoffs
     signed_consent = models.NullBooleanField(
-        verbose_name=_("RE13 informed consent given"), blank=True, default=None)
+        verbose_name=_("RE13 informed consent given"), blank=True, default=None
+    )
     single_kidney_transplant = models.NullBooleanField(
-        verbose_name=_("RE14 receiving one kidney"), blank=True, default=None)
+        verbose_name=_("RE14 receiving one kidney"), blank=True, default=None
+    )
 
     # Recipient details (in addition to OrganPerson)
     RENAL_DISEASE_CHOICES = (
@@ -125,38 +138,50 @@ class Recipient(VersionControlModel):
         (8, _('REc11 congenital rare disorders')),
         (9, _('REc12 renovascular and other diseases')),
         (10, _('REc13 neoplasms')),
-        (11, _('REc14 other')),)
+        (11, _('REc14 other'))
+    )
     renal_disease = models.PositiveSmallIntegerField(
         verbose_name=_('RE15 renal disease'),
         choices=RENAL_DISEASE_CHOICES,
-        blank=True, null=True)
+        blank=True, null=True
+    )
     renal_disease_other = models.CharField(verbose_name=_('RE16 other renal disease'), max_length=250, blank=True)
     pre_transplant_diuresis = models.PositiveSmallIntegerField(
         verbose_name=_('RE17 diuresis (ml/24hr)'),
-        blank=True, null=True)
+        blank=True, null=True
+    )
 
     # Peri-operative data
     INCISION_CHOICES = (
         (1, _('REc15 midline laparotomy')),
         (2, _('REc16 hockey stick')),
-        (3, _('REc17 unknown')))
+        (3, _('REc17 unknown'))
+    )
     ARTERIAL_PROBLEM_CHOICES = (
         (1, _('REc18 None')),
         (2, _('REc19 ligated polar artery')),
         (3, _('REc20 reconstructed polar artery')),
         (4, _('REc21 repaired intima dissection')),
-        (5, _('REc22 other')))
+        (5, _('REc22 other'))
+    )
     VENOUS_PROBLEM_CHOICES = (
         (1, _('REc23 none')),
         (2, _('REc24 laceration')),
         (3, _('REc25 elongation plasty')),
-        (4, _('REc26 other')))
-    knife_to_skin = models.DateTimeField(verbose_name=_('RE18 knife to skin time'), blank=True, null=True,
-                                         validators=[validate_between_1900_2050, validate_not_in_future])
+        (4, _('REc26 other'))
+    )
+    knife_to_skin = models.DateTimeField(
+        verbose_name=_('RE18 knife to skin time'),
+        blank=True, null=True,
+        validators=[validate_between_1900_2050, validate_not_in_future]
+    )
     perfusate_measure = models.FloatField(verbose_name=_('RE19 pO2 perfusate'), blank=True, null=True)
     # TODO: Check the value range for perfusate_measure
-    perfusion_stopped = models.DateTimeField(verbose_name=_('RE20 stop machine perfusion'), blank=True, null=True,
-                                             validators=[validate_between_1900_2050, validate_not_in_future])
+    perfusion_stopped = models.DateTimeField(
+        verbose_name=_('RE20 stop machine perfusion'),
+        blank=True, null=True,
+        validators=[validate_between_1900_2050, validate_not_in_future]
+    )
     organ_cold_stored = models.BooleanField(verbose_name=_('RE21 kidney was cold stored?'), default=False)
     tape_broken = models.NullBooleanField(verbose_name=_('RE22 tape over regulator broken'), blank=True, null=True)
     removed_from_machine_at = models.DateTimeField(
@@ -171,58 +196,90 @@ class Recipient(VersionControlModel):
     organ_untransplantable_reason = models.CharField(
         verbose_name=_('RE26 untransplantable because'),
         max_length=250,
-        blank=True)
-    anesthesia_started_at = models.DateTimeField(verbose_name=_('RE27 start anesthesia at'), blank=True, null=True,
-                                                 validators=[validate_between_1900_2050, validate_not_in_future])
+        blank=True
+    )
+    anesthesia_started_at = models.DateTimeField(
+        verbose_name=_('RE27 start anesthesia at'),
+        blank=True, null=True,
+        validators=[validate_between_1900_2050, validate_not_in_future]
+    )
     incision = models.PositiveSmallIntegerField(
         verbose_name=_('RE28 incision'),
         choices=INCISION_CHOICES,
-        blank=True, null=True)
-    transplant_side = models.CharField(verbose_name=_('RE29 transplant side'), max_length=1, choices=LOCATION_CHOICES,
-                                       blank=True)
+        blank=True, null=True
+    )
+    transplant_side = models.CharField(
+        verbose_name=_('RE29 transplant side'),
+        max_length=1,
+        choices=LOCATION_CHOICES,
+        blank=True
+    )
     arterial_problems = models.PositiveSmallIntegerField(
         verbose_name=_('RE30 arterial problems'),
         choices=ARTERIAL_PROBLEM_CHOICES,
-        blank=True, null=True)
-    arterial_problems_other = models.CharField(verbose_name=_('RE31 arterial problems other'), max_length=250,
-                                               blank=True)
+        blank=True, null=True
+    )
+    arterial_problems_other = models.CharField(
+        verbose_name=_('RE31 arterial problems other'),
+        max_length=250,
+        blank=True
+    )
     venous_problems = models.PositiveSmallIntegerField(
         verbose_name=_('RE32 venous problems'),
         choices=VENOUS_PROBLEM_CHOICES,
-        blank=True, null=True)
+        blank=True, null=True
+    )
     venous_problems_other = models.CharField(verbose_name=_('RE33 venous problems other'), max_length=250, blank=True)
-    anastomosis_started_at = models.DateTimeField(verbose_name=_('RE34 start anastomosis at'), blank=True, null=True,
-                                                  validators=[validate_between_1900_2050, validate_not_in_future])
+    anastomosis_started_at = models.DateTimeField(
+        verbose_name=_('RE34 start anastomosis at'),
+        blank=True, null=True,
+        validators=[validate_between_1900_2050, validate_not_in_future]
+    )
     anastomosis_started_at_unknown = models.BooleanField(default=False)  # Internal flag
-    reperfusion_started_at = models.DateTimeField(verbose_name=_('RE35 start reperfusion at'), blank=True, null=True,
-                                                  validators=[validate_between_1900_2050, validate_not_in_future])
+    reperfusion_started_at = models.DateTimeField(
+        verbose_name=_('RE35 start reperfusion at'),
+        blank=True, null=True,
+        validators=[validate_between_1900_2050, validate_not_in_future]
+    )
     reperfusion_started_at_unknown = models.BooleanField(default=False)  # Internal flag
     mannitol_used = models.PositiveSmallIntegerField(
         verbose_name=_('RE36 mannitol used'),
         choices=YES_NO_UNKNOWN_CHOICES,
-        blank=True, null=True)
+        blank=True, null=True
+    )
     other_diurectics = models.PositiveSmallIntegerField(
         verbose_name=_('RE37 other diurectics used'),
         choices=YES_NO_UNKNOWN_CHOICES,
-        blank=True, null=True)
-    other_diurectics_details = models.CharField(verbose_name=_('RE38 other diurectics detail'), max_length=250,
-                                                blank=True)
+        blank=True, null=True
+    )
+    other_diurectics_details = models.CharField(
+        verbose_name=_('RE38 other diurectics detail'),
+        max_length=250,
+        blank=True
+    )
     systolic_blood_pressure = models.PositiveSmallIntegerField(
         verbose_name=_('RE39 systolic blood pressure at reperfusion'),
         validators=[MinValueValidator(10), MaxValueValidator(200)],
-        blank=True, null=True)
+        blank=True, null=True
+    )
     cvp = models.PositiveSmallIntegerField(verbose_name=_('RE40 cvp at reperfusion'), blank=True, null=True)
     intra_operative_diuresis = models.PositiveSmallIntegerField(
         verbose_name=_('RE41 intra-operative diuresis'),
         choices=YES_NO_UNKNOWN_CHOICES,
-        blank=True, null=True)
+        blank=True, null=True
+    )
     successful_conclusion = models.BooleanField(verbose_name=_("RE42 successful conclusion"), default=False)
-    operation_concluded_at = models.DateTimeField(verbose_name=_("RE43 operation concluded at"), null=True, blank=True,
-                                                  validators=[validate_between_1900_2050, validate_not_in_future])
+    operation_concluded_at = models.DateTimeField(
+        verbose_name=_("RE43 operation concluded at"),
+        null=True, blank=True,
+        validators=[validate_between_1900_2050, validate_not_in_future]
+    )
 
     # Machine cleanup record
-    probe_cleaned = models.NullBooleanField(verbose_name=_('RE44 temperature and flow probe cleaned'), blank=True,
-                                            null=True)
+    probe_cleaned = models.NullBooleanField(
+        verbose_name=_('RE44 temperature and flow probe cleaned'),
+        blank=True, null=True
+    )
     ice_removed = models.NullBooleanField(verbose_name=_('RE45 ice and water removed'), blank=True, null=True)
     oxygen_flow_stopped = models.NullBooleanField(verbose_name=_('RE46 oxygen flow stopped'), blank=True, null=True)
     oxygen_bottle_removed = models.NullBooleanField(verbose_name=_('RE47 oxygen bottle removed'), blank=True, null=True)

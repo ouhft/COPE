@@ -18,7 +18,9 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
     location = models.CharField(
         verbose_name=_('OR01 kidney location'),
         max_length=1,
-        choices=LOCATION_CHOICES)
+        choices=LOCATION_CHOICES
+    )
+    allocated = models.BooleanField(verbose_name=_("DO51 Has this kidney been allocated?"), default=False)
     admin_notes = models.TextField(verbose_name=_("DO50 Admin notes"), blank=True)
 
     # Inspection data
@@ -34,7 +36,8 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
         (GRAFT_DAMAGE_VENOUS, _("ORc03 Venous Damage")),
         (GRAFT_DAMAGE_URETERAL, _("ORc04 Ureteral Damage")),
         (GRAFT_DAMAGE_PARENCHYMAL, _("ORc05 Parenchymal Damage")),
-        (GRAFT_DAMAGE_OTHER, _("ORc06 Other Damage")))
+        (GRAFT_DAMAGE_OTHER, _("ORc06 Other Damage"))
+    )
 
     WASHOUT_PERFUSION_HOMEGENOUS = 1
     WASHOUT_PERFUSION_PATCHY = 2
@@ -45,28 +48,37 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
         (WASHOUT_PERFUSION_HOMEGENOUS, _("ORc07 Homogenous")),
         (WASHOUT_PERFUSION_PATCHY, _("ORc08 Patchy")),
         (WASHOUT_PERFUSION_BLUE, _("ORc09 Blue")),
-        (WASHOUT_PERFUSION_UNKNOWN, _("ORc10 Unknown")))
+        (WASHOUT_PERFUSION_UNKNOWN, _("ORc10 Unknown"))
+    )
 
-    removal = models.DateTimeField(verbose_name=_('OR02 time out'), blank=True, null=True,
-                                   validators=[validate_between_1900_2050, validate_not_in_future])
+    removal = models.DateTimeField(
+        verbose_name=_('OR02 time out'),
+        blank=True,
+        null=True,
+        validators=[validate_between_1900_2050, validate_not_in_future]
+    )
     renal_arteries = models.PositiveSmallIntegerField(
         verbose_name=_('OR03 number of renal arteries'),
         blank=True, null=True,
-        validators=[MinValueValidator(0), MaxValueValidator(5)])
+        validators=[MinValueValidator(0), MaxValueValidator(5)]
+    )
     graft_damage = models.PositiveSmallIntegerField(
         verbose_name=_('OR04 renal graft damage'),
         choices=GRAFT_DAMAGE_CHOICES,
-        default=GRAFT_DAMAGE_NONE)
+        default=GRAFT_DAMAGE_NONE
+    )
     graft_damage_other = models.CharField(verbose_name=_('OR05 other damage done'), max_length=250, blank=True)
     washout_perfusion = models.PositiveSmallIntegerField(
         verbose_name=_('OR06 perfusion characteristics'),
         choices=WASHOUT_PERFUSION_CHOICES,
-        blank=True, null=True)
+        blank=True, null=True
+    )
     transplantable = models.NullBooleanField(verbose_name=_('OR07 is transplantable'), blank=True, null=True)
     not_transplantable_reason = models.CharField(
         verbose_name=_('OR08 not transplantable because'),
         max_length=250,
-        blank=True)
+        blank=True
+    )
 
     # Randomisation data
     # can_donate = models.BooleanField('Donor is eligible as DCD III and > 50 years old') -- donor info!
@@ -159,14 +171,14 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
 
     def is_allocated(self):
         for allocation in self.organallocation_set.all():
-            if allocation.reallocated == False and self.recipient.allocation is not None:
+            if allocation.reallocated is False and self.recipient.allocation is not None:
                 return True
         return False
 
     def reallocation_count(self):
         count = 0
         for allocation in self.organallocation_set.all():
-            if allocation.reallocated == True:
+            if allocation.reallocated is True:
                 count += 1
         return count
 
