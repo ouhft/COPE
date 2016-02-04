@@ -13,6 +13,43 @@ from .core import LOCATION_CHOICES, PRESERVATION_CHOICES, PRESERVATION_NOT_SET
 from .donor import Donor
 
 
+class ClosedOrganManager(models.Manager):
+    """
+    Get only the Organs that have had completed outcomes. These are:
+    - Organ.not_allocated_reason has a value
+    - Recipient.form_completed is True
+    But wait, what about if the Organ is allocated to a non project site hospital, doesn't that also
+    close the case? Yes, yes it does, and we can more trivially cover this by writing a message into
+    not_allocated_reason of $MESSAGE$
+    """
+    def get_queryset(self):
+        return super(ClosedOrganManager, self).get_queryset().filter(
+            models.Q(not_allocated_reason__gt='') |
+            models.Q(recipient__form_completed=True)
+        )
+
+
+class AllocatableOrganManager(models.Manager):
+    """
+    Get only the Organs that are available for allocation, which means they're Unallocated (not
+    deliberately), Randomised, and still Transplantable (but not necessarily a completed P form).
+    """
+    def get_queryset(self):
+        return super(AllocatableOrganManager, self).get_queryset().filter(
+            organallocation__isnull=True, transplantable=True
+        ).exclude(preservation=PRESERVATION_NOT_SET).exclude(not_allocated_reason__gt='')
+
+
+class OpenOrganManager(models.Manager):
+    """
+    Get only the Organs that are open for transplantation, which means they've one or more allocations,
+    and have not had their form closed (either by allocation outside of project area, or completed form).
+    """
+    def get_queryset(self):
+        return super(OpenOrganManager, self).get_queryset().\
+            filter(organallocation__isnull=False).\
+            exclude(not_allocated_reason__gt='')
+
 class Organ(VersionControlModel):  # Or specifically, a Kidney
     donor = models.ForeignKey(Donor)  # Internal value
     location = models.CharField(
@@ -20,7 +57,11 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
         max_length=1,
         choices=LOCATION_CHOICES
     )
-    allocated = models.BooleanField(verbose_name=_("DO51 Has this kidney been allocated?"), default=False)
+    not_allocated_reason = models.CharField(
+        verbose_name=_('OR31 not transplantable because'),
+        max_length=250,
+        blank=True
+    )
     admin_notes = models.TextField(verbose_name=_("DO50 Admin notes"), blank=True)
 
     # Inspection data
@@ -146,6 +187,12 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
     perfusion_machine = models.ForeignKey(PerfusionMachine, verbose_name=_('OR24 perfusion machine'), blank=True,
                                           null=True)
     perfusion_file = models.ForeignKey(PerfusionFile, verbose_name=_('OR25 machine file'), blank=True, null=True)
+
+    # Commonly filtered options
+    objects = models.Manager()
+    allocatable_objects = AllocatableOrganManager()
+    open_objects = OpenOrganManager()
+    closed_objects = ClosedOrganManager()
 
     def clean(self):
         # Clean the fields that at Not Known

@@ -60,14 +60,19 @@ class VersionControlModel(models.Model):
     created_by = models.ForeignKey(User)
     record_locked = models.BooleanField(default=False)
 
-    # TODO: Add save method here that aborts saving if record_locked is already true
     # NB: Used in Samples and FollowUp Apps too
     class Meta:
         abstract = True
 
-    def save(self, force_insert=False, force_update=False, using=None,
+    def save(self, created_by=None, force_insert=False, force_update=False, using=None,
              update_fields=None):
         self.created_on = timezone.now()
+        if created_by:
+            self.created_by = created_by
+        if not self.created_by:
+            raise Exception("%s Record does not have created_by set" % type(self).__name__)
+        if self.record_locked:
+            raise Exception("%s Record is locked, and can not be saved" % type(self).__name__)
         self.version += 1
         return super(VersionControlModel, self).save(force_insert, force_update, using, update_fields)
 

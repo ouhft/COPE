@@ -13,17 +13,29 @@
 
     <h3>Actions available</h3>
     <ul class="list-group">
-        <a href="{% url 'wp4:compare:procurement_list' %}" class="list-group-item">Procurement Forms</a>
-        <a href="{% url 'wp4:compare:transplantation_list' %}" class="list-group-item">Transplantation Forms</a>
-        <a href="{% url 'wp4:samples:home' %}" class="list-group-item">Sample Collection</a>
-        <a href="{% url 'wp4:followup:index' %}" class="list-group-item">Follow Up Forms</a>
-{#        <a href="{% url 'wp4:adverse_event:list' %}" class="list-group-item">Adverse Event Forms</a>#}
+        <li class="list-group-item list-group-item-info">WP4: Home</li>
+        {% if perms.compare.add_donor %}
+            <a href="{% url 'wp4:compare:procurement_list' %}" class="list-group-item">Procurement Forms</a>
+        {% endif %}
+        {% if perms.compare.add_recipient %}
+            <a href="{% url 'wp4:compare:transplantation_list' %}" class="list-group-item">Transplantation
+                Forms</a>
+        {% endif %}
+        {% if perms.samples.change_worksheet %}
+            <a href="{% url 'wp4:samples:home' %}" class="list-group-item">Sample Collection</a>
+        {% endif %}
+        {% if perms.followup.change_intial %}
+            <a href="{% url 'wp4:followup:index' %}" class="list-group-item">Follow Up Forms</a>
+        {% endif %}
+        {#        <a href="{% url 'wp4:adverse_event:list' %}" class="list-group-item">Adverse Event Forms</a>#}
     </ul>
 
-    <h3>Administrator Functions</h3>
-    <ul class="list-group">
-        <a href="{% url 'wp4:admin_europe_list' %}" class="list-group-item">Europe OFFLINE list</a>
-        <a href="{% url 'wp4:admin_uk_list' %}" class="list-group-item">United Kingdom OFFLINE list</a>
-        <a href="{% url 'wp4:admin_index' %}" class="list-group-item list-group-item-info">Administration Home</a>
-    </ul>
+    {% if user.is_staff %}
+        <h3>Administrator Functions</h3>
+        <ul class="list-group">
+            <a href="{% url 'wp4:admin_europe_list' %}" class="list-group-item">Europe OFFLINE list</a>
+            <a href="{% url 'wp4:admin_uk_list' %}" class="list-group-item">United Kingdom OFFLINE list</a>
+            <a href="{% url 'wp4:admin_index' %}" class="list-group-item list-group-item-info">Administration Home</a>
+        </ul>
+    {% endif %}
 {% endblock %}

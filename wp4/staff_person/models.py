@@ -40,13 +40,21 @@ class StaffPerson(VersionControlModel):
         message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed."
     )
 
-    user = models.OneToOneField(User, verbose_name=_("PE14 related user account"), blank=True, null=True,
-                                related_name="profile")
+    user = models.OneToOneField(
+        User,
+        verbose_name=_("PE14 related user account"),
+        blank=True, null=True,
+        related_name="profile"
+    )
     first_names = models.CharField(verbose_name=_("PE10 first names"), max_length=50)
     last_names = models.CharField(verbose_name=_("PE11 last names"), max_length=50)
     jobs = models.ManyToManyField(StaffJob, verbose_name=_("PE12 jobs"))
-    telephone = models.CharField(verbose_name=_("PE13 telephone number"), validators=[phone_regex],
-                                 max_length=15, blank=True)
+    telephone = models.CharField(
+        verbose_name=_("PE13 telephone number"),
+        validators=[phone_regex],
+        max_length=15,
+        blank=True
+    )
     email = models.EmailField(verbose_name=_("PE15 email"), blank=True)
     based_at = models.ForeignKey(Hospital, blank=True, null=True)
 

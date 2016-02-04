@@ -8,10 +8,14 @@
     <div class="row">
         <div class="col-md-4">
             <h2>System News and Information</h2>
-            <p>For the latest changes, view the <a href="{% url 'changelog' %}">Changelog</a></p>
+            {% if user.is_authenticated %}
+                <p>For the latest changes, view the <a href="{% url 'changelog' %}">Changelog</a></p>
+            {% endif %}
             <p class="alert alert-warning" role="alert">
-                <a href="{% url 'user_manual' %}" class="alert-link"><i class="glyphicon glyphicon-search"></i> View the User Manual</a> here, <br>
-                or <a href="{% static 'docs/user_manual_v0-4-5.pdf' %}" class="alert-link"><i class="glyphicon glyphicon-download"></i> Download a copy</a> of it.
+                <a href="{% url 'user_manual' %}" class="alert-link"><i class="glyphicon glyphicon-search"></i> View the
+                    User Manual</a> here, <br>
+                or <a href="{% static 'docs/user_manual_v0-4-5.pdf' %}" class="alert-link"><i
+                    class="glyphicon glyphicon-download"></i> Download a copy</a> of it.
             </p>
         </div>
         <div class="col-md-4">
@@ -19,11 +23,22 @@
             <p>This section supports activities on Work Package 4: Compare (WP4) which is a Kidney preservation trial.
 
             <ul class="list-group">
-                <a href="{% url 'wp4:index' %}" class="list-group-item list-group-item-info">WP4: Home</a>
-                <a href="{% url 'wp4:compare:procurement_list' %}" class="list-group-item">Procurement Forms</a>
-                <a href="{% url 'wp4:compare:transplantation_list' %}" class="list-group-item">Transplantation Forms</a>
-                <a href="{% url 'wp4:samples:home' %}" class="list-group-item">Sample Collection</a>
-                <a href="{% url 'wp4:followup:index' %}" class="list-group-item">Follow Ups Forms</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'wp4:index' %}" class="list-group-item list-group-item-info">WP4: Home</a>
+                {% endif %}
+                {% if perms.compare.add_donor %}
+                    <a href="{% url 'wp4:compare:procurement_list' %}" class="list-group-item">Procurement Forms</a>
+                {% endif %}
+                {% if perms.compare.add_recipient %}
+                    <a href="{% url 'wp4:compare:transplantation_list' %}" class="list-group-item">Transplantation
+                        Forms</a>
+                {% endif %}
+                {% if perms.samples.change_worksheet %}
+                    <a href="{% url 'wp4:samples:home' %}" class="list-group-item">Sample Collection</a>
+                {% endif %}
+                {% if perms.followup.change_intial %}
+                    <a href="{% url 'wp4:followup:index' %}" class="list-group-item">Follow Up Forms</a>
+                {% endif %}
                 {#        <a href="{% url 'wp4:adverse_event:list' %}" class="list-group-item">Adverse Event Forms</a>#}
             </ul>
         </div>
