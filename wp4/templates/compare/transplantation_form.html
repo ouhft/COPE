@@ -35,11 +35,13 @@
                  aria-labelledby="collapseListGroupHeading1"
                  aria-expanded="true" style="">
                 <ul class="list-group" id="eligibility-list">
-                    <li class="list-group-item list-group-item-danger" id="randomise-left-kidney">
+                    {% with organ.recipient.allocation.transplant_hospital.is_project_site as PROJECT_SITE %}
+                    <li class="list-group-item {% if PROJECT_SITE %}list-group-item-success{% else %}list-group-item-danger{% endif %}" id="eligible-project-site">
                         <a href="javascript:highlightTransplantableField(true)">Allocated to a Project Site
                             <span class="glyphicon glyphicon-circle-arrow-right"></span></a>
-                        <span class="badge"><i class="glyphicon glyphicon-thumbs-down"></i></span>
+                        <span class="badge"><i class="glyphicon {% if PROJECT_SITE %}glyphicon-thumbs-up{% else %}glyphicon-thumbs-down{% endif %}"></i></span>
                     </li>
+                    {% endwith %}
                     <li class="list-group-item list-group-item-danger" id="randomise-right-kidney">
                         <a href="javascript:highlightTransplantableField()">Single Kidney Transplantation Operation
                             <span class="glyphicon glyphicon-circle-arrow-right"></span></a>
@@ -61,15 +63,13 @@
 
         <div class="panel panel-default">
             <div class="panel-heading">
-                Allocation Round {{ forloop.counter }}
+                Organ Allocation{{ allocation_formset|pluralize }}
             </div>
             <div class="panel-body">
-                <p>Ask about Allocation here</p>
-
-
                 {{ allocation_formset.management_form|crispy }}
                 {% for form in allocation_formset %}
                     <h3>{{ forloop.counter|ordinal }} Allocation</h3>
+                    <div class="row">
                     {{ form.id }}
                     {% for field in form %}
                         {% if field.errors %}
@@ -77,6 +77,7 @@
                         {% endif %}
                     {% endfor %}
                     {% crispy form form.helper %}
+                    </div>
                 {% endfor %}
             </div>
         </div>

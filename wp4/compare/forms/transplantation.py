@@ -17,6 +17,7 @@ from .core import NO_YES_CHOICES
 
 class AllocationForm(forms.ModelForm):
     perfusion_technician = ModelChoiceField('TechnicianAutoComplete')
+    allocation_confirmed = forms.BooleanField(required=False, initial=False)
 
     layout_reallocation = Layout(
         FieldWithFollowup(
@@ -30,6 +31,7 @@ class AllocationForm(forms.ModelForm):
     helper.html5_required = True
     helper.layout = Layout(
         'organ',
+        'allocation_confirmed',
         Div(
             Div(
                 'perfusion_technician',
@@ -83,6 +85,7 @@ class AllocationForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(AllocationForm, self).__init__(*args, **kwargs)
         self.fields['organ'].widget = forms.HiddenInput()
+        self.fields['allocation_confirmed'].widget = forms.HiddenInput()
         self.fields['perfusion_technician'].required = False
         self.fields['perfusion_technician'].label = OrganAllocation._meta.get_field(
             "perfusion_technician").verbose_name.title()
@@ -107,6 +110,15 @@ class AllocationForm(forms.ModelForm):
             'reallocation'
         ]
         localized_fields = "__all__"
+
+    def clean(self):
+        cleaned_data = super(AllocationForm, self).clean()
+        transplant_hospital = cleaned_data.get("transplant_hospital")
+        if transplant_hospital is not None and not transplant_hospital.is_project_site:
+            cleaned_data["allocation_confirmed"] = True
+        else:
+            cleaned_data["allocation_confirmed"] = False
+        return cleaned_data
 
     def save(self, user, *args, **kwargs):
         allocation_instance = super(AllocationForm, self).save(commit=False)

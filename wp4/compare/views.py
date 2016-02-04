@@ -329,7 +329,8 @@ def transplantation_form(request, pk=None):
     """
     # print("DEBUG: Got an organ pk of %s" % pk)
     organ = get_object_or_404(Organ, pk=int(pk))
-    if organ.not_allocated_reason is not None or not organ.not_allocated_reason == '':
+    # TODO: Consider making this a check against the list of all closed cases
+    if not organ.not_allocated_reason == '':
         messages.error(request, 'That case has been <strong>closed</strong>.')
         return redirect(reverse('wp4:compare:transplantation_list'))
 
@@ -383,9 +384,24 @@ def transplantation_form(request, pk=None):
             allocation = form.save(current_person.user)
 
             if i == last_form_index:
-                # If this is the latest Allocation and reallocation has occurred, create a new Allocation
-                if allocation.reallocated:
-                    # print("DEBUG: Do the reallocation thing!")
+                if not allocation.transplant_hospital.is_project_site:
+                    # If allocated to a non-project site, then we stop data collection
+                    print("DEBUG: allocation_confirmed= %s" % form.cleaned_data.get("allocation_confirmed"))
+                    if form.cleaned_data.get("allocation_confirmed"):
+                        organ.not_allocated_reason = "Allocated to a non-Project Site"
+                        organ.save(created_by=current_person.user)
+                        messages.success(request, 'Form has been <strong>successfully saved and closed</strong>')
+                        return redirect(reverse('wp4:compare:transplantation_list'))
+
+                    else:
+                        messages.warning(
+                            request,
+                            "Last allocation was to a non-project hospital. This form will be closed upon " +
+                            "the next save unless the transplant hospital is changed to a project site."
+                        )
+
+                elif allocation.reallocated:
+                    # If this is the latest Allocation and reallocation has occurred, create a new Allocation
                     new_allocation = OrganAllocation()
                     new_allocation.organ = organ
                     new_allocation.created_by = request.user
@@ -396,8 +412,8 @@ def transplantation_form(request, pk=None):
                     allocation.reallocation = new_allocation
                     allocation.save()
 
-                # For a new set of objects, remember to create the Person for the Recipient first
                 elif allocation.reallocated is not None and not recipient_form_loaded:
+                    # For a new set of objects, remember to create the Person for the Recipient first
                     person = OrganPerson()
                     person.save(created_by=current_person.user)
 
