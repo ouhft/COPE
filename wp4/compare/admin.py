@@ -10,11 +10,7 @@ class VersionControlAdmin(CompareVersionAdmin):
     exclude = ('version', 'created_on', 'created_by', 'record_locked')
 
     def save_model(self, request, obj, form, change):
-        # TODO: this will have to respect the version control work later...
-        obj.created_by = request.user
-        obj.created_on = timezone.now()
-        obj.version += 1
-        obj.save()
+        obj.save(created_by=request.user)
 
 
 class RetrievalTeamAdmin(CompareVersionAdmin):
@@ -82,11 +78,11 @@ class ProcurementResourceInline(admin.TabularInline):
 
 
 class OrganAdmin(VersionControlAdmin):
-    list_display = ('__unicode__', 'location', 'transplantable', 'donor')
+    list_display = ('__unicode__', 'location', 'transplantable', 'donor', 'is_allocated')
     ordering = ('donor__id', 'location')
     fieldsets = [
         ('Context', {'fields': [
-            'donor', 'location', 'admin_notes'
+            'donor', 'location', 'admin_notes', 'not_allocated_reason'
         ]}),
         ('Inspection', {'fields': [
             'removal', 'renal_arteries', 'graft_damage', 'graft_damage_other', 'washout_perfusion', 'transplantable',

@@ -294,9 +294,10 @@ def transplantation_list(request):
     if current_person.has_job(
             (StaffJob.SYSTEMS_ADMINISTRATOR, StaffJob.CENTRAL_COORDINATOR, StaffJob.NATIONAL_COORDINATOR)
     ):
-        existing_cases = Organ.open_objects.order_by(
-            'donor__retrieval_team__centre_code', 'donor__sequence_number', 'location'
-        )
+        existing_cases = Organ.open_objects.all()
+            # order_by(
+            # 'donor__sequence_number', 'location'
+        # )
         closed_cases = Organ.closed_objects.all()
     elif current_person.has_job(StaffJob.PERFUSION_TECHNICIAN):
         existing_cases = Organ.open_objects.filter(recipient__allocation__perfusion_technician=current_person)
@@ -384,10 +385,26 @@ def transplantation_form(request, pk=None):
             allocation = form.save(current_person.user)
 
             if i == last_form_index:
-                if not allocation.transplant_hospital.is_project_site:
-                    # If allocated to a non-project site, then we stop data collection
-                    print("DEBUG: allocation_confirmed= %s" % form.cleaned_data.get("allocation_confirmed"))
-                    if form.cleaned_data.get("allocation_confirmed"):
+                if allocation.transplant_hospital and not allocation.transplant_hospital.is_project_site:
+                    # If allocated, and to a non-project site, then we stop data collection
+
+                    # Scan the messages to see if the warning is being displayed. This is being used
+                    # because trying to get a status set in a form element for the formset proved too
+                    # complicated, especially with the redirect that is triggered
+                    allocation_confirmed = False
+                    storage = messages.get_messages(request)
+                    for message in storage:
+                        if "Last allocation was to a non-project hospital" in message.messsage:
+                            allocation_confirmed = True
+                        print("DEBUG: message.messsage=%s" % message.messsage)
+                    storage.used = False
+
+
+                    THIS ISN'T WORKING!!!! Messages appear to be empty!?
+
+
+
+                    if allocation_confirmed:
                         organ.not_allocated_reason = "Allocated to a non-Project Site"
                         organ.save(created_by=current_person.user)
                         messages.success(request, 'Form has been <strong>successfully saved and closed</strong>')
@@ -427,7 +444,8 @@ def transplantation_form(request, pk=None):
                     create_recipient_worksheet(recipient, request.user)
 
         # There should be no errors when we redirect here
-        messages.success(request, 'Form has been <strong>successfully saved</strong>')
+        version_string = " Organ v:" + str(organ.version) if request.user.is_superuser else ""
+        messages.success(request, 'Form has been <strong>successfully saved</strong>' + version_string)
         return redirect(reverse('wp4:compare:transplantation_detail', kwargs={'pk': organ.id}))
     else:
         if request.POST:

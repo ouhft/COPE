@@ -35,6 +35,10 @@
                     {% for case in existing_cases %}
                         <tr>
                             <td>
+                                {% if perms.is_staff %}
+                                    <a href="{% url 'admin:compare_organ_change' case.id %}"><i
+                                            class="glyphicon glyphicon-briefcase"></i></a>
+                                {% endif %}
                                 <a href="{% url 'wp4:compare:transplantation_detail' case.id %}"
                                    class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i>
                                     {{ case.trial_id }}
@@ -97,6 +101,10 @@
                     {% for case in closed_cases %}
                         <tr>
                             <td>
+                                {% if perms.is_staff %}
+                                    <a href="{% url 'admin:compare_organ_change' case.id %}"><i
+                                            class="glyphicon glyphicon-briefcase"></i></a>
+                                {% endif %}
                                 {#                                <a href="{% url 'wp4:compare:transplantation_detail' case.id %}"#}
                                 {#                                   class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i>#}
                                 {{ case.trial_id }}

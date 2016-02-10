@@ -46,9 +46,9 @@ class OpenOrganManager(models.Manager):
     and have not had their form closed (either by allocation outside of project area, or completed form).
     """
     def get_queryset(self):
-        return super(OpenOrganManager, self).get_queryset().\
-            filter(organallocation__isnull=False).\
-            exclude(not_allocated_reason__gt='')
+        pks_to_exclude = [o.pk for o in Organ.allocatable_objects.all()]
+        return super(OpenOrganManager, self).get_queryset().exclude(not_allocated_reason__gt='').exclude( id__in=pks_to_exclude)
+
 
 class Organ(VersionControlModel):  # Or specifically, a Kidney
     donor = models.ForeignKey(Donor)  # Internal value
@@ -217,9 +217,10 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
         return self.donor.trial_id() + self.location
 
     def is_allocated(self):
-        for allocation in self.organallocation_set.all():
-            if allocation.reallocated is False and self.recipient.allocation is not None:
-                return True
+        if self.not_allocated_reason is None:
+            for allocation in self.organallocation_set.all():
+                if allocation.reallocated is False and self.recipient.allocation is not None:
+                    return True
         return False
 
     def reallocation_count(self):
