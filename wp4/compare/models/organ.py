@@ -27,7 +27,7 @@ class ClosedOrganManager(models.Manager):
         #     models.Q(not_allocated_reason__gt='') |
         #     models.Q(recipient__form_completed=True)
         # )
-        return super(ClosedOrganManager, self).get_queryset().exclude(
+        return super(ClosedOrganManager, self).get_queryset().filter(
             transplantation_form_completed=True
         )
 

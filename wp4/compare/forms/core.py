@@ -161,6 +161,7 @@ class AllocationStartForm(forms.Form):
     helper.html5_required = True
     helper.layout = Layout(
         'organ',
+        HTML("<p> " + str(Organ.allocatable_objects.count()) + " available organs</p>"),
         FieldWithFollowup(
             Field('allocated', template="bootstrap3/layout/radioselect-buttons.html"),
             'not_allocated_reason'

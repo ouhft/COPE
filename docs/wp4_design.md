@@ -6,7 +6,7 @@ Belatedly putting a few things down here for clarity:
 
 There are several key "forms" in the system, which are actually composed of a number of smaller forms (and occasionally formsets).
 
-### Procurement
+### Procurement (Compare app)
 Procurement hangs off of the *Donor* model, which means that this model also holds any form specific metadata (such as form_completed). 
 
 Each Procurement Form is started via `DonorStartForm`
@@ -23,10 +23,10 @@ Procurement Form structure:
     \-> Organ {0|2}  via OrganForm
         \-> ProcurementResources {7}  via ProcurementResource????InlineFormSet made of ProcurementResourceForm
 
-### Transplantation
-Transplantation hangs off of the *Organ* model. This is because neither *OrganAllocation*s, nor *Recipient* records can be guaranteed to exist for this form to be considered "closed". Consequently we need to record form metadata on the *Organ* record (rather than Recipient as originally intended).
+### Transplantation (Compare app)
+Transplantation hangs off of the *Organ* model. This is because neither *OrganAllocation*, nor *Recipient* records can be guaranteed to exist for this form to be considered "closed". Consequently we need to record form metadata on the *Organ* record (rather than Recipient as originally intended).
 
-Each Transplantation form is started via `AllocationStartForm`. This will create an initial *OrganAllocation* record which is what is displayed for the Transplantion form to start with.
+Each Transplantation Form is started via `AllocationStartForm`. This will create an initial *OrganAllocation* record which is what is displayed for the Transplantion form to start with.
 
 Tranplantation Form structure:
 
