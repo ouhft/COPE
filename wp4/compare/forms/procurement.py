@@ -135,14 +135,15 @@ class DonorForm(forms.ModelForm):
     layout_almost_complete = Layout(
         'not_randomised_because',
         'not_randomised_because_other',
-        HTML("<p class=\"text-danger\">Once all errors have been cleared, clicking Save And Close below will " +
-            "result in this form being closed and locked. No further edits will be possible without contacting " +
-            "the admin team.</p>"
+        HTML(
+            "<p class=\"text-danger\">Once all errors have been cleared, clicking Save And Close " +
+            "below will result in this form being closed and locked. No further edits will be possible " +
+            "without contacting the admin team.</p>"
         )
     )
     layout_complete = Layout(
         FieldWithFollowup(
-            Field('form_completed', template="bootstrap3/layout/radioselect-buttons.html"),
+            Field('procurement_form_completed', template="bootstrap3/layout/radioselect-buttons.html"),
             layout_almost_complete
         )
     )
@@ -161,7 +162,7 @@ class DonorForm(forms.ModelForm):
         Div(
             FormPanel("Donor Preop Data", layout_preop),
             FormPanel("Lab Results", layout_labresults),
-            FormPanel("Complete Submission", layout_complete, panel_status="danger"),  # , panel_hidden=False
+            FormPanel("Complete Submission", layout_complete, panel_status="danger"),
             css_class="col-md-4", style="margin-top: 10px;"
         ),
         'person',
@@ -204,16 +205,18 @@ class DonorForm(forms.ModelForm):
         self.fields['perfusion_started'].input_formats = settings.DATETIME_INPUT_FORMATS
         self.fields['systemic_flush_used'].choices = Donor.SOLUTION_CHOICES
         self.fields['heparin'].choices = NO_YES_CHOICES
-        self.fields['form_completed'].choices = NO_YES_CHOICES
+        self.fields['procurement_form_completed'].choices = NO_YES_CHOICES
 
     class Meta:
         model = Donor
         fields = [
             'person', 'sequence_number', 'multiple_recipients', 'retrieval_team', 'perfusion_technician',
             'transplant_coordinator', 'call_received', 'call_received_unknown', 'retrieval_hospital',
-            'scheduled_start', 'scheduled_start_unknown', 'technician_arrival', 'technician_arrival_unknown',
+            'scheduled_start', 'scheduled_start_unknown', 'technician_arrival',
+            'technician_arrival_unknown',
             'ice_boxes_filled', 'ice_boxes_filled_unknown', 'depart_perfusion_centre',
-            'depart_perfusion_centre_unknown', 'arrival_at_donor_hospital', 'arrival_at_donor_hospital_unknown', 'age',
+            'depart_perfusion_centre_unknown', 'arrival_at_donor_hospital',
+            'arrival_at_donor_hospital_unknown', 'age',
             'date_of_admission', 'date_of_admission_unknown', 'admitted_to_itu', 'date_admitted_to_itu',
             'date_admitted_to_itu_unknown', 'date_of_procurement',
             'other_organs_procured', 'other_organs_lungs', 'other_organs_pancreas', 'other_organs_liver',
@@ -223,42 +226,48 @@ class DonorForm(forms.ModelForm):
             'dobutamine', 'nor_adrenaline', 'vasopressine', 'other_medication_details', 'last_creatinine',
             'last_creatinine_unit', 'max_creatinine', 'max_creatinine_unit', 'life_support_withdrawal',
             'systolic_pressure_low', 'systolic_pressure_low_unknown', 'o2_saturation',
-            'o2_saturation_unknown', 'circulatory_arrest', 'circulatory_arrest_unknown', 'length_of_no_touch',
+            'o2_saturation_unknown', 'circulatory_arrest', 'circulatory_arrest_unknown',
+            'length_of_no_touch',
             'death_diagnosed',
             'perfusion_started', 'perfusion_started_unknown',
             'systemic_flush_used', 'systemic_flush_used_other',
             'systemic_flush_volume_used', 'heparin',
-            'form_completed', 'not_randomised_because', 'not_randomised_because_other'
+            'procurement_form_completed', 'not_randomised_because', 'not_randomised_because_other'
         ]
         localized_fields = "__all__"
 
-    def save(self, user, *args, **kwargs):
+    def save(self, user=None, *args, **kwargs):
         donor = super(DonorForm, self).save(commit=False)
-        donor.created_by = user
-        donor.created_on = timezone.now()
-        donor.version += 1
         if kwargs.get("commit", True):
-            donor.save()
+            if user is None:
+                raise Exception("Missing user record when saving DonorForm")
+            donor.save(created_by=user)
         return donor
 
     def clean(self):
         cleaned_data = super(DonorForm, self).clean()
-        form_completed = cleaned_data.get("form_completed")
+        form_completed = cleaned_data.get("procurement_form_completed")
         if form_completed:
             not_randomised_because = cleaned_data.get("not_randomised_because")
             if not_randomised_because == 0 and not self.instance.is_randomised():
-                self.add_error('not_randomised_because', forms.ValidationError(_("DFv01 Please enter a valid reason for this case to not be randomised")))
+                self.add_error(
+                    'not_randomised_because',
+                    forms.ValidationError(_("DFv01 Please enter a valid reason for this case to not be randomised"))
+                )
 
             not_randomised_because_other = cleaned_data.get("not_randomised_because_other")
             if (not_randomised_because == 2 or not_randomised_because == 5) and not_randomised_because_other == '':
-                self.add_error('not_randomised_because_other', forms.ValidationError(_("DFv02 Please add additional information")))
+                self.add_error(
+                    'not_randomised_because_other',
+                    forms.ValidationError(_("DFv02 Please add additional information"))
+                )
 
             retrieval_hospital = cleaned_data.get("not_randomised_because")
             if not retrieval_hospital:
                 self.add_error('retrieval_hospital', forms.ValidationError(_("DFv03 Missing retrieval hospital")))
 
         if self.errors:
-            cleaned_data["form_completed"] = False
+            cleaned_data["procurement_form_completed"] = False
 
         return cleaned_data
 
@@ -297,8 +306,10 @@ class OrganForm(forms.ModelForm):
         Field('oxygen_bottle_full', template="bootstrap3/layout/radioselect-buttons.html"),
         FieldWithFollowup(
             Field('oxygen_bottle_open', template="bootstrap3/layout/radioselect-buttons.html"),
-            HTML("<p class=\"text-warning\"><i class=\"glyphicon glyphicon-warning-sign\"></i> The bottle should be " +
-                 "open!</p>")
+            HTML(
+                "<p class=\"text-warning\"><i class=\"glyphicon glyphicon-warning-sign\"></i> The " +
+                "bottle should be open!</p>"
+            )
         ),
         FieldWithFollowup(
             Field('oxygen_bottle_changed', template="bootstrap3/layout/radioselect-buttons.html"),
@@ -323,8 +334,10 @@ class OrganForm(forms.ModelForm):
     )
     layout_perfusion_not_possible = Layout(
         'perfusion_not_possible_because',
-        HTML("<p class=\"text-warning\"><i class=\"glyphicon glyphicon-warning-sign\"></i> Please remember to enter " +
-             "resources used</p>")
+        HTML(
+            "<p class=\"text-warning\"><i class=\"glyphicon glyphicon-warning-sign\"></i> Please " +
+            "remember to enter resources used</p>"
+        )
     )
     layout_perfusion = Layout(
         YesNoFieldWithAlternativeFollowups(
@@ -379,19 +392,21 @@ class OrganForm(forms.ModelForm):
             'washout_perfusion', 'transplantable', 'not_transplantable_reason', 'preservation',
             'perfusion_possible', 'perfusion_not_possible_because', 'perfusion_started', 'patch_holder',
             'artificial_patch_used', 'artificial_patch_size', 'artificial_patch_number',
-            'oxygen_bottle_full', 'oxygen_bottle_open', 'oxygen_bottle_changed', 'oxygen_bottle_changed_at',
-            'oxygen_bottle_changed_at_unknown', 'ice_container_replenished', 'ice_container_replenished_at',
-            'ice_container_replenished_at_unknown', 'perfusate_measurable', 'perfusate_measure', 'perfusion_machine'
+            'oxygen_bottle_full', 'oxygen_bottle_open', 'oxygen_bottle_changed',
+            'oxygen_bottle_changed_at',
+            'oxygen_bottle_changed_at_unknown', 'ice_container_replenished',
+            'ice_container_replenished_at',
+            'ice_container_replenished_at_unknown', 'perfusate_measurable', 'perfusate_measure',
+            'perfusion_machine'
         ]
         localized_fields = "__all__"
 
-    def save(self, user, *args, **kwargs):
+    def save(self, user=None, *args, **kwargs):
         organ = super(OrganForm, self).save(commit=False)
-        organ.created_by = user
-        organ.created_on = timezone.now()
-        organ.version += 1
         if kwargs.get("commit", True):
-            organ.save()
+            if user is None:
+                raise Exception("Missing user record when saving OrganForm")
+            organ.save(created_by=user)
         return organ
 
 

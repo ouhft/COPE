@@ -116,7 +116,6 @@ class Recipient(VersionControlModel):
     person = models.OneToOneField(OrganPerson)  # Internal link
     organ = models.OneToOneField(Organ)  # Internal link
     allocation = models.OneToOneField(OrganAllocation)  # Internal link
-    form_completed = models.BooleanField(default=False)  # Internal value
 
     # Trial signoffs
     signed_consent = models.NullBooleanField(

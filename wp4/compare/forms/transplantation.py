@@ -2,7 +2,6 @@
 # coding: utf-8
 from django import forms
 from django.conf import settings
-from django.utils import timezone
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Div, HTML, Field
@@ -10,7 +9,7 @@ from autocomplete_light.fields import ModelChoiceField
 
 from wp4.theme.layout import FieldWithFollowup, YesNoFieldWithAlternativeFollowups, FieldWithNotKnown, ForeignKeyModal
 from wp4.theme.layout import DateTimeField, FormPanel
-from ..models import OrganAllocation, Recipient
+from ..models import OrganAllocation, Recipient, Organ
 from ..models import YES_NO_UNKNOWN_CHOICES, LOCATION_CHOICES
 from .core import NO_YES_CHOICES
 
@@ -109,14 +108,14 @@ class AllocationForm(forms.ModelForm):
         ]
         localized_fields = "__all__"
 
-    def save(self, user, *args, **kwargs):
+    def save(self, user=None, *args, **kwargs):
         allocation_instance = super(AllocationForm, self).save(commit=False)
-        allocation_instance.created_by = user
-        allocation_instance.created_on = timezone.now()
-        allocation_instance.version += 1
         if kwargs.get("commit", True):
-            allocation_instance.save()
+            if user is None:
+                raise Exception("Missing user record when saving AllocationForm")
+            allocation_instance.save(created_by=user)
         return allocation_instance
+
 
 AllocationFormSet = forms.modelformset_factory(
     OrganAllocation,
@@ -195,14 +194,6 @@ class RecipientForm(forms.ModelForm):
         Field('batteries_charged', template="bootstrap3/layout/radioselect-buttons.html"),
         'cleaning_log'
     )
-    layout_complete = Layout(
-        FieldWithFollowup(
-            Field('form_completed', template="bootstrap3/layout/radioselect-buttons.html"),
-            HTML("<p class=\"text-danger\">Once all errors have been cleared, clicking Save And Close below will " +
-                 "result in this form being closed and locked. No further edits will be possible without contacting " +
-                 "the admin team.</p>")
-        )
-    )
 
     helper = FormHelper()
     helper.form_tag = False
@@ -216,7 +207,6 @@ class RecipientForm(forms.ModelForm):
         ),
         Div(
             FormPanel("Cleaning Log", layout_cleaning),
-            FormPanel("Complete Submission", layout_complete, panel_status="danger", panel_hidden=True),
             css_class="col-md-4", style="margin-top: 10px;"
         ),
         'person',
@@ -260,7 +250,6 @@ class RecipientForm(forms.ModelForm):
         self.fields['oxygen_bottle_removed'].choices = NO_YES_CHOICES
         self.fields['box_cleaned'].choices = NO_YES_CHOICES
         self.fields['batteries_charged'].choices = NO_YES_CHOICES
-        self.fields['form_completed'].choices = NO_YES_CHOICES
 
     class Meta:
         model = Recipient
@@ -278,7 +267,36 @@ class RecipientForm(forms.ModelForm):
             'systolic_blood_pressure', 'cvp', 'intra_operative_diuresis',
             'successful_conclusion', 'operation_concluded_at', 'probe_cleaned', 'ice_removed',
             'oxygen_flow_stopped', 'oxygen_bottle_removed', 'box_cleaned', 'batteries_charged',
-            'cleaning_log', 'form_completed'
+            'cleaning_log',
         ]
         localized_fields = "__all__"
 
+
+class TransplantOrganForm(forms.ModelForm):
+    layout_complete = Layout(
+        'transplantation_notes',
+        FieldWithFollowup(
+            Field('transplantation_form_completed', template="bootstrap3/layout/radioselect-buttons.html"),
+            HTML("<p class=\"text-danger\">Once all errors have been cleared, clicking Save below will " +
+                 "result in this form being closed and locked. No further edits will be possible without contacting " +
+                 "the admin team.</p>")
+        )
+    )
+
+    helper = FormHelper()
+    helper.form_tag = False
+    helper.html5_required = True
+    helper.layout = Layout(
+        FormPanel("Complete Submission", layout_complete, panel_status="danger", panel_hidden=True),
+    )
+
+    class Meta:
+        model = Organ
+        fields = [
+            'transplantation_notes',
+            'transplantation_form_completed',
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super(TransplantOrganForm, self).__init__(*args, **kwargs)
+        self.fields['transplantation_form_completed'].choices = NO_YES_CHOICES

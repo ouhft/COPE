@@ -2,7 +2,6 @@
 # coding: utf-8
 from django import forms
 from django.conf import settings
-from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from crispy_forms.helper import FormHelper
@@ -12,7 +11,7 @@ from autocomplete_light.fields import ModelChoiceField
 from wp4.theme.layout import FieldWithFollowup, FieldWithNotKnown
 from wp4.theme.layout import DateField, FormPanel
 from ..models import OrganPerson, Donor, Randomisation, Organ
-from ..models import PAPER_EUROPE, PAPER_UNITED_KINGDOM, PRESERVATION_NOT_SET
+from ..models import PAPER_EUROPE, PAPER_UNITED_KINGDOM
 
 
 # Common CONSTANTS
@@ -54,7 +53,6 @@ class OrganPersonForm(forms.ModelForm):
         super(OrganPersonForm, self).__init__(*args, **kwargs)
         self.fields['number'].required = False
         self.fields['date_of_birth'].input_formats = settings.DATE_INPUT_FORMATS
-        # self.fields['date_of_death'].input_formats = DATE_INPUT_FORMATS
         self.fields['gender'].choices = OrganPerson.GENDER_CHOICES
         self.fields['ethnicity'].choices = OrganPerson.ETHNICITY_CHOICES
         self.fields['blood_group'].choices = OrganPerson.BLOOD_GROUP_CHOICES
@@ -63,16 +61,16 @@ class OrganPersonForm(forms.ModelForm):
         model = OrganPerson
         fields = [
             'number', 'date_of_birth', 'date_of_birth_unknown',
-            'gender', 'weight', 'height', 'ethnicity', 'blood_group']
+            'gender', 'weight', 'height', 'ethnicity', 'blood_group'
+        ]
         localized_fields = "__all__"
 
-    def save(self, user, *args, **kwargs):
+    def save(self, user=None, *args, **kwargs):
         person = super(OrganPersonForm, self).save(commit=False)
-        person.created_by = user
-        person.created_on = timezone.now()
-        person.version += 1
         if kwargs.get("commit", True):
-            person.save()
+            if user is None:
+                raise Exception("No user specified when saving OrganPerson Form")
+            person.save(created_by=user)
         return person
 
 
@@ -106,8 +104,7 @@ class DonorStartForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(DonorStartForm, self).__init__(*args, **kwargs)
-        self.fields['perfusion_technician'].label = Donor._meta.get_field(
-            "perfusion_technician").verbose_name.title()
+        self.fields['perfusion_technician'].label = Donor._meta.get_field("perfusion_technician").verbose_name.title()
         self.fields['gender'].label = OrganPerson._meta.get_field("gender").verbose_name.title()
         self.fields['gender'].choices = OrganPerson.GENDER_CHOICES
         self.fields['online'].required = False
@@ -118,21 +115,20 @@ class DonorStartForm(forms.ModelForm):
         fields = ['retrieval_team', 'perfusion_technician', 'age', 'gender']
         localized_fields = '__all__'
 
-    def save(self, user, *args, **kwargs):
+    def save(self, user=None, *args, **kwargs):
         donor = super(DonorStartForm, self).save(commit=False)
-        donor.created_by = user
-        donor.created_on = timezone.now()
-        donor.version = 1
         if kwargs.get("commit", True):
-            donor.save()
+            if user is None:
+                raise Exception("No user specified when saving DonorStartForm")
+            donor.save(created_by=user)
         return donor
 
     def clean(self):
         cleaned_data = super(DonorStartForm, self).clean()
         online = cleaned_data.get("online")
-        randomisation = cleaned_data.get("randomisation")
-        retrieval_team = cleaned_data.get("retrieval_team")
         if not online:
+            randomisation = cleaned_data.get("randomisation")
+            retrieval_team = cleaned_data.get("retrieval_team")
             if not randomisation:
                 self.add_error('randomisation', forms.ValidationError("Please select an Offline Case ID"))
             elif randomisation.list_code != retrieval_team.get_randomisation_list(False):
@@ -140,7 +136,6 @@ class DonorStartForm(forms.ModelForm):
                     'randomisation',
                     forms.ValidationError("Please select an Offline Case ID for the same region as the Retrieval team")
                 )
-
         return cleaned_data
 
 

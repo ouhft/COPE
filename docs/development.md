@@ -1,5 +1,4 @@
-Local Development Setup
-=======================
+# Local Development Setup
 
 Base system is OS X 10.10.5 (Yosemite), and I've got this environment setup in two locations so far. This document
 mostly details how the second environment was built (to match the first - which has evolved from OS X 10.7 times)
@@ -8,8 +7,7 @@ Most of my approach is based on http://hackercodex.com/guide/python-development-
 updated version of the guide I've used for the past 4 years)
 
 
-User credentials
-----------------
+## User credentials
 
 As a new user account (on a new machine, but that bit is irrelevant) we need to create an SSH key for access to things
 like GitHub and cope.nds Server.::
@@ -20,6 +18,7 @@ like GitHub and cope.nds Server.::
     # Follow onscreen prompts for name of key and empty passphrase
 
 With a key generated, it can be added to:
+
 * cope.nds authorised_keys
 * webfaction authorised_keys
 * GitHub marshalc keys
@@ -27,8 +26,7 @@ With a key generated, it can be added to:
 This needs to be done for GitHub at least, before you can so the project setup below
 
 
-Third party apps in use
------------------------
+## Third party apps in use
 
 * IDE: PyCharm - from http://www.jetbrains.com. I'm using the Professional 4.5.4 version.
 * Utility: CodeKit - from http://incident57.com/codekit/. Currently v2.4
@@ -36,8 +34,7 @@ Third party apps in use
 * Base libraries: Homebrew - from http://brew.sh. More on its installation later.
 
 
-Brew installation
-.................
+### Brew installation
 
 Easy enough, just follow the instructions on the Homebrew website. ::
 
@@ -55,14 +52,14 @@ install that now::
     # Also helpful, but not essential
     brew install bash-completion ssh-copy-id wget
 
-Python setup
-............
+### Python setup
 
 Start by putting Homebrew's python installs into the system to avoid conflicts with the system python::
 
     brew install python python3
 
 Have installed both python (2.7.10) and python3 (3.5) brew packages, which gives us setuptools, sqlite3 and pip.
+
 Have then pip installed virtualenv, and virtualenvwrapper. However, my installation of these differs from the guide::
 
     pip install virtualenv virtualenvwrapper
@@ -103,8 +100,7 @@ Then as part of `vi ~/.bash_profile` we add::
 
 Don't forget to `source ~/.bash_profile` at the end if you want to use this session with this setup!
 
-Project setup
--------------
+## Project setup
 
 With the base tools in place, we can now setup the development environment for the project itself. We'll create a
 virtualenv project for development, then get the latest code from the central github repository. ::
@@ -129,14 +125,13 @@ virtualenv project for development, then get the latest code from the central gi
     pm loaddata config/fixtures/09_testusers.json
 
 
-PyCharm setup
--------------
+## PyCharm setup
 
 Now we can head to PyCharm and make the project available, along with debug options, etc
 
 * Open PyCharm
 * Select open project
-  * Point it to $HOME/Projects/cope
+ * Point it to `$HOME/Projects/cope`
 * Allow it to index files and complete loading.
 * You should be prompted to add a new VCS root for cope_repo. Do this.
 * In Preferences, Enable Django support for the project
@@ -144,8 +139,7 @@ Now we can head to PyCharm and make the project available, along with debug opti
 * You can now test by running the testserver (^R for shortcut, or see toolbar button)
 
 
-Useful things to remember
-=========================
+# Useful things to remember
 
 * `pip list --outdated` will list the installed packages that have been superceded
 

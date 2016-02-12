@@ -57,12 +57,16 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
         max_length=1,
         choices=LOCATION_CHOICES
     )
+
+    # Transplantation Form metadata
     not_allocated_reason = models.CharField(
         verbose_name=_('OR31 not transplantable because'),
         max_length=250,
         blank=True
     )
     admin_notes = models.TextField(verbose_name=_("DO50 Admin notes"), blank=True)
+    transplantation_notes = models.TextField(verbose_name=_("DO51 Transplantation notes"), blank=True)
+    transplantation_form_completed = models.BooleanField(default=False)  # Internal value
 
     # Inspection data
     GRAFT_DAMAGE_ARTERIAL = 1
@@ -210,7 +214,7 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
         if self.perfusion_possible is True and self.perfusion_started is None:
             raise ValidationError(_("ORv02 Please enter the time perfusion started at"))
 
-        if self.donor.form_completed:
+        if self.donor.procurement_form_completed:
             pass
 
     def trial_id(self):

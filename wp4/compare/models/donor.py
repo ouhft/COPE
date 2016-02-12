@@ -28,21 +28,21 @@ class Donor(VersionControlModel):
         (4, _("DOc13 Kidneys not transplanable")),
         (5, _("DOc14 Other")),
     )
-
-    # Donor Form Case data
     person = models.OneToOneField(OrganPerson)  # Internal link
     sequence_number = models.PositiveSmallIntegerField(default=0)  # Internal value
+
+    # Donor Form metadata
     multiple_recipients = models.PositiveSmallIntegerField(
         verbose_name=_('DO02 Multiple recipients'),
         choices=YES_NO_UNKNOWN_CHOICES,
         blank=True, null=True)
-    form_completed = models.BooleanField(default=False)  # Internal value
     not_randomised_because = models.PositiveSmallIntegerField(
         verbose_name=_("DO51 Why was this not randomised?"),
         choices=NON_RANDOMISATION_CHOICES,
         default=0
     )
     not_randomised_because_other = models.CharField(verbose_name=_('DO52 More details'), max_length=250, blank=True)
+    procurement_form_completed = models.BooleanField(default=False)  # Internal value
     admin_notes = models.TextField(verbose_name=_("DO50 Admin notes"), blank=True)
 
     # Procedure data
@@ -318,7 +318,7 @@ class Donor(VersionControlModel):
                 and not self.systemic_flush_used_other:
             raise ValidationError(_("DOv11 Missing the details of the other systemic flush solution used"))
 
-        if self.form_completed:
+        if self.procurement_form_completed:
             if self.retrieval_hospital is None:
                 raise ValidationError(_("DOv12 Missing retrieval hospital"))
             if self.person.number == "":

@@ -212,14 +212,14 @@ def procurement_form(request, pk):
 
     # print("DEBUG: all_valid=%d" % all_valid)
     if all_valid == 6:
-        if donor.form_completed:
+        if donor.procurement_form_completed:
             messages.success(request, 'Form has been successfully saved <strong>and CLOSED</strong>')
         else:
             messages.success(request, 'Form has been <strong>successfully saved</strong>')
         # This has to wait till the organ forms are saved...
         donor_form, left_organ_form, right_organ_form = randomise(donor, donor_form, left_organ_form, right_organ_form)
     elif request.POST:
-        donor.form_completed = False  # Can't say the form is completed if there are errors
+        donor.procurement_form_completed = False  # Can't say the form is completed if there are errors
         donor.save()
 
         error_count = left_organ_error_count + right_organ_error_count + len(donor_form.errors) + \
@@ -269,12 +269,9 @@ def transplantation_list(request):
     # Process the new case form
     allocation_form = AllocationStartForm(request.POST or None, request.FILES or None, prefix="allocation")
     if request.method == 'POST' and allocation_form.is_valid():
-        # organ_id =
-
-        # organ = get_object_or_404(Organ, pk=int(organ_id))
         organ = allocation_form.cleaned_data.get("organ")
         if allocation_form.cleaned_data.get("allocated"):
-            print("DEBUG: transplantation_list: Allocated, Yes")
+            # print("DEBUG: transplantation_list: Allocated, Yes")
             # First time in? Create an allocation record (and set the TT if user is a Perfusion Technician
             initial_organ_allocation = OrganAllocation(organ=organ, created_by=current_person.user)
             if current_person.has_job(StaffJob.PERFUSION_TECHNICIAN):
@@ -285,19 +282,17 @@ def transplantation_list(request):
                 kwargs={'pk': organ.id}
             ))
         else:
-            print("DEBUG: transplantation_list: Allocated, No")
+            # print("DEBUG: transplantation_list: Allocated, No")
             # Otherwise close the Organ record with the reason, and do nothing more
             organ.not_allocated_reason = allocation_form.cleaned_data["not_allocated_reason"]
+            organ.transplantation_form_completed = True
             organ.save(created_by=current_person.user)
             allocation_form = AllocationStartForm(prefix="allocation")
 
     if current_person.has_job(
-            (StaffJob.SYSTEMS_ADMINISTRATOR, StaffJob.CENTRAL_COORDINATOR, StaffJob.NATIONAL_COORDINATOR)
+        (StaffJob.SYSTEMS_ADMINISTRATOR, StaffJob.CENTRAL_COORDINATOR, StaffJob.NATIONAL_COORDINATOR)
     ):
         existing_cases = Organ.open_objects.all()
-            # order_by(
-            # 'donor__sequence_number', 'location'
-        # )
         closed_cases = Organ.closed_objects.all()
     elif current_person.has_job(StaffJob.PERFUSION_TECHNICIAN):
         existing_cases = Organ.open_objects.filter(recipient__allocation__perfusion_technician=current_person)
@@ -330,8 +325,7 @@ def transplantation_form(request, pk=None):
     """
     # print("DEBUG: Got an organ pk of %s" % pk)
     organ = get_object_or_404(Organ, pk=int(pk))
-    # TODO: Consider making this a check against the list of all closed cases
-    if not organ.not_allocated_reason == '':
+    if not organ.transplantation_form_completed:
         messages.error(request, 'That case has been <strong>closed</strong>.')
         return redirect(reverse('wp4:compare:transplantation_list'))
 
@@ -394,6 +388,7 @@ def transplantation_form(request, pk=None):
 
                     if allocation_confirmed:
                         organ.not_allocated_reason = "Allocated to a non-Project Site"
+                        organ.transplantation_form_completed = True
                         organ.save(created_by=current_person.user)
                         messages.success(
                             request,

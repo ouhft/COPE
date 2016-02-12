@@ -94,7 +94,8 @@ class OrganPerson(VersionControlModel):
     ETHNICITY_CHOICES = (
         (CAUCASIAN, _('OPc03 Caucasian')),
         (BLACK, _('OPc04 Black')),
-        (OTHER_ETHNICITY, _('OPc05 Other')))
+        (OTHER_ETHNICITY, _('OPc05 Other'))
+    )
 
     BLOOD_O = 1
     BLOOD_A = 2
@@ -106,32 +107,36 @@ class OrganPerson(VersionControlModel):
         (BLOOD_A, 'A'),
         (BLOOD_B, 'B'),
         (BLOOD_AB, 'AB'),
-        (BLOOD_UNKNOWN, _('OPc06 Unknown')))
+        (BLOOD_UNKNOWN, _('OPc06 Unknown'))
+    )
 
     # "ET Donor number/ NHSBT Number",
     number = models.CharField(verbose_name=_('OP01 NHSBT Number'), max_length=20, blank=True)
-    date_of_birth = models.DateField(verbose_name=_('OP02 date of birth'), blank=True, null=True,
-                                     validators=[validate_not_in_future])
+    date_of_birth = models.DateField(
+        verbose_name=_('OP02 date of birth'),
+        blank=True, null=True,
+        validators=[validate_not_in_future]
+    )
     date_of_birth_unknown = models.BooleanField(default=False)  # Internal flag
-    # May be possible to get DoD from donor.death_diagnosed
-    # date_of_death = models.DateField(verbose_name=_('OP08 date of death'), blank=True, null=True)
-    # date_of_death_unknown = models.BooleanField(default=False)  # Internal flag
     gender = models.CharField(verbose_name=_('OP03 gender'), choices=GENDER_CHOICES, max_length=1, default=MALE)
     weight = models.DecimalField(
         max_digits=4,
         decimal_places=1,
         verbose_name=_('OP04 Weight (kg)'),
         validators=[MinValueValidator(20.0), MaxValueValidator(200.0)],
-        blank=True, null=True)
+        blank=True, null=True
+    )
     height = models.PositiveSmallIntegerField(
         verbose_name=_('OP05 Height (cm)'),
         validators=[MinValueValidator(100), MaxValueValidator(250)],
-        blank=True, null=True)
+        blank=True, null=True
+    )
     ethnicity = models.IntegerField(verbose_name=_('OP06 ethnicity'), choices=ETHNICITY_CHOICES, blank=True, null=True)
     blood_group = models.PositiveSmallIntegerField(
         verbose_name=_('OP07 blood group'),
         choices=BLOOD_GROUP_CHOICES,
-        blank=True, null=True)
+        blank=True, null=True
+    )
 
     class Meta:
         ordering = ['number']
@@ -142,12 +147,6 @@ class OrganPerson(VersionControlModel):
         # Clean the fields that at Not Known
         if self.date_of_birth_unknown:
             self.date_of_birth = None
-        # if self.date_of_death_unknown:
-        #     self.date_of_death = None
-
-        # if self.date_of_birth:
-        #     if self.date_of_birth > datetime.datetime.now().date():
-        #         raise ValidationError(_("OPv01 Time travel detected! Person's date of birth is in the future!"))
 
         if self.date_of_death:
             if self.date_of_death > timezone.now().date():
@@ -158,6 +157,7 @@ class OrganPerson(VersionControlModel):
                 raise ValidationError(
                     _("OPv03 Time running backwards! Person's date of death is before they were born!"))
 
+    @property
     def bmi_value(self):
         # http://www.nhs.uk/chq/Pages/how-can-i-work-out-my-bmi.aspx?CategoryID=51 for formula
         if self.height < 1 or self.weight < 1:
@@ -165,8 +165,7 @@ class OrganPerson(VersionControlModel):
         height_in_m = self.height / 100
         return (self.weight / height_in_m) / height_in_m
 
-    bmi_value.short_description = 'BMI Value'
-
+    @property
     def age_from_dob(self):
         """
         Determines a person's age from their Date of Birth, compared initially against a Date of Death
@@ -178,6 +177,7 @@ class OrganPerson(VersionControlModel):
             return relativedelta(the_end, self.date_of_birth).years
         return None
 
+    @property
     def trial_id(self):
         """
         Returns the composite trial id string based on whether this is a donor or recipient
@@ -236,7 +236,8 @@ class OrganPerson(VersionControlModel):
 class RetrievalTeam(models.Model):
     centre_code = models.PositiveSmallIntegerField(
         verbose_name=_("RT01 centre code"),
-        validators=[MinValueValidator(10), MaxValueValidator(99)])
+        validators=[MinValueValidator(10), MaxValueValidator(99)]
+    )
     based_at = models.ForeignKey(Hospital, verbose_name=_("RT02 base hospital"))
     created_on = models.DateTimeField(default=timezone.now)
     created_by = models.ForeignKey(User)
@@ -249,15 +250,15 @@ class RetrievalTeam(models.Model):
         :param: is_online: bool. Are we looking for the online or the offline sequence
         :return: int, next free number
         """
-        print("DEBUG: next_sequence_number called with is_online=%s" % is_online)
+        # print("DEBUG: next_sequence_number called with is_online=%s" % is_online)
         list_code = self.get_randomisation_list(is_online)
-        print("DEBUG: next_sequence_number list_code=%s" % list_code)
+        # print("DEBUG: next_sequence_number list_code=%s" % list_code)
         donor_set = self.donor_set.filter(randomisation__list_code=list_code)
         try:
             number = donor_set.latest('sequence_number').sequence_number + 1
         except models.Model.DoesNotExist:
             number = 1
-        print("DEBUG: next_sequence_number number=%s" % number)
+        # print("DEBUG: next_sequence_number number=%s" % number)
         return number
 
     def get_randomisation_list(self, is_online=True):
