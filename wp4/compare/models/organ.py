@@ -23,9 +23,12 @@ class ClosedOrganManager(models.Manager):
     not_allocated_reason of $MESSAGE$
     """
     def get_queryset(self):
-        return super(ClosedOrganManager, self).get_queryset().filter(
-            models.Q(not_allocated_reason__gt='') |
-            models.Q(recipient__form_completed=True)
+        # return super(ClosedOrganManager, self).get_queryset().filter(
+        #     models.Q(not_allocated_reason__gt='') |
+        #     models.Q(recipient__form_completed=True)
+        # )
+        return super(ClosedOrganManager, self).get_queryset().exclude(
+            transplantation_form_completed=True
         )
 
 
@@ -37,7 +40,7 @@ class AllocatableOrganManager(models.Manager):
     def get_queryset(self):
         return super(AllocatableOrganManager, self).get_queryset().filter(
             organallocation__isnull=True, transplantable=True
-        ).exclude(preservation=PRESERVATION_NOT_SET).exclude(not_allocated_reason__gt='')
+        ).exclude(preservation=PRESERVATION_NOT_SET).exclude(transplantation_form_completed=True)
 
 
 class OpenOrganManager(models.Manager):
@@ -47,7 +50,9 @@ class OpenOrganManager(models.Manager):
     """
     def get_queryset(self):
         pks_to_exclude = [o.pk for o in Organ.allocatable_objects.all()]
-        return super(OpenOrganManager, self).get_queryset().exclude(not_allocated_reason__gt='').exclude( id__in=pks_to_exclude)
+        return super(OpenOrganManager, self).get_queryset().\
+            exclude(transplantation_form_completed=True).\
+            exclude(id__in=pks_to_exclude)
 
 
 class Organ(VersionControlModel):  # Or specifically, a Kidney
