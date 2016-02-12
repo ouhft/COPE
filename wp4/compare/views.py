@@ -387,34 +387,25 @@ def transplantation_form(request, pk=None):
             if i == last_form_index:
                 if allocation.transplant_hospital and not allocation.transplant_hospital.is_project_site:
                     # If allocated, and to a non-project site, then we stop data collection
-
-                    # Scan the messages to see if the warning is being displayed. This is being used
-                    # because trying to get a status set in a form element for the formset proved too
-                    # complicated, especially with the redirect that is triggered
-                    allocation_confirmed = False
-                    storage = messages.get_messages(request)
-                    for message in storage:
-                        if "Last allocation was to a non-project hospital" in message.messsage:
-                            allocation_confirmed = True
-                        print("DEBUG: message.messsage=%s" % message.messsage)
-                    storage.used = False
-
-
-                    THIS ISN'T WORKING!!!! Messages appear to be empty!?
-
-
+                    allocation_confirmed = True
+                    for element in form.changed_data:  # Was this changed this time, or previously?
+                        if element == "transplant_hospital":
+                            allocation_confirmed = False
 
                     if allocation_confirmed:
                         organ.not_allocated_reason = "Allocated to a non-Project Site"
                         organ.save(created_by=current_person.user)
-                        messages.success(request, 'Form has been <strong>successfully saved and closed</strong>')
+                        messages.success(
+                            request,
+                            'Case %s has been <strong>successfully saved and closed</strong>' % organ.trial_id()
+                        )
                         return redirect(reverse('wp4:compare:transplantation_list'))
 
                     else:
                         messages.warning(
                             request,
-                            "Last allocation was to a non-project hospital. This form will be closed upon " +
-                            "the next save unless the transplant hospital is changed to a project site."
+                            "Last allocation was to a non-project hospital. This form will be <strong>closed upon " +
+                            "the next save</strong> unless the transplant hospital is changed to a project site."
                         )
 
                 elif allocation.reallocated:
