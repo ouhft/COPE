@@ -239,7 +239,8 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
         if self.donor.procurement_form_completed:
             pass
 
-    def _recipient(self):
+    @property
+    def safe_recipient(self):
         """
         Helper method to return either the related Recipient record, or a safe value of None,
         without the drama of exceptions when it doesn't exist
@@ -273,11 +274,11 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
 
         :return: True, if either of those criteria are met
         """
-        if self._recipient() is not None:
+        if self.safe_recipient is not None:
             return True  # We have a recipient, which can only occur if at a project site
 
         final_allocation = self._final_allocation()
-        if final_allocation:
+        if final_allocation is not None:
             if final_allocation.reallocated is False and final_allocation.transplant_hospital.is_project_site is False:
                 # We can't say not-reallocated without saving a transplant hospital as well
                 return True
@@ -294,7 +295,7 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
         """
         final_allocation = self._final_allocation()
         if self.is_allocated:
-            if self._recipient() is not None:
+            if self.safe_recipient is not None:
                 return "Allocated to Recipient"
 
             if final_allocation.reallocated is False and final_allocation.transplant_hospital.is_project_site is False:

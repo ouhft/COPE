@@ -18,7 +18,7 @@ from .models import PRESERVATION_HMPO2, PRESERVATION_HMP
 from .forms.core import DonorStartForm, OrganPersonForm, AllocationStartForm
 from .forms.procurement import DonorForm, OrganForm
 from .forms.procurement import ProcurementResourceLeftInlineFormSet, ProcurementResourceRightInlineFormSet
-from .forms.transplantation import AllocationFormSet, RecipientForm
+from .forms.transplantation import AllocationFormSet, RecipientForm, TransplantOrganForm
 
 
 @login_required
@@ -343,37 +343,47 @@ def transplantation_form(request, pk=None):
     recipient_form_loaded = False
     errors_found = 0
 
+    # Form metadata is on the Organ record, so we have a TransplantOrganForm
+    organ_form = TransplantOrganForm(
+        request.POST or None,
+        request.FILES or None,
+        instance=organ,
+        prefix="transplant-organ"
+    )
+    if organ_form.is_valid():
+        # TODO: WORKING HERE TO SORT OUT FORM COMPLETION
+
+        organ_form.save(request.user)
+        print("DEBUG: hello organ form, nice to meet you")
+
     # See if we can process the forms associated with the eventual recipient
-    try:
-        if organ.recipient is not None:
-            # print("DEBUG: Starting the Recipient form")
-            person_form = OrganPersonForm(
-                request.POST or None,
-                request.FILES or None,
-                instance=organ.recipient.person,
-                prefix="donor-person"
-            )
-            if person_form.is_valid():
-                person_form.save(request.user)
-            else:
-                errors_found += 1
-                print("DEBUG: Person Errors! %s" % person_form.errors)
+    if organ.safe_recipient is not None:
+        # print("DEBUG: Starting the Recipient form")
+        person_form = OrganPersonForm(
+            request.POST or None,
+            request.FILES or None,
+            instance=organ.recipient.person,
+            prefix="donor-person"
+        )
+        if person_form.is_valid():
+            person_form.save(request.user)
+        else:
+            errors_found += 1
+            print("DEBUG: Person Errors! %s" % person_form.errors)
 
-            recipient_form = RecipientForm(
-                request.POST or None,
-                request.FILES or None,
-                instance=organ.recipient,
-                prefix="recipient"
-            )
-            if recipient_form.is_valid():
-                recipient_form.save()
-            else:
-                errors_found += 1
-                print("DEBUG: Recipient Errors! %s" % recipient_form.errors)
+        recipient_form = RecipientForm(
+            request.POST or None,
+            request.FILES or None,
+            instance=organ.recipient,
+            prefix="recipient"
+        )
+        if recipient_form.is_valid():
+            recipient_form.save()
+        else:
+            errors_found += 1
+            print("DEBUG: Recipient Errors! %s" % recipient_form.errors)
 
-            recipient_form_loaded = True
-    except AttributeError:  # This is the base class for RelatedObjectDoesNotExist exception
-        pass
+        recipient_form_loaded = True
 
     # Process Allocations
     allocation_formset = AllocationFormSet(
@@ -474,6 +484,7 @@ def transplantation_form(request, pk=None):
             "allocation_formset": allocation_formset,
             "person_form": person_form,
             "recipient_form": recipient_form,
+            "organ_form": organ_form,
             "organ": organ,
             "recipient_form_loaded": recipient_form_loaded,
             "worksheet": worksheet

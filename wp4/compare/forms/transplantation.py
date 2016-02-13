@@ -277,9 +277,11 @@ class TransplantOrganForm(forms.ModelForm):
         'transplantation_notes',
         FieldWithFollowup(
             Field('transplantation_form_completed', template="bootstrap3/layout/radioselect-buttons.html"),
-            HTML("<p class=\"text-danger\">Once all errors have been cleared, clicking Save below will " +
-                 "result in this form being closed and locked. No further edits will be possible without contacting " +
-                 "the admin team.</p>")
+            HTML(
+                "<p class=\"text-danger\">Once all errors have been cleared, clicking Save below will " +
+                "result in this form being closed and locked. No further edits will be possible " +
+                "without contacting the admin team.</p>"
+            )
         )
     )
 
@@ -287,7 +289,7 @@ class TransplantOrganForm(forms.ModelForm):
     helper.form_tag = False
     helper.html5_required = True
     helper.layout = Layout(
-        FormPanel("Complete Submission", layout_complete, panel_status="danger", panel_hidden=True),
+        FormPanel("Complete Submission", layout_complete, panel_status="danger"),  # , panel_hidden=True
     )
 
     class Meta:
