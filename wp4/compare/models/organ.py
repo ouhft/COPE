@@ -142,10 +142,12 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
     PATCH_HOLDER_CHOICES = (
         (PATCH_SMALL, _("ORc12 Small")),
         (PATCH_LARGE, _("ORc13 Large")),
-        (PATCH_DOUBLE_ARTERY, _("ORc14 Double Artery")))
+        (PATCH_DOUBLE_ARTERY, _("ORc14 Double Artery"))
+    )
     ARTIFICIAL_PATCH_CHOICES = (
         (PATCH_SMALL, _("ORc12 Small")),
-        (PATCH_LARGE, _("ORc13 Large")))
+        (PATCH_LARGE, _("ORc13 Large"))
+    )
     perfusion_possible = models.NullBooleanField(
         verbose_name=_('OR09 machine perfusion possible?'),
         blank=True, null=True)
@@ -153,48 +155,63 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
         verbose_name=_('OR10 not possible because'),
         max_length=250,
         blank=True)
-    perfusion_started = models.DateTimeField(verbose_name=_('OR11 machine perfusion'), blank=True, null=True,
-                                             validators=[validate_between_1900_2050, validate_not_in_future])
+    perfusion_started = models.DateTimeField(
+        verbose_name=_('OR11 machine perfusion'),
+        blank=True, null=True,
+        validators=[validate_between_1900_2050, validate_not_in_future]
+    )
     patch_holder = models.PositiveSmallIntegerField(
         verbose_name=_('OR12 used patch holder'),
         choices=PATCH_HOLDER_CHOICES,
-        blank=True, null=True)
+        blank=True, null=True
+    )
     artificial_patch_used = models.NullBooleanField(verbose_name=_('OR13 artificial patch used'), blank=True, null=True)
     artificial_patch_size = models.PositiveSmallIntegerField(
         verbose_name=_('OR14 artificial patch size'),
         choices=ARTIFICIAL_PATCH_CHOICES,
-        blank=True, null=True)
+        blank=True, null=True
+    )
     artificial_patch_number = models.PositiveSmallIntegerField(
         verbose_name=_('OR15 number of patches'),
         blank=True,
         null=True,
-        validators=[MinValueValidator(1), MaxValueValidator(2)])
+        validators=[MinValueValidator(1), MaxValueValidator(2)]
+    )
     oxygen_bottle_full = models.NullBooleanField(
         verbose_name=_('OR16 is oxygen bottle full'),
-        blank=True, null=True)
+        blank=True, null=True
+    )
     oxygen_bottle_open = models.NullBooleanField(verbose_name=_('OR17 oxygen bottle opened'), blank=True, null=True)
     oxygen_bottle_changed = models.NullBooleanField(verbose_name=_('OR18 oxygen bottle changed'), blank=True, null=True)
     oxygen_bottle_changed_at = models.DateTimeField(
         verbose_name=_('OR19 oxygen bottle changed at'),
         blank=True, null=True,
-        validators=[validate_between_1900_2050, validate_not_in_future])
+        validators=[validate_between_1900_2050, validate_not_in_future]
+    )
     oxygen_bottle_changed_at_unknown = models.BooleanField(default=False)  # Internal flag
     ice_container_replenished = models.NullBooleanField(
         verbose_name=_('OR20 ice container replenished'),
-        blank=True, null=True)
+        blank=True, null=True
+    )
     ice_container_replenished_at = models.DateTimeField(
         verbose_name=_('OR21 ice container replenished at'),
         blank=True, null=True,
-        validators=[validate_between_1900_2050, validate_not_in_future])
+        validators=[validate_between_1900_2050, validate_not_in_future]
+    )
     ice_container_replenished_at_unknown = models.BooleanField(default=False)  # Internal flag
     perfusate_measurable = models.NullBooleanField(
         # logistically possible to measure pO2 perfusate (use blood gas analyser)',
         verbose_name=_('OR22 perfusate measurable'),
-        blank=True, null=True)
+        blank=True, null=True
+    )
     perfusate_measure = models.FloatField(verbose_name=_('OR23 value pO2'), blank=True, null=True)
     # TODO: Check the value range for perfusate_measure
-    perfusion_machine = models.ForeignKey(PerfusionMachine, verbose_name=_('OR24 perfusion machine'), blank=True,
-                                          null=True)
+    perfusion_machine = models.ForeignKey(
+        PerfusionMachine,
+        verbose_name=_('OR24 perfusion machine'),
+        blank=True,
+        null=True
+    )
     perfusion_file = models.ForeignKey(PerfusionFile, verbose_name=_('OR25 machine file'), blank=True, null=True)
 
     # Commonly filtered options
@@ -222,16 +239,81 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
         if self.donor.procurement_form_completed:
             pass
 
-    def trial_id(self):
-        return self.donor.trial_id() + self.location
+    def _recipient(self):
+        """
+        Helper method to return either the related Recipient record, or a safe value of None,
+        without the drama of exceptions when it doesn't exist
+        :return:
+        """
+        try:
+            if self.recipient is not None:
+                return self.recipient  # We have a recipient
+        except AttributeError:  # RelatedObjectDoesNotExist
+            return None
 
+    def _final_allocation(self):
+        """
+        Work out if there are any OrganAllocations, and then return the latest one
+        :return: OrganAllocation, or None
+        """
+        return self.organallocation_set.order_by('id').last()
+
+    @property
+    def trial_id(self):
+        return self.donor.trial_id + self.location
+
+    @property
     def is_allocated(self):
-        if self.not_allocated_reason is None:
-            for allocation in self.organallocation_set.all():
-                if allocation.reallocated is False and self.recipient.allocation is not None:
-                    return True
+        """
+        Allocation status
+
+        Determine if an organ has been allocated. Allocated means:
+        - To a recipient at a project site
+        - Final allocation is to a non-project site
+
+        :return: True, if either of those criteria are met
+        """
+        if self._recipient() is not None:
+            return True  # We have a recipient, which can only occur if at a project site
+
+        final_allocation = self._final_allocation()
+        if final_allocation:
+            if final_allocation.reallocated is False and final_allocation.transplant_hospital.is_project_site is False:
+                # We can't say not-reallocated without saving a transplant hospital as well
+                return True
         return False
 
+    @property
+    def explain_is_allocated(self):
+        """
+        Allocation status description
+
+        Return an explanation as to the allocation status for this organ
+
+        :return: string - message describing status of allocation
+        """
+        final_allocation = self._final_allocation()
+        if self.is_allocated:
+            if self._recipient() is not None:
+                return "Allocated to Recipient"
+
+            if final_allocation.reallocated is False and final_allocation.transplant_hospital.is_project_site is False:
+                return "Allocated to a non-project site"  # This should be caught by not_allocated_reason
+        else:
+            if self.not_allocated_reason:
+                return "Not allocated because: %s" % self.not_allocated_reason
+
+            if final_allocation is None:
+                return "No allocations created (and no explanation as yet)"
+
+            if final_allocation.reallocated is True:
+                return "ERROR: last allocation shows a reallocation"  # This shouldn't occur!
+
+            return "Re-allocation status not yet set"  # Possible for a form that is WIP
+
+        return "ERROR: Unknown allocation status (test data?)"
+
+    @property
     def reallocation_count(self):
         count = 0
         for allocation in self.organallocation_set.all():
@@ -241,7 +323,8 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
 
     def __unicode__(self):
         return '%s : %s' % (
-            self.trial_id(), "Randomised" if self.donor.is_randomised() else "Not yet eligible"
+            self.trial_id,
+            u"Randomised" if self.donor.is_randomised else u"Not yet eligible"
         )
 
     class Meta:
@@ -274,7 +357,7 @@ class ProcurementResource(models.Model):
     created_by = models.ForeignKey(User)
 
     def __unicode__(self):
-        return self.get_type_display() + ' for ' + self.organ.trial_id()
+        return self.get_type_display() + ' for ' + self.organ.trial_id
 
     class Meta:
         verbose_name = _('PRm1 procurement resource')

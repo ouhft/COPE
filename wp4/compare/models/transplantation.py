@@ -300,10 +300,12 @@ class Recipient(VersionControlModel):
             self.reperfusion_started_at = None
 
     def __unicode__(self):
-        return '%s (%s)' % (self.person.number, self.trial_id())
+        return '%s (%s)' % (self.person.number, self.trial_id)
 
+    @property
     def age_from_dob(self):
-        return self.person.age_from_dob()
+        return self.person.age_from_dob
 
+    @property
     def trial_id(self):
-        return self.organ.trial_id()
+        return self.organ.trial_id

@@ -51,7 +51,12 @@
                                     {% else %}
                                         class="danger"><i class="glyphicon glyphicon-ban-circle"></i>
                                     {% endif %}
-                            {{ case.is_allocated|yesno }} ({{ case.reallocation_count }})
+                            {{ case.is_allocated|yesno|capfirst }} <br>
+                            {{ case.reallocation_count }} Re-allocation{{ case.reallocation_count|pluralize }}<br>
+                            {{ case.explain_is_allocated }}
+                            {% if perms.is_superuser and case.recipient %}
+                                #{{ case.recipient.id }}
+                            {% endif %}
                             </td>
                             <td>
                                 {% if perms.is_staff and case.recipient %}
@@ -114,7 +119,12 @@
                                     {% else %}
                                         class="danger"><i class="glyphicon glyphicon-ban-circle"></i>
                                     {% endif %}
-                            {{ case.is_allocated|yesno }} ({{ case.reallocation_count }})
+                            {{ case.is_allocated|yesno|capfirst }} <br>
+                            {{ case.reallocation_count }} Re-allocation{{ case.reallocation_count|pluralize }}<br>
+                            {{ case.explain_is_allocated }}
+                            {% if perms.is_superuser and case.recipient %}
+                                #{{ case.recipient.id }}
+                            {% endif %}
                             </td>
                             <td>
                                 {% if perms.is_staff and case.recipient %}
@@ -146,11 +156,14 @@
             {% endif %}
         </div>
         <div class="col-md-3">
-            <h2>Organs available</h2>
+            <h2>
+                Available Organs<br>
+                <small>{{ organs_available_count }} Kidney{{ organs_available_count|pluralize }}</small>
+            </h2>
             <form method="post" action="{% url 'wp4:compare:transplantation_list' %}" class="form" id="new-case-form">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Record Organ allocation</h3>
+                        <h3 class="panel-title">Record kidney allocation</h3>
                     </div>
                     <div class="panel-body">
                         {% if allocation_form.non_field_errors %}

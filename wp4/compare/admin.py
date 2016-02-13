@@ -79,51 +79,6 @@ class DonorAdmin(VersionControlAdmin):
 admin.site.register(Donor, DonorAdmin)
 
 
-class ProcurementResourceInline(admin.TabularInline):
-    model = ProcurementResource
-    fields = ('type', 'lot_number', 'expiry_date', 'expiry_date_unknown')
-    can_delete = True
-    extra = 0
-
-
-class OrganAdmin(VersionControlAdmin):
-    list_display = ('__unicode__', 'location', 'transplantable', 'donor', 'is_allocated')
-    ordering = ('donor__id', 'location')
-    fieldsets = [
-        ('Context', {'fields': [
-            'donor', 'location', 'admin_notes', 'not_allocated_reason'
-        ]}),
-        ('Inspection', {'fields': [
-            'removal', 'renal_arteries', 'graft_damage', 'graft_damage_other', 'washout_perfusion',
-            'transplantable', 'not_transplantable_reason'
-        ]}),
-        ('Randomisation', {'fields': [
-            'preservation'
-        ]}),
-        ('Perfusion', {'fields': [
-            'perfusion_possible', 'perfusion_not_possible_because', 'perfusion_started', 'patch_holder',
-            'artificial_patch_used', 'artificial_patch_size', 'artificial_patch_number',
-            'oxygen_bottle_full', 'oxygen_bottle_open', 'oxygen_bottle_changed',
-            'oxygen_bottle_changed_at', 'oxygen_bottle_changed_at_unknown', 'ice_container_replenished',
-            'ice_container_replenished_at', 'ice_container_replenished_at_unknown',
-            'perfusate_measurable', 'perfusate_measure', 'perfusion_machine',
-            'perfusion_file'
-        ]})
-    ]
-    inlines = [
-        ProcurementResourceInline
-    ]
-
-    def save_formset(self, request, form, formset, change):
-        if formset.model == ProcurementResource:
-            for subform in formset:
-                subform.instance.created_by = request.user
-                subform.instance.created_on = timezone.now()
-        formset.save()
-
-admin.site.register(Organ, OrganAdmin)
-
-
 class OrganAllocationAdmin(VersionControlAdmin):
     ordering = ('organ__pk', 'created_on')
     list_display = (
@@ -131,14 +86,110 @@ class OrganAllocationAdmin(VersionControlAdmin):
         'reallocated', 'reallocation'
     )
     fields = (
-        'organ', 'perfusion_technician', 'call_received', 'call_received_unknown', 'transplant_hospital',
-        'theatre_contact', 'scheduled_start', 'scheduled_start_unknown', 'technician_arrival',
-        'technician_arrival_unknown', 'depart_perfusion_centre', 'depart_perfusion_centre_unknown',
-        'arrival_at_recipient_hospital', 'arrival_at_recipient_hospital_unknown', 'journey_remarks',
-        'reallocated', 'reallocation_reason', 'reallocation_reason_other'
+        'organ',
+        'perfusion_technician',
+        'call_received',
+        'call_received_unknown',
+        'transplant_hospital',
+        'theatre_contact',
+        'scheduled_start',
+        'scheduled_start_unknown',
+        'technician_arrival',
+        'technician_arrival_unknown',
+        'depart_perfusion_centre',
+        'depart_perfusion_centre_unknown',
+        'arrival_at_recipient_hospital',
+        'arrival_at_recipient_hospital_unknown',
+        'journey_remarks',
+        'reallocated',
+        'reallocation_reason',
+        'reallocation_reason_other',
+        'reallocation'
     )
 
 admin.site.register(OrganAllocation, OrganAllocationAdmin)
+
+
+class ProcurementResourceInline(admin.TabularInline):
+    model = ProcurementResource
+    fields = ('type', 'lot_number', 'expiry_date', 'expiry_date_unknown')
+    can_delete = True
+    extra = 0
+
+
+class OrganAllocationInline(admin.StackedInline):
+    model = OrganAllocation
+    fields = OrganAllocationAdmin.fields   # Hacky?
+    can_delete = False
+    extra = 0
+
+
+class OrganAdmin(VersionControlAdmin):
+    list_display = (
+        '__unicode__', 'location', 'transplantable', 'donor', 'is_allocated', 'explain_is_allocated',
+        'reallocation_count', 'transplantation_form_completed'
+    )
+    ordering = ('donor__retrieval_team', 'donor__sequence_number', 'location')
+    fieldsets = [
+        ('Context', {'fields': [
+            'donor',
+            'location',
+            'admin_notes',
+        ]}),
+        ('Transplantation Form metadata', {'fields': [
+            'not_allocated_reason',
+            'transplantation_form_completed',
+            'transplantation_notes',
+        ]}),
+        ('Inspection', {'fields': [
+            'removal',
+            'renal_arteries',
+            'graft_damage',
+            'graft_damage_other',
+            'washout_perfusion',
+            'transplantable',
+            'not_transplantable_reason'
+        ]}),
+        ('Randomisation', {'fields': [
+            'preservation'
+        ]}),
+        ('Perfusion', {'fields': [
+            'perfusion_possible',
+            'perfusion_not_possible_because',
+            'perfusion_started',
+            'patch_holder',
+            'artificial_patch_used',
+            'artificial_patch_size',
+            'artificial_patch_number',
+            'oxygen_bottle_full',
+            'oxygen_bottle_open',
+            'oxygen_bottle_changed',
+            'oxygen_bottle_changed_at',
+            'oxygen_bottle_changed_at_unknown',
+            'ice_container_replenished',
+            'ice_container_replenished_at',
+            'ice_container_replenished_at_unknown',
+            'perfusate_measurable',
+            'perfusate_measure',
+            'perfusion_machine',
+            'perfusion_file'
+        ]})
+    ]
+    inlines = [
+        ProcurementResourceInline,
+        OrganAllocationInline
+    ]
+
+    def save_formset(self, request, form, formset, change):
+        if formset.model == ProcurementResource:
+            for subform in formset:
+                subform.instance.created_by = request.user
+                subform.instance.created_on = timezone.now()
+            formset.save()
+        else:
+            super(OrganAdmin, self).save_formset(request, form, formset, change)
+
+admin.site.register(Organ, OrganAdmin)
 
 
 class RecipientAdmin(VersionControlAdmin):

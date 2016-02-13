@@ -52,8 +52,8 @@ def procurement_list(request):
         donor.save()
 
         # Create the organs and the procurement resources
-        create_procurement_initial_data(donor.left_kidney(), current_person.user)
-        create_procurement_initial_data(donor.right_kidney(), current_person.user)
+        create_procurement_initial_data(donor.left_kidney, current_person.user)
+        create_procurement_initial_data(donor.right_kidney, current_person.user)
 
         # Create the sample place holders for this form
         create_donor_worksheet(donor, request.user)
@@ -72,12 +72,12 @@ def procurement_list(request):
             donor.sequence_number = donor.retrieval_team.next_sequence_number(False)
             donor.save()
 
-            left_kidney = donor.left_kidney()
+            left_kidney = donor.left_kidney
             left_kidney.transplantable = True
             left_kidney.preservation = PRESERVATION_HMPO2 if randomisation.result else PRESERVATION_HMP
             left_kidney.save()
 
-            right_kidney = donor.right_kidney()
+            right_kidney = donor.right_kidney
             right_kidney.transplantable = True
             right_kidney.preservation = PRESERVATION_HMP if randomisation.result else PRESERVATION_HMPO2
             right_kidney.save()
@@ -163,7 +163,7 @@ def procurement_form(request, pk):
         print("DEBUG: donor form errors: %s" % donor_form.errors)
 
     # ================================================ LEFT ORGAN
-    left_organ_instance = donor.left_kidney()
+    left_organ_instance = donor.left_kidney
     # print("DEBUG: left_organ_instance=%s" % left_organ_instance)
     left_organ_form = OrganForm(
         request.POST or None,
@@ -187,7 +187,7 @@ def procurement_form(request, pk):
     left_organ_error_count = left_organ_procurement_forms.total_error_count() + len(left_organ_form.errors)
 
     # =============================================== RIGHT ORGAN
-    right_organ_instance = donor.right_kidney()
+    right_organ_instance = donor.right_kidney
     right_organ_form = OrganForm(
         request.POST or None,
         request.FILES or None,
@@ -216,6 +216,10 @@ def procurement_form(request, pk):
             messages.success(request, 'Form has been successfully saved <strong>and CLOSED</strong>')
         else:
             messages.success(request, 'Form has been <strong>successfully saved</strong>')
+
+        # TODO: If a kidney is marked as not transplantable, we may need to write that reason into
+        # the Organ not allocated reason field (and close any open T forms?)
+
         # This has to wait till the organ forms are saved...
         donor_form, left_organ_form, right_organ_form = randomise(donor, donor_form, left_organ_form, right_organ_form)
     elif request.POST:
@@ -272,6 +276,7 @@ def transplantation_list(request):
         organ = allocation_form.cleaned_data.get("organ")
         if allocation_form.cleaned_data.get("allocated"):
             # print("DEBUG: transplantation_list: Allocated, Yes")
+            organ.save(created_by=current_person.user)  # Update the organ
             # First time in? Create an allocation record (and set the TT if user is a Perfusion Technician
             initial_organ_allocation = OrganAllocation(organ=organ, created_by=current_person.user)
             if current_person.has_job(StaffJob.PERFUSION_TECHNICIAN):
@@ -292,8 +297,8 @@ def transplantation_list(request):
     if current_person.has_job(
         (StaffJob.SYSTEMS_ADMINISTRATOR, StaffJob.CENTRAL_COORDINATOR, StaffJob.NATIONAL_COORDINATOR)
     ):
-        existing_cases = Organ.open_objects.all()
-        closed_cases = Organ.closed_objects.all()
+        existing_cases = Organ.open_objects.order_by('-created_on')
+        closed_cases = Organ.closed_objects.order_by('-created_on')
     elif current_person.has_job(StaffJob.PERFUSION_TECHNICIAN):
         existing_cases = Organ.open_objects.filter(recipient__allocation__perfusion_technician=current_person)
         closed_cases = []
@@ -301,12 +306,15 @@ def transplantation_list(request):
         existing_cases = []
         closed_cases = []
 
+    organs_available_count = Organ.allocatable_objects.count()
+
     return render_to_response(
         "compare/transplantation_list.html",
         {
             "existing_cases": existing_cases,
             "closed_cases": closed_cases,
-            "allocation_form": allocation_form
+            "allocation_form": allocation_form,
+            "organs_available_count": organs_available_count
         },
         context_instance=RequestContext(request)
     )
@@ -325,7 +333,7 @@ def transplantation_form(request, pk=None):
     """
     # print("DEBUG: Got an organ pk of %s" % pk)
     organ = get_object_or_404(Organ, pk=int(pk))
-    if not organ.transplantation_form_completed:
+    if organ.transplantation_form_completed:
         messages.error(request, 'That case has been <strong>closed</strong>.')
         return redirect(reverse('wp4:compare:transplantation_list'))
 

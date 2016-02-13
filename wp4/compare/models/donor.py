@@ -353,8 +353,9 @@ class Donor(VersionControlModel):
         return False
 
     def __unicode__(self):
-        return '%s' % (self.trial_id())
+        return self.trial_id
 
+    @property
     def left_kidney(self):
         # Emulate a get_or_create call here
         import wp4.compare.models.organ as organ_model
@@ -367,6 +368,7 @@ class Donor(VersionControlModel):
             new_organ.save()
             return new_organ
 
+    @property
     def right_kidney(self):
         # Emulate a get_or_create call here
         import wp4.compare.models.organ as organ_model
@@ -379,26 +381,25 @@ class Donor(VersionControlModel):
             new_organ.save()
             return new_organ
 
+    @property
     def centre_code(self):
         try:
             return self.retrieval_team.centre_code
         except RetrievalTeam.DoesNotExist:
             return 0
 
-    centre_code.short_description = 'Centre Code'
-
+    @property
     def trial_id(self):
-        trial_id = "WP4" + format(self.centre_code(), '02')
-        if self.centre_code() == 0 or self.sequence_number < 1:
+        trial_id = "WP4" + format(self.centre_code, '02')
+        if self.centre_code == 0 or self.sequence_number < 1:
             trial_id = "No Trial ID Assigned (DO%s)" % format(self.id, '03')
-        elif self.is_offline():
+        elif self.is_offline:
             trial_id += "9" + format(self.sequence_number, '02')
         else:
             trial_id += format(self.sequence_number, '03')
         return trial_id
 
-    trial_id.short_description = 'Trial ID'
-
+    @property
     def is_offline(self):
         # print("DEBUG: is_online called for %s" % self.id)
         try:
@@ -408,18 +409,20 @@ class Donor(VersionControlModel):
             pass  # We have no idea what error is being thrown or caught because there is no error!
         return False
 
+    @property
     def is_randomised(self):
-        if self.left_kidney().preservation == PRESERVATION_NOT_SET:
+        if self.left_kidney.preservation == PRESERVATION_NOT_SET:
             return False
         return True
 
+    @property
     def is_eligible(self):
         """
         :return: Number of eligible kidneys from this donor. 0, 1, or 2 kidneys, and -1 for not randomised
         """
         eligible_kidney_count = 0
-        left_kidney = self.left_kidney()
-        right_kidney = self.right_kidney()
+        left_kidney = self.left_kidney
+        right_kidney = self.right_kidney
         if left_kidney.preservation != PRESERVATION_NOT_SET \
                 and self.multiple_recipients is not False:
             if left_kidney.transplantable:
