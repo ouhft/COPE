@@ -378,7 +378,12 @@ def transplantation_form(request, pk=None):
             prefix="recipient"
         )
         if recipient_form.is_valid():
-            recipient_form.save()
+            recipient_instance = recipient_form.save()
+            # Check for closing criteria
+            if recipient_instance.signed_consent is False:
+                pass
+            if recipient_instance.single_kidney_transplant is False:
+                pass
         else:
             errors_found += 1
             print("DEBUG: Recipient Errors! %s" % recipient_form.errors)
