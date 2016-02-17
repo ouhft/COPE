@@ -81,6 +81,36 @@
             {% else %}
                 <p>No existing cases available. Contact us if you think this is in error.</p>
             {% endif %}
+        </div>
+        <div class="col-md-3">
+            <h2>
+                Available Organs<br>
+                <small>{{ organs_available_count }} Kidney{{ organs_available_count|pluralize }}</small>
+            </h2>
+            <form method="post" action="{% url 'wp4:compare:transplantation_list' %}" class="form" id="new-case-form">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Record kidney allocation</h3>
+                    </div>
+                    <div class="panel-body">
+                        {% if allocation_form.non_field_errors %}
+                            <ul class="list-group">
+                                {% for error in allocation_form.non_field_errors %}
+                                    <li class="list-group-item list-group-item-danger">{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        {% crispy allocation_form %}
+                    </div>
+                    <div class="panel-footer">
+                        <input type="submit" class="btn btn-success" value="Save"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+    <div class="col-md-12">
 
 
 
@@ -154,32 +184,6 @@
                 </h3>
                 {% endif %}
             {% endif %}
-        </div>
-        <div class="col-md-3">
-            <h2>
-                Available Organs<br>
-                <small>{{ organs_available_count }} Kidney{{ organs_available_count|pluralize }}</small>
-            </h2>
-            <form method="post" action="{% url 'wp4:compare:transplantation_list' %}" class="form" id="new-case-form">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Record kidney allocation</h3>
-                    </div>
-                    <div class="panel-body">
-                        {% if allocation_form.non_field_errors %}
-                            <ul class="list-group">
-                                {% for error in allocation_form.non_field_errors %}
-                                    <li class="list-group-item list-group-item-danger">{{ error }}</li>
-                                {% endfor %}
-                            </ul>
-                        {% endif %}
-                        {% crispy allocation_form %}
-                    </div>
-                    <div class="panel-footer">
-                        <input type="submit" class="btn btn-success" value="Save"/>
-                    </div>
-                </div>
-            </form>
-        </div>
+    </div>
     </div>
 {% endblock %}

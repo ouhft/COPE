@@ -381,9 +381,49 @@ def transplantation_form(request, pk=None):
             recipient_instance = recipient_form.save()
             # Check for closing criteria
             if recipient_instance.signed_consent is False:
-                pass
+                no_consent_confirmed = True
+                for element in recipient_form.changed_data:  # Was this changed this time, or previously?
+                    if element == "signed_consent":
+                        no_consent_confirmed = False
+
+                if no_consent_confirmed:
+                    organ.transplantation_form_completed = True
+                    organ.save(created_by=current_person.user)
+                    messages.success(
+                        request,
+                        'Case %s has been <strong>successfully saved and closed</strong>' % organ.trial_id
+                    )
+                    return redirect(reverse('wp4:compare:transplantation_list'))
+
+                else:
+                    messages.warning(
+                        request,
+                        "Recipient consent is required to proceed. This form will be <strong>closed upon " +
+                        "the next save</strong> unless the signed consent is set to Yes"
+                    )
+
             if recipient_instance.single_kidney_transplant is False:
-                pass
+                more_than_one_kidney_confirmed = True
+                for element in recipient_form.changed_data:  # Was this changed this time, or previously?
+                    if element == "single_kidney_transplant":
+                        more_than_one_kidney_confirmed = False
+
+                if more_than_one_kidney_confirmed:
+                    organ.transplantation_form_completed = True
+                    organ.save(created_by=current_person.user)
+                    messages.success(
+                        request,
+                        'Case %s has been <strong>successfully saved and closed</strong>' % organ.trial_id
+                    )
+                    return redirect(reverse('wp4:compare:transplantation_list'))
+
+                else:
+                    messages.warning(
+                        request,
+                        "Recipient may only have one kidney transplanted in this procedure to proceed. " +
+                        "This form will be <strong>closed upon " +
+                        "the next save</strong> unless the single kidney transplant question is set to Yes"
+                    )
         else:
             errors_found += 1
             print("DEBUG: Recipient Errors! %s" % recipient_form.errors)
@@ -415,7 +455,7 @@ def transplantation_form(request, pk=None):
                         organ.save(created_by=current_person.user)
                         messages.success(
                             request,
-                            'Case %s has been <strong>successfully saved and closed</strong>' % organ.trial_id()
+                            'Case %s has been <strong>successfully saved and closed</strong>' % organ.trial_id
                         )
                         return redirect(reverse('wp4:compare:transplantation_list'))
 
@@ -477,7 +517,7 @@ def transplantation_form(request, pk=None):
     else:
         worksheet = None
 
-    print("DEBUG: Second Error Message Update")
+    # print("DEBUG: Second Error Message Update")
     if errors_found > 0:
         messages.error(request, 'Form has <strong>NOT</strong> been saved. Please correct the errors below')
 

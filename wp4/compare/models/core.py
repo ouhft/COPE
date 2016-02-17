@@ -225,11 +225,11 @@ class OrganPerson(VersionControlModel):
     def __unicode__(self):
         if settings.DEBUG:
             return '%s : (%s, %s) %s' % (
-                self.id, self.get_gender_display(), self.age_from_dob(), self.number
+                self.id, self.get_gender_display(), self.age_from_dob, self.number
             )
         else:
             return '(%s, %s) %s' % (
-                self.get_gender_display(), self.age_from_dob(), self.number
+                self.get_gender_display(), self.age_from_dob, self.number
             )
 
 

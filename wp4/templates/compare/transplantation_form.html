@@ -73,7 +73,7 @@
                     {{ form.id }}
                     {% for field in form %}
                         {% if field.errors %}
-                            <p class="text-danger">{{ field.errors|striptags }}</p>
+                            <!-- <p class="alert alert-danger">ERR: {{ field.errors|striptags }}</p> -->
                         {% endif %}
                     {% endfor %}
                     {% crispy form form.helper %}

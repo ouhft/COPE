@@ -49,10 +49,13 @@ class OpenOrganManager(models.Manager):
     and have not had their form closed (either by allocation outside of project area, or completed form).
     """
     def get_queryset(self):
-        pks_to_exclude = [o.pk for o in Organ.allocatable_objects.all()]
+        # pks_to_exclude = [o.pk for o in Organ.allocatable_objects.all()]
         return super(OpenOrganManager, self).get_queryset().\
+            filter(transplantable=True).\
             exclude(transplantation_form_completed=True).\
-            exclude(id__in=pks_to_exclude)
+            exclude(organallocation__isnull=True).\
+            exclude(preservation=PRESERVATION_NOT_SET)
+            # exclude(id__in=pks_to_exclude).\
 
 
 class Organ(VersionControlModel):  # Or specifically, a Kidney
@@ -313,6 +316,16 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
             return "Re-allocation status not yet set"  # Possible for a form that is WIP
 
         return "ERROR: Unknown allocation status (test data?)"
+
+    @property
+    def explain_closed_status(self):
+        """
+        Work out why this form was closed, and display a suitable summary message
+
+        :return: string - message describing the likely cause for the form being closed
+        """
+        # TODO: Write this function
+        return u"Unknown closed status"
 
     @property
     def reallocation_count(self):
