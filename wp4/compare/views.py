@@ -49,7 +49,7 @@ def procurement_list(request):
 
         donor = donor_form.save(request.user, commit=False)
         donor.person = person
-        donor.save()
+        donor.save(created_by=request.user)
 
         # Create the organs and the procurement resources
         create_procurement_initial_data(donor.left_kidney, current_person.user)
@@ -70,17 +70,17 @@ def procurement_list(request):
             randomisation.save()
 
             donor.sequence_number = donor.retrieval_team.next_sequence_number(False)
-            donor.save()
+            donor.save(created_by=request.user)
 
             left_kidney = donor.left_kidney
             left_kidney.transplantable = True
             left_kidney.preservation = PRESERVATION_HMPO2 if randomisation.result else PRESERVATION_HMP
-            left_kidney.save()
+            left_kidney.save(created_by=request.user)
 
             right_kidney = donor.right_kidney
             right_kidney.transplantable = True
             right_kidney.preservation = PRESERVATION_HMP if randomisation.result else PRESERVATION_HMPO2
-            right_kidney.save()
+            right_kidney.save(created_by=request.user)
 
             messages.success(request, '<strong>Offline</strong> case has been successfully started')
 
@@ -224,7 +224,7 @@ def procurement_form(request, pk):
         donor_form, left_organ_form, right_organ_form = randomise(donor, donor_form, left_organ_form, right_organ_form)
     elif request.POST:
         donor.procurement_form_completed = False  # Can't say the form is completed if there are errors
-        donor.save()
+        donor.save(created_by=request.user)
 
         error_count = left_organ_error_count + right_organ_error_count + len(donor_form.errors) + \
             len(person_form.errors)
