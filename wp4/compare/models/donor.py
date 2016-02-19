@@ -212,7 +212,9 @@ class Donor(VersionControlModel):
     death_diagnosed = models.DateTimeField(
         verbose_name=_('DO43 knife to skin time'),
         blank=True, null=True,
-        validators=[validate_between_1900_2050, validate_not_in_future])
+        validators=[validate_between_1900_2050, validate_not_in_future],
+        help_text=_('DO43h This also counts as Date of Death for donor')
+    )
     perfusion_started = models.DateTimeField(
         verbose_name=_('DO44 start in-situ cold perfusion'),
         blank=True, null=True,
@@ -273,15 +275,23 @@ class Donor(VersionControlModel):
         if self.arrival_at_donor_hospital and self.depart_perfusion_centre:
             if self.arrival_at_donor_hospital < self.depart_perfusion_centre:
                 raise ValidationError(
-                    _(
-                        "DOv01 Time travel detected! Arrival at donor hospital occurred before departure from "
-                        "perfusion centre")
+                    _("DOv01 Time travel detected! Arrival at donor hospital occurred before departure"
+                        "from perfusion centre")
                 )
         if self.person_id is not None and self.person.date_of_birth:
-            if self.age != self.person.age_from_dob():
+            if self.age != self.person.age_from_dob:
+                the_end = self.person.date_of_death if self.person.date_of_death else timezone.now().date()
+                lower_date = the_end + relativedelta(years=-self.age, months=-12, days=+1)
+                upper_date = the_end + relativedelta(years=-self.age)
                 raise ValidationError(
-                    _("DOv05 Age does not match age as calculated (%(num)d years) from Date of Birth"
-                      % {'num': self.person.age_from_dob()})
+                    _("DOv05 Age (%(age)d) does not match age as calculated (%(num)d years) from Date of"
+                        "Birth. DoB should be between %(date1)s and %(date2)s."
+                        % {
+                            'age': self.age,
+                            'num': self.person.age_from_dob,
+                            'date1': lower_date.strftime('%d %b %Y'),
+                            'date2': upper_date.strftime('%d %b %Y')
+                        })
                 )
             if self.date_of_procurement:
                 calculated_age = relativedelta(self.date_of_procurement, self.date_of_birth).years
@@ -327,8 +337,8 @@ class Donor(VersionControlModel):
     @transaction.atomic
     def randomise(self, is_online=True):
         # Randomise if eligible and not already done
-        left_kidney = self.left_kidney()
-        right_kidney = self.right_kidney()
+        left_kidney = self.left_kidney
+        right_kidney = self.right_kidney
         if left_kidney.preservation == PRESERVATION_NOT_SET \
                 and self.multiple_recipients is not False \
                 and left_kidney.transplantable \

@@ -265,7 +265,7 @@
         }
 
         function updateCloseButton() {
-            var isCompleted = $('input:radio[name=donor-form_completed]:checked').val() != "False"
+            var isCompleted = $('input:radio[name=donor-procurement_form_completed]:checked').val() == "True";
             if (isCompleted) {
                 $('#nav_button_save').toggleClass('btn-primary', false).toggleClass('btn-danger', true).val("Save and Close");
             } else {
@@ -299,7 +299,7 @@
             $('input:radio[name=donor-multiple_recipients]').parents('label').on('click', function () {
                 clickRecipients(this)
             });
-            $('input:radio[name=donor-form_completed]').parents('label').on('change', function () {
+            $('input:radio[name=donor-procurement_form_completed]').parents('label').on('change', function () {
                 clickCompleted(this)
             });
 

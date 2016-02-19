@@ -78,6 +78,36 @@
                 <p>No open cases available. Contact us if you think this is in error.</p>
             {% endif %}
 
+        </div>
+
+        <div class="col-md-3">
+            <h2>New Case</h2>
+
+            <form method="post" action="{% url 'wp4:compare:procurement_list' %}" class="form" id="new-case-form">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Start a new donor case</h3>
+                    </div>
+                    <div class="panel-body">
+                        {% if donor_form.non_field_errors %}
+                            <ul class="list-group">
+                                {% for error in donor_form.non_field_errors %}
+                                    <li class="list-group-item list-group-item-danger">{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        {% crispy donor_form %}
+                    </div>
+                    <div class="panel-footer">
+                        <input type="submit" class="btn btn-success" value="Start new case"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+    <div class="col-md-12">
+
             {% if closed_donors|length > 0 %}
             <h2>Closed Cases
                 <small>({{ closed_donors|length }} case{{ closed_donors|pluralize }})</small>
@@ -98,10 +128,7 @@
                     <tbody>
                     {% for donor in closed_donors %}
                         <tr>
-                            <td><a href="{% url 'wp4:compare:procurement_detail' donor.id %}"
-                                   class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i>
-                                {{ donor.trial_id }}
-                            </a></td>
+                            <td><strong>{{ donor.trial_id }}</strong></td>
                             <td>{{ donor.created_on }}</td>
                             {#                        TODO: Replace this text with a flag image #}
                             <td>{{ donor.retrieval_team.based_at.get_country_display }}</td>
@@ -139,34 +166,15 @@
                     {% endfor %}
                     </tbody>
                 </table>
+            {% else %}
+                {% if perms.is_staff %}
+                <h3>
+                    Closed Cases
+                    <small>({{ closed_donors|length }} closed case{{ closed_donors|pluralize }})</small>
+                </h3>
+                {% endif %}
             {% endif %}
-
-        </div>
-
-        <div class="col-md-3">
-            <h2>New Case</h2>
-
-            <form method="post" action="{% url 'wp4:compare:procurement_list' %}" class="form" id="new-case-form">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Start a new donor case</h3>
-                    </div>
-                    <div class="panel-body">
-                        {% if donor_form.non_field_errors %}
-                            <ul class="list-group">
-                                {% for error in donor_form.non_field_errors %}
-                                    <li class="list-group-item list-group-item-danger">{{ error }}</li>
-                                {% endfor %}
-                            </ul>
-                        {% endif %}
-                        {% crispy donor_form %}
-                    </div>
-                    <div class="panel-footer">
-                        <input type="submit" class="btn btn-success" value="Start new case"/>
-                    </div>
-                </div>
-            </form>
-        </div>
+    </div>
     </div>
 {% endblock %}
 
