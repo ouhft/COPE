@@ -362,7 +362,7 @@ def transplantation_form(request, pk=None):
     if organ_form.is_valid():
         # TODO: WORKING HERE TO SORT OUT FORM COMPLETION
 
-        organ_form.save(request.user)
+        organ = organ_form.save(request.user)
         print("DEBUG: hello organ form, nice to meet you")
 
     # See if we can process the forms associated with the eventual recipient
@@ -529,6 +529,9 @@ def transplantation_form(request, pk=None):
     # print("DEBUG: Second Error Message Update")
     if errors_found > 0:
         messages.error(request, 'Form has <strong>NOT</strong> been saved. Please correct the errors below')
+        organ.transplantation_form_completed = False
+        organ.save()
+        # organ_form = TransplantOrganForm(instance=organ, prefix="transplant-organ")
 
     print("DEBUG: errors_found %d" % errors_found)
 

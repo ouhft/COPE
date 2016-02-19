@@ -299,6 +299,19 @@ class Recipient(VersionControlModel):
         if self.reperfusion_started_at_unknown:
             self.reperfusion_started_at = None
 
+        if self.organ.transplantation_form_completed:
+            # Things to check if the form is being marked as complete...
+            if self.perfusion_stopped is None:  # RE20
+                raise ValidationError(_("REv01 Missing time machine perfusion stopped"))
+            if self.removed_from_machine_at is None:  # RE23
+                raise ValidationError(_("REv02 Missing time kidney removed from machine"))
+            if self.anesthesia_started_at is None:  # RE27
+                raise ValidationError(_("REv03 Missing Start time of anaesthesia"))
+            if self.anastomosis_started_at is None and self.anastomosis_started_at_unknown is False:  # RE34
+                raise ValidationError(_("REv04 Missing Anastomosis Start Time"))
+            if self.reperfusion_started_at is None and self.reperfusion_started_at_unknown is False:  # RE35
+                raise ValidationError(_("REv05 Missing Reperfusion Start Time"))
+
     def __unicode__(self):
         return '%s (%s)' % (self.person.number, self.trial_id)
 

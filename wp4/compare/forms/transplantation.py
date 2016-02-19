@@ -2,6 +2,7 @@
 # coding: utf-8
 from django import forms
 from django.conf import settings
+from django.utils.translation import ugettext_lazy as _
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Div, HTML, Field
@@ -270,6 +271,17 @@ class RecipientForm(forms.ModelForm):
             'cleaning_log',
         ]
         localized_fields = "__all__"
+
+    def clean(self):
+        cleaned_data = super(RecipientForm, self).clean()
+        organ_untransplantable = cleaned_data.get("organ_untransplantable")
+        organ_untransplantable_reason = cleaned_data.get("organ_untransplantable_reason")
+        if organ_untransplantable == True and organ_untransplantable_reason == "":
+            self.add_error(
+                'organ_untransplantable_reason',
+                forms.ValidationError(_("RFv01 Please enter a reason why this was untransplantable"))
+            )
+        return cleaned_data
 
 
 class TransplantOrganForm(forms.ModelForm):
