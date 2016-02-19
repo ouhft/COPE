@@ -275,6 +275,7 @@ class Donor(VersionControlModel):
         if self.arrival_at_donor_hospital and self.depart_perfusion_centre:
             if self.arrival_at_donor_hospital < self.depart_perfusion_centre:
                 raise ValidationError(
+                    # TODO: Fix the lack of space in the strings when joined
                     _("DOv01 Time travel detected! Arrival at donor hospital occurred before departure"
                         "from perfusion centre")
                 )
@@ -284,6 +285,7 @@ class Donor(VersionControlModel):
                 lower_date = the_end + relativedelta(years=-self.age, months=-12, days=+1)
                 upper_date = the_end + relativedelta(years=-self.age)
                 raise ValidationError(
+                    # TODO: Fix the lack of space in the strings when joined
                     _("DOv05 Age (%(age)d) does not match age as calculated (%(num)d years) from Date of"
                         "Birth. DoB should be between %(date1)s and %(date2)s."
                         % {

@@ -1,9 +1,9 @@
 {% load crispy_forms_field crispy_forms_filters %}
 {% load l10n i18n %}
 
-<div class="form-group {{ field.css_class|default:"" }}">
-    {# TODO: Add errors and error state #}
-    {{ field.label_tag }}
+<!-- START: wp4/templates/bootstrap3/foreign-key-modal.html -->
+<div class="form-group {{ field.css_class|default:"" }}{% if field.errors %}has-error{% endif %}">
+    <label class="control-label" for="">{{ field.label_tag|striptags }}</label>
 
     <div class="input-group" id="{{ field.html_name }}-group">
         <span class="input-group-addon {% if field.value == None or field.value == "" %}hidden{% endif %}" id="{{ field.id_for_label }}-edit">
@@ -16,6 +16,9 @@
                     class="glyphicon glyphicon-search"></i></a>
         </span>
     </div>
+    {% if field.errors %}
+        <span class="help-block">{{ field.errors|striptags }}</span>
+    {% endif %}
 
     <span class="hidden">{{ field.as_widget }}</span>
     <script>
@@ -29,3 +32,4 @@
         <p id="hint_{{ field.auto_id }}" class="help-block">{{ field.help_text|safe }}</p>
     {% endif %}
 </div>
+<!-- END: wp4/templates/bootstrap3/foreign-key-modal.html -->

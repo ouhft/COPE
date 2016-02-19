@@ -236,7 +236,10 @@ def procurement_form(request, pk):
             len(person_form.errors)
         messages.error(
             request,
-            '<strong>Form was NOT saved</strong>, please correct the %d errors below' % error_count
+            '<strong>Form was NOT saved</strong>, please correct the %d %s below' % (
+                error_count,
+                "errors" if error_count != 1 else "error"
+            )
         )
 
     # MESSAGES NOTES

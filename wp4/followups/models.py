@@ -251,14 +251,14 @@ class FollowUpInitial(FollowUpBase):
         verbose_name_plural = _("FIm2 Initial FollowUps")
 
     def __unicode__(self):
-        return '%s (%s)' % (self.trial_id(), self.start_date)
+        return '%s (%s)' % (self.trial_id, self.start_date)
 
     def get_absolute_url(self):
         return reverse('wp4:followup:initial_detail', kwargs={'pk': self.pk})
 
+    @property
     def trial_id(self):
-        return self.organ.trial_id()
-    trial_id.short_description = 'Trial ID'
+        return self.organ.trial_id
 
 
 class FollowUp3M(FollowUpBase):
@@ -336,15 +336,15 @@ class FollowUp3M(FollowUpBase):
         verbose_name_plural = _("F3m2 3 Month FollowUps")
 
     def __unicode__(self):
-        return '%s (%s)' % (self.trial_id(), self.start_date)
+        return '%s (%s)' % (self.trial_id, self.start_date)
 
     def get_absolute_url(self):
         # return reverse('followup:initial_detail', kwargs={'pk': self.pk})
         return ""
 
+    @property
     def trial_id(self):
-        return self.organ.trial_id()
-    trial_id.short_description = 'Trial ID'
+        return self.organ.trial_id
 
 
 class FollowUp6M(FollowUpBase):
@@ -391,15 +391,15 @@ class FollowUp6M(FollowUpBase):
         verbose_name_plural = _("F6m2 6 Month FollowUps")
 
     def __unicode__(self):
-        return '%s (%s)' % (self.trial_id(), self.start_date)
+        return '%s (%s)' % (self.trial_id, self.start_date)
 
     def get_absolute_url(self):
         # return reverse('followup:initial_detail', kwargs={'pk': self.pk})
         return ""
 
+    @property
     def trial_id(self):
-        return self.organ.trial_id()
-    trial_id.short_description = 'Trial ID'
+        return self.organ.trial_id
 
 
 class FollowUp1Y(FollowUpBase):
@@ -474,12 +474,12 @@ class FollowUp1Y(FollowUpBase):
         verbose_name_plural = _("FYm2 1 Year FollowUps")
 
     def __unicode__(self):
-        return '%s (%s)' % (self.trial_id(), self.start_date)
+        return '%s (%s)' % (self.trial_id, self.start_date)
 
     def get_absolute_url(self):
         # return reverse('followup:initial_detail', kwargs={'pk': self.pk})
         return ""
 
+    @property
     def trial_id(self):
-        return self.organ.trial_id()
-    trial_id.short_description = 'Trial ID'
+        return self.organ.trial_id

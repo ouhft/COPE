@@ -248,7 +248,7 @@ class DonorForm(forms.ModelForm):
         form_completed = cleaned_data.get("procurement_form_completed")
         if form_completed:
             not_randomised_because = cleaned_data.get("not_randomised_because")
-            if not_randomised_because == 0 and not self.instance.is_randomised():
+            if not_randomised_because == 0 and not self.instance.is_randomised:
                 self.add_error(
                     'not_randomised_because',
                     forms.ValidationError(_("DFv01 Please enter a valid reason for this case to not be randomised"))
@@ -261,7 +261,7 @@ class DonorForm(forms.ModelForm):
                     forms.ValidationError(_("DFv02 Please add additional information"))
                 )
 
-            retrieval_hospital = cleaned_data.get("not_randomised_because")
+            retrieval_hospital = cleaned_data.get("retrieval_hospital")
             if not retrieval_hospital:
                 self.add_error('retrieval_hospital', forms.ValidationError(_("DFv03 Missing retrieval hospital")))
 
