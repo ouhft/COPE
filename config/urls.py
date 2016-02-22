@@ -17,7 +17,7 @@ urlpatterns = [
 ]
 
 urlpatterns += i18n_patterns(
-    url(r'^autocomplete/', include('autocomplete_light.urls')),
+    # url(r'^autocomplete/', include('autocomplete_light.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^wp4/', include(wp4_urls, namespace='wp4')),

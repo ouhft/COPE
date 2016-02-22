@@ -137,7 +137,12 @@
 
 
 {% block footer_extra_scripts %}
-    {% include 'autocomplete_light/static.html' %}
+    {{ allocation_formset.0.media }}
+    <style>
+        .select2-container {
+            min-width: 6em;
+        }
+    </style>
 
     <script>
         $(document).bind('yourlabsWidgetReady', function () {

@@ -1,15 +1,29 @@
 #!/usr/bin/python
 # coding: utf-8
 
-from django import forms
 from django.contrib import messages
+from django.db.models import Q
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
 
 from braces.views import LoginRequiredMixin
+from dal import autocomplete
 
 from ..theme.layout import AjaxReturnIDMixin
 from .models import Hospital
 from .forms import HospitalForm
+
+
+class HospitalAutoComplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        if not self.request.user.is_authenticated():
+            return Hospital.objects.none()
+
+        qs = Hospital.objects.all()
+
+        if self.q:
+            qs = qs.filter(Q(name__icontains=self.q) | Q(country__icontains=self.q))
+
+        return qs
 
 
 # ============================================  MIXINS

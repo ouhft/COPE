@@ -6,7 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, HTML, Field
-from autocomplete_light.fields import ModelChoiceField
+from dal import autocomplete
 
 from wp4.theme.layout import FieldWithFollowup, FieldWithNotKnown
 from wp4.theme.layout import DateField, FormPanel
@@ -75,7 +75,6 @@ class OrganPersonForm(forms.ModelForm):
 
 
 class DonorStartForm(forms.ModelForm):
-    perfusion_technician = ModelChoiceField('TechnicianAutoComplete')
     gender = forms.CharField(max_length=1, min_length=1)
     online = forms.BooleanField(initial=True, label=_("DSF02 Online Randomisation?"))
     randomisation = forms.ModelChoiceField(
@@ -104,7 +103,6 @@ class DonorStartForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(DonorStartForm, self).__init__(*args, **kwargs)
-        self.fields['perfusion_technician'].label = Donor._meta.get_field("perfusion_technician").verbose_name.title()
         self.fields['gender'].label = OrganPerson._meta.get_field("gender").verbose_name.title()
         self.fields['gender'].choices = OrganPerson.GENDER_CHOICES
         self.fields['online'].required = False
@@ -113,6 +111,10 @@ class DonorStartForm(forms.ModelForm):
     class Meta:
         model = Donor
         fields = ['retrieval_team', 'perfusion_technician', 'age', 'gender']
+        widgets = {
+            'perfusion_technician': autocomplete.ModelSelect2(url='wp4:staff_person:technician-autocomplete'),
+            'retrieval_team': autocomplete.ModelSelect2(url='wp4:compare:retrieval-team-autocomplete')
+        }
         localized_fields = '__all__'
 
     def save(self, user=None, *args, **kwargs):
@@ -141,7 +143,8 @@ class DonorStartForm(forms.ModelForm):
 
 class AllocationStartForm(forms.Form):
     organ = forms.ModelChoiceField(
-        Organ.allocatable_objects.all(),
+        queryset=Organ.allocatable_objects.all(),
+        # widget=autocomplete.ModelSelect2(url='wp4:compare:transplantable-organs-autocomplete'),
         label=_("ASF01 Select trial id for case")
     )
     allocated = forms.BooleanField(

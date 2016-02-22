@@ -6,7 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Div, HTML, Field
-from autocomplete_light.fields import ModelChoiceField
+from dal import autocomplete
 
 from wp4.theme.layout import FieldWithFollowup, YesNoFieldWithAlternativeFollowups, FieldWithNotKnown, ForeignKeyModal
 from wp4.theme.layout import DateTimeField, FormPanel
@@ -16,8 +16,6 @@ from .core import NO_YES_CHOICES
 
 
 class AllocationForm(forms.ModelForm):
-    perfusion_technician = ModelChoiceField('TechnicianAutoComplete')
-
     layout_reallocation = Layout(
         FieldWithFollowup(
             Field('reallocation_reason', template="bootstrap3/layout/radioselect-buttons.html"),
@@ -85,8 +83,6 @@ class AllocationForm(forms.ModelForm):
         super(AllocationForm, self).__init__(*args, **kwargs)
         self.fields['organ'].widget = forms.HiddenInput()
         self.fields['perfusion_technician'].required = False
-        self.fields['perfusion_technician'].label = OrganAllocation._meta.get_field(
-            "perfusion_technician").verbose_name.title()
         self.fields['call_received'].input_formats = settings.DATETIME_INPUT_FORMATS
         self.fields['scheduled_start'].input_formats = settings.DATETIME_INPUT_FORMATS
         self.fields['technician_arrival'].input_formats = settings.DATETIME_INPUT_FORMATS
@@ -107,6 +103,9 @@ class AllocationForm(forms.ModelForm):
             'journey_remarks', 'reallocated', 'reallocation_reason', 'reallocation_reason_other',
             'reallocation'
         ]
+        widgets = {
+            'perfusion_technician': autocomplete.ModelSelect2(url='wp4:staff_person:technician-autocomplete')
+        }
         localized_fields = "__all__"
 
     def save(self, user=None, *args, **kwargs):

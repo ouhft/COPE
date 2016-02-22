@@ -3,13 +3,28 @@
 
 from django import forms
 from django.contrib import messages
+from django.db.models import Q
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
 
 from braces.views import LoginRequiredMixin
+from dal import autocomplete
 
-from ..theme.layout import AjaxReturnIDMixin
-from .models import StaffPerson
+from wp4.theme.layout import AjaxReturnIDMixin
+from .models import StaffPerson, StaffJob
 from .forms import StaffPersonForm
+
+
+class TechnicianAutoComplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        if not self.request.user.is_authenticated():
+            return StaffPerson.objects.none()
+
+        qs = StaffPerson.objects.filter(jobs__in=[StaffJob.PERFUSION_TECHNICIAN])
+
+        if self.q:
+            qs = qs.filter(Q(first_names__icontains=self.q) | Q(last_names__icontains=self.q))
+
+        return qs
 
 
 # ============================================  MIXINS

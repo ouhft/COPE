@@ -2,6 +2,7 @@
 # coding: utf-8
 
 from django.contrib import messages
+from django.db.models import Q
 from django.template import RequestContext
 from django.shortcuts import get_object_or_404, render, render_to_response
 from django.contrib.auth.decorators import login_required, permission_required
@@ -9,11 +10,13 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import redirect
 from django.utils import timezone
 
+from dal import autocomplete
+
 from wp4.staff_person.models import StaffJob, StaffPerson
 from wp4.samples.utils import create_donor_worksheet, create_recipient_worksheet
 # from wp4.utils import job_required, group_required
 
-from .models import OrganPerson, Donor, Organ, Recipient, ProcurementResource, OrganAllocation
+from .models import OrganPerson, Donor, Organ, Recipient, ProcurementResource, OrganAllocation, RetrievalTeam
 from .models import PRESERVATION_HMPO2, PRESERVATION_HMP
 from .forms.core import DonorStartForm, OrganPersonForm, AllocationStartForm
 from .forms.procurement import DonorForm, OrganForm
@@ -24,6 +27,19 @@ from .forms.transplantation import AllocationFormSet, RecipientForm, TransplantO
 @login_required
 def index(request):
     return render(request, 'compare/index.html', {})
+
+
+class RetrievalTeamAutoComplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        if not self.request.user.is_authenticated():
+            return RetrievalTeam.objects.none()
+
+        qs = RetrievalTeam.objects.all()
+
+        if self.q:
+            qs = qs.filter(Q(centre_code__icontains=self.q) | Q(based_at__name__icontains=self.q))
+
+        return qs
 
 
 @permission_required('compare.add_donor')

@@ -180,5 +180,10 @@
 
 
 {% block footer_extra_scripts %}
-    {% include 'autocomplete_light/static.html' %}
+    {{ donor_form.media }}
+    <style>
+        .select2-container {
+            min-width: 6em;
+        }
+    </style>
 {% endblock %}

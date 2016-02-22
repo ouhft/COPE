@@ -336,10 +336,11 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
         return count
 
     def __unicode__(self):
-        return '%s : %s' % (
-            self.trial_id,
-            u"Randomised" if self.donor.is_randomised else u"Not yet eligible"
-        )
+        return self.trial_id
+        # return '%s : %s' % (
+        #     self.trial_id,
+        #     u"Randomised" if self.donor.is_randomised else u"Not yet eligible"
+        # )
 
     class Meta:
         verbose_name = _('ORm1 organ')

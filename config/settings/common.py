@@ -49,7 +49,8 @@ THIRD_PARTY_APPS = [
     # 'allauth.socialaccount',  # registration
 ]
 THIRD_PARTY_PRE_DJANGO_APPS = [
-    'autocomplete_light',
+    'dal',
+    'dal_select2',
 ]
 
 # Apps specific for this project go here.

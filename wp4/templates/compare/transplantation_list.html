@@ -111,10 +111,6 @@
     </div>
     <div class="row">
     <div class="col-md-12">
-
-
-
-
             {% if closed_cases|length > 0 %}
                 <h3>
                     Closed Cases
@@ -186,4 +182,14 @@
             {% endif %}
     </div>
     </div>
+{% endblock %}
+
+
+{% block footer_extra_scripts %}
+    {{ allocation_form.media }}
+    <style>
+        .select2-container {
+            min-width: 6em;
+        }
+    </style>
 {% endblock %}
