@@ -13,8 +13,20 @@ from wp4.compare.models import VersionControlModel, Organ, YES_NO_UNKNOWN_CHOICE
 
 
 class FollowUpBase(VersionControlModel):
+    # Form metadata
     start_date = models.DateField(verbose_name=_("FB01 start date"), default=timezone.now)
     completed = models.BooleanField(verbose_name=_("FB21 form completed"), default=False)
+
+    # Is there a live recipient to follow up on?
+    # See property is_alive for the yes no display, the question exists alone in the form
+    # For date of death, refer to organ.recipient.person.date_of_death
+    on_dialysis_at_death = models.NullBooleanField(
+        verbose_name=_("FB30 on dialysis at death"),
+        blank=True
+    )
+    # Last creatinine is already captured as self.serum_creatinine_1_unit
+    # the eGFR and mGFR are calculations producing results from data we already collect
+
 
     FAILURE_OTHER = 10
     FAILURE_CHOICES = (
@@ -32,11 +44,13 @@ class FollowUpBase(VersionControlModel):
         verbose_name=_("FB03 graft failure"),
         choices=FAILURE_CHOICES,
         null=True,
-        blank=True)
+        blank=True
+    )
     graft_failure_type_other = models.CharField(
         verbose_name=_("FB04 Other failure type"),
         max_length=200,
-        blank=True)
+        blank=True
+    )
     graft_removal = models.NullBooleanField(verbose_name=_("FB06 graft removal"), blank=True)
     graft_removal_date = models.DateField(verbose_name=_("FB07 date of graft removal"), null=True, blank=True)
 
@@ -59,7 +73,10 @@ class FollowUpBase(VersionControlModel):
     # serum_creatinine * 7
     # urine_creatinine
     # creatinine_clearance
-    dialysis_requirement_1 = models.DateField(verbose_name=_("FB10 date of dialysis requirement 1"), null=True, blank=True)
+    last_dialysis_at = models.DateField(
+        verbose_name=_("FB10 date of last dialysis"),
+        null=True, blank=True
+    )
 
     DIALYSIS_TYPE_CHOICES = (
         (1, _("FBc10 CAPD")),

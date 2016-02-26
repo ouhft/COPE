@@ -59,18 +59,30 @@ class Donor(VersionControlModel):
         related_name="donor_transplant_coordinator_set",
         blank=True,
         null=True)
-    call_received = models.DateTimeField(verbose_name=_('DO05 Consultant to MTO called at'), blank=True, null=True,
-                                         validators=[validate_between_1900_2050, validate_not_in_future])
+    call_received = models.DateTimeField(
+        verbose_name=_('DO05 Consultant to MTO called at'),
+        blank=True, null=True,
+        validators=[validate_between_1900_2050, validate_not_in_future]
+    )
     call_received_unknown = models.BooleanField(default=False)  # Internal flag
     retrieval_hospital = models.ForeignKey(Hospital, verbose_name=_('DO06 donor hospital'), blank=True, null=True)
-    scheduled_start = models.DateTimeField(verbose_name=_('DO07 time of withdrawal therapy'), blank=True, null=True,
-                                           validators=[validate_between_1900_2050])
+    scheduled_start = models.DateTimeField(
+        verbose_name=_('DO07 time of withdrawal therapy'),
+        blank=True, null=True,
+        validators=[validate_between_1900_2050]
+    )
     scheduled_start_unknown = models.BooleanField(default=False)  # Internal flag
-    technician_arrival = models.DateTimeField(verbose_name=_('DO08 arrival time of technician'), blank=True, null=True,
-                                              validators=[validate_between_1900_2050, validate_not_in_future])
+    technician_arrival = models.DateTimeField(
+        verbose_name=_('DO08 arrival time of technician'),
+        blank=True, null=True,
+        validators=[validate_between_1900_2050, validate_not_in_future]
+    )
     technician_arrival_unknown = models.BooleanField(default=False)  # Internal flag
-    ice_boxes_filled = models.DateTimeField(verbose_name=_('DO09 ice boxes filled'), blank=True, null=True,
-                                            validators=[validate_between_1900_2050, validate_not_in_future])
+    ice_boxes_filled = models.DateTimeField(
+        verbose_name=_('DO09 ice boxes filled'),
+        blank=True, null=True,
+        validators=[validate_between_1900_2050, validate_not_in_future]
+    )
     ice_boxes_filled_unknown = models.BooleanField(default=False)  # Internal flag
     depart_perfusion_centre = models.DateTimeField(
         verbose_name=_('DO10 departure from base hospital at'),
@@ -80,22 +92,33 @@ class Donor(VersionControlModel):
     arrival_at_donor_hospital = models.DateTimeField(
         verbose_name=_('DO11 arrival at donor hospital'),
         blank=True, null=True,
-        validators=[validate_between_1900_2050, validate_not_in_future])
+        validators=[validate_between_1900_2050, validate_not_in_future]
+    )
     arrival_at_donor_hospital_unknown = models.BooleanField(default=False)  # Internal flag
 
     # Donor details (in addition to OrganPerson)
     age = models.PositiveSmallIntegerField(
         verbose_name=_('DO12 age'),
-        validators=[MinValueValidator(50), MaxValueValidator(99)])
-    date_of_admission = models.DateField(verbose_name=_('DO13 date of admission'), blank=True, null=True,
-                                         validators=[validate_between_1900_2050, validate_not_in_future])
+        validators=[MinValueValidator(50), MaxValueValidator(99)]
+    )
+    date_of_admission = models.DateField(
+        verbose_name=_('DO13 date of admission'),
+        blank=True, null=True,
+        validators=[validate_between_1900_2050, validate_not_in_future]
+    )
     date_of_admission_unknown = models.BooleanField(default=False)  # Internal flag
     admitted_to_itu = models.BooleanField(verbose_name=_('DO14 admitted to ITU'), default=False)
-    date_admitted_to_itu = models.DateField(verbose_name=_('DO15 when admitted to ITU'), blank=True, null=True,
-                                            validators=[validate_between_1900_2050, validate_not_in_future])
+    date_admitted_to_itu = models.DateField(
+        verbose_name=_('DO15 when admitted to ITU'),
+        blank=True, null=True,
+        validators=[validate_between_1900_2050, validate_not_in_future]
+    )
     date_admitted_to_itu_unknown = models.BooleanField(default=False)  # Internal flag
-    date_of_procurement = models.DateField(verbose_name=_('DO16 date of procurement'), blank=True, null=True,
-                                           validators=[validate_between_1900_2050, validate_not_in_future])
+    date_of_procurement = models.DateField(
+        verbose_name=_('DO16 date of procurement'),
+        blank=True, null=True,
+        validators=[validate_between_1900_2050, validate_not_in_future]
+    )
     other_organs_procured = models.BooleanField(verbose_name=_("DO17 other organs procured"), default=False)
     other_organs_lungs = models.BooleanField(verbose_name=_("DO18 lungs"), default=False)
     other_organs_pancreas = models.BooleanField(verbose_name=_("DO19 pancreas"), default=False)
@@ -111,9 +134,13 @@ class Donor(VersionControlModel):
         (DIAGNOSIS_CEREBROVASCULAR_ACCIDENT, _("DOc01 Cerebrovascular Accident")),
         (DIAGNOSIS_HYPOXIA, _("DOc02 Hypoxia")),
         (DIAGNOSIS_TRAUMA, _("DOc03 Trauma")),
-        (DIAGNOSIS_OTHER, _("DOc04 Other")))
-    diagnosis = models.PositiveSmallIntegerField(verbose_name=_('DO22 diagnosis'), choices=DIAGNOSIS_CHOICES,
-                                                 blank=True, null=True)
+        (DIAGNOSIS_OTHER, _("DOc04 Other"))
+    )
+    diagnosis = models.PositiveSmallIntegerField(
+        verbose_name=_('DO22 diagnosis'),
+        choices=DIAGNOSIS_CHOICES,
+        blank=True, null=True
+    )
     diagnosis_other = models.CharField(verbose_name=_('DO23 other diagnosis'), max_length=250, blank=True)
     diabetes_melitus = models.PositiveSmallIntegerField(
         verbose_name=_('DO24 diabetes mellitus'),
@@ -123,55 +150,70 @@ class Donor(VersionControlModel):
     alcohol_abuse = models.PositiveSmallIntegerField(
         verbose_name=_('DO25 alcohol abuse'),
         choices=YES_NO_UNKNOWN_CHOICES,
-        blank=True, null=True)
+        blank=True, null=True
+    )
     cardiac_arrest = models.NullBooleanField(
         verbose_name=_('DO26 cardiac arrest'),  # 'Cardiac Arrest (During ITU stay, prior to Retrieval Procedure)',
-        blank=True, null=True)
+        blank=True, null=True
+    )
     systolic_blood_pressure = models.PositiveSmallIntegerField(
         verbose_name=_('DO27 last systolic blood pressure'),  # "Last Systolic Blood Pressure (Before switch off)",
         validators=[MinValueValidator(10), MaxValueValidator(200)],
-        blank=True, null=True)
+        blank=True, null=True
+    )
     diastolic_blood_pressure = models.PositiveSmallIntegerField(
         verbose_name=_('DO28 last diastolic blood pressure'),  # "Last Diastolic Blood Pressure (Before switch off)",
         validators=[MinValueValidator(10), MaxValueValidator(200)],
-        blank=True, null=True)
+        blank=True, null=True
+    )
     diuresis_last_day = models.PositiveSmallIntegerField(
         verbose_name=_('DO29 diuresis last day (ml)'),
-        blank=True, null=True)
+        blank=True, null=True
+    )
     diuresis_last_day_unknown = models.BooleanField(default=False)  # Internal flag
     diuresis_last_hour = models.PositiveSmallIntegerField(
         verbose_name=_('DO30 diuresis last hour (ml)'),
-        blank=True, null=True)
+        blank=True, null=True
+    )
     diuresis_last_hour_unknown = models.BooleanField(default=False)  # Internal flag
     dopamine = models.PositiveSmallIntegerField(
         verbose_name=_('DO31 dopamine'),
         choices=YES_NO_UNKNOWN_CHOICES,
-        blank=True, null=True)
+        blank=True, null=True
+    )
     dobutamine = models.PositiveSmallIntegerField(
         verbose_name=_('DO32 dobutamine'),
         choices=YES_NO_UNKNOWN_CHOICES,
-        blank=True, null=True)
+        blank=True, null=True
+    )
     nor_adrenaline = models.PositiveSmallIntegerField(
         verbose_name=_('DO33 nor adrenaline'),
         choices=YES_NO_UNKNOWN_CHOICES,
-        blank=True, null=True)
+        blank=True, null=True
+    )
     vasopressine = models.PositiveSmallIntegerField(
         verbose_name=_('DO34 vasopressine'),
         choices=YES_NO_UNKNOWN_CHOICES,
-        blank=True, null=True)
+        blank=True, null=True
+    )
     other_medication_details = models.CharField(
         verbose_name=_('DO35 other medication'),
         max_length=250,
-        blank=True)
+        blank=True
+    )
 
     # Lab results
     UNIT_MGDL = 1
     UNIT_UMOLL = 2
     UNIT_CHOICES = (
         (UNIT_MGDL, "mg/dl"),
-        (UNIT_UMOLL, "umol/L"))
-    last_creatinine = models.FloatField(verbose_name=_('DO36 last creatinine'), validators=[MinValueValidator(0.0), ],
-                                        blank=True, null=True)
+        (UNIT_UMOLL, "umol/L")
+    )
+    last_creatinine = models.FloatField(
+        verbose_name=_('DO36 last creatinine'),
+        validators=[MinValueValidator(0.0), ],
+        blank=True, null=True
+    )
     last_creatinine_unit = models.PositiveSmallIntegerField(choices=UNIT_CHOICES, default=UNIT_MGDL)
     max_creatinine = models.FloatField(verbose_name=_('DO37 max creatinine'), blank=True, null=True)
     max_creatinine_unit = models.PositiveSmallIntegerField(choices=UNIT_CHOICES, default=UNIT_MGDL)
@@ -185,56 +227,68 @@ class Donor(VersionControlModel):
         (SOLUTION_HTK, "HTK"),
         (SOLUTION_MARSHALL, "Marshall's"),
         (SOLUTION_UW, "UW"),
-        (SOLUTION_OTHER, _("DOc04 Other")))
+        (SOLUTION_OTHER, _("DOc04 Other"))
+    )
     life_support_withdrawal = models.DateTimeField(
         verbose_name=_('DO38 withdrawal of life support'),
         blank=True, null=True,
-        validators=[validate_between_1900_2050, validate_not_in_future])
+        validators=[validate_between_1900_2050, validate_not_in_future]
+    )
     systolic_pressure_low = models.DateTimeField(
         verbose_name=_('DO39 systolic arterial pressure'),  # < 50 mm Hg (inadequate organ perfusion)
         blank=True, null=True,
-        validators=[validate_between_1900_2050, validate_not_in_future])
+        validators=[validate_between_1900_2050, validate_not_in_future]
+    )
     systolic_pressure_low_unknown = models.BooleanField(default=False)  # Internal flag
     o2_saturation = models.DateTimeField(
         verbose_name=_('DO40 O2 saturation below 80%'),
         blank=True, null=True,
-        validators=[validate_between_1900_2050, validate_not_in_future])
+        validators=[validate_between_1900_2050, validate_not_in_future]
+    )
     o2_saturation_unknown = models.BooleanField(default=False)  # Internal flag
     circulatory_arrest = models.DateTimeField(
         verbose_name=_('DO41 end of cardiac output'),  # (=start of no touch period)',
         blank=True, null=True,
-        validators=[validate_between_1900_2050, validate_not_in_future])
+        validators=[validate_between_1900_2050, validate_not_in_future]
+    )
     circulatory_arrest_unknown = models.BooleanField(default=False)  # Internal flag
     length_of_no_touch = models.PositiveSmallIntegerField(
         verbose_name=_('DO42 length of no touch period (minutes)'),
         blank=True, null=True,
-        validators=[MinValueValidator(1), MaxValueValidator(60)])
+        validators=[MinValueValidator(1), MaxValueValidator(60)]
+    )
     death_diagnosed = models.DateTimeField(
         verbose_name=_('DO43 knife to skin time'),
         blank=True, null=True,
         validators=[validate_between_1900_2050, validate_not_in_future],
         help_text=_('DO43h This also counts as Date of Death for donor')
+        # Have to sync this data to the OrganPerson.date_of_death, see the save method
     )
     perfusion_started = models.DateTimeField(
         verbose_name=_('DO44 start in-situ cold perfusion'),
         blank=True, null=True,
-        validators=[validate_between_1900_2050, validate_not_in_future])
+        validators=[validate_between_1900_2050, validate_not_in_future]
+    )
     perfusion_started_unknown = models.BooleanField(default=False)  # Internal flag
     systemic_flush_used = models.PositiveSmallIntegerField(
         verbose_name=_('DO45 systemic (aortic) flush solution used'),
         choices=SOLUTION_CHOICES,
-        blank=True, null=True)
+        blank=True, null=True
+    )
     systemic_flush_used_other = models.CharField(
         verbose_name=_('DO46 systemic flush used'),
         max_length=250,
-        blank=True)
+        blank=True
+    )
     systemic_flush_volume_used = models.PositiveSmallIntegerField(
         # TODO: this doesn't appear on the paper forms??
         verbose_name=_('DO47 aortic - volume (ml)'),
-        blank=True, null=True)
+        blank=True, null=True
+    )
     heparin = models.NullBooleanField(
         verbose_name=_('DO48 heparin'),  # (administered to donor/in flush solution)
-        blank=True, null=True)
+        blank=True, null=True
+    )
 
     class Meta:
         order_with_respect_to = 'retrieval_team'
@@ -335,6 +389,14 @@ class Donor(VersionControlModel):
                 raise ValidationError(_("DOv12 Missing retrieval hospital"))
             if self.person.number == "":
                 raise ValidationError(_("DOv13 Please enter the NHSBT number"))
+
+    def save(self, created_by=None, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        if self.death_diagnosed:
+            # Have to sync this data to the OrganPerson.date_of_death
+            self.person.date_of_death = self.death_diagnosed
+            self.person.save(created_by)
+        return super(Donor, self).save(force_insert, force_update, using, update_fields)
 
     @transaction.atomic
     def randomise(self, is_online=True):

@@ -118,6 +118,12 @@ class OrganPerson(VersionControlModel):
         validators=[validate_not_in_future]
     )
     date_of_birth_unknown = models.BooleanField(default=False)  # Internal flag
+    date_of_death = models.DateField(
+        verbose_name=_('OP08 date of death'),
+        blank=True, null=True,
+        validators=[validate_not_in_future]
+    )
+    date_of_death_unknown = models.BooleanField(default=False)  # Internal flag
     gender = models.CharField(verbose_name=_('OP03 gender'), choices=GENDER_CHOICES, max_length=1, default=MALE)
     weight = models.DecimalField(
         max_digits=4,
@@ -156,6 +162,17 @@ class OrganPerson(VersionControlModel):
             if self.date_of_death < self.date_of_birth:
                 raise ValidationError(
                     _("OPv03 Time running backwards! Person's date of death is before they were born!"))
+
+    # Adding the database field back in because we need it for Recipients and Donors
+    # @property
+    # def date_of_death(self):
+    #     """
+    #     Returns a date of death for a DONOR only, if their death_diagnosis is recorded
+    #     :return: date
+    #     """
+    #     if self.is_donor and self.donor.death_diagnosed:
+    #         return self.donor.death_diagnosed.date()
+    #     return None
 
     @property
     def bmi_value(self):
@@ -205,16 +222,6 @@ class OrganPerson(VersionControlModel):
             return self.donor is not None
         except ObjectDoesNotExist:
             return False
-
-    @property
-    def date_of_death(self):
-        """
-        Returns a date of death for a DONOR only, if their death_diagnosis is recorded
-        :return: date
-        """
-        if self.is_donor and self.donor.death_diagnosed:
-            return self.donor.death_diagnosed.date()
-        return None
 
     @property
     def worksheet(self):

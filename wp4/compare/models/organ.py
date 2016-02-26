@@ -126,7 +126,11 @@ class Organ(VersionControlModel):  # Or specifically, a Kidney
         choices=WASHOUT_PERFUSION_CHOICES,
         blank=True, null=True
     )
-    transplantable = models.NullBooleanField(verbose_name=_('OR07 is transplantable'), blank=True, null=True)
+    transplantable = models.NullBooleanField(
+        verbose_name=_('OR07 is transplantable'),
+        blank=True, null=True,
+        help_text=_("OR07h This answer can be amended after randomisation and saving of the form if necessary")
+    )
     not_transplantable_reason = models.CharField(
         verbose_name=_('OR08 not transplantable because'),
         max_length=250,
