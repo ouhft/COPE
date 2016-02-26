@@ -281,17 +281,6 @@ class FollowUpInitial(FollowUpBase):
 class FollowUp3M(FollowUpBase):
     organ = models.OneToOneField(Organ, related_name="followup_3m")
 
-    urine_creatinine = models.DecimalField(
-        max_digits=6,
-        decimal_places=2,
-        verbose_name=_('F301 urine creatinine'),
-        validators=[MinValueValidator(0.0), ],
-        blank=True, null=True
-    )
-    urine_creatinine_unit = models.PositiveSmallIntegerField(
-        choices=FollowUpBase.UNIT_CHOICES,
-        default=FollowUpBase.UNIT_MGDL
-    )
     creatinine_clearance = models.DecimalField(
         max_digits=6,
         decimal_places=2,
@@ -367,17 +356,6 @@ class FollowUp3M(FollowUpBase):
 class FollowUp6M(FollowUpBase):
     organ = models.OneToOneField(Organ, related_name="followup_6m")
 
-    urine_creatinine = models.DecimalField(
-        max_digits=6,
-        decimal_places=2,
-        verbose_name=_('F601 urine creatinine'),
-        validators=[MinValueValidator(0.0), ],
-        blank=True, null=True
-    )
-    urine_creatinine_unit = models.PositiveSmallIntegerField(
-        choices=FollowUpBase.UNIT_CHOICES,
-        default=FollowUpBase.UNIT_MGDL
-    )
     creatinine_clearance = models.DecimalField(
         max_digits=6,
         decimal_places=2,
@@ -421,18 +399,6 @@ class FollowUp6M(FollowUpBase):
 
 class FollowUp1Y(FollowUpBase):
     organ = models.OneToOneField(Organ, related_name="followup_1y")
-
-    urine_creatinine = models.DecimalField(
-        max_digits=6,
-        decimal_places=2,
-        verbose_name=_('FY01 urine creatinine'),
-        validators=[MinValueValidator(0.0), ],
-        blank=True, null=True
-    )
-    urine_creatinine_unit = models.PositiveSmallIntegerField(
-        choices=FollowUpBase.UNIT_CHOICES,
-        default=FollowUpBase.UNIT_MGDL
-    )
 
     creatinine_clearance = models.DecimalField(
         max_digits=6,

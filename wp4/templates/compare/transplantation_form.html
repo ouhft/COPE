@@ -35,6 +35,9 @@
                  aria-labelledby="collapseListGroupHeading1"
                  aria-expanded="true" style="">
                 <ul class="list-group" id="eligibility-list">
+                    <li class="list-group-item">
+                        Eligibility questions will be answered automatically on completion of relevant data below
+                    </li>
                     {% with organ.recipient.allocation.transplant_hospital.is_project_site as PROJECT_SITE %}
                     <li class="list-group-item {% if PROJECT_SITE %}list-group-item-success{% else %}list-group-item-danger{% endif %}" id="eligible-project-site">
                         <a href="javascript:highlightHospitalField()">Allocated to a Project Site
