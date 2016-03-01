@@ -426,7 +426,6 @@ def transplantation_form(request, pk=None):
                         "Recipient consent is required to proceed. This form will be <strong>closed upon " +
                         "the next save</strong> unless the signed consent is set to Yes"
                     )
-
             if recipient_instance.single_kidney_transplant is False:
                 more_than_one_kidney_confirmed = True
                 for element in recipient_form.changed_data:  # Was this changed this time, or previously?
