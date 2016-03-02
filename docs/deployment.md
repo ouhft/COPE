@@ -1,13 +1,9 @@
-================
-Home development
-================
+# Home development
 
-Notes on this can be found in (development.rst)_
+Notes on this can be found in [development.md]()
 
 
-====================
-Staging (Webfaction)
-====================
+## Staging (Webfaction)
 
 Used an existing site setup, which needs documenting at some stage, and cleared it out as much as possible of the
 previous application install (lots of ``pip uninstall``, along with deleting a few files and folders)
@@ -54,9 +50,8 @@ Create a link to the auto-deploy script and add it to the crontab::
     crontab -e    # To edit the cron record, and to insert...
     */2 * * * * $HOME/webapps/wp4_django/update_by_cron.sh >> $HOME/webapps/wp4_django/cron-wp4_django.log 2>&1
 
----------------------
-Footnotes for Staging
----------------------
+
+### Footnotes for Staging
 
 The apache2 ``httpd.conf`` looks like this presently (copy in ``deploy/httpd.conf.webfaction``)::
 
@@ -98,33 +93,30 @@ The apache2 ``httpd.conf`` looks like this presently (copy in ``deploy/httpd.con
     WSGIScriptAlias / /home/cm13/webapps/wp4_django/COPE/config/wsgi.py
 
 
-Unrelated, but likely useful to remember: Command to get pip to update all installed packages::
+Unrelated, but likely useful to remember: Command to get pip to update all installed packages:
 
     pip list --outdated
     pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U
 
 
-=====================
-Production (cope.nds)
-=====================
+## Production (cope.nds)
 
 An Ubuntu 14.04 LTS Server virtual machine has been created and hosted by MSD-IT Services. This is the unmanaged
 service, which means that we are responsible for it's patching and upkeep. Initial steps so far have been to change
 the user account password (u: copeuser - p: in carl's password safe). Installing ssh keys will happen soon. Access
 to the server should be via ssh (only from Oxford network, including vpn) and via the VMWare web console (oxford network
-only - https://fibula.msd.ox.ac.uk/ )
+only - [https://fibula.msd.ox.ac.uk/]())
 
-Setup is going to be loosely based on the guides from https://www.chicagodjango.com/blog/new-server-setup-part-1/ and
-https://www.chicagodjango.com/blog/new-django-server-setup-part-2/ as these are inline with the best practice information
+Setup is going to be loosely based on the guides from [https://www.chicagodjango.com/blog/new-server-setup-part-1/]() and
+[https://www.chicagodjango.com/blog/new-django-server-setup-part-2/]() as these are inline with the best practice information
 in the Two Scoops of Django 1.8: Best Practices guide (see Chapter 31). More useful though is the guide from
-http://michal.karzynski.pl/blog/2013/06/09/django-nginx-gunicorn-virtualenv-supervisor/ (which I've used in the past).
+[http://michal.karzynski.pl/blog/2013/06/09/django-nginx-gunicorn-virtualenv-supervisor/]() (which I've used in the past).
 
-Access
-------
+### Access
 
 So, initially we have access via ``ssh copeuser@cope.nds.ox.ac.uk``, and using a password. Step two is to install our
 SSH key (iMac@Home presently). Step one is we need to generate an ssh key for the server to register with github for
-access to the repoistory. Help is at https://help.ubuntu.com/community/SSH/OpenSSH/Keys . To whit::
+access to the repoistory. Help is at [https://help.ubuntu.com/community/SSH/OpenSSH/Keys]() . To whit:
 
     copeuser@cope:~$ mkdir ~/.ssh
     copeuser@cope:~$ chmod 700 ~/.ssh
@@ -163,32 +155,31 @@ password from SSH.
 
 I have added the server's pub key to my list of Github keys, so that it can log in as marshalc.
 
-Software stack
---------------
+### Software stack
 
 For now I'm happy to go with Nginx (for static), Gunicorn (for application), and SQLite (for datastore). System's
 version of python is 2.7.6, which is currently fine for use, so will skip installing a local instance of python. Not
 requiring any particular caching installation at this time either, so in the interests of KISS, we will install as
 little as possible.
 
-**Maintainence**
+#### Maintainence
 
-Don't forget to keep things up to date with (https://help.ubuntu.com/community/AptGet/Howto )::
+Don't forget to keep things up to date with ([https://help.ubuntu.com/community/AptGet/Howto]()):
 
     sudo apt-get update
     sudo apt-get upgrade
     sudo apt-get check
     sudo apt-get autoclean
 
+    sudo shutdown -r now
+
+#### Installation
+
+Follow guide plus above we have:
+
     # Remove some default processes and packages that we don't need to reduce server exposure
     sudo apt-get remove tomcat7 tomcat7-docs tomcat7-admin tomcat7-examples default-jdk
     sudo apt-get remove postgresql postgresql-9.3 postgresql-client postgresql-client-9.3 postgresql-client-common postgresql-common postgresql-contrib postgresql-contrib-9.3 postgresql-doc postgresql-doc-9.3
-
-    sudo shutdown -r now
-
-**Installation**
-
-Follow guide plus above we have::
 
     sudo apt-get install python-pip python-virtualenv
     sudo apt-get install python python-dev python-setuptools
@@ -206,7 +197,7 @@ Postfix will ask for some config, so it is set to use a mail-relay/smarthost for
     setting destinations: cope.nds.ox.ac.uk, cope.nds, localhost.nds, localhost
     setting relayhost: oxmail.ox.ac.uk
 
-Current info on the Oxford smarthost is at http://help.it.ox.ac.uk/network/smtp/relay/index
+Current info on the Oxford smarthost is at [http://help.it.ox.ac.uk/network/smtp/relay/index]()
 
 Grab the file server and some other useful apps::
 
@@ -227,8 +218,7 @@ disable the link for init.d ::
     update-rc.d script defaults
 
 
-User setup
-----------
+### User setup
 
 We're not using the application user from the guide here, but using the nginx defined www-data user as the application
 user::
@@ -246,11 +236,10 @@ Remember to logout and back in again here so that any further work done as ``cop
 group rights and therefore won't need sudo all the time.
 
 
-VirtualEnvWrapper Installation
-------------------------------
+### VirtualEnvWrapper Installation
 
 The wrapper isn't installed as part of the apt-get process, so we do this following the instructions from
-http://virtualenvwrapper.readthedocs.org/en/latest/install.html#basic-installation . ::
+[http://virtualenvwrapper.readthedocs.org/en/latest/install.html#basic-installation]():
 
     sudo pip install virtualenvwrapper
     vi ~/.bashrc
@@ -266,8 +255,7 @@ Then returning and::
     source ~/.bashrc
 
 
-Site setup
-----------
+### Site setup
 
 Create a new virtualenv project with ``mkproject cope``. Note that the ``bin/``, ``lib/`` directories are in the
 ``/sites/.virtualenvs/cope/`` folder ::
@@ -340,13 +328,12 @@ following permission guidelines.
 
 Restarting server with ``sudo shutdown -r now`` to test the above configurations
 
-SSL Certificate
----------------
+### SSL Certificate
 
 Help via:
 
-* https://help.ubuntu.com/lts/serverguide/certificates-and-security.html
-* https://wiki.it.ox.ac.uk/itss/CertificateService
+* [https://help.ubuntu.com/lts/serverguide/certificates-and-security.html]()
+* [https://wiki.it.ox.ac.uk/itss/CertificateService]()
 
 Steps for request::
 
@@ -384,11 +371,10 @@ And then::
 Which resulted in a private.pem and cope.nds.csr files being created. The contents of the cope.nds.csr was then submitted
 to Trend via their port (see ITSS wiki link) and emailed to the ITS3 team for confirmation. One phone confirmation
 from ITS3 later, and an email arrives with the certificates zipped up, and a (supposedly the equivalent) .pem file of the
-bundle. However, the .pem does not validate against the csr and private.pem (see https://www.sslshopper.com/certificate-key-matcher.html
+bundle. However, the .pem does not validate against the csr and private.pem (see [https://www.sslshopper.com/certificate-key-matcher.html]()
 or run the openssl validation checks below).
 
-Copy the files to the server (scp), and put them into ``~/.ssh/ssl-cert/``. Run unzip on the zip bundle, to get 3 .crt
-files returned. This now gives us::
+Copy the files to the server (scp), and put them into ``~/.ssh/ssl-cert/``. Run unzip on the zip bundle, to get 3 .crt files returned. This now gives us:
 
     -rw-rw-r-- 1 copeuser copeuser 1218 Dec 14 18:20 AffirmTrust_Commercial.crt
     -rw-r--r-- 1 copeuser copeuser 3624 Dec 17 16:21 all-certificate.zip
@@ -399,8 +385,7 @@ files returned. This now gives us::
     -rw-rw-r-- 1 copeuser copeuser 1630 Dec 14 18:20 Trend_Micro_S2_CA.crt
     -rw-rw-r-- 1 copeuser copeuser  465 Dec 14 17:45 website.ssl.cfg
 
-Long story short, because we can't validate the s2cabundle.pem file, we need to create our own .crt (or .pem, same thing)
-file by concatinating the three supplied certificates in the correct order, thus we do::
+Long story short, because we can't validate the s2cabundle.pem file, we need to create our own .crt (or .pem, same thing) file by concatinating the three supplied certificates in the correct order, thus we do:
 
     cat cope.nds.ox.ac.uk.crt AffirmTrust_Commercial.crt Trend_Micro_S2_CA.crt > cope.nds.crt
 
@@ -423,17 +408,38 @@ deploy/production/etc/nginx/sites-available/cope.conf`` for how Nginx will use t
 With those in place, and using the config file above, you can got to ``sudo supervisorctl`` and then
 ``restart all``, and lo and behold, we have service on port 443.
 
-It's worth noting that ``SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTOCOL', 'https')`` needed to be
-added to the production.py settings file so that Django can detect if https is being used, otherwise
-when you set ``DJANGO_SECURE_SSL_REDIRECT=True`` in the ``local.env`` file, you will get a redirect loop
-in the browser.
+It's worth noting that ``SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTOCOL', 'https')`` needed to be added to the production.py settings file so that Django can detect if https is being used, otherwise when you set ``DJANGO_SECURE_SSL_REDIRECT=True`` in the ``local.env`` file, you will get a redirect loop in the browser.
 
-The string "HTTP_X_FORWARDED_PROTOCOL" is derived from ``proxy_set_header X-Forwarded-Protocol $scheme;`` in the nginx conf combined with the note from https://docs.djangoproject.com/en/dev/ref/settings/#secure-proxy-ssl-header saying::
+The string "HTTP_X_FORWARDED_PROTOCOL" is derived from ``proxy_set_header X-Forwarded-Protocol $scheme;`` in the nginx conf combined with the note from [https://docs.djangoproject.com/en/dev/ref/settings/#secure-proxy-ssl-header]() saying:
 
-    Note that the header needs to be in the format as used by request.META – all caps and likely starting with HTTP_. (Remember, Django automatically adds 'HTTP_' to the start of x-header names before making the header available in request.META.)
+    Note that the header needs to be in the format as used by request.META – all caps 
+    and likely starting with HTTP_. (Remember, Django automatically adds 'HTTP_' to the 
+    start of x-header names before making the header available in request.META.)
 
 Port 443 has been confirmed as open on the MSD firewall for cope.nds.ox.ac.uk
 
+### Maintainence and updates
+
+Periodically there are maintainence tasks to do, such as:
+
+* Update the OS libraries and packages - see Maintenace under System Setup above
+* Backup the DB - ``cp db.sqlite3 ../db-backup/yyyymmdd.sqlite3``
+
+#### Update the application release
+ * Activate the virtualenv ``workon cope``
+ * Move into the repository directory for most tasks ``cd cope-repo``
+ * Get the latest updates from the central repository ``git pull --all``
+ * Checkout the relevant tagged release (i.e. not Head of Master branch) ``git checkout 0.4.6``
+ * Update the application libraries ``pip install -r requirements/production.txt``
+ * Check things are working so far ``python manage.py check``
+ * Apply any necessary migrations ``python manage.py migrate``
+ * Gather the staticfiles up ``python manage.py collectstatic``
+ * Start the supervisor console to reload the changes ``sudo supervisorctl``...
+ * and then ``restart cope-django``
+ * ...and all should be fine.
+
+#### Troubleshooting
+When things do not go to plan, we want to find out what we can. There's no debug mode on the production server, so it's into the error logs for information. Logs from supervisord are found via: ``cd /var/log/supervisor/``. Unfortunately stack traces aren't captured here (for example on a Server Error), so more work needs to be done to help the monitoring of this server.
 
 
 
@@ -442,25 +448,26 @@ Port 443 has been confirmed as open on the MSD firewall for cope.nds.ox.ac.uk
 * Run the django-secure scan
 
 
-------------------------
-Footnotes for Production
-------------------------
+### Footnotes for Production
 
 Useful commands:
+
 * ``sudo cut -d: -f1 /etc/passwd`` -- lists all users
 * ``sudo apt-get --purge remove {{package-name}}`` -- remove an installed package and config files
 * ``apt --installed list`` -- list all installed packages
 * ``sudo netstat -peanut``  -- list all ports in use on system
 * ``ps -auxf`` -- list all processes in a tree showing originating process
+* ``git checkout -- path/file.py`` -- reset a file back to the last git version
 
 Reference urls:
-* Gunicorn - http://docs.gunicorn.org/en/latest/index.html
-* Supervisor - http://supervisord.org/index.html
-* Django Security - https://docs.djangoproject.com/en/1.8/topics/security/
-* NGinx Admin Guide - https://www.nginx.com/resources/admin-guide/
-* NGinx Getting Started Wiki - https://www.nginx.com/resources/wiki/start/
-* NGinx Beginners Guide - http://nginx.org/en/docs/beginners_guide.html
-* Ubuntu Apt-Get Guide - https://help.ubuntu.com/community/AptGet/Howto#Search_commands
-* Django Secure - http://django-secure.readthedocs.org/en/latest/
+
+* Gunicorn - [http://docs.gunicorn.org/en/latest/index.html]()
+* Supervisor - [http://supervisord.org/index.html]()
+* Django Security - [https://docs.djangoproject.com/en/1.8/topics/security/]()
+* NGinx Admin Guide - [https://www.nginx.com/resources/admin-guide/]()
+* NGinx Getting Started Wiki - [https://www.nginx.com/resources/wiki/start/]()
+* NGinx Beginners Guide - [http://nginx.org/en/docs/beginners_guide.html]()
+* Ubuntu Apt-Get Guide - [https://help.ubuntu.com/community/AptGet/Howto#Search_commands]()
+* Django Secure - [http://django-secure.readthedocs.org/en/latest/]()
 
 

@@ -7,3 +7,5 @@ Test site is at [http://wp4.cm13.net]()
 Live site is at [http://cope.nds.ox.ac.uk]()
 
 Follow this link for the [User manual](docs/user_manual.md)
+
+See the repository [Documents](docs/index.md) for the most information

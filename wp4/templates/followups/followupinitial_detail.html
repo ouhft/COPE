@@ -24,16 +24,16 @@
             </dl>
             <h3>Graft</h3>
             <dl class="dl-horizontal">
-                <dt>{% get_verbose_field_name initial_obj "graft_failure" %}</dt>
-                <dd>{{ initial_obj.graft_failure|default_if_none:"Unanswered" }}</dd>
+                <dt>Graft Failure?</dt>
+                <dd>{{ initial_obj.graft_failure|yesno|default_if_none:"unanswered"|capfirst }}</dd>
                 <dt>{% get_verbose_field_name initial_obj "graft_failure_type" %}</dt>
                 <dd>{{ initial_obj.get_graft_failure_type_display }}</dd>
                 <dt>{% get_verbose_field_name initial_obj "graft_failure_type_other" %}</dt>
                 <dd>{{ initial_obj.graft_failure_type_other }}</dd>
                 <dt>{% get_verbose_field_name initial_obj "graft_failure_date" %}</dt>
                 <dd>{{ initial_obj.graft_failure_date|date:"D d M Y" }}</dd>
-                <dt>{% get_verbose_field_name initial_obj "graft_removal" %}</dt>
-                <dd>{{ initial_obj.graft_removal|default_if_none:"Unanswered" }}</dd>
+                <dt>Graft Removal?</dt>
+                <dd>{{ initial_obj.graft_removal|yesno|default_if_none:"unanswered"|capfirst }}</dd>
                 <dt>{% get_verbose_field_name initial_obj "graft_removal_date" %}</dt>
                 <dd>{{ initial_obj.graft_removal_date|date:"D d M Y" }}</dd>
             </dl>
@@ -94,19 +94,19 @@
             <h3>Dialysis</h3>
             <dl class="dl-horizontal">
                 <dt>{% get_verbose_field_name initial_obj "dialysis_requirement_1" %}</dt>
-                <dd>{{ initial_obj.dialysis_requirement_1|date:"D d M Y" }}</dd>
+                <dd>{{ initial_obj.dialysis_requirement_1|yesno|default_if_none:"unanswered"|capfirst }}</dd>
                 <dt>{% get_verbose_field_name initial_obj "dialysis_requirement_2" %}</dt>
-                <dd>{{ initial_obj.dialysis_requirement_2|date:"D d M Y" }}</dd>
+                <dd>{{ initial_obj.dialysis_requirement_2|yesno|default_if_none:"unanswered"|capfirst }}</dd>
                 <dt>{% get_verbose_field_name initial_obj "dialysis_requirement_3" %}</dt>
-                <dd>{{ initial_obj.dialysis_requirement_3|date:"D d M Y" }}</dd>
+                <dd>{{ initial_obj.dialysis_requirement_3|yesno|default_if_none:"unanswered"|capfirst }}</dd>
                 <dt>{% get_verbose_field_name initial_obj "dialysis_requirement_4" %}</dt>
-                <dd>{{ initial_obj.dialysis_requirement_4|date:"D d M Y" }}</dd>
+                <dd>{{ initial_obj.dialysis_requirement_4|yesno|default_if_none:"unanswered"|capfirst }}</dd>
                 <dt>{% get_verbose_field_name initial_obj "dialysis_requirement_5" %}</dt>
-                <dd>{{ initial_obj.dialysis_requirement_5|date:"D d M Y" }}</dd>
+                <dd>{{ initial_obj.dialysis_requirement_5|yesno|default_if_none:"unanswered"|capfirst }}</dd>
                 <dt>{% get_verbose_field_name initial_obj "dialysis_requirement_6" %}</dt>
-                <dd>{{ initial_obj.dialysis_requirement_6|date:"D d M Y" }}</dd>
+                <dd>{{ initial_obj.dialysis_requirement_6|yesno|default_if_none:"unanswered"|capfirst }}</dd>
                 <dt>{% get_verbose_field_name initial_obj "dialysis_requirement_7" %}</dt>
-                <dd>{{ initial_obj.dialysis_requirement_7|date:"D d M Y" }}</dd>
+                <dd>{{ initial_obj.dialysis_requirement_7|yesno|default_if_none:"unanswered"|capfirst }}</dd>
                 <dt>{% get_verbose_field_name initial_obj "dialysis_type" %}</dt>
                 <dd>{{ initial_obj.get_dialysis_type_display }}</dd>
                 <dt>{% get_verbose_field_name initial_obj "dialysis_cause" %}</dt>
