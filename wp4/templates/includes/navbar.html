@@ -1,4 +1,4 @@
-{% load staticfiles l10n i18n theme_tags %}
+{% load staticfiles l10n i18n theme_tags tz %}
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -54,6 +54,8 @@
                                 {% for job in user.profile.jobs.all %}
                                     {{ job.description }}, {% endfor %}</a></li>
                             <li><a href="#">Username: {{ user.username }}</a></li>
+                            {% get_current_timezone as TIME_ZONE %}
+                            <li><a href="#">Timezone: {{ TIME_ZONE }}</a></li>
                             <li class="dropdown-header">Actions</li>
                             <li><a href="{% url 'admin:password_change' %}">Change Password</a></li>
                         </ul>

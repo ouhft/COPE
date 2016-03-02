@@ -6,3 +6,4 @@ django-autocomplete-light==2.2.10
 docutils==0.12
 django-environ==0.4.0
 -e git+git://github.com/maraujop/django-crispy-forms.git@dev#egg=django-crispy-forms
+bdateutil==0.1
