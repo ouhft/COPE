@@ -23,6 +23,40 @@ YES_NO_CHOICES = (
     (False, _("FF01 No")))
 
 
+class FollowUpDayForm(forms.Form):
+    # Are you dead yet?
+    # graft_failure
+    # graft_removal
+    # dialysis_required
+    # serum_creatinine
+
+    helper = FormHelper()
+    helper.form_tag = False
+    helper.html5_required = True
+    helper.layout = Layout(
+
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(FollowUpDayForm, self).__init__(*args, **kwargs)
+
+    class Meta:
+        model = FollowUpInitial
+        fields = ()
+        localized_fields = "__all__"
+
+
+FollowUpDayInlineFormSet = forms.models.formset_factory(
+    form=FollowUpDayForm,
+    min_num=1,
+    validate_min=True,
+    max_num=7,
+    validate_max=True,
+    extra=0,
+    can_delete=False
+)
+
+
 class FollowUpInitialForm(forms.ModelForm):
     layout_graft_failure = Layout(
         DateField('graft_failure_date'),

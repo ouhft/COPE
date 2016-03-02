@@ -38,7 +38,8 @@ class FollowUpBase(VersionControlModel):
         (6, _("FBc06 Infection - viral")),
         (FAILURE_OTHER, _("FBc07 Other")),
     )
-    graft_failure = models.NullBooleanField(verbose_name=_("FB02 graft failure"), blank=True)
+    # replace this with a property that looks at graft_failure_date: No unless date set.
+    # graft_failure = models.NullBooleanField(verbose_name=_("FB02 graft failure"), blank=True)
     graft_failure_date = models.DateField(verbose_name=_("FB05 date of graft failure"), null=True, blank=True)
     graft_failure_type = models.PositiveSmallIntegerField(
         verbose_name=_("FB03 graft failure"),
@@ -51,7 +52,8 @@ class FollowUpBase(VersionControlModel):
         max_length=200,
         blank=True
     )
-    graft_removal = models.NullBooleanField(verbose_name=_("FB06 graft removal"), blank=True)
+    # replace this with a property that looks at graft_removal_date: No unless date set.
+    # graft_removal = models.NullBooleanField(verbose_name=_("FB06 graft removal"), blank=True)
     graft_removal_date = models.DateField(verbose_name=_("FB07 date of graft removal"), null=True, blank=True)
 
     UNIT_MGDL = 1
@@ -134,6 +136,14 @@ class FollowUpBase(VersionControlModel):
     class Meta:
         abstract = True
 
+    @property
+    def graft_failure(self):
+        return True if self.graft_failure_date is not None else False
+
+    @property
+    def graft_removal(self):
+        return True if self.graft_failure_date is not None else False
+
 
 class FollowUpInitial(FollowUpBase):
     organ = models.OneToOneField(Organ, related_name="followup_initial")
@@ -203,29 +213,33 @@ class FollowUpInitial(FollowUpBase):
         default=FollowUpBase.UNIT_MGDL
     )
 
-    dialysis_requirement_2 = models.DateField(
-        verbose_name=_("FI10 date of dialysis requirement 2"),
-        null=True, blank=True
+    dialysis_requirement_1 = models.NullBooleanField(
+        verbose_name=_("FI09 dialysis on day 1"),
+        blank=True
     )
-    dialysis_requirement_3 = models.DateField(
-        verbose_name=_("FI11 date of dialysis requirement 3"),
-        null=True, blank=True
+    dialysis_requirement_2 = models.NullBooleanField(
+        verbose_name=_("FI10 dialysis on day 2"),
+        blank=True
     )
-    dialysis_requirement_4 = models.DateField(
-        verbose_name=_("FI12 date of dialysis requirement 4"),
-        null=True, blank=True
+    dialysis_requirement_3 = models.NullBooleanField(
+        verbose_name=_("FI11 dialysis on day 3"),
+        blank=True
     )
-    dialysis_requirement_5 = models.DateField(
-        verbose_name=_("FI13 date of dialysis requirement 5"),
-        null=True, blank=True
+    dialysis_requirement_4 = models.NullBooleanField(
+        verbose_name=_("FI12 dialysis on day 4"),
+        blank=True
     )
-    dialysis_requirement_6 = models.DateField(
-        verbose_name=_("FI14 date of dialysis requirement 6"),
-        null=True, blank=True
+    dialysis_requirement_5 = models.NullBooleanField(
+        verbose_name=_("FI13 dialysis on day 5"),
+        blank=True
     )
-    dialysis_requirement_7 = models.DateField(
-        verbose_name=_("FI15 date of dialysis requirement 7"),
-        null=True, blank=True
+    dialysis_requirement_6 = models.NullBooleanField(
+        verbose_name=_("FI14 dialysis on day 6"),
+        blank=True
+    )
+    dialysis_requirement_7 = models.NullBooleanField(
+        verbose_name=_("FI15 dialysis on day 7"),
+        blank=True
     )
 
     DIALYSIS_CAUSE_CHOICES = (
@@ -252,7 +266,8 @@ class FollowUpInitial(FollowUpBase):
 
     INDUCTION_CHOICES = (
         (1, _("FIc10 IL 2")),
-        (2, _("FIc11 ATG"))
+        (2, _("FIc11 ATG")),
+        (3, _("FIc12 None"))
     )
     induction_therapy = models.PositiveSmallIntegerField(
         verbose_name=_("FI25 Induction therapy"),
