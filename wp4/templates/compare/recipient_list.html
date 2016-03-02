@@ -24,8 +24,12 @@
             <tr>
                 <td>{{ recipient.trial_id }}</td>
                 <td>
+                    {% if recipient.organ.followup_initial %}
                     <a href="{% url 'wp4:followup:initial_detail' pk=recipient.organ.followup_initial.pk %}"><i title="edit" class="glyphicon glyphicon-search"></i></a>
                     <a href="{% url 'wp4:followup:initial_update' pk=recipient.organ.followup_initial.pk %}"><i title="edit" class="glyphicon glyphicon-edit"></i></a>
+                    {% else %}
+                    No initial follow up created
+                    {% endif %}
                 </td>
                 <td><a href="#">{{ recipient.organ.followup_3m }}</a></td>
                 <td><a href="#">{{ recipient.organ.followup_6m }}</a></td>

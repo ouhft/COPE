@@ -45,3 +45,5 @@ class FollowUpInitialUpdate(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         instance = form.save(self.request.user)
         return HttpResponseRedirect(instance.get_absolute_url())
+
+
