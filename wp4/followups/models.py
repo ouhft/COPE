@@ -8,7 +8,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator, Validat
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-
+from bdateutil import relativedelta
 from wp4.compare.models import VersionControlModel, Organ, YES_NO_UNKNOWN_CHOICES
 
 
@@ -26,7 +26,6 @@ class FollowUpBase(VersionControlModel):
     )
     # Last creatinine is already captured as self.serum_creatinine_1_unit
     # the eGFR and mGFR are calculations producing results from data we already collect
-
 
     FAILURE_OTHER = 10
     FAILURE_CHOICES = (
@@ -135,6 +134,10 @@ class FollowUpBase(VersionControlModel):
 
     class Meta:
         abstract = True
+
+    @property
+    def recipient_alive(self):
+        return True if self.organ.recipient.person.date_of_death is None else False
 
     @property
     def graft_failure(self):
@@ -292,6 +295,500 @@ class FollowUpInitial(FollowUpBase):
     def trial_id(self):
         return self.organ.trial_id
 
+    def _set_common_for_each_day(
+            self, on_dialysis_at_death=None, graft_failure_type=None,
+            graft_failure_type_other=None, dialysis_type=None, dialysis_cause=None,
+            dialysis_cause_other=None
+    ):
+        self.on_dialysis_at_death = on_dialysis_at_death
+        self.graft_failure_type = graft_failure_type
+        self. graft_failure_type_other = graft_failure_type_other
+        self.dialysis_type = dialysis_type
+        self.dialysis_cause = dialysis_cause
+        self.dialysis_cause_other = dialysis_cause_other
+
+    def day1(self, recipient_alive=None, on_dialysis_at_death=None, graft_failure=None,
+             graft_failure_type=None, graft_failure_type_other=None, graft_removal=None,
+             dialysis_required=None, dialysis_type=None, dialysis_cause=None,
+             dialysis_cause_other=None, serum_creatinine=None, serum_creatinine_unit=None):
+        """
+        Map the formset form values to the corresponding model field, and return a dictionary of
+        this day's values to populate the formset with
+
+        :param recipient_alive: Yes/No - If no, saves the date as the recipients date_of_death
+        :param on_dialysis_at_death: Maps to the single field of same name
+        :param graft_failure: Yes/No - If yes, saves the date into graft_failure_date
+        :param graft_failure_type: Maps to the single field of same name
+        :param graft_failure_type_other: Maps to the single field of same name
+        :param graft_removal: Yes/No - If yes, saves the date into graft_removal_date
+        :param dialysis_required: Yes/No, maps to the relevant dialysis_requirement_X field
+        :param dialysis_type:  Maps to the single field of same name
+        :param dialysis_cause:  Maps to the single field of same name
+        :param dialysis_cause_other:  Maps to the single field of same name
+        :param serum_creatinine: Maps to the relevant serum_creatinine_X field
+        :param serum_creatinine_unit: Maps to the relevant serum_creatinine_X_unit field
+        :return: a dictionary of this day's values to populate the formset intial data with
+        """
+        if recipient_alive is False:
+            self.organ.recipient.person.date_of_death = self.start_date
+        elif recipient_alive is True:
+            self.organ.recipient.person.date_of_death = None
+
+        if graft_failure is True:
+            self.graft_failure_date = self.start_date
+        elif graft_failure is False:
+            self.graft_failure_date = None
+
+        if graft_removal is True:
+            self.graft_removal_date = self.start_date
+        elif graft_removal is False:
+            self.graft_removal_date = None
+
+        if dialysis_required is not None:
+            self.dialysis_requirement_1 = dialysis_required
+
+        if serum_creatinine is not None:
+            self.serum_creatinine_1 = serum_creatinine
+            self.serum_creatinine_1_unit = serum_creatinine_unit
+
+        self._set_common_for_each_day(
+            on_dialysis_at_death=on_dialysis_at_death,
+            graft_failure_type=graft_failure_type,
+            graft_failure_type_other=graft_failure_type_other,
+            dialysis_type=dialysis_type,
+            dialysis_cause=dialysis_cause,
+            dialysis_cause_other=dialysis_cause_other
+        )
+
+        return {
+            'recipient_alive': self.recipient.person.is_alive,
+            'on_dialysis_at_death': self.on_dialysis_at_death,
+            'graft_failure': self.graft_failure,
+            'graft_failure_type': self.graft_failure_type,
+            'graft_failure_type_other': self.graft_failure_type_other,
+            'graft_removal': self.graft_removal,
+            'dialysis_required': self.dialysis_requirement_1,
+            'dialysis_type': self.dialysis_type,
+            'dialysis_cause': self.dialysis_cause,
+            'dialysis_cause_other': self.dialysis_cause_other,
+            'serum_creatinine': self.serum_creatinine_1,
+            'serum_creatinine_unit': self.serum_creatinine_1_unit
+        }
+
+    def day2(self, recipient_alive=None, on_dialysis_at_death=None, graft_failure=None,
+             graft_failure_type=None, graft_failure_type_other=None, graft_removal=None,
+             dialysis_required=None, dialysis_type=None, dialysis_cause=None,
+             dialysis_cause_other=None, serum_creatinine=None, serum_creatinine_unit=None):
+        """
+        Map the formset form values to the corresponding model field, and return a dictionary of
+        this day's values to populate the formset with
+
+        :param recipient_alive: Yes/No - If no, saves the date as the recipients date_of_death
+        :param on_dialysis_at_death: Maps to the single field of same name
+        :param graft_failure: Yes/No - If yes, saves the date into graft_failure_date
+        :param graft_failure_type: Maps to the single field of same name
+        :param graft_failure_type_other: Maps to the single field of same name
+        :param graft_removal: Yes/No - If yes, saves the date into graft_removal_date
+        :param dialysis_required: Yes/No, maps to the relevant dialysis_requirement_X field
+        :param dialysis_type:  Maps to the single field of same name
+        :param dialysis_cause:  Maps to the single field of same name
+        :param dialysis_cause_other:  Maps to the single field of same name
+        :param serum_creatinine: Maps to the relevant serum_creatinine_X field
+        :param serum_creatinine_unit: Maps to the relevant serum_creatinine_X_unit field
+        :return: a dictionary of this day's values to populate the formset intial data with
+        """
+        date2 = self.start_date + relativedelta(days=+1)
+        if recipient_alive is False:
+            self.organ.recipient.person.date_of_death = date2
+        elif recipient_alive is True:
+            self.organ.recipient.person.date_of_death = None
+
+        if graft_failure is True:
+            self.graft_failure_date = date2
+        elif graft_failure is False:
+            self.graft_failure_date = None
+
+        if graft_removal is True:
+            self.graft_removal_date = date2
+        elif graft_removal is False:
+            self.graft_removal_date = None
+
+        if dialysis_required is not None:
+            self.dialysis_requirement_2 = dialysis_required
+
+        if serum_creatinine is not None:
+            self.serum_creatinine_2 = serum_creatinine
+            self.serum_creatinine_2_unit = serum_creatinine_unit
+
+        self._set_common_for_each_day(
+            on_dialysis_at_death=on_dialysis_at_death,
+            graft_failure_type=graft_failure_type,
+            graft_failure_type_other=graft_failure_type_other,
+            dialysis_type=dialysis_type,
+            dialysis_cause=dialysis_cause,
+            dialysis_cause_other=dialysis_cause_other
+        )
+
+        return {
+            'recipient_alive': self.recipient.person.is_alive,
+            'on_dialysis_at_death': self.on_dialysis_at_death,
+            'graft_failure': self.graft_failure,
+            'graft_failure_type': self.graft_failure_type,
+            'graft_failure_type_other': self.graft_failure_type_other,
+            'graft_removal': self.graft_removal,
+            'dialysis_required': self.dialysis_requirement_2,
+            'dialysis_type': self.dialysis_type,
+            'dialysis_cause': self.dialysis_cause,
+            'dialysis_cause_other': self.dialysis_cause_other,
+            'serum_creatinine': self.serum_creatinine_2,
+            'serum_creatinine_unit': self.serum_creatinine_2_unit
+        }
+
+    def day3(self, recipient_alive=None, on_dialysis_at_death=None, graft_failure=None,
+             graft_failure_type=None, graft_failure_type_other=None, graft_removal=None,
+             dialysis_required=None, dialysis_type=None, dialysis_cause=None,
+             dialysis_cause_other=None, serum_creatinine=None, serum_creatinine_unit=None):
+        """
+        Map the formset form values to the corresponding model field, and return a dictionary of
+        this day's values to populate the formset with
+
+        :param recipient_alive: Yes/No - If no, saves the date as the recipients date_of_death
+        :param on_dialysis_at_death: Maps to the single field of same name
+        :param graft_failure: Yes/No - If yes, saves the date into graft_failure_date
+        :param graft_failure_type: Maps to the single field of same name
+        :param graft_failure_type_other: Maps to the single field of same name
+        :param graft_removal: Yes/No - If yes, saves the date into graft_removal_date
+        :param dialysis_required: Yes/No, maps to the relevant dialysis_requirement_X field
+        :param dialysis_type:  Maps to the single field of same name
+        :param dialysis_cause:  Maps to the single field of same name
+        :param dialysis_cause_other:  Maps to the single field of same name
+        :param serum_creatinine: Maps to the relevant serum_creatinine_X field
+        :param serum_creatinine_unit: Maps to the relevant serum_creatinine_X_unit field
+        :return: a dictionary of this day's values to populate the formset intial data with
+        """
+        date3 = self.start_date + relativedelta(days=+2)
+        if recipient_alive is False:
+            self.organ.recipient.person.date_of_death = date3
+        elif recipient_alive is True:
+            self.organ.recipient.person.date_of_death = None
+
+        if graft_failure is True:
+            self.graft_failure_date = date3
+        elif graft_failure is False:
+            self.graft_failure_date = None
+
+        if graft_removal is True:
+            self.graft_removal_date = date3
+        elif graft_removal is False:
+            self.graft_removal_date = None
+
+        if dialysis_required is not None:
+            self.dialysis_requirement_3 = dialysis_required
+
+        if serum_creatinine is not None:
+            self.serum_creatinine_3 = serum_creatinine
+            self.serum_creatinine_3_unit = serum_creatinine_unit
+
+        self._set_common_for_each_day(
+            on_dialysis_at_death=on_dialysis_at_death,
+            graft_failure_type=graft_failure_type,
+            graft_failure_type_other=graft_failure_type_other,
+            dialysis_type=dialysis_type,
+            dialysis_cause=dialysis_cause,
+            dialysis_cause_other=dialysis_cause_other
+        )
+
+        return {
+            'recipient_alive': self.recipient.person.is_alive,
+            'on_dialysis_at_death': self.on_dialysis_at_death,
+            'graft_failure': self.graft_failure,
+            'graft_failure_type': self.graft_failure_type,
+            'graft_failure_type_other': self.graft_failure_type_other,
+            'graft_removal': self.graft_removal,
+            'dialysis_required': self.dialysis_requirement_3,
+            'dialysis_type': self.dialysis_type,
+            'dialysis_cause': self.dialysis_cause,
+            'dialysis_cause_other': self.dialysis_cause_other,
+            'serum_creatinine': self.serum_creatinine_3,
+            'serum_creatinine_unit': self.serum_creatinine_3_unit
+        }
+
+    def day4(self, recipient_alive=None, on_dialysis_at_death=None, graft_failure=None,
+             graft_failure_type=None, graft_failure_type_other=None, graft_removal=None,
+             dialysis_required=None, dialysis_type=None, dialysis_cause=None,
+             dialysis_cause_other=None, serum_creatinine=None, serum_creatinine_unit=None):
+        """
+        Map the formset form values to the corresponding model field, and return a dictionary of
+        this day's values to populate the formset with
+
+        :param recipient_alive: Yes/No - If no, saves the date as the recipients date_of_death
+        :param on_dialysis_at_death: Maps to the single field of same name
+        :param graft_failure: Yes/No - If yes, saves the date into graft_failure_date
+        :param graft_failure_type: Maps to the single field of same name
+        :param graft_failure_type_other: Maps to the single field of same name
+        :param graft_removal: Yes/No - If yes, saves the date into graft_removal_date
+        :param dialysis_required: Yes/No, maps to the relevant dialysis_requirement_X field
+        :param dialysis_type:  Maps to the single field of same name
+        :param dialysis_cause:  Maps to the single field of same name
+        :param dialysis_cause_other:  Maps to the single field of same name
+        :param serum_creatinine: Maps to the relevant serum_creatinine_X field
+        :param serum_creatinine_unit: Maps to the relevant serum_creatinine_X_unit field
+        :return: a dictionary of this day's values to populate the formset intial data with
+        """
+        date4 = self.start_date + relativedelta(days=+3)
+        if recipient_alive is False:
+            self.organ.recipient.person.date_of_death = date4
+        elif recipient_alive is True:
+            self.organ.recipient.person.date_of_death = None
+
+        if graft_failure is True:
+            self.graft_failure_date = date4
+        elif graft_failure is False:
+            self.graft_failure_date = None
+
+        if graft_removal is True:
+            self.graft_removal_date = date4
+        elif graft_removal is False:
+            self.graft_removal_date = None
+
+        if dialysis_required is not None:
+            self.dialysis_requirement_4 = dialysis_required
+
+        if serum_creatinine is not None:
+            self.serum_creatinine_4 = serum_creatinine
+            self.serum_creatinine_4_unit = serum_creatinine_unit
+
+        self._set_common_for_each_day(
+            on_dialysis_at_death=on_dialysis_at_death,
+            graft_failure_type=graft_failure_type,
+            graft_failure_type_other=graft_failure_type_other,
+            dialysis_type=dialysis_type,
+            dialysis_cause=dialysis_cause,
+            dialysis_cause_other=dialysis_cause_other
+        )
+
+        return {
+            'recipient_alive': self.recipient.person.is_alive,
+            'on_dialysis_at_death': self.on_dialysis_at_death,
+            'graft_failure': self.graft_failure,
+            'graft_failure_type': self.graft_failure_type,
+            'graft_failure_type_other': self.graft_failure_type_other,
+            'graft_removal': self.graft_removal,
+            'dialysis_required': self.dialysis_requirement_4,
+            'dialysis_type': self.dialysis_type,
+            'dialysis_cause': self.dialysis_cause,
+            'dialysis_cause_other': self.dialysis_cause_other,
+            'serum_creatinine': self.serum_creatinine_4,
+            'serum_creatinine_unit': self.serum_creatinine_4_unit
+        }
+
+    def day5(self, recipient_alive=None, on_dialysis_at_death=None, graft_failure=None,
+             graft_failure_type=None, graft_failure_type_other=None, graft_removal=None,
+             dialysis_required=None, dialysis_type=None, dialysis_cause=None,
+             dialysis_cause_other=None, serum_creatinine=None, serum_creatinine_unit=None):
+        """
+        Map the formset form values to the corresponding model field, and return a dictionary of
+        this day's values to populate the formset with
+
+        :param recipient_alive: Yes/No - If no, saves the date as the recipients date_of_death
+        :param on_dialysis_at_death: Maps to the single field of same name
+        :param graft_failure: Yes/No - If yes, saves the date into graft_failure_date
+        :param graft_failure_type: Maps to the single field of same name
+        :param graft_failure_type_other: Maps to the single field of same name
+        :param graft_removal: Yes/No - If yes, saves the date into graft_removal_date
+        :param dialysis_required: Yes/No, maps to the relevant dialysis_requirement_X field
+        :param dialysis_type:  Maps to the single field of same name
+        :param dialysis_cause:  Maps to the single field of same name
+        :param dialysis_cause_other:  Maps to the single field of same name
+        :param serum_creatinine: Maps to the relevant serum_creatinine_X field
+        :param serum_creatinine_unit: Maps to the relevant serum_creatinine_X_unit field
+        :return: a dictionary of this day's values to populate the formset intial data with
+        """
+        date5 = self.start_date + relativedelta(days=+4)
+        if recipient_alive is False:
+            self.organ.recipient.person.date_of_death = date5
+        elif recipient_alive is True:
+            self.organ.recipient.person.date_of_death = None
+
+        if graft_failure is True:
+            self.graft_failure_date = date5
+        elif graft_failure is False:
+            self.graft_failure_date = None
+
+        if graft_removal is True:
+            self.graft_removal_date = date5
+        elif graft_removal is False:
+            self.graft_removal_date = None
+
+        if dialysis_required is not None:
+            self.dialysis_requirement_5 = dialysis_required
+
+        if serum_creatinine is not None:
+            self.serum_creatinine_5 = serum_creatinine
+            self.serum_creatinine_5_unit = serum_creatinine_unit
+
+        self._set_common_for_each_day(
+            on_dialysis_at_death=on_dialysis_at_death,
+            graft_failure_type=graft_failure_type,
+            graft_failure_type_other=graft_failure_type_other,
+            dialysis_type=dialysis_type,
+            dialysis_cause=dialysis_cause,
+            dialysis_cause_other=dialysis_cause_other
+        )
+
+        return {
+            'recipient_alive': self.recipient.person.is_alive,
+            'on_dialysis_at_death': self.on_dialysis_at_death,
+            'graft_failure': self.graft_failure,
+            'graft_failure_type': self.graft_failure_type,
+            'graft_failure_type_other': self.graft_failure_type_other,
+            'graft_removal': self.graft_removal,
+            'dialysis_required': self.dialysis_requirement_5,
+            'dialysis_type': self.dialysis_type,
+            'dialysis_cause': self.dialysis_cause,
+            'dialysis_cause_other': self.dialysis_cause_other,
+            'serum_creatinine': self.serum_creatinine_5,
+            'serum_creatinine_unit': self.serum_creatinine_5_unit
+        }
+
+    def day6(self, recipient_alive=None, on_dialysis_at_death=None, graft_failure=None,
+             graft_failure_type=None, graft_failure_type_other=None, graft_removal=None,
+             dialysis_required=None, dialysis_type=None, dialysis_cause=None,
+             dialysis_cause_other=None, serum_creatinine=None, serum_creatinine_unit=None):
+        """
+        Map the formset form values to the corresponding model field, and return a dictionary of
+        this day's values to populate the formset with
+
+        :param recipient_alive: Yes/No - If no, saves the date as the recipients date_of_death
+        :param on_dialysis_at_death: Maps to the single field of same name
+        :param graft_failure: Yes/No - If yes, saves the date into graft_failure_date
+        :param graft_failure_type: Maps to the single field of same name
+        :param graft_failure_type_other: Maps to the single field of same name
+        :param graft_removal: Yes/No - If yes, saves the date into graft_removal_date
+        :param dialysis_required: Yes/No, maps to the relevant dialysis_requirement_X field
+        :param dialysis_type:  Maps to the single field of same name
+        :param dialysis_cause:  Maps to the single field of same name
+        :param dialysis_cause_other:  Maps to the single field of same name
+        :param serum_creatinine: Maps to the relevant serum_creatinine_X field
+        :param serum_creatinine_unit: Maps to the relevant serum_creatinine_X_unit field
+        :return: a dictionary of this day's values to populate the formset intial data with
+        """
+        date6 = self.start_date + relativedelta(days=+5)
+        if recipient_alive is False:
+            self.organ.recipient.person.date_of_death = date6
+        elif recipient_alive is True:
+            self.organ.recipient.person.date_of_death = None
+
+        if graft_failure is True:
+            self.graft_failure_date = date6
+        elif graft_failure is False:
+            self.graft_failure_date = None
+
+        if graft_removal is True:
+            self.graft_removal_date = date6
+        elif graft_removal is False:
+            self.graft_removal_date = None
+
+        if dialysis_required is not None:
+            self.dialysis_requirement_6 = dialysis_required
+
+        if serum_creatinine is not None:
+            self.serum_creatinine_6 = serum_creatinine
+            self.serum_creatinine_6_unit = serum_creatinine_unit
+
+        self._set_common_for_each_day(
+            on_dialysis_at_death=on_dialysis_at_death,
+            graft_failure_type=graft_failure_type,
+            graft_failure_type_other=graft_failure_type_other,
+            dialysis_type=dialysis_type,
+            dialysis_cause=dialysis_cause,
+            dialysis_cause_other=dialysis_cause_other
+        )
+
+        return {
+            'recipient_alive': self.recipient.person.is_alive,
+            'on_dialysis_at_death': self.on_dialysis_at_death,
+            'graft_failure': self.graft_failure,
+            'graft_failure_type': self.graft_failure_type,
+            'graft_failure_type_other': self.graft_failure_type_other,
+            'graft_removal': self.graft_removal,
+            'dialysis_required': self.dialysis_requirement_6,
+            'dialysis_type': self.dialysis_type,
+            'dialysis_cause': self.dialysis_cause,
+            'dialysis_cause_other': self.dialysis_cause_other,
+            'serum_creatinine': self.serum_creatinine_6,
+            'serum_creatinine_unit': self.serum_creatinine_6_unit
+        }
+
+    def day7(self, recipient_alive=None, on_dialysis_at_death=None, graft_failure=None,
+             graft_failure_type=None, graft_failure_type_other=None, graft_removal=None,
+             dialysis_required=None, dialysis_type=None, dialysis_cause=None,
+             dialysis_cause_other=None, serum_creatinine=None, serum_creatinine_unit=None):
+        """
+        Map the formset form values to the corresponding model field, and return a dictionary of
+        this day's values to populate the formset with
+
+        :param recipient_alive: Yes/No - If no, saves the date as the recipients date_of_death
+        :param on_dialysis_at_death: Maps to the single field of same name
+        :param graft_failure: Yes/No - If yes, saves the date into graft_failure_date
+        :param graft_failure_type: Maps to the single field of same name
+        :param graft_failure_type_other: Maps to the single field of same name
+        :param graft_removal: Yes/No - If yes, saves the date into graft_removal_date
+        :param dialysis_required: Yes/No, maps to the relevant dialysis_requirement_X field
+        :param dialysis_type:  Maps to the single field of same name
+        :param dialysis_cause:  Maps to the single field of same name
+        :param dialysis_cause_other:  Maps to the single field of same name
+        :param serum_creatinine: Maps to the relevant serum_creatinine_X field
+        :param serum_creatinine_unit: Maps to the relevant serum_creatinine_X_unit field
+        :return: a dictionary of this day's values to populate the formset intial data with
+        """
+        date7 = self.start_date + relativedelta(days=+6)
+        if recipient_alive is False:
+            self.organ.recipient.person.date_of_death = date7
+        elif recipient_alive is True:
+            self.organ.recipient.person.date_of_death = None
+
+        if graft_failure is True:
+            self.graft_failure_date = date7
+        elif graft_failure is False:
+            self.graft_failure_date = None
+
+        if graft_removal is True:
+            self.graft_removal_date = date7
+        elif graft_removal is False:
+            self.graft_removal_date = None
+
+        if dialysis_required is not None:
+            self.dialysis_requirement_7 = dialysis_required
+
+        if serum_creatinine is not None:
+            self.serum_creatinine_7 = serum_creatinine
+            self.serum_creatinine_7_unit = serum_creatinine_unit
+
+        self._set_common_for_each_day(
+            on_dialysis_at_death=on_dialysis_at_death,
+            graft_failure_type=graft_failure_type,
+            graft_failure_type_other=graft_failure_type_other,
+            dialysis_type=dialysis_type,
+            dialysis_cause=dialysis_cause,
+            dialysis_cause_other=dialysis_cause_other
+        )
+
+        return {
+            'recipient_alive': self.recipient.person.is_alive,
+            'on_dialysis_at_death': self.on_dialysis_at_death,
+            'graft_failure': self.graft_failure,
+            'graft_failure_type': self.graft_failure_type,
+            'graft_failure_type_other': self.graft_failure_type_other,
+            'graft_removal': self.graft_removal,
+            'dialysis_required': self.dialysis_requirement_7,
+            'dialysis_type': self.dialysis_type,
+            'dialysis_cause': self.dialysis_cause,
+            'dialysis_cause_other': self.dialysis_cause_other,
+            'serum_creatinine': self.serum_creatinine_7,
+            'serum_creatinine_unit': self.serum_creatinine_7_unit
+        }
+
 
 class FollowUp3M(FollowUpBase):
     organ = models.OneToOneField(Organ, related_name="followup_3m")
@@ -360,8 +857,7 @@ class FollowUp3M(FollowUpBase):
         return '%s (%s)' % (self.trial_id, self.start_date)
 
     def get_absolute_url(self):
-        # return reverse('followup:initial_detail', kwargs={'pk': self.pk})
-        return ""
+        return reverse('wp4:followup:month3_detail', kwargs={'pk': self.pk})
 
     @property
     def trial_id(self):

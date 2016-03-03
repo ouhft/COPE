@@ -1,0 +1,45 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_field %}
+
+{% block page_title %}Month 3 - Follow Up{% endblock %}
+{% block page_header %}
+    Month 3 - Follow Up
+    <small>Case ID: {{ followup_obj.trial_id }}</small>
+{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:followup:index' %}">Follow Up</a></li>
+    <li><a href="{% url 'wp4:followup:month3_list' %}">Month 3</a></li>
+    <li class="active">Edit Report for {{ followup_obj.trial_id }}</li>
+{% endblock %}
+
+{% block content %}
+    <form method="post" action="{% url 'wp4:followup:month3_update' pk=followup_obj.id %}" class=""
+          id="followup-form">
+
+        <div class="row">
+            {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                    <p class="alert alert-danger">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
+            {% crispy form %}
+        </div>
+    </form>
+{% endblock %}
+
+
+{% block footer_nav %}
+    {% if not followup_obj.completed %}
+        <nav class="navbar navbar-default navbar-fixed-bottom">
+            <div class="container">
+                <div class="navbar-right">
+                    <input type="button" class="btn btn-primary navbar-btn" value="Save" id="nav_button_save"/>
+                </div>
+            </div>
+        </nav>
+    {% endif %}
+{% endblock %}

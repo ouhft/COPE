@@ -148,15 +148,15 @@
     </style>
 
     <script>
-        $(document).bind('yourlabsWidgetReady', function () {
-            // HospitalWidget in cope.js
-            $('body').on('initialize', '.autocomplete-light-widget[data-widget-bootstrap=hospital-widget]', function () {
-                $(this).yourlabsWidget(HospitalWidget);
-            });
-        });
+{#        $(document).bind('yourlabsWidgetReady', function () {#}
+{#            // HospitalWidget in cope.js#}
+{#            $('body').on('initialize', '.autocomplete-light-widget[data-widget-bootstrap=hospital-widget]', function () {#}
+{#                $(this).yourlabsWidget(HospitalWidget);#}
+{#            });#}
+{#        });#}
 
         function highlightHospitalField() {
-            // Find and highlight the hospital widget in the last allocation
+            // TODO: Find and highlight the hospital widget in the last allocation
         }
 
         function highlightField(buttonName) {

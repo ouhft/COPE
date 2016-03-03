@@ -31,7 +31,14 @@
                     No initial follow up created
                     {% endif %}
                 </td>
-                <td><a href="#">{{ recipient.organ.followup_3m }}</a></td>
+                <td>
+                    {% if recipient.organ.followup_3m %}
+                    <a href="{% url 'wp4:followup:month3_detail' pk=recipient.organ.followup_3m.pk %}"><i title="edit" class="glyphicon glyphicon-search"></i></a>
+                    <a href="{% url 'wp4:followup:month3_update' pk=recipient.organ.followup_3m.pk %}"><i title="edit" class="glyphicon glyphicon-edit"></i></a>
+                    {% else %}
+                    No month 3 follow up created
+                    {% endif %}
+                </td>
                 <td><a href="#">{{ recipient.organ.followup_6m }}</a></td>
                 <td><a href="#">{{ recipient.organ.followup_1y }}</a></td>
             </tr>

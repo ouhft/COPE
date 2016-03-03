@@ -9,7 +9,8 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.bootstrap import FormActions
 from crispy_forms.layout import Layout, Div, Submit, Button, Field
 
-from wp4.theme.layout import FormPanel, DateTimeField, DateField, InlineFields, FieldWithFollowup, YesNoFieldWithAlternativeFollowups, FieldWithNotKnown
+from wp4.theme.layout import FormPanel, DateTimeField, DateField, InlineFields, FieldWithFollowup, \
+    YesNoFieldWithAlternativeFollowups, FieldWithNotKnown
 from wp4.compare.models import YES_NO_UNKNOWN_CHOICES
 from .models import FollowUpInitial, FollowUp3M, FollowUp6M, FollowUp1Y
 
@@ -26,55 +27,89 @@ YES_NO_CHOICES = (
 
 
 class FollowUpDayForm(forms.Form):
-    recipient_alive = forms.Select(choices=NO_YES_CHOICES)
-    on_dialysis_at_death = forms.Select(choices=NO_YES_CHOICES)
+    recipient_alive = forms.ChoiceField(
+        label=_("Is the recipient still alive?"),
+        choices=NO_YES_CHOICES
+    )
+    on_dialysis_at_death = forms.ChoiceField(
+        label=FollowUpInitial._meta.get_field("on_dialysis_at_death").verbose_name.title(),
+        choices=NO_YES_CHOICES
+    )
 
-    graft_failure = forms.Select(choices=NO_YES_CHOICES)
-    graft_failure_type = forms.Select(choices=FollowUpInitial.FAILURE_CHOICES)
-    graft_failure_type_other = forms.CharField()
+    graft_failure = forms.ChoiceField(
+        label=_("FB02 graft failure"),
+        choices=NO_YES_CHOICES
+    )
+    graft_failure_type = forms.ChoiceField(
+        label=FollowUpInitial._meta.get_field("graft_failure_type").verbose_name.title(),
+        choices=FollowUpInitial.FAILURE_CHOICES
+    )
+    graft_failure_type_other = forms.CharField(
+        label=FollowUpInitial._meta.get_field("graft_failure_type_other").verbose_name.title(),
+    )
 
-    graft_removal = forms.Select(choices=NO_YES_CHOICES)
+    graft_removal = forms.ChoiceField(
+        label=_("FB06 graft removal"),
+        choices=NO_YES_CHOICES
+    )
 
-    dialysis_required = forms.Select(choices=NO_YES_CHOICES)
-    dialysis_type = forms.Select(choices=FollowUpInitial.DIALYSIS_TYPE_CHOICES)
-    dialysis_cause = forms.Select(choices=FollowUpInitial.DIALYSIS_CAUSE_CHOICES)
-    dialysis_cause_other = forms.CharField()
+    dialysis_required = forms.ChoiceField(
+        label=_("Dialysis required?"),
+        choices=NO_YES_CHOICES
+    )
+    dialysis_type = forms.ChoiceField(
+        label=FollowUpInitial._meta.get_field("dialysis_type").verbose_name.title(),
+        choices=FollowUpInitial.DIALYSIS_TYPE_CHOICES
+    )
+    dialysis_cause = forms.ChoiceField(
+        label=FollowUpInitial._meta.get_field("dialysis_cause").verbose_name.title(),
+        choices=FollowUpInitial.DIALYSIS_CAUSE_CHOICES
+    )
+    dialysis_cause_other = forms.CharField(
+        label=FollowUpInitial._meta.get_field("dialysis_cause_other").verbose_name.title(),
+    )
 
-    serum_creatinine = forms.DecimalField()
-    serum_creatinine_unit = forms.Select(
+    serum_creatinine = forms.DecimalField(
+        label=_("Serum creatinine level")
+    )
+    serum_creatinine_unit = forms.ChoiceField(
         choices=FollowUpInitial.UNIT_CHOICES
-    )
-
-    layout_graft_failure = Layout(
-        FieldWithFollowup(
-            'graft_failure_type',
-            'graft_failure_type_other'
-        ),
-    )
-
-    helper = FormHelper()
-    helper.form_tag = False
-    helper.html5_required = True
-    helper.layout = Layout(
-        'recipient_alive',
-        'on_dialysis_at_death',
-        FieldWithFollowup(
-            Field('graft_failure', template="bootstrap3/layout/radioselect-buttons.html"),
-            layout_graft_failure
-        ),
-        Field('graft_removal', template="bootstrap3/layout/radioselect-buttons.html"),
-        'dialysis_required',
-        Field('dialysis_type', template="bootstrap3/layout/radioselect-buttons.html"),
-        FieldWithFollowup(
-            'dialysis_cause',
-            'dialysis_cause_other'
-        ),
-        'serum_creatinine',
-        'serum_creatinine_unit',
     )
 
     def __init__(self, *args, **kwargs):
         super(FollowUpDayForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+        self.helper.html5_required = True
+        self.helper.layout = Layout(
+            YesNoFieldWithAlternativeFollowups(
+                Field('recipient_alive', template="bootstrap3/layout/radioselect-buttons.html"),
+                Layout(
+                    FieldWithFollowup(
+                        Field('graft_failure', template="bootstrap3/layout/radioselect-buttons.html"),
+                        Layout(
+                            FieldWithFollowup(
+                                'graft_failure_type',
+                                'graft_failure_type_other'
+                            )
+                        )
+                    ),
+                    Field('graft_removal', template="bootstrap3/layout/radioselect-buttons.html"),
+                    FieldWithFollowup(
+                        Field('dialysis_required', template="bootstrap3/layout/radioselect-buttons.html"),
+                        Layout(
+                            Field('dialysis_type', template="bootstrap3/layout/radioselect-buttons.html"),
+                            FieldWithFollowup(
+                                'dialysis_cause',
+                                'dialysis_cause_other'
+                            ),
+                        )
+                    )
+                ),
+                Field('on_dialysis_at_death', template="bootstrap3/layout/radioselect-buttons.html")
+            ),
+            InlineFields('serum_creatinine', 'serum_creatinine_unit')
+        )
 
     class Meta:
         localized_fields = "__all__"
@@ -92,72 +127,6 @@ FollowUpDayInlineFormSet = forms.models.formset_factory(
 
 
 class FollowUpInitialForm(forms.ModelForm):
-    layout_hla = Layout(
-        'hla_mismatch_a',
-        'hla_mismatch_b',
-        'hla_mismatch_dr',
-        Field('induction_therapy', template="bootstrap3/layout/radioselect-buttons.html"),
-        FieldWithFollowup(
-            'immunosuppression',
-            'immunosuppression_other'
-        )
-    )
-    layout_rejection_yes = Layout(
-        Field('rejection_prednisolone', template="bootstrap3/layout/radioselect-buttons.html"),
-        FieldWithFollowup(
-            Field('rejection_drug', template="bootstrap3/layout/radioselect-buttons.html"),
-            'rejection_drug_other'
-        ),
-        Field('rejection_biopsy', template="bootstrap3/layout/radioselect-buttons.html"),
-    )
-    layout_rejection = Layout(
-        FieldWithFollowup(
-            Field('rejection', template="bootstrap3/layout/radioselect-buttons.html"),
-            layout_rejection_yes
-        ),
-        Field('calcineurin', template="bootstrap3/layout/radioselect-buttons.html"),
-        DateField('discharge_date')
-    )
-    layout_notes = Layout(
-        'notes',
-        Field('completed', template="bootstrap3/layout/radioselect-buttons.html")
-    )
-
-    helper = FormHelper()
-    # helper.form_tag = False
-    helper.html5_required = True
-    helper.layout = Layout(
-        Div(
-            Div(
-                # FormPanel("Graft Update", layout_graft),
-                FormPanel("HLA", layout_hla),
-                css_class="col-md-4", style="margin-top: 10px;"
-            ),
-            # Div(
-            #     # FormPanel("Creatinine", layout_serum),
-            #     css_class="col-md-4", style="margin-top: 10px;"
-            # ),
-            # Div(
-            #     FormPanel("Dialysis", layout_dialysis),
-            #     css_class="col-md-4", style="margin-top: 10px;"
-            # ),
-            css_class='row'
-        ),
-
-        Div(
-            Div(
-                FormPanel("Rejection", layout_rejection),
-                css_class="col-md-4", style="margin-top: 10px;"
-            ),
-            Div(
-                FormPanel("General Comments", layout_notes),
-                css_class="col-md-8", style="margin-top: 10px;"
-            ),
-            css_class='row'
-        ),
-        'organ',
-    )
-
     class Meta:
         model = FollowUpInitial
         exclude = ['created_by', 'version', 'created_on', 'record_locked']
@@ -179,7 +148,175 @@ class FollowUpInitialForm(forms.ModelForm):
 
         self.fields['completed'].choices = NO_YES_CHOICES
 
-    def save(self, user):
-        instance = super(FollowUpInitialForm, self).save(commit=False)
-        instance.save(created_by=user)
-        return instance
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+        self.helper.html5_required = True
+        self.helper.layout = Layout(
+            'organ',
+            FormPanel("Overall", Layout(
+                'hla_mismatch_a',
+                'hla_mismatch_b',
+                'hla_mismatch_dr',
+                Field('induction_therapy', template="bootstrap3/layout/radioselect-buttons.html"),
+                FieldWithFollowup(
+                    'immunosuppression',
+                    'immunosuppression_other'
+                ),
+                FieldWithFollowup(
+                    Field('rejection', template="bootstrap3/layout/radioselect-buttons.html"),
+                    Layout(
+                        Field('rejection_prednisolone', template="bootstrap3/layout/radioselect-buttons.html"),
+                        FieldWithFollowup(
+                            Field('rejection_drug', template="bootstrap3/layout/radioselect-buttons.html"),
+                            'rejection_drug_other'
+                        ),
+                        Field('rejection_biopsy', template="bootstrap3/layout/radioselect-buttons.html"),
+                    )
+                ),
+                Field('calcineurin', template="bootstrap3/layout/radioselect-buttons.html"),
+                DateField('discharge_date')
+            )),
+            FormPanel("General Comments", Layout(
+                'notes',
+                Field('completed', template="bootstrap3/layout/radioselect-buttons.html")
+            )),
+        )
+
+
+class FollowUp3MForm(forms.ModelForm):
+    recipient_alive = forms.ChoiceField(
+        label=_("Is the recipient still alive?"),
+        choices=NO_YES_CHOICES
+    )
+    graft_failure = forms.ChoiceField(
+        label=_("FB02 graft failure"),
+        choices=NO_YES_CHOICES
+    )
+    graft_removal = forms.ChoiceField(
+        label=_("FB06 graft removal"),
+        choices=NO_YES_CHOICES
+    )
+    dialysis_required = forms.ChoiceField(
+        label=_("Dialysis required?"),
+        choices=NO_YES_CHOICES
+    )
+    date_of_death = forms.DateField(
+        label=_("Date of death")
+    )
+
+    class Meta:
+        model = FollowUp3M
+        fields = [
+            'start_date',
+            'completed',
+            'on_dialysis_at_death',
+            'graft_failure_date',
+            'graft_failure_type',
+            'graft_failure_type_other',
+            'graft_removal_date',
+            'serum_creatinine_1',
+            'serum_creatinine_1_unit',
+            'last_dialysis_at',
+            'dialysis_type',
+            'immunosuppression',
+            'immunosuppression_other',
+            'rejection',
+            'rejection_prednisolone',
+            'rejection_drug',
+            'rejection_drug_other',
+            'rejection_biopsy',
+            'calcineurin',
+            'notes',
+            # End common
+            'organ',
+            'creatinine_clearance',
+            'currently_on_dialysis',
+            'number_of_dialysis_sessions',
+            'rejection_periods',
+            'graft_complications',
+            'qol_mobility',
+            'qol_selfcare',
+            'qol_usual_activities',
+            'qol_pain',
+            'qol_anxiety',
+            'vas_score'
+        ]
+        localized_fields = "__all__"
+
+    def __init__(self, *args, **kwargs):
+        super(FollowUp3MForm, self).__init__(*args, **kwargs)
+
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+        self.helper.html5_required = True
+        self.helper.layout = Layout(
+            FormPanel("Overview", Layout(
+                DateField('start_date'),
+
+            )),
+            YesNoFieldWithAlternativeFollowups(
+                Field('recipient_alive', template="bootstrap3/layout/radioselect-buttons.html"),
+                Layout(
+                    FieldWithFollowup(
+                        Field('graft_failure', template="bootstrap3/layout/radioselect-buttons.html"),
+                        Layout(
+                            FieldWithFollowup(
+                                'graft_failure_type',
+                                'graft_failure_type_other'
+                            )
+                        )
+                    ),
+                    Field('graft_removal', template="bootstrap3/layout/radioselect-buttons.html"),
+                    FieldWithFollowup(
+                        Field('dialysis_required', template="bootstrap3/layout/radioselect-buttons.html"),
+                        Layout(
+                            DateField('last_dialysis_at'),
+                            Field('dialysis_type', template="bootstrap3/layout/radioselect-buttons.html"),
+                            # FieldWithFollowup(
+                            #     'dialysis_cause',
+                            #     'dialysis_cause_other'
+                            # ),
+                        )
+                    )
+                ),
+                Layout(
+                    DateField('date_of_death'),
+                    Field('on_dialysis_at_death', template="bootstrap3/layout/radioselect-buttons.html")
+                )
+            ),
+            InlineFields('serum_creatinine_1', 'serum_creatinine_1_unit'),
+
+            'completed',
+            # 'on_dialysis_at_death',
+            # 'graft_failure_date',
+            # 'graft_failure_type',
+            # 'graft_failure_type_other',
+            # 'graft_removal_date',
+            # 'serum_creatinine_1',
+            # 'serum_creatinine_1_unit',
+            # 'last_dialysis_at',
+            # 'dialysis_type',
+            'immunosuppression',
+            'immunosuppression_other',
+            'rejection',
+            'rejection_prednisolone',
+            'rejection_drug',
+            'rejection_drug_other',
+            'rejection_biopsy',
+            'calcineurin',
+            'notes',
+            # End common
+            'organ',
+            'creatinine_clearance',
+            'currently_on_dialysis',
+            'number_of_dialysis_sessions',
+            'rejection_periods',
+            'graft_complications',
+            'qol_mobility',
+            'qol_selfcare',
+            'qol_usual_activities',
+            'qol_pain',
+            'qol_anxiety',
+            'vas_score'
+        )
+

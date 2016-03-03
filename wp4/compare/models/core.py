@@ -224,6 +224,10 @@ class OrganPerson(VersionControlModel):
             return False
 
     @property
+    def is_alive(self):
+        return True if self.date_of_death is None else False
+
+    @property
     def worksheet(self):
         for worksheet in self.worksheet_set.all():
             return worksheet

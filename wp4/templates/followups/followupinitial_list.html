@@ -15,7 +15,7 @@
 
 {% block content %}
     <ul>
-        {% for follow in initial_list %}
+        {% for follow in followup_list %}
             <li>{{ follow }}
                 <a href="{% url 'wp4:followup:initial_detail' pk=follow.pk %}"><i title="edit"
                                                                                                             class="glyphicon glyphicon-search"></i></a>
