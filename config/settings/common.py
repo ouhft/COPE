@@ -107,6 +107,7 @@ FIXTURE_DIRS = [
 # EMAIL CONFIGURATION
 # ------------------------------------------------------------------------------
 EMAIL_BACKEND = env('DJANGO_EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
+EMAIL_FILE_PATH = env('DJANGO_EMAIL_FILE_PATH', default='/tmp')
 
 # MANAGER CONFIGURATION
 # ------------------------------------------------------------------------------
