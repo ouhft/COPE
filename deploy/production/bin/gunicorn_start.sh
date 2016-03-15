@@ -10,6 +10,9 @@ NUM_WORKERS=3                                     # how many worker processes sh
 DJANGO_SETTINGS_MODULE=config.settings.production # which settings file should Django use
 DJANGO_WSGI_MODULE=config.wsgi                    # WSGI module name
 PID_FILE=$APP_ROOT/var/run/gunicorn.pid
+ACCESS_LOG=$APP_ROOT/var/log/gunicorn_access.log
+ERROR_LOG=$APP_ROOT/var/log/gunicorn_error.log
+TIMEOUT=120                                       # Timeout in seconds. Set large to allow for debug to happen
 
 echo "Starting $NAME as `whoami`"
 
@@ -29,7 +32,10 @@ exec ../bin/gunicorn ${DJANGO_WSGI_MODULE}:application \
   --name $NAME \
   --workers $NUM_WORKERS \
   --bind=unix:$SOCKFILE \
+  --timeout $TIMEOUT \
   --log-level=debug \
-  --log-file=- \
+  --log-file=$ERROR_LOG \
+  --access-logfile=$ACCESS_LOG \
+  --error-logfile=$ERROR_LOG \
   --pid=$PID_FILE
 #  --user=$USER --group=$GROUP \

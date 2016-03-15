@@ -16,7 +16,7 @@ class CreatedByModelMixin(models.Model):
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
-        print("DEBUG: CreatedByMixin:save() called")
+        # print("DEBUG: CreatedByMixin:save() called")
         self.created_on = timezone.now()
         return super(CreatedByModelMixin, self).save(force_insert, force_update, using, update_fields)
 
