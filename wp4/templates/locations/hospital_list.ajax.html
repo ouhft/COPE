@@ -2,7 +2,7 @@
     <ul class="list-group">
         {% for hospital in hospital_list %}
             <a href="#"
-               onclick="selectAndCloseForeignKeyModal('{{ return_id }}', {{ hospital.id }}, '{{ hospital.name }}');"
+               onclick="selectAndCloseForeignKeyModal('{{ return_id }}', {{ hospital.id }}, '{{ hospital.name|escapejs }}');"
                class="list-group-item"><i class="glyphicon glyphicon-save"></i> <strong>{{ hospital.name }}</strong>
                 ({{ hospital.get_country_display }})</a>
         {% endfor %}
