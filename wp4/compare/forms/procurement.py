@@ -16,121 +16,6 @@ from .core import NO_YES_CHOICES, YES_NO_CHOICES
 
 
 class DonorForm(forms.ModelForm):
-    layout_procedure = Layout(
-        Field('retrieval_team', template="bootstrap3/layout/read-only.html"),
-        'sequence_number',
-        Field('perfusion_technician', template="bootstrap3/layout/read-only.html"),
-        ForeignKeyModal('transplant_coordinator'),
-        FieldWithNotKnown(
-            DateTimeField('call_received', notknown=True),
-            'call_received_unknown',
-            label=Donor._meta.get_field("call_received").verbose_name.title()
-        ),
-        ForeignKeyModal('retrieval_hospital'),
-        FieldWithNotKnown(
-            DateTimeField('scheduled_start', notknown=True),
-            'scheduled_start_unknown',
-            label=Donor._meta.get_field("scheduled_start").verbose_name.title()
-        ),
-        FieldWithNotKnown(
-            DateTimeField('technician_arrival', notknown=True),
-            'technician_arrival_unknown',
-            label=Donor._meta.get_field("technician_arrival").verbose_name.title()
-        ),
-        FieldWithNotKnown(
-            DateTimeField('ice_boxes_filled', notknown=True),
-            'ice_boxes_filled_unknown',
-            label=Donor._meta.get_field("ice_boxes_filled").verbose_name.title()
-        ),
-        FieldWithNotKnown(
-            DateTimeField('depart_perfusion_centre', notknown=True),
-            'depart_perfusion_centre_unknown',
-            label=Donor._meta.get_field("depart_perfusion_centre").verbose_name.title()
-        ),
-        FieldWithNotKnown(
-            DateTimeField('arrival_at_donor_hospital', notknown=True),
-            'arrival_at_donor_hospital_unknown',
-            label=Donor._meta.get_field("arrival_at_donor_hospital").verbose_name.title()
-        ),
-        Field('multiple_recipients', template="bootstrap3/layout/radioselect-buttons.html")
-    )
-    layout_other_organs = Layout(
-        Field('other_organs_lungs', template="bootstrap3/layout/radioselect-buttons.html"),
-        Field('other_organs_pancreas', template="bootstrap3/layout/radioselect-buttons.html"),
-        Field('other_organs_liver', template="bootstrap3/layout/radioselect-buttons.html"),
-        Field('other_organs_tissue', template="bootstrap3/layout/radioselect-buttons.html")
-    )
-    layout_donor_details = Layout(
-        'age',
-        FieldWithNotKnown(
-            DateField('date_of_admission', notknown=True),
-            'date_of_admission_unknown',
-            label=Donor._meta.get_field("date_of_admission").verbose_name.title()
-        ),
-        FieldWithFollowup(
-            Field('admitted_to_itu', template="bootstrap3/layout/radioselect-buttons.html"),
-            FieldWithNotKnown(
-                DateField('date_admitted_to_itu', notknown=True),
-                'date_admitted_to_itu_unknown',
-                label=Donor._meta.get_field("date_admitted_to_itu").verbose_name.title()
-            ),
-        ),
-        DateField('date_of_procurement'),
-        FieldWithFollowup(
-            Field('other_organs_procured', template="bootstrap3/layout/radioselect-buttons.html"),
-            layout_other_organs
-        )
-    )
-    layout_preop = Layout(
-        FieldWithFollowup('diagnosis', 'diagnosis_other'),
-        Field('diabetes_melitus', template="bootstrap3/layout/radioselect-buttons.html"),
-        Field('alcohol_abuse', template="bootstrap3/layout/radioselect-buttons.html"),
-        Field('cardiac_arrest', template="bootstrap3/layout/radioselect-buttons.html"),
-        'systolic_blood_pressure',
-        'diastolic_blood_pressure',
-        FieldWithNotKnown('diuresis_last_day', 'diuresis_last_day_unknown'),
-        FieldWithNotKnown('diuresis_last_hour', 'diuresis_last_hour_unknown'),
-        Field('dopamine', template="bootstrap3/layout/radioselect-buttons.html"),
-        Field('dobutamine', template="bootstrap3/layout/radioselect-buttons.html"),
-        Field('nor_adrenaline', template="bootstrap3/layout/radioselect-buttons.html"),
-        Field('vasopressine', template="bootstrap3/layout/radioselect-buttons.html"),
-        'other_medication_details'
-    )
-    layout_labresults = Layout(
-        InlineFields('last_creatinine', 'last_creatinine_unit'),
-        InlineFields('max_creatinine', 'max_creatinine_unit')
-    )
-    layout_donor_procedure = Layout(
-        DateTimeField('life_support_withdrawal'),
-        FieldWithNotKnown(
-            DateTimeField('systolic_pressure_low', notknown=True),
-            'systolic_pressure_low_unknown',
-            label=Donor._meta.get_field("systolic_pressure_low").verbose_name.title()
-        ),
-        FieldWithNotKnown(
-            DateTimeField('o2_saturation', notknown=True),
-            'o2_saturation_unknown',
-            label=Donor._meta.get_field("o2_saturation").verbose_name.title()
-        ),
-        FieldWithNotKnown(
-            DateTimeField('circulatory_arrest', notknown=True),
-            'circulatory_arrest_unknown',
-            label=Donor._meta.get_field("circulatory_arrest").verbose_name.title()
-        ),
-        'length_of_no_touch',
-        DateTimeField('death_diagnosed'),
-        FieldWithNotKnown(
-            DateTimeField('perfusion_started', notknown=True),
-            'perfusion_started_unknown',
-            label=Donor._meta.get_field("perfusion_started").verbose_name.title()
-        ),
-        FieldWithFollowup(
-            Field('systemic_flush_used', template="bootstrap3/layout/radioselect-buttons.html"),
-            'systemic_flush_used_other'
-        ),
-        'systemic_flush_volume_used',
-        Field('heparin', template="bootstrap3/layout/radioselect-buttons.html")
-    )
     layout_almost_complete = Layout(
         'not_randomised_because',
         'not_randomised_because_other',
@@ -139,32 +24,6 @@ class DonorForm(forms.ModelForm):
             "below will result in this form being closed and locked. No further edits will be possible " +
             "without contacting the admin team.</p>"
         )
-    )
-    layout_complete = Layout(
-        FieldWithFollowup(
-            Field('procurement_form_completed', template="bootstrap3/layout/radioselect-buttons.html"),
-            layout_almost_complete
-        )
-    )
-
-    helper = FormHelper()
-    helper.form_tag = False
-    helper.html5_required = True
-    helper.layout = Layout(
-        FormPanel("Donor Details", layout_donor_details),
-        HTML("</div>"),
-        Div(
-            FormPanel("Procedure Data", layout_procedure),
-            FormPanel("Donor Procedure", layout_donor_procedure),
-            css_class="col-md-4", style="margin-top: 10px;"
-        ),
-        Div(
-            FormPanel("Donor Preop Data", layout_preop),
-            FormPanel("Lab Results", layout_labresults),
-            FormPanel("Complete Submission", layout_complete, panel_status="danger"),
-            css_class="col-md-4", style="margin-top: 10px;"
-        ),
-        'person',
     )
 
     def __init__(self, *args, **kwargs):
@@ -205,6 +64,147 @@ class DonorForm(forms.ModelForm):
         self.fields['systemic_flush_used'].choices = Donor.SOLUTION_CHOICES
         self.fields['heparin'].choices = NO_YES_CHOICES
         self.fields['procurement_form_completed'].choices = NO_YES_CHOICES
+
+        if self.instance.is_randomised:  # Hide these questions if randomised
+            self.fields['not_randomised_because'].widget = forms.HiddenInput()
+            self.fields['not_randomised_because_other'].widget = forms.HiddenInput()
+        else:
+            # Cut out the Not Applicable option (1st element)
+            self.fields['not_randomised_because'].choices = Donor.NON_RANDOMISATION_CHOICES[1:]
+
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+        self.helper.html5_required = True
+        self.helper.layout = Layout(
+            FormPanel("Donor Details", Layout(
+                'age',
+                FieldWithNotKnown(
+                    DateField('date_of_admission', notknown=True),
+                    'date_of_admission_unknown',
+                    label=Donor._meta.get_field("date_of_admission").verbose_name.title()
+                ),
+                FieldWithFollowup(
+                    Field('admitted_to_itu', template="bootstrap3/layout/radioselect-buttons.html"),
+                    FieldWithNotKnown(
+                        DateField('date_admitted_to_itu', notknown=True),
+                        'date_admitted_to_itu_unknown',
+                        label=Donor._meta.get_field("date_admitted_to_itu").verbose_name.title()
+                    ),
+                ),
+                DateField('date_of_procurement'),
+                FieldWithFollowup(
+                    Field('other_organs_procured', template="bootstrap3/layout/radioselect-buttons.html"),
+                    Layout(
+                        Field('other_organs_lungs', template="bootstrap3/layout/radioselect-buttons.html"),
+                        Field('other_organs_pancreas', template="bootstrap3/layout/radioselect-buttons.html"),
+                        Field('other_organs_liver', template="bootstrap3/layout/radioselect-buttons.html"),
+                        Field('other_organs_tissue', template="bootstrap3/layout/radioselect-buttons.html")
+                    )
+                )
+            )),
+            HTML("</div>"),
+            Div(
+                FormPanel("Procedure Data", Layout(
+                    Field('retrieval_team', template="bootstrap3/layout/read-only.html"),
+                    'sequence_number',
+                    Field('perfusion_technician', template="bootstrap3/layout/read-only.html"),
+                    ForeignKeyModal('transplant_coordinator'),
+                    FieldWithNotKnown(
+                        DateTimeField('call_received', notknown=True),
+                        'call_received_unknown',
+                        label=Donor._meta.get_field("call_received").verbose_name.title()
+                    ),
+                    ForeignKeyModal('retrieval_hospital'),
+                    FieldWithNotKnown(
+                        DateTimeField('scheduled_start', notknown=True),
+                        'scheduled_start_unknown',
+                        label=Donor._meta.get_field("scheduled_start").verbose_name.title()
+                    ),
+                    FieldWithNotKnown(
+                        DateTimeField('technician_arrival', notknown=True),
+                        'technician_arrival_unknown',
+                        label=Donor._meta.get_field("technician_arrival").verbose_name.title()
+                    ),
+                    FieldWithNotKnown(
+                        DateTimeField('ice_boxes_filled', notknown=True),
+                        'ice_boxes_filled_unknown',
+                        label=Donor._meta.get_field("ice_boxes_filled").verbose_name.title()
+                    ),
+                    FieldWithNotKnown(
+                        DateTimeField('depart_perfusion_centre', notknown=True),
+                        'depart_perfusion_centre_unknown',
+                        label=Donor._meta.get_field("depart_perfusion_centre").verbose_name.title()
+                    ),
+                    FieldWithNotKnown(
+                        DateTimeField('arrival_at_donor_hospital', notknown=True),
+                        'arrival_at_donor_hospital_unknown',
+                        label=Donor._meta.get_field("arrival_at_donor_hospital").verbose_name.title()
+                    ),
+                    Field('multiple_recipients', template="bootstrap3/layout/radioselect-buttons.html")
+                )),
+                FormPanel("Donor Procedure", Layout(
+                    DateTimeField('life_support_withdrawal'),
+                    FieldWithNotKnown(
+                        DateTimeField('systolic_pressure_low', notknown=True),
+                        'systolic_pressure_low_unknown',
+                        label=Donor._meta.get_field("systolic_pressure_low").verbose_name.title()
+                    ),
+                    FieldWithNotKnown(
+                        DateTimeField('o2_saturation', notknown=True),
+                        'o2_saturation_unknown',
+                        label=Donor._meta.get_field("o2_saturation").verbose_name.title()
+                    ),
+                    FieldWithNotKnown(
+                        DateTimeField('circulatory_arrest', notknown=True),
+                        'circulatory_arrest_unknown',
+                        label=Donor._meta.get_field("circulatory_arrest").verbose_name.title()
+                    ),
+                    'length_of_no_touch',
+                    DateTimeField('death_diagnosed'),
+                    FieldWithNotKnown(
+                        DateTimeField('perfusion_started', notknown=True),
+                        'perfusion_started_unknown',
+                        label=Donor._meta.get_field("perfusion_started").verbose_name.title()
+                    ),
+                    FieldWithFollowup(
+                        Field('systemic_flush_used', template="bootstrap3/layout/radioselect-buttons.html"),
+                        'systemic_flush_used_other'
+                    ),
+                    'systemic_flush_volume_used',
+                    Field('heparin', template="bootstrap3/layout/radioselect-buttons.html")
+                )),
+                css_class="col-md-4", style="margin-top: 10px;"
+            ),
+            Div(
+                FormPanel("Donor Preop Data", Layout(
+                    FieldWithFollowup('diagnosis', 'diagnosis_other'),
+                    Field('diabetes_melitus', template="bootstrap3/layout/radioselect-buttons.html"),
+                    Field('alcohol_abuse', template="bootstrap3/layout/radioselect-buttons.html"),
+                    Field('cardiac_arrest', template="bootstrap3/layout/radioselect-buttons.html"),
+                    'systolic_blood_pressure',
+                    'diastolic_blood_pressure',
+                    FieldWithNotKnown('diuresis_last_day', 'diuresis_last_day_unknown'),
+                    FieldWithNotKnown('diuresis_last_hour', 'diuresis_last_hour_unknown'),
+                    Field('dopamine', template="bootstrap3/layout/radioselect-buttons.html"),
+                    Field('dobutamine', template="bootstrap3/layout/radioselect-buttons.html"),
+                    Field('nor_adrenaline', template="bootstrap3/layout/radioselect-buttons.html"),
+                    Field('vasopressine', template="bootstrap3/layout/radioselect-buttons.html"),
+                    'other_medication_details'
+                )),
+                FormPanel("Lab Results", Layout(
+                    InlineFields('last_creatinine', 'last_creatinine_unit'),
+                    InlineFields('max_creatinine', 'max_creatinine_unit')
+                )),
+                FormPanel("Complete Submission", Layout(
+                    FieldWithFollowup(
+                        Field('procurement_form_completed', template="bootstrap3/layout/radioselect-buttons.html"),
+                        self.layout_almost_complete
+                    )
+                ), panel_status="danger"),
+                css_class="col-md-4", style="margin-top: 10px;"
+            ),
+            'person',
+        )
 
     class Meta:
         model = Donor
@@ -272,24 +272,6 @@ class DonorForm(forms.ModelForm):
 
 
 class OrganForm(forms.ModelForm):
-    layout_system_data = Layout(
-        'donor',
-        Field('location', template="bootstrap3/layout/read-only.html"),
-        Field('preservation', template="bootstrap3/layout/read-only.html")
-    )
-    layout_inspection = Layout(
-        FieldWithFollowup(
-            Field('transplantable', template="bootstrap3/layout/radioselect-buttons.html"),
-            'not_transplantable_reason'
-        ),
-        DateTimeField('removal'),
-        'renal_arteries',
-        FieldWithFollowup(
-            'graft_damage',
-            'graft_damage_other'
-        ),
-        Field('washout_perfusion', template="bootstrap3/layout/radioselect-buttons.html")
-    )
     layout_artificial_patches = Layout(
         Field('artificial_patch_size', template="bootstrap3/layout/radioselect-buttons.html"),
         'artificial_patch_number'
@@ -346,23 +328,6 @@ class OrganForm(forms.ModelForm):
         )
     )
 
-    helper = FormHelper()
-    helper.form_tag = False
-    helper.html5_required = True
-    helper.layout = Layout(
-        Div(
-            FormPanel("Inspection", layout_inspection),
-            FormPanel("Preset Data", layout_system_data),
-            css_class="col-md-4",
-            style="margin-top: 10px;"
-        ),
-        Div(
-            FormPanel("Perfusion Data", layout_perfusion),
-            css_class="col-md-4",
-            style="margin-top: 10px;"
-        )
-    )
-
     def __init__(self, *args, **kwargs):
         super(OrganForm, self).__init__(*args, **kwargs)
         self.fields['donor'].widget = forms.HiddenInput()
@@ -383,6 +348,40 @@ class OrganForm(forms.ModelForm):
         self.fields['ice_container_replenished'].choices = NO_YES_CHOICES
         self.fields['ice_container_replenished_at'].input_formats = settings.DATETIME_INPUT_FORMATS
         self.fields['perfusate_measurable'].choices = NO_YES_CHOICES
+
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+        self.helper.html5_required = True
+        self.helper.layout = Layout(
+            Div(
+                FormPanel("Inspection", Layout(
+                    FieldWithFollowup(
+                        Field('transplantable', template="bootstrap3/layout/radioselect-buttons.html"),
+                        'not_transplantable_reason'
+                    ),
+                    DateTimeField('removal'),
+                    'renal_arteries',
+                    FieldWithFollowup(
+                        'graft_damage',
+                        'graft_damage_other'
+                    ),
+                    Field('washout_perfusion', template="bootstrap3/layout/radioselect-buttons.html")
+                )),
+                FormPanel("Preset Data", Layout(
+                    'donor',
+                    Field('location', template="bootstrap3/layout/read-only.html"),
+                    Field('preservation', template="bootstrap3/layout/read-only.html")
+                )),
+                css_class="col-md-4",
+                style="margin-top: 10px;"
+            ),
+            Div(
+                FormPanel("Perfusion Data", self.layout_perfusion),
+                css_class="col-md-4",
+                style="margin-top: 10px;"
+            )
+        )
+
 
     class Meta:
         model = Organ

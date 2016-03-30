@@ -390,13 +390,12 @@ class Donor(VersionControlModel):
             if self.person.number == "":
                 raise ValidationError(_("DOv13 Please enter the NHSBT number"))
 
-    def save(self, created_by=None, force_insert=False, force_update=False, using=None,
-             update_fields=None):
+    def save(self, created_by=None, force_insert=False, force_update=False, using=None, update_fields=None):
         if self.death_diagnosed:
             # Have to sync this data to the OrganPerson.date_of_death
             self.person.date_of_death = self.death_diagnosed
             self.person.save(created_by)
-        return super(Donor, self).save(force_insert, force_update, using, update_fields)
+        return super(Donor, self).save(created_by, force_insert, force_update, using, update_fields)
 
     @transaction.atomic
     def randomise(self, is_online=True):
