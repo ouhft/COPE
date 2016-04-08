@@ -128,92 +128,6 @@ AllocationFormSet = forms.modelformset_factory(
 
 
 class RecipientForm(forms.ModelForm):
-    layout_recipient = Layout(
-        Field('single_kidney_transplant', template="bootstrap3/layout/radioselect-buttons.html"),
-        Field('signed_consent', template="bootstrap3/layout/radioselect-buttons.html"),
-        FieldWithFollowup(
-            'renal_disease',
-            'renal_disease_other'
-        ),
-        'pre_transplant_diuresis'
-    )
-    layout_perioperative_transplantable = Layout(
-        DateTimeField('anesthesia_started_at'),
-        DateTimeField('knife_to_skin'),
-        Field('incision', template="bootstrap3/layout/radioselect-buttons.html"),
-        Field('transplant_side', template="bootstrap3/layout/radioselect-buttons.html"),
-        FieldWithFollowup(
-            'arterial_problems',
-            'arterial_problems_other'
-        ),
-        FieldWithFollowup(
-            'venous_problems',
-            'venous_problems_other'
-        ),
-        FieldWithNotKnown(
-            DateTimeField('anastomosis_started_at', notknown=True),
-            'anastomosis_started_at_unknown',
-            label=Recipient._meta.get_field("anastomosis_started_at").verbose_name.title()
-        ),
-        FieldWithNotKnown(
-            DateTimeField('reperfusion_started_at', notknown=True),
-            'reperfusion_started_at_unknown',
-            label=Recipient._meta.get_field("reperfusion_started_at").verbose_name.title()
-        ),
-        Field('mannitol_used', template="bootstrap3/layout/radioselect-buttons.html"),
-        FieldWithFollowup(
-            Field('other_diurectics', template="bootstrap3/layout/radioselect-buttons.html"),
-            'other_diurectics_details'
-        ),
-        'systolic_blood_pressure',
-        'cvp',
-        Field('intra_operative_diuresis', template="bootstrap3/layout/radioselect-buttons.html"),
-        Field('successful_conclusion', template="bootstrap3/layout/radioselect-buttons.html"),
-        DateTimeField('operation_concluded_at')
-    )
-    layout_perioperative = Layout(
-        'perfusate_measure',
-        DateTimeField('perfusion_stopped'),
-        Field('organ_cold_stored', template="bootstrap3/layout/radioselect-buttons.html"),
-        Field('tape_broken', template="bootstrap3/layout/radioselect-buttons.html"),
-        DateTimeField('removed_from_machine_at'),
-        Field('oxygen_full_and_open', template="bootstrap3/layout/radioselect-buttons.html"),
-
-        YesNoFieldWithAlternativeFollowups(
-            Field('organ_untransplantable', template="bootstrap3/layout/radioselect-buttons.html"),
-            'organ_untransplantable_reason',
-            layout_perioperative_transplantable
-        )
-    )
-    layout_cleaning = Layout(
-        Field('probe_cleaned', template="bootstrap3/layout/radioselect-buttons.html"),
-        Field('ice_removed', template="bootstrap3/layout/radioselect-buttons.html"),
-        Field('oxygen_flow_stopped', template="bootstrap3/layout/radioselect-buttons.html"),
-        Field('oxygen_bottle_removed', template="bootstrap3/layout/radioselect-buttons.html"),
-        Field('box_cleaned', template="bootstrap3/layout/radioselect-buttons.html"),
-        Field('batteries_charged', template="bootstrap3/layout/radioselect-buttons.html"),
-        'cleaning_log'
-    )
-
-    helper = FormHelper()
-    helper.form_tag = False
-    helper.html5_required = True
-    helper.layout = Layout(
-        FormPanel("Recipient Details", layout_recipient),
-        HTML("</div>"),
-        Div(
-            FormPanel("Peri-Operative Data", layout_perioperative),
-            css_class="col-md-4", style="margin-top: 10px;"
-        ),
-        Div(
-            FormPanel("Cleaning Log", layout_cleaning),
-            css_class="col-md-4", style="margin-top: 10px;"
-        ),
-        'person',
-        'organ',
-        'allocation'
-    )
-
     def __init__(self, *args, **kwargs):
         super(RecipientForm, self).__init__(*args, **kwargs)
         self.fields['person'].widget = forms.HiddenInput()
@@ -251,6 +165,87 @@ class RecipientForm(forms.ModelForm):
         self.fields['box_cleaned'].choices = NO_YES_CHOICES
         self.fields['batteries_charged'].choices = NO_YES_CHOICES
 
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+        self.helper.html5_required = True
+        self.helper.layout = Layout(
+            FormPanel("Recipient Details", Layout(
+                Field('single_kidney_transplant', template="bootstrap3/layout/radioselect-buttons.html"),
+                Field('signed_consent', template="bootstrap3/layout/radioselect-buttons.html"),
+                FieldWithFollowup(
+                    'renal_disease',
+                    'renal_disease_other'
+                ),
+                'pre_transplant_diuresis'
+            )),
+            HTML("</div>"),
+            Div(
+                FormPanel("Peri-Operative Data", Layout(
+                    'perfusate_measure',
+                    DateTimeField('perfusion_stopped'),
+                    Field('organ_cold_stored', template="bootstrap3/layout/radioselect-buttons.html"),
+                    Field('tape_broken', template="bootstrap3/layout/radioselect-buttons.html"),
+                    DateTimeField('removed_from_machine_at'),
+                    Field('oxygen_full_and_open', template="bootstrap3/layout/radioselect-buttons.html"),
+
+                    YesNoFieldWithAlternativeFollowups(
+                        Field('organ_untransplantable', template="bootstrap3/layout/radioselect-buttons.html"),
+                        'organ_untransplantable_reason',
+                        Layout(
+                            DateTimeField('anesthesia_started_at'),
+                            DateTimeField('knife_to_skin'),
+                            Field('incision', template="bootstrap3/layout/radioselect-buttons.html"),
+                            Field('transplant_side', template="bootstrap3/layout/radioselect-buttons.html"),
+                            FieldWithFollowup(
+                                'arterial_problems',
+                                'arterial_problems_other'
+                            ),
+                            FieldWithFollowup(
+                                'venous_problems',
+                                'venous_problems_other'
+                            ),
+                            FieldWithNotKnown(
+                                DateTimeField('anastomosis_started_at', notknown=True),
+                                'anastomosis_started_at_unknown',
+                                label=Recipient._meta.get_field("anastomosis_started_at").verbose_name.title()
+                            ),
+                            FieldWithNotKnown(
+                                DateTimeField('reperfusion_started_at', notknown=True),
+                                'reperfusion_started_at_unknown',
+                                label=Recipient._meta.get_field("reperfusion_started_at").verbose_name.title()
+                            ),
+                            Field('mannitol_used', template="bootstrap3/layout/radioselect-buttons.html"),
+                            FieldWithFollowup(
+                                Field('other_diurectics', template="bootstrap3/layout/radioselect-buttons.html"),
+                                'other_diurectics_details'
+                            ),
+                            'systolic_blood_pressure',
+                            'cvp',
+                            Field('intra_operative_diuresis', template="bootstrap3/layout/radioselect-buttons.html"),
+                            Field('successful_conclusion', template="bootstrap3/layout/radioselect-buttons.html"),
+                            DateTimeField('operation_concluded_at')
+                        )
+                    )
+                )),
+                css_class="col-md-4", style="margin-top: 10px;"
+            ),
+            Div(
+                FormPanel("Cleaning Log", Layout(
+                    Field('probe_cleaned', template="bootstrap3/layout/radioselect-buttons.html"),
+                    Field('ice_removed', template="bootstrap3/layout/radioselect-buttons.html"),
+                    Field('oxygen_flow_stopped', template="bootstrap3/layout/radioselect-buttons.html"),
+                    Field('oxygen_bottle_removed', template="bootstrap3/layout/radioselect-buttons.html"),
+                    Field('box_cleaned', template="bootstrap3/layout/radioselect-buttons.html"),
+                    Field('batteries_charged', template="bootstrap3/layout/radioselect-buttons.html"),
+                    'cleaning_log'
+                )),
+                css_class="col-md-4", style="margin-top: 10px;"
+            ),
+            'person',
+            'organ',
+            'allocation'
+        )
+
     class Meta:
         model = Recipient
         fields = [
@@ -275,34 +270,44 @@ class RecipientForm(forms.ModelForm):
         cleaned_data = super(RecipientForm, self).clean()
         organ_untransplantable = cleaned_data.get("organ_untransplantable")
         organ_untransplantable_reason = cleaned_data.get("organ_untransplantable_reason")
-        if organ_untransplantable == True and organ_untransplantable_reason == "":
+        if organ_untransplantable is True and organ_untransplantable_reason == "":
             self.add_error(
                 'organ_untransplantable_reason',
                 forms.ValidationError(_("RFv01 Please enter a reason why this was untransplantable"))
             )
+
+        if self.instance.organ.transplantation_form_completed is True:
+            # Do the final validation checks
+            if self.instance.organ.perfusion_started is not None:
+                if cleaned_data.get("perfusion_stopped") == "":
+                    self.add_error(
+                        "perfusion_stopped",
+                        forms.ValidationError(_("RFv02 Please enter time perfusion was stopped"))
+                    )
+                if cleaned_data.get("removed_from_machine_at") == "":
+                    self.add_error(
+                        "removed_from_machine_at",
+                        forms.ValidationError(_("RFv03 Please enter time kidney was removed from machine"))
+                    )
+            if cleaned_data.get("anesthesia_started_at") == "":
+                self.add_error(
+                    "anesthesia_started_at",
+                    forms.ValidationError(_("RFv04 Please enter time anesthesia was started"))
+                )
+            if cleaned_data.get("anastomosis_started_at") == "":
+                self.add_error(
+                    "anastomosis_started_at",
+                    forms.ValidationError(_("RFv05 Please enter time anastomosis was started"))
+                )
+            if cleaned_data.get("reperfusion_started_at") == "":
+                self.add_error(
+                    "reperfusion_started_at",
+                    forms.ValidationError(_("RFv06 Please enter time reperfusion was started"))
+                )
         return cleaned_data
 
 
 class TransplantOrganForm(forms.ModelForm):
-    layout_complete = Layout(
-        'transplantation_notes',
-        FieldWithFollowup(
-            Field('transplantation_form_completed', template="bootstrap3/layout/radioselect-buttons.html"),
-            HTML(
-                "<p class=\"text-danger\">Once all errors have been cleared, clicking Save below will " +
-                "result in this form being closed and locked. No further edits will be possible " +
-                "without contacting the admin team.</p>"
-            )
-        )
-    )
-
-    helper = FormHelper()
-    helper.form_tag = False
-    helper.html5_required = True
-    helper.layout = Layout(
-        FormPanel("Complete Submission", layout_complete, panel_status="danger"),  # , panel_hidden=True
-    )
-
     class Meta:
         model = Organ
         fields = [
@@ -313,3 +318,20 @@ class TransplantOrganForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(TransplantOrganForm, self).__init__(*args, **kwargs)
         self.fields['transplantation_form_completed'].choices = NO_YES_CHOICES
+
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+        self.helper.html5_required = True
+        self.helper.layout = Layout(
+            FormPanel("Complete Submission", Layout(
+                'transplantation_notes',
+                FieldWithFollowup(
+                    Field('transplantation_form_completed', template="bootstrap3/layout/radioselect-buttons.html"),
+                    HTML(
+                        "<p class=\"text-danger\">Once all errors have been cleared, clicking Save below will " +
+                        "result in this form being closed and locked. No further edits will be possible " +
+                        "without contacting the admin team.</p>"
+                    )
+                )
+            ), panel_status="danger"),  # , panel_hidden=True
+        )

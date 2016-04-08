@@ -363,26 +363,24 @@ def transplantation_form(request, pk=None):
         return redirect(reverse('wp4:compare:transplantation_list'))
 
     current_person = StaffPerson.objects.get(user__id=request.user.id)
+    organ_form = None
     person_form = None
     recipient_form = None
     recipient_form_loaded = False
     errors_found = 0
 
-    # Form metadata is on the Organ record, so we have a TransplantOrganForm
-    organ_form = TransplantOrganForm(
-        request.POST or None,
-        request.FILES or None,
-        instance=organ,
-        prefix="transplant-organ"
-    )
-    if organ_form.is_valid():
-        # TODO: WORKING HERE TO SORT OUT FORM COMPLETION
-
-        organ = organ_form.save(request.user)
-        print("DEBUG: hello organ form, nice to meet you")
-
     # See if we can process the forms associated with the eventual recipient
     if organ.safe_recipient is not None:
+        # Form metadata is on the Organ record, so we have a TransplantOrganForm
+        organ_form = TransplantOrganForm(
+            request.POST or None,
+            request.FILES or None,
+            instance=organ,
+            prefix="transplant-organ"
+        )
+        if organ_form.is_valid():
+            organ = organ_form.save(request.user)
+
         # print("DEBUG: Starting the Recipient form")
         person_form = OrganPersonForm(
             request.POST or None,
@@ -546,7 +544,6 @@ def transplantation_form(request, pk=None):
         messages.error(request, 'Form has <strong>NOT</strong> been saved. Please correct the errors below')
         organ.transplantation_form_completed = False
         organ.save()
-        # organ_form = TransplantOrganForm(instance=organ, prefix="transplant-organ")
 
     print("DEBUG: errors_found %d" % errors_found)
 
