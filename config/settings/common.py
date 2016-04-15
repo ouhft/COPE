@@ -60,6 +60,7 @@ LOCAL_APPS = [
     'wp4.locations',
     'wp4.staff_person',
     'wp4.perfusion_machine',
+    'wp4.health_economics',
     'wp4.samples',
     'wp4.adverse_event',
     'wp4.followups',

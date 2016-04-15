@@ -47,12 +47,12 @@ def follow_up_initial_update(request, pk=None):
         prefix="daily",
         initial=[
             initial_object.day1(),
-            initial_object.day2(),
-            initial_object.day3(),
-            initial_object.day4(),
-            initial_object.day5(),
-            initial_object.day6(),
-            initial_object.day7(),
+            # initial_object.day2(),
+            # initial_object.day3(),
+            # initial_object.day4(),
+            # initial_object.day5(),
+            # initial_object.day6(),
+            # initial_object.day7(),
         ]
     )
     if daily_formset.is_valid():

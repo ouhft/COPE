@@ -234,12 +234,7 @@ class FollowUp3MForm(forms.ModelForm):
             'number_of_dialysis_sessions',
             'rejection_periods',
             'graft_complications',
-            'qol_mobility',
-            'qol_selfcare',
-            'qol_usual_activities',
-            'qol_pain',
-            'qol_anxiety',
-            'vas_score'
+            'quality_of_life',
         ]
         localized_fields = "__all__"
 
@@ -252,7 +247,6 @@ class FollowUp3MForm(forms.ModelForm):
         self.helper.layout = Layout(
             FormPanel("Overview", Layout(
                 DateField('start_date'),
-
             )),
             YesNoFieldWithAlternativeFollowups(
                 Field('recipient_alive', template="bootstrap3/layout/radioselect-buttons.html"),
@@ -272,10 +266,6 @@ class FollowUp3MForm(forms.ModelForm):
                         Layout(
                             DateField('last_dialysis_at'),
                             Field('dialysis_type', template="bootstrap3/layout/radioselect-buttons.html"),
-                            # FieldWithFollowup(
-                            #     'dialysis_cause',
-                            #     'dialysis_cause_other'
-                            # ),
                         )
                     )
                 ),
@@ -289,8 +279,6 @@ class FollowUp3MForm(forms.ModelForm):
             'completed',
             # 'on_dialysis_at_death',
             # 'graft_failure_date',
-            # 'graft_failure_type',
-            # 'graft_failure_type_other',
             # 'graft_removal_date',
             # 'serum_creatinine_1',
             # 'serum_creatinine_1_unit',
@@ -312,11 +300,6 @@ class FollowUp3MForm(forms.ModelForm):
             'number_of_dialysis_sessions',
             'rejection_periods',
             'graft_complications',
-            'qol_mobility',
-            'qol_selfcare',
-            'qol_usual_activities',
-            'qol_pain',
-            'qol_anxiety',
-            'vas_score'
+            'quality_of_life'
         )
 

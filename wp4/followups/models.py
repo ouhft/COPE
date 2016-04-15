@@ -10,6 +10,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from bdateutil import relativedelta
 from wp4.compare.models import VersionControlModel, Organ, YES_NO_UNKNOWN_CHOICES
+from wp4.health_economics.models import QualityOfLife
 
 
 class FollowUpBase(VersionControlModel):
@@ -302,7 +303,7 @@ class FollowUpInitial(FollowUpBase):
     ):
         self.on_dialysis_at_death = on_dialysis_at_death
         self.graft_failure_type = graft_failure_type
-        self. graft_failure_type_other = graft_failure_type_other
+        self.graft_failure_type_other = graft_failure_type_other
         self.dialysis_type = dialysis_type
         self.dialysis_cause = dialysis_cause
         self.dialysis_cause_other = dialysis_cause_other
@@ -361,7 +362,7 @@ class FollowUpInitial(FollowUpBase):
         )
 
         return {
-            'recipient_alive': self.recipient.person.is_alive,
+            'recipient_alive': self.organ.recipient.person.is_alive,
             'on_dialysis_at_death': self.on_dialysis_at_death,
             'graft_failure': self.graft_failure,
             'graft_failure_type': self.graft_failure_type,
@@ -430,7 +431,7 @@ class FollowUpInitial(FollowUpBase):
         )
 
         return {
-            'recipient_alive': self.recipient.person.is_alive,
+            'recipient_alive': self.organ.recipient.person.is_alive,
             'on_dialysis_at_death': self.on_dialysis_at_death,
             'graft_failure': self.graft_failure,
             'graft_failure_type': self.graft_failure_type,
@@ -499,7 +500,7 @@ class FollowUpInitial(FollowUpBase):
         )
 
         return {
-            'recipient_alive': self.recipient.person.is_alive,
+            'recipient_alive': self.organ.recipient.person.is_alive,
             'on_dialysis_at_death': self.on_dialysis_at_death,
             'graft_failure': self.graft_failure,
             'graft_failure_type': self.graft_failure_type,
@@ -568,7 +569,7 @@ class FollowUpInitial(FollowUpBase):
         )
 
         return {
-            'recipient_alive': self.recipient.person.is_alive,
+            'recipient_alive': self.organ.recipient.person.is_alive,
             'on_dialysis_at_death': self.on_dialysis_at_death,
             'graft_failure': self.graft_failure,
             'graft_failure_type': self.graft_failure_type,
@@ -637,7 +638,7 @@ class FollowUpInitial(FollowUpBase):
         )
 
         return {
-            'recipient_alive': self.recipient.person.is_alive,
+            'recipient_alive': self.organ.recipient.person.is_alive,
             'on_dialysis_at_death': self.on_dialysis_at_death,
             'graft_failure': self.graft_failure,
             'graft_failure_type': self.graft_failure_type,
@@ -706,7 +707,7 @@ class FollowUpInitial(FollowUpBase):
         )
 
         return {
-            'recipient_alive': self.recipient.person.is_alive,
+            'recipient_alive': self.organ.recipient.person.is_alive,
             'on_dialysis_at_death': self.on_dialysis_at_death,
             'graft_failure': self.graft_failure,
             'graft_failure_type': self.graft_failure_type,
@@ -775,7 +776,7 @@ class FollowUpInitial(FollowUpBase):
         )
 
         return {
-            'recipient_alive': self.recipient.person.is_alive,
+            'recipient_alive': self.organ.recipient.person.is_alive,
             'on_dialysis_at_death': self.on_dialysis_at_death,
             'graft_failure': self.graft_failure,
             'graft_failure_type': self.graft_failure_type,
@@ -817,37 +818,8 @@ class FollowUp3M(FollowUpBase):
     )
 
     graft_complications = models.TextField(verbose_name=_("F306 graft function complications"), blank=True)
-
-    qol_mobility = models.PositiveSmallIntegerField(
-        verbose_name=_("F307 qol mobility score"),
-        validators=[MinValueValidator(1), MaxValueValidator(5)],
-        blank=True, null=True
-    )
-    qol_selfcare = models.PositiveSmallIntegerField(
-        verbose_name=_("F308 qol self care score"),
-        validators=[MinValueValidator(1), MaxValueValidator(5)],
-        blank=True, null=True
-    )
-    qol_usual_activities = models.PositiveSmallIntegerField(
-        verbose_name=_("F309 qol usual activites score"),
-        validators=[MinValueValidator(1), MaxValueValidator(5)],
-        blank=True, null=True
-    )
-    qol_pain = models.PositiveSmallIntegerField(
-        verbose_name=_("F310 qol pain or discomfort score"),
-        validators=[MinValueValidator(1), MaxValueValidator(5)],
-        blank=True, null=True
-    )
-    qol_anxiety = models.PositiveSmallIntegerField(
-        verbose_name=_("F311 qol anxiety or depression score"),
-        validators=[MinValueValidator(1), MaxValueValidator(5)],
-        blank=True, null=True
-    )
-    vas_score = models.PositiveSmallIntegerField(
-        verbose_name=_("F312 vas score"),
-        validators=[MinValueValidator(0), MaxValueValidator(100)],
-        blank=True, null=True
-    )
+    #QoL is in health_economics app
+    quality_of_life = models.ForeignKey(QualityOfLife, verbose_name=_("F307 quality of life"))
 
     class Meta:
         verbose_name = _("F3m1 3 Month FollowUp")
@@ -933,35 +905,8 @@ class FollowUp1Y(FollowUpBase):
 
     graft_complications = models.TextField(verbose_name=_("FY06 graft function complications"), blank=True)
 
-    qol_mobility = models.PositiveSmallIntegerField(
-        verbose_name=_("FY10 qol mobility score"),
-        validators=[MinValueValidator(1), MaxValueValidator(5)],
-        blank=True, null=True
-    )
-    qol_selfcare = models.PositiveSmallIntegerField(
-        verbose_name=_("FY11 qol self care score"),
-        validators=[MinValueValidator(1), MaxValueValidator(5)],
-        blank=True, null=True
-    )
-    qol_usual_activities = models.PositiveSmallIntegerField(
-        verbose_name=_("FY12 qol usual activites score"),
-        validators=[MinValueValidator(1), MaxValueValidator(5)],
-        blank=True, null=True
-    )
-    qol_pain = models.PositiveSmallIntegerField(
-        verbose_name=_("FY13 qol pain or discomfort score"),
-        validators=[MinValueValidator(1), MaxValueValidator(5)],
-        blank=True, null=True)
-    qol_anxiety = models.PositiveSmallIntegerField(
-        verbose_name=_("FY14 qol anxiety or depression score"),
-        validators=[MinValueValidator(1), MaxValueValidator(5)],
-        blank=True, null=True
-    )
-    vas_score = models.PositiveSmallIntegerField(
-        verbose_name=_("FY15 vas score"),
-        validators=[MinValueValidator(0), MaxValueValidator(100)],
-        blank=True, null=True
-    )
+    #QoL is in health_economics app
+    quality_of_life = models.ForeignKey(QualityOfLife, verbose_name=_("FY07 quality of life"))
 
     class Meta:
         verbose_name = _("FYm1 1 Year FollowUp")
@@ -977,3 +922,6 @@ class FollowUp1Y(FollowUpBase):
     @property
     def trial_id(self):
         return self.organ.trial_id
+
+    def clean(self):
+        pass
