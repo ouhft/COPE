@@ -191,7 +191,11 @@ class Recipient(VersionControlModel):
         verbose_name=_('RE24 oxygen full and open'),
         choices=YES_NO_UNKNOWN_CHOICES,
         blank=True, null=True)
-    organ_untransplantable = models.NullBooleanField(verbose_name=_('RE25 kidney discarded'), blank=True, null=True)
+    organ_untransplantable = models.NullBooleanField(
+        verbose_name=_('RE25 kidney discarded'),
+        help_text=_("REh25 Either answer means further questions will open below"),
+        blank=True, null=True
+    )
     organ_untransplantable_reason = models.CharField(
         verbose_name=_('RE26 untransplantable because'),
         max_length=250,
