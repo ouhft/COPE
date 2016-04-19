@@ -10,7 +10,7 @@ from .locations import urls as locations_urls
 from .samples import urls as samples_urls
 from .compare import urls as compare_urls
 from .views import wp4_index
-from .views import administrator_index, administrator_uk_list, administrator_europe_list
+from .views import administrator_index, administrator_uk_list, administrator_europe_list, administrator_datalist
 
 urlpatterns = [
     url(r'^followup/', include(followup_urls, namespace="followup")),
@@ -19,6 +19,11 @@ urlpatterns = [
     url(r'^location/', include(locations_urls, namespace="locations")),
     url(r'^sample/', include(samples_urls, namespace="samples")),
     url(r'^compare/', include(compare_urls, namespace="compare")),
+    url(
+        regex=r'^administrator/data-list$',
+        view=administrator_datalist,
+        name='admin_data_list'
+    ),
     url(
         regex=r'^administrator/europe-list$',
         view=administrator_europe_list,

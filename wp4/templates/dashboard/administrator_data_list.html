@@ -1,0 +1,42 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+
+{% block page_title %}{{ location }} Data List - Administration{% endblock %}
+{% block page_header %}
+    {{ location }} Data List
+    <small>Correct as of: {{ timestamp|date:"SHORT_DATE_FORMAT" }} {{ timestamp|time:"TIME_FORMAT" }}</small>
+{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:admin_index' %}">Administration</a></li>
+    <li class="active">{{ location }} Data List</li>
+{% endblock %}
+
+{% block content %}
+    <table class="table table-condensed">
+    <thead>
+    <tr>
+        <th>Trial ID</th>
+        <th>Centre Code</th>
+        <th>Person</th>
+        <th>Location</th>
+        <th>Preservation</th>
+        <th>Final Allocation</th>
+{#        <th>Assigned To</th>#}
+    </tr>
+    </thead>
+    <tbody>
+    {% for row in listing %}
+        <tr>
+            <td>{{ row.trial_id }}</td>
+            <td>{{ row.donor.retrieval_team.based_at }}</td>
+            <td>{{ row.donor }}</td>
+            <td>{{ row.location }}</td>
+            <td>{{ row.get_preservation_display }}</td>
+            <td>{{ row.recipient.allocation.transplant_hospital }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+{% endblock %}

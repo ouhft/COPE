@@ -55,7 +55,7 @@ class VersionControlModel(models.Model):
     """
     Internal common attributes to aide record auditing
     """
-    version = models.PositiveIntegerField(default=0)
+    version = models.PositiveIntegerField(default=0)  #: Internal tracking version number
     created_on = models.DateTimeField(default=timezone.now)
     created_by = models.ForeignKey(User)
     record_locked = models.BooleanField(default=False)
@@ -197,11 +197,17 @@ class OrganPerson(VersionControlModel):
     @property
     def trial_id(self):
         """
-        Returns the composite trial id string based on whether this is a donor or recipient
-        :return: string, WP4cctnns - where: cc = 2 digit centre code;
-            t = single digit, 0 for online, 9 for offline randomisation;
-            nn = 2 digit sequence number, starting at 01;
-            s = optional single character denoting organ location, L for Left, R for Right
+        Returns the composite trial id string by calling either donor.trial_id() or recipient.trial_id()
+
+        :return:
+        (string) 'WP4cctnns' - where:
+            * cc = 2 digit centre code
+            * t = single digit, 0 for online, 9 for offline randomisation
+            * nn = 2 digit sequence number, starting at 01
+            * s = (optional) single character denoting organ location, L for Left, R for Right
+
+        If no donor or recipient trial id found, returns "No Trial ID Assigned"
+
         """
         if self.is_donor:
             return self.donor.trial_id()

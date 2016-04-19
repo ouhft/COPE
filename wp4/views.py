@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.utils import timezone
 
-from wp4.compare.models import Randomisation, PAPER_UNITED_KINGDOM, PAPER_EUROPE
+from wp4.compare.models import Randomisation, PAPER_UNITED_KINGDOM, PAPER_EUROPE, Organ
 
 from .utils import group_required
 
@@ -84,5 +84,18 @@ def administrator_europe_list(request):
             'listing': randomisation_listing,
             'location': "Europe",
             'timestamp': timezone.now()
+        }
+    )
+
+@login_required
+def administrator_datalist(request):
+    donors = Organ.objects.all()
+    return render(
+        request,
+        'dashboard/administrator_data_list.html',
+        {
+            'listing': donors,
+            # 'location': "Europe",
+            # 'timestamp': timezone.now()
         }
     )
