@@ -143,3 +143,5 @@ Now we can head to PyCharm and make the project available, along with debug opti
 
 * `pip list -o` will list the installed packages that have been superceded/outdated
 
+# Documentation
+Sphinx is now installed in the development branch to allow documentation to be generated. Notes on the setup of this can be found at: [https://gist.github.com/marshalc/327fc737ce0557a253c0c3d57f679292]()

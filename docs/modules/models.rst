@@ -15,40 +15,64 @@ Where model attributes use a choice list (e.g. from a constant), there are helpe
 
 Compare
 -------
-Core defines the following common CONSTANTS used widely through the system
+NB: WP4.Compare.Models.Core defines a range of common CONSTANTS used widely through the system
 
-.. automodule:: wp4.compare.models.core
-.. automodule:: wp4.compare.models.donor
-.. automodule:: wp4.compare.models.organ
-.. automodule:: wp4.compare.models.transplantation
+.. autosummary::
+   :toctree: generated
+
+   wp4.compare.models.core
+   wp4.compare.models.donor
+   wp4.compare.models.organ
+   wp4.compare.models.transplantation
 
 Adverse Event
 -------------
-.. automodule:: wp4.adverse_event.models
+.. autosummary::
+   :toctree: generated
+
+   wp4.adverse_event.models
 
 Follow Ups
 ----------
-.. automodule:: wp4.followups.models
+.. autosummary::
+   :toctree: generated
+
+   wp4.followups.models
 
 Health Economics
 ----------------
-.. automodule:: wp4.health_economics.models
+.. autosummary::
+   :toctree: generated
+
+   wp4.health_economics.models
 
 Locations
 ---------
-.. automodule:: wp4.locations.models
+.. autosummary::
+   :toctree: generated
+
+   wp4.locations.models
 
 Perfusion Machine
 -----------------
-.. automodule:: wp4.perfusion_machine.models
+.. autosummary::
+   :toctree: generated
+
+   wp4.perfusion_machine.models
 
 Samples
 -------
-.. automodule:: wp4.samples.models
+.. autosummary::
+   :toctree: generated
+
+   wp4.samples.models
 
 Staff Person
 ------------
-.. automodule:: wp4.staff_person.models
+.. autosummary::
+   :toctree: generated
+
+   wp4.staff_person.models
 
 Theme
 -----

@@ -17,6 +17,15 @@ import os
 import importlib
 import inspect
 from recommonmark.parser import CommonMarkParser
+from django.db.models.fields.files import FileDescriptor
+from django.db.models.manager import AbstractManagerDescriptor, ManagerDescriptor
+from django.db.models.query import QuerySet
+from django.utils.translation import ugettext, get_language, activate, deactivate
+
+try:
+    import enchant  # NoQA
+except ImportError:
+    enchant = None
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -32,28 +41,21 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings." + environment
 import django
 django.setup()
 
+# From https://gist.github.com/codingjoe/314bda5a07ff3b41f247
 # Fix Django's FileFields
-from django.db.models.fields.files import FileDescriptor
 FileDescriptor.__get__ = lambda self, *args, **kwargs: self
-from django.db.models.manager import AbstractManagerDescriptor, ManagerDescriptor
 ManagerDescriptor.__get__ = lambda self, *args, **kwargs: self.manager
 AbstractManagerDescriptor.__get__ = lambda self, *args, **kwargs: None
 
 # Stop Django from executing DB queries
-from django.db.models.query import QuerySet
 QuerySet.__repr__ = lambda self: self.__class__.__name__
 
 GITHUB_USER = 'AllyBradley'  # Name of your Github user or organisation
 GITHUB_PROJECT = 'COPE'  # Name of your Github repository
 
-try:
-    import enchant  # NoQA
-except ImportError:
-    enchant = None
 
 def process_django_models(app, what, name, obj, options, lines):
     """Append params from fields to model documentation."""
-    from django.utils.encoding import force_text
     from django.utils.html import strip_tags
     from django.db import models
 
@@ -61,13 +63,13 @@ def process_django_models(app, what, name, obj, options, lines):
 
     if inspect.isclass(obj) and issubclass(obj, models.Model):
         for field in obj._meta.fields:
-            help_text = strip_tags(force_text(field.help_text))
-            verbose_name = force_text(field.verbose_name).capitalize()
+            help_text = strip_tags(ugettext(field.help_text))
+            verbose_name = ugettext(field.verbose_name)
 
             if help_text:
-                lines.append(':param %s: %s - %s' % (field.attname, verbose_name,  help_text))
+                lines.append(':param %s: "%s" - %s' % (field.attname, verbose_name,  help_text))
             else:
-                lines.append(':param %s: %s' % (field.attname, verbose_name))
+                lines.append(':param %s: "%s"' % (field.attname, verbose_name))
 
             if enchant is not None:
                 from enchant.tokenize import basic_tokenize
@@ -120,29 +122,13 @@ def setup(app):
     if enchant is not None:
         app.connect('autodoc-process-docstring', process_modules)
 
-extensions = [
-    'sphinx.ext.autodoc',
-    'sphinx.ext.graphviz',
-    'sphinx.ext.napoleon',
-    'sphinx.ext.linkcode',
-    'sphinx.ext.inheritance_diagram',
-    'sphinx.ext.intersphinx',
-    'configurations',
-]
-
-if enchant is not None:
-    extensions.append('sphinxcontrib.spelling')
-
 
 intersphinx_mapping = {
     'python': ('https://docs.python.org/2.7', None),
     'sphinx': ('http://sphinx.pocoo.org/', None),
-    'django': ('https://docs.djangoproject.com/en/dev/', 'https://docs.djangoproject.com/en/dev/_objects/'),
+    'django': ('https://docs.djangoproject.com/en/1.9/', 'https://docs.djangoproject.com/en/1.9/_objects/'),
     'djangoextensions': ('https://django-extensions.readthedocs.org/en/latest/', None),
-    # 'geoposition': ('https://django-geoposition.readthedocs.org/en/latest/', None),
     'braces': ('https://django-braces.readthedocs.org/en/latest/', None),
-    # 'select2': ('https://django-select2.readthedocs.org/en/latest/', None),
-    # 'celery': ('https://celery.readthedocs.org/en/latest/', None),
 }
 
 
@@ -161,17 +147,24 @@ def linkcode_resolve(domain, info):
         filename += '/__init__'
     item = mod
     lineno = ''
+    # print("DEBUG: linkcode_resolve: info=%s" % info)
     for piece in info['fullname'].split('.'):
-        item = getattr(item, piece)
+        # print("DEBUG: linkcode_resolve: item=%s \n piece=%s" % (type(item), piece))
         try:
-            lineno = '#L%d' % inspect.getsourcelines(item)[1]
-        except (TypeError, IOError):
-            pass
+            item = getattr(item, piece)
+            try:
+                # print("DEBUG: linkcode_resolve: inspect.getsourcelines(item): %s" % inspect.getsourcelines(item))
+                lineno = '#L%d' % inspect.getsourcelines(item)[1]
+            except (TypeError, IOError):
+                pass
+        except AttributeError:
+            pass  # Can't find the attribute...
     return ("https://github.com/%s/%s/blob/%s/%s.py%s" %
             (github_user, project, head, filename, lineno))
 
 autodoc_member_order = 'bysource'
 autodoc_default_flags = ['members', 'undoc-members']
+autosummary_generate = True
 
 # spell checking
 spelling_lang = 'en_GB'
@@ -179,26 +172,33 @@ spelling_word_list_filename = 'spelling_wordlist.txt'
 spelling_show_suggestions = True
 spelling_ignore_pypi_package_names = True
 
-
-# Here goes all your other config.
-# -- General configuration ------------------------------------------------
-
-# If your documentation needs a minimal Sphinx version, state it here.
-#needs_sphinx = '1.0'
-
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
+    'sphinx.ext.autosummary',
+    'sphinx.ext.graphviz',
+    'sphinx.ext.napoleon',
+    # 'sphinx.ext.linkcode',  <-- Disabled until we can get linkcode_resolve to actually find the correct lines and files!
+    'sphinx.ext.inheritance_diagram',
     'sphinx.ext.doctest',
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
     'sphinx.ext.imgmath',
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
-    'sphinx.ext.intersphinx',
+    'sphinx.ext.intersphinx'
 ]
+
+if enchant is not None:
+    extensions.append('sphinxcontrib.spelling')
+
+# Here goes all your other config.
+# -- General configuration ------------------------------------------------
+
+# If your documentation needs a minimal Sphinx version, state it here.
+#needs_sphinx = '1.0'
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -209,7 +209,7 @@ source_parsers = {
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
-source_suffix = ['.rst', '.md']
+source_suffix = ['.rst', '.md', '.txt']
 # source_suffix = '.rst'
 
 # The encoding of source files.
@@ -238,6 +238,7 @@ release = u'0.5.0'
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
 language = 'en_DB'
+activate(language)
 
 # There are two options for replacing |today|: either, you set today to some
 # non-false value, then it is used:
