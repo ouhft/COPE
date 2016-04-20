@@ -125,13 +125,15 @@ class OrganPerson(VersionControlModel):
     date_of_birth = models.DateField(
         verbose_name=_('OP02 date of birth'),
         blank=True, null=True,
-        validators=[validate_not_in_future]
+        validators=[validate_not_in_future],
+        help_text="Date can not be in the future"
     )
     date_of_birth_unknown = models.BooleanField(default=False, help_text="Internal unknown flag")
     date_of_death = models.DateField(
         verbose_name=_('OP08 date of death'),
         blank=True, null=True,
-        validators=[validate_not_in_future]
+        validators=[validate_not_in_future],
+        help_text="Date can not be in the future"
     )
     date_of_death_unknown = models.BooleanField(default=False, help_text="Internal unknown flag")
     gender = models.CharField(verbose_name=_('OP03 gender'), choices=GENDER_CHOICES, max_length=1, default=MALE)
@@ -140,12 +142,14 @@ class OrganPerson(VersionControlModel):
         decimal_places=1,
         verbose_name=_('OP04 Weight (kg)'),
         validators=[MinValueValidator(20.0), MaxValueValidator(200.0)],
-        blank=True, null=True
+        blank=True, null=True,
+        help_text="Answer must be in range 20.0-200.0kg"
     )
     height = models.PositiveSmallIntegerField(
         verbose_name=_('OP05 Height (cm)'),
         validators=[MinValueValidator(100), MaxValueValidator(250)],
-        blank=True, null=True
+        blank=True, null=True,
+        help_text="Answer must be in range 100-250cm"
     )
     ethnicity = models.IntegerField(verbose_name=_('OP06 ethnicity'), choices=ETHNICITY_CHOICES, blank=True, null=True)
     blood_group = models.PositiveSmallIntegerField(
@@ -214,15 +218,7 @@ class OrganPerson(VersionControlModel):
         """
         Returns the composite trial id string by calling either donor.trial_id() or recipient.trial_id()
 
-        :return: 'WP4cctnns' - where:
-
-                * cc = 2 digit centre code
-                * t = single digit, 0 for online, 9 for offline randomisation
-                * nn = 2 digit sequence number, starting at 01
-                * s = (optional) single character denoting organ location, L for Left, R for Right
-
-                If no donor or recipient trial id found, returns "No Trial ID Assigned"
-
+        :return: If no donor or recipient trial id found, returns "No Trial ID Assigned"
         :rtype: str
         """
         if self.is_donor:
@@ -297,7 +293,8 @@ class RetrievalTeam(models.Model):
     """
     centre_code = models.PositiveSmallIntegerField(
         verbose_name=_("RT01 centre code"),
-        validators=[MinValueValidator(10), MaxValueValidator(99)]
+        validators=[MinValueValidator(10), MaxValueValidator(99)],
+        help_text="Value must be in the range 10-99"
     )
     based_at = models.ForeignKey(Hospital, verbose_name=_("RT02 base hospital"))
     created_on = models.DateTimeField(default=timezone.now, help_text="Internal tracking")
@@ -327,7 +324,7 @@ class RetrievalTeam(models.Model):
 
         :param is_online: True, select from the online lists. False, select from the offline lists
         :return: Number matching one of the LIST_CHOICE constants
-        ":rtype: int
+        :rtype: int
         """
         if self.based_at.country == UNITED_KINGDOM:
             if is_online:
