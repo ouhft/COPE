@@ -12,3 +12,4 @@ selenium
 sphinx
 sphinx_rtd_theme
 pyenchant
+recommonmark

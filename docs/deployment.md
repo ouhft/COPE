@@ -1,9 +1,9 @@
-# Home development
+# Deployment
 
-Notes on this can be found in [development.md]()
+Local development deployment notes on this can be found in [Development](development.md)
 
 
-## Staging (Webfaction)
+## Test/Staging (Webfaction)
 
 Used an existing site setup, which needs documenting at some stage, and cleared it out as much as possible of the
 previous application install (lots of ``pip uninstall``, along with deleting a few files and folders)

@@ -12,58 +12,66 @@ from django.utils import timezone
 from wp4.locations.models import Hospital, UNITED_KINGDOM, BELGIUM, NETHERLANDS
 from ..validators import validate_not_in_future
 
-# Common CONSTANTS
-NO = 0
-YES = 1
-UNKNOWN = 2
+"""
+Common CONSTANTS
+"""
+NO = 0  #: CONSTANT for YES_NO_UNKNOWN_CHOICES
+YES = 1  #: CONSTANT for YES_NO_UNKNOWN_CHOICES
+UNKNOWN = 2  #: CONSTANT for YES_NO_UNKNOWN_CHOICES
 YES_NO_UNKNOWN_CHOICES = (
     (UNKNOWN, _("MMc03 Unknown")),
     (NO, _("MMc01 No")),
     (YES, _("MMc02 Yes"))
-)  # Need Yes to be the last choice for any FieldWithFollowUp
+)  #: Need Yes to be the last choice for any FieldWithFollowUp
 
 # Originally from Organ
-LEFT = "L"
-RIGHT = "R"
+LEFT = "L"  #: CONSTANT for LOCATION_CHOICES
+RIGHT = "R"  #: CONSTANT for LOCATION_CHOICES
 LOCATION_CHOICES = (
     (LEFT, _('ORc01 Left')),
-    (RIGHT, _('ORc02 Right')))
+    (RIGHT, _('ORc02 Right'))
+)   #:
 
 # Originally from Organ
-PRESERVATION_HMP = 0
-PRESERVATION_HMPO2 = 1
-PRESERVATION_NOT_SET = 9
+PRESERVATION_HMP = 0  #: CONSTANT for PRESERVATION_CHOICES
+PRESERVATION_HMPO2 = 1  #: CONSTANT for PRESERVATION_CHOICES
+PRESERVATION_NOT_SET = 9  #: CONSTANT for PRESERVATION_CHOICES
 PRESERVATION_CHOICES = (
     (PRESERVATION_NOT_SET, _("ORc11 Not Set")),
     (PRESERVATION_HMP, "HMP"),
-    (PRESERVATION_HMPO2, "HMP O2"))
+    (PRESERVATION_HMPO2, "HMP O2")
+)  #:
 
 # Originally from Randomisation
-LIVE_UNITED_KINGDOM = 1
-LIVE_EUROPE = 2
-PAPER_EUROPE = 3
-PAPER_UNITED_KINGDOM = 4
+LIVE_UNITED_KINGDOM = 1  #: CONSTANT for LIST_CHOICES
+LIVE_EUROPE = 2  #: CONSTANT for LIST_CHOICES
+PAPER_EUROPE = 3  #: CONSTANT for LIST_CHOICES
+PAPER_UNITED_KINGDOM = 4  #: CONSTANT for LIST_CHOICES
 LIST_CHOICES = (
     (LIVE_UNITED_KINGDOM, _("RNc01 UK Live list")),
     (LIVE_EUROPE, _("RNc02 Europe Live list")),
     (PAPER_UNITED_KINGDOM, _("RNc03 UK Offline list")),
     (PAPER_EUROPE, _("RNc04 Europe Offline list")),
-)
+)  #:
 
 
 class VersionControlModel(models.Model):
     """
-    Internal common attributes to aide record auditing
+    Internal common attributes to aide record auditing.
     """
     version = models.PositiveIntegerField(default=0)  #: Internal tracking version number
     created_on = models.DateTimeField(default=timezone.now)
-    created_by = models.ForeignKey(User)
-    record_locked = models.BooleanField(default=False)
+    created_by = models.ForeignKey(User)  #: User account for the person logged in when this record was made/updated
+    record_locked = models.BooleanField(default=False)  #: No presently implemented or used
 
     # NB: Used in Samples and FollowUp Apps too
     class Meta:
         abstract = True
 
+    """
+    Meta save function that allows models to have their save() method called, and to set the required
+    created_by link at the same time. Also increments the version number over the previous saved version.
+    """
     def save(self, created_by=None, force_insert=False, force_update=False, using=None,
              update_fields=None):
         self.created_on = timezone.now()
@@ -81,27 +89,27 @@ class OrganPerson(VersionControlModel):
     """
     Base attributes for a person involved in this case as a donor or recipient
     """
-    MALE = 'M'
-    FEMALE = 'F'
+    MALE = 'M'  #: CONSTANT for GENDER_CHOICES
+    FEMALE = 'F'  #: CONSTANT for GENDER_CHOICES
     GENDER_CHOICES = (
         (MALE, _('OPc01 Male')),
         (FEMALE, _('OPc02 Female'))
     )
 
-    CAUCASIAN = 1
-    BLACK = 2
-    OTHER_ETHNICITY = 3
+    CAUCASIAN = 1  #: CONSTANT for ETHNICITY_CHOICES
+    BLACK = 2  #: CONSTANT for ETHNICITY_CHOICES
+    OTHER_ETHNICITY = 3  #: CONSTANT for ETHNICITY_CHOICES
     ETHNICITY_CHOICES = (
         (CAUCASIAN, _('OPc03 Caucasian')),
         (BLACK, _('OPc04 Black')),
         (OTHER_ETHNICITY, _('OPc05 Other'))
     )
 
-    BLOOD_O = 1
-    BLOOD_A = 2
-    BLOOD_B = 3
-    BLOOD_AB = 4
-    BLOOD_UNKNOWN = 5
+    BLOOD_O = 1  #: CONSTANT for BLOOD_GROUP_CHOICES
+    BLOOD_A = 2  #: CONSTANT for BLOOD_GROUP_CHOICES
+    BLOOD_B = 3  #: CONSTANT for BLOOD_GROUP_CHOICES
+    BLOOD_AB = 4  #: CONSTANT for BLOOD_GROUP_CHOICES
+    BLOOD_UNKNOWN = 5  #: CONSTANT for BLOOD_GROUP_CHOICES
     BLOOD_GROUP_CHOICES = (
         (BLOOD_O, 'O'),
         (BLOOD_A, 'A'),
@@ -111,38 +119,38 @@ class OrganPerson(VersionControlModel):
     )
 
     # "ET Donor number/ NHSBT Number",
-    number = models.CharField(verbose_name=_('OP01 NHSBT Number'), max_length=20, blank=True)
+    number = models.CharField(verbose_name=_('OP01 NHSBT Number'), max_length=20, blank=True)  #: OP01
     date_of_birth = models.DateField(
         verbose_name=_('OP02 date of birth'),
         blank=True, null=True,
         validators=[validate_not_in_future]
-    )
+    )  #: OP02
     date_of_birth_unknown = models.BooleanField(default=False)  # Internal flag
     date_of_death = models.DateField(
         verbose_name=_('OP08 date of death'),
         blank=True, null=True,
         validators=[validate_not_in_future]
-    )
+    )  #: OP08
     date_of_death_unknown = models.BooleanField(default=False)  # Internal flag
-    gender = models.CharField(verbose_name=_('OP03 gender'), choices=GENDER_CHOICES, max_length=1, default=MALE)
+    gender = models.CharField(verbose_name=_('OP03 gender'), choices=GENDER_CHOICES, max_length=1, default=MALE)  #: OP03
     weight = models.DecimalField(
         max_digits=4,
         decimal_places=1,
         verbose_name=_('OP04 Weight (kg)'),
         validators=[MinValueValidator(20.0), MaxValueValidator(200.0)],
         blank=True, null=True
-    )
+    )  #: OP04
     height = models.PositiveSmallIntegerField(
         verbose_name=_('OP05 Height (cm)'),
         validators=[MinValueValidator(100), MaxValueValidator(250)],
         blank=True, null=True
-    )
-    ethnicity = models.IntegerField(verbose_name=_('OP06 ethnicity'), choices=ETHNICITY_CHOICES, blank=True, null=True)
+    )  #: OP05
+    ethnicity = models.IntegerField(verbose_name=_('OP06 ethnicity'), choices=ETHNICITY_CHOICES, blank=True, null=True)  #: OP06
     blood_group = models.PositiveSmallIntegerField(
         verbose_name=_('OP07 blood group'),
         choices=BLOOD_GROUP_CHOICES,
         blank=True, null=True
-    )
+    )  #: OP07
 
     class Meta:
         ordering = ['number']
@@ -150,6 +158,9 @@ class OrganPerson(VersionControlModel):
         verbose_name_plural = _('OPm2 organ people')
 
     def clean(self):
+        """
+        Clears date_of_birth if unknown is flagged. Errors if date_of_death is in the future (OPv02). Errors if date_of_death is before date_of_birth (OPv03)
+        """
         # Clean the fields that at Not Known
         if self.date_of_birth_unknown:
             self.date_of_birth = None
@@ -163,19 +174,14 @@ class OrganPerson(VersionControlModel):
                 raise ValidationError(
                     _("OPv03 Time running backwards! Person's date of death is before they were born!"))
 
-    # Adding the database field back in because we need it for Recipients and Donors
-    # @property
-    # def date_of_death(self):
-    #     """
-    #     Returns a date of death for a DONOR only, if their death_diagnosis is recorded
-    #     :return: date
-    #     """
-    #     if self.is_donor and self.donor.death_diagnosed:
-    #         return self.donor.death_diagnosed.date()
-    #     return None
-
     @property
     def bmi_value(self):
+        """
+        Calculated BMI based on stored height and weight information
+
+        :return:
+            float, bmi value
+        """
         # http://www.nhs.uk/chq/Pages/how-can-i-work-out-my-bmi.aspx?CategoryID=51 for formula
         if self.height < 1 or self.weight < 1:
             return _("DOv12 Not Available")
@@ -187,7 +193,9 @@ class OrganPerson(VersionControlModel):
         """
         Determines a person's age from their Date of Birth, compared initially against a Date of Death
         (if it exists), or against the current date if not applicable.
-        :return: int, age in years
+
+        :return:
+            int, age in years
         """
         the_end = self.date_of_death if self.date_of_death else timezone.now().date()
         if self.date_of_birth:
@@ -200,13 +208,14 @@ class OrganPerson(VersionControlModel):
         Returns the composite trial id string by calling either donor.trial_id() or recipient.trial_id()
 
         :return:
-        (string) 'WP4cctnns' - where:
-            * cc = 2 digit centre code
-            * t = single digit, 0 for online, 9 for offline randomisation
-            * nn = 2 digit sequence number, starting at 01
-            * s = (optional) single character denoting organ location, L for Left, R for Right
+            (string) 'WP4cctnns' - where:
 
-        If no donor or recipient trial id found, returns "No Trial ID Assigned"
+                * cc = 2 digit centre code
+                * t = single digit, 0 for online, 9 for offline randomisation
+                * nn = 2 digit sequence number, starting at 01
+                * s = (optional) single character denoting organ location, L for Left, R for Right
+
+            If no donor or recipient trial id found, returns "No Trial ID Assigned"
 
         """
         if self.is_donor:
@@ -217,6 +226,12 @@ class OrganPerson(VersionControlModel):
 
     @property
     def is_recipient(self):
+        """
+        Determine if a recipient record is linked to this person
+
+        :return:
+            boolean, true if recipient link exists
+        """
         try:
             return self.recipient is not None
         except ObjectDoesNotExist:
@@ -224,6 +239,12 @@ class OrganPerson(VersionControlModel):
 
     @property
     def is_donor(self):
+        """
+        Determine if a donor record is linked to this person
+
+        :return:
+            boolean, true if donor link exists
+        """
         try:
             return self.donor is not None
         except ObjectDoesNotExist:
@@ -231,10 +252,22 @@ class OrganPerson(VersionControlModel):
 
     @property
     def is_alive(self):
+        """
+        If no date of death is known, then presume person is alive.
+
+        :return:
+            boolean, true if date_of_death is unknown
+        """
         return True if self.date_of_death is None else False
 
     @property
     def worksheet(self):
+        """
+        Looks for the first sample worksheet linked to this person
+
+        :return:
+            Samples.Worksheet object, or None
+        """
         for worksheet in self.worksheet_set.all():
             return worksheet
         return None
