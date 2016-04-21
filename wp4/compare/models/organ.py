@@ -4,9 +4,11 @@ from __future__ import absolute_import, unicode_literals
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator, ValidationError
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
+
 from wp4.perfusion_machine.models import PerfusionMachine, PerfusionFile
+
 from ..validators import validate_between_1900_2050, validate_not_in_future
 from .core import VersionControlModel
 from .core import LOCATION_CHOICES, PRESERVATION_CHOICES, PRESERVATION_NOT_SET
@@ -74,7 +76,7 @@ class OpenOrganManager(models.Manager):
 
 class Organ(VersionControlModel):
     """
-    The focus of the trial, specifically a Kidney
+    The focus of the trial, specifically a Kidney.
     """
     donor = models.ForeignKey(Donor, help_text="Internal link to the Donor")
     location = models.CharField(
@@ -408,15 +410,15 @@ class Organ(VersionControlModel):
 
 class ProcurementResource(models.Model):
     """
-    YOU ARE HERE DOCUMENTING!!
+    Repeatable list of resources used during organ extraction. Primarily distinguished by the type.
     """
-    DISPOSABLES = "D"
-    EXTRA_CANNULA_SMALL = "C-SM"
-    EXTRA_CANNULA_LARGE = "C-LG"
-    EXTRA_PATCH_HOLDER_SMALL = "PH-SM"
-    EXTRA_PATCH_HOLDER_LARGE = "PH-LG"
-    EXTRA_DOUBLE_CANNULA_SET = "DB-C"
-    PERFUSATE_SOLUTION = "P"
+    DISPOSABLES = "D"  #: Constant for TYPE_CHOICES
+    EXTRA_CANNULA_SMALL = "C-SM"  #: Constant for TYPE_CHOICES
+    EXTRA_CANNULA_LARGE = "C-LG"  #: Constant for TYPE_CHOICES
+    EXTRA_PATCH_HOLDER_SMALL = "PH-SM"  #: Constant for TYPE_CHOICES
+    EXTRA_PATCH_HOLDER_LARGE = "PH-LG"  #: Constant for TYPE_CHOICES
+    EXTRA_DOUBLE_CANNULA_SET = "DB-C"  #: Constant for TYPE_CHOICES
+    PERFUSATE_SOLUTION = "P"  #: Constant for TYPE_CHOICES
     TYPE_CHOICES = (
         (DISPOSABLES, _("PRc01 Disposables")),
         (EXTRA_CANNULA_SMALL, _("PRc02 Extra cannula small (3mm)")),
@@ -424,14 +426,15 @@ class ProcurementResource(models.Model):
         (EXTRA_PATCH_HOLDER_SMALL, _("PRc04 Extra patch holder small")),
         (EXTRA_PATCH_HOLDER_LARGE, _("PRc05 Extra patch holder large")),
         (EXTRA_DOUBLE_CANNULA_SET, _("PRc06 Extra double cannula set")),
-        (PERFUSATE_SOLUTION, _("PRc07 Perfusate solution")))
+        (PERFUSATE_SOLUTION, _("PRc07 Perfusate solution"))
+    )  #: ProcurementResource type choices
     organ = models.ForeignKey(Organ, verbose_name=_('PR01 related kidney'))
     type = models.CharField(verbose_name=_('PR02 resource used'), choices=TYPE_CHOICES, max_length=5)
     lot_number = models.CharField(verbose_name=_('PR03 lot number'), max_length=50, blank=True)
     expiry_date = models.DateField(verbose_name=_('PR04 expiry date'), blank=True, null=True)
-    expiry_date_unknown = models.BooleanField(default=False)  # Internal flag
-    created_on = models.DateTimeField(default=timezone.now)
-    created_by = models.ForeignKey(User)
+    expiry_date_unknown = models.BooleanField(default=False, help_text="Internal unknown flag")
+    created_on = models.DateTimeField(default=timezone.now, help_text="Internal value")
+    created_by = models.ForeignKey(User, help_text="Internal User link")
 
     def __unicode__(self):
         return self.get_type_display() + ' for ' + self.organ.trial_id
@@ -441,6 +444,9 @@ class ProcurementResource(models.Model):
         verbose_name_plural = _('PRm2 procurement resources')
 
     def clean(self):
+        """
+        Clears the value of expiry_date if marked as unknown
+        """
         # Clean the fields that at Not Known
         if self.expiry_date_unknown:
             self.expiry_date = None

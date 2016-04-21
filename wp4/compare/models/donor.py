@@ -1,12 +1,12 @@
 #!/usr/bin/python
 # coding: utf-8
 from __future__ import absolute_import, unicode_literals
-from random import random
 from bdateutil import relativedelta
 from django.core.validators import MinValueValidator, MaxValueValidator, ValidationError
 from django.db import models, transaction
-from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
+from random import random
 
 from wp4.staff_person.models import StaffJob, StaffPerson
 from wp4.locations.models import Hospital
@@ -20,14 +20,12 @@ from .core import PAPER_EUROPE, PAPER_UNITED_KINGDOM
 
 
 class Donor(VersionControlModel):
-    NON_RANDOMISATION_CHOICES = (
-        (0, _("DOc15 Not Applicable")),
-        (1, _("DOc10 Donor not proceeding")),
-        (2, _("DOc11 One or more kidneys allocated to non-trial location")),
-        (3, _("DOc12 Kidneys not allocated")),
-        (4, _("DOc13 Kidneys not transplanable")),
-        (5, _("DOc14 Other")),
-    )  #: Donor not_randomised_because choices
+    """
+    Extension of an OrganPerson record (via OneToOne link for good ORM/DB management) to capture
+    the Donor specific data
+
+    Also holds the meta-data specific to the Procurement Form
+    """
     person = models.OneToOneField(OrganPerson, help_text="Internal link to OrganPerson")
     sequence_number = models.PositiveSmallIntegerField(
         default=0,
@@ -36,6 +34,14 @@ class Donor(VersionControlModel):
     )
 
     # Donor Form metadata
+    NON_RANDOMISATION_CHOICES = (
+        (0, _("DOc15 Not Applicable")),
+        (1, _("DOc10 Donor not proceeding")),
+        (2, _("DOc11 One or more kidneys allocated to non-trial location")),
+        (3, _("DOc12 Kidneys not allocated")),
+        (4, _("DOc13 Kidneys not transplanable")),
+        (5, _("DOc14 Other")),
+    )  #: Donor not_randomised_because choices
     multiple_recipients = models.PositiveSmallIntegerField(
         verbose_name=_('DO02 Multiple recipients'),
         choices=YES_NO_UNKNOWN_CHOICES,

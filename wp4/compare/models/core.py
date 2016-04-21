@@ -7,9 +7,11 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.validators import MinValueValidator, MaxValueValidator, ValidationError
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
+
 from wp4.locations.models import Hospital, UNITED_KINGDOM
+
 from ..validators import validate_not_in_future
 
 
