@@ -10,9 +10,9 @@ from django.utils.translation import ugettext_lazy as _
 
 
 # Common CONSTANTS
-UNITED_KINGDOM = 1
-BELGIUM = 4
-NETHERLANDS = 5
+UNITED_KINGDOM = 1  #: Constant for COUNTRY_CHOICES
+BELGIUM = 4  #: Constant for COUNTRY_CHOICES
+NETHERLANDS = 5  #: Constant for COUNTRY_CHOICES
 COUNTRY_CHOICES = (
     (UNITED_KINGDOM, _('LOc01 United Kingdom')),
     (BELGIUM, _('LOc02 Belgium')),
@@ -64,15 +64,23 @@ COUNTRY_CHOICES = (
     (54, _("LOc48 Switzerland")),
     (55, _("LOc49 Turkey")),
     (56, _("LOc50 Ukraine")),
-)
+)  #: Choices for Hospital.country
 
 
-# Consider making this part of a LOCATION class
 class Hospital(models.Model):
+    """
+    Simple helper class to hold information related to the various project and non-project locations.
+    Currently referenced from Donor, OrganAllocation, RetrievalTeam, and StaffPerson
+    """
     name = models.CharField(verbose_name=_("HO01 hospital name"), max_length=100)
     country = models.PositiveSmallIntegerField(verbose_name=_("HO02 country"), choices=COUNTRY_CHOICES)
-    is_active = models.BooleanField(verbose_name=_("HO03 is active"), default=True)
+    is_active = models.BooleanField(
+        verbose_name=_("HO03 is active"),
+        default=True,
+        help_text="Not presently used/implemented. For legacy data when a location closes for use"
+    )
     is_project_site = models.BooleanField(verbose_name=_("HO04 is project site"), default=False)
+    # Metadata
     created_on = models.DateTimeField(default=timezone.now)
     created_by = models.ForeignKey(User)
 

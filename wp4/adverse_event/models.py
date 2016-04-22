@@ -8,31 +8,47 @@ from ..staff_person.models import StaffPerson
 
 
 class ClavienDindoGrading(models.Model):
-    label = models.CharField(max_length=10)
-    description = models.CharField(max_length=300)
+    """
+    WORK IN PROGRESS - Class definition prone to rapid change
+
+    Helper class containing preset grading information - a Label, and a longer description
+    """
+    label = models.CharField(max_length=10, help_text="Grading scheme label code")
+    description = models.CharField(max_length=300, help_text="Grading scheme descriptive text")
 
 
 class AlternativeGrading(models.Model):
-    label = models.CharField(max_length=10)
-    description = models.CharField(max_length=300)
+    """
+    WORK IN PROGRESS - Class definition prone to rapid change
+
+    Helper class containing preset grading information - a Label, and a longer description
+    """
+    label = models.CharField(max_length=10, help_text="Grading scheme label code")
+    description = models.CharField(max_length=300, help_text="Grading scheme descriptive text")
 
 
 class AdverseEvent(VersionControlModel):
+    """
+    WORK IN PROGRESS - Class definition prone to rapid change
+
+    Collects (serious) adverse event information related to a specific Organ within the study
+    """
     # From fixtures/gradings.json
-    GRADE_I = 1
-    GRADE_II = 2
-    GRADE_III = 3
-    GRADE_III_A = 4
-    GRADE_III_B = 5
-    GRADE_IV = 6
-    GRADE_IV_A = 7
-    GRADE_IV_B = 8
-    GRADE_V = 9
-    GRADE_1 = 1
-    GRADE_2 = 2
-    GRADE_3 = 3
-    GRADE_4 = 4
-    GRADE_5 = 5
+    GRADE_I = 1  #: Constant related to ClavienDindoGrading helper class. Value from fixtures/gradings.json
+    GRADE_II = 2  #: Constant related to ClavienDindoGrading helper class. Value from fixtures/gradings.json
+    GRADE_III = 3  #: Constant related to ClavienDindoGrading helper class. Value from fixtures/gradings.json
+    GRADE_III_A = 4  #: Constant related to ClavienDindoGrading helper class. Value from fixtures/gradings.json
+    GRADE_III_B = 5  #: Constant related to ClavienDindoGrading helper class. Value from fixtures/gradings.json
+    GRADE_IV = 6  #: Constant related to ClavienDindoGrading helper class. Value from fixtures/gradings.json
+    GRADE_IV_A = 7  #: Constant related to ClavienDindoGrading helper class. Value from fixtures/gradings.json
+    GRADE_IV_B = 8  #: Constant related to ClavienDindoGrading helper class. Value from fixtures/gradings.json
+    GRADE_V = 9  #: Constant related to ClavienDindoGrading helper class. Value from fixtures/gradings.json
+
+    GRADE_1 = 1  #: Constant related to AlternativeGrading helper class. Value from fixtures/gradings.json
+    GRADE_2 = 2  #: Constant related to AlternativeGrading helper class. Value from fixtures/gradings.json
+    GRADE_3 = 3  #: Constant related to AlternativeGrading helper class. Value from fixtures/gradings.json
+    GRADE_4 = 4  #: Constant related to AlternativeGrading helper class. Value from fixtures/gradings.json
+    GRADE_5 = 5  #: Constant related to AlternativeGrading helper class. Value from fixtures/gradings.json
 
     # Event basics
     sequence_number = models.PositiveSmallIntegerField(verbose_name=_("AE01 sequence number"), default=0)

@@ -1,0 +1,1096 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>wp4.compare.models.organ &mdash; COPE DB 0.5.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="COPE DB 0.5.0 documentation" href="../../index.html"/>
+        <link rel="up" title="Data Models" href="../models.html"/>
+        <link rel="next" title="wp4.compare.models.transplantation" href="wp4.compare.models.transplantation.html"/>
+        <link rel="prev" title="wp4.compare.models.donor" href="wp4.compare.models.donor.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> COPE DB
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.5.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../user_manual.html">COPE DB User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment.html">Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../development.html">Development Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../development.html#useful-things-to-remember">Useful things to remember</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../development.html#documentation">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/wp4_design.html">Design - WP4:Compare</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/wp7_design.html">Design - WP7:Biobanking</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../models.html">Data Models</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../models.html#compare">Compare</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="wp4.compare.models.core.html">wp4.compare.models.core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wp4.compare.models.donor.html">wp4.compare.models.donor</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">wp4.compare.models.organ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wp4.compare.models.transplantation.html">wp4.compare.models.transplantation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../models.html#adverse-event">Adverse Event</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models.html#follow-ups">Follow Ups</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models.html#health-economics">Health Economics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models.html#locations">Locations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models.html#perfusion-machine">Perfusion Machine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models.html#samples">Samples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models.html#staff-person">Staff Person</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models.html#theme">Theme</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">COPE DB</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../models.html">Data Models</a> &raquo;</li>
+      
+    <li>wp4.compare.models.organ</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/modules/generated/wp4.compare.models.organ.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-wp4.compare.models.organ">
+<span id="wp4-compare-models-organ"></span><h1>wp4.compare.models.organ<a class="headerlink" href="#module-wp4.compare.models.organ" title="Permalink to this headline">¶</a></h1>
+<p class="rubric">Functions</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">validate_between_1900_2050</span></code>(date)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">validate_not_in_future</span></code>(date)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Classes</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#wp4.compare.models.organ.AllocatableOrganManager" title="wp4.compare.models.organ.AllocatableOrganManager"><code class="xref py py-obj docutils literal"><span class="pre">AllocatableOrganManager</span></code></a>()</td>
+<td>Get only the Organs that are available for allocation, which means they&#8217;re Unallocated (not deliberately), Randomised, and still Transplantable (but not necessarily a completed P form).</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#wp4.compare.models.organ.ClosedOrganManager" title="wp4.compare.models.organ.ClosedOrganManager"><code class="xref py py-obj docutils literal"><span class="pre">ClosedOrganManager</span></code></a>()</td>
+<td>Get only the Organs that have had completed outcomes.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">Donor</span></code>(*args,&nbsp;**kwargs)</td>
+<td>Extension of an OrganPerson record (via OneToOne link for good ORM/DB management) to capture</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">MaxValueValidator</span></code>(limit_value[,&nbsp;message])</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">MinValueValidator</span></code>(limit_value[,&nbsp;message])</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#wp4.compare.models.organ.OpenOrganManager" title="wp4.compare.models.organ.OpenOrganManager"><code class="xref py py-obj docutils literal"><span class="pre">OpenOrganManager</span></code></a>()</td>
+<td>Get only the Organs that are open for transplantation, which means they&#8217;ve one or more allocations, and have not had their form closed (either by allocation outside of project area, or completed form).</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#wp4.compare.models.organ.Organ" title="wp4.compare.models.organ.Organ"><code class="xref py py-obj docutils literal"><span class="pre">Organ</span></code></a>(*args,&nbsp;**kwargs)</td>
+<td>The focus of the trial, specifically a Kidney.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">PerfusionFile</span></code>(*args,&nbsp;**kwargs)</td>
+<td>Early plans talked about collecting the data file from each machine after each transplant to provide extra data, however this has been shelved as a concept presently.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">PerfusionMachine</span></code>(*args,&nbsp;**kwargs)</td>
+<td>Helper class for device accountability.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#wp4.compare.models.organ.ProcurementResource" title="wp4.compare.models.organ.ProcurementResource"><code class="xref py py-obj docutils literal"><span class="pre">ProcurementResource</span></code></a>(*args,&nbsp;**kwargs)</td>
+<td>Repeatable list of resources used during organ extraction.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">User</span></code>(*args,&nbsp;**kwargs)</td>
+<td>Users within the Django authentication system are represented by this model.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">VersionControlModel</span></code>(*args,&nbsp;**kwargs)</td>
+<td>Internal common attributes to aide system auditing of records</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Exceptions</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">ValidationError</span></code>(message[,&nbsp;code,&nbsp;params])</td>
+<td>An error while validating data.</td>
+</tr>
+</tbody>
+</table>
+<dl class="class">
+<dt id="wp4.compare.models.organ.ClosedOrganManager">
+<em class="property">class </em><code class="descclassname">wp4.compare.models.organ.</code><code class="descname">ClosedOrganManager</code><a class="reference internal" href="../../_modules/wp4/compare/models/organ.html#ClosedOrganManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.compare.models.organ.ClosedOrganManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get only the Organs that have had completed outcomes. These are:</p>
+<ul class="simple">
+<li>Organ.not_allocated_reason has a value... which results in...</li>
+<li>Recipient.transplantation_form_completed is True</li>
+</ul>
+<p>So wait, what about if the Organ is allocated to a non project site hospital, doesn&#8217;t that also
+close the case? Yes, yes it does, and we can more trivially cover this by writing a message into
+not_allocated_reason of $MESSAGE$, and then setting the transplantation_form_completed flag</p>
+<dl class="method">
+<dt id="wp4.compare.models.organ.ClosedOrganManager.get_queryset">
+<code class="descname">get_queryset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/compare/models/organ.html#ClosedOrganManager.get_queryset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.compare.models.organ.ClosedOrganManager.get_queryset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter Organs results by only returning where transplantation_form_completed=True</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Queryset</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="wp4.compare.models.organ.AllocatableOrganManager">
+<em class="property">class </em><code class="descclassname">wp4.compare.models.organ.</code><code class="descname">AllocatableOrganManager</code><a class="reference internal" href="../../_modules/wp4/compare/models/organ.html#AllocatableOrganManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.compare.models.organ.AllocatableOrganManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get only the Organs that are available for allocation, which means they&#8217;re Unallocated (not
+deliberately), Randomised, and still Transplantable (but not necessarily a completed P form).</p>
+<dl class="method">
+<dt id="wp4.compare.models.organ.AllocatableOrganManager.get_queryset">
+<code class="descname">get_queryset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/compare/models/organ.html#AllocatableOrganManager.get_queryset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.compare.models.organ.AllocatableOrganManager.get_queryset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter Organ results by organallocation__isnull=True AND transplantable=True, excluding results
+where preservation=PRESERVATION_NOT_SET OR transplantation_form_completed=True</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Queryset</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="wp4.compare.models.organ.OpenOrganManager">
+<em class="property">class </em><code class="descclassname">wp4.compare.models.organ.</code><code class="descname">OpenOrganManager</code><a class="reference internal" href="../../_modules/wp4/compare/models/organ.html#OpenOrganManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.compare.models.organ.OpenOrganManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get only the Organs that are open for transplantation, which means they&#8217;ve one or more allocations,
+and have not had their form closed (either by allocation outside of project area, or completed form).</p>
+<dl class="method">
+<dt id="wp4.compare.models.organ.OpenOrganManager.get_queryset">
+<code class="descname">get_queryset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/compare/models/organ.html#OpenOrganManager.get_queryset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.compare.models.organ.OpenOrganManager.get_queryset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter Organ results by transplantable=True, excluding results where
+transplantation_form_completed=True OR organallocation__isnull=True OR
+preservation=PRESERVATION_NOT_SET</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Queryset</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="wp4.compare.models.organ.Organ">
+<em class="property">class </em><code class="descclassname">wp4.compare.models.organ.</code><code class="descname">Organ</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/compare/models/organ.html#Organ"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.compare.models.organ.Organ" title="Permalink to this definition">¶</a></dt>
+<dd><p>The focus of the trial, specifically a Kidney.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.9)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
+<li><strong>version</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveIntegerField</em></a>) &#8211; &#8220;version&#8221; - Internal tracking version number</li>
+<li><strong>created_on</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;created on&#8221;</li>
+<li><strong>created_by_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;created by&#8221; - User account for the person logged in when this record was made/updated</li>
+<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.9)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - Not presently implemented or used</li>
+<li><strong>donor_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;donor&#8221; - Internal link to the Donor</li>
+<li><strong>location</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.CharField" title="(in Django v1.9)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;OR01 kidney location&#8221;</li>
+<li><strong>not_allocated_reason</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.CharField" title="(in Django v1.9)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;OR31 not transplantable because&#8221;</li>
+<li><strong>admin_notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.TextField" title="(in Django v1.9)"><em>django.db.models.TextField</em></a>) &#8211; &#8220;DO50 Admin notes&#8221;</li>
+<li><strong>transplantation_notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.TextField" title="(in Django v1.9)"><em>django.db.models.TextField</em></a>) &#8211; &#8220;DO51 Transplantation notes&#8221;</li>
+<li><strong>transplantation_form_completed</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.9)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;transplantation form completed&#8221; - Internal value to flag when technician thinks the form is complete</li>
+<li><strong>removal</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;OR02 time out&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>renal_arteries</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;OR03 number of renal arteries&#8221; - Number of arteries must be in range 0-5</li>
+<li><strong>graft_damage</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;OR04 renal graft damage&#8221;</li>
+<li><strong>graft_damage_other</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.CharField" title="(in Django v1.9)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;OR05 other damage done&#8221;</li>
+<li><strong>washout_perfusion</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;OR06 perfusion characteristics&#8221;</li>
+<li><strong>transplantable</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.9)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;OR07 is transplantable&#8221; - OR07h This answer can be amended after randomisation and saving of the form if necessary</li>
+<li><strong>not_transplantable_reason</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.CharField" title="(in Django v1.9)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;OR08 not transplantable because&#8221;</li>
+<li><strong>preservation</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;preservation&#8221;</li>
+<li><strong>perfusion_possible</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.9)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;OR09 machine perfusion possible?&#8221;</li>
+<li><strong>perfusion_not_possible_because</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.CharField" title="(in Django v1.9)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;OR10 not possible because&#8221;</li>
+<li><strong>perfusion_started</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;OR11 machine perfusion&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>patch_holder</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;OR12 used patch holder&#8221;</li>
+<li><strong>artificial_patch_used</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.9)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;OR13 artificial patch used&#8221;</li>
+<li><strong>artificial_patch_size</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;OR14 artificial patch size&#8221;</li>
+<li><strong>artificial_patch_number</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;OR15 number of patches&#8221;</li>
+<li><strong>oxygen_bottle_full</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.9)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;OR16 is oxygen bottle full&#8221;</li>
+<li><strong>oxygen_bottle_open</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.9)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;OR17 oxygen bottle opened&#8221;</li>
+<li><strong>oxygen_bottle_changed</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.9)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;OR18 oxygen bottle changed&#8221;</li>
+<li><strong>oxygen_bottle_changed_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;OR19 oxygen bottle changed at&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>oxygen_bottle_changed_at_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.9)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;oxygen bottle changed at unknown&#8221; - Internal unknown flag</li>
+<li><strong>ice_container_replenished</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.9)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;OR20 ice container replenished&#8221;</li>
+<li><strong>ice_container_replenished_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;OR21 ice container replenished at&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>ice_container_replenished_at_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.9)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;ice container replenished at unknown&#8221; - Internal unknown flag</li>
+<li><strong>perfusate_measurable</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.9)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;OR22 perfusate measurable&#8221;</li>
+<li><strong>perfusate_measure</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.FloatField" title="(in Django v1.9)"><em>django.db.models.FloatField</em></a>) &#8211; &#8220;OR23 value pO2&#8221;</li>
+<li><strong>perfusion_machine_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;OR24 perfusion machine&#8221;</li>
+<li><strong>perfusion_file_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;OR25 machine file&#8221;</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.donor">
+<code class="descname">donor</code><a class="headerlink" href="#wp4.compare.models.organ.Organ.donor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.location">
+<code class="descname">location</code><em class="property"> = None</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.location" title="Permalink to this definition">¶</a></dt>
+<dd><p>Choices limited to LOCATION_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.GRAFT_DAMAGE_ARTERIAL">
+<code class="descname">GRAFT_DAMAGE_ARTERIAL</code><em class="property"> = 1</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.GRAFT_DAMAGE_ARTERIAL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for GRAFT_DAMAGE_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.GRAFT_DAMAGE_VENOUS">
+<code class="descname">GRAFT_DAMAGE_VENOUS</code><em class="property"> = 2</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.GRAFT_DAMAGE_VENOUS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for GRAFT_DAMAGE_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.GRAFT_DAMAGE_URETERAL">
+<code class="descname">GRAFT_DAMAGE_URETERAL</code><em class="property"> = 3</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.GRAFT_DAMAGE_URETERAL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for GRAFT_DAMAGE_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.GRAFT_DAMAGE_PARENCHYMAL">
+<code class="descname">GRAFT_DAMAGE_PARENCHYMAL</code><em class="property"> = 4</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.GRAFT_DAMAGE_PARENCHYMAL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for GRAFT_DAMAGE_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.GRAFT_DAMAGE_NONE">
+<code class="descname">GRAFT_DAMAGE_NONE</code><em class="property"> = 5</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.GRAFT_DAMAGE_NONE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for GRAFT_DAMAGE_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.GRAFT_DAMAGE_OTHER">
+<code class="descname">GRAFT_DAMAGE_OTHER</code><em class="property"> = 6</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.GRAFT_DAMAGE_OTHER" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for GRAFT_DAMAGE_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.GRAFT_DAMAGE_CHOICES">
+<code class="descname">GRAFT_DAMAGE_CHOICES</code><em class="property"> = ((5, &lt;django.utils.functional.__proxy__ object at 0x1120d4090&gt;), (1, &lt;django.utils.functional.__proxy__ object at 0x1120d40d0&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x1120d4110&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x1120d4150&gt;), (4, &lt;django.utils.functional.__proxy__ object at 0x1120d4190&gt;), (6, &lt;django.utils.functional.__proxy__ object at 0x1120d41d0&gt;))</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.GRAFT_DAMAGE_CHOICES" title="Permalink to this definition">¶</a></dt>
+<dd><p>Organ graft_damage choices</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.WASHOUT_PERFUSION_HOMEGENOUS">
+<code class="descname">WASHOUT_PERFUSION_HOMEGENOUS</code><em class="property"> = 1</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.WASHOUT_PERFUSION_HOMEGENOUS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for WASHOUT_PERFUSION_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.WASHOUT_PERFUSION_PATCHY">
+<code class="descname">WASHOUT_PERFUSION_PATCHY</code><em class="property"> = 2</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.WASHOUT_PERFUSION_PATCHY" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for WASHOUT_PERFUSION_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.WASHOUT_PERFUSION_BLUE">
+<code class="descname">WASHOUT_PERFUSION_BLUE</code><em class="property"> = 3</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.WASHOUT_PERFUSION_BLUE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for WASHOUT_PERFUSION_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.WASHOUT_PERFUSION_UNKNOWN">
+<code class="descname">WASHOUT_PERFUSION_UNKNOWN</code><em class="property"> = 9</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.WASHOUT_PERFUSION_UNKNOWN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for WASHOUT_PERFUSION_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.WASHOUT_PERFUSION_CHOICES">
+<code class="descname">WASHOUT_PERFUSION_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x1120d4210&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x1120d4250&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x1120d42d0&gt;), (9, &lt;django.utils.functional.__proxy__ object at 0x1120d4350&gt;))</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.WASHOUT_PERFUSION_CHOICES" title="Permalink to this definition">¶</a></dt>
+<dd><p>Organ washout_perfusion choices</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.graft_damage">
+<code class="descname">graft_damage</code><em class="property"> = None</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.graft_damage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Choices limited to GRAFT_DAMAGE_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.washout_perfusion">
+<code class="descname">washout_perfusion</code><em class="property"> = None</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.washout_perfusion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Choices limited to WASHOUT_PERFUSION_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.preservation">
+<code class="descname">preservation</code><em class="property"> = None</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.preservation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Choices limited to PRESERVATION_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.PATCH_SMALL">
+<code class="descname">PATCH_SMALL</code><em class="property"> = 1</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.PATCH_SMALL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for PATCH_HOLDER_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.PATCH_LARGE">
+<code class="descname">PATCH_LARGE</code><em class="property"> = 2</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.PATCH_LARGE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for PATCH_HOLDER_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.PATCH_DOUBLE_ARTERY">
+<code class="descname">PATCH_DOUBLE_ARTERY</code><em class="property"> = 3</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.PATCH_DOUBLE_ARTERY" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for PATCH_HOLDER_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.PATCH_HOLDER_CHOICES">
+<code class="descname">PATCH_HOLDER_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x1120d4d50&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x1120d4d90&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x1120d4dd0&gt;))</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.PATCH_HOLDER_CHOICES" title="Permalink to this definition">¶</a></dt>
+<dd><p>Organ patch_holder choices</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.ARTIFICIAL_PATCH_CHOICES">
+<code class="descname">ARTIFICIAL_PATCH_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x1120d4e10&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x1120d4e50&gt;))</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.ARTIFICIAL_PATCH_CHOICES" title="Permalink to this definition">¶</a></dt>
+<dd><p>Organ artificial_patch_size choices</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.patch_holder">
+<code class="descname">patch_holder</code><em class="property"> = None</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.patch_holder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Choices limited to PATCH_HOLDER_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.artificial_patch_size">
+<code class="descname">artificial_patch_size</code><em class="property"> = None</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.artificial_patch_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Choices limited to ARTIFICIAL_PATCH_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.artificial_patch_number">
+<code class="descname">artificial_patch_number</code><em class="property"> = None</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.artificial_patch_number" title="Permalink to this definition">¶</a></dt>
+<dd><p>Limited to range 1-2</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.perfusate_measurable">
+<code class="descname">perfusate_measurable</code><em class="property"> = None</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.perfusate_measurable" title="Permalink to this definition">¶</a></dt>
+<dd><p>logistically possible to measure pO2 perfusate (use blood gas analyser)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.perfusion_machine">
+<code class="descname">perfusion_machine</code><a class="headerlink" href="#wp4.compare.models.organ.Organ.perfusion_machine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.perfusion_file">
+<code class="descname">perfusion_file</code><a class="headerlink" href="#wp4.compare.models.organ.Organ.perfusion_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wp4.compare.models.organ.Organ.clean">
+<code class="descname">clean</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/compare/models/organ.html#Organ.clean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.compare.models.organ.Organ.clean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clears the following fields of data if their corresponding unknown flag is set to True</p>
+<ul class="simple">
+<li>oxygen_bottle_changed_at</li>
+<li>ice_container_replenished_at</li>
+</ul>
+<p>Error if:</p>
+<ul class="simple">
+<li>transplantable is False, and not_transplantable_reason is empty (ORv01)</li>
+<li>perfusion_possible is False, and perfusion_not_possible_because is empty (ORv02)</li>
+<li>perfusion_possible is True, and perfusion_started is not set (ORv03)</li>
+</ul>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.safe_recipient">
+<code class="descname">safe_recipient</code><a class="headerlink" href="#wp4.compare.models.organ.Organ.safe_recipient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper method to return either the related Recipient record, or a safe value of None,
+without the drama of exceptions when it doesn&#8217;t exist</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="wp4.compare.models.transplantation.html#wp4.compare.models.transplantation.Recipient" title="wp4.compare.models.transplantation.Recipient">wp4.compare.models.transplantation.Recipient</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.trial_id">
+<code class="descname">trial_id</code><a class="headerlink" href="#wp4.compare.models.organ.Organ.trial_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the Donor Trial ID combined with the Location (L or R) for the Organ</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">&#8216;WP4cctnns&#8217;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.is_allocated">
+<code class="descname">is_allocated</code><a class="headerlink" href="#wp4.compare.models.organ.Organ.is_allocated" title="Permalink to this definition">¶</a></dt>
+<dd><p>Allocation status</p>
+<p>Determine if an organ has been allocated. Allocated means:</p>
+<ul class="simple">
+<li>To a recipient at a project site</li>
+<li>Final allocation is to a non-project site</li>
+</ul>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True, if either of those criteria are met</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.explain_is_allocated">
+<code class="descname">explain_is_allocated</code><a class="headerlink" href="#wp4.compare.models.organ.Organ.explain_is_allocated" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>Allocation status description</em> &#8211; An explanation as to the allocation status for this organ</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Message describing status of allocation</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.explain_closed_status">
+<code class="descname">explain_closed_status</code><a class="headerlink" href="#wp4.compare.models.organ.Organ.explain_closed_status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Work out why this form was closed, and display a suitable summary message</p>
+<p>NOT IMPLEMENTED (yet)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Message describing the likely cause for the form being closed</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.reallocation_count">
+<code class="descname">reallocation_count</code><a class="headerlink" href="#wp4.compare.models.organ.Organ.reallocation_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Counts the number of organ allocations where reallocated is true</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Count of reallocations</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)">int</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="exception">
+<dt id="wp4.compare.models.organ.Organ.DoesNotExist">
+<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#wp4.compare.models.organ.Organ.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="wp4.compare.models.organ.Organ.MultipleObjectsReturned">
+<em class="property">exception </em><code class="descclassname">Organ.</code><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#wp4.compare.models.organ.Organ.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.adverseevent_set">
+<code class="descclassname">Organ.</code><code class="descname">adverseevent_set</code><a class="headerlink" href="#wp4.compare.models.organ.Organ.adverseevent_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.created_by">
+<code class="descclassname">Organ.</code><code class="descname">created_by</code><a class="headerlink" href="#wp4.compare.models.organ.Organ.created_by" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.followup_1y">
+<code class="descclassname">Organ.</code><code class="descname">followup_1y</code><a class="headerlink" href="#wp4.compare.models.organ.Organ.followup_1y" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the reverse side of a one-to-one
+relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Restaurant</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">place</span> <span class="o">=</span> <span class="n">OneToOneField</span><span class="p">(</span><span class="n">Place</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;restaurant&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">place.restaurant</span></code> is a <code class="docutils literal"><span class="pre">ReverseOneToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.followup_3m">
+<code class="descclassname">Organ.</code><code class="descname">followup_3m</code><a class="headerlink" href="#wp4.compare.models.organ.Organ.followup_3m" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the reverse side of a one-to-one
+relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Restaurant</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">place</span> <span class="o">=</span> <span class="n">OneToOneField</span><span class="p">(</span><span class="n">Place</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;restaurant&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">place.restaurant</span></code> is a <code class="docutils literal"><span class="pre">ReverseOneToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.followup_6m">
+<code class="descclassname">Organ.</code><code class="descname">followup_6m</code><a class="headerlink" href="#wp4.compare.models.organ.Organ.followup_6m" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the reverse side of a one-to-one
+relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Restaurant</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">place</span> <span class="o">=</span> <span class="n">OneToOneField</span><span class="p">(</span><span class="n">Place</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;restaurant&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">place.restaurant</span></code> is a <code class="docutils literal"><span class="pre">ReverseOneToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.followup_initial">
+<code class="descclassname">Organ.</code><code class="descname">followup_initial</code><a class="headerlink" href="#wp4.compare.models.organ.Organ.followup_initial" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the reverse side of a one-to-one
+relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Restaurant</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">place</span> <span class="o">=</span> <span class="n">OneToOneField</span><span class="p">(</span><span class="n">Place</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;restaurant&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">place.restaurant</span></code> is a <code class="docutils literal"><span class="pre">ReverseOneToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wp4.compare.models.organ.Organ.get_adverseevent_order">
+<code class="descclassname">Organ.</code><code class="descname">get_adverseevent_order</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.organ.Organ.get_adverseevent_order" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="wp4.compare.models.organ.Organ.get_artificial_patch_size_display">
+<code class="descclassname">Organ.</code><code class="descname">get_artificial_patch_size_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.organ.Organ.get_artificial_patch_size_display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="wp4.compare.models.organ.Organ.get_graft_damage_display">
+<code class="descclassname">Organ.</code><code class="descname">get_graft_damage_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.organ.Organ.get_graft_damage_display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="wp4.compare.models.organ.Organ.get_location_display">
+<code class="descclassname">Organ.</code><code class="descname">get_location_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.organ.Organ.get_location_display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="wp4.compare.models.organ.Organ.get_next_by_created_on">
+<code class="descclassname">Organ.</code><code class="descname">get_next_by_created_on</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.organ.Organ.get_next_by_created_on" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="wp4.compare.models.organ.Organ.get_organallocation_order">
+<code class="descclassname">Organ.</code><code class="descname">get_organallocation_order</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.organ.Organ.get_organallocation_order" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="wp4.compare.models.organ.Organ.get_patch_holder_display">
+<code class="descclassname">Organ.</code><code class="descname">get_patch_holder_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.organ.Organ.get_patch_holder_display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="wp4.compare.models.organ.Organ.get_preservation_display">
+<code class="descclassname">Organ.</code><code class="descname">get_preservation_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.organ.Organ.get_preservation_display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="wp4.compare.models.organ.Organ.get_previous_by_created_on">
+<code class="descclassname">Organ.</code><code class="descname">get_previous_by_created_on</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.organ.Organ.get_previous_by_created_on" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="wp4.compare.models.organ.Organ.get_recipient_order">
+<code class="descclassname">Organ.</code><code class="descname">get_recipient_order</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.organ.Organ.get_recipient_order" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="wp4.compare.models.organ.Organ.get_washout_perfusion_display">
+<code class="descclassname">Organ.</code><code class="descname">get_washout_perfusion_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.organ.Organ.get_washout_perfusion_display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.organallocation_set">
+<code class="descclassname">Organ.</code><code class="descname">organallocation_set</code><a class="headerlink" href="#wp4.compare.models.organ.Organ.organallocation_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.perfusatesample_set">
+<code class="descclassname">Organ.</code><code class="descname">perfusatesample_set</code><a class="headerlink" href="#wp4.compare.models.organ.Organ.perfusatesample_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.procurementresource_set">
+<code class="descclassname">Organ.</code><code class="descname">procurementresource_set</code><a class="headerlink" href="#wp4.compare.models.organ.Organ.procurementresource_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.recipient">
+<code class="descclassname">Organ.</code><code class="descname">recipient</code><a class="headerlink" href="#wp4.compare.models.organ.Organ.recipient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the reverse side of a one-to-one
+relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Restaurant</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">place</span> <span class="o">=</span> <span class="n">OneToOneField</span><span class="p">(</span><span class="n">Place</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;restaurant&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">place.restaurant</span></code> is a <code class="docutils literal"><span class="pre">ReverseOneToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wp4.compare.models.organ.Organ.set_adverseevent_order">
+<code class="descclassname">Organ.</code><code class="descname">set_adverseevent_order</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.organ.Organ.set_adverseevent_order" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="wp4.compare.models.organ.Organ.set_organallocation_order">
+<code class="descclassname">Organ.</code><code class="descname">set_organallocation_order</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.organ.Organ.set_organallocation_order" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="wp4.compare.models.organ.Organ.set_recipient_order">
+<code class="descclassname">Organ.</code><code class="descname">set_recipient_order</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.organ.Organ.set_recipient_order" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.tissuesample_set">
+<code class="descclassname">Organ.</code><code class="descname">tissuesample_set</code><a class="headerlink" href="#wp4.compare.models.organ.Organ.tissuesample_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="wp4.compare.models.organ.ProcurementResource">
+<em class="property">class </em><code class="descclassname">wp4.compare.models.organ.</code><code class="descname">ProcurementResource</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/compare/models/organ.html#ProcurementResource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.compare.models.organ.ProcurementResource" title="Permalink to this definition">¶</a></dt>
+<dd><p>Repeatable list of resources used during organ extraction. Primarily distinguished by the type.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.9)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
+<li><strong>organ_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;PR01 related kidney&#8221;</li>
+<li><strong>type</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.CharField" title="(in Django v1.9)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;PR02 resource used&#8221;</li>
+<li><strong>lot_number</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.CharField" title="(in Django v1.9)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;PR03 lot number&#8221;</li>
+<li><strong>expiry_date</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.DateField" title="(in Django v1.9)"><em>django.db.models.DateField</em></a>) &#8211; &#8220;PR04 expiry date&#8221;</li>
+<li><strong>expiry_date_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.9)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;expiry date unknown&#8221; - Internal unknown flag</li>
+<li><strong>created_on</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;created on&#8221; - Internal value</li>
+<li><strong>created_by_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;created by&#8221; - Internal User link</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.ProcurementResource.DISPOSABLES">
+<code class="descname">DISPOSABLES</code><em class="property"> = u'D'</em><a class="headerlink" href="#wp4.compare.models.organ.ProcurementResource.DISPOSABLES" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for TYPE_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.ProcurementResource.EXTRA_CANNULA_SMALL">
+<code class="descname">EXTRA_CANNULA_SMALL</code><em class="property"> = u'C-SM'</em><a class="headerlink" href="#wp4.compare.models.organ.ProcurementResource.EXTRA_CANNULA_SMALL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for TYPE_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.ProcurementResource.EXTRA_CANNULA_LARGE">
+<code class="descname">EXTRA_CANNULA_LARGE</code><em class="property"> = u'C-LG'</em><a class="headerlink" href="#wp4.compare.models.organ.ProcurementResource.EXTRA_CANNULA_LARGE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for TYPE_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.ProcurementResource.EXTRA_PATCH_HOLDER_SMALL">
+<code class="descname">EXTRA_PATCH_HOLDER_SMALL</code><em class="property"> = u'PH-SM'</em><a class="headerlink" href="#wp4.compare.models.organ.ProcurementResource.EXTRA_PATCH_HOLDER_SMALL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for TYPE_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.ProcurementResource.EXTRA_PATCH_HOLDER_LARGE">
+<code class="descname">EXTRA_PATCH_HOLDER_LARGE</code><em class="property"> = u'PH-LG'</em><a class="headerlink" href="#wp4.compare.models.organ.ProcurementResource.EXTRA_PATCH_HOLDER_LARGE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for TYPE_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.ProcurementResource.EXTRA_DOUBLE_CANNULA_SET">
+<code class="descname">EXTRA_DOUBLE_CANNULA_SET</code><em class="property"> = u'DB-C'</em><a class="headerlink" href="#wp4.compare.models.organ.ProcurementResource.EXTRA_DOUBLE_CANNULA_SET" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for TYPE_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.ProcurementResource.PERFUSATE_SOLUTION">
+<code class="descname">PERFUSATE_SOLUTION</code><em class="property"> = u'P'</em><a class="headerlink" href="#wp4.compare.models.organ.ProcurementResource.PERFUSATE_SOLUTION" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for TYPE_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.ProcurementResource.TYPE_CHOICES">
+<code class="descname">TYPE_CHOICES</code><em class="property"> = ((u'D', &lt;django.utils.functional.__proxy__ object at 0x1120e2650&gt;), (u'C-SM', &lt;django.utils.functional.__proxy__ object at 0x1120e2790&gt;), (u'C-LG', &lt;django.utils.functional.__proxy__ object at 0x1120e2a50&gt;), (u'PH-SM', &lt;django.utils.functional.__proxy__ object at 0x1120e2a90&gt;), (u'PH-LG', &lt;django.utils.functional.__proxy__ object at 0x1120e2ad0&gt;), (u'DB-C', &lt;django.utils.functional.__proxy__ object at 0x1120e2b10&gt;), (u'P', &lt;django.utils.functional.__proxy__ object at 0x1120e2b50&gt;))</em><a class="headerlink" href="#wp4.compare.models.organ.ProcurementResource.TYPE_CHOICES" title="Permalink to this definition">¶</a></dt>
+<dd><p>ProcurementResource type choices</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.ProcurementResource.organ">
+<code class="descname">organ</code><a class="headerlink" href="#wp4.compare.models.organ.ProcurementResource.organ" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.ProcurementResource.created_by">
+<code class="descname">created_by</code><a class="headerlink" href="#wp4.compare.models.organ.ProcurementResource.created_by" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wp4.compare.models.organ.ProcurementResource.clean">
+<code class="descname">clean</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/compare/models/organ.html#ProcurementResource.clean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.compare.models.organ.ProcurementResource.clean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clears the value of expiry_date if marked as unknown</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="wp4.compare.models.organ.ProcurementResource.DoesNotExist">
+<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#wp4.compare.models.organ.ProcurementResource.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="wp4.compare.models.organ.ProcurementResource.MultipleObjectsReturned">
+<em class="property">exception </em><code class="descclassname">ProcurementResource.</code><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#wp4.compare.models.organ.ProcurementResource.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="wp4.compare.models.organ.ProcurementResource.get_next_by_created_on">
+<code class="descclassname">ProcurementResource.</code><code class="descname">get_next_by_created_on</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.organ.ProcurementResource.get_next_by_created_on" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="wp4.compare.models.organ.ProcurementResource.get_previous_by_created_on">
+<code class="descclassname">ProcurementResource.</code><code class="descname">get_previous_by_created_on</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.organ.ProcurementResource.get_previous_by_created_on" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="wp4.compare.models.organ.ProcurementResource.get_type_display">
+<code class="descclassname">ProcurementResource.</code><code class="descname">get_type_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.organ.ProcurementResource.get_type_display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="wp4.compare.models.transplantation.html" class="btn btn-neutral float-right" title="wp4.compare.models.transplantation" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="wp4.compare.models.donor.html" class="btn btn-neutral" title="wp4.compare.models.donor" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Carl Marshall.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.5.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

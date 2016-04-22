@@ -1,0 +1,650 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>wp4.compare.models.organ &mdash; COPE DB 0.5.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="COPE DB 0.5.0 documentation" href="../../../../index.html"/>
+        <link rel="up" title="Module code" href="../../../index.html"/> 
+
+  
+  <script src="../../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> COPE DB
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.5.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../user_manual.html">COPE DB User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../deployment.html">Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../development.html">Development Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../development.html#useful-things-to-remember">Useful things to remember</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../development.html#documentation">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../design/wp4_design.html">Design - WP4:Compare</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../design/wp7_design.html">Design - WP7:Biobanking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/models.html">Data Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../changelog.html">Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../../index.html">COPE DB</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+      
+    <li>wp4.compare.models.organ</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for wp4.compare.models.organ</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/python</span>
+<span class="c1"># coding: utf-8</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">unicode_literals</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">django.core.validators</span> <span class="kn">import</span> <span class="n">MinValueValidator</span><span class="p">,</span> <span class="n">MaxValueValidator</span><span class="p">,</span> <span class="n">ValidationError</span>
+<span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+<span class="kn">from</span> <span class="nn">django.utils</span> <span class="kn">import</span> <span class="n">timezone</span>
+<span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">ugettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
+
+<span class="kn">from</span> <span class="nn">wp4.perfusion_machine.models</span> <span class="kn">import</span> <span class="n">PerfusionMachine</span><span class="p">,</span> <span class="n">PerfusionFile</span>
+
+<span class="kn">from</span> <span class="nn">..validators</span> <span class="kn">import</span> <span class="n">validate_between_1900_2050</span><span class="p">,</span> <span class="n">validate_not_in_future</span>
+<span class="kn">from</span> <span class="nn">.core</span> <span class="kn">import</span> <span class="n">VersionControlModel</span>
+<span class="kn">from</span> <span class="nn">.core</span> <span class="kn">import</span> <span class="n">LOCATION_CHOICES</span><span class="p">,</span> <span class="n">PRESERVATION_CHOICES</span><span class="p">,</span> <span class="n">PRESERVATION_NOT_SET</span>
+<span class="kn">from</span> <span class="nn">.donor</span> <span class="kn">import</span> <span class="n">Donor</span>
+
+
+<div class="viewcode-block" id="ClosedOrganManager"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.organ.html#wp4.compare.models.organ.ClosedOrganManager">[docs]</a><span class="k">class</span> <span class="nc">ClosedOrganManager</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Manager</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get only the Organs that have had completed outcomes. These are:</span>
+
+<span class="sd">    * Organ.not_allocated_reason has a value... which results in...</span>
+<span class="sd">    * Recipient.transplantation_form_completed is True</span>
+
+<span class="sd">    So wait, what about if the Organ is allocated to a non project site hospital, doesn&#39;t that also</span>
+<span class="sd">    close the case? Yes, yes it does, and we can more trivially cover this by writing a message into</span>
+<span class="sd">    not_allocated_reason of $MESSAGE$, and then setting the transplantation_form_completed flag</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="ClosedOrganManager.get_queryset"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.organ.html#wp4.compare.models.organ.ClosedOrganManager.get_queryset">[docs]</a>    <span class="k">def</span> <span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Filter Organs results by only returning where transplantation_form_completed=True</span>
+
+<span class="sd">        :return: Queryset</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">ClosedOrganManager</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">()</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">transplantation_form_completed</span><span class="o">=</span><span class="bp">True</span>
+        <span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="AllocatableOrganManager"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.organ.html#wp4.compare.models.organ.AllocatableOrganManager">[docs]</a><span class="k">class</span> <span class="nc">AllocatableOrganManager</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Manager</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get only the Organs that are available for allocation, which means they&#39;re Unallocated (not</span>
+<span class="sd">    deliberately), Randomised, and still Transplantable (but not necessarily a completed P form).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="AllocatableOrganManager.get_queryset"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.organ.html#wp4.compare.models.organ.AllocatableOrganManager.get_queryset">[docs]</a>    <span class="k">def</span> <span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Filter Organ results by organallocation__isnull=True AND transplantable=True, excluding results</span>
+<span class="sd">        where preservation=PRESERVATION_NOT_SET OR transplantation_form_completed=True</span>
+
+<span class="sd">        :return: Queryset</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">AllocatableOrganManager</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">()</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">organallocation__isnull</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">transplantable</span><span class="o">=</span><span class="bp">True</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="n">preservation</span><span class="o">=</span><span class="n">PRESERVATION_NOT_SET</span><span class="p">)</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="n">transplantation_form_completed</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="OpenOrganManager"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.organ.html#wp4.compare.models.organ.OpenOrganManager">[docs]</a><span class="k">class</span> <span class="nc">OpenOrganManager</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Manager</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get only the Organs that are open for transplantation, which means they&#39;ve one or more allocations,</span>
+<span class="sd">    and have not had their form closed (either by allocation outside of project area, or completed form).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="OpenOrganManager.get_queryset"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.organ.html#wp4.compare.models.organ.OpenOrganManager.get_queryset">[docs]</a>    <span class="k">def</span> <span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Filter Organ results by transplantable=True, excluding results where</span>
+<span class="sd">        transplantation_form_completed=True OR organallocation__isnull=True OR</span>
+<span class="sd">        preservation=PRESERVATION_NOT_SET</span>
+
+<span class="sd">        :return: Queryset</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">OpenOrganManager</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">()</span><span class="o">.</span>\
+            <span class="nb">filter</span><span class="p">(</span><span class="n">transplantable</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span>\
+            <span class="n">exclude</span><span class="p">(</span><span class="n">transplantation_form_completed</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span>\
+            <span class="n">exclude</span><span class="p">(</span><span class="n">organallocation__isnull</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span>\
+            <span class="n">exclude</span><span class="p">(</span><span class="n">preservation</span><span class="o">=</span><span class="n">PRESERVATION_NOT_SET</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="Organ"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.organ.html#wp4.compare.models.organ.Organ">[docs]</a><span class="k">class</span> <span class="nc">Organ</span><span class="p">(</span><span class="n">VersionControlModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The focus of the trial, specifically a Kidney.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">donor</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Donor</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Internal link to the Donor&quot;</span><span class="p">)</span>
+    <span class="n">location</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR01 kidney location&#39;</span><span class="p">),</span>
+        <span class="n">max_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">choices</span><span class="o">=</span><span class="n">LOCATION_CHOICES</span>
+    <span class="p">)</span>  <span class="c1">#: Choices limited to LOCATION_CHOICES</span>
+
+    <span class="c1"># Transplantation Form metadata</span>
+    <span class="n">not_allocated_reason</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR31 not transplantable because&#39;</span><span class="p">),</span>
+        <span class="n">max_length</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span>
+    <span class="p">)</span>
+    <span class="n">admin_notes</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;DO50 Admin notes&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">transplantation_notes</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;DO51 Transplantation notes&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">transplantation_form_completed</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Internal value to flag when technician thinks the form is complete&quot;</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Inspection data</span>
+    <span class="n">GRAFT_DAMAGE_ARTERIAL</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1">#: Constant for GRAFT_DAMAGE_CHOICES</span>
+    <span class="n">GRAFT_DAMAGE_VENOUS</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1">#: Constant for GRAFT_DAMAGE_CHOICES</span>
+    <span class="n">GRAFT_DAMAGE_URETERAL</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c1">#: Constant for GRAFT_DAMAGE_CHOICES</span>
+    <span class="n">GRAFT_DAMAGE_PARENCHYMAL</span> <span class="o">=</span> <span class="mi">4</span>  <span class="c1">#: Constant for GRAFT_DAMAGE_CHOICES</span>
+    <span class="n">GRAFT_DAMAGE_NONE</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1">#: Constant for GRAFT_DAMAGE_CHOICES</span>
+    <span class="n">GRAFT_DAMAGE_OTHER</span> <span class="o">=</span> <span class="mi">6</span>  <span class="c1">#: Constant for GRAFT_DAMAGE_CHOICES</span>
+    <span class="n">GRAFT_DAMAGE_CHOICES</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="n">GRAFT_DAMAGE_NONE</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;ORc01 None&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">GRAFT_DAMAGE_ARTERIAL</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;ORc02 Arterial Damage&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">GRAFT_DAMAGE_VENOUS</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;ORc03 Venous Damage&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">GRAFT_DAMAGE_URETERAL</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;ORc04 Ureteral Damage&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">GRAFT_DAMAGE_PARENCHYMAL</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;ORc05 Parenchymal Damage&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">GRAFT_DAMAGE_OTHER</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;ORc06 Other Damage&quot;</span><span class="p">))</span>
+    <span class="p">)</span>  <span class="c1">#: Organ graft_damage choices</span>
+
+    <span class="n">WASHOUT_PERFUSION_HOMEGENOUS</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1">#: Constant for WASHOUT_PERFUSION_CHOICES</span>
+    <span class="n">WASHOUT_PERFUSION_PATCHY</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1">#: Constant for WASHOUT_PERFUSION_CHOICES</span>
+    <span class="n">WASHOUT_PERFUSION_BLUE</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c1">#: Constant for WASHOUT_PERFUSION_CHOICES</span>
+    <span class="n">WASHOUT_PERFUSION_UNKNOWN</span> <span class="o">=</span> <span class="mi">9</span>  <span class="c1">#: Constant for WASHOUT_PERFUSION_CHOICES</span>
+    <span class="n">WASHOUT_PERFUSION_CHOICES</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="c1"># NHS Form has: Good, Fair, Poor, Patchy, Unknown</span>
+        <span class="p">(</span><span class="n">WASHOUT_PERFUSION_HOMEGENOUS</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;ORc07 Homogenous&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">WASHOUT_PERFUSION_PATCHY</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;ORc08 Patchy&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">WASHOUT_PERFUSION_BLUE</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;ORc09 Blue&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">WASHOUT_PERFUSION_UNKNOWN</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;ORc10 Unknown&quot;</span><span class="p">))</span>
+    <span class="p">)</span>  <span class="c1">#: Organ washout_perfusion choices</span>
+
+    <span class="n">removal</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR02 time out&#39;</span><span class="p">),</span>
+        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">validate_between_1900_2050</span><span class="p">,</span> <span class="n">validate_not_in_future</span><span class="p">],</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Date must be fall within 1900-2050, and not be in the future&quot;</span>
+    <span class="p">)</span>
+    <span class="n">renal_arteries</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR03 number of renal arteries&#39;</span><span class="p">),</span>
+        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">MinValueValidator</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">MaxValueValidator</span><span class="p">(</span><span class="mi">5</span><span class="p">)],</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Number of arteries must be in range 0-5&quot;</span>
+    <span class="p">)</span>
+    <span class="n">graft_damage</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR04 renal graft damage&#39;</span><span class="p">),</span>
+        <span class="n">choices</span><span class="o">=</span><span class="n">GRAFT_DAMAGE_CHOICES</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">GRAFT_DAMAGE_NONE</span>
+    <span class="p">)</span>  <span class="c1">#: Choices limited to GRAFT_DAMAGE_CHOICES</span>
+    <span class="n">graft_damage_other</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR05 other damage done&#39;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">washout_perfusion</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR06 perfusion characteristics&#39;</span><span class="p">),</span>
+        <span class="n">choices</span><span class="o">=</span><span class="n">WASHOUT_PERFUSION_CHOICES</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span>
+    <span class="p">)</span>  <span class="c1">#: Choices limited to WASHOUT_PERFUSION_CHOICES</span>
+    <span class="n">transplantable</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR07 is transplantable&#39;</span><span class="p">),</span>
+        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;OR07h This answer can be amended after randomisation and saving of the form if necessary&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">not_transplantable_reason</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR08 not transplantable because&#39;</span><span class="p">),</span>
+        <span class="n">max_length</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Randomisation data</span>
+    <span class="c1"># can_donate = models.BooleanField(&#39;Donor is eligible as DCD III and &gt; 50 years old&#39;) -- donor info!</span>
+    <span class="c1"># can_transplant = models.BooleanField(&#39;&#39;) -- derived from left and right being transplantable</span>
+    <span class="n">preservation</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
+        <span class="n">choices</span><span class="o">=</span><span class="n">PRESERVATION_CHOICES</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">PRESERVATION_NOT_SET</span>
+    <span class="p">)</span>  <span class="c1">#: Choices limited to PRESERVATION_CHOICES</span>
+
+    <span class="c1"># Perfusion data</span>
+    <span class="n">PATCH_SMALL</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1">#: Constant for PATCH_HOLDER_CHOICES</span>
+    <span class="n">PATCH_LARGE</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1">#: Constant for PATCH_HOLDER_CHOICES</span>
+    <span class="n">PATCH_DOUBLE_ARTERY</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c1">#: Constant for PATCH_HOLDER_CHOICES</span>
+    <span class="n">PATCH_HOLDER_CHOICES</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="n">PATCH_SMALL</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;ORc12 Small&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">PATCH_LARGE</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;ORc13 Large&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">PATCH_DOUBLE_ARTERY</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;ORc14 Double Artery&quot;</span><span class="p">))</span>
+    <span class="p">)</span>  <span class="c1">#: Organ patch_holder choices</span>
+    <span class="n">ARTIFICIAL_PATCH_CHOICES</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="n">PATCH_SMALL</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;ORc12 Small&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">PATCH_LARGE</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;ORc13 Large&quot;</span><span class="p">))</span>
+    <span class="p">)</span>  <span class="c1">#: Organ artificial_patch_size choices</span>
+    <span class="n">perfusion_possible</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR09 machine perfusion possible?&#39;</span><span class="p">),</span>
+        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span>
+    <span class="p">)</span>
+    <span class="n">perfusion_not_possible_because</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR10 not possible because&#39;</span><span class="p">),</span>
+        <span class="n">max_length</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span>
+    <span class="p">)</span>
+    <span class="n">perfusion_started</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR11 machine perfusion&#39;</span><span class="p">),</span>
+        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">validate_between_1900_2050</span><span class="p">,</span> <span class="n">validate_not_in_future</span><span class="p">],</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Date must be fall within 1900-2050, and not be in the future&quot;</span>
+    <span class="p">)</span>
+    <span class="n">patch_holder</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR12 used patch holder&#39;</span><span class="p">),</span>
+        <span class="n">choices</span><span class="o">=</span><span class="n">PATCH_HOLDER_CHOICES</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span>
+    <span class="p">)</span>  <span class="c1">#: Choices limited to PATCH_HOLDER_CHOICES</span>
+    <span class="n">artificial_patch_used</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR13 artificial patch used&#39;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">artificial_patch_size</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR14 artificial patch size&#39;</span><span class="p">),</span>
+        <span class="n">choices</span><span class="o">=</span><span class="n">ARTIFICIAL_PATCH_CHOICES</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span>
+    <span class="p">)</span>  <span class="c1">#: Choices limited to ARTIFICIAL_PATCH_CHOICES</span>
+    <span class="n">artificial_patch_number</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR15 number of patches&#39;</span><span class="p">),</span>
+        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">MinValueValidator</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">MaxValueValidator</span><span class="p">(</span><span class="mi">2</span><span class="p">)]</span>
+    <span class="p">)</span>  <span class="c1">#: Limited to range 1-2</span>
+    <span class="n">oxygen_bottle_full</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR16 is oxygen bottle full&#39;</span><span class="p">),</span>
+        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span>
+    <span class="p">)</span>
+    <span class="n">oxygen_bottle_open</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR17 oxygen bottle opened&#39;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">oxygen_bottle_changed</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR18 oxygen bottle changed&#39;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">oxygen_bottle_changed_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR19 oxygen bottle changed at&#39;</span><span class="p">),</span>
+        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">validate_between_1900_2050</span><span class="p">,</span> <span class="n">validate_not_in_future</span><span class="p">],</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Date must be fall within 1900-2050, and not be in the future&quot;</span>
+    <span class="p">)</span>
+    <span class="n">oxygen_bottle_changed_at_unknown</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Internal unknown flag&quot;</span><span class="p">)</span>
+    <span class="n">ice_container_replenished</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR20 ice container replenished&#39;</span><span class="p">),</span>
+        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span>
+    <span class="p">)</span>
+    <span class="n">ice_container_replenished_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR21 ice container replenished at&#39;</span><span class="p">),</span>
+        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">validate_between_1900_2050</span><span class="p">,</span> <span class="n">validate_not_in_future</span><span class="p">],</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Date must be fall within 1900-2050, and not be in the future&quot;</span>
+    <span class="p">)</span>
+    <span class="n">ice_container_replenished_at_unknown</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Internal unknown flag&quot;</span><span class="p">)</span>
+    <span class="n">perfusate_measurable</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR22 perfusate measurable&#39;</span><span class="p">),</span>
+        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span>
+    <span class="p">)</span>  <span class="c1">#: logistically possible to measure pO2 perfusate (use blood gas analyser)</span>
+    <span class="n">perfusate_measure</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">FloatField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR23 value pO2&#39;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="c1"># TODO: Check the value range for perfusate_measure</span>
+    <span class="n">perfusion_machine</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span>
+        <span class="n">PerfusionMachine</span><span class="p">,</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR24 perfusion machine&#39;</span><span class="p">),</span>
+        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">null</span><span class="o">=</span><span class="bp">True</span>
+    <span class="p">)</span>
+    <span class="n">perfusion_file</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">PerfusionFile</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR25 machine file&#39;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="c1"># Commonly filtered options</span>
+    <span class="n">objects</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Manager</span><span class="p">()</span>  <span class="c1">#: Default Organ manager</span>
+    <span class="n">allocatable_objects</span> <span class="o">=</span> <span class="n">AllocatableOrganManager</span><span class="p">()</span>  <span class="c1">#: AllocatableOrganManager</span>
+    <span class="n">open_objects</span> <span class="o">=</span> <span class="n">OpenOrganManager</span><span class="p">()</span>  <span class="c1">#: OpenOrganManager</span>
+    <span class="n">closed_objects</span> <span class="o">=</span> <span class="n">ClosedOrganManager</span><span class="p">()</span>  <span class="c1">#: ClosedOrganManager</span>
+
+<div class="viewcode-block" id="Organ.clean"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.organ.html#wp4.compare.models.organ.Organ.clean">[docs]</a>    <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Clears the following fields of data if their corresponding unknown flag is set to True</span>
+
+<span class="sd">        * oxygen_bottle_changed_at</span>
+<span class="sd">        * ice_container_replenished_at</span>
+
+<span class="sd">        Error if:</span>
+
+<span class="sd">        * transplantable is False, and not_transplantable_reason is empty (ORv01)</span>
+<span class="sd">        * perfusion_possible is False, and perfusion_not_possible_because is empty (ORv02)</span>
+<span class="sd">        * perfusion_possible is True, and perfusion_started is not set (ORv03)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Clean the fields that at Not Known</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">oxygen_bottle_changed_at_unknown</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">oxygen_bottle_changed_at</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ice_container_replenished_at_unknown</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ice_container_replenished_at</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">transplantable</span> <span class="ow">is</span> <span class="bp">False</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">not_transplantable_reason</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;ORv01 Please enter a reason for not being transplantable&quot;</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">perfusion_possible</span> <span class="ow">is</span> <span class="bp">False</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">perfusion_not_possible_because</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;ORv02 Please enter a reason perfusion wasn&#39;t possible&quot;</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">perfusion_possible</span> <span class="ow">is</span> <span class="bp">True</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">perfusion_started</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;ORv03 Please enter the time perfusion started at&quot;</span><span class="p">))</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">safe_recipient</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Helper method to return either the related Recipient record, or a safe value of None,</span>
+<span class="sd">        without the drama of exceptions when it doesn&#39;t exist</span>
+
+<span class="sd">        :rtype: wp4.compare.models.transplantation.Recipient</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">recipient</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">recipient</span>  <span class="c1"># We have a recipient</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>  <span class="c1"># RelatedObjectDoesNotExist</span>
+            <span class="k">return</span> <span class="bp">None</span>
+
+    <span class="k">def</span> <span class="nf">_final_allocation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Work out if there are any OrganAllocations, and then return the latest one</span>
+
+<span class="sd">        :return: OrganAllocation, or None</span>
+<span class="sd">        :rtype: wp4.compare.models.transplantation.OrganAllocation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">organallocation_set</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">last</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">trial_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the Donor Trial ID combined with the Location (L or R) for the Organ</span>
+
+<span class="sd">        :return: &#39;WP4cctnns&#39;</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">donor</span><span class="o">.</span><span class="n">trial_id</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">location</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">is_allocated</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Allocation status</span>
+
+<span class="sd">        Determine if an organ has been allocated. Allocated means:</span>
+
+<span class="sd">        * To a recipient at a project site</span>
+<span class="sd">        * Final allocation is to a non-project site</span>
+
+<span class="sd">        :return: True, if either of those criteria are met</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">safe_recipient</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">True</span>  <span class="c1"># We have a recipient, which can only occur if at a project site</span>
+
+        <span class="n">final_allocation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_final_allocation</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">final_allocation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">final_allocation</span><span class="o">.</span><span class="n">reallocated</span> <span class="ow">is</span> <span class="bp">False</span> <span class="ow">and</span> <span class="n">final_allocation</span><span class="o">.</span><span class="n">transplant_hospital</span><span class="o">.</span><span class="n">is_project_site</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+                <span class="c1"># We can&#39;t say not-reallocated without saving a transplant hospital as well</span>
+                <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">return</span> <span class="bp">False</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">explain_is_allocated</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Allocation status description: An explanation as to the allocation status for this organ</span>
+
+<span class="sd">        :return: Message describing status of allocation</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">final_allocation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_final_allocation</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_allocated</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">safe_recipient</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s2">&quot;Allocated to Recipient&quot;</span>
+
+            <span class="k">if</span> <span class="n">final_allocation</span><span class="o">.</span><span class="n">reallocated</span> <span class="ow">is</span> <span class="bp">False</span> <span class="ow">and</span> <span class="n">final_allocation</span><span class="o">.</span><span class="n">transplant_hospital</span><span class="o">.</span><span class="n">is_project_site</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s2">&quot;Allocated to a non-project site&quot;</span>  <span class="c1"># This should be caught by not_allocated_reason</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">not_allocated_reason</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s2">&quot;Not allocated because: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">not_allocated_reason</span>
+
+            <span class="k">if</span> <span class="n">final_allocation</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s2">&quot;No allocations created (and no explanation as yet)&quot;</span>
+
+            <span class="k">if</span> <span class="n">final_allocation</span><span class="o">.</span><span class="n">reallocated</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s2">&quot;ERROR: last allocation shows a reallocation&quot;</span>  <span class="c1"># This shouldn&#39;t occur!</span>
+
+            <span class="k">return</span> <span class="s2">&quot;Re-allocation status not yet set&quot;</span>  <span class="c1"># Possible for a form that is WIP</span>
+
+        <span class="k">return</span> <span class="s2">&quot;ERROR: Unknown allocation status (test data?)&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">explain_closed_status</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Work out why this form was closed, and display a suitable summary message</span>
+
+<span class="sd">        NOT IMPLEMENTED (yet)</span>
+
+<span class="sd">        :return: Message describing the likely cause for the form being closed</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># TODO: Write this function</span>
+        <span class="k">return</span> <span class="s2">u&quot;Unknown closed status&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">reallocation_count</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Counts the number of organ allocations where reallocated is true</span>
+
+<span class="sd">        :return: Count of reallocations</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">allocation</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">organallocation_set</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">allocation</span><span class="o">.</span><span class="n">reallocated</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
+                <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">count</span>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">trial_id</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;ORm1 organ&#39;</span><span class="p">)</span>
+        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;ORm2 organs&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ProcurementResource"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.organ.html#wp4.compare.models.organ.ProcurementResource">[docs]</a><span class="k">class</span> <span class="nc">ProcurementResource</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Repeatable list of resources used during organ extraction. Primarily distinguished by the type.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">DISPOSABLES</span> <span class="o">=</span> <span class="s2">&quot;D&quot;</span>  <span class="c1">#: Constant for TYPE_CHOICES</span>
+    <span class="n">EXTRA_CANNULA_SMALL</span> <span class="o">=</span> <span class="s2">&quot;C-SM&quot;</span>  <span class="c1">#: Constant for TYPE_CHOICES</span>
+    <span class="n">EXTRA_CANNULA_LARGE</span> <span class="o">=</span> <span class="s2">&quot;C-LG&quot;</span>  <span class="c1">#: Constant for TYPE_CHOICES</span>
+    <span class="n">EXTRA_PATCH_HOLDER_SMALL</span> <span class="o">=</span> <span class="s2">&quot;PH-SM&quot;</span>  <span class="c1">#: Constant for TYPE_CHOICES</span>
+    <span class="n">EXTRA_PATCH_HOLDER_LARGE</span> <span class="o">=</span> <span class="s2">&quot;PH-LG&quot;</span>  <span class="c1">#: Constant for TYPE_CHOICES</span>
+    <span class="n">EXTRA_DOUBLE_CANNULA_SET</span> <span class="o">=</span> <span class="s2">&quot;DB-C&quot;</span>  <span class="c1">#: Constant for TYPE_CHOICES</span>
+    <span class="n">PERFUSATE_SOLUTION</span> <span class="o">=</span> <span class="s2">&quot;P&quot;</span>  <span class="c1">#: Constant for TYPE_CHOICES</span>
+    <span class="n">TYPE_CHOICES</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="n">DISPOSABLES</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;PRc01 Disposables&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">EXTRA_CANNULA_SMALL</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;PRc02 Extra cannula small (3mm)&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">EXTRA_CANNULA_LARGE</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;PRc03 Extra cannula large (5mm)&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">EXTRA_PATCH_HOLDER_SMALL</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;PRc04 Extra patch holder small&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">EXTRA_PATCH_HOLDER_LARGE</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;PRc05 Extra patch holder large&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">EXTRA_DOUBLE_CANNULA_SET</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;PRc06 Extra double cannula set&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">PERFUSATE_SOLUTION</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;PRc07 Perfusate solution&quot;</span><span class="p">))</span>
+    <span class="p">)</span>  <span class="c1">#: ProcurementResource type choices</span>
+    <span class="n">organ</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Organ</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;PR01 related kidney&#39;</span><span class="p">))</span>
+    <span class="nb">type</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;PR02 resource used&#39;</span><span class="p">),</span> <span class="n">choices</span><span class="o">=</span><span class="n">TYPE_CHOICES</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">lot_number</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;PR03 lot number&#39;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">expiry_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;PR04 expiry date&#39;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">expiry_date_unknown</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Internal unknown flag&quot;</span><span class="p">)</span>
+    <span class="n">created_on</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Internal value&quot;</span><span class="p">)</span>
+    <span class="n">created_by</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Internal User link&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_type_display</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39; for &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">organ</span><span class="o">.</span><span class="n">trial_id</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;PRm1 procurement resource&#39;</span><span class="p">)</span>
+        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;PRm2 procurement resources&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ProcurementResource.clean"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.organ.html#wp4.compare.models.organ.ProcurementResource.clean">[docs]</a>    <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Clears the value of expiry_date if marked as unknown</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Clean the fields that at Not Known</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">expiry_date_unknown</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">expiry_date</span> <span class="o">=</span> <span class="bp">None</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Carl Marshall.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../../',
+            VERSION:'0.5.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

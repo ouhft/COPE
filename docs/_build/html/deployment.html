@@ -1,0 +1,693 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Deployment &mdash; COPE DB 0.5.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="COPE DB 0.5.0 documentation" href="index.html"/>
+        <link rel="next" title="Development Setup" href="development.html"/>
+        <link rel="prev" title="COPE DB User Manual" href="user_manual.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> COPE DB
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.5.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="user_manual.html">COPE DB User Manual</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Deployment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#test-staging-webfaction">Test/Staging (Webfaction)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#footnotes-for-staging">Footnotes for Staging</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#production-cope-nds">Production (cope.nds)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#access">Access</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#software-stack">Software stack</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#maintainence">Maintainence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#installation">Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#user-setup">User setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#virtualenvwrapper-installation">VirtualEnvWrapper Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#site-setup">Site setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ssl-certificate">SSL Certificate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#maintainence-and-updates">Maintainence and updates</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#update-the-application-release">Update the application release</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#footnotes-for-production">Footnotes for Production</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="development.html">Development Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development.html#useful-things-to-remember">Useful things to remember</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development.html#documentation">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design/wp4_design.html">Design - WP4:Compare</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design/wp7_design.html">Design - WP7:Biobanking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/models.html">Data Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">COPE DB</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Deployment</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/deployment.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="deployment">
+<span id="deployment"></span><h1>Deployment<a class="headerlink" href="#deployment" title="Permalink to this headline">¶</a></h1>
+<p>Local development deployment notes on this can be found in <a class="reference external" href="development.md">Development</a></p>
+<div class="section" id="test-staging-webfaction">
+<span id="test-staging-webfaction"></span><h2>Test/Staging (Webfaction)<a class="headerlink" href="#test-staging-webfaction" title="Permalink to this headline">¶</a></h2>
+<p>Used an existing site setup, which needs documenting at some stage, and cleared it out as much as possible of the
+previous application install (lots of <code class="docutils literal"><span class="pre">pip</span> <span class="pre">uninstall</span></code>, along with deleting a few files and folders)</p>
+<p>Commands from the initial setup that were used (though not necessarily the correct ones as this is taken from
+bash history on the server - and excludes the steps taken on the webfaction control panel)::</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">~/</span><span class="n">webapps</span><span class="o">/</span><span class="n">wp4_django</span><span class="o">/</span>
+<span class="n">mkvirtualenv</span> <span class="n">wp4_20150514</span>
+<span class="n">deactivate</span>
+<span class="n">touch</span> <span class="o">~/.</span><span class="n">virtualenvs</span><span class="o">/</span><span class="n">wp4_20150514</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python2</span><span class="o">.</span><span class="mi">7</span><span class="o">/</span><span class="n">sitecustomize</span><span class="o">.</span><span class="n">py</span>
+<span class="n">workon</span> <span class="n">wp4_20150514</span>
+<span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">../../.</span><span class="n">virtualenvs</span><span class="o">/</span><span class="n">wp4_20150514</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span> <span class="o">./</span><span class="n">lib</span>
+</pre></div>
+</div>
+<p>After the virtual environment is setup, the application code was put into place (this is from v0.2.0)::</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">git</span><span class="nd">@github</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="n">AllyBradley</span><span class="o">/</span><span class="n">COPE</span><span class="o">.</span><span class="n">git</span>
+<span class="n">cd</span> <span class="n">COPE</span><span class="o">/</span>
+<span class="n">git</span> <span class="n">checkout</span> <span class="n">testing</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="o">/</span><span class="n">webfaction</span><span class="o">.</span><span class="n">txt</span>
+<span class="n">vi</span> <span class="n">local</span><span class="o">.</span><span class="n">env</span>
+<span class="n">pm</span> <span class="n">migrate</span>
+<span class="n">pm</span> <span class="n">collectstatic</span>
+</pre></div>
+</div>
+<p>...and Apache was then configured::</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">apache2</span><span class="o">/</span><span class="n">conf</span><span class="o">/</span>
+<span class="n">cp</span> <span class="n">httpd</span><span class="o">.</span><span class="n">conf</span> <span class="n">httpd</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">orig</span>
+<span class="n">vi</span> <span class="n">httpd</span><span class="o">.</span><span class="n">conf</span>
+<span class="o">../</span><span class="nb">bin</span><span class="o">/</span><span class="n">restart</span>
+</pre></div>
+</div>
+<p>Which left us with a working instance, so the application setup was started (will list the setup for v0.2.0)::</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pm</span> <span class="n">createsuperuser</span>
+<span class="n">pm</span> <span class="n">loaddata</span> <span class="n">config</span><span class="o">/</span><span class="n">fixtures</span><span class="o">/</span><span class="mi">01</span><span class="n">_hospitals</span><span class="o">.</span><span class="n">json</span>
+<span class="n">pm</span> <span class="n">loaddata</span> <span class="n">config</span><span class="o">/</span><span class="n">fixtures</span><span class="o">/</span><span class="mi">02</span><span class="n">_persons</span><span class="o">.</span><span class="n">json</span>
+<span class="n">pm</span> <span class="n">loaddata</span> <span class="n">config</span><span class="o">/</span><span class="n">fixtures</span><span class="o">/</span><span class="mi">03</span><span class="n">_gradings</span><span class="o">.</span><span class="n">json</span>
+<span class="n">pm</span> <span class="n">loaddata</span> <span class="n">config</span><span class="o">/</span><span class="n">fixtures</span><span class="o">/</span><span class="mi">09</span><span class="n">_testusers</span><span class="o">.</span><span class="n">json</span>
+</pre></div>
+</div>
+<p>Create a link to the auto-deploy script and add it to the crontab::</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>ln -s COPE/deploy/webfaction/deploy-cm13.sh ./update_by_cron.sh
+chmod 755 COPE/deploy/webfaction/deploy-cm13.sh
+crontab -e    # To edit the cron record, and to insert...
+*/2 * * * * $HOME/webapps/wp4_django/update_by_cron.sh &gt;&gt; $HOME/webapps/wp4_django/cron-wp4_django.log 2&gt;&amp;1
+</pre></div>
+</div>
+<div class="section" id="footnotes-for-staging">
+<span id="footnotes-for-staging"></span><h3>Footnotes for Staging<a class="headerlink" href="#footnotes-for-staging" title="Permalink to this headline">¶</a></h3>
+<p>The apache2 <code class="docutils literal"><span class="pre">httpd.conf</span></code> looks like this presently (copy in <code class="docutils literal"><span class="pre">deploy/httpd.conf.webfaction</span></code>)::</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ServerRoot</span> <span class="s2">&quot;/home/cm13/webapps/wp4_django/apache2&quot;</span>
+
+<span class="n">LoadModule</span> <span class="n">authz_core_module</span> <span class="n">modules</span><span class="o">/</span><span class="n">mod_authz_core</span><span class="o">.</span><span class="n">so</span>
+<span class="n">LoadModule</span> <span class="n">dir_module</span>        <span class="n">modules</span><span class="o">/</span><span class="n">mod_dir</span><span class="o">.</span><span class="n">so</span>
+<span class="n">LoadModule</span> <span class="n">env_module</span>        <span class="n">modules</span><span class="o">/</span><span class="n">mod_env</span><span class="o">.</span><span class="n">so</span>
+<span class="n">LoadModule</span> <span class="n">log_config_module</span> <span class="n">modules</span><span class="o">/</span><span class="n">mod_log_config</span><span class="o">.</span><span class="n">so</span>
+<span class="n">LoadModule</span> <span class="n">mime_module</span>       <span class="n">modules</span><span class="o">/</span><span class="n">mod_mime</span><span class="o">.</span><span class="n">so</span>
+<span class="n">LoadModule</span> <span class="n">rewrite_module</span>    <span class="n">modules</span><span class="o">/</span><span class="n">mod_rewrite</span><span class="o">.</span><span class="n">so</span>
+<span class="n">LoadModule</span> <span class="n">setenvif_module</span>   <span class="n">modules</span><span class="o">/</span><span class="n">mod_setenvif</span><span class="o">.</span><span class="n">so</span>
+<span class="n">LoadModule</span> <span class="n">wsgi_module</span>       <span class="n">modules</span><span class="o">/</span><span class="n">mod_wsgi</span><span class="o">.</span><span class="n">so</span>
+<span class="n">LoadModule</span> <span class="n">unixd_module</span>      <span class="n">modules</span><span class="o">/</span><span class="n">mod_unixd</span><span class="o">.</span><span class="n">so</span>
+
+<span class="n">LogFormat</span> <span class="s2">&quot;%{X-Forwarded-For}i %l </span><span class="si">%u</span><span class="s2"> %t </span><span class="se">\&quot;</span><span class="si">%r</span><span class="se">\&quot;</span><span class="s2"> %&gt;s %b </span><span class="se">\&quot;</span><span class="s2">%</span><span class="si">{Referer}</span><span class="s2">i</span><span class="se">\&quot;</span><span class="s2"> </span><span class="se">\&quot;</span><span class="s2">%{User-Agent}i</span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="n">combined</span>
+<span class="n">CustomLog</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">cm13</span><span class="o">/</span><span class="n">logs</span><span class="o">/</span><span class="n">user</span><span class="o">/</span><span class="n">access_wp4_django</span><span class="o">.</span><span class="n">log</span> <span class="n">combined</span>
+<span class="n">ErrorLog</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">cm13</span><span class="o">/</span><span class="n">logs</span><span class="o">/</span><span class="n">user</span><span class="o">/</span><span class="n">error_wp4_django</span><span class="o">.</span><span class="n">log</span>
+
+<span class="n">DirectoryIndex</span> <span class="n">index</span><span class="o">.</span><span class="n">py</span>
+<span class="c1"># DocumentRoot /home/cm13/webapps/wp4_django/htdocs</span>
+
+<span class="n">Listen</span> <span class="mi">31283</span>
+<span class="n">KeepAlive</span> <span class="n">Off</span>
+<span class="n">SetEnvIf</span> <span class="n">X</span><span class="o">-</span><span class="n">Forwarded</span><span class="o">-</span><span class="n">SSL</span> <span class="n">on</span> <span class="n">HTTPS</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">ServerLimit</span> <span class="mi">1</span>
+<span class="n">StartServers</span> <span class="mi">1</span>
+<span class="n">MaxRequestWorkers</span> <span class="mi">5</span>
+<span class="n">MinSpareThreads</span> <span class="mi">1</span>
+<span class="n">MaxSpareThreads</span> <span class="mi">3</span>
+<span class="n">ThreadsPerChild</span> <span class="mi">5</span>
+
+<span class="n">WSGIPythonPath</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">cm13</span><span class="o">/</span><span class="n">webapps</span><span class="o">/</span><span class="n">wp4_django</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python2</span><span class="o">.</span><span class="mi">7</span>
+<span class="n">WSGIDaemonProcess</span> <span class="n">wp4_django</span> <span class="n">processes</span><span class="o">=</span><span class="mi">2</span> <span class="n">threads</span><span class="o">=</span><span class="mi">12</span> <span class="n">python</span><span class="o">-</span><span class="n">path</span><span class="o">=/</span><span class="n">home</span><span class="o">/</span><span class="n">cm13</span><span class="o">/</span><span class="n">webapps</span><span class="o">/</span><span class="n">wp4_django</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python2</span><span class="o">.</span><span class="mi">7</span><span class="p">:</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">cm13</span><span class="o">/</span><span class="n">webapps</span><span class="o">/</span><span class="n">wp4_django</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python2</span><span class="o">.</span><span class="mi">7</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="p">:</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">cm13</span><span class="o">/</span><span class="n">webapps</span><span class="o">/</span><span class="n">wp4_django</span><span class="o">/</span><span class="n">COPE</span><span class="o">/</span>
+<span class="n">WSGIProcessGroup</span> <span class="n">wp4_django</span>
+<span class="n">WSGIRestrictEmbedded</span> <span class="n">On</span>
+<span class="n">WSGILazyInitialization</span> <span class="n">On</span>
+
+<span class="n">WSGIScriptAlias</span> <span class="o">/</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">cm13</span><span class="o">/</span><span class="n">webapps</span><span class="o">/</span><span class="n">wp4_django</span><span class="o">/</span><span class="n">COPE</span><span class="o">/</span><span class="n">config</span><span class="o">/</span><span class="n">wsgi</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>Unrelated, but likely useful to remember: Command to get pip to update all installed packages:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="nb">list</span> <span class="o">--</span><span class="n">outdated</span>
+<span class="n">pip</span> <span class="n">freeze</span> <span class="o">--</span><span class="n">local</span> <span class="o">|</span> <span class="n">grep</span> <span class="o">-</span><span class="n">v</span> <span class="s1">&#39;^\-e&#39;</span> <span class="o">|</span> <span class="n">cut</span> <span class="o">-</span><span class="n">d</span> <span class="o">=</span> <span class="o">-</span><span class="n">f</span> <span class="mi">1</span>  <span class="o">|</span> <span class="n">xargs</span> <span class="o">-</span><span class="n">n1</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="production-cope-nds">
+<span id="production-cope-nds"></span><h2>Production (cope.nds)<a class="headerlink" href="#production-cope-nds" title="Permalink to this headline">¶</a></h2>
+<p>An Ubuntu 14.04 LTS Server virtual machine has been created and hosted by MSD-IT Services. This is the unmanaged
+service, which means that we are responsible for it&#8217;s patching and upkeep. Initial steps so far have been to change
+the user account password (u: copeuser - p: in carl&#8217;s password safe). Installing ssh keys will happen soon. Access
+to the server should be via ssh (only from Oxford network, including vpn) and via the VMWare web console (oxford network
+only - <a class="reference external" href="#">https://fibula.msd.ox.ac.uk/</a>)</p>
+<p>Setup is going to be loosely based on the guides from <a class="reference external" href="#">https://www.chicagodjango.com/blog/new-server-setup-part-1/</a> and
+<a class="reference external" href="#">https://www.chicagodjango.com/blog/new-django-server-setup-part-2/</a> as these are inline with the best practice information
+in the Two Scoops of Django 1.8: Best Practices guide (see Chapter 31). More useful though is the guide from
+<a class="reference external" href="#">http://michal.karzynski.pl/blog/2013/06/09/django-nginx-gunicorn-virtualenv-supervisor/</a> (which I&#8217;ve used in the past).</p>
+<div class="section" id="access">
+<span id="access"></span><h3>Access<a class="headerlink" href="#access" title="Permalink to this headline">¶</a></h3>
+<p>So, initially we have access via <code class="docutils literal"><span class="pre">ssh</span> <span class="pre">copeuser&#64;cope.nds.ox.ac.uk</span></code>, and using a password. Step two is to install our
+SSH key (iMac&#64;Home presently). Step one is we need to generate an ssh key for the server to register with github for
+access to the repoistory. Help is at <a class="reference external" href="#">https://help.ubuntu.com/community/SSH/OpenSSH/Keys</a> . To whit:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>copeuser@cope:~$ mkdir ~/.ssh
+copeuser@cope:~$ chmod 700 ~/.ssh
+copeuser@cope:~$ ssh-keygen -t rsa -b 4096
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/copeuser/.ssh/id_rsa):
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /home/copeuser/.ssh/id_rsa.
+Your public key has been saved in /home/copeuser/.ssh/id_rsa.pub.
+The key fingerprint is:
+05:98:8b:94:f7:cf:7a:2d:19:61:26:52:41:d5:96:10 copeuser@cope
+The key&#39;s randomart image is:
++--[ RSA 4096]----+
+|     . ++oE+ .   |
+|    o + ..  +    |
+|   . o +  ..     |
+|    . o o.+      |
+|       .S* .     |
+|          +      |
+|         . +     |
+|        . + .    |
+|         . .     |
++-----------------+
+</pre></div>
+</div>
+<p>This set of keys is passphrase free because of the automated usage (i.e. scripts using it to access things).</p>
+<p>Copy own .pub key to the server (SFTP), and then::</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">mv</span> <span class="n">id_rsa</span><span class="o">.</span><span class="n">pub</span> <span class="o">.</span><span class="n">ssh</span><span class="o">/</span><span class="n">carl_imac</span><span class="o">.</span><span class="n">id_rsa</span><span class="o">.</span><span class="n">pub</span>
+<span class="n">cat</span> <span class="n">carl_imac</span><span class="o">.</span><span class="n">id_rsa</span><span class="o">.</span><span class="n">pub</span> <span class="o">&gt;&gt;</span> <span class="n">authorized_keys</span>
+</pre></div>
+</div>
+<p>Also, minor edit to <code class="docutils literal"><span class="pre">sudo</span> <span class="pre">vi</span> <span class="pre">/etc/ssh/sshd_config</span></code> so that <code class="docutils literal"><span class="pre">AuthorizedKeysFile</span> <span class="pre">%h/.ssh/authorized_keys</span></code> is
+uncommented. Sudo usage will continue to require password confirmation, however we can now login without needing the
+password from SSH.</p>
+<p>I have added the server&#8217;s pub key to my list of Github keys, so that it can log in as marshalc.</p>
+</div>
+<div class="section" id="software-stack">
+<span id="software-stack"></span><h3>Software stack<a class="headerlink" href="#software-stack" title="Permalink to this headline">¶</a></h3>
+<p>For now I&#8217;m happy to go with Nginx (for static), Gunicorn (for application), and SQLite (for datastore). System&#8217;s
+version of python is 2.7.6, which is currently fine for use, so will skip installing a local instance of python. Not
+requiring any particular caching installation at this time either, so in the interests of KISS, we will install as
+little as possible.</p>
+<div class="section" id="maintainence">
+<span id="maintainence"></span><h4>Maintainence<a class="headerlink" href="#maintainence" title="Permalink to this headline">¶</a></h4>
+<p>Don&#8217;t forget to keep things up to date with (<a class="reference external" href="#">https://help.ubuntu.com/community/AptGet/Howto</a>):</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">update</span>
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">upgrade</span>
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">check</span>
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">autoclean</span>
+
+<span class="n">sudo</span> <span class="n">shutdown</span> <span class="o">-</span><span class="n">r</span> <span class="n">now</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="installation">
+<span id="installation"></span><h4>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h4>
+<p>Follow guide plus above we have:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Remove some default processes and packages that we don&#39;t need to reduce server exposure</span>
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">remove</span> <span class="n">tomcat7</span> <span class="n">tomcat7</span><span class="o">-</span><span class="n">docs</span> <span class="n">tomcat7</span><span class="o">-</span><span class="n">admin</span> <span class="n">tomcat7</span><span class="o">-</span><span class="n">examples</span> <span class="n">default</span><span class="o">-</span><span class="n">jdk</span>
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">remove</span> <span class="n">postgresql</span> <span class="n">postgresql</span><span class="o">-</span><span class="mf">9.3</span> <span class="n">postgresql</span><span class="o">-</span><span class="n">client</span> <span class="n">postgresql</span><span class="o">-</span><span class="n">client</span><span class="o">-</span><span class="mf">9.3</span> <span class="n">postgresql</span><span class="o">-</span><span class="n">client</span><span class="o">-</span><span class="n">common</span> <span class="n">postgresql</span><span class="o">-</span><span class="n">common</span> <span class="n">postgresql</span><span class="o">-</span><span class="n">contrib</span> <span class="n">postgresql</span><span class="o">-</span><span class="n">contrib</span><span class="o">-</span><span class="mf">9.3</span> <span class="n">postgresql</span><span class="o">-</span><span class="n">doc</span> <span class="n">postgresql</span><span class="o">-</span><span class="n">doc</span><span class="o">-</span><span class="mf">9.3</span>
+
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">python</span><span class="o">-</span><span class="n">pip</span> <span class="n">python</span><span class="o">-</span><span class="n">virtualenv</span>
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">python</span> <span class="n">python</span><span class="o">-</span><span class="n">dev</span> <span class="n">python</span><span class="o">-</span><span class="n">setuptools</span>
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">build</span><span class="o">-</span><span class="n">essential</span>    <span class="c1"># Was redundant because the above had already got this</span>
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">git</span>
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">supervisor</span> <span class="n">postfix</span> <span class="n">ntp</span>
+</pre></div>
+</div>
+<p>Postfix will ask for some config, so it is set to use a mail-relay/smarthost for sending messages, and then::</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">setting</span> <span class="n">myhostname</span><span class="p">:</span> <span class="n">cope</span><span class="o">.</span><span class="n">nds</span>
+<span class="n">setting</span> <span class="n">alias</span> <span class="n">maps</span>
+<span class="n">setting</span> <span class="n">alias</span> <span class="n">database</span>
+<span class="n">changing</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">mailname</span> <span class="n">to</span> <span class="n">cope</span><span class="o">.</span><span class="n">nds</span><span class="o">.</span><span class="n">ox</span><span class="o">.</span><span class="n">ac</span><span class="o">.</span><span class="n">uk</span>
+<span class="n">setting</span> <span class="n">myorigin</span>
+<span class="n">setting</span> <span class="n">destinations</span><span class="p">:</span> <span class="n">cope</span><span class="o">.</span><span class="n">nds</span><span class="o">.</span><span class="n">ox</span><span class="o">.</span><span class="n">ac</span><span class="o">.</span><span class="n">uk</span><span class="p">,</span> <span class="n">cope</span><span class="o">.</span><span class="n">nds</span><span class="p">,</span> <span class="n">localhost</span><span class="o">.</span><span class="n">nds</span><span class="p">,</span> <span class="n">localhost</span>
+<span class="n">setting</span> <span class="n">relayhost</span><span class="p">:</span> <span class="n">oxmail</span><span class="o">.</span><span class="n">ox</span><span class="o">.</span><span class="n">ac</span><span class="o">.</span><span class="n">uk</span>
+</pre></div>
+</div>
+<p>Current info on the Oxford smarthost is at <a class="reference external" href="#">http://help.it.ox.ac.uk/network/smtp/relay/index</a></p>
+<p>Grab the file server and some other useful apps::</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">nginx</span> <span class="n">sqlite3</span>
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">pwgen</span> <span class="n">htop</span> <span class="n">curl</span> <span class="n">rsync</span> <span class="n">nmon</span> <span class="n">dnsutils</span> \
+      <span class="n">screen</span> <span class="n">tmux</span> <span class="n">ack</span><span class="o">-</span><span class="n">grep</span> <span class="n">whois</span> <span class="n">sshfs</span> <span class="n">openssh</span><span class="o">-</span><span class="n">client</span> \
+      <span class="n">openssh</span><span class="o">-</span><span class="n">server</span> <span class="n">libssl</span><span class="o">-</span><span class="n">dev</span> <span class="n">libreadline</span><span class="o">-</span><span class="n">dev</span> <span class="n">aptitude</span> <span class="n">fail2ban</span> \
+      <span class="n">libxml2</span><span class="o">-</span><span class="n">dev</span> <span class="n">libxslt</span><span class="o">-</span><span class="n">dev</span> <span class="n">graphviz</span> <span class="n">graphviz</span><span class="o">-</span><span class="n">dev</span> <span class="n">csstidy</span> \
+      <span class="n">emacs23</span><span class="o">-</span><span class="n">nox</span> <span class="n">vim</span> <span class="n">ncurses</span><span class="o">-</span><span class="n">dev</span> <span class="n">iotop</span> <span class="n">nload</span> <span class="n">iptraf</span><span class="o">-</span><span class="n">ng</span> <span class="n">nethogs</span> <span class="n">tree</span>
+</pre></div>
+</div>
+<p>Note that we got sqlite3 in place of the postgres option from the guide.</p>
+<p>We want to stop nginx from being run at server startup though, and let Supervisor handle that later on, so we need to
+disable the link for init.d ::</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">rm</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">rc2</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">S19postgresql</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">rc2</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">S92tomcat7</span>     <span class="c1"># CLEANUP FROM EARLIER</span>
+<span class="n">sudo</span> <span class="n">mv</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">rc2</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">S20nginx</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">rc2</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">K20nginx</span>
+<span class="n">update</span><span class="o">-</span><span class="n">rc</span><span class="o">.</span><span class="n">d</span> <span class="n">script</span> <span class="n">defaults</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="user-setup">
+<span id="user-setup"></span><h3>User setup<a class="headerlink" href="#user-setup" title="Permalink to this headline">¶</a></h3>
+<p>We&#8217;re not using the application user from the guide here, but using the nginx defined www-data user as the application
+user::</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">mkdir</span> <span class="o">-</span><span class="n">p</span> <span class="o">/</span><span class="n">sites</span><span class="o">/</span><span class="n">cope</span>
+<span class="n">sudo</span> <span class="n">groupadd</span> <span class="o">--</span><span class="n">system</span> <span class="n">worker</span>
+<span class="n">sudo</span> <span class="n">chown</span> <span class="n">root</span><span class="p">:</span><span class="n">worker</span> <span class="o">/</span><span class="n">sites</span><span class="o">/</span>
+<span class="n">sudo</span> <span class="n">chmod</span> <span class="mi">775</span> <span class="o">/</span><span class="n">sites</span><span class="o">/</span>
+<span class="n">sudo</span> <span class="n">useradd</span> <span class="o">--</span><span class="n">system</span> <span class="o">--</span><span class="n">gid</span> <span class="n">worker</span> <span class="o">--</span><span class="n">shell</span> <span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">bash</span> <span class="o">--</span><span class="n">home</span> <span class="o">/</span><span class="n">sites</span><span class="o">/</span><span class="n">cope</span> <span class="n">cope</span><span class="o">-</span><span class="n">app</span><span class="o">-</span><span class="n">user</span>
+<span class="n">sudo</span> <span class="n">usermod</span> <span class="o">-</span><span class="n">aG</span> <span class="n">worker</span> <span class="n">www</span><span class="o">-</span><span class="n">data</span>        <span class="c1"># This is the application_user from the nginx config</span>
+<span class="n">sudo</span> <span class="n">usermod</span> <span class="o">-</span><span class="n">aG</span> <span class="n">worker</span> <span class="n">copeuser</span>        <span class="c1"># This is the MSD-IT created user account</span>
+<span class="n">sudo</span> <span class="n">sh</span> <span class="o">-</span><span class="n">c</span> <span class="s1">&#39;echo &quot;umask 002&quot; &gt;&gt; /etc/profile&#39;</span>
+</pre></div>
+</div>
+<p>Remember to logout and back in again here so that any further work done as <code class="docutils literal"><span class="pre">copeuser</span></code> will have the <code class="docutils literal"><span class="pre">worker</span></code>
+group rights and therefore won&#8217;t need sudo all the time.</p>
+</div>
+<div class="section" id="virtualenvwrapper-installation">
+<span id="virtualenvwrapper-installation"></span><h3>VirtualEnvWrapper Installation<a class="headerlink" href="#virtualenvwrapper-installation" title="Permalink to this headline">¶</a></h3>
+<p>The wrapper isn&#8217;t installed as part of the apt-get process, so we do this following the instructions from
+<a class="reference external" href="#">http://virtualenvwrapper.readthedocs.org/en/latest/install.html#basic-installation</a>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">virtualenvwrapper</span>
+<span class="n">vi</span> <span class="o">~/.</span><span class="n">bashrc</span>
+</pre></div>
+</div>
+<p>Appending to .bashrc ::</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Setup VirtualEnvWrapper for this user</span>
+<span class="n">export</span> <span class="n">WORKON_HOME</span><span class="o">=/</span><span class="n">sites</span><span class="o">/.</span><span class="n">virtualenvs</span>
+<span class="n">export</span> <span class="n">PROJECT_HOME</span><span class="o">=/</span><span class="n">sites</span>
+<span class="n">source</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">virtualenvwrapper</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<p>Then returning and::
+source ~/.bashrc</p>
+</div>
+<div class="section" id="site-setup">
+<span id="site-setup"></span><h3>Site setup<a class="headerlink" href="#site-setup" title="Permalink to this headline">¶</a></h3>
+<p>Create a new virtualenv project with <code class="docutils literal"><span class="pre">mkproject</span> <span class="pre">cope</span></code>. Note that the <code class="docutils literal"><span class="pre">bin/</span></code>, <code class="docutils literal"><span class="pre">lib/</span></code> directories are in the
+<code class="docutils literal"><span class="pre">/sites/.virtualenvs/cope/</span></code> folder ::</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>copeuser@cope:~$ mkproject cope
+New python executable in cope/bin/python
+Installing setuptools, pip...done.
+virtualenvwrapper.user_scripts creating /sites/.virtualenvs/cope/bin/predeactivate
+virtualenvwrapper.user_scripts creating /sites/.virtualenvs/cope/bin/postdeactivate
+virtualenvwrapper.user_scripts creating /sites/.virtualenvs/cope/bin/preactivate
+virtualenvwrapper.user_scripts creating /sites/.virtualenvs/cope/bin/postactivate
+virtualenvwrapper.user_scripts creating /sites/.virtualenvs/cope/bin/get_env_details
+
+# NB: cwd is /sites/cope
+git clone git@github.com:AllyBradley/COPE.git cope_repo
+git checkout production
+mkdir -p var/log var/run etc/nginx/sites-available htdocs/media etc/gunicorn
+ln -s /sites/.virtualenvs/cope/lib ./lib
+ln -s /sites/.virtualenvs/cope/bin ./bin
+</pre></div>
+</div>
+<p>Now we have: <code class="docutils literal"><span class="pre">/sites/{{ENVIRONMENT_ROOT}}/{{PROJECT_ROOT}}/</span></code> as <code class="docutils literal"><span class="pre">/sites/cope/cope_repo</span></code> (or in terms of the online
+guide we have: <code class="docutils literal"><span class="pre">/sites/{{site_name}}/{{proj_name}}/</span></code>)</p>
+<p>Tweak nginx core config with <code class="docutils literal"><span class="pre">sudo</span> <span class="pre">vi</span> <span class="pre">/etc/nginx/nginx.conf</span></code> and add <code class="docutils literal"><span class="pre">daemon</span> <span class="pre">off;</span></code> near the top few lines, then we
+can link to the conf files from the repository. First to the local folder, then to the system folder. ::</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># NB: cwd is /sites/cope</span>
+<span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">sites</span><span class="o">/</span><span class="n">cope</span><span class="o">/</span><span class="n">cope_repo</span><span class="o">/</span><span class="n">deploy</span><span class="o">/</span><span class="n">production</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">nginx</span><span class="o">/</span><span class="n">sites</span><span class="o">-</span><span class="n">available</span><span class="o">/</span><span class="n">cope</span><span class="o">.</span><span class="n">conf</span> <span class="o">/</span><span class="n">sites</span><span class="o">/</span><span class="n">cope</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">nginx</span><span class="o">/</span><span class="n">sites</span><span class="o">-</span><span class="n">available</span><span class="o">/</span><span class="n">cope</span><span class="o">.</span><span class="n">conf</span>
+<span class="n">sudo</span> <span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">sites</span><span class="o">/</span><span class="n">cope</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">nginx</span><span class="o">/</span><span class="n">sites</span><span class="o">-</span><span class="n">available</span><span class="o">/</span><span class="n">cope</span><span class="o">.</span><span class="n">conf</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">nginx</span><span class="o">/</span><span class="n">sites</span><span class="o">-</span><span class="n">available</span><span class="o">/</span><span class="n">cope</span><span class="o">.</span><span class="n">conf</span>
+<span class="n">sudo</span> <span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">nginx</span><span class="o">/</span><span class="n">sites</span><span class="o">-</span><span class="n">available</span><span class="o">/</span><span class="n">cope</span><span class="o">.</span><span class="n">conf</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">nginx</span><span class="o">/</span><span class="n">sites</span><span class="o">-</span><span class="n">enabled</span><span class="o">/</span><span class="n">cope</span><span class="o">.</span><span class="n">conf</span>
+<span class="n">sudo</span> <span class="n">rm</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">nginx</span><span class="o">/</span><span class="n">sites</span><span class="o">-</span><span class="n">enabled</span><span class="o">/</span><span class="n">default</span>
+
+<span class="n">sudo</span> <span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">sites</span><span class="o">/</span><span class="n">cope</span><span class="o">/</span><span class="n">cope_repo</span><span class="o">/</span><span class="n">deploy</span><span class="o">/</span><span class="n">production</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">supervisor</span><span class="o">/</span><span class="n">conf</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">nginx</span><span class="o">.</span><span class="n">conf</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">supervisor</span><span class="o">/</span><span class="n">conf</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">nginx</span><span class="o">.</span><span class="n">conf</span>
+<span class="n">sudo</span> <span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">sites</span><span class="o">/</span><span class="n">cope</span><span class="o">/</span><span class="n">cope_repo</span><span class="o">/</span><span class="n">deploy</span><span class="o">/</span><span class="n">production</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">supervisor</span><span class="o">/</span><span class="n">conf</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">django</span><span class="o">.</span><span class="n">conf</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">supervisor</span><span class="o">/</span><span class="n">conf</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">django</span><span class="o">.</span><span class="n">conf</span>
+
+<span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">sites</span><span class="o">/</span><span class="n">cope</span><span class="o">/</span><span class="n">cope_repo</span><span class="o">/</span><span class="n">deploy</span><span class="o">/</span><span class="n">production</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">gunicorn_start</span><span class="o">.</span><span class="n">sh</span> <span class="o">/</span><span class="n">sites</span><span class="o">/</span><span class="n">cope</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">gunicorn_start</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">chmod</span> <span class="mi">775</span> <span class="o">/</span><span class="n">sites</span><span class="o">/</span><span class="n">cope</span><span class="o">/</span><span class="n">cope_repo</span><span class="o">/</span><span class="n">deploy</span><span class="o">/</span><span class="n">production</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">gunicorn_start</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<p>Now we need to get some application code install done so that things like gunicorn are actually installed::</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># NB: cwd is /sites/cope</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">cope_repo</span><span class="o">/</span><span class="n">requirements</span><span class="o">/</span><span class="n">production</span><span class="o">.</span><span class="n">txt</span>
+<span class="n">cd</span> <span class="n">cope</span><span class="o">-</span><span class="n">repo</span><span class="o">/</span>
+<span class="n">chmod</span> <span class="mi">775</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span>
+<span class="n">cp</span> <span class="n">local</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">template</span> <span class="n">local</span><span class="o">.</span><span class="n">env</span>
+<span class="n">vi</span> <span class="n">local</span><span class="o">.</span><span class="n">env</span>                           <span class="c1"># set debug to off, and then create a secret key, and set Static and Media root to the htdocs directory</span>
+<span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">check</span>                 <span class="c1"># Should return 0 errors</span>
+<span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">migrate</span>
+<span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">collectstatic</span>         <span class="c1"># NB: Should point to the htdocs folder and ask for confirmation</span>
+<span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">createsuperuser</span>       <span class="c1"># superuser is &#39;carl&#39;</span>
+<span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">loaddata</span> <span class="n">config</span><span class="o">/</span><span class="n">fixtures</span><span class="o">/</span><span class="mi">01</span><span class="n">_hospitals</span><span class="o">.</span><span class="n">json</span>
+<span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">loaddata</span> <span class="n">config</span><span class="o">/</span><span class="n">fixtures</span><span class="o">/</span><span class="mi">02</span><span class="n">_persons</span><span class="o">.</span><span class="n">json</span>
+<span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">loaddata</span> <span class="n">config</span><span class="o">/</span><span class="n">fixtures</span><span class="o">/</span><span class="mi">03</span><span class="n">_gradings</span><span class="o">.</span><span class="n">json</span>
+</pre></div>
+</div>
+<p>Now do a quick sweep of the files to ensure permissions are suitably set so far...::</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">chown</span> <span class="o">-</span><span class="n">R</span> <span class="n">www</span><span class="o">-</span><span class="n">data</span><span class="p">:</span><span class="n">worker</span> <span class="o">/</span><span class="n">sites</span><span class="o">/</span><span class="n">cope</span>
+<span class="n">sudo</span> <span class="n">chmod</span> <span class="o">-</span><span class="n">R</span> <span class="n">g</span><span class="o">+</span><span class="n">w</span> <span class="o">/</span><span class="n">sites</span><span class="o">/</span><span class="n">cope</span>
+<span class="n">sudo</span> <span class="n">find</span> <span class="o">/</span><span class="n">sites</span><span class="o">/</span><span class="n">cope</span> <span class="o">-</span><span class="nb">type</span> <span class="n">d</span> <span class="o">-</span><span class="n">exec</span> <span class="n">chmod</span> <span class="n">g</span><span class="o">+</span><span class="n">s</span> <span class="p">{}</span> \<span class="p">;</span>
+</pre></div>
+</div>
+<p>Generally speaking, we try to give each file and directory the minimum permissions necessary. We try to abide by the
+following permission guidelines.</p>
+<ul class="simple">
+<li>Python (*.py) files should have 664 set on them UNLESS a user is to directly execute the Python file from the command
+line as a script (i.e. manage.py). Executable Python scripts should be set to 775.</li>
+<li>Script (*.sh) files should be set to 775.</li>
+<li>Static files (*.html, *.css, *.jpg, *.png, etc) should be set to 664.</li>
+<li>Directories should be set to 2775 (set GID set).</li>
+<li>All other files should be set to 664 unless there&#8217;s a good reason not to do so.</li>
+</ul>
+<p>Restarting server with <code class="docutils literal"><span class="pre">sudo</span> <span class="pre">shutdown</span> <span class="pre">-r</span> <span class="pre">now</span></code> to test the above configurations</p>
+</div>
+<div class="section" id="ssl-certificate">
+<span id="ssl-certificate"></span><h3>SSL Certificate<a class="headerlink" href="#ssl-certificate" title="Permalink to this headline">¶</a></h3>
+<p>Help via:</p>
+<ul class="simple">
+<li><a class="reference external" href="#">https://help.ubuntu.com/lts/serverguide/certificates-and-security.html</a></li>
+<li><a class="reference external" href="#">https://wiki.it.ox.ac.uk/itss/CertificateService</a></li>
+</ul>
+<p>Steps for request::</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">.</span><span class="n">ssh</span><span class="o">/</span>
+<span class="n">mkdir</span> <span class="n">ssl</span><span class="o">-</span><span class="n">cert</span>
+<span class="n">cd</span> <span class="n">ssl</span><span class="o">-</span><span class="n">cert</span><span class="o">/</span>
+<span class="n">vi</span> <span class="n">website</span><span class="o">.</span><span class="n">ssl</span><span class="o">.</span><span class="n">cfg</span>
+</pre></div>
+</div>
+<p>Into which we used the following::</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span> <span class="n">req</span> <span class="p">]</span>
+    <span class="n">prompt</span>                 <span class="o">=</span> <span class="n">no</span>
+    <span class="n">default_bits</span>           <span class="o">=</span> <span class="mi">2048</span>
+    <span class="n">default_md</span>             <span class="o">=</span> <span class="n">sha256</span>
+    <span class="n">distinguished_name</span>     <span class="o">=</span> <span class="n">dn</span>
+<span class="p">[</span> <span class="n">dn</span> <span class="p">]</span>
+    <span class="n">C</span>                      <span class="o">=</span> <span class="n">GB</span>
+    <span class="n">ST</span>                     <span class="o">=</span> <span class="n">Oxfordshire</span>
+    <span class="n">L</span>                      <span class="o">=</span> <span class="n">Oxford</span>
+    <span class="n">O</span>                      <span class="o">=</span> <span class="n">University</span> <span class="n">of</span> <span class="n">Oxford</span>
+    <span class="n">OU</span>                     <span class="o">=</span> <span class="n">Nuffield</span> <span class="n">Department</span> <span class="n">of</span> <span class="n">Surgical</span> <span class="n">Sciences</span>
+    <span class="n">CN</span>                     <span class="o">=</span> <span class="n">cope</span><span class="o">.</span><span class="n">nds</span><span class="o">.</span><span class="n">ox</span><span class="o">.</span><span class="n">ac</span><span class="o">.</span><span class="n">uk</span>
+</pre></div>
+</div>
+<p>And then::</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">openssl</span> <span class="n">req</span> <span class="o">-</span><span class="n">new</span> <span class="o">-</span><span class="n">keyout</span> <span class="n">private</span><span class="o">.</span><span class="n">pem</span> <span class="o">-</span><span class="n">out</span> <span class="n">cope</span><span class="o">.</span><span class="n">nds</span><span class="o">.</span><span class="n">csr</span> <span class="o">-</span><span class="n">config</span> <span class="o">./</span><span class="n">website</span><span class="o">.</span><span class="n">ssl</span><span class="o">.</span><span class="n">cfg</span> <span class="o">-</span><span class="n">batch</span> <span class="o">-</span><span class="n">verbose</span> <span class="o">-</span><span class="n">nodes</span>
+
+<span class="n">Using</span> <span class="n">configuration</span> <span class="kn">from</span> <span class="nn">.</span><span class="o">/</span><span class="n">website</span><span class="o">.</span><span class="n">ssl</span><span class="o">.</span><span class="n">cfg</span>
+<span class="n">Generating</span> <span class="n">a</span> <span class="mi">2048</span> <span class="n">bit</span> <span class="n">RSA</span> <span class="n">private</span> <span class="n">key</span>
+<span class="o">.............................................+++</span>
+<span class="o">..............................................+++</span>
+<span class="n">writing</span> <span class="n">new</span> <span class="n">private</span> <span class="n">key</span> <span class="n">to</span> <span class="s1">&#39;private.pem&#39;</span>
+<span class="o">-----</span>
+</pre></div>
+</div>
+<p>Which resulted in a private.pem and cope.nds.csr files being created. The contents of the cope.nds.csr was then submitted
+to Trend via their port (see ITSS wiki link) and emailed to the ITS3 team for confirmation. One phone confirmation
+from ITS3 later, and an email arrives with the certificates zipped up, and a (supposedly the equivalent) .pem file of the
+bundle. However, the .pem does not validate against the csr and private.pem (see <a class="reference external" href="#">https://www.sslshopper.com/certificate-key-matcher.html</a>
+or run the openssl validation checks below).</p>
+<p>Copy the files to the server (scp), and put them into <code class="docutils literal"><span class="pre">~/.ssh/ssl-cert/</span></code>. Run unzip on the zip bundle, to get 3 .crt files returned. This now gives us:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">copeuser</span> <span class="n">copeuser</span> <span class="mi">1218</span> <span class="n">Dec</span> <span class="mi">14</span> <span class="mi">18</span><span class="p">:</span><span class="mi">20</span> <span class="n">AffirmTrust_Commercial</span><span class="o">.</span><span class="n">crt</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">copeuser</span> <span class="n">copeuser</span> <span class="mi">3624</span> <span class="n">Dec</span> <span class="mi">17</span> <span class="mi">16</span><span class="p">:</span><span class="mi">21</span> <span class="nb">all</span><span class="o">-</span><span class="n">certificate</span><span class="o">.</span><span class="n">zip</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">copeuser</span> <span class="n">copeuser</span> <span class="mi">1086</span> <span class="n">Dec</span> <span class="mi">14</span> <span class="mi">17</span><span class="p">:</span><span class="mi">48</span> <span class="n">cope</span><span class="o">.</span><span class="n">nds</span><span class="o">.</span><span class="n">csr</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">copeuser</span> <span class="n">copeuser</span> <span class="mi">1642</span> <span class="n">Dec</span> <span class="mi">14</span> <span class="mi">18</span><span class="p">:</span><span class="mi">20</span> <span class="n">cope</span><span class="o">.</span><span class="n">nds</span><span class="o">.</span><span class="n">ox</span><span class="o">.</span><span class="n">ac</span><span class="o">.</span><span class="n">uk</span><span class="o">.</span><span class="n">crt</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">copeuser</span> <span class="n">copeuser</span> <span class="mi">1704</span> <span class="n">Dec</span> <span class="mi">14</span> <span class="mi">17</span><span class="p">:</span><span class="mi">48</span> <span class="n">private</span><span class="o">.</span><span class="n">pem</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">copeuser</span> <span class="n">copeuser</span> <span class="mi">2813</span> <span class="n">Dec</span> <span class="mi">17</span> <span class="mi">16</span><span class="p">:</span><span class="mi">21</span> <span class="n">s2cabundle</span><span class="o">.</span><span class="n">pem</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">copeuser</span> <span class="n">copeuser</span> <span class="mi">1630</span> <span class="n">Dec</span> <span class="mi">14</span> <span class="mi">18</span><span class="p">:</span><span class="mi">20</span> <span class="n">Trend_Micro_S2_CA</span><span class="o">.</span><span class="n">crt</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">copeuser</span> <span class="n">copeuser</span>  <span class="mi">465</span> <span class="n">Dec</span> <span class="mi">14</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">website</span><span class="o">.</span><span class="n">ssl</span><span class="o">.</span><span class="n">cfg</span>
+</pre></div>
+</div>
+<p>Long story short, because we can&#8217;t validate the s2cabundle.pem file, we need to create our own .crt (or .pem, same thing) file by concatinating the three supplied certificates in the correct order, thus we do:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>cat cope.nds.ox.ac.uk.crt AffirmTrust_Commercial.crt Trend_Micro_S2_CA.crt &gt; cope.nds.crt
+
+# Validation can now be done to confirm these all match!
+copeuser@cope:~/.ssh/ssl-cert$ openssl rsa -noout -modulus -in private.pem | openssl md5
+(stdin)= cf0888a35d5070123c032249b4010244
+copeuser@cope:~/.ssh/ssl-cert$ openssl req -noout -modulus -in cope.nds.csr | openssl md5
+(stdin)= cf0888a35d5070123c032249b4010244
+copeuser@cope:~/.ssh/ssl-cert$ openssl x509 -noout -modulus -in cope.nds.ox.ac.uk.crt  | openssl md5
+(stdin)= cf0888a35d5070123c032249b4010244
+</pre></div>
+</div>
+<p>Now we&#8217;ll put a copy of this combined certificate chain, and our private key, in a folder accessible by the NGINX
+process, as that is acting as the SSL proxy server (see the configuration in <code class="docutils literal"><span class="pre">cope-repo/</span> <span class="pre">deploy/production/etc/nginx/sites-available/cope.conf</span></code> for how Nginx will use these)::</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="o">-</span><span class="n">p</span> <span class="o">/</span><span class="n">sites</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">ngix</span><span class="o">/</span><span class="n">ssl</span><span class="o">/</span>    <span class="c1"># Yes, there is a typo in nginx</span>
+<span class="n">cp</span> <span class="n">private</span><span class="o">.</span><span class="n">pem</span> <span class="o">/</span><span class="n">sites</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">ngix</span><span class="o">/</span><span class="n">ssl</span><span class="o">/</span>
+<span class="n">cp</span> <span class="n">cope</span><span class="o">.</span><span class="n">nds</span><span class="o">.</span><span class="n">crt</span> <span class="o">/</span><span class="n">sites</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">ngix</span><span class="o">/</span><span class="n">ssl</span><span class="o">/</span>
+</pre></div>
+</div>
+<p>With those in place, and using the config file above, you can got to <code class="docutils literal"><span class="pre">sudo</span> <span class="pre">supervisorctl</span></code> and then
+<code class="docutils literal"><span class="pre">restart</span> <span class="pre">all</span></code>, and lo and behold, we have service on port 443.</p>
+<p>It&#8217;s worth noting that <code class="docutils literal"><span class="pre">SECURE_PROXY_SSL_HEADER</span> <span class="pre">=</span> <span class="pre">('HTTP_X_FORWARDED_PROTOCOL',</span> <span class="pre">'https')</span></code> needed to be added to the production.py settings file so that Django can detect if https is being used, otherwise when you set <code class="docutils literal"><span class="pre">DJANGO_SECURE_SSL_REDIRECT=True</span></code> in the <code class="docutils literal"><span class="pre">local.env</span></code> file, you will get a redirect loop in the browser.</p>
+<p>The string &#8220;HTTP_X_FORWARDED_PROTOCOL&#8221; is derived from <code class="docutils literal"><span class="pre">proxy_set_header</span> <span class="pre">X-Forwarded-Protocol</span> <span class="pre">$scheme;</span></code> in the nginx conf combined with the note from <a class="reference external" href="#">https://docs.djangoproject.com/en/dev/ref/settings/#secure-proxy-ssl-header</a> saying:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>Note that the header needs to be in the format as used by request.META – all caps 
+and likely starting with HTTP_. (Remember, Django automatically adds &#39;HTTP_&#39; to the 
+start of x-header names before making the header available in request.META.)
+</pre></div>
+</div>
+<p>Port 443 has been confirmed as open on the MSD firewall for cope.nds.ox.ac.uk</p>
+</div>
+<div class="section" id="maintainence-and-updates">
+<span id="maintainence-and-updates"></span><h3>Maintainence and updates<a class="headerlink" href="#maintainence-and-updates" title="Permalink to this headline">¶</a></h3>
+<p>Periodically there are maintainence tasks to do, such as:</p>
+<ul class="simple">
+<li>Update the OS libraries and packages - see Maintenace under System Setup above</li>
+<li>Backup the DB - <code class="docutils literal"><span class="pre">cp</span> <span class="pre">db.sqlite3</span> <span class="pre">../db-backup/yyyymmdd.sqlite3</span></code></li>
+</ul>
+<div class="section" id="update-the-application-release">
+<span id="update-the-application-release"></span><h4>Update the application release<a class="headerlink" href="#update-the-application-release" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li>Activate the virtualenv <code class="docutils literal"><span class="pre">workon</span> <span class="pre">cope</span></code></li>
+<li>Move into the repository directory for most tasks <code class="docutils literal"><span class="pre">cd</span> <span class="pre">cope-repo</span></code></li>
+<li>Get the latest updates from the central repository <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span> <span class="pre">--all</span></code></li>
+<li>Checkout the relevant tagged release (i.e. not Head of Master branch) <code class="docutils literal"><span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">0.4.6</span></code></li>
+<li>Update the application libraries <code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements/production.txt</span></code></li>
+<li>Check things are working so far <code class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">check</span></code></li>
+<li>Apply any necessary migrations <code class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">migrate</span></code></li>
+<li>Gather the staticfiles up <code class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">collectstatic</span></code></li>
+<li>Start the supervisor console to reload the changes <code class="docutils literal"><span class="pre">sudo</span> <span class="pre">supervisorctl</span></code>...</li>
+<li>and then <code class="docutils literal"><span class="pre">restart</span> <span class="pre">cope-django</span></code></li>
+<li>...and all should be fine.</li>
+</ul>
+</div>
+<div class="section" id="troubleshooting">
+<span id="troubleshooting"></span><h4>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h4>
+<p>When things do not go to plan, we want to find out what we can. There&#8217;s no debug mode on the production server, so it&#8217;s into the error logs for information. Logs from supervisord are found via: <code class="docutils literal"><span class="pre">cd</span> <span class="pre">/var/log/supervisor/</span></code>. Unfortunately stack traces aren&#8217;t captured here (for example on a Server Error), so more work needs to be done to help the monitoring of this server.</p>
+<p><strong>TODO</strong></p>
+<ul class="simple">
+<li>Run the django-secure scan</li>
+</ul>
+</div>
+</div>
+<div class="section" id="footnotes-for-production">
+<span id="footnotes-for-production"></span><h3>Footnotes for Production<a class="headerlink" href="#footnotes-for-production" title="Permalink to this headline">¶</a></h3>
+<p>Useful commands:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">sudo</span> <span class="pre">cut</span> <span class="pre">-d:</span> <span class="pre">-f1</span> <span class="pre">/etc/passwd</span></code> &#8211; lists all users</li>
+<li><code class="docutils literal"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">--purge</span> <span class="pre">remove</span> <span class="pre">{{package-name}}</span></code> &#8211; remove an installed package and config files</li>
+<li><code class="docutils literal"><span class="pre">apt</span> <span class="pre">--installed</span> <span class="pre">list</span></code> &#8211; list all installed packages</li>
+<li><code class="docutils literal"><span class="pre">sudo</span> <span class="pre">netstat</span> <span class="pre">-peanut</span></code>  &#8211; list all ports in use on system</li>
+<li><code class="docutils literal"><span class="pre">ps</span> <span class="pre">-auxf</span></code> &#8211; list all processes in a tree showing originating process</li>
+<li><code class="docutils literal"><span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">--</span> <span class="pre">path/file.py</span></code> &#8211; reset a file back to the last git version</li>
+</ul>
+<p>Reference urls:</p>
+<ul class="simple">
+<li>Gunicorn - <a class="reference external" href="#">http://docs.gunicorn.org/en/latest/index.html</a></li>
+<li>Supervisor - <a class="reference external" href="#">http://supervisord.org/index.html</a></li>
+<li>Django Security - <a class="reference external" href="#">https://docs.djangoproject.com/en/1.8/topics/security/</a></li>
+<li>NGinx Admin Guide - <a class="reference external" href="#">https://www.nginx.com/resources/admin-guide/</a></li>
+<li>NGinx Getting Started Wiki - <a class="reference external" href="#">https://www.nginx.com/resources/wiki/start/</a></li>
+<li>NGinx Beginners Guide - <a class="reference external" href="#">http://nginx.org/en/docs/beginners_guide.html</a></li>
+<li>Ubuntu Apt-Get Guide - <a class="reference external" href="#">https://help.ubuntu.com/community/AptGet/Howto#Search_commands</a></li>
+<li>Django Secure - <a class="reference external" href="#">http://django-secure.readthedocs.org/en/latest/</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="development.html" class="btn btn-neutral float-right" title="Development Setup" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="user_manual.html" class="btn btn-neutral" title="COPE DB User Manual" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Carl Marshall.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.5.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

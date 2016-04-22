@@ -12,6 +12,9 @@ from ..compare.models import OrganPerson, VersionControlModel, Organ
 
 
 class BarCodedItem(VersionControlModel):
+    """
+    Base meta class for many Sample classes, that extends VersionControlModel with a barcode field
+    """
     barcode = models.CharField(verbose_name=_("BC01 barcode number"), max_length=20, blank=True)
 
     class Meta:
@@ -20,15 +23,12 @@ class BarCodedItem(VersionControlModel):
     def __unicode__(self):
         return "%s" % self.barcode
 
-    def save(self, force_insert=False, force_update=False, using=None,
-             update_fields=None):
-        self.created_on = timezone.now()
-        self.version += 1
-        return super(BarCodedItem, self).save(force_insert, force_update, using, update_fields)
-
 
 class Worksheet(BarCodedItem):
-    person = models.ForeignKey(OrganPerson)  # Internal key
+    """
+    Record of each Worksheet that links specific samples taken with a specific OrganPerson
+    """
+    person = models.ForeignKey(OrganPerson, help_text="Donor or Recipient that this worksheet relates to")
 
     class Meta:
         ordering = ['person']
@@ -40,25 +40,31 @@ class Worksheet(BarCodedItem):
 
 
 class Event(VersionControlModel):
-    TYPE_BLOOD = 1
-    TYPE_URINE = 2
-    TYPE_PERFUSATE = 3
-    TYPE_TISSUE = 4
+    """
+    A Sample Event is a timepoint and process where a specific type of biological sample was extracted
+    from a person. This even can validate whether enough biological samples were taken (e.g. a blood
+    sample results in two separate containers; whereas a perfusate sample has only one), and acts as the
+    link between a Worksheet and the various Sample types
+    """
+    TYPE_BLOOD = 1  #: Constant for TYPE_CHOICES
+    TYPE_URINE = 2  #: Constant for TYPE_CHOICES
+    TYPE_PERFUSATE = 3  #: Constant for TYPE_CHOICES
+    TYPE_TISSUE = 4  #: Constant for TYPE_CHOICES
     TYPE_CHOICES = (
         (TYPE_BLOOD, _("EVc01 Blood")),
         (TYPE_URINE, _("EVc02 Urine")),
         (TYPE_PERFUSATE, _("EVc03 Perfusate")),
         (TYPE_TISSUE, _("EVc04 Tissue")),
-    )
-    NAME_DONOR_BLOOD1 = 1
-    NAME_DONOR_URINE1 = 2
-    NAME_DONOR_URINE2 = 3
-    NAME_ORGAN_PERFUSATE1 = 4
-    NAME_ORGAN_PERFUSATE2 = 5
-    NAME_ORGAN_PERFUSATE3 = 6
-    NAME_ORGAN_TISSUE = 7
-    NAME_RECIPIENT_BLOOD1 = 8
-    NAME_RECIPIENT_BLOOD2 = 9
+    )  #: Limit of choices for Event type data
+    NAME_DONOR_BLOOD1 = 1  #: Constant for NAME_CHOICES
+    NAME_DONOR_URINE1 = 2  #: Constant for NAME_CHOICES
+    NAME_DONOR_URINE2 = 3  #: Constant for NAME_CHOICES
+    NAME_ORGAN_PERFUSATE1 = 4  #: Constant for NAME_CHOICES
+    NAME_ORGAN_PERFUSATE2 = 5  #: Constant for NAME_CHOICES
+    NAME_ORGAN_PERFUSATE3 = 6  #: Constant for NAME_CHOICES
+    NAME_ORGAN_TISSUE = 7  #: Constant for NAME_CHOICES
+    NAME_RECIPIENT_BLOOD1 = 8  #: Constant for NAME_CHOICES
+    NAME_RECIPIENT_BLOOD2 = 9  #: Constant for NAME_CHOICES
     NAME_CHOICES = (
         (NAME_DONOR_BLOOD1, _("EVc05 donor blood 1")),
         (NAME_DONOR_URINE1, _("EVc06 donor urine 1")),
@@ -69,8 +75,9 @@ class Event(VersionControlModel):
         (NAME_ORGAN_TISSUE, _("EVc11 organ tissue 1")),
         (NAME_RECIPIENT_BLOOD1, _("EVc12 recipient blood 1")),
         (NAME_RECIPIENT_BLOOD2, _("EVc13 recipient blood 2")),
-    )
-    worksheet = models.ForeignKey(Worksheet)  # Internal key
+    )  #: Limit of choices for Event name data
+
+    worksheet = models.ForeignKey(Worksheet, help_text="Internal link to the Worksheet")
     type = models.PositiveSmallIntegerField(_("EV01 sample type"), choices=TYPE_CHOICES)
     name = models.PositiveSmallIntegerField(_("EV03 sample process name"), choices=NAME_CHOICES)
     taken_at = models.DateTimeField(verbose_name=_("EV02 date and time taken"), null=True, blank=True)
@@ -81,6 +88,18 @@ class Event(VersionControlModel):
         verbose_name_plural = _('EVm2 sample events')
 
     def clean(self):
+        """
+        If type is...
+
+        * BLOOD - check for two different types of BloodSample
+        * URINE - check for one type of UrineSample
+        * PERFUSATE - check for one type of PerfusateSample
+        * TISSUE - check for two different types of TissueSample
+
+        ... and that a suitable Event name was chosen, and that taken_at value  is not in the future.
+
+        :return: None
+        """
         if self.type == Event.TYPE_BLOOD:
             sample_set = self.bloodsample_set.all()
             count = len(sample_set)
@@ -118,31 +137,38 @@ class Event(VersionControlModel):
     def __unicode__(self):
         return "%s (%s)" % (self.get_type_display(), self.taken_at)
 
-    def save(self, force_insert=False, force_update=False, using=None,
-             update_fields=None):
-        self.created_on = timezone.now()
-        self.version += 1
-        return super(Event, self).save(force_insert, force_update, using, update_fields)
-
 
 class DeviationMixin(models.Model):
     """
-    In place of Deviation records on a worksheet, we have a way of tracking them per sample
+    In place of Deviation records on a worksheet, we have a way of tracking them per sample.
+    Also holds the meta question of whether this specific sample was actually taken or not.
     """
     collected = models.NullBooleanField(verbose_name=_("DM01 sample collected?"), blank=True)
-    notes = models.TextField(verbose_name=_("DM02 notes"), blank=True)
+    notes = models.TextField(verbose_name=_("DM02 notes"), blank=True, help_text="Deviation record")
 
     class Meta:
         abstract = True
 
 
 class BloodSample(BarCodedItem, DeviationMixin):
-    SAMPLE_SST = 1
-    SAMPLE_EDSA = 2
+    """
+    Sample class type for Blood samples.
+
+    Also contains a helper (repeated, but direct) link to the OrganPerson this sample was from (mainly
+    to aide reverse sample look ups from OrganPerson)
+    """
+    SAMPLE_SST = 1  #: Constant for SAMPLE_CHOICES
+    SAMPLE_EDSA = 2  #: Constant for SAMPLE_CHOICES
     SAMPLE_CHOICES = (
         (SAMPLE_SST, _("BSc01 Blood SST")),
-        (SAMPLE_EDSA, _("BSc02 Blood EDSA")))
-    event = models.ForeignKey(Event, limit_choices_to={'type': Event.TYPE_BLOOD})  # Internal key
+        (SAMPLE_EDSA, _("BSc02 Blood EDSA"))
+    )  #: Limit of choices for BloodSample blood_type
+
+    event = models.ForeignKey(
+        Event,
+        limit_choices_to={'type': Event.TYPE_BLOOD},
+        help_text="Link to an event of type Blood"
+    )
     blood_type = models.PositiveSmallIntegerField(verbose_name=_("BS02 blood sample type"), choices=SAMPLE_CHOICES)
     person = models.ForeignKey(OrganPerson, verbose_name=_("BS03 sample from"))
     centrifuged_at = models.DateTimeField(verbose_name=_("BS01 centrifuged at"), null=True, blank=True)
@@ -153,6 +179,14 @@ class BloodSample(BarCodedItem, DeviationMixin):
         verbose_name_plural = _('BSm2 blood samples')
 
     def clean(self):
+        """
+        If sample is marked as collected, confirm taken_at date is present, otherwise that deviation
+        notes have been recorded.
+
+        Ensure that centrifuged_at datetime is not in the future, and that it occured after taken_at datetime
+
+        :return: None
+        """
         if self.collected is not None:
             if not self.collected and self.notes == "":
                 raise ValidationError(_("BSv01 you must enter some notes about why this sample was not collected"))
@@ -168,8 +202,18 @@ class BloodSample(BarCodedItem, DeviationMixin):
 
 
 class UrineSample(BarCodedItem, DeviationMixin):
+    """
+    Sample class type for Urine samples.
+
+    Also contains a helper (repeated, but direct) link to the OrganPerson this sample was from (mainly
+    to aide reverse sample look ups from OrganPerson)
+    """
+    event = models.ForeignKey(
+        Event,
+        limit_choices_to={'type': Event.TYPE_URINE},
+        help_text="Link to an event of type Urine"
+    )
     person = models.ForeignKey(OrganPerson, verbose_name=_("US02 sample from"))
-    event = models.ForeignKey(Event, limit_choices_to={'type': Event.TYPE_URINE})
     centrifuged_at = models.DateTimeField(verbose_name=_("US01 centrifuged at"), null=True, blank=True)
 
     class Meta:
@@ -178,6 +222,14 @@ class UrineSample(BarCodedItem, DeviationMixin):
         verbose_name_plural = _('USm2 urine samples')
 
     def clean(self):
+        """
+        If sample is marked as collected, confirm taken_at date is present, otherwise that deviation
+        notes have been recorded.
+
+        Ensure that centrifuged_at datetime is not in the future, and that it occured after taken_at datetime
+
+        :return: None
+        """
         if self.collected is not None:
             if not self.collected and self.notes == "":
                 raise ValidationError(_("USv01 you must enter some notes about why this sample was not collected"))
@@ -193,8 +245,18 @@ class UrineSample(BarCodedItem, DeviationMixin):
 
 
 class PerfusateSample(BarCodedItem, DeviationMixin):
+    """
+    Sample class type for Perfusate samples.
+
+    Also contains a helper (repeated, but direct) link to the OrganPerson this sample was from (mainly
+    to aide reverse sample look ups from OrganPerson)
+    """
+    event = models.ForeignKey(
+        Event,
+        limit_choices_to={'type': Event.TYPE_PERFUSATE},
+        help_text="Link to an event of type Perfusate"
+    )
     organ = models.ForeignKey(Organ, verbose_name=_("PS02 sample from"))
-    event = models.ForeignKey(Event, limit_choices_to={'type': Event.TYPE_PERFUSATE})
     centrifuged_at = models.DateTimeField(verbose_name=_("PS01 centrifuged at"), null=True, blank=True)
 
     class Meta:
@@ -203,6 +265,14 @@ class PerfusateSample(BarCodedItem, DeviationMixin):
         verbose_name_plural = _('PSm2 perfusate samples')
 
     def clean(self):
+        """
+        If sample is marked as collected, confirm taken_at date is present, otherwise that deviation
+        notes have been recorded.
+
+        Ensure that centrifuged_at datetime is not in the future, and that it occured after taken_at datetime
+
+        :return: None
+        """
         if self.collected is not None:
             if not self.collected and self.notes == "":
                 raise ValidationError(_("PSv01 you must enter some notes about why this sample was not collected"))
@@ -218,13 +288,25 @@ class PerfusateSample(BarCodedItem, DeviationMixin):
 
 
 class TissueSample(BarCodedItem, DeviationMixin):
-    SAMPLE_R = "R"
-    SAMPLE_F = "F"
+    """
+    Sample class type for Perfusate samples.
+
+    Also contains a helper (repeated, but direct) link to the OrganPerson this sample was from (mainly
+    to aide reverse sample look ups from OrganPerson)
+    """
+    SAMPLE_R = "R"  #: Constant for SAMPLE_CHOICES
+    SAMPLE_F = "F"  #: Constant for SAMPLE_CHOICES
     SAMPLE_CHOICES = (
         (SAMPLE_F, _("TSc01 ReK1F")),
-        (SAMPLE_R, _("TSc02 ReK1R")))
+        (SAMPLE_R, _("TSc02 ReK1R"))
+    )  #: Limit of choices for BloodSample tissue_type
+
+    event = models.ForeignKey(
+        Event,
+        limit_choices_to={'type': Event.TYPE_TISSUE},
+        help_text="Link to an event of type Tissue"
+    )
     organ = models.ForeignKey(Organ, verbose_name=_("TS01 sample from"))
-    event = models.ForeignKey(Event, limit_choices_to={'type': Event.TYPE_TISSUE})
     tissue_type = models.CharField(max_length=1, choices=SAMPLE_CHOICES, verbose_name=_("TS02 tissue sample type"))
 
     class Meta:
@@ -233,6 +315,12 @@ class TissueSample(BarCodedItem, DeviationMixin):
         verbose_name_plural = _('TSm2 tissue samples')
 
     def clean(self):
+        """
+        If sample is marked as collected, confirm taken_at date is present, otherwise that deviation
+        notes have been recorded.
+
+        :return: None
+        """
         if self.collected is not None:
             if not self.collected and self.notes == "":
                 raise ValidationError(_("TSv01 you must enter some notes about why this sample was not collected"))
