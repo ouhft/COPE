@@ -55,7 +55,7 @@
 
                             {% if perms.followup.change_intial %}
                                 {% url 'wp4:followup:index' as url_followup %}
-                                <li class="{% active request url_followup %}"><a href="{{ url_followup }}">Follow Up</a>
+{#                                <li class="{% active request url_followup %}"><a href="{{ url_followup }}">Follow Up</a>#}
                                 </li>
                             {% endif %}
                         </ul>

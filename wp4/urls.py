@@ -13,7 +13,7 @@ from .views import wp4_index
 from .views import administrator_index, administrator_uk_list, administrator_europe_list, administrator_datalist
 
 urlpatterns = [
-    url(r'^followup/', include(followup_urls, namespace="followup")),
+    # url(r'^followup/', include(followup_urls, namespace="followup")),
     url(r'^adverse-event/', include(adverseevent_urls, namespace="adverse_event")),
     url(r'^person/', include(staffperson_urls, namespace="staff_person")),
     url(r'^location/', include(locations_urls, namespace="locations")),

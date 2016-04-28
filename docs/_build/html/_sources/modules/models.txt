@@ -33,9 +33,7 @@ The Adverse Event app collects the Adverse and Serious Adverse event information
 .. autosummary::
    :toctree: generated
 
-..    wp4.adverse_event.models
-
-Currently unavailable whilst schema is being stabilised
+   wp4.adverse_event.models
 
 Follow Ups
 ----------
