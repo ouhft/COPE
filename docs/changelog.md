@@ -2,9 +2,13 @@
 
 This is a list of changes made to the website and application for each release.
 
-## v0.5.0 (TBC) - Follow up edition (Dev r6)
+## v0.6.0 (TBC - Early May 2016) - The Follow Up edition
+* Follow Up forms added for Initial, 3 Month, 6 Month, and 1 Year data collection (Issue #79)
+* Health Economics forms added for Quality of Life data collection
+
+## v0.5.0 (29 Apr 2016) - Adversely Related
 ### New Features
-* Follow Up forms have been developed for First 7 days, 3 month, 6 month, and 1 year observations
+* Adverse Event reporting added (Issue #80)
 * Offline Randomisation Listings for Administrators. Shows available randomisation codes.
 * Version Control implemented. All changes to site data are now preserved for audit and security purposes. (Issue #19)
 * Changelog, and online User Manual added to the website (Issues #36 and #31)

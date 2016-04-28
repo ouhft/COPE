@@ -50,9 +50,8 @@
                                 </li>
                             {% endif %}
 
-                            {#                            {% url 'wp4:adverse_event:list' as url_adverseevents %}#}
-                            {#                            <li class="{% active request url_adverseevents %}"><a href="{{ url_adverseevents }}">Adverse#}
-                            {#                                Events</a></li>#}
+                            {% url 'wp4:adverse_event:list' as url_adverseevents %}
+                            <li class="{% active request url_adverseevents %}"><a href="{{ url_adverseevents }}">Adverse Events</a></li>
 
                             {% if perms.followup.change_intial %}
                                 {% url 'wp4:followup:index' as url_followup %}

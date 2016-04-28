@@ -1,0 +1,51 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_field %}
+
+{% block page_title %}Adverse Event{% endblock %}
+{% block page_header %}Adverse Event{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:adverse_event:list' %}">Adverse Events</a></li>
+    <li class="active">Edit Event</li>
+{% endblock %}
+
+{% block content %}
+    <form method="post" class="" id="adverse_event_form">
+        {% if form.non_field_errors %}
+            <div class="col-md-12" style="margin-top: 10px;">
+                {% for error in form.non_field_errors %}
+                    <p class="alert alert-danger">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% crispy form %}
+    </form>
+
+{% endblock %}
+
+
+{% block footer_nav %}
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container">
+            <div class="navbar-right">
+                <input type="button" class="btn btn-primary navbar-btn" value="Save" id="nav_button_save"/>
+            </div>
+        </div>
+    </nav>
+{% endblock %}
+
+
+{% block footer_extra_scripts %}
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function (event) {
+            // Navbar bottom actions
+            $('footer').addClass('navbar_spacing');
+            $('#nav_button_save').on('click', function () {
+                $('#adverse_event_form').submit();
+            });
+        });
+    </script>
+{% endblock %}

@@ -75,16 +75,25 @@ function openForeignKeyModal(keyName, dbValue) {
     if (keyName == "id_donor-transplant_coordinator") {
         //console.log("DEBUG: loading modal for transplant co-ord");
         ajaxURL += (dbValue < 1 ? "wp4/person/" : "wp4/person/" + dbValue + "/");
-        ajaxDATA = {"pk": dbValue, "q": 2, "return_id": keyName}
+        ajaxDATA = {"pk": dbValue, "q": 2, "return_id": keyName}  // TRANSPLANT_COORDINATOR
         ajaxSUCCESS = function (returnHTML) {
             //console.log("DEBUG: openForeignKeyModal() returnHTML=" + returnHTML);
             $('#myModal').modal('show');
             toggleModalContent(true, returnHTML);
         };
     } else if (keyNameSplit[0] == "id_allocation" && keyNameSplit[2] == "theatre_contact") {
-        //console.log("DEBUG: loading modal for transplant hospital");
+        //console.log("DEBUG: loading modal for theatre contact");
         ajaxURL += (dbValue < 1 ? "wp4/person/" : "wp4/person/" + dbValue + "/");
-        ajaxDATA = {"pk": dbValue, "q": 15, "return_id": keyName}
+        ajaxDATA = {"pk": dbValue, "q": 15, "return_id": keyName}  // THEATRE_CONTACT
+        ajaxSUCCESS = function (returnHTML) {
+            //console.log("DEBUG: openForeignKeyModal() returnHTML=" + returnHTML);
+            $('#myModal').modal('show');
+            toggleModalContent(true, returnHTML);
+        };
+    } else if (keyName == "id_contact") {
+        //console.log("DEBUG: loading modal for adverse event contact");
+        ajaxURL += (dbValue < 1 ? "wp4/person/" : "wp4/person/" + dbValue + "/");
+        ajaxDATA = {"pk": dbValue, "q": 8, "return_id": keyName}  // LOCAL_INVESTIGATOR
         ajaxSUCCESS = function (returnHTML) {
             //console.log("DEBUG: openForeignKeyModal() returnHTML=" + returnHTML);
             $('#myModal').modal('show');

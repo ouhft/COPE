@@ -1,30 +1,11 @@
 #!/usr/bin/python
 # coding: utf-8
+from django.core.urlresolvers import reverse
 from django.db import models
-from django.utils.translation import ugettext_lazy as _, ungettext_lazy as __
+from django.utils.translation import ugettext_lazy as _
 
-from ..compare.models import VersionControlModel, Organ
+from ..compare.models import VersionControlModel, Organ, YES_NO_UNKNOWN_CHOICES
 from ..staff_person.models import StaffPerson
-
-
-class ClavienDindoGrading(models.Model):
-    """
-    WORK IN PROGRESS - Class definition prone to rapid change
-
-    Helper class containing preset grading information - a Label, and a longer description
-    """
-    label = models.CharField(max_length=10, help_text="Grading scheme label code")
-    description = models.CharField(max_length=300, help_text="Grading scheme descriptive text")
-
-
-class AlternativeGrading(models.Model):
-    """
-    WORK IN PROGRESS - Class definition prone to rapid change
-
-    Helper class containing preset grading information - a Label, and a longer description
-    """
-    label = models.CharField(max_length=10, help_text="Grading scheme label code")
-    description = models.CharField(max_length=300, help_text="Grading scheme descriptive text")
 
 
 class AdverseEvent(VersionControlModel):
@@ -32,68 +13,78 @@ class AdverseEvent(VersionControlModel):
     WORK IN PROGRESS - Class definition prone to rapid change
 
     Collects (serious) adverse event information related to a specific Organ within the study
-    """
-    # From fixtures/gradings.json
-    GRADE_I = 1  #: Constant related to ClavienDindoGrading helper class. Value from fixtures/gradings.json
-    GRADE_II = 2  #: Constant related to ClavienDindoGrading helper class. Value from fixtures/gradings.json
-    GRADE_III = 3  #: Constant related to ClavienDindoGrading helper class. Value from fixtures/gradings.json
-    GRADE_III_A = 4  #: Constant related to ClavienDindoGrading helper class. Value from fixtures/gradings.json
-    GRADE_III_B = 5  #: Constant related to ClavienDindoGrading helper class. Value from fixtures/gradings.json
-    GRADE_IV = 6  #: Constant related to ClavienDindoGrading helper class. Value from fixtures/gradings.json
-    GRADE_IV_A = 7  #: Constant related to ClavienDindoGrading helper class. Value from fixtures/gradings.json
-    GRADE_IV_B = 8  #: Constant related to ClavienDindoGrading helper class. Value from fixtures/gradings.json
-    GRADE_V = 9  #: Constant related to ClavienDindoGrading helper class. Value from fixtures/gradings.json
 
-    GRADE_1 = 1  #: Constant related to AlternativeGrading helper class. Value from fixtures/gradings.json
-    GRADE_2 = 2  #: Constant related to AlternativeGrading helper class. Value from fixtures/gradings.json
-    GRADE_3 = 3  #: Constant related to AlternativeGrading helper class. Value from fixtures/gradings.json
-    GRADE_4 = 4  #: Constant related to AlternativeGrading helper class. Value from fixtures/gradings.json
-    GRADE_5 = 5  #: Constant related to AlternativeGrading helper class. Value from fixtures/gradings.json
+    Based strictly on the paper form for initial version, even though that form contains issues. Fields
+    commented out in code likely refer to items added to help improve the process, but were rejected.
+    """
 
     # Event basics
-    sequence_number = models.PositiveSmallIntegerField(verbose_name=_("AE01 sequence number"), default=0)
+    organ = models.ForeignKey(Organ, verbose_name=_("AE04 trial id link"))
+    # Because even if the form wants to record a trial id string, it's going to be pointless if it doesn't actually
+    # link to a record
+    # sequence_number = models.PositiveSmallIntegerField(verbose_name=_("AE01 sequence number"), default=0)
+    # resolution_at_date = models.DateField(verbose_name=_("AE03 resolution date"), blank=True, null=True)
+
+    # Page 1
+    serious_eligible_1 = models.BooleanField(verbose_name=_("AE10 lead to death"), default=False)
+    serious_eligible_2 = models.BooleanField(verbose_name=_("AE11 life threatening illness"), default=False)
+    serious_eligible_3 = models.BooleanField(verbose_name=_("AE12 permanent impairment"), default=False)
+    serious_eligible_4 = models.BooleanField(verbose_name=_("AE13 hospitalisation"), default=False)
+    serious_eligible_5 = models.BooleanField(verbose_name=_("AE14 prolonged hospitalisation"), default=False)
+    serious_eligible_6 = models.BooleanField(verbose_name=_("AE15 surgery required"), default=False)
+
+    # Page 2
     onset_at_date = models.DateField(verbose_name=_("AE02 onset date"))
-    resolution_at_date = models.DateField(verbose_name=_("AE03 resolution date"), blank=True, null=True)
+    event_ongoing = models.BooleanField(verbose_name=_("AE03 event ongoing"), default=True)
+    description = models.TextField(verbose_name=_("AE06 description"), null=True, blank=True)
+    action = models.TextField(verbose_name=_("AE07 action"), null=True, blank=True)
+    outcome = models.TextField(verbose_name=_("AE08 outcome"), null=True, blank=True)
+    alive_query_1 = models.BooleanField(verbose_name=_("AE20 incapcity"), default=False)
+    alive_query_2 = models.BooleanField(verbose_name=_("AE21 usual activity"), default=False)
+    alive_query_3 = models.BooleanField(verbose_name=_("AE22 no sequelae"), default=False)
+    alive_query_4 = models.BooleanField(verbose_name=_("AE23 device deficiency"), default=False)
+    alive_query_5 = models.BooleanField(verbose_name=_("AE24 device user error"), default=False)
+    alive_query_6 = models.BooleanField(verbose_name=_("AE25 life threatening illness"), default=False)
+    alive_query_7 = models.BooleanField(verbose_name=_("AE26 permanent impairment"), default=False)
+    alive_query_8 = models.BooleanField(verbose_name=_("AE27 prolonged hospitalisation"), default=False)
+    alive_query_9 = models.BooleanField(verbose_name=_("AE28 surgery required"), default=False)
 
-    organ = models.ForeignKey(Organ, verbose_name=_("AE04"))
-    device_related = models.BooleanField(verbose_name=_("AE05 device related"), default=False)
+    # Page 3
+    rehospitalisation = models.BooleanField(verbose_name=_("AE30 rehospitalisation"), default=False)
+    date_of_admission = models.DateField(verbose_name=_("AE31 date of admission"), null=True, blank=True)
+    date_of_discharge = models.DateField(verbose_name=_("AE32 date of discharge"), null=True, blank=True)
+    admitted_to_itu = models.BooleanField(verbose_name=_('AE33 admitted to ITU'), default=False)
+    dialysis_needed = models.BooleanField(verbose_name=_('AE34 dialysis needed'), default=False)
+    biopsy_taken = models.BooleanField(verbose_name=_('AE35 biopsy taken'), default=False)
+    surgery_required = models.BooleanField(verbose_name=_("AE36 surgery required"), default=False)
+    rehospitalisation_comments = models.TextField(verbose_name=_("AE37 comments"), null=True, blank=True)
 
-    description = models.CharField(verbose_name=_("AE06 description"), max_length=1000, default="")
-    action = models.CharField(verbose_name=_("AE07 action"), max_length=1000, default="")
-    outcome = models.CharField(verbose_name=_("AE08 outcome"), max_length=1000, default="")
+    death = models.BooleanField(verbose_name=_("AE40 led to death"), default=False)
+    date_of_death = models.DateField(verbose_name=_("AE41 date of death"), null=True, blank=True)
+    treatment_related = models.PositiveSmallIntegerField(
+        verbose_name=_('AE49 treatment related?'),
+        choices=YES_NO_UNKNOWN_CHOICES,
+        blank=True, null=True
+    )
+    cause_of_death_1 = models.BooleanField(verbose_name=_("AE42 cerebrovascular"), default=False)
+    cause_of_death_2 = models.BooleanField(verbose_name=_("AE43 multi organ"), default=False)
+    cause_of_death_3 = models.BooleanField(verbose_name=_("AE44 pneumonia"), default=False)
+    cause_of_death_4 = models.BooleanField(verbose_name=_("AE45 sepsis"), default=False)
+    cause_of_death_5 = models.BooleanField(verbose_name=_("AE46 transplant related"), default=False)
+    cause_of_death_6 = models.BooleanField(verbose_name=_("AE47 other"), default=False)
+    cause_of_death_comment = models.CharField(verbose_name=_("AE48 comments"), max_length=500, null=True, blank=True)
 
-    # Serious Event questions
+    # Page 4
     contact = models.ForeignKey(StaffPerson, verbose_name=_("AE09 primary contact"), blank=True, null=True)
-    # # Death
-    # date_of_death = models.DateField()
-    # treatment_related = models.PositiveSmallIntegerField(
-    #     verbose_name=_(''),
-    #     choices=YES_NO_UNKNOWN_CHOICES,
-    #     blank=True, null=True)
-    # # TODO: ICD10 link to go in here
-    # cause_of_death_comment = models.CharField(max_length=500)
-    # # Hospitalisation
-    # admitted_to_itu = models.BooleanField(verbose_name=_('DO34 admitted to ITU'), default=False)
-    # dialysis_needed = models.BooleanField(verbose_name=_('DO34 admitted to ITU'), default=False)
-    # biopsy_taken = models.BooleanField(verbose_name=_('DO34 admitted to ITU'), default=False)
-    # prolongation_of_hospitalisation = models.BooleanField(verbose_name=_('DO34 admitted to ITU'), default=False)
-    # # Device specific
-    # device_deficiency = models.BooleanField(verbose_name=_('DO34 admitted to ITU'), default=False)
-    # device_user_error = models.BooleanField(verbose_name=_('DO34 admitted to ITU'), default=False)
-    # # Lesser issues
-    # unable_to_work = models.BooleanField(verbose_name=_('DO34 admitted to ITU'), default=False)
-    # interfering_symptom = models.BooleanField(verbose_name=_('DO34 admitted to ITU'), default=False)
-    # symptom_with_no_sequalae = models.BooleanField(verbose_name=_('DO34 admitted to ITU'), default=False)
-    #
-    # grade_first_30_days = models.ForeignKey(ClavienDindoGrading)
-    # grade_first_30_days_d = models.BooleanField(
-    #     help_text="If the patients suffers from a complication at the time of discharge, the suffix  “d” (for "
-    #               "‘disability’) is added to the respective grade of complication. This label indicates the need for "
-    #               "a follow-up to fully evaluate the complication.")
-    # grade_post_30_days = models.ForeignKey(AlternativeGrading)
 
     class Meta:
         order_with_respect_to = 'organ'
         # ordering = ['sequence_number']
         verbose_name = _('AEm1 adverse event')
         verbose_name_plural = _('AEm2 adverse events')
+
+    def get_absolute_url(self):
+        return reverse("wp4:adverse_event:update", kwargs={"pk": self.pk})
+
+    def __unicode__(self):
+        return "{0} @ {1}".format(self.organ.trial_id, self.onset_at_date)
