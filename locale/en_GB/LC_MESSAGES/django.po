@@ -35,191 +35,163 @@ msgstr "Debug Mode"
 
 #: wp4/adverse_event/models.py:22
 msgid "AE04 trial id link"
-msgstr ""
+msgstr "Trial ID"
 
 #: wp4/adverse_event/models.py:29
-#, fuzzy
-#| msgid "OP08 date of death"
 msgid "AE10 lead to death"
-msgstr "Date of death"
+msgstr "Did the adverse event lead to death?"
 
 #: wp4/adverse_event/models.py:30
 msgid "AE11 life threatening illness"
-msgstr ""
+msgstr "Did it result in a life-threatening illness or injury?"
 
 #: wp4/adverse_event/models.py:31
 msgid "AE12 permanent impairment"
-msgstr ""
+msgstr "Did it result in a permanenty impairment of a body structure or a body function?"
 
 #: wp4/adverse_event/models.py:32
-#, fuzzy
-#| msgid "HOm1 hospital"
 msgid "AE13 hospitalisation"
-msgstr "Hospital"
+msgstr "Did it require hospitalisation?"
 
 #: wp4/adverse_event/models.py:33
 msgid "AE14 prolonged hospitalisation"
-msgstr ""
+msgstr "Did it require prolongation of hospitalisation?"
 
 #: wp4/adverse_event/models.py:34
 msgid "AE15 surgery required"
-msgstr ""
+msgstr "Did it result in medical or surgical intervention to prevent life-threatening illness or injury or permanent impairment to a body structure or a body function?"
 
 #: wp4/adverse_event/models.py:37
 msgid "AE02 onset date"
-msgstr "Start date of Adverse Event"
+msgstr "Date of Onset of Adverse Event"
 
 #: wp4/adverse_event/models.py:38
 msgid "AE03 event ongoing"
-msgstr ""
+msgstr "Is the event still ongoing?"
 
 #: wp4/adverse_event/models.py:39
 msgid "AE06 description"
-msgstr "Description of adverse event"
+msgstr "Q1 Please describe the event"
 
 #: wp4/adverse_event/models.py:40
 msgid "AE07 action"
-msgstr "Action taken "
+msgstr "Q2 Action taken"
 
 #: wp4/adverse_event/models.py:41
 msgid "AE08 outcome"
-msgstr "Outcome"
+msgstr "Q3 Outcome"
 
 #: wp4/adverse_event/models.py:42
 msgid "AE20 incapcity"
-msgstr ""
+msgstr "Did the event result in incapacity/inability to work?"
 
 #: wp4/adverse_event/models.py:43
-#, fuzzy
-#| msgid "FY12 qol usual activites score"
 msgid "AE21 usual activity"
-msgstr "Usual activities"
+msgstr "Did the event result in a sign/symptom that interferes with the subject's usual activity?"
 
 #: wp4/adverse_event/models.py:44
 msgid "AE22 no sequelae"
-msgstr ""
+msgstr "Did the event cause signs/symptoms that resolved with no sequelae?"
 
 #: wp4/adverse_event/models.py:45
 msgid "AE23 device deficiency"
-msgstr ""
+msgstr "Did the event arise from device deficiency?"
 
 #: wp4/adverse_event/models.py:46
 msgid "AE24 device user error"
-msgstr ""
+msgstr "Did the event arise from device user error?"
 
 #: wp4/adverse_event/models.py:47
 msgid "AE25 life threatening illness"
-msgstr ""
+msgstr "Did the event result in a life-threatening illness or injury?"
 
 #: wp4/adverse_event/models.py:48
 msgid "AE26 permanent impairment"
-msgstr ""
+msgstr "Did the event result in permanent impairment of a body structure or a body function?"
 
 #: wp4/adverse_event/models.py:49
 msgid "AE27 prolonged hospitalisation"
-msgstr ""
+msgstr "Did the event require prolongation of hospitalisation?"
 
 #: wp4/adverse_event/models.py:50
 msgid "AE28 surgery required"
-msgstr ""
+msgstr "Did the event result in medical or surgical intervention to prevent life-threatening illness or injury or permanent impairment to a body structure or a body function?"
 
 #: wp4/adverse_event/models.py:53
 msgid "AE30 rehospitalisation"
-msgstr ""
+msgstr "Q6 Did the event require hospitalisation?"
 
 #: wp4/adverse_event/models.py:54
-#, fuzzy
-#| msgid "DO13 date of admission"
 msgid "AE31 date of admission"
-msgstr "Date of admission in hospital"
+msgstr "Date of admission"
 
 #: wp4/adverse_event/models.py:55
-#, fuzzy
-#| msgid "FI26 date of primary post tx discharge"
 msgid "AE32 date of discharge"
-msgstr "Date of discharge post transplant"
+msgstr "Date of discharge"
 
 #: wp4/adverse_event/models.py:56
-#, fuzzy
-#| msgid "DO14 admitted to ITU"
 msgid "AE33 admitted to ITU"
 msgstr "Were they admitted to ITU?"
 
 #: wp4/adverse_event/models.py:57
-#, fuzzy
-#| msgid "DO14 admitted to ITU"
-msgid "AE34 admitted to ITU"
-msgstr "Were they admitted to ITU?"
+msgid "AE34 dialysis needed"
+msgstr "Was dialysis needed?"
 
 #: wp4/adverse_event/models.py:58
-#, fuzzy
-#| msgid "DO14 admitted to ITU"
-msgid "AE35 admitted to ITU"
-msgstr "Were they admitted to ITU?"
+msgid "AE35 biopsy taken"
+msgstr "Was a kidney biopsey taken?"
 
 #: wp4/adverse_event/models.py:59
 msgid "AE36 surgery required"
-msgstr ""
+msgstr "Was surgery required?"
 
 #: wp4/adverse_event/models.py:60
 msgid "AE37 comments"
-msgstr ""
+msgstr "Comments"
 
 #: wp4/adverse_event/models.py:62
-#, fuzzy
-#| msgid "OP08 date of death"
 msgid "AE40 led to death"
-msgstr "Date of death"
+msgstr "Q7 Did the event lead to death?"
 
 #: wp4/adverse_event/models.py:63
-#, fuzzy
-#| msgid "OP08 date of death"
 msgid "AE41 date of death"
 msgstr "Date of death"
 
 #: wp4/adverse_event/models.py:65
-#, fuzzy
-#| msgid "AE05 device related"
 msgid "AE49 treatment related?"
-msgstr "Was the adverse event related to the device?"
+msgstr "Treatment related?"
 
 #: wp4/adverse_event/models.py:69
-#, fuzzy
-#| msgid "DOc01 Cerebrovascular Accident"
 msgid "AE42 cerebrovascular"
 msgstr "Cerebrovascular Accident"
 
 #: wp4/adverse_event/models.py:70
 msgid "AE43 multi organ"
-msgstr ""
+msgstr "Multi Organ Failure"
 
 #: wp4/adverse_event/models.py:71
 msgid "AE44 pneumonia"
-msgstr ""
+msgstr "Pneumonia"
 
 #: wp4/adverse_event/models.py:72
 msgid "AE45 sepsis"
-msgstr ""
+msgstr "Sepsis"
 
 #: wp4/adverse_event/models.py:73
-#, fuzzy
-#| msgid "RE26 untransplantable because"
 msgid "AE46 transplant related"
-msgstr "Reason kidney was untransplantable"
+msgstr "Transplant related?"
 
 #: wp4/adverse_event/models.py:74
-#, fuzzy
-#| msgid "REc14 other"
 msgid "AE47 other"
 msgstr "Other"
 
 #: wp4/adverse_event/models.py:75
 msgid "AE48 comments"
-msgstr ""
+msgstr "If other, give details"
 
 #: wp4/adverse_event/models.py:78
 msgid "AE09 primary contact"
-msgstr "Contact person for adverse event details"
+msgstr "Please select the contact who can provide more information"
 
 #: wp4/adverse_event/models.py:83
 msgid "AEm1 adverse event"
