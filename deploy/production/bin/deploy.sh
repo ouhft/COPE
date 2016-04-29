@@ -1,31 +1,31 @@
 #!/bin/bash
-PATH=/home/cm13/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/home/cm13/bin
-WORKON_HOME=/home/cm13/.virtualenvs
-VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python2.7
-VIRTUALENVWRAPPER_SCRIPT=/home/cm13/bin/virtualenvwrapper.sh
+PATH=/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
+WORKON_HOME=/sites/.virtualenvs
+VIRTUALENVWRAPPER_PYTHON=/usr/bin/python2.7
+VIRTUALENVWRAPPER_SCRIPT=/usr/local/bin/virtualenvwrapper.sh
 VIRTUALENVWRAPPER_PROJECT_FILENAME=.project
-VIRTUALENVWRAPPER_HOOK_DIR=/home/cm13/.virtualenvs
-PIP_VIRTUALENV_BASE=/home/cm13/.virtualenvs
-VIRTUALENVWRAPPER_TMPDIR=/home/cm13/.virtualenvs/tmp
+VIRTUALENVWRAPPER_HOOK_DIR=/sites/.virtualenvs
+PIP_VIRTUALENV_BASE=/sites/.virtualenvs
+VIRTUALENVWRAPPER_TMPDIR=/sites/.virtualenvs/tmp
 PIP_RESPECT_VIRTUALENV=true
-HOME=/home/cm13
+HOME=/sites
 PYTHON=python2.7
 
 echo " "
 echo "=================================================================================="
 echo " "
 date
-cd $HOME/webapps/wp4_django/COPE
-PULL=$(git pull)
+cd $HOME/cope/cope-repo
+PULL=$(git pull --all)
 echo "Repository Updated : $PULL"
 echo " "
 if [ "$PULL" = "Already up-to-date." ]; then
     echo "No further actions are required"
 else
-    RETOUCH_CRON=$(chmod 755 deploy/webfaction/deploy-cm13.sh)
+    RETOUCH_CRON=$(chmod 755 deploy/production/bin/deploy.sh)
     find . -name '*.pyc' -delete
-    source $HOME/.virtualenvs/wp4_20150514/bin/activate
-    pip install -U -r requirements/webfaction.txt
+    source $HOME/.virtualenvs/cope/bin/activate
+    pip install -U -r requirements/production.txt
     echo " "
     CHECK=$(python2.7 manage.py check)
     if [[ $CHECK == *"System check identified no issues (0 silenced)."* ]]; then
