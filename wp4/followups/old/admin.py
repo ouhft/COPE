@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.utils import timezone
 from reversion_compare.admin import CompareVersionAdmin
 
-from .models import FollowUpInitial, FollowUp3M, FollowUp6M, FollowUp1Y
+# from .models import FollowUpInitial, FollowUp3M, FollowUp6M, FollowUp1Y
 
 
 class VersionControlAdmin(CompareVersionAdmin):
