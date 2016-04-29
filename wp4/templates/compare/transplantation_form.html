@@ -1,5 +1,5 @@
 {% extends "base_site.html" %}
-{% load l10n i18n %}
+{% load l10n i18n humanize %}
 {% load crispy_forms_tags %}
 {% load crispy_forms_field %}
 
@@ -8,36 +8,85 @@
     Transplantation
     <small>Case: {{ organ.trial_id }}</small>
 {% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:compare:transplantation_list' %}">Transplantation</a></li>
+    <li class="active">Edit Case</li>
+{% endblock %}
 
 
 {% block content %}
     <form method="post" action="{% url 'wp4:compare:transplantation_detail' pk=organ.id %}" class=""
           id="transplant-form">
-        {#        <h2 class="sr-only visible-print">Donor</h2>#}
-        {#        {{ recipient_form.errors }}#}
-        {#        {% crispy recipient_form %}#}
+        <div class="panel panel-primary" style="margin-top: 10px;">
+            <div class="panel-heading" role="tab" id="collapseListGroupHeading1">
+                <h3 class="panel-title">
+                    <a class="" role="button" data-toggle="collapse" href="#collapseListGroup1"
+                       aria-expanded="{% if donor.is_randomised %}false{% else %}true{% endif %}"
+                       aria-controls="collapseListGroup1">
+                        To be eligible for this trial the Recipient must satisfy the following conditions...<span
+                            class="caret"></span>
+                    </a>
+                </h3>
+            </div>
+            <div id="collapseListGroup1" class="panel-collapse collapse in"
+                 role="tabpanel"
+                 aria-labelledby="collapseListGroupHeading1"
+                 aria-expanded="true" style="">
+                <ul class="list-group" id="eligibility-list">
+                    <li class="list-group-item">
+                        Eligibility questions will be answered automatically on completion of relevant data below
+                    </li>
+                    {% with organ.recipient.allocation.transplant_hospital.is_project_site as PROJECT_SITE %}
+                    <li class="list-group-item {% if PROJECT_SITE %}list-group-item-success{% else %}list-group-item-danger{% endif %}" id="eligible-project-site">
+                        <a href="javascript:highlightHospitalField()">Allocated to a Project Site
+                            <span class="glyphicon glyphicon-circle-arrow-right"></span></a>
+                        <span class="badge"><i class="glyphicon {% if PROJECT_SITE %}glyphicon-thumbs-up{% else %}glyphicon-thumbs-down{% endif %}"></i></span>
+                    </li>
+                    {% endwith %}
+                    <li class="list-group-item list-group-item-danger" id="eligible-recipient-signed_consent">
+                        <a href="javascript:highlightField('recipient-signed_consent')">Recipient has Consented to Project
+                            <span class="glyphicon glyphicon-circle-arrow-right"></span></a>
+                        <span class="badge"><i class="glyphicon glyphicon-thumbs-down"></i></span>
+                    </li>
+                    <li class="list-group-item list-group-item-danger" id="eligible-recipient-single_kidney_transplant">
+                        <a href="javascript:highlightField('recipient-single_kidney_transplant')">Single Kidney Transplantation Operation
+                            <span class="glyphicon glyphicon-circle-arrow-right"></span></a>
+                        <span class="badge"><i class="glyphicon glyphicon-thumbs-down"></i></span>
+                    </li>
+                    <li class="list-group-item list-group-item-danger" id="eligible-recipient-successful_conclusion">
+                        <a href="javascript:highlightField('recipient-successful_conclusion')">Kidney was successfully transplanted
+                            <span class="glyphicon glyphicon-circle-arrow-right"></span></a>
+                        <span class="badge"><i class="glyphicon glyphicon-thumbs-down"></i></span>
+                    </li>
+                </ul>
+            </div>
+        </div>
 
-
-        {{ allocation_formset.management_form|crispy }}
-        {% for form in allocation_formset %}
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Allocation Round {{ forloop.counter }}
-                </div>
-                <div class="panel-body">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Organ Allocation{{ allocation_formset|pluralize }}
+            </div>
+            <div class="panel-body">
+                {{ allocation_formset.management_form|crispy }}
+                {% for form in allocation_formset %}
+                    <h3>{{ forloop.counter|ordinal }} Allocation</h3>
+                    <div class="row">
                     {{ form.id }}
                     {% for field in form %}
                         {% if field.errors %}
-                            <p class="text-danger">{{ field.errors|striptags }}</p>
+                            <!-- <p class="alert alert-danger">ERR: {{ field.errors|striptags }}</p> -->
                         {% endif %}
                     {% endfor %}
                     {% crispy form form.helper %}
-                </div>
+                    </div>
+                {% endfor %}
             </div>
-        {% endfor %}
+        </div>
 
-        <h2>Recipient</h2>
         {% if recipient_form_loaded %}
+            <h2>Recipient</h2>
             <div class="row">
                 {% if person_form.non_field_errors or recipient_form.non_field_errors %}
                     <div class="col-md-12" style="margin-top: 10px;">
@@ -59,19 +108,20 @@
                     </div>
                     <div class="panel-body">
                         <p class="alert alert-warning">Please ensure you have successfully saved before clicking on the
-                            link
-                            below</p>
+                            link below</p>
 
                         <p><a href="{% url 'wp4:samples:update' pk=worksheet.id %}" class="btn btn-default">Goto Samples
-                            Worksheet
-                            ({{ worksheet }})</a></p>
+                            Worksheet ({{ worksheet }})</a></p>
                     </div>
                 </div>
             {% endif %}
+
+            {% crispy organ_form %}
         {% else %}
-            <p><span class="label label-info">Info</span> Please confirm that the organ has not been re-allocated. The
-                remainder of the form will appear after saving.</p>
+            <p><span class="label label-info">Info</span> Please confirm that the organ has <strong>not</strong> been
+                re-allocated. Once confirmed and saved, the remainder of the form will appear for you to complete.</p>
         {% endif %}
+
     </form>
 
 
@@ -90,17 +140,107 @@
 
 
 {% block footer_extra_scripts %}
-    {% include 'autocomplete_light/static.html' %}
+    {{ allocation_formset.0.media }}
+    <style>
+        .select2-container {
+            min-width: 6em;
+        }
+    </style>
 
     <script>
-        $(document).bind('yourlabsWidgetReady', function () {
-            // HospitalWidget in cope.js
-            $('body').on('initialize', '.autocomplete-light-widget[data-widget-bootstrap=hospital-widget]', function () {
-                $(this).yourlabsWidget(HospitalWidget);
-            });
-        });
+{#        $(document).bind('yourlabsWidgetReady', function () {#}
+{#            // HospitalWidget in cope.js#}
+{#            $('body').on('initialize', '.autocomplete-light-widget[data-widget-bootstrap=hospital-widget]', function () {#}
+{#                $(this).yourlabsWidget(HospitalWidget);#}
+{#            });#}
+{#        });#}
+
+        function highlightHospitalField() {
+            // TODO: Find and highlight the hospital widget in the last allocation
+        }
+
+        function highlightField(buttonName) {
+            var $radioInput = $('input:radio[name='+buttonName+']');
+            var formgroup = $radioInput.parents('div.form-group');
+            var buttons = $radioInput.parents('label');
+            $('html, body').animate({scrollTop: formgroup.offset().top}, 500);
+            formgroup.addClass('has-warning');
+            buttons.removeClass('btn-default').addClass('btn-warning');
+            formgroup.fadeOut().fadeIn().fadeOut().fadeIn().fadeOut().fadeIn();
+        }
+
+        function clickEligibilty(labelGroup) {
+            var groupName = $(labelGroup).children('input').attr('name');
+            console.log("groupName=" + groupName);
+            var listGroup = $('#eligible-'+groupName);
+            var inputYes = $(labelGroup).children('input:radio').val() == 'True';
+            updateEligibilityList(listGroup, inputYes);
+        }
+
+        function clickCompleted(target) {
+            updateCloseButton();
+        }
+
+        function updateEligibilityList(listGroup, yes) {
+            if (yes) {
+                $(listGroup)
+                    .toggleClass('list-group-item-danger', false)
+                    .toggleClass('list-group-item-success', true);
+                $(listGroup).find('i.glyphicon')
+                    .toggleClass('glyphicon-thumbs-up', true)
+                    .toggleClass('glyphicon-thumbs-down', false);
+            } else {
+                $(listGroup)
+                    .toggleClass('list-group-item-danger', true)
+                    .toggleClass('list-group-item-success', false);
+                $(listGroup).find('i.glyphicon')
+                    .toggleClass('glyphicon-thumbs-up', false)
+                    .toggleClass('glyphicon-thumbs-down', true);
+            }
+            updateCloseButton();
+        }
+
+        function updateCloseButton() {
+            var count = $('#eligibility-list').find('.glyphicon-thumbs-up').length;
+            var isCompleted = $('input:radio[name=donor-form_completed]:checked').val() == "True";
+            if (count == 4 && isCompleted) {
+                $('#nav_button_save').toggleClass('btn-primary', false).toggleClass('btn-danger', true).val("Save and Close");
+            } else {
+                $('#nav_button_save').toggleClass('btn-primary', true).toggleClass('btn-danger', false).val("Save");
+            }
+        }
+
 
         document.addEventListener("DOMContentLoaded", function (event) {
+            // Set initial states
+            // [{{ recipient_form.signed_consent.value }}]
+            updateEligibilityList(
+                $('#eligible-recipient-signed_consent'),
+                {% if recipient_form.signed_consent.value %}true{% else %}false{% endif %}
+            );
+            // [{{ recipient_form.single_kidney_transplant.value }}]
+            updateEligibilityList(
+                $('#eligible-recipient-single_kidney_transplant'),
+                {% if recipient_form.single_kidney_transplant.value %}true{% else %}false{% endif %}
+            );
+            // [{{ recipient_form.successful_conclusion.value }}]
+            updateEligibilityList(
+                $('#eligible-recipient-successful_conclusion'),
+                {% if recipient_form.successful_conclusion.value %}true{% else %}false{% endif %}
+            );
+
+
+            // Apply update functions
+            $('input:radio[name=recipient-signed_consent]').parents('label').on('click', function () {
+                clickEligibilty(this)
+            });
+            $('input:radio[name=recipient-single_kidney_transplant]').parents('label').on('click', function () {
+                clickEligibilty(this)
+            });
+            $('input:radio[name=recipient-successful_conclusion]').parents('label').on('click', function () {
+                clickEligibilty(this)
+            });
+
 
             // Navbar bottom actions
             $('footer').addClass('navbar_spacing');

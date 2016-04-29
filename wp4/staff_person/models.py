@@ -6,75 +6,84 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.core.validators import RegexValidator
-from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _, ungettext_lazy as __
+from django.utils.translation import ugettext_lazy as _
 
-from ..locations.models import Hospital
-
-
-# TODO: Stop this being implemented twice (see also compare.models). Here to stop an import error with circular import
-class VersionControlModel(models.Model):
-    version = models.PositiveIntegerField(default=0)
-    created_on = models.DateTimeField(default=timezone.now)
-    created_by = models.ForeignKey(User)
-    record_locked = models.BooleanField(default=False)
-
-    # TODO: Add save method here that aborts saving if record_locked is already true
-    # TODO: Add version control via django-reversion
-
-    class Meta:
-        abstract = True
-
-    def save(self, force_insert=False, force_update=False, using=None,
-             update_fields=None):
-        self.created_on = timezone.now()
-        self.version += 1
-        return super(VersionControlModel, self).save(force_insert, force_update, using, update_fields)
+from wp4.locations.models import Hospital
+from wp4.compare.models import VersionControlModel
 
 
 class StaffJob(models.Model):
-    # pk values for StaffJob taken from fixtures/persons.json
-    PERFUSION_TECHNICIAN = 1
-    TRANSPLANT_COORDINATOR = 2
-    RESEARCH_NURSE = 3
-    NATIONAL_COORDINATOR = 4
-    CENTRAL_COORDINATOR = 5
-    STATISTICIAN = 6
-    SYSTEMS_ADMINISTRATOR = 7
-    LOCAL_INVESTIGATOR = 8
-    OTHER_PROJECT_MEMBER = 9
-    BIOBANK_COORDINATOR = 10
-    THEATRE_CONTACT = 15
+    """
+    Helper class for the range of Job/roles that are defined in the project protocol. These aren't
+    integrated with the Django permissions system, though there is potential to do that as a refactor.
 
-    description = models.CharField(max_length=100)
-    # TODO: Work out how to get localised values from this
+    This data is taken from a preset fixture list (persons.json), with constants only defined for
+    key jobs used within the system.
+    """
+    PERFUSION_TECHNICIAN = 1  #: Constant for StaffJob
+    TRANSPLANT_COORDINATOR = 2  #: Constant for StaffJob
+    RESEARCH_NURSE = 3  #: Constant for StaffJob
+    NATIONAL_COORDINATOR = 4  #: Constant for StaffJob
+    CENTRAL_COORDINATOR = 5  #: Constant for StaffJob
+    STATISTICIAN = 6  #: Constant for StaffJob
+    SYSTEMS_ADMINISTRATOR = 7  #: Constant for StaffJob
+    LOCAL_INVESTIGATOR = 8  #: Constant for StaffJob
+    OTHER_PROJECT_MEMBER = 9  #: Constant for StaffJob
+    BIOBANK_COORDINATOR = 10  #: Constant for StaffJob
+    THEATRE_CONTACT = 15  #: Constant for StaffJob
+
+    description = models.CharField(max_length=100, help_text="Job Label")
 
     def __unicode__(self):
         return self.description
 
 
-# Create your models here.
 class StaffPerson(VersionControlModel):
+    """
+    Base person record that links with the Django User record to add further metadata relevant to the
+    project management. Doesn't extend User to avoid complications of doing so.
+    """
     phone_regex = RegexValidator(
         regex=r'^\+?1?\d{9,15}$',
         message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed."
     )
 
-    user = models.OneToOneField(User, verbose_name=_("PE14 related user account"), blank=True, null=True,
-                                related_name="profile")
+    user = models.OneToOneField(
+        User,
+        verbose_name=_("PE14 related user account"),
+        blank=True, null=True,
+        related_name="profile"
+    )
     first_names = models.CharField(verbose_name=_("PE10 first names"), max_length=50)
     last_names = models.CharField(verbose_name=_("PE11 last names"), max_length=50)
     jobs = models.ManyToManyField(StaffJob, verbose_name=_("PE12 jobs"))
-    telephone = models.CharField(verbose_name=_("PE13 telephone number"), validators=[phone_regex],
-                                 max_length=15, blank=True)
+    telephone = models.CharField(
+        verbose_name=_("PE13 telephone number"),
+        validators=[phone_regex],
+        max_length=15,
+        blank=True
+    )  #: Contents validated against phone_regex ``r'^\+?1?\d{9,15}$'``
     email = models.EmailField(verbose_name=_("PE15 email"), blank=True)
-    based_at = models.ForeignKey(Hospital, blank=True, null=True)
+    based_at = models.ForeignKey(
+        Hospital,
+        blank=True, null=True,
+        help_text="Link to a primary hospital location for the member of staff"
+    )
 
     def full_name(self):
         return self.first_names + ' ' + self.last_names
     full_name.short_description = 'Name'
 
     def has_job(self, acceptable_jobs):
+        """
+        Dual purpose function. Will comfirm or deny this person has one or more of the jobs specified
+        if a list of jobs is is submitted, otherwise will confirm if a specified job is in this person's
+        list of jobs
+
+        :param acceptable_jobs: list, tuple, int, or long, representing StaffJob IDs
+        :return: bool related to whether given input is in person's jobs list
+        :rtype: bool
+        """
         jobs_list = [x.id for x in self.jobs.all()]
         if type(acceptable_jobs) is list or type(acceptable_jobs) is tuple:
             answer = [x for x in jobs_list if x in acceptable_jobs]

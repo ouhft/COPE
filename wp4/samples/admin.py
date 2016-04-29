@@ -3,6 +3,7 @@
 from django.contrib import admin
 from django.contrib.admin.options import IS_POPUP_VAR
 from django.utils import timezone
+from reversion_compare.admin import CompareVersionAdmin
 
 from .models import UrineSample, BloodSample, PerfusateSample, TissueSample, Event, Worksheet
 
@@ -43,7 +44,7 @@ class TissueSampleInline(admin.TabularInline):
     min_num = 2
 
 
-class EventAdmin(admin.ModelAdmin):
+class EventAdmin(CompareVersionAdmin):
     fields = ('worksheet', 'type', 'name', 'taken_at')
     list_display = ('id', 'worksheet', 'type', 'name', 'taken_at')
     ordering = ('worksheet', 'type', 'taken_at')
@@ -121,7 +122,7 @@ class EventInline(admin.TabularInline):
     extra = 1
 
 
-class WorksheetAdmin(admin.ModelAdmin):
+class WorksheetAdmin(CompareVersionAdmin):
     list_display = ('id', 'barcode', 'person',)
     fields = ('barcode', 'person')
     inlines = [EventInline]

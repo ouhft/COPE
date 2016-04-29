@@ -11,6 +11,15 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.production")
+LOCATION_FILE = 'location.env'
+
+# Determine location and therefore which settings to consult
+if os.getcwd() == '/home/cm13':
+    LOCATION_FILE = '/home/cm13/webapps/wp4_django/COPE/' + LOCATION_FILE
+
+with open(LOCATION_FILE, 'r') as location_file:
+    environment_string = location_file.read().replace('\n', '')
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings." + environment_string)
 
 application = get_wsgi_application()

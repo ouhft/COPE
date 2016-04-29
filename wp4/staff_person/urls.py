@@ -6,6 +6,12 @@ from . import views
 
 urlpatterns = [
     url(
+        regex=r'^technician-autocomplete/$',
+        view=views.TechnicianAutoComplete.as_view(),
+        name='technician-autocomplete'
+    ),
+
+    url(
         regex=r'^add/$',
         view=views.StaffPersonCreateView.as_view(),
         name='add'

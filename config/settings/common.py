@@ -17,6 +17,7 @@ import environ
 
 ROOT_DIR = environ.Path(__file__) - 3  # (/a/b/myfile.py - 3 = /)
 APPS_DIR = ROOT_DIR.path('wp4')
+BASE_DIR = str(ROOT_DIR)  # For django_extensions and other legacy code
 
 env = environ.Env()
 if not env.bool("LOCAL_ENV_SET", default=False):
@@ -42,12 +43,15 @@ DJANGO_APPS = [
 ]
 THIRD_PARTY_APPS = [
     'crispy_forms',  # Form layouts
+    'reversion',  # Data version control
+    'reversion_compare',
     # 'allauth',  # registration
     # 'allauth.account',  # registration
     # 'allauth.socialaccount',  # registration
 ]
 THIRD_PARTY_PRE_DJANGO_APPS = [
-    'autocomplete_light',
+    'dal',
+    'dal_select2',
 ]
 
 # Apps specific for this project go here.
@@ -56,6 +60,7 @@ LOCAL_APPS = [
     'wp4.locations',
     'wp4.staff_person',
     'wp4.perfusion_machine',
+    'wp4.health_economics',
     'wp4.samples',
     'wp4.adverse_event',
     'wp4.followups',
@@ -77,6 +82,8 @@ MIDDLEWARE_CLASSES = [
     # 'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # Third party middleware
+    'reversion.middleware.RevisionMiddleware',
     # Own custom middleware
     'config.middleware.activate_timezone.TimezoneMiddleware'
 ]
@@ -102,6 +109,7 @@ FIXTURE_DIRS = [
 # EMAIL CONFIGURATION
 # ------------------------------------------------------------------------------
 EMAIL_BACKEND = env('DJANGO_EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
+EMAIL_FILE_PATH = env('DJANGO_EMAIL_FILE_PATH', default='/tmp')
 
 # MANAGER CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -210,6 +218,7 @@ STATIC_URL = '/static/'
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
 STATICFILES_DIRS = [
     str(APPS_DIR.path('static')),
+    str(ROOT_DIR.path('docs/static'))
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-finders

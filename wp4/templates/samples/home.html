@@ -3,6 +3,11 @@
 
 {% block page_title %}Samples{% endblock %}
 {% block page_header %}Samples - Listing{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li class="active">Samples</li>
+{% endblock %}
 
 {% block content %}
     <table class="table table-responsive">

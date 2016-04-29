@@ -3,9 +3,60 @@
 {% load crispy_forms_tags %}
 {% load crispy_forms_field %}
 
-{% block page_title %}Follow Up{% endblock %}
-{% block page_header %}Initial Follow Up - {{ form.instance.trial_id }}{% endblock %}
+{% block page_title %}Initial (Days 1-7) - Follow Up{% endblock %}
+{% block page_header %}
+    Initial (Days 1-7) - Follow Up
+    <small>Case ID: {{ initial_obj.trial_id }}</small>
+{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:followup:index' %}">Follow Up</a></li>
+    <li><a href="{% url 'wp4:followup:initial_list' %}">Initial</a></li>
+    <li class="active">Edit Report for {{ initial_obj.trial_id }}</li>
+{% endblock %}
 
 {% block content %}
-    {% crispy form %}
+    <form method="post" action="{% url 'wp4:followup:initial_update' pk=initial_obj.id %}" class=""
+          id="followup-form">
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Daily Questions</h3>
+                    </div>
+                    <div class="panel-body">
+                        {{ daily_forms.management_form|crispy }}
+                        {% for form in daily_forms %}
+                            <h4>Day {{ forloop.counter }}</h4>
+                            {{ form.id }}
+                            {% crispy form form.helper %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                {% if form.non_field_errors %}
+                    {% for error in form.non_field_errors %}
+                        <p class="alert alert-danger">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+                {% crispy form %}
+            </div>
+        </div>
+    </form>
+{% endblock %}
+
+
+{% block footer_nav %}
+    {% if not initial_obj.completed %}
+        <nav class="navbar navbar-default navbar-fixed-bottom">
+            <div class="container">
+                <div class="navbar-right">
+                    <input type="button" class="btn btn-primary navbar-btn" value="Save" id="nav_button_save"/>
+                </div>
+            </div>
+        </nav>
+    {% endif %}
 {% endblock %}

@@ -10,7 +10,7 @@
 {% endblock %}
 {% block page_trail %}
     <li><a href="{% url 'home' %}">Home</a></li>
-    <li><a href="#">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
     <li><a href="{% url 'wp4:compare:procurement_list' %}">Procurement</a></li>
     <li class="active">Edit Case</li>
 {% endblock %}
@@ -26,8 +26,7 @@
                     <a class="" role="button" data-toggle="collapse" href="#collapseListGroup1"
                        aria-expanded="{% if donor.is_randomised %}false{% else %}true{% endif %}"
                        aria-controls="collapseListGroup1">
-                        To be eligible for this trial you must satisfy the following conditions...<span
-                            class="caret"></span>
+                        To be eligible for this trial the Donor must satisfy the following conditions...<span class="caret"></span>
                     </a>
                 </h3>
             </div>
@@ -177,7 +176,6 @@
 
 
 {% block footer_extra_scripts %}
-    {% include 'autocomplete_light/static.html' %}
 
     <script type="text/javascript">
         function highlightTransplantableField(left) {
@@ -266,7 +264,7 @@
         }
 
         function updateCloseButton() {
-            var isCompleted = $('input:radio[name=donor-form_completed]:checked').val() != "False"
+            var isCompleted = $('input:radio[name=donor-procurement_form_completed]:checked').val() == "True";
             if (isCompleted) {
                 $('#nav_button_save').toggleClass('btn-primary', false).toggleClass('btn-danger', true).val("Save and Close");
             } else {
@@ -280,14 +278,15 @@
             updateRandomiseKidney({% if right_organ_form.transplantable.value %}true{% else %}false{% endif %}, false);
             updateRandomiseRecipients(
                     {# Values: None=Unanswered, 0=No, 1=Yes, 2=Unknown #}
-                    {% if donor_form.multiple_recipients.value != 0 %}true{% else %}false{% endif %}
+                    // value={{ donor_form.multiple_recipients.value|add:"0" }}
+                    {% if donor_form.multiple_recipients.value|add:"0" != 0 %}true{% else %}false{% endif %}
             );
             updateRandomiseButton();
             updateCloseButton();
 
-            // Reveal the form completed panel if no errors. NB: Non-randomised cases can be completed.
-            var errorCount = {{ donor_form.errors|length }} + {{ person_form.errors|length }} + {{ left_organ_error_count }} + {{ right_organ_error_count }};
-            if (errorCount==0) { $("DIV.panel-danger").toggleClass("hidden", false); }
+{#            // Reveal the form completed panel if no errors. NB: Non-randomised cases can be completed.#}
+{#            var errorCount = {{ donor_form.errors|length }} + {{ person_form.errors|length }} + {{ left_organ_error_count }} + {{ right_organ_error_count }};#}
+{#            if (errorCount==0) { $("DIV.panel-danger").toggleClass("hidden", false); }#}
 
             // Apply update functions
             $('input:radio[name=left-organ-transplantable]').parents('label').on('click', function () {
@@ -299,7 +298,7 @@
             $('input:radio[name=donor-multiple_recipients]').parents('label').on('click', function () {
                 clickRecipients(this)
             });
-            $('input:radio[name=donor-form_completed]').parents('label').on('change', function () {
+            $('input:radio[name=donor-procurement_form_completed]').parents('label').on('change', function () {
                 clickCompleted(this)
             });
 

@@ -1,0 +1,266 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>wp4.health_economics.models &mdash; COPE DB 0.5.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="COPE DB 0.5.0 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> COPE DB
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.5.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_manual.html">COPE DB User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../deployment.html">Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../development.html">Development Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../development.html#useful-things-to-remember">Useful things to remember</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../development.html#documentation">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/wp4_design.html">Design - WP4:Compare</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/wp7_design.html">Design - WP7:Biobanking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/models.html">Data Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">COPE DB</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>wp4.health_economics.models</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for wp4.health_economics.models</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/python</span>
+<span class="c1"># coding: utf-8</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">unicode_literals</span>
+
+<span class="kn">from</span> <span class="nn">django.core.validators</span> <span class="kn">import</span> <span class="n">MinValueValidator</span><span class="p">,</span> <span class="n">MaxValueValidator</span>
+<span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+<span class="kn">from</span> <span class="nn">django.utils</span> <span class="kn">import</span> <span class="n">timezone</span>
+<span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">ugettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
+
+<span class="kn">from</span> <span class="nn">wp4.compare.models</span> <span class="kn">import</span> <span class="n">VersionControlModel</span><span class="p">,</span> <span class="n">Recipient</span>
+<span class="kn">from</span> <span class="nn">wp4.compare.validators</span> <span class="kn">import</span> <span class="n">validate_not_in_future</span>
+
+
+<div class="viewcode-block" id="QualityOfLife"><a class="viewcode-back" href="../../../modules/generated/wp4.health_economics.models.html#wp4.health_economics.models.QualityOfLife">[docs]</a><span class="k">class</span> <span class="nc">QualityOfLife</span><span class="p">(</span><span class="n">VersionControlModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    WORK IN PROGRESS - Class definition prone to rapid change</span>
+
+<span class="sd">    Collects Quality of Life results for a given recipient on a specific date</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">recipient</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Recipient</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Internal link to the Recipient&quot;</span><span class="p">)</span>
+    <span class="n">date_recorded</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;QL07 date recorded&quot;</span><span class="p">),</span>
+        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">validate_not_in_future</span><span class="p">],</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Date can not be in the future&quot;</span>
+    <span class="p">)</span>
+    <span class="n">qol_mobility</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;QL01 qol mobility score&quot;</span><span class="p">),</span>
+        <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">MinValueValidator</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">MaxValueValidator</span><span class="p">(</span><span class="mi">5</span><span class="p">)],</span>
+        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Answer must be in range 1-5&quot;</span>
+    <span class="p">)</span>
+    <span class="n">qol_selfcare</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;QL02 qol self care score&quot;</span><span class="p">),</span>
+        <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">MinValueValidator</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">MaxValueValidator</span><span class="p">(</span><span class="mi">5</span><span class="p">)],</span>
+        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Answer must be in range 1-5&quot;</span>
+    <span class="p">)</span>
+    <span class="n">qol_usual_activities</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;QL03 qol usual activites score&quot;</span><span class="p">),</span>
+        <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">MinValueValidator</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">MaxValueValidator</span><span class="p">(</span><span class="mi">5</span><span class="p">)],</span>
+        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Answer must be in range 1-5&quot;</span>
+    <span class="p">)</span>
+    <span class="n">qol_pain</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;QL04 qol pain or discomfort score&quot;</span><span class="p">),</span>
+        <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">MinValueValidator</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">MaxValueValidator</span><span class="p">(</span><span class="mi">5</span><span class="p">)],</span>
+        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Answer must be in range 1-5&quot;</span>
+    <span class="p">)</span>
+    <span class="n">qol_anxiety</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;QL05 qol anxiety or depression score&quot;</span><span class="p">),</span>
+        <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">MinValueValidator</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">MaxValueValidator</span><span class="p">(</span><span class="mi">5</span><span class="p">)],</span>
+        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Answer must be in range 1-5&quot;</span>
+    <span class="p">)</span>
+    <span class="n">vas_score</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;QL06 vas score&quot;</span><span class="p">),</span>
+        <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">MinValueValidator</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">MaxValueValidator</span><span class="p">(</span><span class="mi">100</span><span class="p">)],</span>
+        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Answer must be in range 0-100&quot;</span>
+    <span class="p">)</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;QLm1 Quality of Life record&quot;</span><span class="p">)</span>
+        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;QLm2 Quality of Life records&quot;</span><span class="p">)</span></div>
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Carl Marshall.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.5.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

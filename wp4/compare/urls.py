@@ -4,6 +4,12 @@ from . import views
 
 urlpatterns = [
     url(
+        regex=r'^retrieval-team-autocomplete/$',
+        view=views.RetrievalTeamAutoComplete.as_view(),
+        name='retrieval-team-autocomplete'
+    ),
+
+    url(
         regex=r'^procurement/$',
         view=views.procurement_list,
         name='procurement_list'

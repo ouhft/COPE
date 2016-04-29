@@ -42,10 +42,11 @@ class TimezoneMiddleware(object):
             locale, path = _strip_path(request.path_info)
             if locale != '':
                 country = locale.split('-')[1]  # Take the country code only
-                tzname = pytz.country_timezones[country][0]  # in cases of where there are more than one
+                if country != u'db':
+                    tzname = pytz.country_timezones[country][0]  # in cases of where there are more than one
 
-        print("DEBUG: TimezoneMiddleware:tzname=%s" % tzname)
-        print("DEBUG: settings.TIME_ZONE = %s" % settings.TIME_ZONE)
+        # print("DEBUG: TimezoneMiddleware:tzname=%s" % tzname)
+        # print("DEBUG: settings.TIME_ZONE = %s" % settings.TIME_ZONE)
         if tzname:
             timezone.activate(pytz.timezone(tzname))
         else:

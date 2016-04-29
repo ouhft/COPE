@@ -1,0 +1,20 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+
+{% block page_title %}WP4: Administration{% endblock %}
+{% block page_header %}WP4: Administration{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li class="active">Administration</li>
+{% endblock %}
+
+{% block content %}
+    <p>This section supports activities on Work Package 4: Compare (WP4) which is a Kidney preservation trial.
+
+    <h3>Administrator Functions</h3>
+    <ul>
+        <li><a href="{% url 'wp4:admin_europe_list' %}">Europe OFFLINE list</a></li>
+        <li><a href="{% url 'wp4:admin_uk_list' %}">United Kingdom OFFLINE list</a></li>
+    </ul>
+{% endblock %}

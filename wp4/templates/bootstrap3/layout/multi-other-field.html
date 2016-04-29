@@ -1,5 +1,6 @@
 {% load crispy_forms_filters crispy_forms_field %}
 {% load l10n i18n %}
+<!-- Start: wp4/templates/bootstrap3/layout/multi-other-field.html -->
 {% with rnd="1234567890asdfghjklqwertyuiopzxcvbnm"|make_list|random %}
     {% with multifield.label_html|add:rnd|slugify as fieldID %}
         <div id="{{ fieldID }}_primary">
@@ -11,9 +12,11 @@
         </div>
 
         <script type="text/javascript">
+            // Script: wp4/templates/bootstrap3/layout/multi-other-field.html
             document.addEventListener("DOMContentLoaded", function (event) {
                 var selector = $('#{{ fieldID }}_primary').find('select');
                 if (selector.exists()) {
+                    console.log("DEBUG: Select found for {{ fieldID }}_primary");
                     {# http://stackoverflow.com/questions/13556941/get-index-of-selected-option-with-jquery - as to why the [0] #}
                     // Set initial state
                     if (selector[0].selectedIndex == selector[0].length - 1) {
@@ -24,10 +27,12 @@
 
                     // Set onchange function for primary field
                     selector.on('change', function () {
+                        console.log("DEBUG: Select triggered for {{ fieldID }}_primary");
                         if (this.selectedIndex == this.length - 1) {
                             $('#{{ fieldID }}_secondary').slideDown(); //.show();
                         } else {
-                            $('#{{ fieldID }}_secondary').slideUp().find('input').val('');
+                            $('#{{ fieldID }}_secondary').slideUp();
+                            // .find('input').val(''); -- Don't do this, it has unintended consequences when nested!
                         }
                     })
                 }
@@ -35,6 +40,7 @@
                 var radiogroup = $('#{{ fieldID }}_primary').find('input:radio');
                 if (radiogroup.exists()) {
                     var radiogroupname = radiogroup.attr('name');
+                    console.log("DEBUG: Radiogroup found for " + radiogroupname);
                     // Set initial state
                     if ($('input:radio[name=' + radiogroupname + ']:last').is(':checked')) {
                         $('#{{ fieldID }}_secondary').show();
@@ -47,10 +53,12 @@
 {#                    console.log("DEBUG: isDisabled=" + radiogroup.is(':disabled'));#}
                     if (!radiogroup.is(':disabled')) {
                         radiogroup.on("change", function () {
+                            console.log("DEBUG: Radiogroup triggered for " + radiogroupname);
                             if ($('input:radio[name=' + radiogroupname + ']:checked').val() == lastValue) {
                                 $('#{{ fieldID }}_secondary').slideDown(); //.show();
                             } else {
-                                $('#{{ fieldID }}_secondary').slideUp().find('input').val('');
+                                $('#{{ fieldID }}_secondary').slideUp();
+                                //.find('input').val(''); -- Don't do this, it has unintended consequences when nested!
                             }
                         });
                     }
@@ -59,3 +67,4 @@
         </script>
     {% endwith %}
 {% endwith %}
+<!-- End: wp4/templates/bootstrap3/layout/multi-other-field.html -->

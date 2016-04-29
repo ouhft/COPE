@@ -8,3 +8,9 @@ django-spaghetti-and-meatballs
 # pygraphviz  # Has issues accessing the graphviz libraries locally
 django-extensions
 selenium
+
+sphinx
+sphinx_rtd_theme
+pyenchant
+sphinxcontrib-spelling
+recommonmark

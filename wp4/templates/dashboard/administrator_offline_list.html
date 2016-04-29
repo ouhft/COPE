@@ -1,0 +1,37 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+
+{% block page_title %}{{ location }} Offline List - Administration{% endblock %}
+{% block page_header %}
+    {{ location }} Offline List
+    <small>Correct as of: {{ timestamp|date:"SHORT_DATE_FORMAT" }} {{ timestamp|time:"TIME_FORMAT" }}</small>
+{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:admin_index' %}">Administration</a></li>
+    <li class="active">{{ location }} Offline List</li>
+{% endblock %}
+
+{% block content %}
+    <table class="table table-condensed">
+    <thead>
+    <tr>
+        <th>Offline Code ID</th>
+        <th>Allocation Left</th>
+        <th>Allocation Right</th>
+        <th>Assigned To</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for row in listing %}
+        <tr>
+            <td>{{ row.id }}</td>
+            <td>{% if row.result %}HMP O2{% else %}HMP{% endif %}</td>
+            <td>{% if row.result %}HMP{% else %}HMP O2{% endif %}</td>
+            <td>{{ row.donor|default:"Available" }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+{% endblock %}

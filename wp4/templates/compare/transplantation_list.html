@@ -4,14 +4,19 @@
 
 {% block page_title %}Transplantation{% endblock %}
 {% block page_header %}Transplantation - Cases{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li class="active">Transplantation</li>
+{% endblock %}
 
 {% block content %}
-{#    exisiting_cases is a list of Organs, as is new_cases #}
+    {#    exisiting_cases is a list of Organs, as is new_cases #}
     <div class="row">
         <div class="col-md-9">
             <h2>
                 Recipients
-                <small>({{ existing_cases|length }} case{{ existing_cases|pluralize }})</small>
+                <small>({{ existing_cases|length }} open case{{ existing_cases|pluralize }})</small>
             </h2>
             {% if existing_cases|length > 0 %}
                 <table class="table table-striped">
@@ -30,28 +35,45 @@
                     {% for case in existing_cases %}
                         <tr>
                             <td>
+                                {% if perms.is_staff %}
+                                    <a href="{% url 'admin:compare_organ_change' case.id %}"><i
+                                            class="glyphicon glyphicon-briefcase"></i></a>
+                                {% endif %}
                                 <a href="{% url 'wp4:compare:transplantation_detail' case.id %}"
                                    class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i>
                                     {{ case.trial_id }}
                                 </a>
-                                {# TODO: Make this staff only #}
-{#                                <a href="{% url 'admin:compare_recipient_change' case.id %}"><i#}
-{#                                        class="glyphicon glyphicon-briefcase"></i></a>#}
                             </td>
                             <td>{{ case.created_on }}</td>
-                            {% if case.is_allocated %}
-                            <td class="success"><i class="glyphicon glyphicon-ok"></i> {{ case.is_allocated|yesno }} ({{ case.reallocation_count }})</td>
-                            {% else %}
-                            <td class="danger"><i class="glyphicon glyphicon-ban-circle"></i> {{ case.is_allocated|yesno }} ({{ case.reallocation_count }})</td>
+                            <td
+                                    {% if case.is_allocated %}
+                                        class="success"><i class="glyphicon glyphicon-ok"></i>
+                                    {% else %}
+                                        class="danger"><i class="glyphicon glyphicon-ban-circle"></i>
+                                    {% endif %}
+                            {{ case.is_allocated|yesno|capfirst }} <br>
+                            {{ case.reallocation_count }} Re-allocation{{ case.reallocation_count|pluralize }}<br>
+                            {{ case.explain_is_allocated }}
+                            {% if perms.is_superuser and case.recipient %}
+                                #{{ case.recipient.id }}
                             {% endif %}
-                            <td>{{ case.recipient.person.number|default:"Unknown number" }}</td>
+                            </td>
+                            <td>
+                                {% if perms.is_staff and case.recipient %}
+                                    <a href="{% url 'admin:compare_recipient_change' case.recipient.id %}"><i
+                                            class="glyphicon glyphicon-briefcase"></i></a>
+                                {% endif %}
+                                {{ case.recipient.person.number|default:"Unknown number" }}
+                            </td>
                             <td>{{ case.recipient.person.age_from_dob|default:"Unknown age" }}</td>
                             <td>{{ case.recipient.person.get_gender_display }}</td>
-                        {% if case.recipient.person.worksheet %}
-                            <td><a href="{% url 'wp4:samples:update' pk=case.recipient.person.worksheet.id %}">{{ case.recipient.person.worksheet }}</a></td>
-                        {% else %}
-                            <td>No Worksheet</td>
-                        {% endif %}
+                            {% if case.recipient.person.worksheet %}
+                                <td>
+                                    <a href="{% url 'wp4:samples:update' pk=case.recipient.person.worksheet.id %}">{{ case.recipient.person.worksheet }}</a>
+                                </td>
+                            {% else %}
+                                <td>No Worksheet</td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -62,21 +84,112 @@
         </div>
         <div class="col-md-3">
             <h2>
-                Organs available<br>
-                <small>({{ new_cases|length }} case{{ new_cases|pluralize }})</small>
+                Available Organs<br>
+                <small>{{ organs_available_count }} Kidney{{ organs_available_count|pluralize }}</small>
             </h2>
-            {% if new_cases|length > 0 %}
-                <div class="list-group">
-                    {% for case in new_cases %}
-                        <a href="{% url 'wp4:compare:transplantation_detail' case.id %}"
-                           class="list-group-item">{{ case.trial_id }}</a>
-                    {% endfor %}
+            <form method="post" action="{% url 'wp4:compare:transplantation_list' %}" class="form" id="new-case-form">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Record kidney allocation</h3>
+                    </div>
+                    <div class="panel-body">
+                        {% if allocation_form.non_field_errors %}
+                            <ul class="list-group">
+                                {% for error in allocation_form.non_field_errors %}
+                                    <li class="list-group-item list-group-item-danger">{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        {% crispy allocation_form %}
+                    </div>
+                    <div class="panel-footer">
+                        <input type="submit" class="btn btn-success" value="Save"/>
+                    </div>
                 </div>
-            {% else %}
-                <p>No new cases available</p>
-            {% endif %}
-
+            </form>
         </div>
     </div>
+    <div class="row">
+    <div class="col-md-12">
+            {% if closed_cases|length > 0 %}
+                <h3>
+                    Closed Cases
+                    <small>({{ closed_cases|length }} closed case{{ closed_cases|pluralize }})</small>
+                </h3>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Trial ID</th>
+                        <th>Last Updated</th>
+                        <th>Allocated?</th>
+                        <th>Number</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+                        <th>Samples</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for case in closed_cases %}
+                        <tr>
+                            <td>
+                                {% if perms.is_staff %}
+                                    <a href="{% url 'admin:compare_organ_change' case.id %}"><i
+                                            class="glyphicon glyphicon-briefcase"></i></a>
+                                {% endif %}
+                                {{ case.trial_id }}
+                            </td>
+                            <td>{{ case.created_on }}</td>
+                            <td
+                                    {% if case.is_allocated %}
+                                        class="success"><i class="glyphicon glyphicon-ok"></i>
+                                    {% else %}
+                                        class="danger"><i class="glyphicon glyphicon-ban-circle"></i>
+                                    {% endif %}
+                            {{ case.is_allocated|yesno|capfirst }} <br>
+                            {{ case.reallocation_count }} Re-allocation{{ case.reallocation_count|pluralize }}<br>
+                            {{ case.explain_is_allocated }}
+                            {% if perms.is_superuser and case.recipient %}
+                                #{{ case.recipient.id }}
+                            {% endif %}
+                            </td>
+                            <td>
+                                {% if perms.is_staff and case.recipient %}
+                                    <a href="{% url 'admin:compare_recipient_change' case.recipient.id %}"><i
+                                            class="glyphicon glyphicon-briefcase"></i></a>
+                                {% endif %}
+                                {{ case.recipient.person.number|default:"Unknown number" }}
+                            </td>
+                            <td>{{ case.recipient.person.age_from_dob|default:"Unknown age" }}</td>
+                            <td>{{ case.recipient.person.get_gender_display }}</td>
+                            {% if case.recipient.person.worksheet %}
+                                <td>
+                                    <a href="{% url 'wp4:samples:update' pk=case.recipient.person.worksheet.id %}">{{ case.recipient.person.worksheet }}</a>
+                                </td>
+                            {% else %}
+                                <td>No Worksheet</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                {% if perms.is_staff %}
+                <h3>
+                    Closed Cases
+                    <small>({{ closed_cases|length }} closed case{{ closed_cases|pluralize }})</small>
+                </h3>
+                {% endif %}
+            {% endif %}
+    </div>
+    </div>
+{% endblock %}
 
+
+{% block footer_extra_scripts %}
+    {{ allocation_form.media }}
+    <style>
+        .select2-container {
+            min-width: 6em;
+        }
+    </style>
 {% endblock %}

@@ -17,32 +17,56 @@
             {% if user.is_authenticated %}
                 <ul class="nav navbar-nav navbar-right">
                     {% url 'home' as url_home %}
-                    <li class="{% active request url_home %}" id="navbar-menu-home"><a href="{{ url_home }}">Home</a></li>
+                    <li class="{% active request url_home %}" id="navbar-menu-home"><a href="{{ url_home }}">Home</a>
+                    </li>
                     <li class="dropdown" id="navbar-menu-wp4">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false">WP4: Compare <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            {% url 'wp4:compare:procurement_list' as url_procurement %}
-                            <li class="{% active request url_procurement %}"><a
-                                    href="{{ url_procurement }}">Procurement</a>
+
+                            {% url 'wp4:index' as url_wp4index %}
+                            <li class="{% active request url_wp4index %}"><a
+                                    href="{{ url_wp4index }}">WP4 Home</a>
                             </li>
-                            {% url 'wp4:compare:transplantation_list' as url_transplantation %}
-                            <li class="{% active request url_transplantation %}"><a href="{{ url_transplantation }}">Transplantation</a>
-                            </li>
-                            {% url 'wp4:samples:home' as url_samples %}
-                            <li class="{% active request url_samples %}"><a href="{{ url_samples }}">Samples</a></li>
-{#                            {% url 'wp4:adverse_event:list' as url_adverseevents %}#}
-{#                            <li class="{% active request url_adverseevents %}"><a href="{{ url_adverseevents }}">Adverse#}
-{#                                Events</a></li>#}
-{#                            {% url 'wp4:followup:list' as url_followup %}#}
-{#                            <li class="{% active request url_followup %}"><a href="{{ url_followup }}">Follow Up</a>#}
-{#                            </li>#}
+                            <li role="separator" class="divider"></li>
+
+                            {% if perms.compare.add_donor %}
+                                {% url 'wp4:compare:procurement_list' as url_procurement %}
+                                <li class="{% active request url_procurement %}"><a
+                                        href="{{ url_procurement }}">Procurement</a>
+                                </li>
+                            {% endif %}
+
+                            {% if perms.compare.add_recipient %}
+                                {% url 'wp4:compare:transplantation_list' as url_transplantation %}
+                                <li class="{% active request url_transplantation %}"><a
+                                        href="{{ url_transplantation }}">Transplantation</a>
+                                </li>
+                            {% endif %}
+
+                            {% if perms.samples.change_worksheet %}
+                                {% url 'wp4:samples:home' as url_samples %}
+                                <li class="{% active request url_samples %}"><a href="{{ url_samples }}">Samples</a>
+                                </li>
+                            {% endif %}
+
+                            {% url 'wp4:adverse_event:list' as url_adverseevents %}
+                            <li class="{% active request url_adverseevents %}"><a href="{{ url_adverseevents }}">Adverse Events</a></li>
+
+                            {% if perms.followup.change_intial %}
+                                {% url 'wp4:followup:index' as url_followup %}
+{#                                <li class="{% active request url_followup %}"><a href="{{ url_followup }}">Follow Up</a>#}
+                                </li>
+                            {% endif %}
                         </ul>
                     </li>
-                {% if user.is_staff %}
-                    {% url 'admin:index' as url_admin_home %}
-                    <li id="navbar-menu-admin"><a href="{{ url_admin_home }}"><i class="glyphicon glyphicon-briefcase"></i></a></li>
-                {% endif %}
+
+                    {% if perms.is_staff %}
+                        {% url 'admin:index' as url_admin_home %}
+                        <li id="navbar-menu-admin"><a href="{{ url_admin_home }}"><i
+                                class="glyphicon glyphicon-briefcase"></i></a></li>
+                    {% endif %}
+
                     <li class="dropdown" id="navbar-menu-aboutme">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                             <i class="glyphicon glyphicon-user"></i><span class="visible-xs-block"> About Me</span>
@@ -60,9 +84,12 @@
                             <li><a href="{% url 'admin:password_change' %}">Change Password</a></li>
                         </ul>
                     </li>
+
                     {#                TODO: Implement the contact us #}
                     {#                    <li><a href="#" title="Contact Us"><i class="glyphicon glyphicon-envelope"></i><span#}
                     {#                            class="visible-xs-block"> Contact Us</span></a></li>#}
+
+
                     <li class="dropdown" id="navbar-menu-language">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
                            title="Language">

@@ -1,0 +1,526 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>wp4.samples.models &mdash; COPE DB 0.5.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="COPE DB 0.5.0 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> COPE DB
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.5.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_manual.html">COPE DB User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../deployment.html">Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../development.html">Development Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../development.html#useful-things-to-remember">Useful things to remember</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../development.html#documentation">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/wp4_design.html">Design - WP4:Compare</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/wp7_design.html">Design - WP7:Biobanking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/models.html">Data Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">COPE DB</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>wp4.samples.models</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for wp4.samples.models</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/python</span>
+<span class="c1"># coding: utf-8</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">unicode_literals</span>
+
+<span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">django.core.validators</span> <span class="kn">import</span> <span class="n">ValidationError</span>
+<span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+<span class="kn">from</span> <span class="nn">django.utils</span> <span class="kn">import</span> <span class="n">timezone</span>
+<span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">ugettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
+
+<span class="kn">from</span> <span class="nn">..compare.models</span> <span class="kn">import</span> <span class="n">OrganPerson</span><span class="p">,</span> <span class="n">VersionControlModel</span><span class="p">,</span> <span class="n">Organ</span>
+
+
+<div class="viewcode-block" id="BarCodedItem"><a class="viewcode-back" href="../../../modules/generated/wp4.samples.models.html#wp4.samples.models.BarCodedItem">[docs]</a><span class="k">class</span> <span class="nc">BarCodedItem</span><span class="p">(</span><span class="n">VersionControlModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base meta class for many Sample classes, that extends VersionControlModel with a barcode field</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">barcode</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;BC01 barcode number&quot;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<div class="viewcode-block" id="BarCodedItem.Meta"><a class="viewcode-back" href="../../../modules/generated/wp4.samples.models.html#wp4.samples.models.BarCodedItem.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">abstract</span> <span class="o">=</span> <span class="bp">True</span></div>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">barcode</span></div>
+
+
+<div class="viewcode-block" id="Worksheet"><a class="viewcode-back" href="../../../modules/generated/wp4.samples.models.html#wp4.samples.models.Worksheet">[docs]</a><span class="k">class</span> <span class="nc">Worksheet</span><span class="p">(</span><span class="n">BarCodedItem</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Record of each Worksheet that links specific samples taken with a specific OrganPerson</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">person</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">OrganPerson</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Donor or Recipient that this worksheet relates to&quot;</span><span class="p">)</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;person&#39;</span><span class="p">]</span>
+        <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;WSm1 worksheet&#39;</span><span class="p">)</span>
+        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;WSm2 worksheets&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">barcode</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">barcode</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> - No Barcode entered&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Event"><a class="viewcode-back" href="../../../modules/generated/wp4.samples.models.html#wp4.samples.models.Event">[docs]</a><span class="k">class</span> <span class="nc">Event</span><span class="p">(</span><span class="n">VersionControlModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Sample Event is a timepoint and process where a specific type of biological sample was extracted</span>
+<span class="sd">    from a person. This even can validate whether enough biological samples were taken (e.g. a blood</span>
+<span class="sd">    sample results in two separate containers; whereas a perfusate sample has only one), and acts as the</span>
+<span class="sd">    link between a Worksheet and the various Sample types</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">TYPE_BLOOD</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1">#: Constant for TYPE_CHOICES</span>
+    <span class="n">TYPE_URINE</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1">#: Constant for TYPE_CHOICES</span>
+    <span class="n">TYPE_PERFUSATE</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c1">#: Constant for TYPE_CHOICES</span>
+    <span class="n">TYPE_TISSUE</span> <span class="o">=</span> <span class="mi">4</span>  <span class="c1">#: Constant for TYPE_CHOICES</span>
+    <span class="n">TYPE_CHOICES</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="n">TYPE_BLOOD</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;EVc01 Blood&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">TYPE_URINE</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;EVc02 Urine&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">TYPE_PERFUSATE</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;EVc03 Perfusate&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">TYPE_TISSUE</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;EVc04 Tissue&quot;</span><span class="p">)),</span>
+    <span class="p">)</span>  <span class="c1">#: Limit of choices for Event type data</span>
+    <span class="n">NAME_DONOR_BLOOD1</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1">#: Constant for NAME_CHOICES</span>
+    <span class="n">NAME_DONOR_URINE1</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1">#: Constant for NAME_CHOICES</span>
+    <span class="n">NAME_DONOR_URINE2</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c1">#: Constant for NAME_CHOICES</span>
+    <span class="n">NAME_ORGAN_PERFUSATE1</span> <span class="o">=</span> <span class="mi">4</span>  <span class="c1">#: Constant for NAME_CHOICES</span>
+    <span class="n">NAME_ORGAN_PERFUSATE2</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1">#: Constant for NAME_CHOICES</span>
+    <span class="n">NAME_ORGAN_PERFUSATE3</span> <span class="o">=</span> <span class="mi">6</span>  <span class="c1">#: Constant for NAME_CHOICES</span>
+    <span class="n">NAME_ORGAN_TISSUE</span> <span class="o">=</span> <span class="mi">7</span>  <span class="c1">#: Constant for NAME_CHOICES</span>
+    <span class="n">NAME_RECIPIENT_BLOOD1</span> <span class="o">=</span> <span class="mi">8</span>  <span class="c1">#: Constant for NAME_CHOICES</span>
+    <span class="n">NAME_RECIPIENT_BLOOD2</span> <span class="o">=</span> <span class="mi">9</span>  <span class="c1">#: Constant for NAME_CHOICES</span>
+    <span class="n">NAME_CHOICES</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="n">NAME_DONOR_BLOOD1</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;EVc05 donor blood 1&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">NAME_DONOR_URINE1</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;EVc06 donor urine 1&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">NAME_DONOR_URINE2</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;EVc07 donor urine 2&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">NAME_ORGAN_PERFUSATE1</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;EVc08 organ perfusate 1&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">NAME_ORGAN_PERFUSATE2</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;EVc09 organ perfusate 2&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">NAME_ORGAN_PERFUSATE3</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;EVc10 organ perfusate 3&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">NAME_ORGAN_TISSUE</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;EVc11 organ tissue 1&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">NAME_RECIPIENT_BLOOD1</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;EVc12 recipient blood 1&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">NAME_RECIPIENT_BLOOD2</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;EVc13 recipient blood 2&quot;</span><span class="p">)),</span>
+    <span class="p">)</span>  <span class="c1">#: Limit of choices for Event name data</span>
+
+    <span class="n">worksheet</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Worksheet</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Internal link to the Worksheet&quot;</span><span class="p">)</span>
+    <span class="nb">type</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;EV01 sample type&quot;</span><span class="p">),</span> <span class="n">choices</span><span class="o">=</span><span class="n">TYPE_CHOICES</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;EV03 sample process name&quot;</span><span class="p">),</span> <span class="n">choices</span><span class="o">=</span><span class="n">NAME_CHOICES</span><span class="p">)</span>
+    <span class="n">taken_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;EV02 date and time taken&quot;</span><span class="p">),</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">]</span>
+        <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;EVm1 sample event&#39;</span><span class="p">)</span>
+        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;EVm2 sample events&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Event.clean"><a class="viewcode-back" href="../../../modules/generated/wp4.samples.models.html#wp4.samples.models.Event.clean">[docs]</a>    <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        If type is...</span>
+
+<span class="sd">        * BLOOD - check for two different types of BloodSample</span>
+<span class="sd">        * URINE - check for one type of UrineSample</span>
+<span class="sd">        * PERFUSATE - check for one type of PerfusateSample</span>
+<span class="sd">        * TISSUE - check for two different types of TissueSample</span>
+
+<span class="sd">        ... and that a suitable Event name was chosen, and that taken_at value  is not in the future.</span>
+
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">Event</span><span class="o">.</span><span class="n">TYPE_BLOOD</span><span class="p">:</span>
+            <span class="n">sample_set</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bloodsample_set</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+            <span class="n">count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample_set</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">count</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;EVv01 this event should have two blood sample records&quot;</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">sample_set</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">blood_type</span> <span class="o">==</span> <span class="n">sample_set</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">blood_type</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;EVv06 the blood samples must not have matching types&quot;</span><span class="p">))</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="n">Event</span><span class="o">.</span><span class="n">NAME_DONOR_BLOOD1</span><span class="p">,</span> <span class="n">Event</span><span class="o">.</span><span class="n">NAME_RECIPIENT_BLOOD1</span><span class="p">,</span> <span class="n">Event</span><span class="o">.</span><span class="n">NAME_RECIPIENT_BLOOD2</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;EVv08 invalid name selected (please select a blood related name)&quot;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">Event</span><span class="o">.</span><span class="n">TYPE_URINE</span><span class="p">:</span>
+            <span class="n">count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">urinesample_set</span><span class="o">.</span><span class="n">all</span><span class="p">())</span>
+            <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">count</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;EVv02 this event should have one urine sample record&quot;</span><span class="p">))</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="n">Event</span><span class="o">.</span><span class="n">NAME_DONOR_URINE1</span><span class="p">,</span> <span class="n">Event</span><span class="o">.</span><span class="n">NAME_DONOR_URINE2</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;EVv09 invalid name selected (please select a urine related name)&quot;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">Event</span><span class="o">.</span><span class="n">TYPE_PERFUSATE</span><span class="p">:</span>
+            <span class="n">count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">perfusatesample_set</span><span class="o">.</span><span class="n">all</span><span class="p">())</span>
+            <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">count</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;EVv03 this event should have one perfusate sample record&quot;</span><span class="p">))</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="n">Event</span><span class="o">.</span><span class="n">NAME_ORGAN_PERFUSATE1</span><span class="p">,</span> <span class="n">Event</span><span class="o">.</span><span class="n">NAME_ORGAN_PERFUSATE2</span><span class="p">,</span> <span class="n">Event</span><span class="o">.</span><span class="n">NAME_ORGAN_PERFUSATE3</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;EVv10 invalid name selected (please select a perfusate related name)&quot;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">Event</span><span class="o">.</span><span class="n">TYPE_TISSUE</span><span class="p">:</span>
+            <span class="n">sample_set</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tissuesample_set</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+            <span class="n">count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample_set</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">count</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;EVv04 this event should have two tissue sample records&quot;</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">sample_set</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tissue_type</span> <span class="ow">and</span> <span class="n">sample_set</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tissue_type</span> <span class="ow">and</span> <span class="n">sample_set</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tissue_type</span> <span class="o">==</span> <span class="n">sample_set</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tissue_type</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;EVv07 the tissue samples must not have matching types&quot;</span><span class="p">))</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="n">Event</span><span class="o">.</span><span class="n">NAME_ORGAN_TISSUE</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;EVv11 invalid name selected (please select a tissue related name)&quot;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">taken_at</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">taken_at</span> <span class="o">&gt;</span> <span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;EVv05 Time travel detected! Taken at date and time is in the future!&quot;</span><span class="p">))</span></div>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_type_display</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">taken_at</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DeviationMixin"><a class="viewcode-back" href="../../../modules/generated/wp4.samples.models.html#wp4.samples.models.DeviationMixin">[docs]</a><span class="k">class</span> <span class="nc">DeviationMixin</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In place of Deviation records on a worksheet, we have a way of tracking them per sample.</span>
+<span class="sd">    Also holds the meta question of whether this specific sample was actually taken or not.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">collected</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;DM01 sample collected?&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">notes</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;DM02 notes&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Deviation record&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="DeviationMixin.Meta"><a class="viewcode-back" href="../../../modules/generated/wp4.samples.models.html#wp4.samples.models.DeviationMixin.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">abstract</span> <span class="o">=</span> <span class="bp">True</span></div></div>
+
+
+<div class="viewcode-block" id="BloodSample"><a class="viewcode-back" href="../../../modules/generated/wp4.samples.models.html#wp4.samples.models.BloodSample">[docs]</a><span class="k">class</span> <span class="nc">BloodSample</span><span class="p">(</span><span class="n">BarCodedItem</span><span class="p">,</span> <span class="n">DeviationMixin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sample class type for Blood samples.</span>
+
+<span class="sd">    Also contains a helper (repeated, but direct) link to the OrganPerson this sample was from (mainly</span>
+<span class="sd">    to aide reverse sample look ups from OrganPerson)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">SAMPLE_SST</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1">#: Constant for SAMPLE_CHOICES</span>
+    <span class="n">SAMPLE_EDSA</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1">#: Constant for SAMPLE_CHOICES</span>
+    <span class="n">SAMPLE_CHOICES</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="n">SAMPLE_SST</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;BSc01 Blood SST&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">SAMPLE_EDSA</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;BSc02 Blood EDSA&quot;</span><span class="p">))</span>
+    <span class="p">)</span>  <span class="c1">#: Limit of choices for BloodSample blood_type</span>
+
+    <span class="n">event</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span>
+        <span class="n">Event</span><span class="p">,</span>
+        <span class="n">limit_choices_to</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">Event</span><span class="o">.</span><span class="n">TYPE_BLOOD</span><span class="p">},</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Link to an event of type Blood&quot;</span>
+    <span class="p">)</span>
+    <span class="n">blood_type</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;BS02 blood sample type&quot;</span><span class="p">),</span> <span class="n">choices</span><span class="o">=</span><span class="n">SAMPLE_CHOICES</span><span class="p">)</span>
+    <span class="n">person</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">OrganPerson</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;BS03 sample from&quot;</span><span class="p">))</span>
+    <span class="n">centrifuged_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;BS01 centrifuged at&quot;</span><span class="p">),</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;person&#39;</span><span class="p">,</span> <span class="s1">&#39;event__taken_at&#39;</span><span class="p">]</span>
+        <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;BSm1 blood sample&#39;</span><span class="p">)</span>
+        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;BSm2 blood samples&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="BloodSample.clean"><a class="viewcode-back" href="../../../modules/generated/wp4.samples.models.html#wp4.samples.models.BloodSample.clean">[docs]</a>    <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        If sample is marked as collected, confirm taken_at date is present, otherwise that deviation</span>
+<span class="sd">        notes have been recorded.</span>
+
+<span class="sd">        Ensure that centrifuged_at datetime is not in the future, and that it occured after taken_at datetime</span>
+
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">collected</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">collected</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">notes</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;BSv01 you must enter some notes about why this sample was not collected&quot;</span><span class="p">))</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">collected</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">taken_at</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;BSv04 Please record the time the sample was taken&quot;</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">centrifuged_at</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">centrifuged_at</span> <span class="o">&gt;</span> <span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;BSv02 Time travel detected! Centrifuged at date and time is in the future!&quot;</span><span class="p">))</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">taken_at</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">centrifuged_at</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">taken_at</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;BSv03 Body in spin dryer! Sample was centrifuged before it was taken?&quot;</span><span class="p">))</span></div></div>
+
+
+<div class="viewcode-block" id="UrineSample"><a class="viewcode-back" href="../../../modules/generated/wp4.samples.models.html#wp4.samples.models.UrineSample">[docs]</a><span class="k">class</span> <span class="nc">UrineSample</span><span class="p">(</span><span class="n">BarCodedItem</span><span class="p">,</span> <span class="n">DeviationMixin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sample class type for Urine samples.</span>
+
+<span class="sd">    Also contains a helper (repeated, but direct) link to the OrganPerson this sample was from (mainly</span>
+<span class="sd">    to aide reverse sample look ups from OrganPerson)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">event</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span>
+        <span class="n">Event</span><span class="p">,</span>
+        <span class="n">limit_choices_to</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">Event</span><span class="o">.</span><span class="n">TYPE_URINE</span><span class="p">},</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Link to an event of type Urine&quot;</span>
+    <span class="p">)</span>
+    <span class="n">person</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">OrganPerson</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;US02 sample from&quot;</span><span class="p">))</span>
+    <span class="n">centrifuged_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;US01 centrifuged at&quot;</span><span class="p">),</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;person&#39;</span><span class="p">,</span> <span class="s1">&#39;event__taken_at&#39;</span><span class="p">]</span>
+        <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;USm1 urine sample&#39;</span><span class="p">)</span>
+        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;USm2 urine samples&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="UrineSample.clean"><a class="viewcode-back" href="../../../modules/generated/wp4.samples.models.html#wp4.samples.models.UrineSample.clean">[docs]</a>    <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        If sample is marked as collected, confirm taken_at date is present, otherwise that deviation</span>
+<span class="sd">        notes have been recorded.</span>
+
+<span class="sd">        Ensure that centrifuged_at datetime is not in the future, and that it occured after taken_at datetime</span>
+
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">collected</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">collected</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">notes</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;USv01 you must enter some notes about why this sample was not collected&quot;</span><span class="p">))</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">collected</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">taken_at</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;USv04 Please record the time the sample was taken&quot;</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">centrifuged_at</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">centrifuged_at</span> <span class="o">&gt;</span> <span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;USv02 Time travel detected! Centrifuged at date and time is in the future!&quot;</span><span class="p">))</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">taken_at</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">centrifuged_at</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">taken_at</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;USv03 Body in spin dryer! Sample was centrifuged before it was taken?&quot;</span><span class="p">))</span></div></div>
+
+
+<div class="viewcode-block" id="PerfusateSample"><a class="viewcode-back" href="../../../modules/generated/wp4.samples.models.html#wp4.samples.models.PerfusateSample">[docs]</a><span class="k">class</span> <span class="nc">PerfusateSample</span><span class="p">(</span><span class="n">BarCodedItem</span><span class="p">,</span> <span class="n">DeviationMixin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sample class type for Perfusate samples.</span>
+
+<span class="sd">    Also contains a helper (repeated, but direct) link to the OrganPerson this sample was from (mainly</span>
+<span class="sd">    to aide reverse sample look ups from OrganPerson)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">event</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span>
+        <span class="n">Event</span><span class="p">,</span>
+        <span class="n">limit_choices_to</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">Event</span><span class="o">.</span><span class="n">TYPE_PERFUSATE</span><span class="p">},</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Link to an event of type Perfusate&quot;</span>
+    <span class="p">)</span>
+    <span class="n">organ</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Organ</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;PS02 sample from&quot;</span><span class="p">))</span>
+    <span class="n">centrifuged_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;PS01 centrifuged at&quot;</span><span class="p">),</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;organ&#39;</span><span class="p">,</span> <span class="s1">&#39;event__taken_at&#39;</span><span class="p">]</span>
+        <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;PSm1 perfusate sample&#39;</span><span class="p">)</span>
+        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;PSm2 perfusate samples&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="PerfusateSample.clean"><a class="viewcode-back" href="../../../modules/generated/wp4.samples.models.html#wp4.samples.models.PerfusateSample.clean">[docs]</a>    <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        If sample is marked as collected, confirm taken_at date is present, otherwise that deviation</span>
+<span class="sd">        notes have been recorded.</span>
+
+<span class="sd">        Ensure that centrifuged_at datetime is not in the future, and that it occured after taken_at datetime</span>
+
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">collected</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">collected</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">notes</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;PSv01 you must enter some notes about why this sample was not collected&quot;</span><span class="p">))</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">collected</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">taken_at</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;PSv04 Please record the time the sample was taken&quot;</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">centrifuged_at</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">centrifuged_at</span> <span class="o">&gt;</span> <span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;PSv02 Time travel detected! Centrifuged at date and time is in the future!&quot;</span><span class="p">))</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">taken_at</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">centrifuged_at</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">taken_at</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;PSv03 Body in spin dryer! Sample was centrifuged before it was taken?&quot;</span><span class="p">))</span></div></div>
+
+
+<div class="viewcode-block" id="TissueSample"><a class="viewcode-back" href="../../../modules/generated/wp4.samples.models.html#wp4.samples.models.TissueSample">[docs]</a><span class="k">class</span> <span class="nc">TissueSample</span><span class="p">(</span><span class="n">BarCodedItem</span><span class="p">,</span> <span class="n">DeviationMixin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sample class type for Perfusate samples.</span>
+
+<span class="sd">    Also contains a helper (repeated, but direct) link to the OrganPerson this sample was from (mainly</span>
+<span class="sd">    to aide reverse sample look ups from OrganPerson)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">SAMPLE_R</span> <span class="o">=</span> <span class="s2">&quot;R&quot;</span>  <span class="c1">#: Constant for SAMPLE_CHOICES</span>
+    <span class="n">SAMPLE_F</span> <span class="o">=</span> <span class="s2">&quot;F&quot;</span>  <span class="c1">#: Constant for SAMPLE_CHOICES</span>
+    <span class="n">SAMPLE_CHOICES</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="n">SAMPLE_F</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;TSc01 ReK1F&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">SAMPLE_R</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;TSc02 ReK1R&quot;</span><span class="p">))</span>
+    <span class="p">)</span>  <span class="c1">#: Limit of choices for BloodSample tissue_type</span>
+
+    <span class="n">event</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span>
+        <span class="n">Event</span><span class="p">,</span>
+        <span class="n">limit_choices_to</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">Event</span><span class="o">.</span><span class="n">TYPE_TISSUE</span><span class="p">},</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Link to an event of type Tissue&quot;</span>
+    <span class="p">)</span>
+    <span class="n">organ</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Organ</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;TS01 sample from&quot;</span><span class="p">))</span>
+    <span class="n">tissue_type</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">SAMPLE_CHOICES</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;TS02 tissue sample type&quot;</span><span class="p">))</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;organ&#39;</span><span class="p">,</span> <span class="s1">&#39;event__taken_at&#39;</span><span class="p">]</span>
+        <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;TSm1 tissue sample&#39;</span><span class="p">)</span>
+        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;TSm2 tissue samples&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="TissueSample.clean"><a class="viewcode-back" href="../../../modules/generated/wp4.samples.models.html#wp4.samples.models.TissueSample.clean">[docs]</a>    <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        If sample is marked as collected, confirm taken_at date is present, otherwise that deviation</span>
+<span class="sd">        notes have been recorded.</span>
+
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">collected</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">collected</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">notes</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;TSv01 you must enter some notes about why this sample was not collected&quot;</span><span class="p">))</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">collected</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">taken_at</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;TSv02 Please record the time the sample was taken&quot;</span><span class="p">))</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Carl Marshall.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.5.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

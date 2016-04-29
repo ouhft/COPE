@@ -1,5 +1,6 @@
 {% load crispy_forms_filters crispy_forms_field %}
 {% load l10n i18n %}
+<!-- Start: wp4/templates/bootstrap3/layout/multi-alternative-field.html -->
 {% with rnd="1234567890asdfghjklqwertyuiopzxcvbnm"|make_list|random %}
     {% with multifield.label_html|add:rnd|slugify as fieldID %}
         <div id="{{ fieldID }}_primary">
@@ -15,6 +16,7 @@
         </div>
 
         <script type="text/javascript">
+            // Script: wp4/templates/bootstrap3/layout/multi-alternative-field.html
             document.addEventListener("DOMContentLoaded", function (event) {
                 var radiogroup = $('#{{ fieldID }}_primary').find('input:radio');
                 if (radiogroup.exists()) {
@@ -34,15 +36,16 @@
                         }
                     })
 
-                    // alert("radiogroup found? " + radiogroup.exists() + ': name of ' + radiogroupname); // TODO: Remove
                     // set onchange function for radio buttons
                     var lastValue = $('input:radio[name=' + radiogroupname + ']:last').val();
                     radiogroup.on("change", function () {
                         if ($('input:radio[name=' + radiogroupname + ']:checked').val() == lastValue) {
                             $('#{{ fieldID }}_secondary').slideDown();
-                            $('#{{ fieldID }}_tertiary').slideUp().find('input').val('');
+                            $('#{{ fieldID }}_tertiary').slideUp();
+{#                            .find('input').val(''); -- Don't do this, it has unintended consequences when nested! #}
                         } else {
-                            $('#{{ fieldID }}_secondary').slideUp().find('input').val('');
+                            $('#{{ fieldID }}_secondary').slideUp();
+{#                            .find('input').val(''); -- Don't do this, it has unintended consequences when nested! #}
                             $('#{{ fieldID }}_tertiary').slideDown();
                         }
                     });
@@ -51,3 +54,4 @@
         </script>
     {% endwith %}
 {% endwith %}
+<!-- End: wp4/templates/bootstrap3/layout/multi-alternative-field.html -->
