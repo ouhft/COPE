@@ -23,14 +23,18 @@ if [ "$PULL" = "Already up-to-date." ]; then
     echo "No further actions are required"
 else
     RETOUCH_CRON=$(chmod 755 deploy/webfaction/deploy-cm13.sh)
+    find . -name '*.pyc' -delete
     source $HOME/.virtualenvs/wp4_20150514/bin/activate
     pip install -r requirements/webfaction.txt
     echo " "
-    COLLECT_FILES=$(python2.7 manage.py collectstatic --noinput)
-    echo $COLLECT_FILES
-    echo " "
     CHECK=$(python2.7 manage.py check)
     if [[ $CHECK == *"System check identified no issues (0 silenced)."* ]]; then
+        COLLECT_FILES=$(python2.7 manage.py collectstatic --noinput)
+        echo $COLLECT_FILES
+        echo " "
+        COMPILE_MESSAGES=$(python2.7 manage.py compilemessages)
+        echo $COMPILE_MESSAGES
+        echo " "
         MIGRATE=$(python2.7 manage.py migrate)
         echo "Migration completed : $MIGRATE"
         APACHE=$(../apache2/bin/restart)
