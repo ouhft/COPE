@@ -91,11 +91,12 @@ class Organ(VersionControlModel):
         max_length=250,
         blank=True
     )
-    admin_notes = models.TextField(verbose_name=_("DO50 Admin notes"), blank=True)
-    transplantation_notes = models.TextField(verbose_name=_("DO51 Transplantation notes"), blank=True)
+    admin_notes = models.TextField(verbose_name=_("OR50 Admin notes"), blank=True)
+    transplantation_notes = models.TextField(verbose_name=_("OR51 Transplantation notes"), blank=True)
     transplantation_form_completed = models.BooleanField(
+        verbose_name=_("OR99 Form complete"),
         default=False,
-        help_text="Internal value to flag when technician thinks the form is complete"
+        help_text="Select Yes when you believe the form is complete and you have no more data to enter"
     )
 
     # Inspection data

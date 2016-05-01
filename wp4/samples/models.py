@@ -77,7 +77,7 @@ class Event(VersionControlModel):
         (NAME_RECIPIENT_BLOOD2, _("EVc13 recipient blood 2")),
     )  #: Limit of choices for Event name data
 
-    worksheet = models.ForeignKey(Worksheet, help_text="Internal link to the Worksheet")
+    worksheet = models.ForeignKey(Worksheet)  # Internal link to the Worksheet
     type = models.PositiveSmallIntegerField(_("EV01 sample type"), choices=TYPE_CHOICES)
     name = models.PositiveSmallIntegerField(_("EV03 sample process name"), choices=NAME_CHOICES)
     taken_at = models.DateTimeField(verbose_name=_("EV02 date and time taken"), null=True, blank=True)

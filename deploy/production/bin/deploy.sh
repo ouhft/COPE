@@ -22,6 +22,7 @@ echo " "
 if [ "$PULL" = "Already up-to-date." ]; then
     echo "No further actions are required"
 else
+    git checkout 0.5.0
     RETOUCH_CRON=$(chmod 755 deploy/production/bin/deploy.sh)
     find . -name '*.pyc' -delete
     source $HOME/.virtualenvs/cope/bin/activate

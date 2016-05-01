@@ -19,7 +19,7 @@ class OrganAllocation(VersionControlModel):
     Organs can be allocated multiple times before finding a definitive recipient. This class acts as
     the record of these allocations and a link between Organ and Recipient.
     """
-    organ = models.ForeignKey(Organ, help_text="Internal link to the Organ")
+    organ = models.ForeignKey(Organ)  # Internal link to the Organ
 
     #  Allocation data
     REALLOCATION_CROSSMATCH = 1  #: Constant for REALLOCATION_CHOICES

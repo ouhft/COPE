@@ -29,7 +29,7 @@ class Donor(VersionControlModel):
     person = models.OneToOneField(OrganPerson, help_text="Internal link to OrganPerson")
     sequence_number = models.PositiveSmallIntegerField(
         default=0,
-        validators=[MinValueValidator(1), MaxValueValidator(99)],
+        validators=[MaxValueValidator(99)],
         help_text="Internal value for tracking trial ID sequence number. Value of 1-99"
     )
 
@@ -54,8 +54,9 @@ class Donor(VersionControlModel):
     )
     not_randomised_because_other = models.CharField(verbose_name=_('DO52 More details'), max_length=250, blank=True)
     procurement_form_completed = models.BooleanField(
+        verbose_name=_("DO99 Form complete"),
         default=False,
-        help_text="Internal value to flag when technician thinks the form is complete"
+        help_text=_("Select Yes when you believe the form is complete and you have no more data to enter")
     )
     admin_notes = models.TextField(verbose_name=_("DO50 Admin notes"), blank=True)
 

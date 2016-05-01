@@ -17,7 +17,7 @@ class QualityOfLife(VersionControlModel):
 
     Collects Quality of Life results for a given recipient on a specific date
     """
-    recipient = models.ForeignKey(Recipient, help_text="Internal link to the Recipient")
+    recipient = models.ForeignKey(Recipient)  # Internal link to the Recipient
     date_recorded = models.DateField(
         verbose_name=_("QL07 date recorded"),
         blank=True, null=True,
