@@ -6,6 +6,11 @@ This is a list of changes made to the website and application for each release.
 * Follow Up forms added for Initial, 3 Month, 6 Month, and 1 Year data collection (Issue #79)
 * Health Economics forms added for Quality of Life data collection
 
+## v0.5.1 (1 May 2016) - Bugfix 
+* Internal documentation comments were appearing in the UI. These have been modifed or hidden (Issue #89)
+* Online randomisation was failing, due to an incorrect validation check on an internal sequence number. (Issue #88)
+* Question RE22 on the recipient form (Tape over regulator broken?) has not been saving. Incorrect field definition has been fixed. (Issue #81)
+
 ## v0.5.0 (29 Apr 2016) - Adversely Related
 ### New Features
 * Adverse Event reporting added (Issue #80)

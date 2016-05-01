@@ -8,4 +8,4 @@ Live site is at [http://cope.nds.ox.ac.uk]()
 
 Follow this link for the [User manual](docs/user_manual.md)
 
-See the repository [Documents](docs/index.md) for the most information
+Download the repository [Documents](https://github.com/AllyBradley/COPE/blob/master/docs/_build.zip) for the most information.
