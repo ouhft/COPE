@@ -223,7 +223,11 @@ class Recipient(VersionControlModel):
         help_text="Date must be fall within 1900-2050, and not be in the future"
     )
     organ_cold_stored = models.BooleanField(verbose_name=_('RE21 kidney was cold stored?'), default=False)
-    tape_broken = models.NullBooleanField(verbose_name=_('RE22 tape over regulator broken'), blank=True, null=True)
+    tape_broken = models.PositiveSmallIntegerField(
+        verbose_name=_('RE22 tape over regulator broken'),
+        blank=True, null=True,
+        choices=YES_NO_UNKNOWN_CHOICES,
+    )  #: Limit choices to YES_NO_UNKNOWN_CHOICES
     removed_from_machine_at = models.DateTimeField(
         verbose_name=_('RE23 kidney removed from machine at'),
         blank=True, null=True,

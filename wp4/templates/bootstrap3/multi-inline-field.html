@@ -1,5 +1,5 @@
 {% load crispy_forms_field %}
-
+<!-- Start: wp4/templates/bootstrap3/multi-inline-field.html -->
 <div id="div_{{ field.auto_id }}" class="form-group {% if field|is_checkbox %}checkbox{% endif %} {{ labelclass }}">
     {% if field.label %}
         <label for="{{ field.id_for_label }}" class="sr-only{% if field.field.required %} requiredField{% endif %}">
@@ -9,3 +9,4 @@
 
     {% crispy_field field %}
 </div>
+<!-- End: wp4/templates/bootstrap3/multi-inline-field.html -->

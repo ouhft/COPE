@@ -1,5 +1,6 @@
 {% load crispy_forms_filters crispy_forms_field %}
 {% load l10n i18n %}
+<!-- Start: wp4/templates/bootstrap3/layout/read-only.html -->
 <div{% if div.css_id %} id="{{ div.css_id }}"{% endif %}
     class="form-group{% if form_show_errors and field.errors %} has-error{% endif %}
     {% if field.css_classes %} {{ field.css_classes }}{% endif %}
@@ -25,3 +26,4 @@
     {% endif %}
     {% include 'bootstrap3/layout/help_text.html' %}
 </div>
+<!-- End: wp4/templates/bootstrap3/layout/read-only.html -->

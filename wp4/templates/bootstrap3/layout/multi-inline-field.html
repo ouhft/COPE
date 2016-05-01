@@ -1,5 +1,6 @@
 {% load crispy_forms_filters crispy_forms_field %}
 {% load l10n i18n %}
+<!-- Start: wp4/templates/bootstrap3/layout/multi-inline-field.html -->
 <div class="form-group{% if multifield.css_class %} {{ multifield.css_class }}{% endif %}">
     {% if multifield.label_html %}
         <label {% if multifield.label_class %}class="control-label {{ multifield.label_class }}"{% endif %}
@@ -35,3 +36,4 @@
         {% endif %}
     {% endfor %}
 </div>
+<!-- End: wp4/templates/bootstrap3/layout/multi-inline-field.html -->
