@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# coding: utf-8
 from django.contrib import admin
 from django.utils import timezone
 from reversion_compare.admin import CompareVersionAdmin
