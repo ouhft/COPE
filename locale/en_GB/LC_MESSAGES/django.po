@@ -1127,8 +1127,8 @@ msgid "REc08 Retransplant graft failure"
 msgstr "Retransplant graft failure"
 
 #: wp4/compare/models/transplantation.py:174
-msgid "REc09 diabetic nephropathyes"
-msgstr "Diabetic nephropathyes"
+msgid "REc09 diabetic nephropathy"
+msgstr " "
 
 #: wp4/compare/models/transplantation.py:175
 msgid "REc10 hypertensive nephropathyes"
@@ -1204,7 +1204,7 @@ msgstr "Laceration"
 
 #: wp4/compare/models/transplantation.py:208
 msgid "REc25 elongation plasty"
-msgstr "Elongation plasy"
+msgstr "Elongation plasty"
 
 #: wp4/compare/models/transplantation.py:209
 msgid "REc26 other"
