@@ -20,7 +20,7 @@ wp4.locations.models
    .. autosummary::
    
       Hospital
-      User
+      VersionControlMixin
    
    
 

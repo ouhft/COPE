@@ -139,7 +139,6 @@
 <span class="c1"># coding: utf-8</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">unicode_literals</span>
 
-<span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">User</span>
 <span class="kn">from</span> <span class="nn">django.core.validators</span> <span class="kn">import</span> <span class="n">ValidationError</span>
 <span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
 <span class="kn">from</span> <span class="nn">django.utils</span> <span class="kn">import</span> <span class="n">timezone</span>
@@ -214,7 +213,7 @@
         <span class="p">(</span><span class="n">NAME_RECIPIENT_BLOOD2</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;EVc13 recipient blood 2&quot;</span><span class="p">)),</span>
     <span class="p">)</span>  <span class="c1">#: Limit of choices for Event name data</span>
 
-    <span class="n">worksheet</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Worksheet</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Internal link to the Worksheet&quot;</span><span class="p">)</span>
+    <span class="n">worksheet</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Worksheet</span><span class="p">)</span>  <span class="c1"># Internal link to the Worksheet</span>
     <span class="nb">type</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;EV01 sample type&quot;</span><span class="p">),</span> <span class="n">choices</span><span class="o">=</span><span class="n">TYPE_CHOICES</span><span class="p">)</span>
     <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;EV03 sample process name&quot;</span><span class="p">),</span> <span class="n">choices</span><span class="o">=</span><span class="n">NAME_CHOICES</span><span class="p">)</span>
     <span class="n">taken_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;EV02 date and time taken&quot;</span><span class="p">),</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>

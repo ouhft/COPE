@@ -22,7 +22,6 @@ wp4.samples.models
       PerfusateSample
       TissueSample
       UrineSample
-      User
       VersionControlMixin
       Worksheet
    

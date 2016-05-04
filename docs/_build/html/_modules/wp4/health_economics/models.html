@@ -141,10 +141,9 @@
 
 <span class="kn">from</span> <span class="nn">django.core.validators</span> <span class="kn">import</span> <span class="n">MinValueValidator</span><span class="p">,</span> <span class="n">MaxValueValidator</span>
 <span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
-<span class="kn">from</span> <span class="nn">django.utils</span> <span class="kn">import</span> <span class="n">timezone</span>
 <span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">ugettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
 
-<span class="kn">from</span> <span class="nn">wp4.compare.models</span> <span class="kn">import</span> <span class="n">VersionControlMixin</span><span class="p">,</span> <span class="n">Recipient</span>
+<span class="kn">from</span> <span class="nn">wp4.compare.models</span> <span class="kn">import</span> <span class="n">BaseModelMixin</span><span class="p">,</span> <span class="n">VersionControlMixin</span><span class="p">,</span> <span class="n">Recipient</span>
 <span class="kn">from</span> <span class="nn">wp4.compare.validators</span> <span class="kn">import</span> <span class="n">validate_not_in_future</span>
 
 
@@ -154,7 +153,7 @@
 
 <span class="sd">    Collects Quality of Life results for a given recipient on a specific date</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">recipient</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Recipient</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Internal link to the Recipient&quot;</span><span class="p">)</span>
+    <span class="n">recipient</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Recipient</span><span class="p">)</span>  <span class="c1"># Internal link to the Recipient</span>
     <span class="n">date_recorded</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;QL07 date recorded&quot;</span><span class="p">),</span>
         <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
@@ -203,6 +202,69 @@
         <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;QLm2 Quality of Life records&quot;</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="ResourceLog"><a class="viewcode-back" href="../../../modules/generated/wp4.health_economics.models.html#wp4.health_economics.models.ResourceLog">[docs]</a><span class="k">class</span> <span class="nc">ResourceLog</span><span class="p">(</span><span class="n">VersionControlMixin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    WORK IN PROGRESS</span>
+
+<span class="sd">    Collects the data from the Participant Resource Use Log. Acts as the central link to several</span>
+<span class="sd">    smaller classes that collectively capture the data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">recipient</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Recipient</span><span class="p">)</span>  <span class="c1"># Internal link to the Recipient</span>
+    <span class="n">date_given</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;RL01 date given&quot;</span><span class="p">),</span>
+        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">validate_not_in_future</span><span class="p">],</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Date can not be in the future&quot;</span>
+    <span class="p">)</span>
+    <span class="n">date_returned</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;RL02 date returned&quot;</span><span class="p">),</span>
+        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">validate_not_in_future</span><span class="p">],</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Date can not be in the future&quot;</span>
+    <span class="p">)</span>
+
+    <span class="c1"># visits</span>
+    <span class="c1"># hospitalisation</span>
+    <span class="c1"># rehabilitation</span>
+    <span class="n">notes</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;RL03 notes&quot;</span><span class="p">),</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">count_visits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">visit_type</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="c1"># TODO: Implement me!</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;RLm1 Resource Usage Log&quot;</span><span class="p">)</span>
+        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;RLm2 Resource Usage Logs&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ResourceVisit"><a class="viewcode-back" href="../../../modules/generated/wp4.health_economics.models.html#wp4.health_economics.models.ResourceVisit">[docs]</a><span class="k">class</span> <span class="nc">ResourceVisit</span><span class="p">(</span><span class="n">BaseModelMixin</span><span class="p">):</span>
+    <span class="n">TYPE_VISIT_GP</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">TYPE_GP_VISIT</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">TYPE_SPECIALIST</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">TYPE_HOSPITAL</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">TYPE_CHOICES</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="n">TYPE_VISIT_GP</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;RVc01 appointment at GP&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">TYPE_GP_VISIT</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;RVc02 GP visited&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">TYPE_SPECIALIST</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;RVc03 appointment at specialist&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">TYPE_HOSPITAL</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;RVc04 A&amp;E&quot;</span><span class="p">)),</span>
+    <span class="p">)</span>
+    <span class="n">log</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">ResourceLog</span><span class="p">)</span>
+    <span class="nb">type</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;RV01 visit type&#39;</span><span class="p">),</span> <span class="n">choices</span><span class="o">=</span><span class="n">TYPE_CHOICES</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ResourceHospitalAdmission"><a class="viewcode-back" href="../../../modules/generated/wp4.health_economics.models.html#wp4.health_economics.models.ResourceHospitalAdmission">[docs]</a><span class="k">class</span> <span class="nc">ResourceHospitalAdmission</span><span class="p">(</span><span class="n">BaseModelMixin</span><span class="p">):</span>
+    <span class="n">log</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">ResourceLog</span><span class="p">)</span>
+    <span class="n">reason</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;RH01 reason&#39;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">had_surgery</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;RH02 had surgery&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">days_in_itu</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;RH03 days in itu&quot;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">days_in_hospital</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;RH04 days in hospital&quot;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ResourceRehabilitation"><a class="viewcode-back" href="../../../modules/generated/wp4.health_economics.models.html#wp4.health_economics.models.ResourceRehabilitation">[docs]</a><span class="k">class</span> <span class="nc">ResourceRehabilitation</span><span class="p">(</span><span class="n">BaseModelMixin</span><span class="p">):</span>
+    <span class="n">log</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">ResourceLog</span><span class="p">)</span>
+    <span class="n">reason</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;RR01 reason&#39;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">days_in_hospital</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;RR02 days in hospital&quot;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

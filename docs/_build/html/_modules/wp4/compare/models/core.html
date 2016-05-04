@@ -147,8 +147,6 @@
 <span class="kn">from</span> <span class="nn">django.utils</span> <span class="kn">import</span> <span class="n">timezone</span>
 <span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">ugettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
 
-<span class="kn">from</span> <span class="nn">wp4.locations.models</span> <span class="kn">import</span> <span class="n">Hospital</span><span class="p">,</span> <span class="n">UNITED_KINGDOM</span>
-
 <span class="kn">from</span> <span class="nn">..validators</span> <span class="kn">import</span> <span class="n">validate_not_in_future</span>
 
 
@@ -193,37 +191,59 @@
 <span class="p">)</span>  <span class="c1">#: Randomisation list choices</span>
 
 
-<div class="viewcode-block" id="VersionControlModel"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.core.html#wp4.compare.models.core.VersionControlModel">[docs]</a><span class="k">class</span> <span class="nc">VersionControlMixin</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<div class="viewcode-block" id="BaseModelMixin"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.core.html#wp4.compare.models.core.BaseModelMixin">[docs]</a><span class="k">class</span> <span class="nc">BaseModelMixin</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Internal common attributes to aide system auditing of records</span>
+<span class="sd">    Common data record fields for tracking changes</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">version</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveIntegerField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Internal tracking version number&quot;</span><span class="p">)</span>
     <span class="n">created_on</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">)</span>
     <span class="n">created_by</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span>
         <span class="n">User</span><span class="p">,</span>
         <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;User account for the person logged in when this record was made/updated&quot;</span>
     <span class="p">)</span>
-    <span class="n">record_locked</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Not presently implemented or used&quot;</span><span class="p">)</span>
 
-    <span class="c1"># NB: Used in Samples and FollowUp Apps too</span>
-<div class="viewcode-block" id="VersionControlModel.Meta"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.core.html#wp4.compare.models.core.VersionControlModel.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+<div class="viewcode-block" id="BaseModelMixin.Meta"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.core.html#wp4.compare.models.core.BaseModelMixin.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
         <span class="n">abstract</span> <span class="o">=</span> <span class="bp">True</span></div>
 
-<div class="viewcode-block" id="VersionControlModel.save"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.core.html#wp4.compare.models.core.VersionControlModel.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">created_by</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">force_insert</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">force_update</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">using</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+<div class="viewcode-block" id="BaseModelMixin.save"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.core.html#wp4.compare.models.core.BaseModelMixin.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">created_by</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">force_insert</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">force_update</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">using</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
              <span class="n">update_fields</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Meta save function that allows models to have their save() method called, and to set the required</span>
-<span class="sd">        created_by link at the same time. Also increments the version number over the previous saved version.</span>
+<span class="sd">        created_by link at the same time.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">created_on</span> <span class="o">=</span> <span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">created_by</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">created_by</span> <span class="o">=</span> <span class="n">created_by</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">created_by</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> Record does not have created_by set&quot;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">BaseModelMixin</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">force_insert</span><span class="p">,</span> <span class="n">force_update</span><span class="p">,</span> <span class="n">using</span><span class="p">,</span> <span class="n">update_fields</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="VersionControlMixin"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.core.html#wp4.compare.models.core.VersionControlMixin">[docs]</a><span class="k">class</span> <span class="nc">VersionControlMixin</span><span class="p">(</span><span class="n">BaseModelMixin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Internal common attributes to aide system auditing of records</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">version</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveIntegerField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Internal tracking version number&quot;</span><span class="p">)</span>
+    <span class="n">record_locked</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Not presently implemented or used&quot;</span><span class="p">)</span>
+
+    <span class="c1"># NB: Used in Samples and FollowUp Apps too</span>
+<div class="viewcode-block" id="VersionControlMixin.Meta"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.core.html#wp4.compare.models.core.VersionControlMixin.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">abstract</span> <span class="o">=</span> <span class="bp">True</span></div>
+
+<div class="viewcode-block" id="VersionControlMixin.save"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.core.html#wp4.compare.models.core.VersionControlMixin.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">created_by</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">force_insert</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">force_update</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">using</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+             <span class="n">update_fields</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Meta save function that increments the version number over the previous saved version.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">record_locked</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> Record is locked, and can not be saved&quot;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">VersionControlMixin</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">force_insert</span><span class="p">,</span> <span class="n">force_update</span><span class="p">,</span> <span class="n">using</span><span class="p">,</span> <span class="n">update_fields</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">VersionControlMixin</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">(</span>
+            <span class="n">created_by</span><span class="p">,</span>
+            <span class="n">force_insert</span><span class="p">,</span>
+            <span class="n">force_update</span><span class="p">,</span>
+            <span class="n">using</span><span class="p">,</span>
+            <span class="n">update_fields</span>
+        <span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="OrganPerson"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.core.html#wp4.compare.models.core.OrganPerson">[docs]</a><span class="k">class</span> <span class="nc">OrganPerson</span><span class="p">(</span><span class="n">VersionControlMixin</span><span class="p">):</span>
@@ -425,19 +445,19 @@
             <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="RetrievalTeam"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.core.html#wp4.compare.models.core.RetrievalTeam">[docs]</a><span class="k">class</span> <span class="nc">RetrievalTeam</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<div class="viewcode-block" id="RetrievalTeam"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.core.html#wp4.compare.models.core.RetrievalTeam">[docs]</a><span class="k">class</span> <span class="nc">RetrievalTeam</span><span class="p">(</span><span class="n">BaseModelMixin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Lookup class for the preset Retrieval Team list. Doesn&#39;t inherit from VersionControlMixin as this</span>
 <span class="sd">    is primarily a preset list of data, with helper functions attached.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">wp4.locations.models</span> <span class="kn">import</span> <span class="n">Hospital</span><span class="p">,</span> <span class="n">UNITED_KINGDOM</span>
+
     <span class="n">centre_code</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;RT01 centre code&quot;</span><span class="p">),</span>
         <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">MinValueValidator</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">MaxValueValidator</span><span class="p">(</span><span class="mi">99</span><span class="p">)],</span>
         <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Value must be in the range 10-99&quot;</span>
     <span class="p">)</span>
     <span class="n">based_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Hospital</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;RT02 base hospital&quot;</span><span class="p">))</span>
-    <span class="n">created_on</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Internal tracking&quot;</span><span class="p">)</span>
-    <span class="n">created_by</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Internal tracking&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="RetrievalTeam.next_sequence_number"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.core.html#wp4.compare.models.core.RetrievalTeam.next_sequence_number">[docs]</a>    <span class="k">def</span> <span class="nf">next_sequence_number</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">is_online</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -465,7 +485,7 @@
 <span class="sd">        :return: Number matching one of the LIST_CHOICE constants</span>
 <span class="sd">        :rtype: int</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">based_at</span><span class="o">.</span><span class="n">country</span> <span class="o">==</span> <span class="n">UNITED_KINGDOM</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">based_at</span><span class="o">.</span><span class="n">country</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">UNITED_KINGDOM</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">is_online</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">LIVE_UNITED_KINGDOM</span>
             <span class="k">else</span><span class="p">:</span>

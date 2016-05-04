@@ -138,16 +138,14 @@
 <span></span><span class="ch">#!/usr/bin/python</span>
 <span class="c1"># coding: utf-8</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">unicode_literals</span>
-<span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">User</span>
 <span class="kn">from</span> <span class="nn">django.core.validators</span> <span class="kn">import</span> <span class="n">MinValueValidator</span><span class="p">,</span> <span class="n">MaxValueValidator</span><span class="p">,</span> <span class="n">ValidationError</span>
 <span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
-<span class="kn">from</span> <span class="nn">django.utils</span> <span class="kn">import</span> <span class="n">timezone</span>
 <span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">ugettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
 
 <span class="kn">from</span> <span class="nn">wp4.perfusion_machine.models</span> <span class="kn">import</span> <span class="n">PerfusionMachine</span><span class="p">,</span> <span class="n">PerfusionFile</span>
 
 <span class="kn">from</span> <span class="nn">..validators</span> <span class="kn">import</span> <span class="n">validate_between_1900_2050</span><span class="p">,</span> <span class="n">validate_not_in_future</span>
-<span class="kn">from</span> <span class="nn">.core</span> <span class="kn">import</span> <span class="n">VersionControlMixin</span>
+<span class="kn">from</span> <span class="nn">.core</span> <span class="kn">import</span> <span class="n">BaseModelMixin</span><span class="p">,</span> <span class="n">VersionControlMixin</span>
 <span class="kn">from</span> <span class="nn">.core</span> <span class="kn">import</span> <span class="n">LOCATION_CHOICES</span><span class="p">,</span> <span class="n">PRESERVATION_CHOICES</span><span class="p">,</span> <span class="n">PRESERVATION_NOT_SET</span>
 <span class="kn">from</span> <span class="nn">.donor</span> <span class="kn">import</span> <span class="n">Donor</span>
 
@@ -228,11 +226,12 @@
         <span class="n">max_length</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span>
         <span class="n">blank</span><span class="o">=</span><span class="bp">True</span>
     <span class="p">)</span>
-    <span class="n">admin_notes</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;DO50 Admin notes&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">transplantation_notes</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;DO51 Transplantation notes&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">admin_notes</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;OR50 Admin notes&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">transplantation_notes</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;OR51 Transplantation notes&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">transplantation_form_completed</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;OR99 Form complete&quot;</span><span class="p">),</span>
         <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Internal value to flag when technician thinks the form is complete&quot;</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Select Yes when you believe the form is complete and you have no more data to enter&quot;</span>
     <span class="p">)</span>
 
     <span class="c1"># Inspection data</span>
@@ -545,7 +544,7 @@
         <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;ORm2 organs&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="ProcurementResource"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.organ.html#wp4.compare.models.organ.ProcurementResource">[docs]</a><span class="k">class</span> <span class="nc">ProcurementResource</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<div class="viewcode-block" id="ProcurementResource"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.organ.html#wp4.compare.models.organ.ProcurementResource">[docs]</a><span class="k">class</span> <span class="nc">ProcurementResource</span><span class="p">(</span><span class="n">BaseModelMixin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Repeatable list of resources used during organ extraction. Primarily distinguished by the type.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -570,8 +569,6 @@
     <span class="n">lot_number</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;PR03 lot number&#39;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">expiry_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;PR04 expiry date&#39;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">expiry_date_unknown</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Internal unknown flag&quot;</span><span class="p">)</span>
-    <span class="n">created_on</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Internal value&quot;</span><span class="p">)</span>
-    <span class="n">created_by</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Internal User link&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_type_display</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39; for &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">organ</span><span class="o">.</span><span class="n">trial_id</span>

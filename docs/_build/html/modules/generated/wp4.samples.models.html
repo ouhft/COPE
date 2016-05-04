@@ -188,13 +188,10 @@
 <tr class="row-odd"><td><a class="reference internal" href="#wp4.samples.models.UrineSample" title="wp4.samples.models.UrineSample"><code class="xref py py-obj docutils literal"><span class="pre">UrineSample</span></code></a>(*args,&nbsp;**kwargs)</td>
 <td>Sample class type for Urine samples.</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">User</span></code>(*args,&nbsp;**kwargs)</td>
-<td>Users within the Django authentication system are represented by this model.</td>
-</tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">VersionControlMixin</span></code>(*args,&nbsp;**kwargs)</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">VersionControlMixin</span></code>(*args,&nbsp;**kwargs)</td>
 <td>Internal common attributes to aide system auditing of records</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#wp4.samples.models.Worksheet" title="wp4.samples.models.Worksheet"><code class="xref py py-obj docutils literal"><span class="pre">Worksheet</span></code></a>(*args,&nbsp;**kwargs)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#wp4.samples.models.Worksheet" title="wp4.samples.models.Worksheet"><code class="xref py py-obj docutils literal"><span class="pre">Worksheet</span></code></a>(*args,&nbsp;**kwargs)</td>
 <td>Record of each Worksheet that links specific samples taken with a specific OrganPerson</td>
 </tr>
 </tbody>
@@ -220,9 +217,9 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>version</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveIntegerField</em></a>) &#8211; &#8220;version&#8221; - Internal tracking version number</li>
 <li><strong>created_on</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;created on&#8221;</li>
 <li><strong>created_by_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;created by&#8221; - User account for the person logged in when this record was made/updated</li>
+<li><strong>version</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveIntegerField</em></a>) &#8211; &#8220;version&#8221; - Internal tracking version number</li>
 <li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.9)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - Not presently implemented or used</li>
 <li><strong>barcode</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.CharField" title="(in Django v1.9)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;BC01 barcode number&#8221;</li>
 </ul>
@@ -275,9 +272,9 @@ one-to-one relation.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.9)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
-<li><strong>version</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveIntegerField</em></a>) &#8211; &#8220;version&#8221; - Internal tracking version number</li>
 <li><strong>created_on</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;created on&#8221;</li>
 <li><strong>created_by_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;created by&#8221; - User account for the person logged in when this record was made/updated</li>
+<li><strong>version</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveIntegerField</em></a>) &#8211; &#8220;version&#8221; - Internal tracking version number</li>
 <li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.9)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - Not presently implemented or used</li>
 <li><strong>barcode</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.CharField" title="(in Django v1.9)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;BC01 barcode number&#8221;</li>
 <li><strong>person_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;person&#8221; - Donor or Recipient that this worksheet relates to</li>
@@ -362,11 +359,11 @@ link between a Worksheet and the various Sample types</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.9)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
-<li><strong>version</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveIntegerField</em></a>) &#8211; &#8220;version&#8221; - Internal tracking version number</li>
 <li><strong>created_on</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;created on&#8221;</li>
 <li><strong>created_by_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;created by&#8221; - User account for the person logged in when this record was made/updated</li>
+<li><strong>version</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveIntegerField</em></a>) &#8211; &#8220;version&#8221; - Internal tracking version number</li>
 <li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.9)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - Not presently implemented or used</li>
-<li><strong>worksheet_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;worksheet&#8221; - Internal link to the Worksheet</li>
+<li><strong>worksheet_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;worksheet&#8221;</li>
 <li><strong>type</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;EV01 sample type&#8221;</li>
 <li><strong>name</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;EV03 sample process name&#8221;</li>
 <li><strong>taken_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;EV02 date and time taken&#8221;</li>
@@ -401,7 +398,7 @@ link between a Worksheet and the various Sample types</p>
 
 <dl class="attribute">
 <dt id="wp4.samples.models.Event.TYPE_CHOICES">
-<code class="descname">TYPE_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x111a82ed0&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x111a95290&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x111a95350&gt;), (4, &lt;django.utils.functional.__proxy__ object at 0x111a95390&gt;))</em><a class="headerlink" href="#wp4.samples.models.Event.TYPE_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">TYPE_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x10d569150&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x10d5694d0&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x10d569590&gt;), (4, &lt;django.utils.functional.__proxy__ object at 0x10d5695d0&gt;))</em><a class="headerlink" href="#wp4.samples.models.Event.TYPE_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Limit of choices for Event type data</p>
 </dd></dl>
 
@@ -461,7 +458,7 @@ link between a Worksheet and the various Sample types</p>
 
 <dl class="attribute">
 <dt id="wp4.samples.models.Event.NAME_CHOICES">
-<code class="descname">NAME_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x111a953d0&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x111a95410&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x111a95450&gt;), (4, &lt;django.utils.functional.__proxy__ object at 0x111a95490&gt;), (5, &lt;django.utils.functional.__proxy__ object at 0x111a954d0&gt;), (6, &lt;django.utils.functional.__proxy__ object at 0x111a95510&gt;), (7, &lt;django.utils.functional.__proxy__ object at 0x111a95590&gt;), (8, &lt;django.utils.functional.__proxy__ object at 0x111a95610&gt;), (9, &lt;django.utils.functional.__proxy__ object at 0x111a95690&gt;))</em><a class="headerlink" href="#wp4.samples.models.Event.NAME_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">NAME_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x10d569610&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x10d569650&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x10d569690&gt;), (4, &lt;django.utils.functional.__proxy__ object at 0x10d5696d0&gt;), (5, &lt;django.utils.functional.__proxy__ object at 0x10d569710&gt;), (6, &lt;django.utils.functional.__proxy__ object at 0x10d569750&gt;), (7, &lt;django.utils.functional.__proxy__ object at 0x10d5697d0&gt;), (8, &lt;django.utils.functional.__proxy__ object at 0x10d569850&gt;), (9, &lt;django.utils.functional.__proxy__ object at 0x10d5698d0&gt;))</em><a class="headerlink" href="#wp4.samples.models.Event.NAME_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Limit of choices for Event name data</p>
 </dd></dl>
 
@@ -645,9 +642,9 @@ to aide reverse sample look ups from OrganPerson)</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.9)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
-<li><strong>version</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveIntegerField</em></a>) &#8211; &#8220;version&#8221; - Internal tracking version number</li>
 <li><strong>created_on</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;created on&#8221;</li>
 <li><strong>created_by_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;created by&#8221; - User account for the person logged in when this record was made/updated</li>
+<li><strong>version</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveIntegerField</em></a>) &#8211; &#8220;version&#8221; - Internal tracking version number</li>
 <li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.9)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - Not presently implemented or used</li>
 <li><strong>barcode</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.CharField" title="(in Django v1.9)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;BC01 barcode number&#8221;</li>
 <li><strong>collected</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.9)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;DM01 sample collected?&#8221;</li>
@@ -675,7 +672,7 @@ to aide reverse sample look ups from OrganPerson)</p>
 
 <dl class="attribute">
 <dt id="wp4.samples.models.BloodSample.SAMPLE_CHOICES">
-<code class="descname">SAMPLE_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x111a9f350&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x111a9f310&gt;))</em><a class="headerlink" href="#wp4.samples.models.BloodSample.SAMPLE_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">SAMPLE_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x10d574590&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x10d574550&gt;))</em><a class="headerlink" href="#wp4.samples.models.BloodSample.SAMPLE_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Limit of choices for BloodSample blood_type</p>
 </dd></dl>
 
@@ -773,9 +770,9 @@ to aide reverse sample look ups from OrganPerson)</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.9)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
-<li><strong>version</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveIntegerField</em></a>) &#8211; &#8220;version&#8221; - Internal tracking version number</li>
 <li><strong>created_on</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;created on&#8221;</li>
 <li><strong>created_by_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;created by&#8221; - User account for the person logged in when this record was made/updated</li>
+<li><strong>version</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveIntegerField</em></a>) &#8211; &#8220;version&#8221; - Internal tracking version number</li>
 <li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.9)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - Not presently implemented or used</li>
 <li><strong>barcode</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.CharField" title="(in Django v1.9)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;BC01 barcode number&#8221;</li>
 <li><strong>collected</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.9)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;DM01 sample collected?&#8221;</li>
@@ -877,9 +874,9 @@ to aide reverse sample look ups from OrganPerson)</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.9)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
-<li><strong>version</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveIntegerField</em></a>) &#8211; &#8220;version&#8221; - Internal tracking version number</li>
 <li><strong>created_on</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;created on&#8221;</li>
 <li><strong>created_by_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;created by&#8221; - User account for the person logged in when this record was made/updated</li>
+<li><strong>version</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveIntegerField</em></a>) &#8211; &#8220;version&#8221; - Internal tracking version number</li>
 <li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.9)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - Not presently implemented or used</li>
 <li><strong>barcode</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.CharField" title="(in Django v1.9)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;BC01 barcode number&#8221;</li>
 <li><strong>collected</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.9)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;DM01 sample collected?&#8221;</li>
@@ -981,9 +978,9 @@ to aide reverse sample look ups from OrganPerson)</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.9)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
-<li><strong>version</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveIntegerField</em></a>) &#8211; &#8220;version&#8221; - Internal tracking version number</li>
 <li><strong>created_on</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;created on&#8221;</li>
 <li><strong>created_by_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;created by&#8221; - User account for the person logged in when this record was made/updated</li>
+<li><strong>version</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveIntegerField</em></a>) &#8211; &#8220;version&#8221; - Internal tracking version number</li>
 <li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.9)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - Not presently implemented or used</li>
 <li><strong>barcode</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.CharField" title="(in Django v1.9)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;BC01 barcode number&#8221;</li>
 <li><strong>collected</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.9)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;DM01 sample collected?&#8221;</li>
@@ -1010,7 +1007,7 @@ to aide reverse sample look ups from OrganPerson)</p>
 
 <dl class="attribute">
 <dt id="wp4.samples.models.TissueSample.SAMPLE_CHOICES">
-<code class="descname">SAMPLE_CHOICES</code><em class="property"> = ((u'F', &lt;django.utils.functional.__proxy__ object at 0x111aa9b50&gt;), (u'R', &lt;django.utils.functional.__proxy__ object at 0x111aa9f90&gt;))</em><a class="headerlink" href="#wp4.samples.models.TissueSample.SAMPLE_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">SAMPLE_CHOICES</code><em class="property"> = ((u'F', &lt;django.utils.functional.__proxy__ object at 0x10d57dd90&gt;), (u'R', &lt;django.utils.functional.__proxy__ object at 0x10d58a210&gt;))</em><a class="headerlink" href="#wp4.samples.models.TissueSample.SAMPLE_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Limit of choices for BloodSample tissue_type</p>
 </dd></dl>
 

@@ -32,7 +32,7 @@
   
     <link rel="top" title="COPE DB 0.5.0 documentation" href="../../index.html"/>
         <link rel="up" title="Data Models" href="../models.html"/>
-        <link rel="next" title="wp4.health_economics.models" href="wp4.health_economics.models.html"/>
+        <link rel="next" title="wp4.adverse_event.models" href="wp4.adverse_event.models.html"/>
         <link rel="prev" title="wp4.compare.models.organ" href="wp4.compare.models.organ.html"/> 
 
   
@@ -234,11 +234,11 @@ the record of these allocations and a link between Organ and Recipient.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.9)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
-<li><strong>version</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveIntegerField</em></a>) &#8211; &#8220;version&#8221; - Internal tracking version number</li>
 <li><strong>created_on</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;created on&#8221;</li>
 <li><strong>created_by_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;created by&#8221; - User account for the person logged in when this record was made/updated</li>
+<li><strong>version</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveIntegerField</em></a>) &#8211; &#8220;version&#8221; - Internal tracking version number</li>
 <li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.9)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - Not presently implemented or used</li>
-<li><strong>organ_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;organ&#8221; - Internal link to the Organ</li>
+<li><strong>organ_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;organ&#8221;</li>
 <li><strong>perfusion_technician_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;OA01 name of transplant technician&#8221;</li>
 <li><strong>call_received</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;OA02 call received from transplant co-ordinator at&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
 <li><strong>call_received_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.9)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;call received unknown&#8221; - Internal unknown flag</li>
@@ -296,7 +296,7 @@ one-to-one relation.</p>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.transplantation.OrganAllocation.REALLOCATION_CHOICES">
-<code class="descname">REALLOCATION_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x111a4bfd0&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x111a52050&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x111a52090&gt;))</em><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.REALLOCATION_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">REALLOCATION_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x10d5141d0&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x10d514210&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x10d514250&gt;))</em><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.REALLOCATION_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>OrganAllocation reallocation_reason choices</p>
 </dd></dl>
 
@@ -451,9 +451,9 @@ the Recipient specific data.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.9)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
-<li><strong>version</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveIntegerField</em></a>) &#8211; &#8220;version&#8221; - Internal tracking version number</li>
 <li><strong>created_on</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;created on&#8221;</li>
 <li><strong>created_by_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;created by&#8221; - User account for the person logged in when this record was made/updated</li>
+<li><strong>version</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveIntegerField</em></a>) &#8211; &#8220;version&#8221; - Internal tracking version number</li>
 <li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.9)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - Not presently implemented or used</li>
 <li><strong>person_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.OneToOneField" title="(in Django v1.9)"><em>django.db.models.OneToOneField</em></a>) &#8211; &#8220;person&#8221; - Internal link to OrganPerson</li>
 <li><strong>organ_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.OneToOneField" title="(in Django v1.9)"><em>django.db.models.OneToOneField</em></a>) &#8211; &#8220;organ&#8221; - Internal link to Organ</li>
@@ -467,7 +467,7 @@ the Recipient specific data.</p>
 <li><strong>perfusate_measure</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.FloatField" title="(in Django v1.9)"><em>django.db.models.FloatField</em></a>) &#8211; &#8220;RE19 pO2 perfusate&#8221;</li>
 <li><strong>perfusion_stopped</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;RE20 stop machine perfusion&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
 <li><strong>organ_cold_stored</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.9)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;RE21 kidney was cold stored?&#8221;</li>
-<li><strong>tape_broken</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.9)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;RE22 tape over regulator broken&#8221;</li>
+<li><strong>tape_broken</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;RE22 tape over regulator broken&#8221;</li>
 <li><strong>removed_from_machine_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;RE23 kidney removed from machine at&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
 <li><strong>oxygen_full_and_open</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;RE24 oxygen full and open&#8221;</li>
 <li><strong>organ_untransplantable</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.9)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;RE25 kidney discarded&#8221; - REh25 Either answer means further questions will open below</li>
@@ -545,26 +545,32 @@ one-to-one relation.</p>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.transplantation.Recipient.RENAL_DISEASE_CHOICES">
-<code class="descname">RENAL_DISEASE_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x111a5ba10&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x111a5ba50&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x111a5ba90&gt;), (4, &lt;django.utils.functional.__proxy__ object at 0x111a5bad0&gt;), (5, &lt;django.utils.functional.__proxy__ object at 0x111a5bb10&gt;), (6, &lt;django.utils.functional.__proxy__ object at 0x111a5bb50&gt;), (7, &lt;django.utils.functional.__proxy__ object at 0x111a5bb90&gt;), (8, &lt;django.utils.functional.__proxy__ object at 0x111a5bbd0&gt;), (9, &lt;django.utils.functional.__proxy__ object at 0x111a5bc10&gt;), (10, &lt;django.utils.functional.__proxy__ object at 0x111a5bc50&gt;), (11, &lt;django.utils.functional.__proxy__ object at 0x111a5bcd0&gt;))</em><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.RENAL_DISEASE_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">RENAL_DISEASE_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x10d51cbd0&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x10d51cc10&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x10d51cc50&gt;), (4, &lt;django.utils.functional.__proxy__ object at 0x10d51cc90&gt;), (5, &lt;django.utils.functional.__proxy__ object at 0x10d51ccd0&gt;), (6, &lt;django.utils.functional.__proxy__ object at 0x10d51cd10&gt;), (7, &lt;django.utils.functional.__proxy__ object at 0x10d51cd50&gt;), (8, &lt;django.utils.functional.__proxy__ object at 0x10d51cd90&gt;), (9, &lt;django.utils.functional.__proxy__ object at 0x10d51cdd0&gt;), (10, &lt;django.utils.functional.__proxy__ object at 0x10d51ce10&gt;), (11, &lt;django.utils.functional.__proxy__ object at 0x10d51ce90&gt;))</em><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.RENAL_DISEASE_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Recipient renal_disease choices</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.transplantation.Recipient.INCISION_CHOICES">
-<code class="descname">INCISION_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x111a651d0&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x111a65210&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x111a65250&gt;))</em><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.INCISION_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">INCISION_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x10d525390&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x10d5253d0&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x10d525410&gt;))</em><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.INCISION_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Recipient incision choices</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.transplantation.Recipient.ARTERIAL_PROBLEM_CHOICES">
-<code class="descname">ARTERIAL_PROBLEM_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x111a65290&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x111a652d0&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x111a65310&gt;), (4, &lt;django.utils.functional.__proxy__ object at 0x111a65350&gt;), (5, &lt;django.utils.functional.__proxy__ object at 0x111a653d0&gt;))</em><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.ARTERIAL_PROBLEM_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ARTERIAL_PROBLEM_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x10d525450&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x10d525490&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x10d5254d0&gt;), (4, &lt;django.utils.functional.__proxy__ object at 0x10d525510&gt;), (5, &lt;django.utils.functional.__proxy__ object at 0x10d525590&gt;))</em><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.ARTERIAL_PROBLEM_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Recipient arterial_problems choices</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.transplantation.Recipient.VENOUS_PROBLEM_CHOICES">
-<code class="descname">VENOUS_PROBLEM_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x111a65450&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x111a654d0&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x111a65550&gt;), (4, &lt;django.utils.functional.__proxy__ object at 0x111a655d0&gt;))</em><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.VENOUS_PROBLEM_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">VENOUS_PROBLEM_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x10d525610&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x10d525690&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x10d525710&gt;), (4, &lt;django.utils.functional.__proxy__ object at 0x10d525790&gt;))</em><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.VENOUS_PROBLEM_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Recipient venous_problems choices</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.Recipient.tape_broken">
+<code class="descname">tape_broken</code><em class="property"> = None</em><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.tape_broken" title="Permalink to this definition">¶</a></dt>
+<dd><p>Limit choices to YES_NO_UNKNOWN_CHOICES</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -744,6 +750,11 @@ one-to-one relation.</p>
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="wp4.compare.models.transplantation.Recipient.get_tape_broken_display">
+<code class="descclassname">Recipient.</code><code class="descname">get_tape_broken_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.get_tape_broken_display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="wp4.compare.models.transplantation.Recipient.get_transplant_side_display">
 <code class="descclassname">Recipient.</code><code class="descname">get_transplant_side_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.get_transplant_side_display" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -768,6 +779,21 @@ many-to-one relation.</p>
 class built by <code class="docutils literal"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
 </dd></dl>
 
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.Recipient.resourcelog_set">
+<code class="descclassname">Recipient.</code><code class="descname">resourcelog_set</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.resourcelog_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
 </dd></dl>
 
 </div>
@@ -779,7 +805,7 @@ class built by <code class="docutils literal"><span class="pre">create_forward_m
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="wp4.health_economics.models.html" class="btn btn-neutral float-right" title="wp4.health_economics.models" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="wp4.adverse_event.models.html" class="btn btn-neutral float-right" title="wp4.adverse_event.models" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="wp4.compare.models.organ.html" class="btn btn-neutral" title="wp4.compare.models.organ" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>

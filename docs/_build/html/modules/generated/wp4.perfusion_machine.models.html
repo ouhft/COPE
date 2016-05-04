@@ -161,8 +161,8 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#wp4.perfusion_machine.models.CreatedByModelMixin" title="wp4.perfusion_machine.models.CreatedByModelMixin"><code class="xref py py-obj docutils literal"><span class="pre">CreatedByModelMixin</span></code></a>(*args,&nbsp;**kwargs)</td>
-<td>Helper Meta model in the same vein as VersionControlMixin, but simpler.</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">BaseModelMixin</span></code>(*args,&nbsp;**kwargs)</td>
+<td>Common data record fields for tracking changes</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#wp4.perfusion_machine.models.PerfusionFile" title="wp4.perfusion_machine.models.PerfusionFile"><code class="xref py py-obj docutils literal"><span class="pre">PerfusionFile</span></code></a>(*args,&nbsp;**kwargs)</td>
 <td>Early plans talked about collecting the data file from each machine after each transplant to provide extra data, however this has been shelved as a concept presently.</td>
@@ -170,69 +170,8 @@
 <tr class="row-odd"><td><a class="reference internal" href="#wp4.perfusion_machine.models.PerfusionMachine" title="wp4.perfusion_machine.models.PerfusionMachine"><code class="xref py py-obj docutils literal"><span class="pre">PerfusionMachine</span></code></a>(*args,&nbsp;**kwargs)</td>
 <td>Helper class for device accountability.</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">User</span></code>(*args,&nbsp;**kwargs)</td>
-<td>Users within the Django authentication system are represented by this model.</td>
-</tr>
 </tbody>
 </table>
-<dl class="class">
-<dt id="wp4.perfusion_machine.models.CreatedByModelMixin">
-<em class="property">class </em><code class="descclassname">wp4.perfusion_machine.models.</code><code class="descname">CreatedByModelMixin</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/perfusion_machine/models.html#CreatedByModelMixin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.perfusion_machine.models.CreatedByModelMixin" title="Permalink to this definition">¶</a></dt>
-<dd><p>Helper Meta model in the same vein as VersionControlMixin, but simpler. Needs further work to refine
-the idea and to apply it more widely</p>
-<p>TODO: Move this to Core, and account for setting created_by in the save method</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>created_on</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;created on&#8221;</li>
-<li><strong>created_by_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;created by&#8221;</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-<dl class="attribute">
-<dt id="wp4.perfusion_machine.models.CreatedByModelMixin.created_by">
-<code class="descname">created_by</code><a class="headerlink" href="#wp4.perfusion_machine.models.CreatedByModelMixin.created_by" title="Permalink to this definition">¶</a></dt>
-<dd><p>Accessor to the related object on the forward side of a many-to-one or
-one-to-one relation.</p>
-<p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
-</dd></dl>
-
-<dl class="class">
-<dt id="wp4.perfusion_machine.models.CreatedByModelMixin.Meta">
-<em class="property">class </em><code class="descname">Meta</code><a class="reference internal" href="../../_modules/wp4/perfusion_machine/models.html#CreatedByModelMixin.Meta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.perfusion_machine.models.CreatedByModelMixin.Meta" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="attribute">
-<dt id="wp4.perfusion_machine.models.CreatedByModelMixin.Meta.abstract">
-<code class="descname">abstract</code><em class="property"> = False</em><a class="headerlink" href="#wp4.perfusion_machine.models.CreatedByModelMixin.Meta.abstract" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="method">
-<dt id="wp4.perfusion_machine.models.CreatedByModelMixin.save">
-<code class="descclassname">CreatedByModelMixin.</code><code class="descname">save</code><span class="sig-paren">(</span><em>force_insert=False</em>, <em>force_update=False</em>, <em>using=None</em>, <em>update_fields=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/perfusion_machine/models.html#CreatedByModelMixin.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.perfusion_machine.models.CreatedByModelMixin.save" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="wp4.perfusion_machine.models.CreatedByModelMixin.get_next_by_created_on">
-<code class="descclassname">CreatedByModelMixin.</code><code class="descname">get_next_by_created_on</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.perfusion_machine.models.CreatedByModelMixin.get_next_by_created_on" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="wp4.perfusion_machine.models.CreatedByModelMixin.get_previous_by_created_on">
-<code class="descclassname">CreatedByModelMixin.</code><code class="descname">get_previous_by_created_on</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.perfusion_machine.models.CreatedByModelMixin.get_previous_by_created_on" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
 <dl class="class">
 <dt id="wp4.perfusion_machine.models.PerfusionMachine">
 <em class="property">class </em><code class="descclassname">wp4.perfusion_machine.models.</code><code class="descname">PerfusionMachine</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/perfusion_machine/models.html#PerfusionMachine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.perfusion_machine.models.PerfusionMachine" title="Permalink to this definition">¶</a></dt>
@@ -244,7 +183,7 @@ one-to-one relation.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.9)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
 <li><strong>created_on</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;created on&#8221;</li>
-<li><strong>created_by_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;created by&#8221;</li>
+<li><strong>created_by_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;created by&#8221; - User account for the person logged in when this record was made/updated</li>
 <li><strong>machine_serial_number</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.CharField" title="(in Django v1.9)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;PM01 machine serial number&#8221;</li>
 <li><strong>machine_reference_number</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.CharField" title="(in Django v1.9)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;PM02 machine reference number&#8221;</li>
 </ul>
@@ -330,7 +269,7 @@ supporting that activity</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.9)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
 <li><strong>created_on</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;created on&#8221;</li>
-<li><strong>created_by_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;created by&#8221;</li>
+<li><strong>created_by_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;created by&#8221; - User account for the person logged in when this record was made/updated</li>
 <li><strong>machine_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;PF01 perfusion machine&#8221;</li>
 <li><strong>file</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.FileField" title="(in Django v1.9)"><em>django.db.models.FileField</em></a>) &#8211; &#8220;file&#8221;</li>
 </ul>

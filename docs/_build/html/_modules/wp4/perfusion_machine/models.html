@@ -138,32 +138,13 @@
 <span></span><span class="ch">#!/usr/bin/python</span>
 <span class="c1"># coding: utf-8</span>
 
-<span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">User</span>
 <span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
-<span class="kn">from</span> <span class="nn">django.utils</span> <span class="kn">import</span> <span class="n">timezone</span>
 <span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">ugettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
 
-
-<div class="viewcode-block" id="CreatedByModelMixin"><a class="viewcode-back" href="../../../modules/generated/wp4.perfusion_machine.models.html#wp4.perfusion_machine.models.CreatedByModelMixin">[docs]</a><span class="k">class</span> <span class="nc">CreatedByModelMixin</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Helper Meta model in the same vein as VersionControlMixin, but simpler. Needs further work to refine</span>
-<span class="sd">    the idea and to apply it more widely</span>
-
-<span class="sd">    TODO: Move this to Core, and account for setting created_by in the save method</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">created_on</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">)</span>
-    <span class="n">created_by</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User</span><span class="p">)</span>
-
-<div class="viewcode-block" id="CreatedByModelMixin.Meta"><a class="viewcode-back" href="../../../modules/generated/wp4.perfusion_machine.models.html#wp4.perfusion_machine.models.CreatedByModelMixin.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
-        <span class="n">abstract</span> <span class="o">=</span> <span class="bp">True</span></div>
-
-<div class="viewcode-block" id="CreatedByModelMixin.save"><a class="viewcode-back" href="../../../modules/generated/wp4.perfusion_machine.models.html#wp4.perfusion_machine.models.CreatedByModelMixin.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force_insert</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">force_update</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">using</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-             <span class="n">update_fields</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">created_on</span> <span class="o">=</span> <span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">CreatedByModelMixin</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">force_insert</span><span class="p">,</span> <span class="n">force_update</span><span class="p">,</span> <span class="n">using</span><span class="p">,</span> <span class="n">update_fields</span><span class="p">)</span></div></div>
+<span class="kn">from</span> <span class="nn">wp4.compare.models.core</span> <span class="kn">import</span> <span class="n">BaseModelMixin</span>
 
 
-<div class="viewcode-block" id="PerfusionMachine"><a class="viewcode-back" href="../../../modules/generated/wp4.perfusion_machine.models.html#wp4.perfusion_machine.models.PerfusionMachine">[docs]</a><span class="k">class</span> <span class="nc">PerfusionMachine</span><span class="p">(</span><span class="n">CreatedByModelMixin</span><span class="p">):</span>
+<div class="viewcode-block" id="PerfusionMachine"><a class="viewcode-back" href="../../../modules/generated/wp4.perfusion_machine.models.html#wp4.perfusion_machine.models.PerfusionMachine">[docs]</a><span class="k">class</span> <span class="nc">PerfusionMachine</span><span class="p">(</span><span class="n">BaseModelMixin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Helper class for device accountability. Tracks actual Perfusion Machines used in the trial.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -178,7 +159,7 @@
         <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;PMm2 perfusion machines&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="PerfusionFile"><a class="viewcode-back" href="../../../modules/generated/wp4.perfusion_machine.models.html#wp4.perfusion_machine.models.PerfusionFile">[docs]</a><span class="k">class</span> <span class="nc">PerfusionFile</span><span class="p">(</span><span class="n">CreatedByModelMixin</span><span class="p">):</span>
+<div class="viewcode-block" id="PerfusionFile"><a class="viewcode-back" href="../../../modules/generated/wp4.perfusion_machine.models.html#wp4.perfusion_machine.models.PerfusionFile">[docs]</a><span class="k">class</span> <span class="nc">PerfusionFile</span><span class="p">(</span><span class="n">BaseModelMixin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Early plans talked about collecting the data file from each machine after each transplant to provide</span>
 <span class="sd">    extra data, however this has been shelved as a concept presently. This class was the foundation of</span>

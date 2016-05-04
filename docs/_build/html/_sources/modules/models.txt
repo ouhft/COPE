@@ -43,7 +43,7 @@ The Follow Ups app collects the data from 4 interview points over the course of 
 .. autosummary::
    :toctree: generated
 
-..   wp4.followups.models
+   wp4.followups.models
 
 Currently unavailable whilst schema is being stabilised
 

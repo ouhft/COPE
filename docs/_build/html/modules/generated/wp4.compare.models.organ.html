@@ -182,35 +182,35 @@
 <tr class="row-odd"><td><a class="reference internal" href="#wp4.compare.models.organ.AllocatableOrganManager" title="wp4.compare.models.organ.AllocatableOrganManager"><code class="xref py py-obj docutils literal"><span class="pre">AllocatableOrganManager</span></code></a>()</td>
 <td>Get only the Organs that are available for allocation, which means they&#8217;re Unallocated (not deliberately), Randomised, and still Transplantable (but not necessarily a completed P form).</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#wp4.compare.models.organ.ClosedOrganManager" title="wp4.compare.models.organ.ClosedOrganManager"><code class="xref py py-obj docutils literal"><span class="pre">ClosedOrganManager</span></code></a>()</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">BaseModelMixin</span></code>(*args,&nbsp;**kwargs)</td>
+<td>Common data record fields for tracking changes</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#wp4.compare.models.organ.ClosedOrganManager" title="wp4.compare.models.organ.ClosedOrganManager"><code class="xref py py-obj docutils literal"><span class="pre">ClosedOrganManager</span></code></a>()</td>
 <td>Get only the Organs that have had completed outcomes.</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">Donor</span></code>(*args,&nbsp;**kwargs)</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">Donor</span></code>(*args,&nbsp;**kwargs)</td>
 <td>Extension of an OrganPerson record (via OneToOne link for good ORM/DB management) to capture</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">MaxValueValidator</span></code>(limit_value[,&nbsp;message])</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">MaxValueValidator</span></code>(limit_value[,&nbsp;message])</td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">MinValueValidator</span></code>(limit_value[,&nbsp;message])</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">MinValueValidator</span></code>(limit_value[,&nbsp;message])</td>
 <td></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#wp4.compare.models.organ.OpenOrganManager" title="wp4.compare.models.organ.OpenOrganManager"><code class="xref py py-obj docutils literal"><span class="pre">OpenOrganManager</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#wp4.compare.models.organ.OpenOrganManager" title="wp4.compare.models.organ.OpenOrganManager"><code class="xref py py-obj docutils literal"><span class="pre">OpenOrganManager</span></code></a>()</td>
 <td>Get only the Organs that are open for transplantation, which means they&#8217;ve one or more allocations, and have not had their form closed (either by allocation outside of project area, or completed form).</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#wp4.compare.models.organ.Organ" title="wp4.compare.models.organ.Organ"><code class="xref py py-obj docutils literal"><span class="pre">Organ</span></code></a>(*args,&nbsp;**kwargs)</td>
+<tr class="row-even"><td><a class="reference internal" href="#wp4.compare.models.organ.Organ" title="wp4.compare.models.organ.Organ"><code class="xref py py-obj docutils literal"><span class="pre">Organ</span></code></a>(*args,&nbsp;**kwargs)</td>
 <td>The focus of the trial, specifically a Kidney.</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">PerfusionFile</span></code>(*args,&nbsp;**kwargs)</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">PerfusionFile</span></code>(*args,&nbsp;**kwargs)</td>
 <td>Early plans talked about collecting the data file from each machine after each transplant to provide extra data, however this has been shelved as a concept presently.</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">PerfusionMachine</span></code>(*args,&nbsp;**kwargs)</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">PerfusionMachine</span></code>(*args,&nbsp;**kwargs)</td>
 <td>Helper class for device accountability.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#wp4.compare.models.organ.ProcurementResource" title="wp4.compare.models.organ.ProcurementResource"><code class="xref py py-obj docutils literal"><span class="pre">ProcurementResource</span></code></a>(*args,&nbsp;**kwargs)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#wp4.compare.models.organ.ProcurementResource" title="wp4.compare.models.organ.ProcurementResource"><code class="xref py py-obj docutils literal"><span class="pre">ProcurementResource</span></code></a>(*args,&nbsp;**kwargs)</td>
 <td>Repeatable list of resources used during organ extraction.</td>
-</tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">User</span></code>(*args,&nbsp;**kwargs)</td>
-<td>Users within the Django authentication system are represented by this model.</td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">VersionControlMixin</span></code>(*args,&nbsp;**kwargs)</td>
 <td>Internal common attributes to aide system auditing of records</td>
@@ -311,16 +311,16 @@ preservation=PRESERVATION_NOT_SET</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.9)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
-<li><strong>version</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveIntegerField</em></a>) &#8211; &#8220;version&#8221; - Internal tracking version number</li>
 <li><strong>created_on</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;created on&#8221;</li>
 <li><strong>created_by_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;created by&#8221; - User account for the person logged in when this record was made/updated</li>
+<li><strong>version</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveIntegerField</em></a>) &#8211; &#8220;version&#8221; - Internal tracking version number</li>
 <li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.9)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - Not presently implemented or used</li>
 <li><strong>donor_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;donor&#8221; - Internal link to the Donor</li>
 <li><strong>location</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.CharField" title="(in Django v1.9)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;OR01 kidney location&#8221;</li>
 <li><strong>not_allocated_reason</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.CharField" title="(in Django v1.9)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;OR31 not transplantable because&#8221;</li>
-<li><strong>admin_notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.TextField" title="(in Django v1.9)"><em>django.db.models.TextField</em></a>) &#8211; &#8220;DO50 Admin notes&#8221;</li>
-<li><strong>transplantation_notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.TextField" title="(in Django v1.9)"><em>django.db.models.TextField</em></a>) &#8211; &#8220;DO51 Transplantation notes&#8221;</li>
-<li><strong>transplantation_form_completed</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.9)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;transplantation form completed&#8221; - Internal value to flag when technician thinks the form is complete</li>
+<li><strong>admin_notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.TextField" title="(in Django v1.9)"><em>django.db.models.TextField</em></a>) &#8211; &#8220;OR50 Admin notes&#8221;</li>
+<li><strong>transplantation_notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.TextField" title="(in Django v1.9)"><em>django.db.models.TextField</em></a>) &#8211; &#8220;OR51 Transplantation notes&#8221;</li>
+<li><strong>transplantation_form_completed</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.9)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;OR99 Form complete&#8221; - Select Yes when you believe the form is complete and you have no more data to enter</li>
 <li><strong>removal</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;OR02 time out&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
 <li><strong>renal_arteries</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;OR03 number of renal arteries&#8221; - Number of arteries must be in range 0-5</li>
 <li><strong>graft_damage</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;OR04 renal graft damage&#8221;</li>
@@ -410,7 +410,7 @@ one-to-one relation.</p>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.organ.Organ.GRAFT_DAMAGE_CHOICES">
-<code class="descname">GRAFT_DAMAGE_CHOICES</code><em class="property"> = ((5, &lt;django.utils.functional.__proxy__ object at 0x111a33050&gt;), (1, &lt;django.utils.functional.__proxy__ object at 0x111a33090&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x111a330d0&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x111a33110&gt;), (4, &lt;django.utils.functional.__proxy__ object at 0x111a33150&gt;), (6, &lt;django.utils.functional.__proxy__ object at 0x111a33190&gt;))</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.GRAFT_DAMAGE_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">GRAFT_DAMAGE_CHOICES</code><em class="property"> = ((5, &lt;django.utils.functional.__proxy__ object at 0x10d4f4190&gt;), (1, &lt;django.utils.functional.__proxy__ object at 0x10d4f41d0&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x10d4f4210&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x10d4f4250&gt;), (4, &lt;django.utils.functional.__proxy__ object at 0x10d4f4290&gt;), (6, &lt;django.utils.functional.__proxy__ object at 0x10d4f42d0&gt;))</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.GRAFT_DAMAGE_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Organ graft_damage choices</p>
 </dd></dl>
 
@@ -440,7 +440,7 @@ one-to-one relation.</p>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.organ.Organ.WASHOUT_PERFUSION_CHOICES">
-<code class="descname">WASHOUT_PERFUSION_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x111a331d0&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x111a33210&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x111a33290&gt;), (9, &lt;django.utils.functional.__proxy__ object at 0x111a33310&gt;))</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.WASHOUT_PERFUSION_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">WASHOUT_PERFUSION_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x10d4f4310&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x10d4f4350&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x10d4f43d0&gt;), (9, &lt;django.utils.functional.__proxy__ object at 0x10d4f4450&gt;))</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.WASHOUT_PERFUSION_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Organ washout_perfusion choices</p>
 </dd></dl>
 
@@ -482,13 +482,13 @@ one-to-one relation.</p>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.organ.Organ.PATCH_HOLDER_CHOICES">
-<code class="descname">PATCH_HOLDER_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x111a33d10&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x111a33d50&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x111a33d90&gt;))</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.PATCH_HOLDER_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">PATCH_HOLDER_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x10d4f4e50&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x10d4f4e90&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x10d4f4ed0&gt;))</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.PATCH_HOLDER_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Organ patch_holder choices</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.organ.Organ.ARTIFICIAL_PATCH_CHOICES">
-<code class="descname">ARTIFICIAL_PATCH_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x111a33dd0&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x111a33e10&gt;))</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.ARTIFICIAL_PATCH_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ARTIFICIAL_PATCH_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x10d4f4f10&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x10d4f4f50&gt;))</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.ARTIFICIAL_PATCH_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Organ artificial_patch_size choices</p>
 </dd></dl>
 
@@ -904,13 +904,13 @@ class built by <code class="docutils literal"><span class="pre">create_forward_m
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.9)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
+<li><strong>created_on</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;created on&#8221;</li>
+<li><strong>created_by_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;created by&#8221; - User account for the person logged in when this record was made/updated</li>
 <li><strong>organ_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;PR01 related kidney&#8221;</li>
 <li><strong>type</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.CharField" title="(in Django v1.9)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;PR02 resource used&#8221;</li>
 <li><strong>lot_number</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.CharField" title="(in Django v1.9)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;PR03 lot number&#8221;</li>
 <li><strong>expiry_date</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.DateField" title="(in Django v1.9)"><em>django.db.models.DateField</em></a>) &#8211; &#8220;PR04 expiry date&#8221;</li>
 <li><strong>expiry_date_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.9)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;expiry date unknown&#8221; - Internal unknown flag</li>
-<li><strong>created_on</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;created on&#8221; - Internal value</li>
-<li><strong>created_by_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;created by&#8221; - Internal User link</li>
 </ul>
 </td>
 </tr>
@@ -960,26 +960,13 @@ class built by <code class="docutils literal"><span class="pre">create_forward_m
 
 <dl class="attribute">
 <dt id="wp4.compare.models.organ.ProcurementResource.TYPE_CHOICES">
-<code class="descname">TYPE_CHOICES</code><em class="property"> = ((u'D', &lt;django.utils.functional.__proxy__ object at 0x111a41610&gt;), (u'C-SM', &lt;django.utils.functional.__proxy__ object at 0x111a41750&gt;), (u'C-LG', &lt;django.utils.functional.__proxy__ object at 0x111a41a10&gt;), (u'PH-SM', &lt;django.utils.functional.__proxy__ object at 0x111a41a50&gt;), (u'PH-LG', &lt;django.utils.functional.__proxy__ object at 0x111a41a90&gt;), (u'DB-C', &lt;django.utils.functional.__proxy__ object at 0x111a41ad0&gt;), (u'P', &lt;django.utils.functional.__proxy__ object at 0x111a41b10&gt;))</em><a class="headerlink" href="#wp4.compare.models.organ.ProcurementResource.TYPE_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">TYPE_CHOICES</code><em class="property"> = ((u'D', &lt;django.utils.functional.__proxy__ object at 0x10d501710&gt;), (u'C-SM', &lt;django.utils.functional.__proxy__ object at 0x10d501850&gt;), (u'C-LG', &lt;django.utils.functional.__proxy__ object at 0x10d501b10&gt;), (u'PH-SM', &lt;django.utils.functional.__proxy__ object at 0x10d501b50&gt;), (u'PH-LG', &lt;django.utils.functional.__proxy__ object at 0x10d501b90&gt;), (u'DB-C', &lt;django.utils.functional.__proxy__ object at 0x10d501bd0&gt;), (u'P', &lt;django.utils.functional.__proxy__ object at 0x10d501c10&gt;))</em><a class="headerlink" href="#wp4.compare.models.organ.ProcurementResource.TYPE_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>ProcurementResource type choices</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.organ.ProcurementResource.organ">
 <code class="descname">organ</code><a class="headerlink" href="#wp4.compare.models.organ.ProcurementResource.organ" title="Permalink to this definition">¶</a></dt>
-<dd><p>Accessor to the related object on the forward side of a many-to-one or
-one-to-one relation.</p>
-<p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="wp4.compare.models.organ.ProcurementResource.created_by">
-<code class="descname">created_by</code><a class="headerlink" href="#wp4.compare.models.organ.ProcurementResource.created_by" title="Permalink to this definition">¶</a></dt>
 <dd><p>Accessor to the related object on the forward side of a many-to-one or
 one-to-one relation.</p>
 <p>In the example:</p>
@@ -1005,6 +992,19 @@ one-to-one relation.</p>
 <dt id="wp4.compare.models.organ.ProcurementResource.MultipleObjectsReturned">
 <em class="property">exception </em><code class="descclassname">ProcurementResource.</code><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#wp4.compare.models.organ.ProcurementResource.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.ProcurementResource.created_by">
+<code class="descclassname">ProcurementResource.</code><code class="descname">created_by</code><a class="headerlink" href="#wp4.compare.models.organ.ProcurementResource.created_by" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="wp4.compare.models.organ.ProcurementResource.get_next_by_created_on">

@@ -140,10 +140,10 @@
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">unicode_literals</span>
 
 <span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
-<span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">User</span>
 <span class="kn">from</span> <span class="nn">django.core.urlresolvers</span> <span class="kn">import</span> <span class="n">reverse</span>
-<span class="kn">from</span> <span class="nn">django.utils</span> <span class="kn">import</span> <span class="n">timezone</span>
 <span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">ugettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
+
+<span class="kn">from</span> <span class="nn">wp4.compare.models.core</span> <span class="kn">import</span> <span class="n">VersionControlMixin</span>
 
 
 <span class="c1"># Common CONSTANTS</span>
@@ -204,7 +204,7 @@
 <span class="p">)</span>  <span class="c1">#: Choices for Hospital.country</span>
 
 
-<div class="viewcode-block" id="Hospital"><a class="viewcode-back" href="../../../modules/generated/wp4.locations.models.html#wp4.locations.models.Hospital">[docs]</a><span class="k">class</span> <span class="nc">Hospital</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<div class="viewcode-block" id="Hospital"><a class="viewcode-back" href="../../../modules/generated/wp4.locations.models.html#wp4.compare.models.core.Hospital">[docs]</a><span class="k">class</span> <span class="nc">Hospital</span><span class="p">(</span><span class="n">VersionControlMixin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Simple helper class to hold information related to the various project and non-project locations.</span>
 <span class="sd">    Currently referenced from Donor, OrganAllocation, RetrievalTeam, and StaffPerson</span>
@@ -217,11 +217,8 @@
         <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Not presently used/implemented. For legacy data when a location closes for use&quot;</span>
     <span class="p">)</span>
     <span class="n">is_project_site</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;HO04 is project site&quot;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-    <span class="c1"># Metadata</span>
-    <span class="n">created_on</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">)</span>
-    <span class="n">created_by</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Hospital.full_description"><a class="viewcode-back" href="../../../modules/generated/wp4.locations.models.html#wp4.locations.models.Hospital.full_description">[docs]</a>    <span class="k">def</span> <span class="nf">full_description</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Hospital.full_description"><a class="viewcode-back" href="../../../modules/generated/wp4.locations.models.html#wp4.compare.models.core.Hospital.full_description">[docs]</a>    <span class="k">def</span> <span class="nf">full_description</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">, </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_country_display</span><span class="p">())</span></div>
 
     <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -232,7 +229,7 @@
         <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;HOm1 hospital&#39;</span><span class="p">)</span>
         <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;HOm2 hospitals&#39;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Hospital.get_absolute_url"><a class="viewcode-back" href="../../../modules/generated/wp4.locations.models.html#wp4.locations.models.Hospital.get_absolute_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_absolute_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Hospital.get_absolute_url"><a class="viewcode-back" href="../../../modules/generated/wp4.locations.models.html#wp4.compare.models.core.Hospital.get_absolute_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_absolute_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">reverse</span><span class="p">(</span><span class="s2">&quot;locations:detail&quot;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;pk&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pk</span><span class="p">})</span></div></div>
 </pre></div>
 

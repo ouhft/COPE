@@ -166,7 +166,7 @@
     <span class="n">person</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span><span class="n">OrganPerson</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Internal link to OrganPerson&quot;</span><span class="p">)</span>
     <span class="n">sequence_number</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-        <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">MinValueValidator</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">MaxValueValidator</span><span class="p">(</span><span class="mi">99</span><span class="p">)],</span>
+        <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">MaxValueValidator</span><span class="p">(</span><span class="mi">99</span><span class="p">)],</span>
         <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Internal value for tracking trial ID sequence number. Value of 1-99&quot;</span>
     <span class="p">)</span>
 
@@ -191,8 +191,9 @@
     <span class="p">)</span>
     <span class="n">not_randomised_because_other</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;DO52 More details&#39;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">procurement_form_completed</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;DO99 Form complete&quot;</span><span class="p">),</span>
         <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Internal value to flag when technician thinks the form is complete&quot;</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Select Yes when you believe the form is complete and you have no more data to enter&quot;</span><span class="p">)</span>
     <span class="p">)</span>
     <span class="n">admin_notes</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;DO50 Admin notes&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 

@@ -19,7 +19,7 @@ wp4.compare.models.core
 
    .. autosummary::
    
-      Hospital
+      BaseModelMixin
       MaxValueValidator
       MinValueValidator
       OrganPerson

@@ -244,16 +244,16 @@ the Donor specific data</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.9)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
-<li><strong>version</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveIntegerField</em></a>) &#8211; &#8220;version&#8221; - Internal tracking version number</li>
 <li><strong>created_on</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;created on&#8221;</li>
 <li><strong>created_by_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;created by&#8221; - User account for the person logged in when this record was made/updated</li>
+<li><strong>version</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveIntegerField</em></a>) &#8211; &#8220;version&#8221; - Internal tracking version number</li>
 <li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.9)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - Not presently implemented or used</li>
 <li><strong>person_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.OneToOneField" title="(in Django v1.9)"><em>django.db.models.OneToOneField</em></a>) &#8211; &#8220;person&#8221; - Internal link to OrganPerson</li>
 <li><strong>sequence_number</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;sequence number&#8221; - Internal value for tracking trial ID sequence number. Value of 1-99</li>
 <li><strong>multiple_recipients</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;DO02 Multiple recipients&#8221;</li>
 <li><strong>not_randomised_because</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;DO51 Why was this not randomised?&#8221;</li>
 <li><strong>not_randomised_because_other</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.CharField" title="(in Django v1.9)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;DO52 More details&#8221;</li>
-<li><strong>procurement_form_completed</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.9)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;procurement form completed&#8221; - Internal value to flag when technician thinks the form is complete</li>
+<li><strong>procurement_form_completed</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.9)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;DO99 Form complete&#8221; - Select Yes when you believe the form is complete and you have no more data to enter</li>
 <li><strong>admin_notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.TextField" title="(in Django v1.9)"><em>django.db.models.TextField</em></a>) &#8211; &#8220;DO50 Admin notes&#8221;</li>
 <li><strong>retrieval_team_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;DO01 retrieval team&#8221;</li>
 <li><strong>perfusion_technician_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;DO03 name of transplant technician&#8221;</li>
@@ -339,7 +339,7 @@ one-to-one relation.</p>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.donor.Donor.NON_RANDOMISATION_CHOICES">
-<code class="descname">NON_RANDOMISATION_CHOICES</code><em class="property"> = ((0, &lt;django.utils.functional.__proxy__ object at 0x1119f41d0&gt;), (1, &lt;django.utils.functional.__proxy__ object at 0x1119f4210&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x1119f4250&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x1119f4290&gt;), (4, &lt;django.utils.functional.__proxy__ object at 0x1119f42d0&gt;), (5, &lt;django.utils.functional.__proxy__ object at 0x1119f4310&gt;))</em><a class="headerlink" href="#wp4.compare.models.donor.Donor.NON_RANDOMISATION_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">NON_RANDOMISATION_CHOICES</code><em class="property"> = ((0, &lt;django.utils.functional.__proxy__ object at 0x10d4b3450&gt;), (1, &lt;django.utils.functional.__proxy__ object at 0x10d4b3490&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x10d4b34d0&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x10d4b3510&gt;), (4, &lt;django.utils.functional.__proxy__ object at 0x10d4b3550&gt;), (5, &lt;django.utils.functional.__proxy__ object at 0x10d4b3590&gt;))</em><a class="headerlink" href="#wp4.compare.models.donor.Donor.NON_RANDOMISATION_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Donor not_randomised_because choices</p>
 </dd></dl>
 
@@ -413,7 +413,7 @@ one-to-one relation.</p>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.donor.Donor.DIAGNOSIS_CHOICES">
-<code class="descname">DIAGNOSIS_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x1119fa8d0&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x1119fa910&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x1119fa950&gt;), (4, &lt;django.utils.functional.__proxy__ object at 0x1119fa990&gt;))</em><a class="headerlink" href="#wp4.compare.models.donor.Donor.DIAGNOSIS_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">DIAGNOSIS_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x10d4bec10&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x10d4bec50&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x10d4bec90&gt;), (4, &lt;django.utils.functional.__proxy__ object at 0x10d4becd0&gt;))</em><a class="headerlink" href="#wp4.compare.models.donor.Donor.DIAGNOSIS_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Donor diagnosis choices</p>
 </dd></dl>
 
@@ -515,7 +515,7 @@ one-to-one relation.</p>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.donor.Donor.SOLUTION_CHOICES">
-<code class="descname">SOLUTION_CHOICES</code><em class="property"> = ((3, u'HTK'), (2, u&quot;Marshall's&quot;), (1, u'UW'), (4, &lt;django.utils.functional.__proxy__ object at 0x111a01b50&gt;))</em><a class="headerlink" href="#wp4.compare.models.donor.Donor.SOLUTION_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">SOLUTION_CHOICES</code><em class="property"> = ((3, u'HTK'), (2, u&quot;Marshall's&quot;), (1, u'UW'), (4, &lt;django.utils.functional.__proxy__ object at 0x10d4c5e90&gt;))</em><a class="headerlink" href="#wp4.compare.models.donor.Donor.SOLUTION_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Donor systemic_flush_used choices</p>
 </dd></dl>
 

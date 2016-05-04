@@ -156,7 +156,7 @@
 <span class="sd">    Organs can be allocated multiple times before finding a definitive recipient. This class acts as</span>
 <span class="sd">    the record of these allocations and a link between Organ and Recipient.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">organ</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Organ</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Internal link to the Organ&quot;</span><span class="p">)</span>
+    <span class="n">organ</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Organ</span><span class="p">)</span>  <span class="c1"># Internal link to the Organ</span>
 
     <span class="c1">#  Allocation data</span>
     <span class="n">REALLOCATION_CROSSMATCH</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1">#: Constant for REALLOCATION_CHOICES</span>
@@ -360,7 +360,11 @@
         <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Date must be fall within 1900-2050, and not be in the future&quot;</span>
     <span class="p">)</span>
     <span class="n">organ_cold_stored</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;RE21 kidney was cold stored?&#39;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-    <span class="n">tape_broken</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;RE22 tape over regulator broken&#39;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">tape_broken</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;RE22 tape over regulator broken&#39;</span><span class="p">),</span>
+        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">choices</span><span class="o">=</span><span class="n">YES_NO_UNKNOWN_CHOICES</span><span class="p">,</span>
+    <span class="p">)</span>  <span class="c1">#: Limit choices to YES_NO_UNKNOWN_CHOICES</span>
     <span class="n">removed_from_machine_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;RE23 kidney removed from machine at&#39;</span><span class="p">),</span>
         <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>

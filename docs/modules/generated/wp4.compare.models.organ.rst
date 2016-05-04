@@ -21,6 +21,7 @@ wp4.compare.models.organ
    .. autosummary::
    
       AllocatableOrganManager
+      BaseModelMixin
       ClosedOrganManager
       Donor
       MaxValueValidator
@@ -30,7 +31,6 @@ wp4.compare.models.organ
       PerfusionFile
       PerfusionMachine
       ProcurementResource
-      User
       VersionControlMixin
    
    

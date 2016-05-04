@@ -13,10 +13,9 @@ wp4.perfusion_machine.models
 
    .. autosummary::
    
-      CreatedByModelMixin
+      BaseModelMixin
       PerfusionFile
       PerfusionMachine
-      User
    
    
 
