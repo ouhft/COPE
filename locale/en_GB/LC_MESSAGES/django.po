@@ -48,7 +48,7 @@ msgstr "Did it result in a life-threatening illness or injury?"
 #: wp4/adverse_event/models.py:31
 msgid "AE12 permanent impairment"
 msgstr ""
-"Did it result in a permanenty impairment of a body structure or a body "
+"Did it result in a permanent impairment of a body structure or a body "
 "function?"
 
 #: wp4/adverse_event/models.py:32
@@ -151,7 +151,7 @@ msgstr "Was dialysis needed?"
 
 #: wp4/adverse_event/models.py:58
 msgid "AE35 biopsy taken"
-msgstr "Was a kidney biopsey taken?"
+msgstr "Was a kidney biopsy taken?"
 
 #: wp4/adverse_event/models.py:59
 msgid "AE36 surgery required"
@@ -171,7 +171,7 @@ msgstr "Date of death"
 
 #: wp4/adverse_event/models.py:65
 msgid "AE49 treatment related?"
-msgstr "Treatment related?"
+msgstr "Was death treatment related?"
 
 #: wp4/adverse_event/models.py:69
 msgid "AE42 cerebrovascular"
@@ -191,7 +191,7 @@ msgstr "Sepsis"
 
 #: wp4/adverse_event/models.py:73
 msgid "AE46 transplant related"
-msgstr "Transplant related?"
+msgstr "Transplant related"
 
 #: wp4/adverse_event/models.py:74
 msgid "AE47 other"
