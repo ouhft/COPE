@@ -15,14 +15,13 @@
 
 {% block content %}
     <ul>
-        {% for follow in followup_list %}
-            <li>{{ follow.trial_id }}
-                <a href="{% url 'wp4:followup:month3_detail' pk=follow.pk %}">
-                    <i title="edit" class="glyphicon glyphicon-search"></i></a>
-                <a href="{% url 'wp4:followup:month3_update' pk=follow.pk %}">
-                    <i title="edit" class="glyphicon glyphicon-edit"></i></a>
+        {% for follow in followup3m_list %}
+            <li>
+                <a href="{% url 'wp4:followup:month3_update' pk=follow.pk %}" class="btn btn-default btn-xs"><i title="edit" class="glyphicon glyphicon-edit"></i></a>
+                <a href="{% url 'wp4:followup:month3_detail' pk=follow.pk %}">{{ follow }}</a>
             </li>
         {% endfor %}
     </ul>
+    <p><a href="{% url 'wp4:followup:month3_add' %}" class="btn btn-default">Add New Month 3 Follow Up</a> </p>
 
 {% endblock %}

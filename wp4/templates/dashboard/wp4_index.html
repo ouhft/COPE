@@ -25,7 +25,7 @@
             <a href="{% url 'wp4:samples:home' %}" class="list-group-item">Sample Collection</a>
         {% endif %}
         {% if perms.followup.change_intial %}
-{#            <a href="{% url 'wp4:followup:index' %}" class="list-group-item">Follow Up Forms</a>#}
+            <a href="{% url 'wp4:followup:index' %}" class="list-group-item">Follow Up Forms</a>
         {% endif %}
         <a href="{% url 'wp4:adverse_event:list' %}" class="list-group-item">Adverse Event Forms</a>
     </ul>

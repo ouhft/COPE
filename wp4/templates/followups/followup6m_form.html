@@ -3,16 +3,16 @@
 {% load crispy_forms_tags %}
 {% load crispy_forms_field %}
 
-{% block page_title %}Month 3 - Follow Up{% endblock %}
+{% block page_title %}Month 6 - Follow Up{% endblock %}
 {% block page_header %}
-    Month 3 - Follow Up
+    Month 6 - Follow Up
     <small>Case ID: {{ form.instance.trial_id|default:"New" }}</small>
 {% endblock %}
 {% block page_trail %}
     <li><a href="{% url 'home' %}">Home</a></li>
     <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
     <li><a href="{% url 'wp4:followup:index' %}">Follow Up</a></li>
-    <li><a href="{% url 'wp4:followup:month3_list' %}">Month 3</a></li>
+    <li><a href="{% url 'wp4:followup:month6_list' %}">Month 6</a></li>
     <li class="active">Edit Report</li>
 {% endblock %}
 

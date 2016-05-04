@@ -1,0 +1,27 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+
+{% block page_title %}Month 6 - Follow Up{% endblock %}
+{% block page_header %}
+    Month 6 - Follow Up
+    <small>Listing</small>
+{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:followup:index' %}">Follow Up</a></li>
+    <li class="active">Month 6</li>
+{% endblock %}
+
+{% block content %}
+    <ul>
+        {% for follow in followup6m_list %}
+            <li>
+                <a href="{% url 'wp4:followup:month6_update' pk=follow.pk %}" class="btn btn-default btn-xs"><i title="edit" class="glyphicon glyphicon-edit"></i></a>
+                <a href="{% url 'wp4:followup:month6_detail' pk=follow.pk %}">{{ follow }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <p><a href="{% url 'wp4:followup:month6_add' %}" class="btn btn-default">Add New Month 6 Follow Up</a> </p>
+
+{% endblock %}

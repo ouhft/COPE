@@ -2,14 +2,13 @@
 # coding: utf-8
 from django import forms
 from django.conf import settings
-from django.utils import timezone
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Div, HTML, Field
 
 from wp4.compare.models import YES_NO_UNKNOWN_CHOICES
-from wp4.compare.forms.core import NO_YES_CHOICES, YES_NO_CHOICES
-from wp4.theme.layout import DateTimeField, DateField, FormPanel, ForeignKeyModal, FieldWithFollowup
+from wp4.compare.forms.core import NO_YES_CHOICES
+from wp4.theme.layout import DateField, FormPanel, ForeignKeyModal, FieldWithFollowup
 
 from .models import AdverseEvent
 
