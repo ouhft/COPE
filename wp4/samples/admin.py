@@ -3,8 +3,8 @@
 from django.contrib import admin
 from django.contrib.admin.options import IS_POPUP_VAR
 from django.utils import timezone
-from reversion_compare.admin import CompareVersionAdmin
 
+from wp4.compare.admin import VersionControlAdmin
 from .models import UrineSample, BloodSample, PerfusateSample, TissueSample, Event, Worksheet
 
 
@@ -44,7 +44,7 @@ class TissueSampleInline(admin.TabularInline):
     min_num = 2
 
 
-class EventAdmin(CompareVersionAdmin):
+class EventAdmin(VersionControlAdmin):
     fields = ('worksheet', 'type', 'name', 'taken_at')
     list_display = ('id', 'worksheet', 'type', 'name', 'taken_at')
     ordering = ('worksheet', 'type', 'taken_at')
@@ -84,12 +84,8 @@ class EventAdmin(CompareVersionAdmin):
             request.POST['_continue'] = 1
         return super(EventAdmin, self).response_add(request, obj, post_url_continue)
 
-    def save_model(self, request, obj, form, change):
-        obj.created_by = request.user
-        obj.created_on = timezone.now()
-        obj.save()
-
     def save_formset(self, request, form, formset, change):
+        # Overrides VersionControlAdmin.save_formset(). Doesn't allow deletion.
         if formset.model == UrineSample:
             for subform in formset:
                 subform.instance.person = form.instance.worksheet.person
@@ -122,21 +118,9 @@ class EventInline(admin.TabularInline):
     extra = 1
 
 
-class WorksheetAdmin(CompareVersionAdmin):
+class WorksheetAdmin(VersionControlAdmin):
     list_display = ('id', 'barcode', 'person',)
     fields = ('barcode', 'person')
     inlines = [EventInline]
-
-    def save_model(self, request, obj, form, change):
-        obj.created_by = request.user
-        obj.created_on = timezone.now()
-        obj.save()
-
-    def save_formset(self, request, form, formset, change):
-        if formset.model == Event:
-            for subform in formset:
-                subform.instance.created_by = request.user
-                subform.instance.created_on = timezone.now()
-        formset.save()
 
 admin.site.register(Worksheet, WorksheetAdmin)

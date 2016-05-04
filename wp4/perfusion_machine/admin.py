@@ -2,7 +2,7 @@
 # coding: utf-8
 
 from django.contrib import admin
-
+from wp4.compare.admin import BaseModelAdmin
 from .models import PerfusionMachine, PerfusionFile
 
 
@@ -12,24 +12,16 @@ class PerfusionMachineFileInline(admin.TabularInline):
     extra = 1
 
 
-class PerfusionMachineAdmin(admin.ModelAdmin):
+class PerfusionMachineAdmin(BaseModelAdmin):
     fields = ('machine_serial_number', 'machine_reference_number')
     inlines = [
         PerfusionMachineFileInline,
     ]
 
-    def save_model(self, request, obj, form, change):
-        obj.created_by = request.user
-        obj.save()
-
 admin.site.register(PerfusionMachine, PerfusionMachineAdmin)
 
 
-class PerfusionMachineFileAdmin(admin.ModelAdmin):
+class PerfusionMachineFileAdmin(BaseModelAdmin):
     fields = ('machine', 'file')
-
-    def save_model(self, request, obj, form, change):
-        obj.created_by = request.user
-        obj.save()
 
 admin.site.register(PerfusionFile, PerfusionMachineFileAdmin)
