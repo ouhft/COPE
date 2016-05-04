@@ -25,7 +25,7 @@ wp4.compare.models.core
       OrganPerson
       RetrievalTeam
       User
-      VersionControlModel
+      VersionControlMixin
       relativedelta
    
    

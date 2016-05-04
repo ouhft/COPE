@@ -29,7 +29,7 @@ wp4.compare.models.transplantation
       Recipient
       StaffJob
       StaffPerson
-      VersionControlModel
+      VersionControlMixin
    
    
 

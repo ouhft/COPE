@@ -31,7 +31,7 @@ wp4.compare.models.organ
       PerfusionMachine
       ProcurementResource
       User
-      VersionControlModel
+      VersionControlMixin
    
    
 

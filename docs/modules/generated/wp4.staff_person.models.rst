@@ -24,7 +24,7 @@ wp4.staff_person.models
       StaffJob
       StaffPerson
       User
-      VersionControlModel
+      VersionControlMixin
    
    
 

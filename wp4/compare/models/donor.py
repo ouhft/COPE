@@ -12,14 +12,14 @@ from wp4.staff_person.models import StaffJob, StaffPerson
 from wp4.locations.models import Hospital
 
 from ..validators import validate_between_1900_2050, validate_not_in_future
-from .core import VersionControlModel, OrganPerson, RetrievalTeam
+from .core import VersionControlMixin, OrganPerson, RetrievalTeam
 from .core import YES_NO_UNKNOWN_CHOICES, PRESERVATION_HMP, PRESERVATION_HMPO2, PRESERVATION_NOT_SET
 from .core import LEFT, RIGHT
 from .core import LIST_CHOICES
 from .core import PAPER_EUROPE, PAPER_UNITED_KINGDOM
 
 
-class Donor(VersionControlModel):
+class Donor(VersionControlMixin):
     """
     Extension of an OrganPerson record (via OneToOne link for good ORM/DB management) to capture
     the Donor specific data

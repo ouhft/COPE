@@ -3,10 +3,10 @@
 from __future__ import absolute_import, unicode_literals
 
 from django.db import models
-from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
-from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+
+from wp4.compare.models import BaseModelMixin
 
 
 # Common CONSTANTS
@@ -67,7 +67,7 @@ COUNTRY_CHOICES = (
 )  #: Choices for Hospital.country
 
 
-class Hospital(models.Model):
+class Hospital(BaseModelMixin):
     """
     Simple helper class to hold information related to the various project and non-project locations.
     Currently referenced from Donor, OrganAllocation, RetrievalTeam, and StaffPerson
@@ -80,9 +80,6 @@ class Hospital(models.Model):
         help_text="Not presently used/implemented. For legacy data when a location closes for use"
     )
     is_project_site = models.BooleanField(verbose_name=_("HO04 is project site"), default=False)
-    # Metadata
-    created_on = models.DateTimeField(default=timezone.now)
-    created_by = models.ForeignKey(User)
 
     def full_description(self):
         return '%s, %s' % (self.name, self.get_country_display())

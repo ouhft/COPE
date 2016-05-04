@@ -146,7 +146,7 @@
 <span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">ugettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
 
 <span class="kn">from</span> <span class="nn">wp4.locations.models</span> <span class="kn">import</span> <span class="n">Hospital</span>
-<span class="kn">from</span> <span class="nn">wp4.compare.models</span> <span class="kn">import</span> <span class="n">VersionControlModel</span>
+<span class="kn">from</span> <span class="nn">wp4.compare.models</span> <span class="kn">import</span> <span class="n">VersionControlMixin</span>
 
 
 <div class="viewcode-block" id="StaffJob"><a class="viewcode-back" href="../../../modules/generated/wp4.staff_person.models.html#wp4.staff_person.models.StaffJob">[docs]</a><span class="k">class</span> <span class="nc">StaffJob</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
@@ -175,7 +175,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span></div>
 
 
-<div class="viewcode-block" id="StaffPerson"><a class="viewcode-back" href="../../../modules/generated/wp4.staff_person.models.html#wp4.staff_person.models.StaffPerson">[docs]</a><span class="k">class</span> <span class="nc">StaffPerson</span><span class="p">(</span><span class="n">VersionControlModel</span><span class="p">):</span>
+<div class="viewcode-block" id="StaffPerson"><a class="viewcode-back" href="../../../modules/generated/wp4.staff_person.models.html#wp4.staff_person.models.StaffPerson">[docs]</a><span class="k">class</span> <span class="nc">StaffPerson</span><span class="p">(</span><span class="n">VersionControlMixin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base person record that links with the Django User record to add further metadata relevant to the</span>
 <span class="sd">    project management. Doesn&#39;t extend User to avoid complications of doing so.</span>

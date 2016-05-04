@@ -23,7 +23,7 @@ wp4.health_economics.models
       MinValueValidator
       QualityOfLife
       Recipient
-      VersionControlModel
+      VersionControlMixin
    
    
 

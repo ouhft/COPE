@@ -32,7 +32,7 @@ class EmailOnSaveMixin(object):
             self.object.get_absolute_url()
         )
         send_to = ['jacques.pirenne@uzleuven.be', 'ina.jochmans@uzleuven.be', 'sarah.mertens@uzleuven.be']
-        cc_to = ['ally.bradley@nds.ox.ac.uk']
+        cc_to = ['ally.bradley@nds.ox.ac.uk', ]
         subject_text = "Adverse Event Updated - {0}".format(self.object.organ.trial_id)
         from_email = settings.DEFAULT_FROM_EMAIL
         email = EmailMessage(

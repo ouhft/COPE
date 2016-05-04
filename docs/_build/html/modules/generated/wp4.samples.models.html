@@ -162,7 +162,7 @@
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="#wp4.samples.models.BarCodedItem" title="wp4.samples.models.BarCodedItem"><code class="xref py py-obj docutils literal"><span class="pre">BarCodedItem</span></code></a>(*args,&nbsp;**kwargs)</td>
-<td>Base meta class for many Sample classes, that extends VersionControlModel with a barcode field</td>
+<td>Base meta class for many Sample classes, that extends VersionControlMixin with a barcode field</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#wp4.samples.models.BloodSample" title="wp4.samples.models.BloodSample"><code class="xref py py-obj docutils literal"><span class="pre">BloodSample</span></code></a>(*args,&nbsp;**kwargs)</td>
 <td>Sample class type for Blood samples.</td>
@@ -191,7 +191,7 @@
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">User</span></code>(*args,&nbsp;**kwargs)</td>
 <td>Users within the Django authentication system are represented by this model.</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">VersionControlModel</span></code>(*args,&nbsp;**kwargs)</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">VersionControlMixin</span></code>(*args,&nbsp;**kwargs)</td>
 <td>Internal common attributes to aide system auditing of records</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#wp4.samples.models.Worksheet" title="wp4.samples.models.Worksheet"><code class="xref py py-obj docutils literal"><span class="pre">Worksheet</span></code></a>(*args,&nbsp;**kwargs)</td>
@@ -214,7 +214,7 @@
 <dl class="class">
 <dt id="wp4.samples.models.BarCodedItem">
 <em class="property">class </em><code class="descclassname">wp4.samples.models.</code><code class="descname">BarCodedItem</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/samples/models.html#BarCodedItem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.samples.models.BarCodedItem" title="Permalink to this definition">¶</a></dt>
-<dd><p>Base meta class for many Sample classes, that extends VersionControlModel with a barcode field</p>
+<dd><p>Base meta class for many Sample classes, that extends VersionControlMixin with a barcode field</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />

@@ -4,11 +4,11 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from ..compare.models import VersionControlModel, Organ, YES_NO_UNKNOWN_CHOICES
+from ..compare.models import VersionControlMixin, Organ, YES_NO_UNKNOWN_CHOICES
 from ..staff_person.models import StaffPerson
 
 
-class AdverseEvent(VersionControlModel):
+class AdverseEvent(VersionControlMixin):
     """
     WORK IN PROGRESS - Class definition prone to rapid change
 

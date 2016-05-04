@@ -193,7 +193,7 @@
 <span class="p">)</span>  <span class="c1">#: Randomisation list choices</span>
 
 
-<div class="viewcode-block" id="VersionControlModel"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.core.html#wp4.compare.models.core.VersionControlModel">[docs]</a><span class="k">class</span> <span class="nc">VersionControlModel</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<div class="viewcode-block" id="VersionControlModel"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.core.html#wp4.compare.models.core.VersionControlModel">[docs]</a><span class="k">class</span> <span class="nc">VersionControlMixin</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Internal common attributes to aide system auditing of records</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -223,10 +223,10 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">record_locked</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> Record is locked, and can not be saved&quot;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">VersionControlModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">force_insert</span><span class="p">,</span> <span class="n">force_update</span><span class="p">,</span> <span class="n">using</span><span class="p">,</span> <span class="n">update_fields</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">VersionControlMixin</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">force_insert</span><span class="p">,</span> <span class="n">force_update</span><span class="p">,</span> <span class="n">using</span><span class="p">,</span> <span class="n">update_fields</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="OrganPerson"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.core.html#wp4.compare.models.core.OrganPerson">[docs]</a><span class="k">class</span> <span class="nc">OrganPerson</span><span class="p">(</span><span class="n">VersionControlModel</span><span class="p">):</span>
+<div class="viewcode-block" id="OrganPerson"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.core.html#wp4.compare.models.core.OrganPerson">[docs]</a><span class="k">class</span> <span class="nc">OrganPerson</span><span class="p">(</span><span class="n">VersionControlMixin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base attributes for a person involved in this case as a donor or recipient</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -427,7 +427,7 @@
 
 <div class="viewcode-block" id="RetrievalTeam"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.core.html#wp4.compare.models.core.RetrievalTeam">[docs]</a><span class="k">class</span> <span class="nc">RetrievalTeam</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Lookup class for the preset Retrieval Team list. Doesn&#39;t inherit from VersionControlModel as this</span>
+<span class="sd">    Lookup class for the preset Retrieval Team list. Doesn&#39;t inherit from VersionControlMixin as this</span>
 <span class="sd">    is primarily a preset list of data, with helper functions attached.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">centre_code</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>

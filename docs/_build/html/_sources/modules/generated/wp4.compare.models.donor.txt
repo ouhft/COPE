@@ -31,7 +31,7 @@ wp4.compare.models.donor
       RetrievalTeam
       StaffJob
       StaffPerson
-      VersionControlModel
+      VersionControlMixin
       relativedelta
    
    

@@ -23,7 +23,7 @@ wp4.samples.models
       TissueSample
       UrineSample
       User
-      VersionControlModel
+      VersionControlMixin
       Worksheet
    
    

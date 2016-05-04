@@ -7,11 +7,11 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from wp4.compare.models import VersionControlModel, Recipient
+from wp4.compare.models import BaseModelMixin, VersionControlMixin, Recipient
 from wp4.compare.validators import validate_not_in_future
 
 
-class QualityOfLife(VersionControlModel):
+class QualityOfLife(VersionControlMixin):
     """
     WORK IN PROGRESS - Class definition prone to rapid change
 
@@ -66,3 +66,63 @@ class QualityOfLife(VersionControlModel):
         verbose_name_plural = _("QLm2 Quality of Life records")
 
 
+class ResourceLog(VersionControlMixin):
+    """
+    WORK IN PROGRESS
+
+    Collects the data from the Participant Resource Use Log. Acts as the central link to several
+    smaller classes that collectively capture the data.
+    """
+    recipient = models.ForeignKey(Recipient)  # Internal link to the Recipient
+    date_given = models.DateField(
+        verbose_name=_("RL01 date given"),
+        blank=True, null=True,
+        validators=[validate_not_in_future],
+        help_text="Date can not be in the future"
+    )
+    date_returned = models.DateField(
+        verbose_name=_("RL02 date returned"),
+        blank=True, null=True,
+        validators=[validate_not_in_future],
+        help_text="Date can not be in the future"
+    )
+
+    # visits
+    # hospitalisation
+    # rehabilitation
+    notes = models.TextField(verbose_name=_("RL03 notes"), null=True, blank=True)
+
+    @property
+    def count_visits(self, visit_type=None):
+        # TODO: Implement me!
+        return 0
+
+    class Meta:
+        verbose_name = _("RLm1 Resource Usage Log")
+        verbose_name_plural = _("RLm2 Resource Usage Logs")
+
+
+class ResourceVisit(BaseModelMixin):
+    TYPE_VISIT_GP = 1
+    TYPE_GP_VISIT = 2
+    TYPE_SPECIALIST = 3
+    TYPE_HOSPITAL = 4
+    TYPE_CHOICES = (
+        (TYPE_VISIT_GP, _("RVc01 appointment at GP")),
+        (TYPE_GP_VISIT, _("RVc02 GP visited")),
+        (TYPE_SPECIALIST, _("RVc03 appointment at specialist")),
+        (TYPE_HOSPITAL, _("RVc04 A&E")),
+    )
+    type = models.PositiveSmallIntegerField(verbose_name=_('RV01 visit type'), choices=TYPE_CHOICES)
+
+
+class ResourceHospitalAdmission(BaseModelMixin):
+    reason = models.CharField(verbose_name=_('RH01 reason'), max_length=200, blank=True)
+    had_surgery = models.NullBooleanField(verbose_name=_("RH02 had surgery"), blank=True)
+    days_in_itu = models.PositiveSmallIntegerField(verbose_name=_("RH03 days in itu"), default=0)
+    days_in_hospital = models.PositiveSmallIntegerField(verbose_name=_("RH04 days in hospital"), default=1)
+
+
+class ResourceRehabilitation(BaseModelMixin):
+    reason = models.CharField(verbose_name=_('RR01 reason'), max_length=200, blank=True)
+    days_in_hospital = models.PositiveSmallIntegerField(verbose_name=_("RR02 days in hospital"), default=1)

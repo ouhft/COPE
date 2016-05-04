@@ -1,32 +1,13 @@
 #!/usr/bin/python
 # coding: utf-8
 
-from django.contrib.auth.models import User
 from django.db import models
-from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-
-class CreatedByModelMixin(models.Model):
-    """
-    Helper Meta model in the same vein as VersionControlModel, but simpler. Needs further work to refine
-    the idea and to apply it more widely
-
-    TODO: Move this to Core, and account for setting created_by in the save method
-    """
-    created_on = models.DateTimeField(default=timezone.now)
-    created_by = models.ForeignKey(User)
-
-    class Meta:
-        abstract = True
-
-    def save(self, force_insert=False, force_update=False, using=None,
-             update_fields=None):
-        self.created_on = timezone.now()
-        return super(CreatedByModelMixin, self).save(force_insert, force_update, using, update_fields)
+from wp4.compare.models.core import BaseModelMixin
 
 
-class PerfusionMachine(CreatedByModelMixin):
+class PerfusionMachine(BaseModelMixin):
     """
     Helper class for device accountability. Tracks actual Perfusion Machines used in the trial.
     """
@@ -41,7 +22,7 @@ class PerfusionMachine(CreatedByModelMixin):
         verbose_name_plural = _('PMm2 perfusion machines')
 
 
-class PerfusionFile(CreatedByModelMixin):
+class PerfusionFile(BaseModelMixin):
     """
     Early plans talked about collecting the data file from each machine after each transplant to provide
     extra data, however this has been shelved as a concept presently. This class was the foundation of

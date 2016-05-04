@@ -9,7 +9,7 @@ from django.core.validators import RegexValidator
 from django.utils.translation import ugettext_lazy as _
 
 from wp4.locations.models import Hospital
-from wp4.compare.models import VersionControlModel
+from wp4.compare.models import VersionControlMixin
 
 
 class StaffJob(models.Model):
@@ -38,7 +38,7 @@ class StaffJob(models.Model):
         return self.description
 
 
-class StaffPerson(VersionControlModel):
+class StaffPerson(VersionControlMixin):
     """
     Base person record that links with the Django User record to add further metadata relevant to the
     project management. Doesn't extend User to avoid complications of doing so.

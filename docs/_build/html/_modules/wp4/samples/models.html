@@ -145,12 +145,12 @@
 <span class="kn">from</span> <span class="nn">django.utils</span> <span class="kn">import</span> <span class="n">timezone</span>
 <span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">ugettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
 
-<span class="kn">from</span> <span class="nn">..compare.models</span> <span class="kn">import</span> <span class="n">OrganPerson</span><span class="p">,</span> <span class="n">VersionControlModel</span><span class="p">,</span> <span class="n">Organ</span>
+<span class="kn">from</span> <span class="nn">..compare.models</span> <span class="kn">import</span> <span class="n">OrganPerson</span><span class="p">,</span> <span class="n">VersionControlMixin</span><span class="p">,</span> <span class="n">Organ</span>
 
 
-<div class="viewcode-block" id="BarCodedItem"><a class="viewcode-back" href="../../../modules/generated/wp4.samples.models.html#wp4.samples.models.BarCodedItem">[docs]</a><span class="k">class</span> <span class="nc">BarCodedItem</span><span class="p">(</span><span class="n">VersionControlModel</span><span class="p">):</span>
+<div class="viewcode-block" id="BarCodedItem"><a class="viewcode-back" href="../../../modules/generated/wp4.samples.models.html#wp4.samples.models.BarCodedItem">[docs]</a><span class="k">class</span> <span class="nc">BarCodedItem</span><span class="p">(</span><span class="n">VersionControlMixin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Base meta class for many Sample classes, that extends VersionControlModel with a barcode field</span>
+<span class="sd">    Base meta class for many Sample classes, that extends VersionControlMixin with a barcode field</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">barcode</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;BC01 barcode number&quot;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
@@ -176,7 +176,7 @@
         <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">barcode</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">barcode</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> - No Barcode entered&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Event"><a class="viewcode-back" href="../../../modules/generated/wp4.samples.models.html#wp4.samples.models.Event">[docs]</a><span class="k">class</span> <span class="nc">Event</span><span class="p">(</span><span class="n">VersionControlModel</span><span class="p">):</span>
+<div class="viewcode-block" id="Event"><a class="viewcode-back" href="../../../modules/generated/wp4.samples.models.html#wp4.samples.models.Event">[docs]</a><span class="k">class</span> <span class="nc">Event</span><span class="p">(</span><span class="n">VersionControlMixin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A Sample Event is a timepoint and process where a specific type of biological sample was extracted</span>
 <span class="sd">    from a person. This even can validate whether enough biological samples were taken (e.g. a blood</span>

@@ -9,12 +9,12 @@ from wp4.staff_person.models import StaffJob, StaffPerson
 from wp4.locations.models import Hospital
 
 from ..validators import validate_between_1900_2050, validate_not_in_future
-from .core import VersionControlModel, OrganPerson
+from .core import VersionControlMixin, OrganPerson
 from .core import YES_NO_UNKNOWN_CHOICES, LOCATION_CHOICES
 from .organ import Organ
 
 
-class OrganAllocation(VersionControlModel):
+class OrganAllocation(VersionControlMixin):
     """
     Organs can be allocated multiple times before finding a definitive recipient. This class acts as
     the record of these allocations and a link between Organ and Recipient.
@@ -143,7 +143,7 @@ class OrganAllocation(VersionControlModel):
         return 'Organ: %s | Recipient: %s' % (self.organ.pk, recipient_string)
 
 
-class Recipient(VersionControlModel):
+class Recipient(VersionControlMixin):
     """
     Extension of an OrganPerson record (via OneToOne link for good ORM/DB management) to capture
     the Recipient specific data.

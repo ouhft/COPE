@@ -2,18 +2,17 @@
 # coding: utf-8
 from __future__ import absolute_import, unicode_literals
 
-from django.contrib.auth.models import User
 from django.core.validators import ValidationError
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from ..compare.models import OrganPerson, VersionControlModel, Organ
+from ..compare.models import OrganPerson, VersionControlMixin, Organ
 
 
-class BarCodedItem(VersionControlModel):
+class BarCodedItem(VersionControlMixin):
     """
-    Base meta class for many Sample classes, that extends VersionControlModel with a barcode field
+    Base meta class for many Sample classes, that extends VersionControlMixin with a barcode field
     """
     barcode = models.CharField(verbose_name=_("BC01 barcode number"), max_length=20, blank=True)
 
@@ -39,7 +38,7 @@ class Worksheet(BarCodedItem):
         return "%s" % (self.barcode if len(self.barcode) > 0 else "%s - No Barcode entered" % self.id)
 
 
-class Event(VersionControlModel):
+class Event(VersionControlMixin):
     """
     A Sample Event is a timepoint and process where a specific type of biological sample was extracted
     from a person. This even can validate whether enough biological samples were taken (e.g. a blood

@@ -147,7 +147,7 @@
 <span class="kn">from</span> <span class="nn">wp4.perfusion_machine.models</span> <span class="kn">import</span> <span class="n">PerfusionMachine</span><span class="p">,</span> <span class="n">PerfusionFile</span>
 
 <span class="kn">from</span> <span class="nn">..validators</span> <span class="kn">import</span> <span class="n">validate_between_1900_2050</span><span class="p">,</span> <span class="n">validate_not_in_future</span>
-<span class="kn">from</span> <span class="nn">.core</span> <span class="kn">import</span> <span class="n">VersionControlModel</span>
+<span class="kn">from</span> <span class="nn">.core</span> <span class="kn">import</span> <span class="n">VersionControlMixin</span>
 <span class="kn">from</span> <span class="nn">.core</span> <span class="kn">import</span> <span class="n">LOCATION_CHOICES</span><span class="p">,</span> <span class="n">PRESERVATION_CHOICES</span><span class="p">,</span> <span class="n">PRESERVATION_NOT_SET</span>
 <span class="kn">from</span> <span class="nn">.donor</span> <span class="kn">import</span> <span class="n">Donor</span>
 
@@ -211,7 +211,7 @@
             <span class="n">exclude</span><span class="p">(</span><span class="n">preservation</span><span class="o">=</span><span class="n">PRESERVATION_NOT_SET</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="Organ"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.organ.html#wp4.compare.models.organ.Organ">[docs]</a><span class="k">class</span> <span class="nc">Organ</span><span class="p">(</span><span class="n">VersionControlModel</span><span class="p">):</span>
+<div class="viewcode-block" id="Organ"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.organ.html#wp4.compare.models.organ.Organ">[docs]</a><span class="k">class</span> <span class="nc">Organ</span><span class="p">(</span><span class="n">VersionControlMixin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The focus of the trial, specifically a Kidney.</span>
 <span class="sd">    &quot;&quot;&quot;</span>

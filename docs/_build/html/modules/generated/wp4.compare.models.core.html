@@ -194,7 +194,7 @@
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">User</span></code>(*args,&nbsp;**kwargs)</td>
 <td>Users within the Django authentication system are represented by this model.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#wp4.compare.models.core.VersionControlModel" title="wp4.compare.models.core.VersionControlModel"><code class="xref py py-obj docutils literal"><span class="pre">VersionControlModel</span></code></a>(*args,&nbsp;**kwargs)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#wp4.compare.models.core.VersionControlModel" title="wp4.compare.models.core.VersionControlMixin"><code class="xref py py-obj docutils literal"><span class="pre">VersionControlMixin</span></code></a>(*args,&nbsp;**kwargs)</td>
 <td>Internal common attributes to aide system auditing of records</td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">relativedelta</span></code>([dt1,&nbsp;dt2,&nbsp;bdays,&nbsp;holidays])</td>
@@ -315,7 +315,7 @@
 
 <dl class="class">
 <dt id="wp4.compare.models.core.VersionControlModel">
-<em class="property">class </em><code class="descclassname">wp4.compare.models.core.</code><code class="descname">VersionControlModel</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/compare/models/core.html#VersionControlModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.compare.models.core.VersionControlModel" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">wp4.compare.models.core.</code><code class="descname">VersionControlMixin</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/compare/models/core.html#VersionControlModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.compare.models.core.VersionControlModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Internal common attributes to aide system auditing of records</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -356,19 +356,19 @@ one-to-one relation.</p>
 
 <dl class="method">
 <dt id="wp4.compare.models.core.VersionControlModel.save">
-<code class="descclassname">VersionControlModel.</code><code class="descname">save</code><span class="sig-paren">(</span><em>created_by=None</em>, <em>force_insert=False</em>, <em>force_update=False</em>, <em>using=None</em>, <em>update_fields=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/compare/models/core.html#VersionControlModel.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.compare.models.core.VersionControlModel.save" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">VersionControlMixin.</code><code class="descname">save</code><span class="sig-paren">(</span><em>created_by=None</em>, <em>force_insert=False</em>, <em>force_update=False</em>, <em>using=None</em>, <em>update_fields=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/compare/models/core.html#VersionControlModel.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.compare.models.core.VersionControlModel.save" title="Permalink to this definition">¶</a></dt>
 <dd><p>Meta save function that allows models to have their save() method called, and to set the required
 created_by link at the same time. Also increments the version number over the previous saved version.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="wp4.compare.models.core.VersionControlModel.get_next_by_created_on">
-<code class="descclassname">VersionControlModel.</code><code class="descname">get_next_by_created_on</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.core.VersionControlModel.get_next_by_created_on" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">VersionControlMixin.</code><code class="descname">get_next_by_created_on</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.core.VersionControlModel.get_next_by_created_on" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="wp4.compare.models.core.VersionControlModel.get_previous_by_created_on">
-<code class="descclassname">VersionControlModel.</code><code class="descname">get_previous_by_created_on</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.core.VersionControlModel.get_previous_by_created_on" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">VersionControlMixin.</code><code class="descname">get_previous_by_created_on</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.core.VersionControlModel.get_previous_by_created_on" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -727,7 +727,7 @@ class built by <code class="docutils literal"><span class="pre">create_forward_m
 <dl class="class">
 <dt id="wp4.compare.models.core.RetrievalTeam">
 <em class="property">class </em><code class="descclassname">wp4.compare.models.core.</code><code class="descname">RetrievalTeam</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/compare/models/core.html#RetrievalTeam"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.compare.models.core.RetrievalTeam" title="Permalink to this definition">¶</a></dt>
-<dd><p>Lookup class for the preset Retrieval Team list. Doesn&#8217;t inherit from VersionControlModel as this
+<dd><p>Lookup class for the preset Retrieval Team list. Doesn&#8217;t inherit from VersionControlMixin as this
 is primarily a preset list of data, with helper functions attached.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />

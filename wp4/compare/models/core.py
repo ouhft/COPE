@@ -56,16 +56,38 @@ LIST_CHOICES = (
 )  #: Randomisation list choices
 
 
-class VersionControlModel(models.Model):
+class BaseModelMixin(models.Model):
     """
-    Internal common attributes to aide system auditing of records
+    Common data record fields for tracking changes
     """
-    version = models.PositiveIntegerField(default=0, help_text="Internal tracking version number")
     created_on = models.DateTimeField(default=timezone.now)
     created_by = models.ForeignKey(
         User,
         help_text="User account for the person logged in when this record was made/updated"
     )
+
+    class Meta:
+        abstract = True
+
+    def save(self, created_by=None, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        """
+        Meta save function that allows models to have their save() method called, and to set the required
+        created_by link at the same time.
+        """
+        self.created_on = timezone.now()
+        if created_by:
+            self.created_by = created_by
+        if not self.created_by:
+            raise Exception("%s Record does not have created_by set" % type(self).__name__)
+        return super(BaseModelMixin, self).save(force_insert, force_update, using, update_fields)
+
+
+class VersionControlMixin(BaseModelMixin):
+    """
+    Internal common attributes to aide system auditing of records
+    """
+    version = models.PositiveIntegerField(default=0, help_text="Internal tracking version number")
     record_locked = models.BooleanField(default=False, help_text="Not presently implemented or used")
 
     # NB: Used in Samples and FollowUp Apps too
@@ -75,21 +97,21 @@ class VersionControlModel(models.Model):
     def save(self, created_by=None, force_insert=False, force_update=False, using=None,
              update_fields=None):
         """
-        Meta save function that allows models to have their save() method called, and to set the required
-        created_by link at the same time. Also increments the version number over the previous saved version.
+        Meta save function that increments the version number over the previous saved version.
         """
-        self.created_on = timezone.now()
-        if created_by:
-            self.created_by = created_by
-        if not self.created_by:
-            raise Exception("%s Record does not have created_by set" % type(self).__name__)
         if self.record_locked:
             raise Exception("%s Record is locked, and can not be saved" % type(self).__name__)
         self.version += 1
-        return super(VersionControlModel, self).save(force_insert, force_update, using, update_fields)
+        return super(VersionControlMixin, self).save(
+            created_by,
+            force_insert,
+            force_update,
+            using,
+            update_fields
+        )
 
 
-class OrganPerson(VersionControlModel):
+class OrganPerson(VersionControlMixin):
     """
     Base attributes for a person involved in this case as a donor or recipient
     """
@@ -288,9 +310,9 @@ class OrganPerson(VersionControlModel):
             )
 
 
-class RetrievalTeam(models.Model):
+class RetrievalTeam(BaseModelMixin):
     """
-    Lookup class for the preset Retrieval Team list. Doesn't inherit from VersionControlModel as this
+    Lookup class for the preset Retrieval Team list. Doesn't inherit from VersionControlMixin as this
     is primarily a preset list of data, with helper functions attached.
     """
     centre_code = models.PositiveSmallIntegerField(
@@ -299,8 +321,6 @@ class RetrievalTeam(models.Model):
         help_text="Value must be in the range 10-99"
     )
     based_at = models.ForeignKey(Hospital, verbose_name=_("RT02 base hospital"))
-    created_on = models.DateTimeField(default=timezone.now, help_text="Internal tracking")
-    created_by = models.ForeignKey(User, help_text="Internal tracking")
 
     def next_sequence_number(self, is_online=True):
         """

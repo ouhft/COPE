@@ -9,11 +9,11 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from bdateutil import relativedelta
-from wp4.compare.models import VersionControlModel, Organ, YES_NO_UNKNOWN_CHOICES
+from wp4.compare.models import VersionControlMixin, Organ, YES_NO_UNKNOWN_CHOICES
 from wp4.health_economics.models import QualityOfLife
 
 
-class FollowUpBase(VersionControlModel):
+class FollowUpBase(VersionControlMixin):
     # Form metadata
     start_date = models.DateField(verbose_name=_("FB01 start date"), default=timezone.now)
     completed = models.BooleanField(verbose_name=_("FB21 form completed"), default=False)
@@ -111,7 +111,7 @@ class FollowUpBase(VersionControlModel):
     def graft_removal(self):
         return True if self.graft_failure_date is not None else False
 
-    class FollowUpBase(VersionControlModel):
+    class FollowUpBase(VersionControlMixin):
         # Form metadata
         start_date = models.DateField(verbose_name=_("FB01 start date"), default=timezone.now)
         completed = models.BooleanField(verbose_name=_("FB21 form completed"), default=False)

@@ -9,6 +9,6 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from bdateutil import relativedelta
-from wp4.compare.models import VersionControlModel, Organ, YES_NO_UNKNOWN_CHOICES
+from wp4.compare.models import VersionControlMixin, Organ, YES_NO_UNKNOWN_CHOICES
 from wp4.health_economics.models import QualityOfLife
 

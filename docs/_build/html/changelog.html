@@ -205,12 +205,12 @@
 <li>Date of Death is now back as a necessary OrganPerson attribute; This had implications for various date calculation methods, and save methods (such as saving when Donor death diagnosed is set). This was prompted again by Issue #40</li>
 <li>Age vs DoB validation message now shows the range of valid options to the user on error</li>
 <li>Template change to display version number from package details rather than hardcoded</li>
-<li>StaffPerson and FollowUp apps now use the common VersionControlModel class as their base</li>
+<li>StaffPerson and FollowUp apps now use the common VersionControlMixin class as their base</li>
 <li>Admin forms updated for new models and changes</li>
 <li>Improved the configuration setup to allow for easier deployment to multiple environments (location.env)</li>
 <li>Fixed a server error related to configuration for deployment on test server (wsgi.py)</li>
 <li>Split the compare:forms into their own package due to size growth</li>
-<li>Updated the core VersionControlModel class to handle saving for inherited classes</li>
+<li>Updated the core VersionControlMixin class to handle saving for inherited classes</li>
 <li>New managers added to the Organ class to handle common queries</li>
 <li>Added <code class="docutils literal"><span class="pre">not_allocated_reason</span></code> to replace the redundant <code class="docutils literal"><span class="pre">allocated</span></code> attribute</li>
 <li>Two permission checking utilities added to determine if member of a list of groups, or has a specifed Job</li>

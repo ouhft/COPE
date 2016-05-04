@@ -146,12 +146,12 @@
 <span class="kn">from</span> <span class="nn">wp4.locations.models</span> <span class="kn">import</span> <span class="n">Hospital</span>
 
 <span class="kn">from</span> <span class="nn">..validators</span> <span class="kn">import</span> <span class="n">validate_between_1900_2050</span><span class="p">,</span> <span class="n">validate_not_in_future</span>
-<span class="kn">from</span> <span class="nn">.core</span> <span class="kn">import</span> <span class="n">VersionControlModel</span><span class="p">,</span> <span class="n">OrganPerson</span>
+<span class="kn">from</span> <span class="nn">.core</span> <span class="kn">import</span> <span class="n">VersionControlMixin</span><span class="p">,</span> <span class="n">OrganPerson</span>
 <span class="kn">from</span> <span class="nn">.core</span> <span class="kn">import</span> <span class="n">YES_NO_UNKNOWN_CHOICES</span><span class="p">,</span> <span class="n">LOCATION_CHOICES</span>
 <span class="kn">from</span> <span class="nn">.organ</span> <span class="kn">import</span> <span class="n">Organ</span>
 
 
-<div class="viewcode-block" id="OrganAllocation"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.transplantation.html#wp4.compare.models.transplantation.OrganAllocation">[docs]</a><span class="k">class</span> <span class="nc">OrganAllocation</span><span class="p">(</span><span class="n">VersionControlModel</span><span class="p">):</span>
+<div class="viewcode-block" id="OrganAllocation"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.transplantation.html#wp4.compare.models.transplantation.OrganAllocation">[docs]</a><span class="k">class</span> <span class="nc">OrganAllocation</span><span class="p">(</span><span class="n">VersionControlMixin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Organs can be allocated multiple times before finding a definitive recipient. This class acts as</span>
 <span class="sd">    the record of these allocations and a link between Organ and Recipient.</span>
@@ -280,7 +280,7 @@
         <span class="k">return</span> <span class="s1">&#39;Organ: </span><span class="si">%s</span><span class="s1"> | Recipient: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">organ</span><span class="o">.</span><span class="n">pk</span><span class="p">,</span> <span class="n">recipient_string</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Recipient"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.transplantation.html#wp4.compare.models.transplantation.Recipient">[docs]</a><span class="k">class</span> <span class="nc">Recipient</span><span class="p">(</span><span class="n">VersionControlModel</span><span class="p">):</span>
+<div class="viewcode-block" id="Recipient"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.transplantation.html#wp4.compare.models.transplantation.Recipient">[docs]</a><span class="k">class</span> <span class="nc">Recipient</span><span class="p">(</span><span class="n">VersionControlMixin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Extension of an OrganPerson record (via OneToOne link for good ORM/DB management) to capture</span>
 <span class="sd">    the Recipient specific data.</span>

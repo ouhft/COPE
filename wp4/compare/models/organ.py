@@ -1,16 +1,14 @@
 #!/usr/bin/python
 # coding: utf-8
 from __future__ import absolute_import, unicode_literals
-from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator, ValidationError
 from django.db import models
-from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from wp4.perfusion_machine.models import PerfusionMachine, PerfusionFile
 
 from ..validators import validate_between_1900_2050, validate_not_in_future
-from .core import VersionControlModel
+from .core import BaseModelMixin, VersionControlMixin
 from .core import LOCATION_CHOICES, PRESERVATION_CHOICES, PRESERVATION_NOT_SET
 from .donor import Donor
 
@@ -74,7 +72,7 @@ class OpenOrganManager(models.Manager):
             exclude(preservation=PRESERVATION_NOT_SET)
 
 
-class Organ(VersionControlModel):
+class Organ(VersionControlMixin):
     """
     The focus of the trial, specifically a Kidney.
     """
@@ -409,7 +407,7 @@ class Organ(VersionControlModel):
         verbose_name_plural = _('ORm2 organs')
 
 
-class ProcurementResource(models.Model):
+class ProcurementResource(BaseModelMixin):
     """
     Repeatable list of resources used during organ extraction. Primarily distinguished by the type.
     """
@@ -434,8 +432,6 @@ class ProcurementResource(models.Model):
     lot_number = models.CharField(verbose_name=_('PR03 lot number'), max_length=50, blank=True)
     expiry_date = models.DateField(verbose_name=_('PR04 expiry date'), blank=True, null=True)
     expiry_date_unknown = models.BooleanField(default=False, help_text="Internal unknown flag")
-    created_on = models.DateTimeField(default=timezone.now, help_text="Internal value")
-    created_by = models.ForeignKey(User, help_text="Internal User link")
 
     def __unicode__(self):
         return self.get_type_display() + ' for ' + self.organ.trial_id
