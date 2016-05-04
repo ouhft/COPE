@@ -1,5 +1,4 @@
-Django==1.9.5
-pytz
+Django==1.9.6
 django-braces==1.8.1
 django-vanilla-views==1.0.4
 django-autocomplete-light==3.1.5
@@ -9,8 +8,10 @@ django-reversion==1.10.2
 django-reversion-compare==0.6.2
 bdateutil==0.1
 markdown==2.6.6
--e git+git://github.com/maraujop/django-crispy-forms.git@dev#egg=django-crispy-forms
 
+pytz
 pip
 wheel
 setuptools
+
+-e git+git://github.com/maraujop/django-crispy-forms.git@dev#egg=django-crispy-forms

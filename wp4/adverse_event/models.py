@@ -77,6 +77,28 @@ class AdverseEvent(VersionControlMixin):
     # Page 4
     contact = models.ForeignKey(StaffPerson, verbose_name=_("AE09 primary contact"), blank=True, null=True)
 
+    @property
+    def is_serious(self):
+        """
+        If any of the serious_eligible questions are True, then this is a serious event
+
+        :return: True if any serious_event fields are True
+        :rtype: bool
+        """
+        if self.serious_eligible_1:
+            return True
+        if self.serious_eligible_2:
+            return True
+        if self.serious_eligible_3:
+            return True
+        if self.serious_eligible_4:
+            return True
+        if self.serious_eligible_5:
+            return True
+        if self.serious_eligible_6:
+            return True
+        return False
+
     class Meta:
         order_with_respect_to = 'organ'
         # ordering = ['sequence_number']

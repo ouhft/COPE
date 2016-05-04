@@ -12,7 +12,7 @@ Local settings
 from django.utils.translation import ugettext_lazy as _
 from .common import *  # noqa
 
-print("DEBUG: Loading settings from dev_home")
+print("DEBUG: Loading settings from development")
 
 # DEBUG
 # ------------------------------------------------------------------------------

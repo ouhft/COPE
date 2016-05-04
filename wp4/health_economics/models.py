@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
-from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from wp4.compare.models import BaseModelMixin, VersionControlMixin, Recipient
@@ -113,10 +112,12 @@ class ResourceVisit(BaseModelMixin):
         (TYPE_SPECIALIST, _("RVc03 appointment at specialist")),
         (TYPE_HOSPITAL, _("RVc04 A&E")),
     )
+    log = models.ForeignKey(ResourceLog)
     type = models.PositiveSmallIntegerField(verbose_name=_('RV01 visit type'), choices=TYPE_CHOICES)
 
 
 class ResourceHospitalAdmission(BaseModelMixin):
+    log = models.ForeignKey(ResourceLog)
     reason = models.CharField(verbose_name=_('RH01 reason'), max_length=200, blank=True)
     had_surgery = models.NullBooleanField(verbose_name=_("RH02 had surgery"), blank=True)
     days_in_itu = models.PositiveSmallIntegerField(verbose_name=_("RH03 days in itu"), default=0)
@@ -124,5 +125,6 @@ class ResourceHospitalAdmission(BaseModelMixin):
 
 
 class ResourceRehabilitation(BaseModelMixin):
+    log = models.ForeignKey(ResourceLog)
     reason = models.CharField(verbose_name=_('RR01 reason'), max_length=200, blank=True)
     days_in_hospital = models.PositiveSmallIntegerField(verbose_name=_("RR02 days in hospital"), default=1)

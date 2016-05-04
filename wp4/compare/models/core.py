@@ -10,8 +10,6 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from wp4.locations.models import Hospital, UNITED_KINGDOM
-
 from ..validators import validate_not_in_future
 
 
@@ -315,6 +313,8 @@ class RetrievalTeam(BaseModelMixin):
     Lookup class for the preset Retrieval Team list. Doesn't inherit from VersionControlMixin as this
     is primarily a preset list of data, with helper functions attached.
     """
+    from wp4.locations.models import Hospital, UNITED_KINGDOM
+
     centre_code = models.PositiveSmallIntegerField(
         verbose_name=_("RT01 centre code"),
         validators=[MinValueValidator(10), MaxValueValidator(99)],
@@ -348,7 +348,7 @@ class RetrievalTeam(BaseModelMixin):
         :return: Number matching one of the LIST_CHOICE constants
         :rtype: int
         """
-        if self.based_at.country == UNITED_KINGDOM:
+        if self.based_at.country == self.UNITED_KINGDOM:
             if is_online:
                 return LIVE_UNITED_KINGDOM
             else:

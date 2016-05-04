@@ -1,11 +1,9 @@
 -r common.txt
 
 coverage
-# django-dbbackup==2.3.1  # Has install issues
 django-debug-toolbar
 ipython
 django-spaghetti-and-meatballs
-# pygraphviz  # Has issues accessing the graphviz libraries locally
 django-extensions
 selenium
 
@@ -14,3 +12,5 @@ sphinx_rtd_theme
 pyenchant
 sphinxcontrib-spelling
 recommonmark
+
+# pygraphviz  # Has issues accessing the graphviz libraries locally

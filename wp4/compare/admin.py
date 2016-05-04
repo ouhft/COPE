@@ -7,6 +7,11 @@ from .models import OrganPerson, RetrievalTeam, Donor, Recipient, Organ
 from .models import ProcurementResource, OrganAllocation, Randomisation
 
 
+class BaseModelAdmin(admin.ModelAdmin):
+    exclude = ('created_on', 'created_by')
+
+    def save_model(self, request, obj, form, change):
+        obj.save(created_by=request.user)
 
 
 class VersionControlAdmin(CompareVersionAdmin):
@@ -14,6 +19,24 @@ class VersionControlAdmin(CompareVersionAdmin):
 
     def save_model(self, request, obj, form, change):
         obj.save(created_by=request.user)
+
+    def save_formset(self, request, form, formset, change):
+        """
+        Need to override the standard save_formset to ensure that the user is added to created_by
+
+        :param request:
+        :param form:
+        :param formset:
+        :param change:
+        :return:
+        """
+        instances = formset.save(commit=False)
+        for obj in formset.deleted_objects:
+            obj.delete()
+        for instance in instances:
+            instance.save(created_by=request.user)
+        formset.save_m2m()
+
 
 
 class RetrievalTeamAdmin(CompareVersionAdmin):

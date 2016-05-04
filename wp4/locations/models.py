@@ -6,7 +6,7 @@ from django.db import models
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 
-from wp4.compare.models import BaseModelMixin
+from wp4.compare.models.core import VersionControlMixin
 
 
 # Common CONSTANTS
@@ -67,7 +67,7 @@ COUNTRY_CHOICES = (
 )  #: Choices for Hospital.country
 
 
-class Hospital(BaseModelMixin):
+class Hospital(VersionControlMixin):
     """
     Simple helper class to hold information related to the various project and non-project locations.
     Currently referenced from Donor, OrganAllocation, RetrievalTeam, and StaffPerson
