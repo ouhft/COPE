@@ -2152,7 +2152,7 @@ msgstr "P2 Perfusate solution prior to departure"
 
 #: wp4/samples/models.py:73
 msgid "EVc10 organ perfusate 3"
-msgstr "P3 Perfusate solution on arrival at recipient site"
+msgstr "P3 Perfusate solution at end of machine perfusion"
 
 #: wp4/samples/models.py:74
 msgid "EVc11 organ tissue 1"
