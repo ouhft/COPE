@@ -24,13 +24,18 @@
         {% if perms.samples.change_worksheet %}
             <a href="{% url 'wp4:samples:home' %}" class="list-group-item">Sample Collection</a>
         {% endif %}
-        {% if perms.followup.change_intial %}
+        {% if perms.followups.add_followupinitial %}
             <a href="{% url 'wp4:followup:index' %}" class="list-group-item">Follow Up Forms</a>
         {% endif %}
-        <a href="{% url 'wp4:adverse_event:list' %}" class="list-group-item">Adverse Event Forms</a>
+        {% if perms.health_economics.add_qualityoflife %}
+            <a href="{% url 'wp4:health_economics:index' %}" class="list-group-item">Health Economics Forms</a>
+        {% endif %}
+        {% if perms.adverse_event.add_adverseevent %}
+            <a href="{% url 'wp4:adverse_event:list' %}" class="list-group-item">Adverse Event Forms</a>
+        {% endif %}
     </ul>
 
-    {% if user.is_staff %}
+    {% if user.is_staff %}{# TODO: Fix the permissions here to be group oriented, not staff #}
         <h3>Administrator Functions</h3>
         <ul class="list-group">
             <a href="{% url 'wp4:admin_europe_list' %}" class="list-group-item">Europe OFFLINE list</a>

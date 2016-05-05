@@ -18,54 +18,52 @@
             {% if user.is_authenticated %}
                 <ul class="nav navbar-nav navbar-right">
                     {% url 'home' as url_home %}
-                    <li class="{% active request url_home %}" id="navbar-menu-home"><a href="{{ url_home }}">Home</a>
-                    </li>
+                    <li class="{% active request url_home %}" id="navbar-menu-home"><a href="{{ url_home }}">Home</a></li>
+
                     <li class="dropdown" id="navbar-menu-wp4">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false">WP4: Compare <span class="caret"></span></a>
                         <ul class="dropdown-menu">
 
                             {% url 'wp4:index' as url_wp4index %}
-                            <li class="{% active request url_wp4index %}"><a
-                                    href="{{ url_wp4index }}">WP4 Home</a>
-                            </li>
+                            <li class="{% active request url_wp4index %}"><a href="{{ url_wp4index }}">WP4 Home</a></li>
                             <li role="separator" class="divider"></li>
 
                             {% if perms.compare.add_donor %}
                                 {% url 'wp4:compare:procurement_list' as url_procurement %}
-                                <li class="{% active request url_procurement %}"><a
-                                        href="{{ url_procurement }}">Procurement</a>
-                                </li>
+                                <li class="{% active request url_procurement %}"><a href="{{ url_procurement }}">Procurement</a></li>
                             {% endif %}
 
                             {% if perms.compare.add_recipient %}
                                 {% url 'wp4:compare:transplantation_list' as url_transplantation %}
-                                <li class="{% active request url_transplantation %}"><a
-                                        href="{{ url_transplantation }}">Transplantation</a>
-                                </li>
+                                <li class="{% active request url_transplantation %}"><a href="{{ url_transplantation }}">Transplantation</a></li>
                             {% endif %}
 
                             {% if perms.samples.change_worksheet %}
                                 {% url 'wp4:samples:home' as url_samples %}
-                                <li class="{% active request url_samples %}"><a href="{{ url_samples }}">Samples</a>
-                                </li>
+                                <li class="{% active request url_samples %}"><a href="{{ url_samples }}">Samples</a></li>
                             {% endif %}
 
-                            {% url 'wp4:adverse_event:list' as url_adverseevents %}
-                            <li class="{% active request url_adverseevents %}"><a href="{{ url_adverseevents }}">Adverse Events</a></li>
-
-                            {% if perms.followup.change_intial %}
+                            {% if perms.followups.add_followupinitial %}
                                 {% url 'wp4:followup:index' as url_followup %}
-                                <li class="{% active request url_followup %}"><a href="{{ url_followup }}">Follow Up</a>
-                                </li>
+                                <li class="{% active request url_followup %}"><a href="{{ url_followup }}">Follow Up</a></li>
+                            {% endif %}
+
+                            {% if perms.health_economics.add_qualityoflife %}
+                                {% url 'wp4:health_economics:index' as url_healtheconomics %}
+                                <li class="{% active request url_healtheconomics %}"><a href="{{ url_healtheconomics }}">Health Economics</a></li>
+                            {% endif %}
+
+                            {% if perms.adverse_event.add_adverseevent %}
+                                {% url 'wp4:adverse_event:list' as url_adverseevents %}
+                                <li class="{% active request url_adverseevents %}"><a href="{{ url_adverseevents }}">Adverse Events</a></li>
                             {% endif %}
                         </ul>
                     </li>
 
-                    {% if perms.is_staff %}
+                    {% if user.is_staff %}
                         {% url 'admin:index' as url_admin_home %}
-                        <li id="navbar-menu-admin"><a href="{{ url_admin_home }}"><i
-                                class="glyphicon glyphicon-briefcase"></i></a></li>
+                        <li id="navbar-menu-admin"><a href="{{ url_admin_home }}"><i class="glyphicon glyphicon-briefcase"></i></a></li>
                     {% endif %}
 
                     <li class="dropdown" id="navbar-menu-aboutme">

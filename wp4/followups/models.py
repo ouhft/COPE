@@ -391,7 +391,7 @@ class FollowUp6M(FollowUpBase):
         return '%s (%s)' % (self.trial_id, self.start_date)
 
     def get_absolute_url(self):
-        return ""
+        return reverse('wp4:followup:month6_detail', kwargs={'pk': self.pk})
 
     @property
     def trial_id(self):
@@ -458,7 +458,7 @@ class FollowUp1Y(FollowUpBase):
         return '%s (%s)' % (self.trial_id, self.start_date)
 
     def get_absolute_url(self):
-        return ""
+        return reverse('wp4:followup:final_detail', kwargs={'pk': self.pk})
 
     @property
     def trial_id(self):

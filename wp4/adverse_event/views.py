@@ -7,7 +7,7 @@ from django.core.mail import EmailMessage
 from django.http import HttpResponseRedirect
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
 
-from braces.views import LoginRequiredMixin
+from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 
 from .models import AdverseEvent
 from .forms import AdverseEventForm
@@ -82,17 +82,21 @@ class AjaxFormMixin(object):
 
 
 # ============================================  CBVs
-class AdverseEventListView(LoginRequiredMixin, ListView):
+class AdverseEventListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = AdverseEvent
+    permission_required = "adverse_event.add_adverseevent"
 
 
-class AdverseEventDetailView(LoginRequiredMixin, DetailView):
+class AdverseEventDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = AdverseEvent
+    permission_required = "adverse_event.add_adverseevent"
 
 
-class AdverseEventCreateView(LoginRequiredMixin, AjaxFormMixin, EmailOnSaveMixin, CreateView):
+class AdverseEventCreateView(LoginRequiredMixin, PermissionRequiredMixin, AjaxFormMixin, EmailOnSaveMixin, CreateView):
     model = AdverseEvent
+    permission_required = "adverse_event.add_adverseevent"
 
 
-class AdverseEventUpdateView(LoginRequiredMixin, AjaxFormMixin, EmailOnSaveMixin, UpdateView):
+class AdverseEventUpdateView(LoginRequiredMixin, PermissionRequiredMixin, AjaxFormMixin, EmailOnSaveMixin, UpdateView):
     model = AdverseEvent
+    permission_required = "adverse_event.add_adverseevent"

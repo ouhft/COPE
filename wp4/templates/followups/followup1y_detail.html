@@ -1,0 +1,111 @@
+{% extends "base_site.html" %}
+{% load l10n i18n theme_tags %}
+
+{% block page_title %}Final - Follow Up{% endblock %}
+{% block page_header %}
+    Final - Follow Up
+    <small>Case ID: {{ followup1y.trial_id|default:"New" }}</small>
+{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:followup:index' %}">Follow Up</a></li>
+    <li><a href="{% url 'wp4:followup:final_list' %}">Final</a></li>
+    <li class="active">View Report</li>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-4">
+            <dl class="">
+{#                <dt>{% get_verbose_field_name followup1y "organ" %}</dt>#}
+{#                <dd>{{ followup1y.organ }}</dd>#}
+                <dt>{% get_verbose_field_name followup1y "start_date" %}</dt>
+                <dd>{{ followup1y.start_date|date:"D d M Y" }}</dd>
+                <dt>{% get_verbose_field_name followup1y "graft_failure" %}</dt>
+                <dd>{{ followup1y.graft_failure|yesno|default_if_none:"unanswered"|capfirst }}</dd>
+                <dt>{% get_verbose_field_name followup1y "graft_failure_date" %}</dt>
+                <dd>{{ followup1y.graft_failure_date|date:"D d M Y" }}</dd>
+                <dt>{% get_verbose_field_name followup1y "graft_failure_type" %}</dt>
+                <dd>{{ followup1y.get_graft_failure_type_display }}</dd>
+                <dt>{% get_verbose_field_name followup1y "graft_failure_type_other" %}</dt>
+                <dd>{{ followup1y.graft_failure_type_other }}</dd>
+                <dt>{% get_verbose_field_name followup1y "graft_removal" %}</dt>
+                <dd>{{ followup1y.graft_removal|yesno|default_if_none:"unanswered"|capfirst }}</dd>
+                <dt>{% get_verbose_field_name followup1y "graft_removal_date" %}</dt>
+                <dd>{{ followup1y.graft_removal_date|date:"D d M Y" }}</dd>
+
+                <dt>{% get_verbose_field_name followup1y "serum_creatinine_unit" %}</dt>
+                <dd>{{ followup1y.get_serum_creatinine_unit_display }}</dd>
+                <dt>{% get_verbose_field_name followup1y "serum_creatinine" %}</dt>
+                <dd>{{ followup1y.serum_creatinine }}</dd>
+                <dt>{% get_verbose_field_name followup1y "creatinine_clearance" %}</dt>
+                <dd>{{ followup1y.creatinine_clearance }}</dd>
+
+                <dt>{% get_verbose_field_name followup1y "currently_on_dialysis" %}</dt>
+                <dd>{{ followup1y.get_currently_on_dialysis_display }}</dd>
+                <dt>{% get_verbose_field_name followup1y "dialysis_type" %}</dt>
+                <dd>{{ followup1y.get_dialysis_type_display }}</dd>
+                <dt>{% get_verbose_field_name followup1y "dialysis_date" %}</dt>
+                <dd>{{ followup1y.dialysis_date|date:"D d M Y" }}</dd>
+                <dt>{% get_verbose_field_name followup1y "number_of_dialysis_sessions" %}</dt>
+                <dd>{{ followup1y.number_of_dialysis_sessions }}</dd>
+            </dl>
+        </div>
+        <div class="col-md-4">
+            <dl class="">
+                <dt>{% get_verbose_field_name followup1y "immunosuppression_1" %}</dt>
+                <dd>{{ followup1y.immunosuppression_1|yesno|default_if_none:"unanswered"|capfirst }}</dd>
+                <dt>{% get_verbose_field_name followup1y "immunosuppression_2" %}</dt>
+                <dd>{{ followup1y.immunosuppression_2|yesno|default_if_none:"unanswered"|capfirst }}</dd>
+                <dt>{% get_verbose_field_name followup1y "immunosuppression_3" %}</dt>
+                <dd>{{ followup1y.immunosuppression_3|yesno|default_if_none:"unanswered"|capfirst }}</dd>
+                <dt>{% get_verbose_field_name followup1y "immunosuppression_4" %}</dt>
+                <dd>{{ followup1y.immunosuppression_4|yesno|default_if_none:"unanswered"|capfirst }}</dd>
+                <dt>{% get_verbose_field_name followup1y "immunosuppression_5" %}</dt>
+                <dd>{{ followup1y.immunosuppression_5|yesno|default_if_none:"unanswered"|capfirst }}</dd>
+                <dt>{% get_verbose_field_name followup1y "immunosuppression_6" %}</dt>
+                <dd>{{ followup1y.immunosuppression_6|yesno|default_if_none:"unanswered"|capfirst }}</dd>
+                <dt>{% get_verbose_field_name followup1y "immunosuppression_7" %}</dt>
+                <dd>{{ followup1y.immunosuppression_7|yesno|default_if_none:"unanswered"|capfirst }}</dd>
+                <dt>{% get_verbose_field_name followup1y "immunosuppression_other" %}</dt>
+                <dd>{{ followup1y.immunosuppression_other }}</dd>
+
+                <dt>{% get_verbose_field_name followup1y "rejection" %}</dt>
+                <dd>{{ followup1y.rejection|yesno|default_if_none:"unanswered"|capfirst }}</dd>
+                <dt>{% get_verbose_field_name followup1y "rejection_periods" %}</dt>
+                <dd>{{ followup1y.rejection_periods }}</dd>
+                <dt>{% get_verbose_field_name followup1y "rejection_prednisolone" %}</dt>
+                <dd>{{ followup1y.rejection_prednisolone|yesno|default_if_none:"unanswered"|capfirst }}</dd>
+                <dt>{% get_verbose_field_name followup1y "rejection_drug" %}</dt>
+                <dd>{{ followup1y.rejection_drug|yesno|default_if_none:"unanswered"|capfirst }}</dd>
+                <dt>{% get_verbose_field_name followup1y "rejection_drug_other" %}</dt>
+                <dd>{{ followup1y.rejection_drug_other }}</dd>
+                <dt>{% get_verbose_field_name followup1y "rejection_biopsy" %}</dt>
+                <dd>{{ followup1y.rejection_biopsy|yesno|default_if_none:"unanswered"|capfirst }}</dd>
+                <dt>{% get_verbose_field_name followup1y "calcineurin" %}</dt>
+                <dd>{{ followup1y.calcineurin|yesno|default_if_none:"unanswered"|capfirst }}</dd>
+            </dl>
+        </div>
+        <div class="col-md-4">
+            <dl class="">
+                <dt>{% get_verbose_field_name followup1y "graft_complications" %}</dt>
+                <dd>{{ followup1y.graft_complications }}</dd>
+                <dt>{% get_verbose_field_name followup1y "notes" %}</dt>
+                <dd>{{ followup1y.notes }}</dd>
+            </dl>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block footer_nav %}
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container">
+            <div class="navbar-right">
+                <a href="{% url "wp4:followup:final_update" pk=followup1y.pk %}" class="btn btn-primary navbar-btn"
+                   id="nav_button_edit">Edit</a>
+            </div>
+        </div>
+    </nav>
+{% endblock %}

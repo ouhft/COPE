@@ -3,6 +3,7 @@
 from django.conf.urls import include, url
 
 # from .perfusion_machine import urls as perfusionmachine_urls
+from .health_economics import urls as health_economics_urls
 from .followups import urls as followup_urls
 from .adverse_event import urls as adverseevent_urls
 from .staff_person import urls as staffperson_urls
@@ -13,6 +14,7 @@ from .views import wp4_index
 from .views import administrator_index, administrator_uk_list, administrator_europe_list, administrator_datalist
 
 urlpatterns = [
+    url(r'^health-economics/', include(health_economics_urls, namespace="health_economics")),
     url(r'^followup/', include(followup_urls, namespace="followup")),
     url(r'^adverse-event/', include(adverseevent_urls, namespace="adverse_event")),
     url(r'^person/', include(staffperson_urls, namespace="staff_person")),

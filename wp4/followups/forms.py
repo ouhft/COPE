@@ -2,14 +2,13 @@
 # coding: utf-8
 from django import forms
 from django.conf import settings
-from django.utils import timezone
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Div, HTML, Field
 
 from wp4.compare.models import YES_NO_UNKNOWN_CHOICES
-from wp4.compare.forms.core import NO_YES_CHOICES, YES_NO_CHOICES
-from wp4.theme.layout import DateTimeField, DateField, FormPanel, ForeignKeyModal, FieldWithFollowup
+from wp4.compare.forms.core import NO_YES_CHOICES
+from wp4.theme.layout import DateField, FieldWithFollowup
 
 from .models import FollowUpInitial, FollowUp3M, FollowUp6M, FollowUp1Y, FollowUpBase
 
@@ -515,3 +514,154 @@ class FollowUp6MForm(forms.ModelForm):
         ]
         localized_fields = "__all__"
 
+
+class FollowUp1YForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(FollowUp1YForm, self).__init__(*args, **kwargs)
+
+        self.fields['start_date'].input_formats = settings.DATE_INPUT_FORMATS  # FB01
+        self.fields['graft_failure_date'].input_formats = settings.DATE_INPUT_FORMATS  # FB11
+        self.fields['graft_removal_date'].input_formats = settings.DATE_INPUT_FORMATS  # FB15
+        self.fields['dialysis_date'].input_formats = settings.DATE_INPUT_FORMATS  # FY04
+
+        self.fields['currently_on_dialysis'].choices = YES_NO_UNKNOWN_CHOICES  # FY03
+        self.fields['graft_failure'].choices = NO_YES_CHOICES  # FB10
+        self.fields['graft_removal'].choices = NO_YES_CHOICES  # FB14
+        self.fields['rejection'].choices = NO_YES_CHOICES  # FB19
+        self.fields['rejection_prednisolone'].choices = NO_YES_CHOICES  # FB20
+        self.fields['rejection_drug'].choices = NO_YES_CHOICES  # FB21
+        self.fields['rejection_biopsy'].choices = NO_YES_CHOICES  # FB23
+        self.fields['calcineurin'].choices = NO_YES_CHOICES  # FB24
+
+        self.fields['serum_creatinine_unit'].choices = FollowUpBase.UNIT_CHOICES  # FY10
+        self.fields['dialysis_type'].choices = FollowUpInitial.DIALYSIS_TYPE_CHOICES  # FB16
+
+        self.fields['graft_complications'].widget = forms.Textarea()  # FY07
+        self.fields['notes'].widget = forms.Textarea()  # FB03
+
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+        self.helper.html5_required = True
+        self.helper.layout = Layout(
+            Div(
+                Div(
+                    'organ',  # FY01
+                    FieldWithFollowup(
+                        Field('graft_failure', template="bootstrap3/layout/radioselect-buttons.html"),  # FB10
+                        Layout(
+                            DateField('graft_failure_date'),  # FB11
+                            'graft_failure_type',  # FB12
+                            'graft_failure_type_other',  # FB13
+                        )
+                    ),
+                    css_class="col-md-6"
+                ),
+                Div(
+                    DateField('start_date'),  # FB01
+                    FieldWithFollowup(
+                        Field('graft_removal', template="bootstrap3/layout/radioselect-buttons.html"),  # FB14
+                        DateField('graft_removal_date'),  # FB15
+                    ),
+                    css_class="col-md-6"
+                ),
+                css_class="row"
+            ),
+
+            Div(
+                Div(
+                    Field('serum_creatinine_unit', template="bootstrap3/layout/radioselect-buttons.html"),  # FY10
+                    'serum_creatinine',  # FY11
+                    'creatinine_clearance',  # FY02
+                    css_class="col-md-4"
+                ),
+                Div(
+                    FieldWithFollowup(
+                        Field('currently_on_dialysis', template="bootstrap3/layout/radioselect-buttons.html"),  # FY03
+                        Field('dialysis_type', template="bootstrap3/layout/radioselect-buttons.html"),  # FB16
+                    ),
+                    css_class="col-md-4"
+                ),
+                Div(
+                    DateField('dialysis_date'),  # FY04
+                    'number_of_dialysis_sessions',  # FY05
+                    css_class="col-md-4"
+                ),
+                css_class="row"
+            ),
+
+            Div(
+                Div(
+                    HTML("<h4>Post Tx Immunosuppresion</h4>"),
+                    'immunosuppression_1',  # FB30
+                    'immunosuppression_2',  # FB31
+                    'immunosuppression_3',  # FB32
+                    'immunosuppression_4',  # FB33
+                    'immunosuppression_5',  # FB34
+                    'immunosuppression_6',  # FB35
+                    'immunosuppression_7',  # FB36
+                    'immunosuppression_other',  # FB37
+                    css_class="col-md-4"
+                ),
+                Div(
+                    FieldWithFollowup(
+                        Field('rejection', template="bootstrap3/layout/radioselect-buttons.html"),  # FB19
+                        Layout(
+                            'rejection_periods',  # FY06
+                            Field('rejection_prednisolone', template="bootstrap3/layout/radioselect-buttons.html"),
+                            # FB20
+                            Field('rejection_drug', template="bootstrap3/layout/radioselect-buttons.html"),  # FB21
+                            'rejection_drug_other',  # FB22
+                            Field('rejection_biopsy', template="bootstrap3/layout/radioselect-buttons.html"),  # FB23
+                        )
+                    ),
+                    css_class="col-md-4"
+                ),
+                Div(
+                    Field('calcineurin', template="bootstrap3/layout/radioselect-buttons.html"),  # FB24
+                    'graft_complications',  # FY07
+                    'notes',  # FB03
+                    css_class="col-md-4"
+                ),
+                css_class="row"
+            ),
+            'quality_of_life',  # FY08
+        )
+
+    class Meta:
+        model = FollowUp1Y
+        fields = [
+            'organ',  # FY01
+            'start_date',  # FB01
+            'graft_failure',  # FB10
+            'graft_failure_date',  # FB11
+            'graft_failure_type',  # FB12
+            'graft_failure_type_other',  # FB13
+            'graft_removal',  # FB14
+            'graft_removal_date',  # FB15
+            'serum_creatinine_unit',  # FY10
+            'serum_creatinine',  # FY11
+            'creatinine_clearance',  # FY02
+            'currently_on_dialysis',  # FY03
+            'dialysis_type',  # FB16
+            'dialysis_date',  # FY04
+            'number_of_dialysis_sessions',  # FY05
+            'immunosuppression_1',  # FB30
+            'immunosuppression_2',  # FB31
+            'immunosuppression_3',  # FB32
+            'immunosuppression_4',  # FB33
+            'immunosuppression_5',  # FB34
+            'immunosuppression_6',  # FB35
+            'immunosuppression_7',  # FB36
+            'immunosuppression_other',  # FB37
+            'rejection',  # FB19
+            'rejection_periods',  # FY06
+            'rejection_prednisolone',  # FB20
+            'rejection_drug',  # FB21
+            'rejection_drug_other',  # FB22
+            'rejection_biopsy',  # FB23
+            'calcineurin',  # FB24
+            'graft_complications',  # FY07
+            'quality_of_life',  # FY08
+            'notes',  # FB03
+        ]
+        localized_fields = "__all__"

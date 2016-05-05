@@ -1,0 +1,52 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_field %}
+
+{% block page_title %}Final - Follow Up{% endblock %}
+{% block page_header %}
+    Final - Follow Up
+    <small>Case ID: {{ form.instance.trial_id|default:"New" }}</small>
+{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:followup:index' %}">Follow Up</a></li>
+    <li><a href="{% url 'wp4:followup:final_list' %}">Final</a></li>
+    <li class="active">Edit Report</li>
+{% endblock %}
+
+{% block content %}
+    <form method="post" class="" id="followup_form">
+        {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+                <p class="alert alert-danger">{{ error }}</p>
+            {% endfor %}
+        {% endif %}
+        {% crispy form %}
+    </form>
+{% endblock %}
+
+
+{% block footer_nav %}
+        <nav class="navbar navbar-default navbar-fixed-bottom">
+            <div class="container">
+                <div class="navbar-right">
+                    <input type="button" class="btn btn-primary navbar-btn" value="Save" id="nav_button_save"/>
+                </div>
+            </div>
+        </nav>
+{% endblock %}
+
+
+{% block footer_extra_scripts %}
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function (event) {
+            // Navbar bottom actions
+            $('footer').addClass('navbar_spacing');
+            $('#nav_button_save').on('click', function () {
+                $('#followup_form').submit();
+            });
+        });
+    </script>
+{% endblock %}
