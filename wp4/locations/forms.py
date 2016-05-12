@@ -1,7 +1,5 @@
 #!/usr/bin/python
 # coding: utf-8
-import re
-
 from django import forms
 
 from crispy_forms.helper import FormHelper

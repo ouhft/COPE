@@ -31,11 +31,9 @@
         <li class="list-group-item list-group-item-info">
             Related: <a href="{% url 'wp4:health_economics:index' %}">Health Economics</a>
         </li>
-{#            <a href="{% url 'wp4:followup:initial_list' %}" class="list-group-item">Initial</a>#}
-            QOL
+        <a href="{% url 'wp4:health_economics:list' %}" class="list-group-item">Quality of Life Forms</a>
         {% if perms.health_economics.add_resourcelog %}
-{#            <a href="{% url 'wp4:followup:month3_list' %}" class="list-group-item">Month 3</a>#}
-            RL
+        <a href="" class="list-group-item">Resource Logs</a>
         {% endif %}
     </ul>
     {% endif %}

@@ -1,0 +1,38 @@
+{% extends "base_site.html" %}
+
+
+{% block page_title %}Quality of Life : Health Economics{% endblock %}
+{% block page_header %}Quality of Life{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:health_economics:index' %}">Health Economics</a></li>
+    <li class="active">Quality of Life</li>
+{% endblock %}
+
+
+{% block content %}
+    {% if qualityoflife_list %}
+        <table class="table table-responsive table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for qol_record in qualityoflife_list %}
+                <tr>
+                    <td>{{ qol_record.id }}</td>
+                    <td><a href="{% url 'wp4:health_economics:update' qol_record.id %}" class="btn btn-xs btn-primary"><i
+                            class="glyphicon glyphicon-edit"></i> {{ qol_record }}</a></td>
+{#                    <td>{{ qol_record.followup }}</td>#}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No records are available.</p>
+    {% endif %}
+    <p><a href="{% url "wp4:health_economics:add" %}" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Add Record</a></p>
+{% endblock %}

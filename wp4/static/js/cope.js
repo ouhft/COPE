@@ -109,6 +109,15 @@ function openForeignKeyModal(keyName, dbValue) {
             $('#myModal').modal('show');
             toggleModalContent(true, returnHTML);
         };
+    } else if (keyName == "id_quality_of_life") {
+        //console.log("DEBUG: loading modal for follow up qol record");
+        ajaxURL += (dbValue < 1 ? "wp4/health-economics/add" : "wp4/health-economics/" + dbValue + "/");
+        ajaxDATA = {"pk": dbValue, "q": 8, "return_id": keyName}
+        ajaxSUCCESS = function (returnHTML) {
+            //console.log("DEBUG: openForeignKeyModal() returnHTML=" + returnHTML);
+            $('#myModal').modal('show');
+            toggleModalContent(true, returnHTML);
+        };
     } else {
         alert("ERROR: Unknown id for the search request (" + keyName + ") \n\n" +
             "Please let the admin team know you've seen this error.");

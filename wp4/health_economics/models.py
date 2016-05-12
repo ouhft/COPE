@@ -2,6 +2,7 @@
 # coding: utf-8
 from __future__ import unicode_literals
 
+from django.core.urlresolvers import reverse
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -63,6 +64,12 @@ class QualityOfLife(VersionControlMixin):
     class Meta:
         verbose_name = _("QLm1 Quality of Life record")
         verbose_name_plural = _("QLm2 Quality of Life records")
+
+    def get_absolute_url(self):
+        return reverse("wp4:health_economics:update", kwargs={"pk": self.pk})
+
+    def __unicode__(self):
+        return "{0} @ {1}".format(self.recipient.trial_id, self.date_recorded)
 
 
 class ResourceLog(VersionControlMixin):

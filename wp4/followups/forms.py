@@ -8,7 +8,7 @@ from crispy_forms.layout import Layout, Div, HTML, Field
 
 from wp4.compare.models import YES_NO_UNKNOWN_CHOICES
 from wp4.compare.forms.core import NO_YES_CHOICES
-from wp4.theme.layout import DateField, FieldWithFollowup
+from wp4.theme.layout import DateField, FieldWithFollowup, ForeignKeyModal
 
 from .models import FollowUpInitial, FollowUp3M, FollowUp6M, FollowUp1Y, FollowUpBase
 
@@ -322,7 +322,7 @@ class FollowUp3MForm(forms.ModelForm):
                 ),
                 css_class="row"
             ),
-            'quality_of_life',  # F308
+            ForeignKeyModal('quality_of_life'),  # F308
         )
 
     class Meta:
@@ -624,7 +624,7 @@ class FollowUp1YForm(forms.ModelForm):
                 ),
                 css_class="row"
             ),
-            'quality_of_life',  # FY08
+            ForeignKeyModal('quality_of_life'),  # FY08
         )
 
     class Meta:
