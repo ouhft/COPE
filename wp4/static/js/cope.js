@@ -69,61 +69,39 @@ function openForeignKeyModal(keyName, dbValue) {
 
     var ajaxURL = getBaseURL();
     var ajaxDATA = {}
-    var ajaxSUCCESS = function () {
-    };
     var keyNameSplit = keyName.split("-");
     if (keyName == "id_donor-transplant_coordinator") {
         //console.log("DEBUG: loading modal for transplant co-ord");
         ajaxURL += (dbValue < 1 ? "wp4/person/" : "wp4/person/" + dbValue + "/");
         ajaxDATA = {"pk": dbValue, "q": 2, "return_id": keyName}  // TRANSPLANT_COORDINATOR
-        ajaxSUCCESS = function (returnHTML) {
-            //console.log("DEBUG: openForeignKeyModal() returnHTML=" + returnHTML);
-            $('#myModal').modal('show');
-            toggleModalContent(true, returnHTML);
-        };
     } else if (keyNameSplit[0] == "id_allocation" && keyNameSplit[2] == "theatre_contact") {
         //console.log("DEBUG: loading modal for theatre contact");
         ajaxURL += (dbValue < 1 ? "wp4/person/" : "wp4/person/" + dbValue + "/");
         ajaxDATA = {"pk": dbValue, "q": 15, "return_id": keyName}  // THEATRE_CONTACT
-        ajaxSUCCESS = function (returnHTML) {
-            //console.log("DEBUG: openForeignKeyModal() returnHTML=" + returnHTML);
-            $('#myModal').modal('show');
-            toggleModalContent(true, returnHTML);
-        };
     } else if (keyName == "id_contact") {
         //console.log("DEBUG: loading modal for adverse event contact");
         ajaxURL += (dbValue < 1 ? "wp4/person/" : "wp4/person/" + dbValue + "/");
         ajaxDATA = {"pk": dbValue, "q": 8, "return_id": keyName}  // LOCAL_INVESTIGATOR
-        ajaxSUCCESS = function (returnHTML) {
-            //console.log("DEBUG: openForeignKeyModal() returnHTML=" + returnHTML);
-            $('#myModal').modal('show');
-            toggleModalContent(true, returnHTML);
-        };
     } else if (keyName == "id_donor-retrieval_hospital" ||
         (keyNameSplit[0] == "id_allocation" && keyNameSplit[2] == "transplant_hospital")) {
         //console.log("DEBUG: loading modal for hospital");
         ajaxURL += (dbValue < 1 ? "wp4/location/" : "wp4/location/" + dbValue + "/");
         ajaxDATA = {"pk": dbValue, "return_id": keyName}
-        ajaxSUCCESS = function (returnHTML) {
-            //console.log("DEBUG: openForeignKeyModal() returnHTML=" + returnHTML);
-            $('#myModal').modal('show');
-            toggleModalContent(true, returnHTML);
-        };
     } else if (keyName == "id_quality_of_life") {
         //console.log("DEBUG: loading modal for follow up qol record");
         ajaxURL += (dbValue < 1 ? "wp4/health-economics/add" : "wp4/health-economics/" + dbValue + "/");
-        ajaxDATA = {"pk": dbValue, "q": 8, "return_id": keyName}
-        ajaxSUCCESS = function (returnHTML) {
-            //console.log("DEBUG: openForeignKeyModal() returnHTML=" + returnHTML);
-            $('#myModal').modal('show');
-            toggleModalContent(true, returnHTML);
-        };
+        ajaxDATA = {"pk": dbValue, "return_id": keyName}
     } else {
         alert("ERROR: Unknown id for the search request (" + keyName + ") \n\n" +
             "Please let the admin team know you've seen this error.");
         return false;
     }
     //console.log("DEBUG: openForeignKeyModal() calling url: " + ajaxURL);
+    var ajaxSUCCESS = ajaxSUCCESS = function (returnHTML) {
+        //console.log("DEBUG: openForeignKeyModal() returnHTML=" + returnHTML);
+        $('#myModal').modal('show');
+        toggleModalContent(true, returnHTML);
+    };
 
     $.ajax({
         url: ajaxURL,

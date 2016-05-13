@@ -2,13 +2,19 @@
 # coding: utf-8
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, render_to_response
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
+from django.views.generic.edit import ModelFormMixin
 
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 
+from wp4.health_economics.models import QualityOfLife
+
 from .models import FollowUpInitial, FollowUp3M, FollowUp6M, FollowUp1Y
 from .forms import FollowUpInitialForm, FollowUp3MForm, FollowUp6MForm, FollowUp1YForm
+from .forms import FollowUpInitialStartForm, FollowUp3MStartForm, FollowUp6MStartForm, FollowUp1YStartForm
 
 
 @permission_required('followups.add_followupinitial')
@@ -39,10 +45,48 @@ class FormSaveMixin(object):
         return super(FormSaveMixin, self).form_invalid(form)
 
 
+class FormStartMixin(ModelFormMixin):
+    object = None
+
+    def get_context_data(self, **kwargs):
+        context = super(FormStartMixin, self).get_context_data(**kwargs)
+        context['form'] = self.get_form()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = None
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+
+class FormSaveAndCreateQOLMixin(FormSaveMixin):
+    def form_valid(self, form):
+        qol_object = QualityOfLife()
+        qol_object.recipient = form.instance.organ.safe_recipient
+        qol_object.save(created_by=self.request.user)
+
+        form.instance.created_by = self.request.user
+        form.instance.quality_of_life = qol_object
+        self.object = form.save()
+
+        messages.success(
+            self.request,
+            'Form was <strong>saved SUCCESSFULLY</strong>, please review it below'
+        )
+        return HttpResponseRedirect(self.get_success_url())
+
+
 # Initial
-class FollowUpInitialListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+class FollowUpInitialListView(LoginRequiredMixin, PermissionRequiredMixin, ListView, FormSaveMixin, FormStartMixin):
     model = FollowUpInitial
     permission_required = "followups.add_followupinitial"
+    form_class = FollowUpInitialStartForm
+
+    def get_success_url(self):
+        return reverse('wp4:followup:initial_update', kwargs={'pk': self.object.pk})
 
 
 class FollowUpInitialDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
@@ -63,9 +107,13 @@ class FollowUpInitialUpdateView(LoginRequiredMixin, PermissionRequiredMixin, For
 
 
 # 3 Months
-class FollowUp3MListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+class FollowUp3MListView(LoginRequiredMixin, PermissionRequiredMixin, ListView, FormSaveAndCreateQOLMixin, FormStartMixin):
     model = FollowUp3M
     permission_required = "followups.add_followup3m"
+    form_class = FollowUp3MStartForm
+
+    def get_success_url(self):
+        return reverse('wp4:followup:month3_update', kwargs={'pk': self.object.pk})
 
 
 class FollowUp3MDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
@@ -86,9 +134,13 @@ class FollowUp3MUpdateView(LoginRequiredMixin, PermissionRequiredMixin, FormSave
 
 
 # 6 Months
-class FollowUp6MListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+class FollowUp6MListView(LoginRequiredMixin, PermissionRequiredMixin, ListView, FormSaveMixin, FormStartMixin):
     model = FollowUp6M
     permission_required = "followups.add_followup6m"
+    form_class = FollowUp6MStartForm
+
+    def get_success_url(self):
+        return reverse('wp4:followup:month6_update', kwargs={'pk': self.object.pk})
 
 
 class FollowUp6MDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
@@ -109,9 +161,13 @@ class FollowUp6MUpdateView(LoginRequiredMixin, PermissionRequiredMixin, FormSave
 
 
 # 1 Year
-class FollowUp1YListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+class FollowUp1YListView(LoginRequiredMixin, PermissionRequiredMixin, ListView, FormSaveAndCreateQOLMixin, FormStartMixin):
     model = FollowUp1Y
     permission_required = "followups.add_followup1y"
+    form_class = FollowUp1YStartForm
+
+    def get_success_url(self):
+        return reverse('wp4:followup:final_update', kwargs={'pk': self.object.pk})
 
 
 class FollowUp1YDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):

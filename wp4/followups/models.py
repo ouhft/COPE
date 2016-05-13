@@ -320,7 +320,13 @@ class FollowUp3M(FollowUpBase):
     )
     graft_complications = models.TextField(verbose_name=_("F307 graft function complications"), blank=True)
     # QoL is in health_economics app
-    quality_of_life = models.OneToOneField(QualityOfLife, related_name="followup_3m", verbose_name=_("F308 quality of life"))
+    quality_of_life = models.OneToOneField(
+        QualityOfLife,
+        related_name="followup_3m",
+        verbose_name=_("F308 quality of life"),
+        null=True,
+        blank=True
+    )
 
     class Meta:
         verbose_name = _("F3m1 3 Month FollowUp")
@@ -447,7 +453,9 @@ class FollowUp1Y(FollowUpBase):
     quality_of_life = models.OneToOneField(
         QualityOfLife,
         related_name="followup_1y",
-        verbose_name=_("FY08 quality of life")
+        verbose_name=_("FY08 quality of life"),
+        null=True,
+        blank=True
     )
 
     class Meta:

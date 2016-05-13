@@ -89,12 +89,12 @@ def administrator_europe_list(request):
 
 @login_required
 def administrator_datalist(request):
-    donors = Organ.objects.all()
+    organs = Organ.objects.all()
     return render(
         request,
         'dashboard/administrator_data_list.html',
         {
-            'listing': donors,
+            'listing': organs,
             # 'location': "Europe",
             # 'timestamp': timezone.now()
         }
