@@ -357,36 +357,63 @@ class Migration(migrations.Migration):
             name='dialysis_requirement_1',
             field=models.NullBooleanField(verbose_name='FI09 dialysis on day 1'),
         ),
-        migrations.AlterField(
+
+        # Manual modifications to change alters to remove and add operations to please Postgres
+        migrations.RemoveField(
+            model_name='followupinitial',
+            name='dialysis_requirement_2',
+        ),
+        migrations.AddField(
             model_name='followupinitial',
             name='dialysis_requirement_2',
             field=models.NullBooleanField(verbose_name='FI10 dialysis on day 2'),
         ),
-        migrations.AlterField(
+        migrations.RemoveField(
+            model_name='followupinitial',
+            name='dialysis_requirement_3',
+        ),
+        migrations.AddField(
             model_name='followupinitial',
             name='dialysis_requirement_3',
             field=models.NullBooleanField(verbose_name='FI11 dialysis on day 3'),
         ),
-        migrations.AlterField(
+        migrations.RemoveField(
+            model_name='followupinitial',
+            name='dialysis_requirement_4',
+        ),
+        migrations.AddField(
             model_name='followupinitial',
             name='dialysis_requirement_4',
             field=models.NullBooleanField(verbose_name='FI12 dialysis on day 4'),
         ),
-        migrations.AlterField(
+        migrations.RemoveField(
+            model_name='followupinitial',
+            name='dialysis_requirement_5',
+        ),
+        migrations.AddField(
             model_name='followupinitial',
             name='dialysis_requirement_5',
             field=models.NullBooleanField(verbose_name='FI13 dialysis on day 5'),
         ),
-        migrations.AlterField(
+        migrations.RemoveField(
+            model_name='followupinitial',
+            name='dialysis_requirement_6',
+        ),
+        migrations.AddField(
             model_name='followupinitial',
             name='dialysis_requirement_6',
             field=models.NullBooleanField(verbose_name='FI14 dialysis on day 6'),
         ),
-        migrations.AlterField(
+        migrations.RemoveField(
+            model_name='followupinitial',
+            name='dialysis_requirement_7',
+        ),
+        migrations.AddField(
             model_name='followupinitial',
             name='dialysis_requirement_7',
             field=models.NullBooleanField(verbose_name='FI15 dialysis on day 7'),
         ),
+        # End of manual modification
         migrations.AlterField(
             model_name='followupinitial',
             name='induction_therapy',
