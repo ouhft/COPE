@@ -44,7 +44,12 @@ class Migration(migrations.Migration):
             name='organ',
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='compare.Organ'),
         ),
-        migrations.AlterField(
+        # Manual Edit to make Postgres happy with a delete and add
+        migrations.RemoveField(
+            model_name='recipient',
+            name='tape_broken',
+        ),
+        migrations.AddField(
             model_name='recipient',
             name='tape_broken',
             field=models.PositiveSmallIntegerField(blank=True, choices=[(2, 'MMc03 Unknown'), (0, 'MMc01 No'), (1, 'MMc02 Yes')], null=True, verbose_name='RE22 tape over regulator broken'),
