@@ -25,7 +25,7 @@ class WorksheetListView(LoginRequiredMixin, OrderableListMixin, ListView):
 
     def get_orderable_columns(self):
         # return an iterable
-        return (u"id", u"barcode", u"person__number", u"person__age", u"person__gender")
+        return (u"id", u"barcode", u"person__number", u"person__date_of_birth", u"person__gender")
 
     def get_orderable_columns_default(self):
         # return a string
