@@ -13,5 +13,6 @@ pytz
 pip
 wheel
 setuptools
+psycopg2
 
 -e git+git://github.com/maraujop/django-crispy-forms.git@dev#egg=django-crispy-forms
