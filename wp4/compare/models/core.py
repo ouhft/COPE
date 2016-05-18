@@ -8,6 +8,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.validators import MinValueValidator, MaxValueValidator, ValidationError
 from django.db import models
 from django.utils import timezone
+from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
 from ..validators import validate_not_in_future
@@ -235,22 +236,22 @@ class OrganPerson(VersionControlMixin):
             return relativedelta(the_end, self.date_of_birth).years
         return None
 
-    @property
-    def trial_id(self):
-        """
-        Returns the composite trial id string by calling either donor.trial_id() or recipient.trial_id()
+    # def _trial_id(self):
+    #     """
+    #     Returns the composite trial id string by calling either donor.trial_id() or recipient.trial_id()
+    #
+    #     :return: If no donor or recipient trial id found, returns "No Trial ID Assigned"
+    #     :rtype: str
+    #     """
+    #     if self.is_donor:
+    #         return self.donor.trial_id()
+    #     elif self.is_recipient:
+    #         return self.recipient.trial_id()
+    #     return _("OPm01 No Trial ID Assigned")
+    #
+    # trial_id = cached_property(_trial_id, name='trial_id')
 
-        :return: If no donor or recipient trial id found, returns "No Trial ID Assigned"
-        :rtype: str
-        """
-        if self.is_donor:
-            return self.donor.trial_id()
-        elif self.is_recipient:
-            return self.recipient.trial_id()
-        return _("OPm01 No Trial ID Assigned")
-
-    @property
-    def is_recipient(self):
+    def _is_recipient(self):
         """
         Determine if a recipient record is linked to this person
 
@@ -262,8 +263,9 @@ class OrganPerson(VersionControlMixin):
         except ObjectDoesNotExist:
             return False
 
-    @property
-    def is_donor(self):
+    is_recipient = cached_property(_is_recipient, name='is_recipient')
+
+    def _is_donor(self):
         """
         Determine if a donor record is linked to this person
 
@@ -275,6 +277,8 @@ class OrganPerson(VersionControlMixin):
         except ObjectDoesNotExist:
             return False
 
+    is_donor = cached_property(_is_donor, name='is_donor')
+
     @property
     def is_alive(self):
         """
@@ -285,8 +289,7 @@ class OrganPerson(VersionControlMixin):
         """
         return True if self.date_of_death is None else False
 
-    @property
-    def worksheet(self):
+    def _worksheet(self):
         """
         Looks for the first sample worksheet linked to this person
 
@@ -296,6 +299,8 @@ class OrganPerson(VersionControlMixin):
         for worksheet in self.worksheet_set.all():
             return worksheet
         return None
+
+    worksheet = cached_property(_worksheet, name='worksheet')
 
     def __unicode__(self):
         if settings.DEBUG:
@@ -359,7 +364,7 @@ class RetrievalTeam(BaseModelMixin):
             else:
                 return PAPER_EUROPE
 
-    def name(self):
+    def _name(self):
         """
         Human readable name for the retrieval team
 
@@ -367,6 +372,13 @@ class RetrievalTeam(BaseModelMixin):
         :rtype: str
         """
         return '(%d) %s' % (self.centre_code, self.based_at.full_description())
+
+    name = cached_property(_name, name='name')
+
+    def _based_in_country(self):
+        return self.based_at.get_country_display()
+
+    based_in_country = cached_property(_based_in_country, name='based_in_country')
 
     def __unicode__(self):
         return self.name()

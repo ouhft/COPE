@@ -3,6 +3,7 @@
 from __future__ import absolute_import, unicode_literals
 from django.core.validators import MinValueValidator, MaxValueValidator, ValidationError
 from django.db import models
+from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
 from wp4.perfusion_machine.models import PerfusionMachine, PerfusionFile
@@ -30,9 +31,18 @@ class ClosedOrganManager(models.Manager):
 
         :return: Queryset
         """
-        return super(ClosedOrganManager, self).get_queryset().filter(
-            transplantation_form_completed=True
-        )
+        return super(ClosedOrganManager, self).get_queryset().\
+            select_related('recipient'). \
+            select_related('recipient__person').\
+            prefetch_related('recipient__person__worksheet_set'). \
+            select_related('donor'). \
+            select_related('donor__person'). \
+            select_related('donor__randomisation'). \
+            select_related('donor__retrieval_team').\
+            prefetch_related('organallocation_set').\
+            filter(
+                transplantation_form_completed=True
+            )
 
 
 class AllocatableOrganManager(models.Manager):
@@ -47,9 +57,14 @@ class AllocatableOrganManager(models.Manager):
 
         :return: Queryset
         """
-        return super(AllocatableOrganManager, self).get_queryset().filter(
-            organallocation__isnull=True, transplantable=True
-        ).exclude(preservation=PRESERVATION_NOT_SET).exclude(transplantation_form_completed=True)
+        return super(AllocatableOrganManager, self).get_queryset().\
+            select_related('donor'). \
+            select_related('donor__person'). \
+            select_related('donor__randomisation'). \
+            select_related('donor__retrieval_team').\
+            filter(
+                organallocation__isnull=True, transplantable=True
+            ).exclude(preservation=PRESERVATION_NOT_SET).exclude(transplantation_form_completed=True)
 
 
 class OpenOrganManager(models.Manager):
@@ -66,6 +81,14 @@ class OpenOrganManager(models.Manager):
         :return: Queryset
         """
         return super(OpenOrganManager, self).get_queryset().\
+            select_related('recipient'). \
+            select_related('recipient__person').\
+            prefetch_related('recipient__person__worksheet_set'). \
+            select_related('donor'). \
+            select_related('donor__person'). \
+            select_related('donor__randomisation'). \
+            select_related('donor__retrieval_team').\
+            prefetch_related('organallocation_set').\
             filter(transplantable=True).\
             exclude(transplantation_form_completed=True).\
             exclude(organallocation__isnull=True).\
@@ -310,8 +333,9 @@ class Organ(VersionControlMixin):
         """
         return self.organallocation_set.order_by('id').last()
 
-    @property
-    def trial_id(self):
+    final_allocation = cached_property(_final_allocation, name='final_allocation')
+
+    def _trial_id(self):
         """
         Returns the Donor Trial ID combined with the Location (L or R) for the Organ
 
@@ -319,6 +343,8 @@ class Organ(VersionControlMixin):
         :rtype: str
         """
         return self.donor.trial_id + self.location
+
+    trial_id = cached_property(_trial_id, name='trial_id')
 
     @property
     def is_allocated(self):
@@ -336,7 +362,7 @@ class Organ(VersionControlMixin):
         if self.safe_recipient is not None:
             return True  # We have a recipient, which can only occur if at a project site
 
-        final_allocation = self._final_allocation()
+        final_allocation = self.final_allocation
         if final_allocation is not None:
             if final_allocation.reallocated is False and final_allocation.transplant_hospital.is_project_site is False:
                 # We can't say not-reallocated without saving a transplant hospital as well
@@ -351,7 +377,7 @@ class Organ(VersionControlMixin):
         :return: Message describing status of allocation
         :rtype: str
         """
-        final_allocation = self._final_allocation()
+        final_allocation = self.final_allocation
         if self.is_allocated:
             if self.safe_recipient is not None:
                 return "Allocated to Recipient"
@@ -385,8 +411,7 @@ class Organ(VersionControlMixin):
         # TODO: Write this function
         return u"Unknown closed status"
 
-    @property
-    def reallocation_count(self):
+    def _reallocation_count(self):
         """
         Counts the number of organ allocations where reallocated is true
 
@@ -398,6 +423,8 @@ class Organ(VersionControlMixin):
             if allocation.reallocated is True:
                 count += 1
         return count
+
+    reallocation_count = cached_property(_reallocation_count, name='reallocation_count')
 
     def __unicode__(self):
         return self.trial_id

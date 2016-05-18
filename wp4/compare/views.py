@@ -111,8 +111,22 @@ def procurement_list(request):
     if current_person.has_job(
             (StaffJob.SYSTEMS_ADMINISTRATOR, StaffJob.CENTRAL_COORDINATOR, StaffJob.NATIONAL_COORDINATOR)
     ):
-        open_donors = Donor.objects.filter(procurement_form_completed=False).order_by('retrieval_team__centre_code', '-pk')
-        closed_donors = Donor.objects.filter(procurement_form_completed=True).order_by('retrieval_team__centre_code', '-pk')
+        open_donors = Donor.objects.filter(procurement_form_completed=False).\
+            order_by('retrieval_team__centre_code', '-pk').\
+            select_related('person').\
+            select_related('retrieval_team__based_at').\
+            select_related('randomisation').\
+            select_related('_left_kidney').\
+            select_related('_right_kidney').\
+            prefetch_related('person__worksheet_set')
+        closed_donors = Donor.objects.filter(procurement_form_completed=True).\
+            order_by('retrieval_team__centre_code', '-pk').\
+            select_related('person'). \
+            select_related('retrieval_team__based_at').\
+            select_related('randomisation').\
+            select_related('_left_kidney').\
+            select_related('_right_kidney').\
+            prefetch_related('person__worksheet_set')
     elif current_person.has_job(StaffJob.PERFUSION_TECHNICIAN):
         open_donors = Donor.objects.filter(perfusion_technician=current_person, procurement_form_completed=False).order_by('-pk')
         closed_donors = []
@@ -325,7 +339,8 @@ def transplantation_list(request):
         existing_cases = Organ.open_objects.order_by('-created_on')
         closed_cases = Organ.closed_objects.order_by('-created_on')
     elif current_person.has_job(StaffJob.PERFUSION_TECHNICIAN):
-        existing_cases = Organ.open_objects.filter(recipient__allocation__perfusion_technician=current_person)
+        existing_cases = Organ.open_objects.\
+            filter(recipient__allocation__perfusion_technician=current_person)
         closed_cases = []
     else:
         existing_cases = []

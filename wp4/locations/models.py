@@ -4,6 +4,7 @@ from __future__ import absolute_import, unicode_literals
 
 from django.db import models
 from django.core.urlresolvers import reverse
+from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
 from wp4.compare.models.core import VersionControlMixin
@@ -81,11 +82,13 @@ class Hospital(VersionControlMixin):
     )
     is_project_site = models.BooleanField(verbose_name=_("HO04 is project site"), default=False)
 
-    def full_description(self):
+    def _full_description(self):
         return '%s, %s' % (self.name, self.get_country_display())
 
+    full_description = cached_property(_full_description, name='full_description')
+
     def __unicode__(self):
-        return self.full_description()
+        return self.full_description
 
     class Meta:
         ordering = ['country', 'name']

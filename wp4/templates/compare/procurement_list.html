@@ -39,7 +39,7 @@
                             </a></td>
                             <td>{{ donor.created_on }}</td>
                             {#                        TODO: Replace this text with a flag image #}
-                            <td>{{ donor.retrieval_team.based_at.get_country_display }}</td>
+                            <td>{{ donor.retrieval_team.based_in_country }}</td>
                             <td>{{ donor.person.number|default:"Unknown number" }}</td>
                             <td>{{ donor.age }}</td>
                             <td>{{ donor.person.get_gender_display }}</td>
@@ -131,7 +131,7 @@
                             <td><strong>{{ donor.trial_id }}</strong></td>
                             <td>{{ donor.created_on }}</td>
                             {#                        TODO: Replace this text with a flag image #}
-                            <td>{{ donor.retrieval_team.based_at.get_country_display }}</td>
+                            <td>{{ donor.retrieval_team.based_in_country }}</td>
                             <td>{{ donor.person.number|default:"Unknown number" }}</td>
                             <td>{{ donor.age }}</td>
                             <td>{{ donor.person.get_gender_display }}</td>

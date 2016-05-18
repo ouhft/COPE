@@ -3,6 +3,7 @@
 from __future__ import absolute_import, unicode_literals
 from django.core.validators import MinValueValidator, MaxValueValidator, ValidationError
 from django.db import models
+from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
 from wp4.staff_person.models import StaffJob, StaffPerson
@@ -386,8 +387,7 @@ class Recipient(VersionControlMixin):
     def __unicode__(self):
         return '%s (%s)' % (self.person.number, self.trial_id)
 
-    @property
-    def age_from_dob(self):
+    def _age_from_dob(self):
         """
         Returns the calculated age of the Recipient
 
@@ -396,8 +396,9 @@ class Recipient(VersionControlMixin):
         """
         return self.person.age_from_dob
 
-    @property
-    def trial_id(self):
+    age_from_dob = cached_property(_age_from_dob, name='age_from_dob')
+
+    def _trial_id(self):
         """
         Returns the Donor Trial ID combined with the Location (L or R) for the Organ
 
@@ -405,3 +406,5 @@ class Recipient(VersionControlMixin):
         :rtype: str
         """
         return self.organ.trial_id
+
+    trial_id = cached_property(_trial_id, name='trial_id')

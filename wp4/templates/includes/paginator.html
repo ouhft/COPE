@@ -1,0 +1,21 @@
+<!-- Start: /wp4/templates/includes/paginator.html -->
+    {% if page_obj.paginator.num_pages > 1 %}
+    <nav>
+        <ul class="pager">
+            {% if page_obj.number != 1 %}
+            <li><a href="?page=1&order_by={{ request.GET.order_by }}&ordering={{ request.GET.ordering }}" title="Beginning"><i class="glyphicon glyphicon-fast-backward"></i></a></li>
+            {% endif %}
+            {% if page_obj.has_previous %}
+            <li><a href="?page={{ page_obj.previous_page_number }}&order_by={{ request.GET.order_by }}&ordering={{ request.GET.ordering }}" title="Previous"><i class="glyphicon glyphicon-step-backward"></i></a></li>
+            {% endif %}
+            <li>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</li>
+            {% if page_obj.has_next %}
+            <li><a href="?page={{ page_obj.next_page_number }}&order_by={{ request.GET.order_by }}&ordering={{ request.GET.ordering }}" title="Next"><i class="glyphicon glyphicon-step-forward"></i></a></li>
+            {% endif %}
+            {% if page_obj.number != page_obj.paginator.num_pages %}
+            <li><a href="?page={{ page_obj.paginator.num_pages }}&order_by={{ request.GET.order_by }}&ordering={{ request.GET.ordering }}" title="End"><i class="glyphicon glyphicon-fast-forward"></i></a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+<!-- End: /wp4/templates/includes/paginator.html -->

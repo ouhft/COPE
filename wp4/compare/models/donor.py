@@ -5,6 +5,7 @@ from bdateutil import relativedelta
 from django.core.validators import MinValueValidator, MaxValueValidator, ValidationError
 from django.db import models, transaction
 from django.utils import timezone
+from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 from random import random
 
@@ -323,6 +324,10 @@ class Donor(VersionControlMixin):
         blank=True, null=True
     )  #: As administered to donor/in flush solution
 
+    # Internal references back to Organ, to help speed up the linking and querying from the DB
+    _left_kidney = models.OneToOneField('Organ', related_name='left_kidney', null=True, default=None)
+    _right_kidney = models.OneToOneField('Organ', related_name='right_kidney', null=True, default=None)
+
     class Meta:
         order_with_respect_to = 'retrieval_team'
         verbose_name = _('DOm1 donor')
@@ -526,14 +531,17 @@ class Donor(VersionControlMixin):
         :rtype: wp4.compare.models.organ.Organ
         """
         import wp4.compare.models.organ as organ_model
-        try:
-            return self.organ_set.filter(location__exact=LEFT)[0]
-        except IndexError:  # Organ.DoesNotExist:
-            new_organ = organ_model.Organ(location=LEFT, created_by=self.created_by)
-            if self.id > 0:
-                new_organ.donor = self
-            new_organ.save()
-            return new_organ
+        if self._left_kidney is None:
+            try:
+                self._left_kidney = self.organ_set.filter(location__exact=LEFT)[0]
+            except IndexError:  # Organ.DoesNotExist:
+                new_organ = organ_model.Organ(location=LEFT, created_by=self.created_by)
+                if self.id > 0:
+                    new_organ.donor = self
+                new_organ.save()
+                self._left_kidney = new_organ
+            # Consider saving self here... if we could determine created_by is set
+        return self._left_kidney
 
     @property
     def right_kidney(self):
@@ -545,17 +553,19 @@ class Donor(VersionControlMixin):
         :rtype: wp4.compare.models.organ.Organ
         """
         import wp4.compare.models.organ as organ_model
-        try:
-            return self.organ_set.filter(location__exact=RIGHT)[0]
-        except IndexError:  # Organ.DoesNotExist:
-            new_organ = organ_model.Organ(location=RIGHT, created_by=self.created_by)
-            if self.id > 0:
-                new_organ.donor = self
-            new_organ.save()
-            return new_organ
+        if self._right_kidney is None:
+            try:
+                self._right_kidney = self.organ_set.filter(location__exact=RIGHT)[0]
+            except IndexError:  # Organ.DoesNotExist:
+                new_organ = organ_model.Organ(location=RIGHT, created_by=self.created_by)
+                if self.id > 0:
+                    new_organ.donor = self
+                new_organ.save()
+                self._right_kidney = new_organ
+            # Consider saving self here... if we could determine created_by is set
+        return self._right_kidney
 
-    @property
-    def centre_code(self):
+    def _centre_code(self):
         """
         Does a safe lookup for the centre_code of the retrieval_team. If no team set, returns 0
 
@@ -566,9 +576,9 @@ class Donor(VersionControlMixin):
             return self.retrieval_team.centre_code
         except RetrievalTeam.DoesNotExist:
             return 0
+    centre_code = cached_property(_centre_code, name='centre_code')
 
-    @property
-    def trial_id(self):
+    def _trial_id(self):
         """
         Returns the composite trial id string.
 
@@ -592,9 +602,9 @@ class Donor(VersionControlMixin):
         else:
             trial_id += format(self.sequence_number, '03')
         return trial_id
+    trial_id = cached_property(_trial_id, name='trial_id')
 
-    @property
-    def is_offline(self):
+    def _is_offline(self):
         """
         Determine if this was randomised using the relevant online or offline lists
 
@@ -606,9 +616,9 @@ class Donor(VersionControlMixin):
         except:
             pass  # We have no idea what error is being thrown or caught because there is no error!
         return False
+    is_offline = cached_property(_is_offline, name='is_offline')
 
-    @property
-    def is_randomised(self):
+    def _is_randomised(self):
         """
         Checks the left_kidney.preservation value, and if PRESERVATION_NOT_SET, returns False.
 
@@ -618,9 +628,9 @@ class Donor(VersionControlMixin):
         if self.left_kidney.preservation == PRESERVATION_NOT_SET:
             return False
         return True
+    is_randomised = cached_property(_is_randomised, name='is_randomised')
 
-    @property
-    def is_eligible(self):
+    def _is_eligible(self):
         """
         Number of eligible kidneys from this donor.
 
@@ -639,6 +649,7 @@ class Donor(VersionControlMixin):
         else:
             eligible_kidney_count = -1
         return eligible_kidney_count
+    is_eligible = cached_property(_is_eligible, name='is_eligible')
 
 
 def random_5050():
