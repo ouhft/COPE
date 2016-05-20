@@ -371,7 +371,7 @@ class RetrievalTeam(BaseModelMixin):
         :return: (Centre Code) Team Location Description
         :rtype: str
         """
-        return '(%d) %s' % (self.centre_code, self.based_at.full_description())
+        return '(%d) %s' % (self.centre_code, self.based_at.full_description)
 
     name = cached_property(_name, name='name')
 
@@ -381,7 +381,7 @@ class RetrievalTeam(BaseModelMixin):
     based_in_country = cached_property(_based_in_country, name='based_in_country')
 
     def __unicode__(self):
-        return self.name()
+        return self.name
 
     class Meta:
         ordering = ['centre_code']
