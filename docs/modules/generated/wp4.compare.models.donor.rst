@@ -32,6 +32,7 @@ wp4.compare.models.donor
       StaffJob
       StaffPerson
       VersionControlMixin
+      cached_property
       relativedelta
    
    

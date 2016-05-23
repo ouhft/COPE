@@ -215,6 +215,9 @@
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">VersionControlMixin</span></code>(*args,&nbsp;**kwargs)</td>
 <td>Internal common attributes to aide system auditing of records</td>
 </tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">cached_property</span></code>(func[,&nbsp;name])</td>
+<td>Decorator that converts a method with a single self argument into a property cached on the instance.</td>
+</tr>
 </tbody>
 </table>
 <p class="rubric">Exceptions</p>
@@ -410,7 +413,7 @@ one-to-one relation.</p>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.organ.Organ.GRAFT_DAMAGE_CHOICES">
-<code class="descname">GRAFT_DAMAGE_CHOICES</code><em class="property"> = ((5, &lt;django.utils.functional.__proxy__ object at 0x10d4f4190&gt;), (1, &lt;django.utils.functional.__proxy__ object at 0x10d4f41d0&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x10d4f4210&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x10d4f4250&gt;), (4, &lt;django.utils.functional.__proxy__ object at 0x10d4f4290&gt;), (6, &lt;django.utils.functional.__proxy__ object at 0x10d4f42d0&gt;))</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.GRAFT_DAMAGE_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">GRAFT_DAMAGE_CHOICES</code><em class="property"> = ((5, &lt;django.utils.functional.__proxy__ object at 0x107716090&gt;), (1, &lt;django.utils.functional.__proxy__ object at 0x1077160d0&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x107716110&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x107716150&gt;), (4, &lt;django.utils.functional.__proxy__ object at 0x107716190&gt;), (6, &lt;django.utils.functional.__proxy__ object at 0x1077161d0&gt;))</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.GRAFT_DAMAGE_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Organ graft_damage choices</p>
 </dd></dl>
 
@@ -440,7 +443,7 @@ one-to-one relation.</p>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.organ.Organ.WASHOUT_PERFUSION_CHOICES">
-<code class="descname">WASHOUT_PERFUSION_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x10d4f4310&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x10d4f4350&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x10d4f43d0&gt;), (9, &lt;django.utils.functional.__proxy__ object at 0x10d4f4450&gt;))</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.WASHOUT_PERFUSION_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">WASHOUT_PERFUSION_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x107716210&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x107716250&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x1077162d0&gt;), (9, &lt;django.utils.functional.__proxy__ object at 0x107716350&gt;))</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.WASHOUT_PERFUSION_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Organ washout_perfusion choices</p>
 </dd></dl>
 
@@ -482,13 +485,13 @@ one-to-one relation.</p>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.organ.Organ.PATCH_HOLDER_CHOICES">
-<code class="descname">PATCH_HOLDER_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x10d4f4e50&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x10d4f4e90&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x10d4f4ed0&gt;))</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.PATCH_HOLDER_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">PATCH_HOLDER_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x107716d50&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x107716d90&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x107716dd0&gt;))</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.PATCH_HOLDER_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Organ patch_holder choices</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.organ.Organ.ARTIFICIAL_PATCH_CHOICES">
-<code class="descname">ARTIFICIAL_PATCH_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x10d4f4f10&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x10d4f4f50&gt;))</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.ARTIFICIAL_PATCH_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ARTIFICIAL_PATCH_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x107716e10&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x107716e50&gt;))</em><a class="headerlink" href="#wp4.compare.models.organ.Organ.ARTIFICIAL_PATCH_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Organ artificial_patch_size choices</p>
 </dd></dl>
 
@@ -568,6 +571,22 @@ without the drama of exceptions when it doesn&#8217;t exist</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="wp4.compare.models.transplantation.html#wp4.compare.models.transplantation.Recipient" title="wp4.compare.models.transplantation.Recipient">wp4.compare.models.transplantation.Recipient</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.final_allocation">
+<code class="descname">final_allocation</code><a class="headerlink" href="#wp4.compare.models.organ.Organ.final_allocation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Work out if there are any OrganAllocations, and then return the latest one</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">OrganAllocation, or None</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="wp4.compare.models.transplantation.html#wp4.compare.models.transplantation.OrganAllocation" title="wp4.compare.models.transplantation.OrganAllocation">wp4.compare.models.transplantation.OrganAllocation</a></td>
 </tr>
 </tbody>
 </table>
@@ -805,6 +824,19 @@ relation.</p>
 <dd></dd></dl>
 
 <dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.left_kidney">
+<code class="descclassname">Organ.</code><code class="descname">left_kidney</code><a class="headerlink" href="#wp4.compare.models.organ.Organ.left_kidney" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the reverse side of a one-to-one
+relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Restaurant</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">place</span> <span class="o">=</span> <span class="n">OneToOneField</span><span class="p">(</span><span class="n">Place</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;restaurant&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">place.restaurant</span></code> is a <code class="docutils literal"><span class="pre">ReverseOneToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="wp4.compare.models.organ.Organ.organallocation_set">
 <code class="descclassname">Organ.</code><code class="descname">organallocation_set</code><a class="headerlink" href="#wp4.compare.models.organ.Organ.organallocation_set" title="Permalink to this definition">¶</a></dt>
 <dd><p>Accessor to the related objects manager on the reverse side of a
@@ -852,6 +884,19 @@ class built by <code class="docutils literal"><span class="pre">create_forward_m
 <dl class="attribute">
 <dt id="wp4.compare.models.organ.Organ.recipient">
 <code class="descclassname">Organ.</code><code class="descname">recipient</code><a class="headerlink" href="#wp4.compare.models.organ.Organ.recipient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the reverse side of a one-to-one
+relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Restaurant</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">place</span> <span class="o">=</span> <span class="n">OneToOneField</span><span class="p">(</span><span class="n">Place</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;restaurant&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">place.restaurant</span></code> is a <code class="docutils literal"><span class="pre">ReverseOneToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.organ.Organ.right_kidney">
+<code class="descclassname">Organ.</code><code class="descname">right_kidney</code><a class="headerlink" href="#wp4.compare.models.organ.Organ.right_kidney" title="Permalink to this definition">¶</a></dt>
 <dd><p>Accessor to the related object on the reverse side of a one-to-one
 relation.</p>
 <p>In the example:</p>
@@ -960,7 +1005,7 @@ class built by <code class="docutils literal"><span class="pre">create_forward_m
 
 <dl class="attribute">
 <dt id="wp4.compare.models.organ.ProcurementResource.TYPE_CHOICES">
-<code class="descname">TYPE_CHOICES</code><em class="property"> = ((u'D', &lt;django.utils.functional.__proxy__ object at 0x10d501710&gt;), (u'C-SM', &lt;django.utils.functional.__proxy__ object at 0x10d501850&gt;), (u'C-LG', &lt;django.utils.functional.__proxy__ object at 0x10d501b10&gt;), (u'PH-SM', &lt;django.utils.functional.__proxy__ object at 0x10d501b50&gt;), (u'PH-LG', &lt;django.utils.functional.__proxy__ object at 0x10d501b90&gt;), (u'DB-C', &lt;django.utils.functional.__proxy__ object at 0x10d501bd0&gt;), (u'P', &lt;django.utils.functional.__proxy__ object at 0x10d501c10&gt;))</em><a class="headerlink" href="#wp4.compare.models.organ.ProcurementResource.TYPE_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">TYPE_CHOICES</code><em class="property"> = ((u'D', &lt;django.utils.functional.__proxy__ object at 0x1077236d0&gt;), (u'C-SM', &lt;django.utils.functional.__proxy__ object at 0x107723810&gt;), (u'C-LG', &lt;django.utils.functional.__proxy__ object at 0x107723b50&gt;), (u'PH-SM', &lt;django.utils.functional.__proxy__ object at 0x107723b90&gt;), (u'PH-LG', &lt;django.utils.functional.__proxy__ object at 0x107723bd0&gt;), (u'DB-C', &lt;django.utils.functional.__proxy__ object at 0x107723c10&gt;), (u'P', &lt;django.utils.functional.__proxy__ object at 0x107723c50&gt;))</em><a class="headerlink" href="#wp4.compare.models.organ.ProcurementResource.TYPE_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>ProcurementResource type choices</p>
 </dd></dl>
 

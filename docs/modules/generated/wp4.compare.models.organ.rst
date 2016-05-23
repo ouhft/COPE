@@ -32,6 +32,7 @@ wp4.compare.models.organ
       PerfusionMachine
       ProcurementResource
       VersionControlMixin
+      cached_property
    
    
 

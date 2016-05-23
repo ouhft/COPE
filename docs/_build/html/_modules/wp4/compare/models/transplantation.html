@@ -140,6 +140,7 @@
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">unicode_literals</span>
 <span class="kn">from</span> <span class="nn">django.core.validators</span> <span class="kn">import</span> <span class="n">MinValueValidator</span><span class="p">,</span> <span class="n">MaxValueValidator</span><span class="p">,</span> <span class="n">ValidationError</span>
 <span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+<span class="kn">from</span> <span class="nn">django.utils.functional</span> <span class="kn">import</span> <span class="n">cached_property</span>
 <span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">ugettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
 
 <span class="kn">from</span> <span class="nn">wp4.staff_person.models</span> <span class="kn">import</span> <span class="n">StaffJob</span><span class="p">,</span> <span class="n">StaffPerson</span>
@@ -523,8 +524,7 @@
     <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> (</span><span class="si">%s</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">person</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">trial_id</span><span class="p">)</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">age_from_dob</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_age_from_dob</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the calculated age of the Recipient</span>
 
@@ -533,15 +533,18 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">person</span><span class="o">.</span><span class="n">age_from_dob</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">trial_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">age_from_dob</span> <span class="o">=</span> <span class="n">cached_property</span><span class="p">(</span><span class="n">_age_from_dob</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;age_from_dob&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_trial_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the Donor Trial ID combined with the Location (L or R) for the Organ</span>
 
 <span class="sd">        :return: &#39;WP4cctnns&#39;</span>
 <span class="sd">        :rtype: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">organ</span><span class="o">.</span><span class="n">trial_id</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">organ</span><span class="o">.</span><span class="n">trial_id</span>
+
+    <span class="n">trial_id</span> <span class="o">=</span> <span class="n">cached_property</span><span class="p">(</span><span class="n">_trial_id</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;trial_id&#39;</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

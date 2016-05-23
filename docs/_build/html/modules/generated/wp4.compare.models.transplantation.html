@@ -209,6 +209,9 @@
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">VersionControlMixin</span></code>(*args,&nbsp;**kwargs)</td>
 <td>Internal common attributes to aide system auditing of records</td>
 </tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">cached_property</span></code>(func[,&nbsp;name])</td>
+<td>Decorator that converts a method with a single self argument into a property cached on the instance.</td>
+</tr>
 </tbody>
 </table>
 <p class="rubric">Exceptions</p>
@@ -296,7 +299,7 @@ one-to-one relation.</p>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.transplantation.OrganAllocation.REALLOCATION_CHOICES">
-<code class="descname">REALLOCATION_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x10d5141d0&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x10d514210&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x10d514250&gt;))</em><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.REALLOCATION_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">REALLOCATION_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x107736190&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x1077361d0&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x107736210&gt;))</em><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.REALLOCATION_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>OrganAllocation reallocation_reason choices</p>
 </dd></dl>
 
@@ -545,25 +548,25 @@ one-to-one relation.</p>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.transplantation.Recipient.RENAL_DISEASE_CHOICES">
-<code class="descname">RENAL_DISEASE_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x10d51cbd0&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x10d51cc10&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x10d51cc50&gt;), (4, &lt;django.utils.functional.__proxy__ object at 0x10d51cc90&gt;), (5, &lt;django.utils.functional.__proxy__ object at 0x10d51ccd0&gt;), (6, &lt;django.utils.functional.__proxy__ object at 0x10d51cd10&gt;), (7, &lt;django.utils.functional.__proxy__ object at 0x10d51cd50&gt;), (8, &lt;django.utils.functional.__proxy__ object at 0x10d51cd90&gt;), (9, &lt;django.utils.functional.__proxy__ object at 0x10d51cdd0&gt;), (10, &lt;django.utils.functional.__proxy__ object at 0x10d51ce10&gt;), (11, &lt;django.utils.functional.__proxy__ object at 0x10d51ce90&gt;))</em><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.RENAL_DISEASE_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">RENAL_DISEASE_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x107740b90&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x107740bd0&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x107740c10&gt;), (4, &lt;django.utils.functional.__proxy__ object at 0x107740c50&gt;), (5, &lt;django.utils.functional.__proxy__ object at 0x107740c90&gt;), (6, &lt;django.utils.functional.__proxy__ object at 0x107740cd0&gt;), (7, &lt;django.utils.functional.__proxy__ object at 0x107740d10&gt;), (8, &lt;django.utils.functional.__proxy__ object at 0x107740d50&gt;), (9, &lt;django.utils.functional.__proxy__ object at 0x107740d90&gt;), (10, &lt;django.utils.functional.__proxy__ object at 0x107740dd0&gt;), (11, &lt;django.utils.functional.__proxy__ object at 0x107740e50&gt;))</em><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.RENAL_DISEASE_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Recipient renal_disease choices</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.transplantation.Recipient.INCISION_CHOICES">
-<code class="descname">INCISION_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x10d525390&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x10d5253d0&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x10d525410&gt;))</em><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.INCISION_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">INCISION_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x10774a350&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x10774a390&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x10774a3d0&gt;))</em><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.INCISION_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Recipient incision choices</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.transplantation.Recipient.ARTERIAL_PROBLEM_CHOICES">
-<code class="descname">ARTERIAL_PROBLEM_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x10d525450&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x10d525490&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x10d5254d0&gt;), (4, &lt;django.utils.functional.__proxy__ object at 0x10d525510&gt;), (5, &lt;django.utils.functional.__proxy__ object at 0x10d525590&gt;))</em><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.ARTERIAL_PROBLEM_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ARTERIAL_PROBLEM_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x10774a410&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x10774a450&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x10774a490&gt;), (4, &lt;django.utils.functional.__proxy__ object at 0x10774a4d0&gt;), (5, &lt;django.utils.functional.__proxy__ object at 0x10774a550&gt;))</em><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.ARTERIAL_PROBLEM_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Recipient arterial_problems choices</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.transplantation.Recipient.VENOUS_PROBLEM_CHOICES">
-<code class="descname">VENOUS_PROBLEM_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x10d525610&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x10d525690&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x10d525710&gt;), (4, &lt;django.utils.functional.__proxy__ object at 0x10d525790&gt;))</em><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.VENOUS_PROBLEM_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">VENOUS_PROBLEM_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x10774a5d0&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x10774a650&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x10774a6d0&gt;), (4, &lt;django.utils.functional.__proxy__ object at 0x10774a750&gt;))</em><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.VENOUS_PROBLEM_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Recipient venous_problems choices</p>
 </dd></dl>
 

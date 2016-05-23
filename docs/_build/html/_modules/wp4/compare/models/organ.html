@@ -140,6 +140,7 @@
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">unicode_literals</span>
 <span class="kn">from</span> <span class="nn">django.core.validators</span> <span class="kn">import</span> <span class="n">MinValueValidator</span><span class="p">,</span> <span class="n">MaxValueValidator</span><span class="p">,</span> <span class="n">ValidationError</span>
 <span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+<span class="kn">from</span> <span class="nn">django.utils.functional</span> <span class="kn">import</span> <span class="n">cached_property</span>
 <span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">ugettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
 
 <span class="kn">from</span> <span class="nn">wp4.perfusion_machine.models</span> <span class="kn">import</span> <span class="n">PerfusionMachine</span><span class="p">,</span> <span class="n">PerfusionFile</span>
@@ -167,9 +168,18 @@
 
 <span class="sd">        :return: Queryset</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">ClosedOrganManager</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">()</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
-            <span class="n">transplantation_form_completed</span><span class="o">=</span><span class="bp">True</span>
-        <span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">ClosedOrganManager</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">()</span><span class="o">.</span>\
+            <span class="n">select_related</span><span class="p">(</span><span class="s1">&#39;recipient&#39;</span><span class="p">)</span><span class="o">.</span> \
+            <span class="n">select_related</span><span class="p">(</span><span class="s1">&#39;recipient__person&#39;</span><span class="p">)</span><span class="o">.</span>\
+            <span class="n">prefetch_related</span><span class="p">(</span><span class="s1">&#39;recipient__person__worksheet_set&#39;</span><span class="p">)</span><span class="o">.</span> \
+            <span class="n">select_related</span><span class="p">(</span><span class="s1">&#39;donor&#39;</span><span class="p">)</span><span class="o">.</span> \
+            <span class="n">select_related</span><span class="p">(</span><span class="s1">&#39;donor__person&#39;</span><span class="p">)</span><span class="o">.</span> \
+            <span class="n">select_related</span><span class="p">(</span><span class="s1">&#39;donor__randomisation&#39;</span><span class="p">)</span><span class="o">.</span> \
+            <span class="n">select_related</span><span class="p">(</span><span class="s1">&#39;donor__retrieval_team&#39;</span><span class="p">)</span><span class="o">.</span>\
+            <span class="n">prefetch_related</span><span class="p">(</span><span class="s1">&#39;organallocation_set&#39;</span><span class="p">)</span><span class="o">.</span>\
+            <span class="nb">filter</span><span class="p">(</span>
+                <span class="n">transplantation_form_completed</span><span class="o">=</span><span class="bp">True</span>
+            <span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="AllocatableOrganManager"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.organ.html#wp4.compare.models.organ.AllocatableOrganManager">[docs]</a><span class="k">class</span> <span class="nc">AllocatableOrganManager</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Manager</span><span class="p">):</span>
@@ -184,9 +194,14 @@
 
 <span class="sd">        :return: Queryset</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">AllocatableOrganManager</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">()</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
-            <span class="n">organallocation__isnull</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">transplantable</span><span class="o">=</span><span class="bp">True</span>
-        <span class="p">)</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="n">preservation</span><span class="o">=</span><span class="n">PRESERVATION_NOT_SET</span><span class="p">)</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="n">transplantation_form_completed</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">AllocatableOrganManager</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">()</span><span class="o">.</span>\
+            <span class="n">select_related</span><span class="p">(</span><span class="s1">&#39;donor&#39;</span><span class="p">)</span><span class="o">.</span> \
+            <span class="n">select_related</span><span class="p">(</span><span class="s1">&#39;donor__person&#39;</span><span class="p">)</span><span class="o">.</span> \
+            <span class="n">select_related</span><span class="p">(</span><span class="s1">&#39;donor__randomisation&#39;</span><span class="p">)</span><span class="o">.</span> \
+            <span class="n">select_related</span><span class="p">(</span><span class="s1">&#39;donor__retrieval_team&#39;</span><span class="p">)</span><span class="o">.</span>\
+            <span class="nb">filter</span><span class="p">(</span>
+                <span class="n">organallocation__isnull</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">transplantable</span><span class="o">=</span><span class="bp">True</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="n">preservation</span><span class="o">=</span><span class="n">PRESERVATION_NOT_SET</span><span class="p">)</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="n">transplantation_form_completed</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="OpenOrganManager"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.organ.html#wp4.compare.models.organ.OpenOrganManager">[docs]</a><span class="k">class</span> <span class="nc">OpenOrganManager</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Manager</span><span class="p">):</span>
@@ -203,6 +218,14 @@
 <span class="sd">        :return: Queryset</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">OpenOrganManager</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">()</span><span class="o">.</span>\
+            <span class="n">select_related</span><span class="p">(</span><span class="s1">&#39;recipient&#39;</span><span class="p">)</span><span class="o">.</span> \
+            <span class="n">select_related</span><span class="p">(</span><span class="s1">&#39;recipient__person&#39;</span><span class="p">)</span><span class="o">.</span>\
+            <span class="n">prefetch_related</span><span class="p">(</span><span class="s1">&#39;recipient__person__worksheet_set&#39;</span><span class="p">)</span><span class="o">.</span> \
+            <span class="n">select_related</span><span class="p">(</span><span class="s1">&#39;donor&#39;</span><span class="p">)</span><span class="o">.</span> \
+            <span class="n">select_related</span><span class="p">(</span><span class="s1">&#39;donor__person&#39;</span><span class="p">)</span><span class="o">.</span> \
+            <span class="n">select_related</span><span class="p">(</span><span class="s1">&#39;donor__randomisation&#39;</span><span class="p">)</span><span class="o">.</span> \
+            <span class="n">select_related</span><span class="p">(</span><span class="s1">&#39;donor__retrieval_team&#39;</span><span class="p">)</span><span class="o">.</span>\
+            <span class="n">prefetch_related</span><span class="p">(</span><span class="s1">&#39;organallocation_set&#39;</span><span class="p">)</span><span class="o">.</span>\
             <span class="nb">filter</span><span class="p">(</span><span class="n">transplantable</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span>\
             <span class="n">exclude</span><span class="p">(</span><span class="n">transplantation_form_completed</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span>\
             <span class="n">exclude</span><span class="p">(</span><span class="n">organallocation__isnull</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span>\
@@ -447,8 +470,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">organallocation_set</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">last</span><span class="p">()</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">trial_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">final_allocation</span> <span class="o">=</span> <span class="n">cached_property</span><span class="p">(</span><span class="n">_final_allocation</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;final_allocation&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_trial_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the Donor Trial ID combined with the Location (L or R) for the Organ</span>
 
@@ -456,6 +480,8 @@
 <span class="sd">        :rtype: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">donor</span><span class="o">.</span><span class="n">trial_id</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">location</span>
+
+    <span class="n">trial_id</span> <span class="o">=</span> <span class="n">cached_property</span><span class="p">(</span><span class="n">_trial_id</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;trial_id&#39;</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">is_allocated</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -473,7 +499,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">safe_recipient</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">True</span>  <span class="c1"># We have a recipient, which can only occur if at a project site</span>
 
-        <span class="n">final_allocation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_final_allocation</span><span class="p">()</span>
+        <span class="n">final_allocation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">final_allocation</span>
         <span class="k">if</span> <span class="n">final_allocation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">final_allocation</span><span class="o">.</span><span class="n">reallocated</span> <span class="ow">is</span> <span class="bp">False</span> <span class="ow">and</span> <span class="n">final_allocation</span><span class="o">.</span><span class="n">transplant_hospital</span><span class="o">.</span><span class="n">is_project_site</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
                 <span class="c1"># We can&#39;t say not-reallocated without saving a transplant hospital as well</span>
@@ -488,7 +514,7 @@
 <span class="sd">        :return: Message describing status of allocation</span>
 <span class="sd">        :rtype: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">final_allocation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_final_allocation</span><span class="p">()</span>
+        <span class="n">final_allocation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">final_allocation</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_allocated</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">safe_recipient</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
                 <span class="k">return</span> <span class="s2">&quot;Allocated to Recipient&quot;</span>
@@ -522,8 +548,7 @@
         <span class="c1"># TODO: Write this function</span>
         <span class="k">return</span> <span class="s2">u&quot;Unknown closed status&quot;</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">reallocation_count</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_reallocation_count</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Counts the number of organ allocations where reallocated is true</span>
 
@@ -535,6 +560,8 @@
             <span class="k">if</span> <span class="n">allocation</span><span class="o">.</span><span class="n">reallocated</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
                 <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">count</span>
+
+    <span class="n">reallocation_count</span> <span class="o">=</span> <span class="n">cached_property</span><span class="p">(</span><span class="n">_reallocation_count</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;reallocation_count&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">trial_id</span>

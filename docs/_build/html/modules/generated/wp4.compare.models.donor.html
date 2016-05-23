@@ -215,7 +215,10 @@
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">VersionControlMixin</span></code>(*args,&nbsp;**kwargs)</td>
 <td>Internal common attributes to aide system auditing of records</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">relativedelta</span></code>([dt1,&nbsp;dt2,&nbsp;bdays,&nbsp;holidays])</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">cached_property</span></code>(func[,&nbsp;name])</td>
+<td>Decorator that converts a method with a single self argument into a property cached on the instance.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">relativedelta</span></code>([dt1,&nbsp;dt2,&nbsp;bdays,&nbsp;holidays])</td>
 <td></td>
 </tr>
 </tbody>
@@ -318,6 +321,8 @@ the Donor specific data</p>
 <li><strong>systemic_flush_used_other</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.CharField" title="(in Django v1.9)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;DO46 systemic flush used&#8221;</li>
 <li><strong>systemic_flush_volume_used</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;DO47 aortic - volume (ml)&#8221;</li>
 <li><strong>heparin</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.9)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;DO48 heparin&#8221;</li>
+<li><strong>_left_kidney_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.OneToOneField" title="(in Django v1.9)"><em>django.db.models.OneToOneField</em></a>) &#8211; &#8221; left kidney&#8221;</li>
+<li><strong>_right_kidney_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.OneToOneField" title="(in Django v1.9)"><em>django.db.models.OneToOneField</em></a>) &#8211; &#8221; right kidney&#8221;</li>
 <li><strong>_order</strong> (<em>django.db.models.OrderWrt</em>) &#8211; &#8221; order&#8221;</li>
 </ul>
 </td>
@@ -339,7 +344,7 @@ one-to-one relation.</p>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.donor.Donor.NON_RANDOMISATION_CHOICES">
-<code class="descname">NON_RANDOMISATION_CHOICES</code><em class="property"> = ((0, &lt;django.utils.functional.__proxy__ object at 0x10d4b3450&gt;), (1, &lt;django.utils.functional.__proxy__ object at 0x10d4b3490&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x10d4b34d0&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x10d4b3510&gt;), (4, &lt;django.utils.functional.__proxy__ object at 0x10d4b3550&gt;), (5, &lt;django.utils.functional.__proxy__ object at 0x10d4b3590&gt;))</em><a class="headerlink" href="#wp4.compare.models.donor.Donor.NON_RANDOMISATION_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">NON_RANDOMISATION_CHOICES</code><em class="property"> = ((0, &lt;django.utils.functional.__proxy__ object at 0x1076c7ed0&gt;), (1, &lt;django.utils.functional.__proxy__ object at 0x1076c7f10&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x1076c7f50&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x1076c7f90&gt;), (4, &lt;django.utils.functional.__proxy__ object at 0x1076c7fd0&gt;), (5, &lt;django.utils.functional.__proxy__ object at 0x1076c1050&gt;))</em><a class="headerlink" href="#wp4.compare.models.donor.Donor.NON_RANDOMISATION_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Donor not_randomised_because choices</p>
 </dd></dl>
 
@@ -413,7 +418,7 @@ one-to-one relation.</p>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.donor.Donor.DIAGNOSIS_CHOICES">
-<code class="descname">DIAGNOSIS_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x10d4bec10&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x10d4bec50&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x10d4bec90&gt;), (4, &lt;django.utils.functional.__proxy__ object at 0x10d4becd0&gt;))</em><a class="headerlink" href="#wp4.compare.models.donor.Donor.DIAGNOSIS_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">DIAGNOSIS_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x1076dc790&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x1076dc7d0&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x1076dc810&gt;), (4, &lt;django.utils.functional.__proxy__ object at 0x1076dc850&gt;))</em><a class="headerlink" href="#wp4.compare.models.donor.Donor.DIAGNOSIS_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Donor diagnosis choices</p>
 </dd></dl>
 
@@ -515,7 +520,7 @@ one-to-one relation.</p>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.donor.Donor.SOLUTION_CHOICES">
-<code class="descname">SOLUTION_CHOICES</code><em class="property"> = ((3, u'HTK'), (2, u&quot;Marshall's&quot;), (1, u'UW'), (4, &lt;django.utils.functional.__proxy__ object at 0x10d4c5e90&gt;))</em><a class="headerlink" href="#wp4.compare.models.donor.Donor.SOLUTION_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">SOLUTION_CHOICES</code><em class="property"> = ((3, u'HTK'), (2, u&quot;Marshall's&quot;), (1, u'UW'), (4, &lt;django.utils.functional.__proxy__ object at 0x1076e49d0&gt;))</em><a class="headerlink" href="#wp4.compare.models.donor.Donor.SOLUTION_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Donor systemic_flush_used choices</p>
 </dd></dl>
 

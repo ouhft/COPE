@@ -26,6 +26,7 @@ wp4.compare.models.core
       RetrievalTeam
       User
       VersionControlMixin
+      cached_property
       relativedelta
    
    

@@ -21,6 +21,7 @@ wp4.locations.models
    
       Hospital
       VersionControlMixin
+      cached_property
    
    
 

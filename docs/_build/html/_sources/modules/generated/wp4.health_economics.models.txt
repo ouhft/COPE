@@ -9,6 +9,7 @@ wp4.health_economics.models
 
    .. autosummary::
    
+      reverse
       validate_not_in_future
    
    

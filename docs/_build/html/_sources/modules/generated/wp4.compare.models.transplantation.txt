@@ -30,6 +30,7 @@ wp4.compare.models.transplantation
       StaffJob
       StaffPerson
       VersionControlMixin
+      cached_property
    
    
 

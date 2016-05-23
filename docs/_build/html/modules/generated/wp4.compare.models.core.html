@@ -197,7 +197,10 @@
 <tr class="row-odd"><td><a class="reference internal" href="#wp4.compare.models.core.VersionControlMixin" title="wp4.compare.models.core.VersionControlMixin"><code class="xref py py-obj docutils literal"><span class="pre">VersionControlMixin</span></code></a>(*args,&nbsp;**kwargs)</td>
 <td>Internal common attributes to aide system auditing of records</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">relativedelta</span></code>([dt1,&nbsp;dt2,&nbsp;bdays,&nbsp;holidays])</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">cached_property</span></code>(func[,&nbsp;name])</td>
+<td>Decorator that converts a method with a single self argument into a property cached on the instance.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">relativedelta</span></code>([dt1,&nbsp;dt2,&nbsp;bdays,&nbsp;holidays])</td>
 <td></td>
 </tr>
 </tbody>
@@ -237,7 +240,7 @@
 
 <dl class="data">
 <dt id="wp4.compare.models.core.YES_NO_UNKNOWN_CHOICES">
-<code class="descclassname">wp4.compare.models.core.</code><code class="descname">YES_NO_UNKNOWN_CHOICES</code><em class="property"> = ((2, &lt;django.utils.functional.__proxy__ object at 0x10d46ced0&gt;), (0, &lt;django.utils.functional.__proxy__ object at 0x10d46cf10&gt;), (1, &lt;django.utils.functional.__proxy__ object at 0x10d46cf50&gt;))</em><a class="headerlink" href="#wp4.compare.models.core.YES_NO_UNKNOWN_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">wp4.compare.models.core.</code><code class="descname">YES_NO_UNKNOWN_CHOICES</code><em class="property"> = ((2, &lt;django.utils.functional.__proxy__ object at 0x10768d750&gt;), (0, &lt;django.utils.functional.__proxy__ object at 0x10768d790&gt;), (1, &lt;django.utils.functional.__proxy__ object at 0x10768d7d0&gt;))</em><a class="headerlink" href="#wp4.compare.models.core.YES_NO_UNKNOWN_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Need Yes to be the last choice for any FieldWithFollowUp where additional elements appear on Yes</p>
 </dd></dl>
 
@@ -255,7 +258,7 @@
 
 <dl class="data">
 <dt id="wp4.compare.models.core.LOCATION_CHOICES">
-<code class="descclassname">wp4.compare.models.core.</code><code class="descname">LOCATION_CHOICES</code><em class="property"> = ((u'L', &lt;django.utils.functional.__proxy__ object at 0x10d46cf90&gt;), (u'R', &lt;django.utils.functional.__proxy__ object at 0x10d46cfd0&gt;))</em><a class="headerlink" href="#wp4.compare.models.core.LOCATION_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">wp4.compare.models.core.</code><code class="descname">LOCATION_CHOICES</code><em class="property"> = ((u'L', &lt;django.utils.functional.__proxy__ object at 0x10768d810&gt;), (u'R', &lt;django.utils.functional.__proxy__ object at 0x10768d850&gt;))</em><a class="headerlink" href="#wp4.compare.models.core.LOCATION_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Organ location choices</p>
 </dd></dl>
 
@@ -279,7 +282,7 @@
 
 <dl class="data">
 <dt id="wp4.compare.models.core.PRESERVATION_CHOICES">
-<code class="descclassname">wp4.compare.models.core.</code><code class="descname">PRESERVATION_CHOICES</code><em class="property"> = ((9, &lt;django.utils.functional.__proxy__ object at 0x10d474050&gt;), (0, u'HMP'), (1, u'HMP O2'))</em><a class="headerlink" href="#wp4.compare.models.core.PRESERVATION_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">wp4.compare.models.core.</code><code class="descname">PRESERVATION_CHOICES</code><em class="property"> = ((9, &lt;django.utils.functional.__proxy__ object at 0x10768d890&gt;), (0, u'HMP'), (1, u'HMP O2'))</em><a class="headerlink" href="#wp4.compare.models.core.PRESERVATION_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Organ preservation choices</p>
 </dd></dl>
 
@@ -309,7 +312,7 @@
 
 <dl class="data">
 <dt id="wp4.compare.models.core.LIST_CHOICES">
-<code class="descclassname">wp4.compare.models.core.</code><code class="descname">LIST_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x10d474090&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x10d474110&gt;), (4, &lt;django.utils.functional.__proxy__ object at 0x10d474190&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x10d474210&gt;))</em><a class="headerlink" href="#wp4.compare.models.core.LIST_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">wp4.compare.models.core.</code><code class="descname">LIST_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x10768d8d0&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x10768d950&gt;), (4, &lt;django.utils.functional.__proxy__ object at 0x10768d9d0&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x10768da50&gt;))</em><a class="headerlink" href="#wp4.compare.models.core.LIST_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Randomisation list choices</p>
 </dd></dl>
 
@@ -473,7 +476,7 @@ one-to-one relation.</p>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.core.OrganPerson.GENDER_CHOICES">
-<code class="descname">GENDER_CHOICES</code><em class="property"> = ((u'M', &lt;django.utils.functional.__proxy__ object at 0x10d474810&gt;), (u'F', &lt;django.utils.functional.__proxy__ object at 0x10d4747d0&gt;))</em><a class="headerlink" href="#wp4.compare.models.core.OrganPerson.GENDER_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">GENDER_CHOICES</code><em class="property"> = ((u'M', &lt;django.utils.functional.__proxy__ object at 0x107698090&gt;), (u'F', &lt;django.utils.functional.__proxy__ object at 0x107698050&gt;))</em><a class="headerlink" href="#wp4.compare.models.core.OrganPerson.GENDER_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>OrganPerson gender choices</p>
 </dd></dl>
 
@@ -497,7 +500,7 @@ one-to-one relation.</p>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.core.OrganPerson.ETHNICITY_CHOICES">
-<code class="descname">ETHNICITY_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x10d4748d0&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x10d474a10&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x10d474a50&gt;))</em><a class="headerlink" href="#wp4.compare.models.core.OrganPerson.ETHNICITY_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ETHNICITY_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.__proxy__ object at 0x107698150&gt;), (2, &lt;django.utils.functional.__proxy__ object at 0x107698290&gt;), (3, &lt;django.utils.functional.__proxy__ object at 0x1076982d0&gt;))</em><a class="headerlink" href="#wp4.compare.models.core.OrganPerson.ETHNICITY_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>OrganPerson ethnicity choices</p>
 </dd></dl>
 
@@ -533,7 +536,7 @@ one-to-one relation.</p>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.core.OrganPerson.BLOOD_GROUP_CHOICES">
-<code class="descname">BLOOD_GROUP_CHOICES</code><em class="property"> = ((1, u'O'), (2, u'A'), (3, u'B'), (4, u'AB'), (5, &lt;django.utils.functional.__proxy__ object at 0x10d474a90&gt;))</em><a class="headerlink" href="#wp4.compare.models.core.OrganPerson.BLOOD_GROUP_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">BLOOD_GROUP_CHOICES</code><em class="property"> = ((1, u'O'), (2, u'A'), (3, u'B'), (4, u'AB'), (5, &lt;django.utils.functional.__proxy__ object at 0x107698310&gt;))</em><a class="headerlink" href="#wp4.compare.models.core.OrganPerson.BLOOD_GROUP_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>OrganPerson blood_group choices</p>
 </dd></dl>
 
@@ -575,22 +578,6 @@ Uses <a class="reference external" href="http://www.nhs.uk/chq/Pages/how-can-i-w
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">age in years as a whole number, if date of birth is known, otherwise None</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)">int</a></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="wp4.compare.models.core.OrganPerson.trial_id">
-<code class="descname">trial_id</code><a class="headerlink" href="#wp4.compare.models.core.OrganPerson.trial_id" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the composite trial id string by calling either donor.trial_id() or recipient.trial_id()</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">If no donor or recipient trial id found, returns &#8220;No Trial ID Assigned&#8221;</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)">str</a></td>
 </tr>
 </tbody>
 </table>
@@ -852,9 +839,9 @@ case.</p>
 </table>
 </dd></dl>
 
-<dl class="method">
+<dl class="attribute">
 <dt id="wp4.compare.models.core.RetrievalTeam.name">
-<code class="descname">name</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/compare/models/core.html#RetrievalTeam.name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.compare.models.core.RetrievalTeam.name" title="Permalink to this definition">¶</a></dt>
+<code class="descname">name</code><a class="headerlink" href="#wp4.compare.models.core.RetrievalTeam.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Human readable name for the retrieval team</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -867,6 +854,11 @@ case.</p>
 </tbody>
 </table>
 </dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.core.RetrievalTeam.based_in_country">
+<code class="descname">based_in_country</code><a class="headerlink" href="#wp4.compare.models.core.RetrievalTeam.based_in_country" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="exception">
 <dt id="wp4.compare.models.core.RetrievalTeam.DoesNotExist">
@@ -935,9 +927,9 @@ many-to-one relation.</p>
 class built by <code class="docutils literal"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="attribute">
 <dt id="wp4.compare.models.core.RetrievalTeam.Hospital.full_description">
-<code class="descclassname">RetrievalTeam.Hospital.</code><code class="descname">full_description</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.core.RetrievalTeam.Hospital.full_description" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">RetrievalTeam.Hospital.</code><code class="descname">full_description</code><a class="headerlink" href="#wp4.compare.models.core.RetrievalTeam.Hospital.full_description" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">

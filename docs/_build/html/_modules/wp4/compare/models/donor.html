@@ -142,6 +142,7 @@
 <span class="kn">from</span> <span class="nn">django.core.validators</span> <span class="kn">import</span> <span class="n">MinValueValidator</span><span class="p">,</span> <span class="n">MaxValueValidator</span><span class="p">,</span> <span class="n">ValidationError</span>
 <span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span><span class="p">,</span> <span class="n">transaction</span>
 <span class="kn">from</span> <span class="nn">django.utils</span> <span class="kn">import</span> <span class="n">timezone</span>
+<span class="kn">from</span> <span class="nn">django.utils.functional</span> <span class="kn">import</span> <span class="n">cached_property</span>
 <span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">ugettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
 <span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">random</span>
 
@@ -460,6 +461,10 @@
         <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span>
     <span class="p">)</span>  <span class="c1">#: As administered to donor/in flush solution</span>
 
+    <span class="c1"># Internal references back to Organ, to help speed up the linking and querying from the DB</span>
+    <span class="n">_left_kidney</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span><span class="s1">&#39;Organ&#39;</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;left_kidney&#39;</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+    <span class="n">_right_kidney</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span><span class="s1">&#39;Organ&#39;</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;right_kidney&#39;</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+
     <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
         <span class="n">order_with_respect_to</span> <span class="o">=</span> <span class="s1">&#39;retrieval_team&#39;</span>
         <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;DOm1 donor&#39;</span><span class="p">)</span>
@@ -663,14 +668,17 @@
 <span class="sd">        :rtype: wp4.compare.models.organ.Organ</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">import</span> <span class="nn">wp4.compare.models.organ</span> <span class="kn">as</span> <span class="nn">organ_model</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">organ_set</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">location__exact</span><span class="o">=</span><span class="n">LEFT</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>  <span class="c1"># Organ.DoesNotExist:</span>
-            <span class="n">new_organ</span> <span class="o">=</span> <span class="n">organ_model</span><span class="o">.</span><span class="n">Organ</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">created_by</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">created_by</span><span class="p">)</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">new_organ</span><span class="o">.</span><span class="n">donor</span> <span class="o">=</span> <span class="bp">self</span>
-            <span class="n">new_organ</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
-            <span class="k">return</span> <span class="n">new_organ</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_left_kidney</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_left_kidney</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">organ_set</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">location__exact</span><span class="o">=</span><span class="n">LEFT</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>  <span class="c1"># Organ.DoesNotExist:</span>
+                <span class="n">new_organ</span> <span class="o">=</span> <span class="n">organ_model</span><span class="o">.</span><span class="n">Organ</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">created_by</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">created_by</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">new_organ</span><span class="o">.</span><span class="n">donor</span> <span class="o">=</span> <span class="bp">self</span>
+                <span class="n">new_organ</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_left_kidney</span> <span class="o">=</span> <span class="n">new_organ</span>
+            <span class="c1"># Consider saving self here... if we could determine created_by is set</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_left_kidney</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">right_kidney</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -682,17 +690,19 @@
 <span class="sd">        :rtype: wp4.compare.models.organ.Organ</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">import</span> <span class="nn">wp4.compare.models.organ</span> <span class="kn">as</span> <span class="nn">organ_model</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">organ_set</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">location__exact</span><span class="o">=</span><span class="n">RIGHT</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>  <span class="c1"># Organ.DoesNotExist:</span>
-            <span class="n">new_organ</span> <span class="o">=</span> <span class="n">organ_model</span><span class="o">.</span><span class="n">Organ</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="n">RIGHT</span><span class="p">,</span> <span class="n">created_by</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">created_by</span><span class="p">)</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">new_organ</span><span class="o">.</span><span class="n">donor</span> <span class="o">=</span> <span class="bp">self</span>
-            <span class="n">new_organ</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
-            <span class="k">return</span> <span class="n">new_organ</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_right_kidney</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_right_kidney</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">organ_set</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">location__exact</span><span class="o">=</span><span class="n">RIGHT</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>  <span class="c1"># Organ.DoesNotExist:</span>
+                <span class="n">new_organ</span> <span class="o">=</span> <span class="n">organ_model</span><span class="o">.</span><span class="n">Organ</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="n">RIGHT</span><span class="p">,</span> <span class="n">created_by</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">created_by</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">new_organ</span><span class="o">.</span><span class="n">donor</span> <span class="o">=</span> <span class="bp">self</span>
+                <span class="n">new_organ</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_right_kidney</span> <span class="o">=</span> <span class="n">new_organ</span>
+            <span class="c1"># Consider saving self here... if we could determine created_by is set</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_right_kidney</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">centre_code</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_centre_code</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Does a safe lookup for the centre_code of the retrieval_team. If no team set, returns 0</span>
 
@@ -703,9 +713,9 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">retrieval_team</span><span class="o">.</span><span class="n">centre_code</span>
         <span class="k">except</span> <span class="n">RetrievalTeam</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">:</span>
             <span class="k">return</span> <span class="mi">0</span>
+    <span class="n">centre_code</span> <span class="o">=</span> <span class="n">cached_property</span><span class="p">(</span><span class="n">_centre_code</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;centre_code&#39;</span><span class="p">)</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">trial_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_trial_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the composite trial id string.</span>
 
@@ -729,9 +739,9 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">trial_id</span> <span class="o">+=</span> <span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sequence_number</span><span class="p">,</span> <span class="s1">&#39;03&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">trial_id</span>
+    <span class="n">trial_id</span> <span class="o">=</span> <span class="n">cached_property</span><span class="p">(</span><span class="n">_trial_id</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;trial_id&#39;</span><span class="p">)</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">is_offline</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_is_offline</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Determine if this was randomised using the relevant online or offline lists</span>
 
@@ -743,9 +753,9 @@
         <span class="k">except</span><span class="p">:</span>
             <span class="k">pass</span>  <span class="c1"># We have no idea what error is being thrown or caught because there is no error!</span>
         <span class="k">return</span> <span class="bp">False</span>
+    <span class="n">is_offline</span> <span class="o">=</span> <span class="n">cached_property</span><span class="p">(</span><span class="n">_is_offline</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;is_offline&#39;</span><span class="p">)</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">is_randomised</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_is_randomised</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Checks the left_kidney.preservation value, and if PRESERVATION_NOT_SET, returns False.</span>
 
@@ -755,9 +765,9 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">left_kidney</span><span class="o">.</span><span class="n">preservation</span> <span class="o">==</span> <span class="n">PRESERVATION_NOT_SET</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">False</span>
         <span class="k">return</span> <span class="bp">True</span>
+    <span class="n">is_randomised</span> <span class="o">=</span> <span class="n">cached_property</span><span class="p">(</span><span class="n">_is_randomised</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;is_randomised&#39;</span><span class="p">)</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">is_eligible</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_is_eligible</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Number of eligible kidneys from this donor.</span>
 
@@ -775,7 +785,8 @@
                 <span class="n">eligible_kidney_count</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">eligible_kidney_count</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-        <span class="k">return</span> <span class="n">eligible_kidney_count</span></div>
+        <span class="k">return</span> <span class="n">eligible_kidney_count</span>
+    <span class="n">is_eligible</span> <span class="o">=</span> <span class="n">cached_property</span><span class="p">(</span><span class="n">_is_eligible</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;is_eligible&#39;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="random_5050"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.donor.html#wp4.compare.models.donor.random_5050">[docs]</a><span class="k">def</span> <span class="nf">random_5050</span><span class="p">():</span>

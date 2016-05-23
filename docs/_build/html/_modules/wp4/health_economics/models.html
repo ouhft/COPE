@@ -139,6 +139,7 @@
 <span class="c1"># coding: utf-8</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">unicode_literals</span>
 
+<span class="kn">from</span> <span class="nn">django.core.urlresolvers</span> <span class="kn">import</span> <span class="n">reverse</span>
 <span class="kn">from</span> <span class="nn">django.core.validators</span> <span class="kn">import</span> <span class="n">MinValueValidator</span><span class="p">,</span> <span class="n">MaxValueValidator</span>
 <span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
 <span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">ugettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
@@ -199,7 +200,13 @@
 
     <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
         <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;QLm1 Quality of Life record&quot;</span><span class="p">)</span>
-        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;QLm2 Quality of Life records&quot;</span><span class="p">)</span></div>
+        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;QLm2 Quality of Life records&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="QualityOfLife.get_absolute_url"><a class="viewcode-back" href="../../../modules/generated/wp4.health_economics.models.html#wp4.health_economics.models.QualityOfLife.get_absolute_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_absolute_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">reverse</span><span class="p">(</span><span class="s2">&quot;wp4:health_economics:update&quot;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;pk&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pk</span><span class="p">})</span></div>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;{0} @ {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">recipient</span><span class="o">.</span><span class="n">trial_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">date_recorded</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ResourceLog"><a class="viewcode-back" href="../../../modules/generated/wp4.health_economics.models.html#wp4.health_economics.models.ResourceLog">[docs]</a><span class="k">class</span> <span class="nc">ResourceLog</span><span class="p">(</span><span class="n">VersionControlMixin</span><span class="p">):</span>
