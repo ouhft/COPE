@@ -11,10 +11,12 @@
                     class="glyphicon glyphicon-edit"></i></a>
         </span>
         <input class="form-control" type="text" id="{{ field.id_for_label }}-display" readonly value="Name here">
+        {% if True %} {# TODO: Make this conditional #}
         <span class="input-group-addon">
             <a href="#" onclick="openForeignKeyModalForSearch('{{ field.id_for_label }}')"><i
                     class="glyphicon glyphicon-search"></i></a>
         </span>
+        {% endif %}
     </div>
     {% if field.errors %}
         <span class="help-block">{{ field.errors|striptags }}</span>
@@ -25,6 +27,7 @@
         // Initialise display
         document.addEventListener("DOMContentLoaded", function (event) {
             $("#{{ field.id_for_label }}-display").val($("#{{ field.id_for_label }} :selected").text());
+            // TODO: Add a calendar widget reload here!
         });
     </script>
 
