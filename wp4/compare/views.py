@@ -14,7 +14,6 @@ from dal import autocomplete
 
 from wp4.staff_person.models import StaffJob, StaffPerson
 from wp4.samples.utils import create_donor_worksheet, create_recipient_worksheet
-# from wp4.utils import job_required, group_required
 
 from .models import OrganPerson, Donor, Organ, Recipient, ProcurementResource, OrganAllocation, RetrievalTeam
 from .models import PRESERVATION_HMPO2, PRESERVATION_HMP

@@ -10,7 +10,7 @@ from .staff_person import urls as staffperson_urls
 from .locations import urls as locations_urls
 from .samples import urls as samples_urls
 from .compare import urls as compare_urls
-from .views import wp4_index
+from .views import wp4_index, report_procurement, report_organ, report_allocations
 from .views import administrator_index, administrator_uk_list, administrator_europe_list, administrator_datalist
 
 urlpatterns = [
@@ -22,6 +22,21 @@ urlpatterns = [
     url(r'^sample/', include(samples_urls, namespace="samples")),
     url(r'^compare/', include(compare_urls, namespace="compare")),
 
+    url(
+        regex=r'^administrator/stats/reports/procurement$',
+        view=report_procurement,
+        name='admin_stats_p'
+    ),
+    url(
+        regex=r'^administrator/stats/reports/organs$',
+        view=report_organ,
+        name='admin_stats_o'
+    ),
+    url(
+        regex=r'^administrator/stats/reports/allocations$',
+        view=report_allocations,
+        name='admin_stats_a'
+    ),
     url(
         regex=r'^administrator/data-list$',
         view=administrator_datalist,

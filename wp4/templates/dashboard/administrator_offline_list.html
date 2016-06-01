@@ -29,7 +29,7 @@
             <td>{{ row.id }}</td>
             <td>{% if row.result %}HMP O2{% else %}HMP{% endif %}</td>
             <td>{% if row.result %}HMP{% else %}HMP O2{% endif %}</td>
-            <td>{{ row.donor|default:"Available" }}</td>
+            <td>{{ row.donor.trial_id|default:"Available" }}</td>
         </tr>
     {% endfor %}
     </tbody>

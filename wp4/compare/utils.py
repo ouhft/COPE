@@ -362,7 +362,7 @@ def organ_report():
                 "%d-%m-%Y %H:%M") if recipient.operation_concluded_at is not None else u""
             out += con + u", "
         except ObjectDoesNotExist:
-            out += u"No Recipient,,,,,,,,,,,,,,,,,,,,,,, "
+            out += u"No Recipient,,,,,,,,,,,,,,,,,,,,, "
 
         print(out.encode('utf8'), file=f)
         # print(out)
