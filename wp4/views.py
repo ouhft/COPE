@@ -13,6 +13,7 @@ from django.utils import timezone
 from wp4.compare.models import Randomisation, PAPER_UNITED_KINGDOM, PAPER_EUROPE
 from wp4.compare.models import Donor, Organ, OrganAllocation
 from wp4.staff_person.models import StaffJob
+from wp4.adverse_event.models import AdverseEvent
 
 from .utils import group_required, job_required
 
@@ -374,3 +375,100 @@ def report_allocations(request):
 
     return response
 
+
+@job_required(StaffJob.STATISTICIAN, StaffJob.CENTRAL_COORDINATOR)
+def report_adverse_events(request):
+    # Create the HttpResponse object with the appropriate CSV header.
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="wp4_report_adverseevents.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow([
+        u"adverseevent.id",
+        u"adverseevent.organ.trial_id",
+        u"adverseevent.onset_at_date",
+        u"adverseevent.event_ongoing",
+        u"adverseevent.description",
+        u"adverseevent.action",
+        u"adverseevent.outcome",
+        u"adverseevent.alive_query_1",
+        u"adverseevent.alive_query_2",
+        u"adverseevent.alive_query_3",
+        u"adverseevent.alive_query_4",
+        u"adverseevent.alive_query_5",
+        u"adverseevent.alive_query_6",
+        u"adverseevent.alive_query_7",
+        u"adverseevent.alive_query_8",
+        u"adverseevent.alive_query_9",
+        u"adverseevent.rehospitalisation",
+        u"adverseevent.date_of_admission",
+        u"adverseevent.date_of_discharge",
+        u"adverseevent.admitted_to_itu",
+        u"adverseevent.dialysis_needed",
+        u"adverseevent.surgery_required",
+        u"adverseevent.death",
+        u"adverseevent.date_of_death",
+        u"adverseevent.treatment_related",
+        u"adverseevent.get_treatment_related_display",
+        u"adverseevent.cause_of_death_1",
+        u"adverseevent.cause_of_death_2",
+        u"adverseevent.cause_of_death_3",
+        u"adverseevent.cause_of_death_4",
+        u"adverseevent.cause_of_death_5",
+        u"adverseevent.cause_of_death_6",
+        u"adverseevent.cause_of_death_comment",
+    ])
+
+    events = AdverseEvent.objects.all()
+    for event in events:
+        result_row = []
+
+        result_row.append(event.id)
+        result_row.append(event.organ.trial_id)
+        try:
+            result_row.append(event.onset_at_date.strftime("%d-%m-%Y"))
+        except AttributeError:
+            result_row.append("")
+        result_row.append(event.event_ongoing)
+        result_row.append(event.description)
+        result_row.append(event.action)
+        result_row.append(event.outcome)
+        result_row.append(event.alive_query_1)
+        result_row.append(event.alive_query_2)
+        result_row.append(event.alive_query_3)
+        result_row.append(event.alive_query_4)
+        result_row.append(event.alive_query_5)
+        result_row.append(event.alive_query_6)
+        result_row.append(event.alive_query_7)
+        result_row.append(event.alive_query_8)
+        result_row.append(event.alive_query_9)
+        result_row.append(event.rehospitalisation)
+        try:
+            result_row.append(event.date_of_admission.strftime("%d-%m-%Y"))
+        except AttributeError:
+            result_row.append("")
+        try:
+            result_row.append(event.date_of_discharge.strftime("%d-%m-%Y"))
+        except AttributeError:
+            result_row.append("")
+        result_row.append(event.admitted_to_itu)
+        result_row.append(event.dialysis_needed)
+        result_row.append(event.surgery_required)
+        result_row.append(event.death)
+        try:
+            result_row.append(event.date_of_death.strftime("%d-%m-%Y"))
+        except AttributeError:
+            result_row.append("")
+        result_row.append(event.treatment_related)
+        result_row.append(event.get_treatment_related_display())
+        result_row.append(event.cause_of_death_1)
+        result_row.append(event.cause_of_death_2)
+        result_row.append(event.cause_of_death_3)
+        result_row.append(event.cause_of_death_4)
+        result_row.append(event.cause_of_death_5)
+        result_row.append(event.cause_of_death_6)
+        result_row.append(event.cause_of_death_comment)
+
+        writer.writerow(result_row)
+
+    return response

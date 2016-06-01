@@ -10,7 +10,7 @@ from .staff_person import urls as staffperson_urls
 from .locations import urls as locations_urls
 from .samples import urls as samples_urls
 from .compare import urls as compare_urls
-from .views import wp4_index, report_procurement, report_organ, report_allocations
+from .views import wp4_index, report_procurement, report_organ, report_allocations, report_adverse_events
 from .views import administrator_index, administrator_uk_list, administrator_europe_list, administrator_datalist
 
 urlpatterns = [
@@ -36,6 +36,11 @@ urlpatterns = [
         regex=r'^administrator/stats/reports/allocations$',
         view=report_allocations,
         name='admin_stats_a'
+    ),
+    url(
+        regex=r'^administrator/stats/reports/adverse-events$',
+        view=report_adverse_events,
+        name='admin_stats_ae'
     ),
     url(
         regex=r'^administrator/data-list$',
