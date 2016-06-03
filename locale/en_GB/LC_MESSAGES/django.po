@@ -1419,7 +1419,7 @@ msgid "FBc07 Other"
 msgstr "Other"
 
 #: wp4/followups/models.py:41
-#| msgid "FB02 graft failure"
+msgid "FB10 graft failure"
 msgstr "Graft failure?"
 
 #: wp4/followups/models.py:42
