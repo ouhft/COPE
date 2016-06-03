@@ -263,7 +263,7 @@ class FollowUpInitial(FollowUpBase):
         verbose_name = _("FIm1 Initial FollowUp")
         verbose_name_plural = _("FIm2 Initial FollowUps")
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s (%s)' % (self.trial_id, self.start_date)
 
     def get_absolute_url(self):
@@ -332,7 +332,7 @@ class FollowUp3M(FollowUpBase):
         verbose_name = _("F3m1 3 Month FollowUp")
         verbose_name_plural = _("F3m2 3 Month FollowUps")
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s (%s)' % (self.trial_id, self.start_date)
 
     def get_absolute_url(self):
@@ -393,7 +393,7 @@ class FollowUp6M(FollowUpBase):
         verbose_name = _("F6m1 6 Month FollowUp")
         verbose_name_plural = _("F6m2 6 Month FollowUps")
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s (%s)' % (self.trial_id, self.start_date)
 
     def get_absolute_url(self):
@@ -462,7 +462,7 @@ class FollowUp1Y(FollowUpBase):
         verbose_name = _("FYm1 1 Year FollowUp")
         verbose_name_plural = _("FYm2 1 Year FollowUps")
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s (%s)' % (self.trial_id, self.start_date)
 
     def get_absolute_url(self):

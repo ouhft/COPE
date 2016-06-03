@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # coding: utf-8
-from __future__ import unicode_literals
+from __future__ import absolute_import, unicode_literals
 
 from django.core.urlresolvers import reverse
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -68,7 +68,7 @@ class QualityOfLife(VersionControlMixin):
     def get_absolute_url(self):
         return reverse("wp4:health_economics:update", kwargs={"pk": self.pk})
 
-    def __unicode__(self):
+    def __str__(self):
         return "{0} @ {1}".format(self.recipient.trial_id, self.date_recorded)
 
 

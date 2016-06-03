@@ -19,7 +19,7 @@ class BarCodedItem(VersionControlMixin):
     class Meta:
         abstract = True
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s" % self.barcode
 
 
@@ -34,7 +34,7 @@ class Worksheet(BarCodedItem):
         verbose_name = _('WSm1 worksheet')
         verbose_name_plural = _('WSm2 worksheets')
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s" % (self.barcode if len(self.barcode) > 0 else "%s - No Barcode entered" % self.id)
 
 
@@ -133,7 +133,7 @@ class Event(VersionControlMixin):
             if self.taken_at > timezone.now():
                 raise ValidationError(_("EVv05 Time travel detected! Taken at date and time is in the future!"))
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s (%s)" % (self.get_type_display(), self.taken_at)
 
 

@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # coding: utf-8
 from __future__ import absolute_import, unicode_literals
+
 from bdateutil import relativedelta
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -302,7 +303,7 @@ class OrganPerson(VersionControlMixin):
 
     worksheet = cached_property(_worksheet, name='worksheet')
 
-    def __unicode__(self):
+    def __str__(self):
         if settings.DEBUG:
             return '%s : (%s, %s) %s' % (
                 self.id, self.get_gender_display(), self.age_from_dob, self.number
@@ -380,7 +381,7 @@ class RetrievalTeam(BaseModelMixin):
 
     based_in_country = cached_property(_based_in_country, name='based_in_country')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     class Meta:

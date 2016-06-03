@@ -1,5 +1,7 @@
 #!/usr/bin/python
 # coding: utf-8
+from __future__ import absolute_import, unicode_literals
+
 import csv
 
 # from django.contrib import messages
@@ -114,35 +116,35 @@ def report_procurement(request):
 
     writer = csv.writer(response)
     writer.writerow([
-        u"donor.trial_id",
-        u"donor.person.date_of_birth_unknown",
-        u"donor.person.date_of_birth",
-        u"donor.person.gender",
-        u"donor.person.weight",
-        u"donor.person.height",
-        u"donor.person.ethnicity",
-        u"donor.person.get_ethnicity_display",
-        u"donor.person.blood_group",
-        u"donor.person.get_blood_group_display",
-        u"donor.age",
-        u"donor.date_of_procurement",
-        u"donor.retrieval_team",
-        u"donor.retrieval_hospital",
-        u"donor.multiple_recipients",
-        u"donor.life_support_withdrawal",
-        u"donor.death_diagnosed",
-        u"donor.perfusion_started_unknown",
-        u"donor.perfusion_started",
-        u"donor.systemic_flush_used",
-        u"donor.get_systemic_flush_used_display",
-        u"donor.diagnosis",
-        u"donor.get_diagnosis_display",
-        u"donor.diabetes_melitus",
-        u"donor.get_diabetes_melitus_display",
-        u"donor.alcohol_abuse",
-        u"donor.get_alcohol_abuse_display",
-        u"donor.diuresis_last_day",
-        u"donor.last_creatinine",
+        "donor.trial_id",
+        "donor.person.date_of_birth_unknown",
+        "donor.person.date_of_birth",
+        "donor.person.gender",
+        "donor.person.weight",
+        "donor.person.height",
+        "donor.person.ethnicity",
+        "donor.person.get_ethnicity_display",
+        "donor.person.blood_group",
+        "donor.person.get_blood_group_display",
+        "donor.age",
+        "donor.date_of_procurement",
+        "donor.retrieval_team",
+        "donor.retrieval_hospital",
+        "donor.multiple_recipients",
+        "donor.life_support_withdrawal",
+        "donor.death_diagnosed",
+        "donor.perfusion_started_unknown",
+        "donor.perfusion_started",
+        "donor.systemic_flush_used",
+        "donor.get_systemic_flush_used_display",
+        "donor.diagnosis",
+        "donor.get_diagnosis_display",
+        "donor.diabetes_melitus",
+        "donor.get_diabetes_melitus_display",
+        "donor.alcohol_abuse",
+        "donor.get_alcohol_abuse_display",
+        "donor.diuresis_last_day",
+        "donor.last_creatinine",
     ])
 
     donors = Donor.objects.filter(randomisation__isnull=False)
@@ -168,14 +170,14 @@ def report_procurement(request):
         except AttributeError:
             result_row.append("")
         try:
-            result_row.append(donor.retrieval_team.__unicode__())
+            result_row.append(str(donor.retrieval_team))
         except AttributeError:
             result_row.append("")
         try:
-            result_row.append(donor.retrieval_hospital.__unicode__())
+            result_row.append(str(donor.retrieval_hospital))
         except AttributeError:
             result_row.append("")
-        result_row.append(u"Y" if donor.multiple_recipients else u"N")
+        result_row.append("Y" if donor.multiple_recipients else "N")
         try:
             result_row.append(donor.life_support_withdrawal.strftime("%d-%m-%Y %H:%M"))
         except AttributeError:
@@ -213,50 +215,50 @@ def report_organ(request):
 
     writer = csv.writer(response)
     writer.writerow([
-        u"organ.trial_id",
-        u"organ.transplantable",
-        u"organ.not_transplantable_reason",
-        u"organ.removal",
-        u"organ.renal_arteries",
-        u"organ.graft_damage",
-        u"organ.get_graft_damage_display",
-        u"organ.washout_perfusion",
-        u"organ.get_washout_perfusion_display",
-        u"organ.perfusion_possible",
-        u"organ.perfusion_not_possible_because",
-        u"organ.perfusion_machine",
-        u"organ.perfusion_started",
-        u"organ.preservation",
-        u"organ.get_preservation_display",
-        u"organ.recipient.person.date_of_birth",
-        u"organ.recipient.person.gender",
-        u"organ.recipient.person.weight",
-        u"organ.recipient.person.height",
-        u"organ.recipient.person.ethnicity",
-        u"organ.recipient.person.get_ethnicity_display",
-        u"organ.recipient.person.blood_group",
-        u"organ.recipient.person.get_blood_group_display",
-        u"organ.recipient.renal_disease",
-        u"organ.recipient.get_renal_disease_display",
-        u"organ.recipient.pre_transplant_diuresis",
-        u"organ.recipient.perfusion_stopped",
-        u"organ.recipient.organ_cold_stored",
-        u"organ.recipient.removed_from_machine_at",
-        u"organ.recipient.organ_untransplantable",
-        u"organ.recipient.organ_untransplantable_reason",
-        u"organ.recipient.knife_to_skin",
-        u"organ.recipient.incision",
-        u"organ.recipient.get_incision_display",
-        u"organ.recipient.transplant_side",
-        u"organ.recipient.get_transplant_side_display",
-        u"organ.recipient.arterial_problems",
-        u"organ.recipient.get_arterial_problems_display",
-        u"organ.recipient.venous_problems",
-        u"organ.recipient.get_venous_problems_display",
-        u"organ.recipient.anastomosis_started_at",
-        u"organ.recipient.reperfusion_started_at",
-        u"organ.recipient.successful_conclusion",
-        u"organ.recipient.operation_concluded_at",
+        "organ.trial_id",
+        "organ.transplantable",
+        "organ.not_transplantable_reason",
+        "organ.removal",
+        "organ.renal_arteries",
+        "organ.graft_damage",
+        "organ.get_graft_damage_display",
+        "organ.washout_perfusion",
+        "organ.get_washout_perfusion_display",
+        "organ.perfusion_possible",
+        "organ.perfusion_not_possible_because",
+        "organ.perfusion_machine",
+        "organ.perfusion_started",
+        "organ.preservation",
+        "organ.get_preservation_display",
+        "organ.recipient.person.date_of_birth",
+        "organ.recipient.person.gender",
+        "organ.recipient.person.weight",
+        "organ.recipient.person.height",
+        "organ.recipient.person.ethnicity",
+        "organ.recipient.person.get_ethnicity_display",
+        "organ.recipient.person.blood_group",
+        "organ.recipient.person.get_blood_group_display",
+        "organ.recipient.renal_disease",
+        "organ.recipient.get_renal_disease_display",
+        "organ.recipient.pre_transplant_diuresis",
+        "organ.recipient.perfusion_stopped",
+        "organ.recipient.organ_cold_stored",
+        "organ.recipient.removed_from_machine_at",
+        "organ.recipient.organ_untransplantable",
+        "organ.recipient.organ_untransplantable_reason",
+        "organ.recipient.knife_to_skin",
+        "organ.recipient.incision",
+        "organ.recipient.get_incision_display",
+        "organ.recipient.transplant_side",
+        "organ.recipient.get_transplant_side_display",
+        "organ.recipient.arterial_problems",
+        "organ.recipient.get_arterial_problems_display",
+        "organ.recipient.venous_problems",
+        "organ.recipient.get_venous_problems_display",
+        "organ.recipient.anastomosis_started_at",
+        "organ.recipient.reperfusion_started_at",
+        "organ.recipient.successful_conclusion",
+        "organ.recipient.operation_concluded_at",
     ])
 
     organs = Organ.objects.filter(recipient__isnull=False)
@@ -278,7 +280,7 @@ def report_organ(request):
         result_row.append(organ.perfusion_possible)
         result_row.append(organ.perfusion_not_possible_because)
         try:
-            result_row.append(organ.perfusion_machine.__unicode__())
+            result_row.append(str(organ.perfusion_machine))
         except AttributeError:
             result_row.append("")
         try:
@@ -352,11 +354,11 @@ def report_allocations(request):
 
     writer = csv.writer(response)
     writer.writerow([
-        u"allocation.organ.trial_id",
-        u"allocation.reallocated",
-        u"allocation.transplant_hospital",
-        u"allocation.reallocation_reason",
-        u"allocation.get_reallocation_reason_display"
+        "allocation.organ.trial_id",
+        "allocation.reallocated",
+        "allocation.transplant_hospital",
+        "allocation.reallocation_reason",
+        "allocation.get_reallocation_reason_display"
     ])
 
     allocations = OrganAllocation.objects.filter(organ__recipient__isnull=False)
@@ -365,7 +367,7 @@ def report_allocations(request):
         result_row.append(allocation.organ.trial_id)
         result_row.append(allocation.reallocated)
         try:
-            result_row.append(allocation.transplant_hospital.__unicode__())
+            result_row.append(str(allocation.transplant_hospital))
         except AttributeError:
             result_row.append("")
         result_row.append(allocation.reallocation_reason)
@@ -384,39 +386,39 @@ def report_adverse_events(request):
 
     writer = csv.writer(response)
     writer.writerow([
-        u"adverseevent.id",
-        u"adverseevent.organ.trial_id",
-        u"adverseevent.onset_at_date",
-        u"adverseevent.event_ongoing",
-        u"adverseevent.description",
-        u"adverseevent.action",
-        u"adverseevent.outcome",
-        u"adverseevent.alive_query_1",
-        u"adverseevent.alive_query_2",
-        u"adverseevent.alive_query_3",
-        u"adverseevent.alive_query_4",
-        u"adverseevent.alive_query_5",
-        u"adverseevent.alive_query_6",
-        u"adverseevent.alive_query_7",
-        u"adverseevent.alive_query_8",
-        u"adverseevent.alive_query_9",
-        u"adverseevent.rehospitalisation",
-        u"adverseevent.date_of_admission",
-        u"adverseevent.date_of_discharge",
-        u"adverseevent.admitted_to_itu",
-        u"adverseevent.dialysis_needed",
-        u"adverseevent.surgery_required",
-        u"adverseevent.death",
-        u"adverseevent.date_of_death",
-        u"adverseevent.treatment_related",
-        u"adverseevent.get_treatment_related_display",
-        u"adverseevent.cause_of_death_1",
-        u"adverseevent.cause_of_death_2",
-        u"adverseevent.cause_of_death_3",
-        u"adverseevent.cause_of_death_4",
-        u"adverseevent.cause_of_death_5",
-        u"adverseevent.cause_of_death_6",
-        u"adverseevent.cause_of_death_comment",
+        "adverseevent.id",
+        "adverseevent.organ.trial_id",
+        "adverseevent.onset_at_date",
+        "adverseevent.event_ongoing",
+        "adverseevent.description",
+        "adverseevent.action",
+        "adverseevent.outcome",
+        "adverseevent.alive_query_1",
+        "adverseevent.alive_query_2",
+        "adverseevent.alive_query_3",
+        "adverseevent.alive_query_4",
+        "adverseevent.alive_query_5",
+        "adverseevent.alive_query_6",
+        "adverseevent.alive_query_7",
+        "adverseevent.alive_query_8",
+        "adverseevent.alive_query_9",
+        "adverseevent.rehospitalisation",
+        "adverseevent.date_of_admission",
+        "adverseevent.date_of_discharge",
+        "adverseevent.admitted_to_itu",
+        "adverseevent.dialysis_needed",
+        "adverseevent.surgery_required",
+        "adverseevent.death",
+        "adverseevent.date_of_death",
+        "adverseevent.treatment_related",
+        "adverseevent.get_treatment_related_display",
+        "adverseevent.cause_of_death_1",
+        "adverseevent.cause_of_death_2",
+        "adverseevent.cause_of_death_3",
+        "adverseevent.cause_of_death_4",
+        "adverseevent.cause_of_death_5",
+        "adverseevent.cause_of_death_6",
+        "adverseevent.cause_of_death_comment",
     ])
 
     events = AdverseEvent.objects.all()

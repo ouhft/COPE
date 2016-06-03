@@ -1,4 +1,7 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/python
+# coding: utf-8
+from __future__ import absolute_import, unicode_literals
+
 '''
 Local settings
 
@@ -6,7 +9,6 @@ Local settings
 
 '''
 
-from __future__ import absolute_import, unicode_literals
 from django.utils import six
 
 import logging

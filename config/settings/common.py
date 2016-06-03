@@ -1,4 +1,7 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/python
+# coding: utf-8
+from __future__ import absolute_import, unicode_literals
+
 """
 Django settings for Cope Test project.
 
@@ -8,7 +11,6 @@ https://docs.djangoproject.com/en/dev/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/dev/ref/settings/
 """
-from __future__ import absolute_import, unicode_literals
 
 from django.contrib.messages import constants as message_constants
 from django.utils.translation import ugettext_lazy as _

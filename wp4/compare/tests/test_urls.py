@@ -1,3 +1,7 @@
+#!/usr/bin/python
+# coding: utf-8
+from __future__ import absolute_import, unicode_literals
+
 from django.test import TestCase
 from django.conf import settings
 from django.core.urlresolvers import resolve

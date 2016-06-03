@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # coding: utf-8
 from __future__ import absolute_import, unicode_literals
+
 from bdateutil import relativedelta
 from django.core.validators import MinValueValidator, MaxValueValidator, ValidationError
 from django.db import models, transaction
@@ -518,7 +519,7 @@ class Donor(VersionControlMixin):
             return True
         return False
 
-    def __unicode__(self):
+    def __str__(self):
         return self.trial_id
 
     @property
@@ -699,5 +700,5 @@ class Randomisation(models.Model):
         result.save()
         return result.result
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s : %s' % (format(self.id, '03'), self.get_list_code_display())

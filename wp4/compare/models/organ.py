@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # coding: utf-8
 from __future__ import absolute_import, unicode_literals
+
 from django.core.validators import MinValueValidator, MaxValueValidator, ValidationError
 from django.db import models
 from django.utils.functional import cached_property
@@ -409,7 +410,7 @@ class Organ(VersionControlMixin):
         :rtype: str
         """
         # TODO: Write this function
-        return u"Unknown closed status"
+        return "Unknown closed status"
 
     def _reallocation_count(self):
         """
@@ -426,7 +427,7 @@ class Organ(VersionControlMixin):
 
     reallocation_count = cached_property(_reallocation_count, name='reallocation_count')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.trial_id
 
     class Meta:
@@ -460,7 +461,7 @@ class ProcurementResource(BaseModelMixin):
     expiry_date = models.DateField(verbose_name=_('PR04 expiry date'), blank=True, null=True)
     expiry_date_unknown = models.BooleanField(default=False, help_text="Internal unknown flag")
 
-    def __unicode__(self):
+    def __str__(self):
         return self.get_type_display() + ' for ' + self.organ.trial_id
 
     class Meta:

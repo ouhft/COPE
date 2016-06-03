@@ -1,5 +1,7 @@
 #!/usr/bin/python
 # coding: utf-8
+from __future__ import absolute_import, unicode_literals
+
 from itertools import chain
 
 from django.contrib.auth.decorators import login_required
@@ -25,11 +27,11 @@ class WorksheetListView(LoginRequiredMixin, OrderableListMixin, ListView):
 
     def get_orderable_columns(self):
         # return an iterable
-        return (u"id", u"barcode", u"person__number", u"person__date_of_birth", u"person__gender")
+        return ("id", "barcode", "person__number", "person__date_of_birth", "person__gender")
 
     def get_orderable_columns_default(self):
         # return a string
-        return u"id"
+        return "id"
 
     def get(self, request, *args, **kwargs):
         self.current_person = StaffPerson.objects.get(user__id=request.user.id)

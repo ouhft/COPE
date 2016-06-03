@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # coding: utf-8
-# from __future__ import absolute_import, unicode_literals
+from __future__ import unicode_literals
 
 from .core import NO, YES, YES_NO_UNKNOWN_CHOICES
 from .core import LEFT, RIGHT, LOCATION_CHOICES

@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # coding: utf-8
+from __future__ import absolute_import, unicode_literals
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -14,7 +15,7 @@ class PerfusionMachine(BaseModelMixin):
     machine_serial_number = models.CharField(verbose_name=_('PM01 machine serial number'), max_length=50)
     machine_reference_number = models.CharField(verbose_name=_('PM02 machine reference number'), max_length=50)
 
-    def __unicode__(self):
+    def __str__(self):
         return 's/n: ' + self.machine_serial_number
 
     class Meta:
@@ -31,7 +32,7 @@ class PerfusionFile(BaseModelMixin):
     machine = models.ForeignKey(PerfusionMachine, verbose_name=_('PF01 perfusion machine'))
     file = models.FileField(blank=True, upload_to='perfusion_files')
 
-    def __unicode__(self):
+    def __str__(self):
         return 'ID: %s' % self.id
 
     class Meta:

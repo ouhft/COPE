@@ -1,3 +1,7 @@
+#!/usr/bin/python
+# coding: utf-8
+from __future__ import absolute_import, unicode_literals
+
 from django.test import TestCase, RequestFactory
 from django.test.client import Client
 from django.contrib.auth.models import User

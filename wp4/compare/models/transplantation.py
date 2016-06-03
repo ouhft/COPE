@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # coding: utf-8
 from __future__ import absolute_import, unicode_literals
+
 from django.core.validators import MinValueValidator, MaxValueValidator, ValidationError
 from django.db import models
 from django.utils.functional import cached_property
@@ -136,7 +137,7 @@ class OrganAllocation(VersionControlMixin):
             if self.perfusion_technician is None:
                 raise ValidationError(_("OAv02 Please enter the name of the transplant technician"))
 
-    def __unicode__(self):
+    def __str__(self):
         try:
             recipient_string = self.recipient
         except AttributeError:
@@ -384,7 +385,7 @@ class Recipient(VersionControlMixin):
             if self.reperfusion_started_at is None and self.reperfusion_started_at_unknown is False:  # RE35
                 raise ValidationError(_("REv05 Missing Reperfusion Start Time"))
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s (%s)' % (self.person.number, self.trial_id)
 
     def _age_from_dob(self):

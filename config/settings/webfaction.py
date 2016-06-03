@@ -1,11 +1,13 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/python
+# coding: utf-8
+from __future__ import absolute_import, unicode_literals
+
 '''
 Local settings
 
 - Use djangosecure
 
 '''
-from __future__ import absolute_import, unicode_literals
 from django.utils.translation import ugettext_lazy as _
 
 from .common import *  # noqa

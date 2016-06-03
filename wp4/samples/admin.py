@@ -1,5 +1,7 @@
 #!/usr/bin/python
 # coding: utf-8
+from __future__ import absolute_import, unicode_literals
+
 from django.contrib import admin
 from django.contrib.admin.options import IS_POPUP_VAR
 from django.utils import timezone

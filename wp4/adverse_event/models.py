@@ -1,5 +1,7 @@
 #!/usr/bin/python
 # coding: utf-8
+from __future__ import unicode_literals
+
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -10,8 +12,6 @@ from ..staff_person.models import StaffPerson
 
 class AdverseEvent(VersionControlMixin):
     """
-    WORK IN PROGRESS - Class definition prone to rapid change
-
     Collects (serious) adverse event information related to a specific Organ within the study
 
     Based strictly on the paper form for initial version, even though that form contains issues. Fields
@@ -108,5 +108,5 @@ class AdverseEvent(VersionControlMixin):
     def get_absolute_url(self):
         return reverse("wp4:adverse_event:update", kwargs={"pk": self.pk})
 
-    def __unicode__(self):
+    def __str__(self):
         return "{0} @ {1}".format(self.organ.trial_id, self.onset_at_date)

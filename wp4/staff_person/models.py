@@ -6,6 +6,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.core.validators import RegexValidator
+from django.utils import six
 from django.utils.translation import ugettext_lazy as _
 
 from wp4.locations.models import Hospital
@@ -34,7 +35,7 @@ class StaffJob(models.Model):
 
     description = models.CharField(max_length=100, help_text="Job Label")
 
-    def __unicode__(self):
+    def __str__(self):
         return self.description
 
 
@@ -88,12 +89,12 @@ class StaffPerson(VersionControlMixin):
         if type(acceptable_jobs) is list or type(acceptable_jobs) is tuple:
             answer = [x for x in jobs_list if x in acceptable_jobs]
             return True if len(answer) > 0 else False
-        elif isinstance(acceptable_jobs, (int, long)):
+        elif isinstance(acceptable_jobs, six.integer_types):
             return acceptable_jobs in jobs_list
         else:
             raise TypeError("acceptable jobs is an invalid type")
 
-    def __unicode__(self):
+    def __str__(self):
         return self.full_name()  # + ' : ' + self.get_job_display()  TODO: List jobs?
 
     class Meta:

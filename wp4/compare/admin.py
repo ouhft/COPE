@@ -1,5 +1,7 @@
 #!/usr/bin/python
 # coding: utf-8
+from __future__ import absolute_import, unicode_literals
+
 from django.contrib import admin
 from django.utils import timezone
 from reversion_compare.admin import CompareVersionAdmin
@@ -71,7 +73,7 @@ admin.site.register(RetrievalTeam, RetrievalTeamAdmin)
 
 
 class OrganPersonAdmin(VersionControlAdmin):
-    list_display = ('__unicode__', 'number', 'gender', 'age_from_dob',  'recipient', 'donor')  # 'date_of_death',
+    list_display = ('__str__', 'number', 'gender', 'age_from_dob',  'recipient', 'donor')  # 'date_of_death',
     ordering = ('id',)
     fields = (
         'number', 'date_of_birth', 'date_of_birth_unknown',  #'date_of_death', 'date_of_death_unknown',
@@ -81,7 +83,7 @@ admin.site.register(OrganPerson, OrganPersonAdmin)
 
 
 class DonorAdmin(VersionControlAdmin):
-    list_display = ('__unicode__', 'person', 'sequence_number', 'retrieval_team', 'perfusion_technician', 'is_randomised', 'trial_id')
+    list_display = ('__str__', 'person', 'sequence_number', 'retrieval_team', 'perfusion_technician', 'is_randomised', 'trial_id')
     fieldsets = [
         ('Case information', {'fields': ['sequence_number', 'multiple_recipients', 'admin_notes']}),
         ('Trial Procedure', {'fields': [
@@ -127,7 +129,7 @@ admin.site.register(Donor, DonorAdmin)
 class OrganAllocationAdmin(VersionControlAdmin):
     ordering = ('organ__pk', 'created_on')
     list_display = (
-        '__unicode__', 'organ', 'perfusion_technician', 'transplant_hospital',
+        '__str__', 'organ', 'perfusion_technician', 'transplant_hospital',
         'reallocated', 'reallocation'
     )
     fields = (
@@ -171,7 +173,7 @@ class OrganAllocationInline(admin.StackedInline):
 
 class OrganAdmin(VersionControlAdmin):
     list_display = (
-        '__unicode__', 'location', 'transplantable', 'donor', 'is_allocated', 'explain_is_allocated',
+        '__str__', 'location', 'transplantable', 'donor', 'is_allocated', 'explain_is_allocated',
         'reallocation_count', 'transplantation_form_completed'
     )
     ordering = ('donor__retrieval_team', 'donor__sequence_number', 'location')
@@ -239,7 +241,7 @@ admin.site.register(Organ, OrganAdmin)
 
 class RecipientAdmin(VersionControlAdmin):
     list_display = (
-        '__unicode__', 'person', 'organ', 'allocation', 'signed_consent', 'successful_conclusion'
+        '__str__', 'person', 'organ', 'allocation', 'signed_consent', 'successful_conclusion'
     )
     ordering = ('organ__pk', 'created_on')
     fields = (

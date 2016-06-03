@@ -87,7 +87,7 @@ class Hospital(VersionControlMixin):
 
     full_description = cached_property(_full_description, name='full_description')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.full_description
 
     class Meta:
