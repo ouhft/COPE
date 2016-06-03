@@ -374,8 +374,8 @@ class Recipient(VersionControlMixin):
 
         if self.organ.transplantation_form_completed:
             # Things to check if the form is being marked as complete...
-            if self.perfusion_stopped is None:  # RE20
-                raise ValidationError(_("REv01 Missing time machine perfusion stopped"))
+            # if self.perfusion_stopped is None:  # RE20 -- Removed for Issue #104
+            #     raise ValidationError(_("REv01 Missing time machine perfusion stopped"))
             if self.removed_from_machine_at is None:  # RE23
                 raise ValidationError(_("REv02 Missing time kidney removed from machine"))
             if self.anesthesia_started_at is None:  # RE27
