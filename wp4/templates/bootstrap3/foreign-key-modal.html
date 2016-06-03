@@ -2,6 +2,7 @@
 {% load l10n i18n %}
 
 <!-- START: wp4/templates/bootstrap3/foreign-key-modal.html -->
+<!-- field.attrs={{ field.attrs }} -->
 <div class="form-group {{ field.css_class|default:"" }}{% if field.errors %}has-error{% endif %}">
     <label class="control-label" for="">{{ field.label_tag|striptags }}</label>
 
@@ -11,7 +12,9 @@
                     class="glyphicon glyphicon-edit"></i></a>
         </span>
         <input class="form-control" type="text" id="{{ field.id_for_label }}-display" readonly value="Name here">
-        {% if True %} {# TODO: Make this conditional #}
+        {% if field.attrs.no_search == True%} {# TODO: Make this conditional #}
+            <!-- Search disabled -->
+        {% else %}
         <span class="input-group-addon">
             <a href="#" onclick="openForeignKeyModalForSearch('{{ field.id_for_label }}')"><i
                     class="glyphicon glyphicon-search"></i></a>

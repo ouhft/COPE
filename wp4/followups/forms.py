@@ -373,7 +373,7 @@ class FollowUp3MForm(forms.ModelForm):
                 ),
                 css_class="row"
             ),
-            ForeignKeyModal('quality_of_life'),  # F308
+            ForeignKeyModal('quality_of_life', no_search=True),  # F308
         )
 
     class Meta:
@@ -435,7 +435,7 @@ class FollowUp6MStartForm(forms.ModelForm):
         )
 
     class Meta:
-        model = FollowUp3M
+        model = FollowUp6M
         fields = [
             'organ',  # F601
         ]
