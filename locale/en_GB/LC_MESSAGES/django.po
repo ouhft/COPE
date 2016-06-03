@@ -76,15 +76,15 @@ msgstr "Is the event still ongoing?"
 
 #: wp4/adverse_event/models.py:39
 msgid "AE06 description"
-msgstr "Q1 Please describe the event"
+msgstr "Please describe the event"
 
 #: wp4/adverse_event/models.py:40
 msgid "AE07 action"
-msgstr "Q2 Action taken"
+msgstr "Action taken"
 
 #: wp4/adverse_event/models.py:41
 msgid "AE08 outcome"
-msgstr "Q3 Outcome"
+msgstr "Outcome"
 
 #: wp4/adverse_event/models.py:42
 msgid "AE20 incapcity"
