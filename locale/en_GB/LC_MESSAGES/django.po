@@ -1423,8 +1423,6 @@ msgid "FB10 graft failure"
 msgstr "Graft failure?"
 
 #: wp4/followups/models.py:42
-#, fuzzy
-#| msgid "FB05 date of graft failure"
 msgid "FB11 date of graft failure"
 msgstr "Date of graft failure"
 
