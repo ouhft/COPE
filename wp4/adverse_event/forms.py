@@ -88,7 +88,7 @@ class AdverseEventForm(forms.ModelForm):
                 'outcome',
 
                 Div(
-                    HTML("<p>Q5: if alive?</p>"),
+                    # HTML("<p>Q5: if alive?</p>"),
                     Div(
                         Field('alive_query_1', template="bootstrap3/layout/radioselect-buttons.html"),
                         Field('alive_query_2', template="bootstrap3/layout/radioselect-buttons.html"),
