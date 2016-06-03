@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>wp4.compare.models.organ &mdash; COPE DB 0.5.0 documentation</title>
+  <title>wp4.compare.models.organ &mdash; COPE DB 0.6.0 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="COPE DB 0.5.0 documentation" href="../../../../index.html"/>
+    <link rel="top" title="COPE DB 0.6.0 documentation" href="../../../../index.html"/>
         <link rel="up" title="Module code" href="../../../index.html"/> 
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.5.0
+                0.6.0
               </div>
             
           
@@ -81,15 +81,13 @@
             
             
                 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../user_manual.html">COPE DB User Manual</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../deployment.html">Deployment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../development.html">Development Setup</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../development.html#useful-things-to-remember">Useful things to remember</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../development.html#documentation">Documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../design/wp4_design.html">Design - WP4:Compare</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../design/wp7_design.html">Design - WP7:Biobanking</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../modules/models.html">Data Models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../source/user_manual.html">COPE DB User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../source/deployment.html">Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../source/development.html">Development Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../source/design/wp4_design.html">Design - WP4:Compare</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../source/design/wp7_design.html">Design - WP7:Biobanking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../source/models.html">Data Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../source/changelog.html">Changelog</a></li>
 </ul>
 
             
@@ -138,6 +136,7 @@
 <span></span><span class="ch">#!/usr/bin/python</span>
 <span class="c1"># coding: utf-8</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">unicode_literals</span>
+
 <span class="kn">from</span> <span class="nn">django.core.validators</span> <span class="kn">import</span> <span class="n">MinValueValidator</span><span class="p">,</span> <span class="n">MaxValueValidator</span><span class="p">,</span> <span class="n">ValidationError</span>
 <span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
 <span class="kn">from</span> <span class="nn">django.utils.functional</span> <span class="kn">import</span> <span class="n">cached_property</span>
@@ -151,7 +150,7 @@
 <span class="kn">from</span> <span class="nn">.donor</span> <span class="kn">import</span> <span class="n">Donor</span>
 
 
-<div class="viewcode-block" id="ClosedOrganManager"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.organ.html#wp4.compare.models.organ.ClosedOrganManager">[docs]</a><span class="k">class</span> <span class="nc">ClosedOrganManager</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Manager</span><span class="p">):</span>
+<div class="viewcode-block" id="ClosedOrganManager"><a class="viewcode-back" href="../../../../source/generated/wp4.compare.models.organ.html#wp4.compare.models.organ.ClosedOrganManager">[docs]</a><span class="k">class</span> <span class="nc">ClosedOrganManager</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Manager</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get only the Organs that have had completed outcomes. These are:</span>
 
@@ -162,7 +161,7 @@
 <span class="sd">    close the case? Yes, yes it does, and we can more trivially cover this by writing a message into</span>
 <span class="sd">    not_allocated_reason of $MESSAGE$, and then setting the transplantation_form_completed flag</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="ClosedOrganManager.get_queryset"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.organ.html#wp4.compare.models.organ.ClosedOrganManager.get_queryset">[docs]</a>    <span class="k">def</span> <span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ClosedOrganManager.get_queryset"><a class="viewcode-back" href="../../../../source/generated/wp4.compare.models.organ.html#wp4.compare.models.organ.ClosedOrganManager.get_queryset">[docs]</a>    <span class="k">def</span> <span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Filter Organs results by only returning where transplantation_form_completed=True</span>
 
@@ -182,12 +181,12 @@
             <span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="AllocatableOrganManager"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.organ.html#wp4.compare.models.organ.AllocatableOrganManager">[docs]</a><span class="k">class</span> <span class="nc">AllocatableOrganManager</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Manager</span><span class="p">):</span>
+<div class="viewcode-block" id="AllocatableOrganManager"><a class="viewcode-back" href="../../../../source/generated/wp4.compare.models.organ.html#wp4.compare.models.organ.AllocatableOrganManager">[docs]</a><span class="k">class</span> <span class="nc">AllocatableOrganManager</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Manager</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get only the Organs that are available for allocation, which means they&#39;re Unallocated (not</span>
 <span class="sd">    deliberately), Randomised, and still Transplantable (but not necessarily a completed P form).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="AllocatableOrganManager.get_queryset"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.organ.html#wp4.compare.models.organ.AllocatableOrganManager.get_queryset">[docs]</a>    <span class="k">def</span> <span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="AllocatableOrganManager.get_queryset"><a class="viewcode-back" href="../../../../source/generated/wp4.compare.models.organ.html#wp4.compare.models.organ.AllocatableOrganManager.get_queryset">[docs]</a>    <span class="k">def</span> <span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Filter Organ results by organallocation__isnull=True AND transplantable=True, excluding results</span>
 <span class="sd">        where preservation=PRESERVATION_NOT_SET OR transplantation_form_completed=True</span>
@@ -204,12 +203,12 @@
             <span class="p">)</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="n">preservation</span><span class="o">=</span><span class="n">PRESERVATION_NOT_SET</span><span class="p">)</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="n">transplantation_form_completed</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="OpenOrganManager"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.organ.html#wp4.compare.models.organ.OpenOrganManager">[docs]</a><span class="k">class</span> <span class="nc">OpenOrganManager</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Manager</span><span class="p">):</span>
+<div class="viewcode-block" id="OpenOrganManager"><a class="viewcode-back" href="../../../../source/generated/wp4.compare.models.organ.html#wp4.compare.models.organ.OpenOrganManager">[docs]</a><span class="k">class</span> <span class="nc">OpenOrganManager</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Manager</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get only the Organs that are open for transplantation, which means they&#39;ve one or more allocations,</span>
 <span class="sd">    and have not had their form closed (either by allocation outside of project area, or completed form).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="OpenOrganManager.get_queryset"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.organ.html#wp4.compare.models.organ.OpenOrganManager.get_queryset">[docs]</a>    <span class="k">def</span> <span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="OpenOrganManager.get_queryset"><a class="viewcode-back" href="../../../../source/generated/wp4.compare.models.organ.html#wp4.compare.models.organ.OpenOrganManager.get_queryset">[docs]</a>    <span class="k">def</span> <span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Filter Organ results by transplantable=True, excluding results where</span>
 <span class="sd">        transplantation_form_completed=True OR organallocation__isnull=True OR</span>
@@ -232,7 +231,7 @@
             <span class="n">exclude</span><span class="p">(</span><span class="n">preservation</span><span class="o">=</span><span class="n">PRESERVATION_NOT_SET</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="Organ"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.organ.html#wp4.compare.models.organ.Organ">[docs]</a><span class="k">class</span> <span class="nc">Organ</span><span class="p">(</span><span class="n">VersionControlMixin</span><span class="p">):</span>
+<div class="viewcode-block" id="Organ"><a class="viewcode-back" href="../../../../source/generated/wp4.compare.models.organ.html#wp4.compare.models.organ.Organ">[docs]</a><span class="k">class</span> <span class="nc">Organ</span><span class="p">(</span><span class="n">VersionControlMixin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The focus of the trial, specifically a Kidney.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -417,7 +416,7 @@
     <span class="n">open_objects</span> <span class="o">=</span> <span class="n">OpenOrganManager</span><span class="p">()</span>  <span class="c1">#: OpenOrganManager</span>
     <span class="n">closed_objects</span> <span class="o">=</span> <span class="n">ClosedOrganManager</span><span class="p">()</span>  <span class="c1">#: ClosedOrganManager</span>
 
-<div class="viewcode-block" id="Organ.clean"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.organ.html#wp4.compare.models.organ.Organ.clean">[docs]</a>    <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Organ.clean"><a class="viewcode-back" href="../../../../source/generated/wp4.compare.models.organ.html#wp4.compare.models.organ.Organ.clean">[docs]</a>    <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Clears the following fields of data if their corresponding unknown flag is set to True</span>
 
@@ -546,7 +545,7 @@
 <span class="sd">        :rtype: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># TODO: Write this function</span>
-        <span class="k">return</span> <span class="s2">u&quot;Unknown closed status&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;Unknown closed status&quot;</span>
 
     <span class="k">def</span> <span class="nf">_reallocation_count</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -563,7 +562,7 @@
 
     <span class="n">reallocation_count</span> <span class="o">=</span> <span class="n">cached_property</span><span class="p">(</span><span class="n">_reallocation_count</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;reallocation_count&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">trial_id</span>
 
     <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
@@ -571,7 +570,7 @@
         <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;ORm2 organs&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="ProcurementResource"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.organ.html#wp4.compare.models.organ.ProcurementResource">[docs]</a><span class="k">class</span> <span class="nc">ProcurementResource</span><span class="p">(</span><span class="n">BaseModelMixin</span><span class="p">):</span>
+<div class="viewcode-block" id="ProcurementResource"><a class="viewcode-back" href="../../../../source/generated/wp4.compare.models.organ.html#wp4.compare.models.organ.ProcurementResource">[docs]</a><span class="k">class</span> <span class="nc">ProcurementResource</span><span class="p">(</span><span class="n">BaseModelMixin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Repeatable list of resources used during organ extraction. Primarily distinguished by the type.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -597,14 +596,14 @@
     <span class="n">expiry_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;PR04 expiry date&#39;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">expiry_date_unknown</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Internal unknown flag&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_type_display</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39; for &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">organ</span><span class="o">.</span><span class="n">trial_id</span>
 
     <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
         <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;PRm1 procurement resource&#39;</span><span class="p">)</span>
         <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;PRm2 procurement resources&#39;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ProcurementResource.clean"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.organ.html#wp4.compare.models.organ.ProcurementResource.clean">[docs]</a>    <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ProcurementResource.clean"><a class="viewcode-back" href="../../../../source/generated/wp4.compare.models.organ.html#wp4.compare.models.organ.ProcurementResource.clean">[docs]</a>    <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Clears the value of expiry_date if marked as unknown</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -644,7 +643,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../../',
-            VERSION:'0.5.0',
+            VERSION:'0.6.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

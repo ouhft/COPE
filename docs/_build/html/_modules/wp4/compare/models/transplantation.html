@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>wp4.compare.models.transplantation &mdash; COPE DB 0.5.0 documentation</title>
+  <title>wp4.compare.models.transplantation &mdash; COPE DB 0.6.0 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="COPE DB 0.5.0 documentation" href="../../../../index.html"/>
+    <link rel="top" title="COPE DB 0.6.0 documentation" href="../../../../index.html"/>
         <link rel="up" title="Module code" href="../../../index.html"/> 
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.5.0
+                0.6.0
               </div>
             
           
@@ -81,15 +81,13 @@
             
             
                 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../user_manual.html">COPE DB User Manual</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../deployment.html">Deployment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../development.html">Development Setup</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../development.html#useful-things-to-remember">Useful things to remember</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../development.html#documentation">Documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../design/wp4_design.html">Design - WP4:Compare</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../design/wp7_design.html">Design - WP7:Biobanking</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../modules/models.html">Data Models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../source/user_manual.html">COPE DB User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../source/deployment.html">Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../source/development.html">Development Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../source/design/wp4_design.html">Design - WP4:Compare</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../source/design/wp7_design.html">Design - WP7:Biobanking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../source/models.html">Data Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../source/changelog.html">Changelog</a></li>
 </ul>
 
             
@@ -138,6 +136,7 @@
 <span></span><span class="ch">#!/usr/bin/python</span>
 <span class="c1"># coding: utf-8</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">unicode_literals</span>
+
 <span class="kn">from</span> <span class="nn">django.core.validators</span> <span class="kn">import</span> <span class="n">MinValueValidator</span><span class="p">,</span> <span class="n">MaxValueValidator</span><span class="p">,</span> <span class="n">ValidationError</span>
 <span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
 <span class="kn">from</span> <span class="nn">django.utils.functional</span> <span class="kn">import</span> <span class="n">cached_property</span>
@@ -152,7 +151,7 @@
 <span class="kn">from</span> <span class="nn">.organ</span> <span class="kn">import</span> <span class="n">Organ</span>
 
 
-<div class="viewcode-block" id="OrganAllocation"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.transplantation.html#wp4.compare.models.transplantation.OrganAllocation">[docs]</a><span class="k">class</span> <span class="nc">OrganAllocation</span><span class="p">(</span><span class="n">VersionControlMixin</span><span class="p">):</span>
+<div class="viewcode-block" id="OrganAllocation"><a class="viewcode-back" href="../../../../source/generated/wp4.compare.models.transplantation.html#wp4.compare.models.transplantation.OrganAllocation">[docs]</a><span class="k">class</span> <span class="nc">OrganAllocation</span><span class="p">(</span><span class="n">VersionControlMixin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Organs can be allocated multiple times before finding a definitive recipient. This class acts as</span>
 <span class="sd">    the record of these allocations and a link between Organ and Recipient.</span>
@@ -239,7 +238,7 @@
         <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;OAm2 organ allocations&#39;</span><span class="p">)</span>
         <span class="n">get_latest_by</span> <span class="o">=</span> <span class="s1">&#39;created_on&#39;</span>
 
-<div class="viewcode-block" id="OrganAllocation.clean"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.transplantation.html#wp4.compare.models.transplantation.OrganAllocation.clean">[docs]</a>    <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="OrganAllocation.clean"><a class="viewcode-back" href="../../../../source/generated/wp4.compare.models.transplantation.html#wp4.compare.models.transplantation.OrganAllocation.clean">[docs]</a>    <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Clears the following fields of data if their corresponding unknown flag is set to True</span>
 
@@ -273,7 +272,7 @@
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">perfusion_technician</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;OAv02 Please enter the name of the transplant technician&quot;</span><span class="p">))</span></div>
 
-    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">recipient_string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">recipient</span>
         <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
@@ -281,7 +280,7 @@
         <span class="k">return</span> <span class="s1">&#39;Organ: </span><span class="si">%s</span><span class="s1"> | Recipient: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">organ</span><span class="o">.</span><span class="n">pk</span><span class="p">,</span> <span class="n">recipient_string</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Recipient"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.transplantation.html#wp4.compare.models.transplantation.Recipient">[docs]</a><span class="k">class</span> <span class="nc">Recipient</span><span class="p">(</span><span class="n">VersionControlMixin</span><span class="p">):</span>
+<div class="viewcode-block" id="Recipient"><a class="viewcode-back" href="../../../../source/generated/wp4.compare.models.transplantation.html#wp4.compare.models.transplantation.Recipient">[docs]</a><span class="k">class</span> <span class="nc">Recipient</span><span class="p">(</span><span class="n">VersionControlMixin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Extension of an OrganPerson record (via OneToOne link for good ORM/DB management) to capture</span>
 <span class="sd">    the Recipient specific data.</span>
@@ -487,7 +486,7 @@
         <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;REm2 recipients&#39;</span><span class="p">)</span>
         <span class="n">get_latest_by</span> <span class="o">=</span> <span class="s1">&#39;created_on&#39;</span>
 
-<div class="viewcode-block" id="Recipient.clean"><a class="viewcode-back" href="../../../../modules/generated/wp4.compare.models.transplantation.html#wp4.compare.models.transplantation.Recipient.clean">[docs]</a>    <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Recipient.clean"><a class="viewcode-back" href="../../../../source/generated/wp4.compare.models.transplantation.html#wp4.compare.models.transplantation.Recipient.clean">[docs]</a>    <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Clears the following fields of data if their corresponding unknown flag is set to True</span>
 
@@ -521,7 +520,7 @@
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">reperfusion_started_at</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">reperfusion_started_at_unknown</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>  <span class="c1"># RE35</span>
                 <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;REv05 Missing Reperfusion Start Time&quot;</span><span class="p">))</span></div>
 
-    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> (</span><span class="si">%s</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">person</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">trial_id</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_age_from_dob</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -578,7 +577,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../../',
-            VERSION:'0.5.0',
+            VERSION:'0.6.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

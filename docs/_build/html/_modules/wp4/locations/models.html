@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>wp4.locations.models &mdash; COPE DB 0.5.0 documentation</title>
+  <title>wp4.locations.models &mdash; COPE DB 0.6.0 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="COPE DB 0.5.0 documentation" href="../../../index.html"/>
+    <link rel="top" title="COPE DB 0.6.0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.5.0
+                0.6.0
               </div>
             
           
@@ -81,15 +81,13 @@
             
             
                 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../user_manual.html">COPE DB User Manual</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../deployment.html">Deployment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../development.html">Development Setup</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../development.html#useful-things-to-remember">Useful things to remember</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../development.html#documentation">Documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../design/wp4_design.html">Design - WP4:Compare</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../design/wp7_design.html">Design - WP7:Biobanking</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules/models.html">Data Models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/user_manual.html">COPE DB User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/deployment.html">Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/development.html">Development Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/design/wp4_design.html">Design - WP4:Compare</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/design/wp7_design.html">Design - WP7:Biobanking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/models.html">Data Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/changelog.html">Changelog</a></li>
 </ul>
 
             
@@ -205,7 +203,7 @@
 <span class="p">)</span>  <span class="c1">#: Choices for Hospital.country</span>
 
 
-<div class="viewcode-block" id="Hospital"><a class="viewcode-back" href="../../../modules/generated/wp4.locations.models.html#wp4.compare.models.core.Hospital">[docs]</a><span class="k">class</span> <span class="nc">Hospital</span><span class="p">(</span><span class="n">VersionControlMixin</span><span class="p">):</span>
+<div class="viewcode-block" id="Hospital"><a class="viewcode-back" href="../../../source/generated/wp4.locations.models.html#wp4.compare.models.core.Hospital">[docs]</a><span class="k">class</span> <span class="nc">Hospital</span><span class="p">(</span><span class="n">VersionControlMixin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Simple helper class to hold information related to the various project and non-project locations.</span>
 <span class="sd">    Currently referenced from Donor, OrganAllocation, RetrievalTeam, and StaffPerson</span>
@@ -224,7 +222,7 @@
 
     <span class="n">full_description</span> <span class="o">=</span> <span class="n">cached_property</span><span class="p">(</span><span class="n">_full_description</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;full_description&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">full_description</span>
 
     <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
@@ -232,7 +230,7 @@
         <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;HOm1 hospital&#39;</span><span class="p">)</span>
         <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;HOm2 hospitals&#39;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Hospital.get_absolute_url"><a class="viewcode-back" href="../../../modules/generated/wp4.locations.models.html#wp4.compare.models.core.Hospital.get_absolute_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_absolute_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Hospital.get_absolute_url"><a class="viewcode-back" href="../../../source/generated/wp4.locations.models.html#wp4.compare.models.core.Hospital.get_absolute_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_absolute_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">reverse</span><span class="p">(</span><span class="s2">&quot;locations:detail&quot;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;pk&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pk</span><span class="p">})</span></div></div>
 </pre></div>
 
@@ -267,7 +265,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.5.0',
+            VERSION:'0.6.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

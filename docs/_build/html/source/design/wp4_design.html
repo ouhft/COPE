@@ -1,0 +1,270 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Design - WP4:Compare &mdash; COPE DB 0.6.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="COPE DB 0.6.0 documentation" href="../../index.html"/>
+        <link rel="next" title="Design - WP7:Biobanking" href="wp7_design.html"/>
+        <link rel="prev" title="Development Setup" href="../development.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> COPE DB
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.6.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../user_manual.html">COPE DB User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deployment.html">Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../development.html">Development Setup</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Design - WP4:Compare</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#apps">Apps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#models">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#forms">Forms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#procurement-compare-app">Procurement (Compare app)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transplantation-compare-app">Transplantation (Compare app)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#samples-samples-app">Samples (Samples app)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#follow-ups-followup-app">Follow Ups (Followup app)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#adverse-events-adverse-event-app">Adverse Events (Adverse_event app)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="wp7_design.html">Design - WP7:Biobanking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models.html">Data Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">COPE DB</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+    <li>Design - WP4:Compare</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/source/design/wp4_design.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="design-wp4-compare">
+<span id="design-wp4-compare"></span><h1>Design - WP4:Compare<a class="headerlink" href="#design-wp4-compare" title="Permalink to this headline">¶</a></h1>
+<p>(notes) Belatedly putting a few things down here for clarity:</p>
+<div class="section" id="apps">
+<span id="apps"></span><h2>Apps<a class="headerlink" href="#apps" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="models">
+<span id="models"></span><h2>Models<a class="headerlink" href="#models" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="forms">
+<span id="forms"></span><h2>Forms<a class="headerlink" href="#forms" title="Permalink to this headline">¶</a></h2>
+<p>There are several key &#8220;forms&#8221; in the system, which are actually composed of a number of smaller forms (and occasionally formsets).</p>
+<div class="section" id="procurement-compare-app">
+<span id="procurement-compare-app"></span><h3>Procurement (Compare app)<a class="headerlink" href="#procurement-compare-app" title="Permalink to this headline">¶</a></h3>
+<p>Procurement hangs off of the <em>Donor</em> model, which means that this model also holds any form specific metadata (such as form_completed).</p>
+<p>Each Procurement Form is started via <code class="docutils literal"><span class="pre">DonorStartForm</span></code></p>
+<p><em>OrganPerson</em> is created along with <em>Donor</em> via the DonorStartForm. 2 <em>Organs</em> and a related donor <strong>Sample</strong> <em>Worksheet</em> are also created.</p>
+<p>Extra steps are taken to complete a <em>Randomisation</em> record if the case is started as an Offline randomisation, otherwise they are not added until later on in the Procurement Form process.</p>
+<p>Procurement Form structure:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>Donor {1}  via DonorForm
+|-&gt; OrganPerson {1}  via OrganPersonForm
+|-&gt; Randomisation {0|1}
+\-&gt; Organ {0|2}  via OrganForm
+    \-&gt; ProcurementResources {7}  via ProcurementResource????InlineFormSet made of ProcurementResourceForm
+</pre></div>
+</div>
+</div>
+<div class="section" id="transplantation-compare-app">
+<span id="transplantation-compare-app"></span><h3>Transplantation (Compare app)<a class="headerlink" href="#transplantation-compare-app" title="Permalink to this headline">¶</a></h3>
+<p>Transplantation hangs off of the <em>Organ</em> model. This is because neither <em>OrganAllocation</em>, nor <em>Recipient</em> records can be guaranteed to exist for this form to be considered &#8220;closed&#8221;. Consequently we need to record form metadata on the <em>Organ</em> record (rather than Recipient as originally intended).</p>
+<p>Each Transplantation Form is started via <code class="docutils literal"><span class="pre">AllocationStartForm</span></code>. This will create an initial <em>OrganAllocation</em> record which is what is displayed for the Transplantion form to start with.</p>
+<p>Tranplantation Form structure:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Organ</span> <span class="p">{</span><span class="mi">1</span><span class="p">}</span>  <span class="n">via</span> <span class="n">TransplantOrganForm</span>
+<span class="o">|-&gt;</span> <span class="n">OrganAllocation</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="p">{</span><span class="mi">0</span><span class="o">-</span><span class="n">n</span><span class="p">}</span>  <span class="n">via</span> <span class="n">AllocationFormset</span>
+\<span class="o">-&gt;</span> <span class="n">Recipient</span> <span class="p">{</span><span class="mi">0</span><span class="o">|</span><span class="mi">1</span><span class="p">}</span>  <span class="n">via</span> <span class="n">RecipientForm</span>
+    \<span class="o">-&gt;</span> <span class="n">OrganPerson</span> <span class="p">{</span><span class="mi">1</span><span class="p">}</span>  <span class="n">via</span> <span class="n">OrganPersonForm</span>
+</pre></div>
+</div>
+<p>The overall process can be seen in the following process image:</p>
+<p><img alt="Whiteboard: Transplant Form process flow" src="../../_images/whiteboard_compare_transplant_design.jpg" /></p>
+<p>The basic flow can be seen as: <code class="docutils literal"><span class="pre">Allocated?</span> <span class="pre">--&gt;</span> <span class="pre">Allocation(s)</span> <span class="pre">--&gt;</span> <span class="pre">Recipient</span> <span class="pre">Data</span> <span class="pre">--&gt;</span> <span class="pre">Form</span> <span class="pre">Notes</span></code>. There are several stages where the process terminates with the form being closed, not just after a complete procedure.</p>
+</div>
+<div class="section" id="samples-samples-app">
+<span id="samples-samples-app"></span><h3>Samples (Samples app)<a class="headerlink" href="#samples-samples-app" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="follow-ups-followup-app">
+<span id="follow-ups-followup-app"></span><h3>Follow Ups (Followup app)<a class="headerlink" href="#follow-ups-followup-app" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="adverse-events-adverse-event-app">
+<span id="adverse-events-adverse-event-app"></span><h3>Adverse Events (Adverse_event app)<a class="headerlink" href="#adverse-events-adverse-event-app" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="wp7_design.html" class="btn btn-neutral float-right" title="Design - WP7:Biobanking" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../development.html" class="btn btn-neutral" title="Development Setup" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Carl Marshall.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.6.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

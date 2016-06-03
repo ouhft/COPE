@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>wp4.staff_person.models &mdash; COPE DB 0.5.0 documentation</title>
+  <title>wp4.staff_person.models &mdash; COPE DB 0.6.0 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="COPE DB 0.5.0 documentation" href="../../../index.html"/>
+    <link rel="top" title="COPE DB 0.6.0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.5.0
+                0.6.0
               </div>
             
           
@@ -81,15 +81,13 @@
             
             
                 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../user_manual.html">COPE DB User Manual</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../deployment.html">Deployment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../development.html">Development Setup</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../development.html#useful-things-to-remember">Useful things to remember</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../development.html#documentation">Documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../design/wp4_design.html">Design - WP4:Compare</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../design/wp7_design.html">Design - WP7:Biobanking</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules/models.html">Data Models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/user_manual.html">COPE DB User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/deployment.html">Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/development.html">Development Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/design/wp4_design.html">Design - WP4:Compare</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/design/wp7_design.html">Design - WP7:Biobanking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/models.html">Data Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/changelog.html">Changelog</a></li>
 </ul>
 
             
@@ -143,13 +141,14 @@
 <span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">User</span>
 <span class="kn">from</span> <span class="nn">django.core.urlresolvers</span> <span class="kn">import</span> <span class="n">reverse</span>
 <span class="kn">from</span> <span class="nn">django.core.validators</span> <span class="kn">import</span> <span class="n">RegexValidator</span>
+<span class="kn">from</span> <span class="nn">django.utils</span> <span class="kn">import</span> <span class="n">six</span>
 <span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">ugettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
 
 <span class="kn">from</span> <span class="nn">wp4.locations.models</span> <span class="kn">import</span> <span class="n">Hospital</span>
 <span class="kn">from</span> <span class="nn">wp4.compare.models</span> <span class="kn">import</span> <span class="n">VersionControlMixin</span>
 
 
-<div class="viewcode-block" id="StaffJob"><a class="viewcode-back" href="../../../modules/generated/wp4.staff_person.models.html#wp4.staff_person.models.StaffJob">[docs]</a><span class="k">class</span> <span class="nc">StaffJob</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<div class="viewcode-block" id="StaffJob"><a class="viewcode-back" href="../../../source/generated/wp4.staff_person.models.html#wp4.staff_person.models.StaffJob">[docs]</a><span class="k">class</span> <span class="nc">StaffJob</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Helper class for the range of Job/roles that are defined in the project protocol. These aren&#39;t</span>
 <span class="sd">    integrated with the Django permissions system, though there is potential to do that as a refactor.</span>
@@ -171,11 +170,11 @@
 
     <span class="n">description</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Job Label&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span></div>
 
 
-<div class="viewcode-block" id="StaffPerson"><a class="viewcode-back" href="../../../modules/generated/wp4.staff_person.models.html#wp4.staff_person.models.StaffPerson">[docs]</a><span class="k">class</span> <span class="nc">StaffPerson</span><span class="p">(</span><span class="n">VersionControlMixin</span><span class="p">):</span>
+<div class="viewcode-block" id="StaffPerson"><a class="viewcode-back" href="../../../source/generated/wp4.staff_person.models.html#wp4.staff_person.models.StaffPerson">[docs]</a><span class="k">class</span> <span class="nc">StaffPerson</span><span class="p">(</span><span class="n">VersionControlMixin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base person record that links with the Django User record to add further metadata relevant to the</span>
 <span class="sd">    project management. Doesn&#39;t extend User to avoid complications of doing so.</span>
@@ -207,11 +206,11 @@
         <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Link to a primary hospital location for the member of staff&quot;</span>
     <span class="p">)</span>
 
-<div class="viewcode-block" id="StaffPerson.full_name"><a class="viewcode-back" href="../../../modules/generated/wp4.staff_person.models.html#wp4.staff_person.models.StaffPerson.full_name">[docs]</a>    <span class="k">def</span> <span class="nf">full_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="StaffPerson.full_name"><a class="viewcode-back" href="../../../source/generated/wp4.staff_person.models.html#wp4.staff_person.models.StaffPerson.full_name">[docs]</a>    <span class="k">def</span> <span class="nf">full_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_names</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_names</span></div>
     <span class="n">full_name</span><span class="o">.</span><span class="n">short_description</span> <span class="o">=</span> <span class="s1">&#39;Name&#39;</span>
 
-<div class="viewcode-block" id="StaffPerson.has_job"><a class="viewcode-back" href="../../../modules/generated/wp4.staff_person.models.html#wp4.staff_person.models.StaffPerson.has_job">[docs]</a>    <span class="k">def</span> <span class="nf">has_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">acceptable_jobs</span><span class="p">):</span>
+<div class="viewcode-block" id="StaffPerson.has_job"><a class="viewcode-back" href="../../../source/generated/wp4.staff_person.models.html#wp4.staff_person.models.StaffPerson.has_job">[docs]</a>    <span class="k">def</span> <span class="nf">has_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">acceptable_jobs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Dual purpose function. Will comfirm or deny this person has one or more of the jobs specified</span>
 <span class="sd">        if a list of jobs is is submitted, otherwise will confirm if a specified job is in this person&#39;s</span>
@@ -225,19 +224,19 @@
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">acceptable_jobs</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">acceptable_jobs</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">tuple</span><span class="p">:</span>
             <span class="n">answer</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">jobs_list</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">acceptable_jobs</span><span class="p">]</span>
             <span class="k">return</span> <span class="bp">True</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">answer</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="bp">False</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">acceptable_jobs</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">long</span><span class="p">)):</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">acceptable_jobs</span><span class="p">,</span> <span class="n">six</span><span class="o">.</span><span class="n">integer_types</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">acceptable_jobs</span> <span class="ow">in</span> <span class="n">jobs_list</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;acceptable jobs is an invalid type&quot;</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">full_name</span><span class="p">()</span>  <span class="c1"># + &#39; : &#39; + self.get_job_display()  TODO: List jobs?</span>
 
     <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
         <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;PEm1 person&#39;</span><span class="p">)</span>
         <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;PEm2 people&#39;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="StaffPerson.get_absolute_url"><a class="viewcode-back" href="../../../modules/generated/wp4.staff_person.models.html#wp4.staff_person.models.StaffPerson.get_absolute_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_absolute_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="StaffPerson.get_absolute_url"><a class="viewcode-back" href="../../../source/generated/wp4.staff_person.models.html#wp4.staff_person.models.StaffPerson.get_absolute_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_absolute_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">reverse</span><span class="p">(</span><span class="s2">&quot;wp4:staff_person:detail&quot;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;pk&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pk</span><span class="p">})</span></div></div>
 </pre></div>
 
@@ -272,7 +271,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.5.0',
+            VERSION:'0.6.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

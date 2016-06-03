@@ -20,17 +20,16 @@ Quick links:
 
 Contents
 --------
-
 .. toctree::
    :maxdepth: 2
 
-   user_manual
-   deployment
-   development
-   design/wp4_design
-   design/wp7_design
-   modules/models
-   changelog
+   source/user_manual
+   source/deployment
+   source/development
+   source/design/wp4_design
+   source/design/wp7_design
+   source/models
+   source/changelog
 
 
 Indices and tables

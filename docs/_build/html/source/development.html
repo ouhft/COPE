@@ -1,0 +1,366 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Development Setup &mdash; COPE DB 0.6.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="COPE DB 0.6.0 documentation" href="../index.html"/>
+        <link rel="next" title="Design - WP4:Compare" href="design/wp4_design.html"/>
+        <link rel="prev" title="Deployment" href="deployment.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> COPE DB
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.6.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="user_manual.html">COPE DB User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html">Deployment</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Development Setup</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#user-credentials">User credentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#third-party-apps-in-use">Third party apps in use</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#brew-installation">Brew installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#python-setup">Python setup</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#project-setup">Project setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pycharm-setup">PyCharm setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#useful-things-to-remember">Useful things to remember</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#documentation">Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="design/wp4_design.html">Design - WP4:Compare</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design/wp7_design.html">Design - WP7:Biobanking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models.html">Data Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">COPE DB</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>Development Setup</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/source/development.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="development-setup">
+<span id="development-setup"></span><h1>Development Setup<a class="headerlink" href="#development-setup" title="Permalink to this headline">¶</a></h1>
+<p>Base system is OS X 10.11.4 (El Capitan), and I&#8217;ve got this environment setup in two locations so far. This document
+mostly details how the second environment was built (to match the first - which has evolved from OS X 10.7 times)</p>
+<p>Most of my approach is based on <a class="reference external" href="#">http://hackercodex.com/guide/python-development-environment-on-mac-osx/</a> (which is the
+updated version of the guide I&#8217;ve used for the past 4 years)</p>
+<div class="section" id="user-credentials">
+<span id="user-credentials"></span><h2>User credentials<a class="headerlink" href="#user-credentials" title="Permalink to this headline">¶</a></h2>
+<p>As a new user account (on a new machine, but that bit is irrelevant) we need to create an SSH key for access to things
+like GitHub and cope.nds Server.::</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="o">~/.</span><span class="n">ssh</span>
+<span class="n">chmod</span> <span class="mi">700</span> <span class="o">~/.</span><span class="n">ssh</span>
+<span class="n">ssh</span><span class="o">-</span><span class="n">keygen</span> <span class="o">-</span><span class="n">t</span> <span class="n">rsa</span> <span class="o">-</span><span class="n">b</span> <span class="mi">4096</span>
+<span class="c1"># Follow onscreen prompts for name of key and empty passphrase</span>
+</pre></div>
+</div>
+<p>With a key generated, it can be added to:</p>
+<ul class="simple">
+<li>cope.nds authorised_keys</li>
+<li>webfaction authorised_keys</li>
+<li>GitHub marshalc keys</li>
+</ul>
+<p>This needs to be done for GitHub at least, before you can so the project setup below</p>
+</div>
+<div class="section" id="third-party-apps-in-use">
+<span id="third-party-apps-in-use"></span><h2>Third party apps in use<a class="headerlink" href="#third-party-apps-in-use" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><strong>IDE:</strong> PyCharm - from http://www.jetbrains.com. I&#8217;m using the Professional 2016.1 version.</li>
+<li><strong>Utility:</strong> CodeKit - from http://incident57.com/codekit/. Currently v2.4</li>
+<li><strong>Utility:</strong> CyberDuck - from . Currently v4.7.2</li>
+<li><strong>Base libraries:</strong> Homebrew - from http://brew.sh. More on its installation later.</li>
+</ul>
+<div class="section" id="brew-installation">
+<span id="brew-installation"></span><h3>Brew installation<a class="headerlink" href="#brew-installation" title="Permalink to this headline">¶</a></h3>
+<p>Easy enough, just follow the instructions on the Homebrew website. ::</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ruby</span> <span class="o">-</span><span class="n">e</span> <span class="s2">&quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</span>
+<span class="c1"># Accept suggestions, and enter password for sudo</span>
+<span class="n">brew</span> <span class="n">doctor</span>
+<span class="c1"># Recommends running the xcode install to get the 10.10 SDK which isn&#39;t implicit in the XCode 7 install</span>
+<span class="n">xcode</span><span class="o">-</span><span class="n">select</span> <span class="o">--</span><span class="n">install</span>
+<span class="c1"># This prompts a gui installer to pop up, so click to accept.</span>
+</pre></div>
+</div>
+<p>Of the various base libraries that come up for use in various projects, one that seems to be key is <code class="docutils literal"><span class="pre">readline</span></code>, so we&#8217;ll
+install that now::</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">brew</span> <span class="n">install</span> <span class="n">readline</span>
+<span class="c1"># Also helpful, but not essential</span>
+<span class="n">brew</span> <span class="n">install</span> <span class="n">bash</span><span class="o">-</span><span class="n">completion</span> <span class="n">ssh</span><span class="o">-</span><span class="n">copy</span><span class="o">-</span><span class="nb">id</span> <span class="n">wget</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="python-setup">
+<span id="python-setup"></span><h3>Python setup<a class="headerlink" href="#python-setup" title="Permalink to this headline">¶</a></h3>
+<p>Start by putting Homebrew&#8217;s python installs into the system to avoid conflicts with the system python::</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">brew</span> <span class="n">install</span> <span class="n">python</span> <span class="n">python3</span>
+</pre></div>
+</div>
+<p>Have installed both python (2.7.10) and python3 (3.5) brew packages, which gives us setuptools, sqlite3 and pip.</p>
+<p>Have then pip installed virtualenv, and virtualenvwrapper. However, my installation of these differs from the guide::</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">virtualenv</span> <span class="n">virtualenvwrapper</span>
+<span class="n">mkdir</span> <span class="o">~/.</span><span class="n">virtualenvs</span> <span class="o">~/</span><span class="n">Projects</span>
+<span class="n">vi</span> <span class="o">~/.</span><span class="n">bashrc</span>
+</pre></div>
+</div>
+<p>Creates new file and so we add::</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span># From virtualenvwrapper setup guide
+export WORKON_HOME=$HOME/.virtualenvs
+export PROJECT_HOME=$HOME/Projects
+source /usr/local/bin/virtualenvwrapper.sh
+
+# pip should only run if there is a virtualenv currently activated
+export PIP_REQUIRE_VIRTUALENV=true
+
+# Add a shortcut to the &#39;global&#39; pip command for when global updates need to be managed
+gpip(){
+   PIP_REQUIRE_VIRTUALENV=&quot;&quot; pip &quot;$@&quot;
+}
+</pre></div>
+</div>
+<p>Then as part of <code class="docutils literal"><span class="pre">vi</span> <span class="pre">~/.bash_profile</span></code> we add::</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span># Set architecture flags
+export ARCHFLAGS=&quot;-arch x86_64&quot;
+# Ensure user-installed binaries take precedence
+export PATH=/usr/local/bin:$PATH
+# Load .bashrc if it exists
+test -f ~/.bashrc &amp;&amp; source ~/.bashrc
+
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
+  . $(brew --prefix)/etc/bash_completion
+fi
+
+# Set local aliases
+alias ll=&#39;ls -laG&#39;
+alias pm=&#39;python manage.py&#39;
+</pre></div>
+</div>
+<p>Don&#8217;t forget to <code class="docutils literal"><span class="pre">source</span> <span class="pre">~/.bash_profile</span></code> at the end if you want to use this session with this setup!</p>
+</div>
+</div>
+<div class="section" id="project-setup">
+<span id="project-setup"></span><h2>Project setup<a class="headerlink" href="#project-setup" title="Permalink to this headline">¶</a></h2>
+<p>With the base tools in place, we can now setup the development environment for the project itself. We&#8217;ll create a
+virtualenv project for development, then get the latest code from the central github repository. ::</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">mkproject</span> <span class="n">cope</span>
+<span class="c1"># NB: this sets CWD to /Users/$USER/Projects/cope</span>
+<span class="n">git</span> <span class="n">clone</span> <span class="n">git</span><span class="nd">@github</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="n">AllyBradley</span><span class="o">/</span><span class="n">COPE</span><span class="o">.</span><span class="n">git</span> <span class="n">cope_repo</span>
+<span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">~/.</span><span class="n">virtualenvs</span><span class="o">/</span><span class="n">cope</span><span class="o">/</span><span class="n">lib</span> <span class="o">./</span><span class="n">lib</span>
+<span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">~/.</span><span class="n">virtualenvs</span><span class="o">/</span><span class="n">cope</span><span class="o">/</span><span class="nb">bin</span> <span class="o">./</span><span class="nb">bin</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">cope_repo</span><span class="o">/</span><span class="n">requirements</span><span class="o">/</span><span class="n">dev_home</span><span class="o">.</span><span class="n">txt</span>
+<span class="n">cd</span> <span class="n">cope</span><span class="o">-</span><span class="n">repo</span><span class="o">/</span>
+<span class="n">chmod</span> <span class="mi">775</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span>
+<span class="n">cp</span> <span class="n">local</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">template</span> <span class="n">local</span><span class="o">.</span><span class="n">env</span>
+<span class="n">vi</span> <span class="n">local</span><span class="o">.</span><span class="n">env</span>
+<span class="n">pm</span> <span class="n">check</span>                 <span class="c1"># Should return 0 errors</span>
+<span class="n">pm</span> <span class="n">migrate</span>
+<span class="n">pm</span> <span class="n">collectstatic</span>         <span class="c1"># NB: Should point to the htdocs folder and ask for confirmation</span>
+<span class="n">pm</span> <span class="n">createsuperuser</span>       <span class="c1"># superuser is &#39;carl&#39;</span>
+<span class="n">pm</span> <span class="n">loaddata</span> <span class="n">config</span><span class="o">/</span><span class="n">fixtures</span><span class="o">/</span><span class="mi">01</span><span class="n">_hospitals</span><span class="o">.</span><span class="n">json</span>
+<span class="n">pm</span> <span class="n">loaddata</span> <span class="n">config</span><span class="o">/</span><span class="n">fixtures</span><span class="o">/</span><span class="mi">02</span><span class="n">_persons</span><span class="o">.</span><span class="n">json</span>
+<span class="n">pm</span> <span class="n">loaddata</span> <span class="n">config</span><span class="o">/</span><span class="n">fixtures</span><span class="o">/</span><span class="mi">03</span><span class="n">_gradings</span><span class="o">.</span><span class="n">json</span>
+<span class="n">pm</span> <span class="n">loaddata</span> <span class="n">config</span><span class="o">/</span><span class="n">fixtures</span><span class="o">/</span><span class="mi">09</span><span class="n">_testusers</span><span class="o">.</span><span class="n">json</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="pycharm-setup">
+<span id="pycharm-setup"></span><h2>PyCharm setup<a class="headerlink" href="#pycharm-setup" title="Permalink to this headline">¶</a></h2>
+<p>Now we can head to PyCharm and make the project available, along with debug options, etc</p>
+<ul class="simple">
+<li>Open PyCharm</li>
+<li>Select open project</li>
+<li>Point it to <code class="docutils literal"><span class="pre">$HOME/Projects/cope</span></code></li>
+<li>Allow it to index files and complete loading.</li>
+<li>You should be prompted to add a new VCS root for cope_repo. Do this.</li>
+<li>In Preferences, Enable Django support for the project</li>
+<li>Edit Configurations (toolbar) to create a Django Server project</li>
+<li>You can now test by running the testserver (^R for shortcut, or see toolbar button)</li>
+</ul>
+</div>
+<div class="section" id="useful-things-to-remember">
+<span id="useful-things-to-remember"></span><h2>Useful things to remember<a class="headerlink" href="#useful-things-to-remember" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">pip</span> <span class="pre">list</span> <span class="pre">-o</span></code> will list the installed packages that have been superceded/outdated</li>
+</ul>
+</div>
+<div class="section" id="documentation">
+<span id="documentation"></span><h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
+<p>Sphinx is now installed in the development branch to allow documentation to be generated. Notes on the setup of this can be found at: <a class="reference external" href="#">https://gist.github.com/marshalc/327fc737ce0557a253c0c3d57f679292</a></p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="design/wp4_design.html" class="btn btn-neutral float-right" title="Design - WP4:Compare" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="deployment.html" class="btn btn-neutral" title="Deployment" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Carl Marshall.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.6.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

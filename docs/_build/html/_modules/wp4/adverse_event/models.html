@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>wp4.adverse_event.models &mdash; COPE DB 0.5.0 documentation</title>
+  <title>wp4.adverse_event.models &mdash; COPE DB 0.6.0 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="COPE DB 0.5.0 documentation" href="../../../index.html"/>
+    <link rel="top" title="COPE DB 0.6.0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.5.0
+                0.6.0
               </div>
             
           
@@ -81,15 +81,13 @@
             
             
                 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../user_manual.html">COPE DB User Manual</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../deployment.html">Deployment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../development.html">Development Setup</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../development.html#useful-things-to-remember">Useful things to remember</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../development.html#documentation">Documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../design/wp4_design.html">Design - WP4:Compare</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../design/wp7_design.html">Design - WP7:Biobanking</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules/models.html">Data Models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/user_manual.html">COPE DB User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/deployment.html">Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/development.html">Development Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/design/wp4_design.html">Design - WP4:Compare</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/design/wp7_design.html">Design - WP7:Biobanking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/models.html">Data Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/changelog.html">Changelog</a></li>
 </ul>
 
             
@@ -137,6 +135,8 @@
   <h1>Source code for wp4.adverse_event.models</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/python</span>
 <span class="c1"># coding: utf-8</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">unicode_literals</span>
+
 <span class="kn">from</span> <span class="nn">django.core.urlresolvers</span> <span class="kn">import</span> <span class="n">reverse</span>
 <span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
 <span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">ugettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
@@ -145,10 +145,8 @@
 <span class="kn">from</span> <span class="nn">..staff_person.models</span> <span class="kn">import</span> <span class="n">StaffPerson</span>
 
 
-<div class="viewcode-block" id="AdverseEvent"><a class="viewcode-back" href="../../../modules/generated/wp4.adverse_event.models.html#wp4.adverse_event.models.AdverseEvent">[docs]</a><span class="k">class</span> <span class="nc">AdverseEvent</span><span class="p">(</span><span class="n">VersionControlMixin</span><span class="p">):</span>
+<div class="viewcode-block" id="AdverseEvent"><a class="viewcode-back" href="../../../source/generated/wp4.adverse_event.models.html#wp4.adverse_event.models.AdverseEvent">[docs]</a><span class="k">class</span> <span class="nc">AdverseEvent</span><span class="p">(</span><span class="n">VersionControlMixin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    WORK IN PROGRESS - Class definition prone to rapid change</span>
-
 <span class="sd">    Collects (serious) adverse event information related to a specific Organ within the study</span>
 
 <span class="sd">    Based strictly on the paper form for initial version, even though that form contains issues. Fields</span>
@@ -242,10 +240,10 @@
         <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;AEm1 adverse event&#39;</span><span class="p">)</span>
         <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;AEm2 adverse events&#39;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="AdverseEvent.get_absolute_url"><a class="viewcode-back" href="../../../modules/generated/wp4.adverse_event.models.html#wp4.adverse_event.models.AdverseEvent.get_absolute_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_absolute_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="AdverseEvent.get_absolute_url"><a class="viewcode-back" href="../../../source/generated/wp4.adverse_event.models.html#wp4.adverse_event.models.AdverseEvent.get_absolute_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_absolute_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">reverse</span><span class="p">(</span><span class="s2">&quot;wp4:adverse_event:update&quot;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;pk&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pk</span><span class="p">})</span></div>
 
-    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;{0} @ {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">organ</span><span class="o">.</span><span class="n">trial_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">onset_at_date</span><span class="p">)</span></div>
 </pre></div>
 
@@ -280,7 +278,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.5.0',
+            VERSION:'0.6.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

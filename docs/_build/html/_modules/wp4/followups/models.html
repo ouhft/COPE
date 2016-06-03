@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>wp4.followups.models &mdash; COPE DB 0.5.0 documentation</title>
+  <title>wp4.followups.models &mdash; COPE DB 0.6.0 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="COPE DB 0.5.0 documentation" href="../../../index.html"/>
+    <link rel="top" title="COPE DB 0.6.0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.5.0
+                0.6.0
               </div>
             
           
@@ -81,15 +81,13 @@
             
             
                 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../user_manual.html">COPE DB User Manual</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../deployment.html">Deployment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../development.html">Development Setup</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../development.html#useful-things-to-remember">Useful things to remember</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../development.html#documentation">Documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../design/wp4_design.html">Design - WP4:Compare</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../design/wp7_design.html">Design - WP7:Biobanking</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules/models.html">Data Models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/user_manual.html">COPE DB User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/deployment.html">Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/development.html">Development Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/design/wp4_design.html">Design - WP4:Compare</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/design/wp7_design.html">Design - WP7:Biobanking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/models.html">Data Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/changelog.html">Changelog</a></li>
 </ul>
 
             
@@ -149,7 +147,7 @@
 <span class="kn">from</span> <span class="nn">wp4.health_economics.models</span> <span class="kn">import</span> <span class="n">QualityOfLife</span>
 
 
-<div class="viewcode-block" id="FollowUpBase"><a class="viewcode-back" href="../../../modules/generated/wp4.followups.models.html#wp4.followups.models.FollowUpBase">[docs]</a><span class="k">class</span> <span class="nc">FollowUpBase</span><span class="p">(</span><span class="n">VersionControlMixin</span><span class="p">):</span>
+<div class="viewcode-block" id="FollowUpBase"><a class="viewcode-back" href="../../../source/generated/wp4.followups.models.html#wp4.followups.models.FollowUpBase">[docs]</a><span class="k">class</span> <span class="nc">FollowUpBase</span><span class="p">(</span><span class="n">VersionControlMixin</span><span class="p">):</span>
     <span class="n">UNIT_MGDL</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">UNIT_UMOLL</span> <span class="o">=</span> <span class="mi">2</span>
     <span class="n">UNIT_MMOLL</span> <span class="o">=</span> <span class="mi">3</span>
@@ -266,11 +264,11 @@
     <span class="k">def</span> <span class="nf">graft_removal_get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">True</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">graft_failure_date</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="bp">False</span>
 
-<div class="viewcode-block" id="FollowUpBase.Meta"><a class="viewcode-back" href="../../../modules/generated/wp4.followups.models.html#wp4.followups.models.FollowUpBase.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+<div class="viewcode-block" id="FollowUpBase.Meta"><a class="viewcode-back" href="../../../source/generated/wp4.followups.models.html#wp4.followups.models.FollowUpBase.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
         <span class="n">abstract</span> <span class="o">=</span> <span class="bp">True</span></div></div>
 
 
-<div class="viewcode-block" id="FollowUpInitial"><a class="viewcode-back" href="../../../modules/generated/wp4.followups.models.html#wp4.followups.models.FollowUpInitial">[docs]</a><span class="k">class</span> <span class="nc">FollowUpInitial</span><span class="p">(</span><span class="n">FollowUpBase</span><span class="p">):</span>
+<div class="viewcode-block" id="FollowUpInitial"><a class="viewcode-back" href="../../../source/generated/wp4.followups.models.html#wp4.followups.models.FollowUpInitial">[docs]</a><span class="k">class</span> <span class="nc">FollowUpInitial</span><span class="p">(</span><span class="n">FollowUpBase</span><span class="p">):</span>
     <span class="n">organ</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span><span class="n">Organ</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s2">&quot;followup_initial&quot;</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FI01 Trial id&quot;</span><span class="p">))</span>
 
     <span class="n">serum_creatinine_unit</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
@@ -400,10 +398,10 @@
         <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;FIm1 Initial FollowUp&quot;</span><span class="p">)</span>
         <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;FIm2 Initial FollowUps&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> (</span><span class="si">%s</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trial_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_date</span><span class="p">)</span>
 
-<div class="viewcode-block" id="FollowUpInitial.get_absolute_url"><a class="viewcode-back" href="../../../modules/generated/wp4.followups.models.html#wp4.followups.models.FollowUpInitial.get_absolute_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_absolute_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="FollowUpInitial.get_absolute_url"><a class="viewcode-back" href="../../../source/generated/wp4.followups.models.html#wp4.followups.models.FollowUpInitial.get_absolute_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_absolute_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;wp4:followup:initial_detail&#39;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;pk&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pk</span><span class="p">})</span></div>
 
     <span class="nd">@property</span>
@@ -411,7 +409,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">organ</span><span class="o">.</span><span class="n">trial_id</span></div>
 
 
-<div class="viewcode-block" id="FollowUp3M"><a class="viewcode-back" href="../../../modules/generated/wp4.followups.models.html#wp4.followups.models.FollowUp3M">[docs]</a><span class="k">class</span> <span class="nc">FollowUp3M</span><span class="p">(</span><span class="n">FollowUpBase</span><span class="p">):</span>
+<div class="viewcode-block" id="FollowUp3M"><a class="viewcode-back" href="../../../source/generated/wp4.followups.models.html#wp4.followups.models.FollowUp3M">[docs]</a><span class="k">class</span> <span class="nc">FollowUp3M</span><span class="p">(</span><span class="n">FollowUpBase</span><span class="p">):</span>
     <span class="n">organ</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span><span class="n">Organ</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s2">&quot;followup_3m&quot;</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;F301 Trial id&quot;</span><span class="p">))</span>
 
     <span class="n">serum_creatinine_unit</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
@@ -469,10 +467,10 @@
         <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;F3m1 3 Month FollowUp&quot;</span><span class="p">)</span>
         <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;F3m2 3 Month FollowUps&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> (</span><span class="si">%s</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trial_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_date</span><span class="p">)</span>
 
-<div class="viewcode-block" id="FollowUp3M.get_absolute_url"><a class="viewcode-back" href="../../../modules/generated/wp4.followups.models.html#wp4.followups.models.FollowUp3M.get_absolute_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_absolute_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="FollowUp3M.get_absolute_url"><a class="viewcode-back" href="../../../source/generated/wp4.followups.models.html#wp4.followups.models.FollowUp3M.get_absolute_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_absolute_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;wp4:followup:month3_detail&#39;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;pk&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pk</span><span class="p">})</span></div>
 
     <span class="nd">@property</span>
@@ -480,7 +478,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">organ</span><span class="o">.</span><span class="n">trial_id</span></div>
 
 
-<div class="viewcode-block" id="FollowUp6M"><a class="viewcode-back" href="../../../modules/generated/wp4.followups.models.html#wp4.followups.models.FollowUp6M">[docs]</a><span class="k">class</span> <span class="nc">FollowUp6M</span><span class="p">(</span><span class="n">FollowUpBase</span><span class="p">):</span>
+<div class="viewcode-block" id="FollowUp6M"><a class="viewcode-back" href="../../../source/generated/wp4.followups.models.html#wp4.followups.models.FollowUp6M">[docs]</a><span class="k">class</span> <span class="nc">FollowUp6M</span><span class="p">(</span><span class="n">FollowUpBase</span><span class="p">):</span>
     <span class="n">organ</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span><span class="n">Organ</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s2">&quot;followup_6m&quot;</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;F601 Trial id&quot;</span><span class="p">))</span>
 
     <span class="n">serum_creatinine_unit</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
@@ -530,10 +528,10 @@
         <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;F6m1 6 Month FollowUp&quot;</span><span class="p">)</span>
         <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;F6m2 6 Month FollowUps&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> (</span><span class="si">%s</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trial_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_date</span><span class="p">)</span>
 
-<div class="viewcode-block" id="FollowUp6M.get_absolute_url"><a class="viewcode-back" href="../../../modules/generated/wp4.followups.models.html#wp4.followups.models.FollowUp6M.get_absolute_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_absolute_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="FollowUp6M.get_absolute_url"><a class="viewcode-back" href="../../../source/generated/wp4.followups.models.html#wp4.followups.models.FollowUp6M.get_absolute_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_absolute_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;wp4:followup:month6_detail&#39;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;pk&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pk</span><span class="p">})</span></div>
 
     <span class="nd">@property</span>
@@ -541,7 +539,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">organ</span><span class="o">.</span><span class="n">trial_id</span></div>
 
 
-<div class="viewcode-block" id="FollowUp1Y"><a class="viewcode-back" href="../../../modules/generated/wp4.followups.models.html#wp4.followups.models.FollowUp1Y">[docs]</a><span class="k">class</span> <span class="nc">FollowUp1Y</span><span class="p">(</span><span class="n">FollowUpBase</span><span class="p">):</span>
+<div class="viewcode-block" id="FollowUp1Y"><a class="viewcode-back" href="../../../source/generated/wp4.followups.models.html#wp4.followups.models.FollowUp1Y">[docs]</a><span class="k">class</span> <span class="nc">FollowUp1Y</span><span class="p">(</span><span class="n">FollowUpBase</span><span class="p">):</span>
     <span class="n">organ</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span><span class="n">Organ</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s2">&quot;followup_1y&quot;</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FY01 Trial id&quot;</span><span class="p">))</span>
 
     <span class="n">serum_creatinine_unit</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
@@ -599,10 +597,10 @@
         <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;FYm1 1 Year FollowUp&quot;</span><span class="p">)</span>
         <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;FYm2 1 Year FollowUps&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> (</span><span class="si">%s</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trial_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_date</span><span class="p">)</span>
 
-<div class="viewcode-block" id="FollowUp1Y.get_absolute_url"><a class="viewcode-back" href="../../../modules/generated/wp4.followups.models.html#wp4.followups.models.FollowUp1Y.get_absolute_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_absolute_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="FollowUp1Y.get_absolute_url"><a class="viewcode-back" href="../../../source/generated/wp4.followups.models.html#wp4.followups.models.FollowUp1Y.get_absolute_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_absolute_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;wp4:followup:final_detail&#39;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;pk&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pk</span><span class="p">})</span></div>
 
     <span class="nd">@property</span>
@@ -641,7 +639,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.5.0',
+            VERSION:'0.6.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
