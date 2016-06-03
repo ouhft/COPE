@@ -131,7 +131,7 @@ msgstr ""
 
 #: wp4/adverse_event/models.py:53
 msgid "AE30 rehospitalisation"
-msgstr "Q6 Did the event require hospitalisation?"
+msgstr "Did the event require hospitalisation?"
 
 #: wp4/adverse_event/models.py:54
 msgid "AE31 date of admission"
@@ -163,7 +163,7 @@ msgstr "Comments"
 
 #: wp4/adverse_event/models.py:62
 msgid "AE40 led to death"
-msgstr "Q7 Did the event lead to death?"
+msgstr "Did the event lead to death?"
 
 #: wp4/adverse_event/models.py:63
 msgid "AE41 date of death"
