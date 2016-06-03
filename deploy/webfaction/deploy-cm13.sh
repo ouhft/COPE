@@ -15,7 +15,7 @@ echo " "
 echo "=================================================================================="
 echo " "
 date
-cd $HOME/webapps/wp4_django_py3/COPE
+cd $HOME/webapps/wp4_django_py3/cope_repo
 PULL=$(git pull)
 echo "Repository Updated : $PULL"
 echo " "
