@@ -1427,26 +1427,18 @@ msgid "FB11 date of graft failure"
 msgstr "Date of graft failure"
 
 #: wp4/followups/models.py:44
-#, fuzzy
-#| msgid "FB02 graft failure"
 msgid "FB12 graft failure"
 msgstr "Graft failure?"
 
 #: wp4/followups/models.py:50
-#, fuzzy
-#| msgid "FB04 Other failure type"
 msgid "FB13 Other failure type"
 msgstr "Other failure type"
 
 #: wp4/followups/models.py:55
-#, fuzzy
-#| msgid "FB06 graft removal"
 msgid "FB14 graft removal"
 msgstr "Graft removal"
 
 #: wp4/followups/models.py:56
-#, fuzzy
-#| msgid "FB07 date of graft removal"
 msgid "FB15 date of graft removal"
 msgstr "Date of graft removal"
 
@@ -1472,84 +1464,58 @@ msgid "FB16 Dialysis type"
 msgstr "Dialysis type"
 
 #: wp4/followups/models.py:72
-#, fuzzy
-#| msgid "FBc20 Azathioprine"
 msgid "FB30 Post tx Azathioprine"
 msgstr "Azathioprine"
 
 #: wp4/followups/models.py:76
-#, fuzzy
-#| msgid "FBc21 Cyclosporin"
 msgid "FB31 Post tx Cyclosporin"
 msgstr "Cyclosporin"
 
 #: wp4/followups/models.py:80
 msgid "FB32 Post tx MMF"
-msgstr ""
+msgstr "Post tx MMF"
 
 #: wp4/followups/models.py:84
-#, fuzzy
-#| msgid "FBc23 Prednisolone"
 msgid "FB33 Post tx Prednisolone"
 msgstr "Prednisolone"
 
 #: wp4/followups/models.py:88
-#, fuzzy
-#| msgid "FBc24 Sirolomus"
 msgid "FB34 Post tx Sirolomus"
 msgstr "Sirolomus"
 
 #: wp4/followups/models.py:92
-#, fuzzy
-#| msgid "FBc25 Tacrolimus"
 msgid "FB35 Post tx Tacrolimus"
 msgstr "Tacrolimus"
 
 #: wp4/followups/models.py:96
-#, fuzzy
-#| msgid "FBc26 Other"
 msgid "FB36 Post tx Other"
 msgstr "Other"
 
 #: wp4/followups/models.py:100
-#, fuzzy
-#| msgid "FB13 Other immunosuppression"
 msgid "FB37 Other immunosuppression"
 msgstr "Other immunosuppression"
 
 #: wp4/followups/models.py:105
-#, fuzzy
-#| msgid "FB14 rejection"
 msgid "FB19 rejection"
 msgstr "Rejection"
 
 #: wp4/followups/models.py:107
-#, fuzzy
-#| msgid "FB15 treated with prednisolone"
 msgid "FB20 treated with prednisolone"
 msgstr "Treated with prednisolone"
 
 #: wp4/followups/models.py:108
-#, fuzzy
-#| msgid "FB16 treated with other drug"
 msgid "FB21 treated with other drug"
 msgstr "Treated with other drug"
 
 #: wp4/followups/models.py:110
-#, fuzzy
-#| msgid "FB17 Other rejection drug"
 msgid "FB22 Other rejection drug"
 msgstr "Other rejection drug"
 
 #: wp4/followups/models.py:113
-#, fuzzy
-#| msgid "FB18 biopsy proven"
 msgid "FB23 biopsy proven"
 msgstr "Biopsy proven rejection"
 
 #: wp4/followups/models.py:115
-#, fuzzy
-#| msgid "FB19 calcineurin inhibitor"
 msgid "FB24 calcineurin inhibitor"
 msgstr "Calcineurin inhibitor"
 
