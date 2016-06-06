@@ -1688,16 +1688,12 @@ msgid "F301 Trial id"
 msgstr ""
 
 #: wp4/followups/models.py:281
-#, fuzzy
-#| msgid "FB08 creatinine 1"
 msgid "F310 creatinine unit"
-msgstr "Creatinine"
+msgstr "Day 1 Creatinine"
 
 #: wp4/followups/models.py:288
-#, fuzzy
-#| msgid "FI01 creatinine 2"
 msgid "F311 creatinine "
-msgstr "Day 2 creatinine"
+msgstr "Day 2 Creatinine"
 
 #: wp4/followups/models.py:295 wp4/followups/old/models2.py:897
 msgid "F302 creatinine clearance"
@@ -1708,56 +1704,42 @@ msgid "F303 currently on dialysis"
 msgstr "Currently on dialysis"
 
 #: wp4/followups/models.py:307
-#, fuzzy
-#| msgid "FB10 date of last dialysis"
 msgid "F304 date of last dialysis"
-msgstr "Date of first post-operative dialysis"
+msgstr "Date of last dialysis"
 
 #: wp4/followups/models.py:312
-#, fuzzy
-#| msgid "F304 number of dialysis sessions"
 msgid "F305 number of dialysis sessions"
 msgstr "Number of dialysis sessions"
 
 #: wp4/followups/models.py:317
-#, fuzzy
-#| msgid "F606 rejection periods"
 msgid "F306 rejection periods"
 msgstr "Rejection periods"
 
 #: wp4/followups/models.py:321
-#, fuzzy
-#| msgid "F306 graft function complications"
 msgid "F307 graft function complications"
 msgstr "Graft function complications"
 
 #: wp4/followups/models.py:326
-#, fuzzy
-#| msgid "F307 quality of life"
 msgid "F308 quality of life"
 msgstr "Mobility"
 
 #: wp4/followups/models.py:332 wp4/followups/old/models2.py:922
 msgid "F3m1 3 Month FollowUp"
-msgstr "3 Month FollowUp"
+msgstr "3 Month Follow Up"
 
 #: wp4/followups/models.py:333 wp4/followups/old/models2.py:923
 msgid "F3m2 3 Month FollowUps"
-msgstr "3 Month FollowUps"
+msgstr "3 Month Follow Ups"
 
 #: wp4/followups/models.py:347
 msgid "F601 Trial id"
 msgstr ""
 
 #: wp4/followups/models.py:350
-#, fuzzy
-#| msgid "FB08 creatinine 1"
 msgid "F610 creatinine unit"
 msgstr "Creatinine"
 
 #: wp4/followups/models.py:357
-#, fuzzy
-#| msgid "FI01 creatinine 2"
 msgid "F611 creatinine "
 msgstr "Day 2 creatinine"
 
@@ -1773,11 +1755,9 @@ msgstr "Currently on dialysis"
 #, fuzzy
 #| msgid "FB10 date of last dialysis"
 msgid "F604 date of last dialysis"
-msgstr "Date of first post-operative dialysis"
+msgstr "Date of last dialysis"
 
 #: wp4/followups/models.py:381
-#, fuzzy
-#| msgid "F604 number of dialysis sessions"
 msgid "F605 number of dialysis sessions"
 msgstr "Number of dialysis sessions"
 
@@ -1786,26 +1766,22 @@ msgid "F606 rejection periods"
 msgstr "Rejection periods"
 
 #: wp4/followups/models.py:390
-#, fuzzy
-#| msgid "F605 graft function complications"
 msgid "F607 graft function complications"
 msgstr "Graft function complications"
 
 #: wp4/followups/models.py:393 wp4/followups/old/models2.py:964
 msgid "F6m1 6 Month FollowUp"
-msgstr "6 Month FollowUp"
+msgstr "6 Month Follow Up"
 
 #: wp4/followups/models.py:394 wp4/followups/old/models2.py:965
 msgid "F6m2 6 Month FollowUps"
-msgstr "6 Month FollowUps"
+msgstr "6 Month Follow Ups"
 
 #: wp4/followups/models.py:408
 msgid "FY01 Trial id"
 msgstr ""
 
 #: wp4/followups/models.py:411
-#, fuzzy
-#| msgid "FB08 creatinine 1"
 msgid "FY10 creatinine unit"
 msgstr "Creatinine"
 
