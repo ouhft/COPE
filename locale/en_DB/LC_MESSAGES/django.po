@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: v0.6.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-03 10:35+0000\n"
+"POT-Creation-Date: 2016-06-03 18:01+0000\n"
 "PO-Revision-Date: 2015-12-11 18:45+0000\n"
 "Last-Translator: CARL MARSHALL <CARL.MARSHALL@NDS.OX.AC.UK>\n"
 "Language-Team: OXFORD <LL@li.org>\n"
@@ -202,13 +202,11 @@ msgid "AEm2 adverse events"
 msgstr ""
 
 #: wp4/compare/forms/core.py:21 wp4/compare/forms/core.py:27
-#: wp4/followups/old/forms.py:19 wp4/followups/old/forms.py:25
 #: wp4/samples/forms.py:19 wp4/samples/forms.py:24
 msgid "FF01 No"
 msgstr ""
 
 #: wp4/compare/forms/core.py:22 wp4/compare/forms/core.py:26
-#: wp4/followups/old/forms.py:20 wp4/followups/old/forms.py:24
 #: wp4/samples/forms.py:20 wp4/samples/forms.py:23
 msgid "FF02 Yes"
 msgstr ""
@@ -1324,10 +1322,6 @@ msgstr ""
 msgid "REm2 recipients"
 msgstr ""
 
-#: wp4/compare/models/transplantation.py:378
-msgid "REv01 Missing time machine perfusion stopped"
-msgstr ""
-
 #: wp4/compare/models/transplantation.py:380
 msgid "REv02 Missing time kidney removed from machine"
 msgstr ""
@@ -1344,8 +1338,7 @@ msgstr ""
 msgid "REv05 Missing Reperfusion Start Time"
 msgstr ""
 
-#: wp4/followups/models.py:26 wp4/followups/old/models2.py:18
-#: wp4/followups/old/models2.py:116
+#: wp4/followups/models.py:26
 msgid "FB01 start date"
 msgstr ""
 
@@ -1353,38 +1346,31 @@ msgstr ""
 msgid "FB03 general notes"
 msgstr ""
 
-#: wp4/followups/models.py:32 wp4/followups/old/models2.py:24
-#: wp4/followups/old/models2.py:131
+#: wp4/followups/models.py:32
 msgid "FBc01 Immunological"
 msgstr ""
 
-#: wp4/followups/models.py:33 wp4/followups/old/models2.py:25
-#: wp4/followups/old/models2.py:132
+#: wp4/followups/models.py:33
 msgid "FBc02 Preservation"
 msgstr ""
 
-#: wp4/followups/models.py:34 wp4/followups/old/models2.py:26
-#: wp4/followups/old/models2.py:133
+#: wp4/followups/models.py:34
 msgid "FBc03 Technical - artery"
 msgstr ""
 
-#: wp4/followups/models.py:35 wp4/followups/old/models2.py:27
-#: wp4/followups/old/models2.py:134
+#: wp4/followups/models.py:35
 msgid "FBc04 Technical - venous"
 msgstr ""
 
-#: wp4/followups/models.py:36 wp4/followups/old/models2.py:28
-#: wp4/followups/old/models2.py:135
+#: wp4/followups/models.py:36
 msgid "FBc05 Infection - bacterial"
 msgstr ""
 
-#: wp4/followups/models.py:37 wp4/followups/old/models2.py:29
-#: wp4/followups/old/models2.py:136
+#: wp4/followups/models.py:37
 msgid "FBc06 Infection - viral"
 msgstr ""
 
-#: wp4/followups/models.py:38 wp4/followups/old/models2.py:30
-#: wp4/followups/old/models2.py:137
+#: wp4/followups/models.py:38
 msgid "FBc07 Other"
 msgstr ""
 
@@ -1412,18 +1398,15 @@ msgstr ""
 msgid "FB15 date of graft removal"
 msgstr ""
 
-#: wp4/followups/models.py:59 wp4/followups/old/models2.py:51
-#: wp4/followups/old/models2.py:182
+#: wp4/followups/models.py:59
 msgid "FBc10 CAPD"
 msgstr ""
 
-#: wp4/followups/models.py:60 wp4/followups/old/models2.py:52
-#: wp4/followups/old/models2.py:183
+#: wp4/followups/models.py:60
 msgid "FBc11 Hemodialysis"
 msgstr ""
 
-#: wp4/followups/models.py:61 wp4/followups/old/models2.py:53
-#: wp4/followups/old/models2.py:184
+#: wp4/followups/models.py:61
 msgid "FBc12 Unknown"
 msgstr ""
 
@@ -1555,67 +1538,67 @@ msgstr ""
 msgid "FIc00 No dialysis"
 msgstr ""
 
-#: wp4/followups/models.py:225 wp4/followups/old/models2.py:347
+#: wp4/followups/models.py:225
 msgid "FIc01 Delayed graft function"
 msgstr ""
 
-#: wp4/followups/models.py:226 wp4/followups/old/models2.py:348
+#: wp4/followups/models.py:226
 msgid "FIc02 Hyperkalemia"
 msgstr ""
 
-#: wp4/followups/models.py:227 wp4/followups/old/models2.py:349
+#: wp4/followups/models.py:227
 msgid "FIc03 Fluid overload"
 msgstr ""
 
-#: wp4/followups/models.py:228 wp4/followups/old/models2.py:350
+#: wp4/followups/models.py:228
 msgid "FIc04 Other"
 msgstr ""
 
-#: wp4/followups/models.py:231 wp4/followups/old/models2.py:353
+#: wp4/followups/models.py:231
 msgid "FI20 Dialysis cause"
 msgstr ""
 
-#: wp4/followups/models.py:237 wp4/followups/old/models2.py:359
+#: wp4/followups/models.py:237
 msgid "FI21 Other dialysis cause"
 msgstr ""
 
-#: wp4/followups/models.py:242 wp4/followups/old/models2.py:364
+#: wp4/followups/models.py:242
 msgid "FI22 HLA A"
 msgstr ""
 
-#: wp4/followups/models.py:243 wp4/followups/old/models2.py:365
+#: wp4/followups/models.py:243
 msgid "FI23 HLA B"
 msgstr ""
 
-#: wp4/followups/models.py:244 wp4/followups/old/models2.py:366
+#: wp4/followups/models.py:244
 msgid "FI24 HLA DR"
 msgstr ""
 
-#: wp4/followups/models.py:247 wp4/followups/old/models2.py:369
+#: wp4/followups/models.py:247
 msgid "FIc10 IL 2"
 msgstr ""
 
-#: wp4/followups/models.py:248 wp4/followups/old/models2.py:370
+#: wp4/followups/models.py:248
 msgid "FIc11 ATG"
 msgstr ""
 
-#: wp4/followups/models.py:249 wp4/followups/old/models2.py:371
+#: wp4/followups/models.py:249
 msgid "FIc12 None"
 msgstr ""
 
-#: wp4/followups/models.py:252 wp4/followups/old/models2.py:374
+#: wp4/followups/models.py:252
 msgid "FI25 Induction therapy"
 msgstr ""
 
-#: wp4/followups/models.py:258 wp4/followups/old/models2.py:380
+#: wp4/followups/models.py:258
 msgid "FI26 date of primary post tx discharge"
 msgstr ""
 
-#: wp4/followups/models.py:263 wp4/followups/old/models2.py:384
+#: wp4/followups/models.py:263
 msgid "FIm1 Initial FollowUp"
 msgstr ""
 
-#: wp4/followups/models.py:264 wp4/followups/old/models2.py:385
+#: wp4/followups/models.py:264
 msgid "FIm2 Initial FollowUps"
 msgstr ""
 
@@ -1631,11 +1614,11 @@ msgstr ""
 msgid "F311 creatinine "
 msgstr ""
 
-#: wp4/followups/models.py:295 wp4/followups/old/models2.py:897
+#: wp4/followups/models.py:295
 msgid "F302 creatinine clearance"
 msgstr ""
 
-#: wp4/followups/models.py:301 wp4/followups/old/models2.py:902
+#: wp4/followups/models.py:301
 msgid "F303 currently on dialysis"
 msgstr ""
 
@@ -1659,11 +1642,11 @@ msgstr ""
 msgid "F308 quality of life"
 msgstr ""
 
-#: wp4/followups/models.py:332 wp4/followups/old/models2.py:922
+#: wp4/followups/models.py:332
 msgid "F3m1 3 Month FollowUp"
 msgstr ""
 
-#: wp4/followups/models.py:333 wp4/followups/old/models2.py:923
+#: wp4/followups/models.py:333
 msgid "F3m2 3 Month FollowUps"
 msgstr ""
 
@@ -1679,11 +1662,11 @@ msgstr ""
 msgid "F611 creatinine "
 msgstr ""
 
-#: wp4/followups/models.py:364 wp4/followups/old/models2.py:941
+#: wp4/followups/models.py:364
 msgid "F602 creatinine clearance"
 msgstr ""
 
-#: wp4/followups/models.py:370 wp4/followups/old/models2.py:947
+#: wp4/followups/models.py:370
 msgid "F603 currently on dialysis"
 msgstr ""
 
@@ -1695,7 +1678,7 @@ msgstr ""
 msgid "F605 number of dialysis sessions"
 msgstr ""
 
-#: wp4/followups/models.py:386 wp4/followups/old/models2.py:953
+#: wp4/followups/models.py:386
 msgid "F606 rejection periods"
 msgstr ""
 
@@ -1703,11 +1686,11 @@ msgstr ""
 msgid "F607 graft function complications"
 msgstr ""
 
-#: wp4/followups/models.py:393 wp4/followups/old/models2.py:964
+#: wp4/followups/models.py:393
 msgid "F6m1 6 Month FollowUp"
 msgstr ""
 
-#: wp4/followups/models.py:394 wp4/followups/old/models2.py:965
+#: wp4/followups/models.py:394
 msgid "F6m2 6 Month FollowUps"
 msgstr ""
 
@@ -1723,11 +1706,11 @@ msgstr ""
 msgid "FY11 creatinine "
 msgstr ""
 
-#: wp4/followups/models.py:425 wp4/followups/old/models2.py:984
+#: wp4/followups/models.py:425
 msgid "FY02 creatinine clearance"
 msgstr ""
 
-#: wp4/followups/models.py:431 wp4/followups/old/models2.py:989
+#: wp4/followups/models.py:431
 msgid "FY03 currently on dialysis"
 msgstr ""
 
@@ -1751,228 +1734,12 @@ msgstr ""
 msgid "FY08 quality of life"
 msgstr ""
 
-#: wp4/followups/models.py:462 wp4/followups/old/models2.py:1008
+#: wp4/followups/models.py:462
 msgid "FYm1 1 Year FollowUp"
 msgstr ""
 
-#: wp4/followups/models.py:463 wp4/followups/old/models2.py:1009
+#: wp4/followups/models.py:463
 msgid "FYm2 1 Year FollowUps"
-msgstr ""
-
-#: wp4/followups/old/forms.py:31 wp4/followups/old/forms.py:188
-msgid "Is the recipient still alive?"
-msgstr ""
-
-#: wp4/followups/old/forms.py:40 wp4/followups/old/forms.py:192
-msgid "FB02 graft failure"
-msgstr ""
-
-#: wp4/followups/old/forms.py:52 wp4/followups/old/forms.py:196
-msgid "FB06 graft removal"
-msgstr ""
-
-#: wp4/followups/old/forms.py:57 wp4/followups/old/forms.py:200
-msgid "Dialysis required?"
-msgstr ""
-
-#: wp4/followups/old/forms.py:73
-msgid "Serum creatinine level"
-msgstr ""
-
-#: wp4/followups/old/forms.py:204
-msgid "Date of death"
-msgstr ""
-
-#: wp4/followups/old/models2.py:19 wp4/followups/old/models2.py:117
-msgid "FB21 form completed"
-msgstr ""
-
-#: wp4/followups/old/models2.py:20 wp4/followups/old/models2.py:232
-msgid "FB20 general notes"
-msgstr ""
-
-#: wp4/followups/old/models2.py:34 wp4/followups/old/models2.py:141
-msgid "FB05 date of graft failure"
-msgstr ""
-
-#: wp4/followups/old/models2.py:36 wp4/followups/old/models2.py:143
-msgid "FB03 graft failure"
-msgstr ""
-
-#: wp4/followups/old/models2.py:42 wp4/followups/old/models2.py:149
-msgid "FB04 Other failure type"
-msgstr ""
-
-#: wp4/followups/old/models2.py:48 wp4/followups/old/models2.py:155
-msgid "FB07 date of graft removal"
-msgstr ""
-
-#: wp4/followups/old/models2.py:57 wp4/followups/old/models2.py:188
-msgid "FB11 Dialysis type"
-msgstr ""
-
-#: wp4/followups/old/models2.py:67 wp4/followups/old/models2.py:198
-msgid "FBc20 Azathioprine"
-msgstr ""
-
-#: wp4/followups/old/models2.py:68 wp4/followups/old/models2.py:199
-msgid "FBc21 Cyclosporin"
-msgstr ""
-
-#: wp4/followups/old/models2.py:69 wp4/followups/old/models2.py:200
-msgid "FBc22 MMF"
-msgstr ""
-
-#: wp4/followups/old/models2.py:70 wp4/followups/old/models2.py:201
-msgid "FBc23 Prednisolone"
-msgstr ""
-
-#: wp4/followups/old/models2.py:71 wp4/followups/old/models2.py:202
-msgid "FBc24 Sirolomus"
-msgstr ""
-
-#: wp4/followups/old/models2.py:72 wp4/followups/old/models2.py:203
-msgid "FBc25 Tacrolimus"
-msgstr ""
-
-#: wp4/followups/old/models2.py:73 wp4/followups/old/models2.py:204
-msgid "FBc26 Other"
-msgstr ""
-
-#: wp4/followups/old/models2.py:76 wp4/followups/old/models2.py:207
-msgid "FB12 Post tx immunosuppression"
-msgstr ""
-
-#: wp4/followups/old/models2.py:82 wp4/followups/old/models2.py:213
-msgid "FB13 Other immunosuppression"
-msgstr ""
-
-#: wp4/followups/old/models2.py:87 wp4/followups/old/models2.py:218
-msgid "FB14 rejection"
-msgstr ""
-
-#: wp4/followups/old/models2.py:89 wp4/followups/old/models2.py:220
-msgid "FB15 treated with prednisolone"
-msgstr ""
-
-#: wp4/followups/old/models2.py:90 wp4/followups/old/models2.py:221
-msgid "FB16 treated with other drug"
-msgstr ""
-
-#: wp4/followups/old/models2.py:92 wp4/followups/old/models2.py:223
-msgid "FB17 Other rejection drug"
-msgstr ""
-
-#: wp4/followups/old/models2.py:95 wp4/followups/old/models2.py:226
-msgid "FB18 biopsy proven"
-msgstr ""
-
-#: wp4/followups/old/models2.py:97 wp4/followups/old/models2.py:228
-msgid "FB19 calcineurin inhibitor"
-msgstr ""
-
-#: wp4/followups/old/models2.py:123
-msgid "FB30 on dialysis at death"
-msgstr ""
-
-#: wp4/followups/old/models2.py:168
-msgid "FB08 creatinine 1"
-msgstr ""
-
-#: wp4/followups/old/models2.py:177
-msgid "FB10 date of last dialysis"
-msgstr ""
-
-#: wp4/followups/old/models2.py:255
-msgid "FI01 creatinine 2"
-msgstr ""
-
-#: wp4/followups/old/models2.py:266
-msgid "FI02 creatinine 3"
-msgstr ""
-
-#: wp4/followups/old/models2.py:277
-msgid "FI03 creatinine 4"
-msgstr ""
-
-#: wp4/followups/old/models2.py:288
-msgid "FI04 creatinine 5"
-msgstr ""
-
-#: wp4/followups/old/models2.py:297
-msgid "FI05 creatinine 6"
-msgstr ""
-
-#: wp4/followups/old/models2.py:308
-msgid "FI06 creatinine 7"
-msgstr ""
-
-#: wp4/followups/old/models2.py:318
-msgid "FI09 dialysis on day 1"
-msgstr ""
-
-#: wp4/followups/old/models2.py:322
-msgid "FI10 dialysis on day 2"
-msgstr ""
-
-#: wp4/followups/old/models2.py:326
-msgid "FI11 dialysis on day 3"
-msgstr ""
-
-#: wp4/followups/old/models2.py:330
-msgid "FI12 dialysis on day 4"
-msgstr ""
-
-#: wp4/followups/old/models2.py:334
-msgid "FI13 dialysis on day 5"
-msgstr ""
-
-#: wp4/followups/old/models2.py:338
-msgid "FI14 dialysis on day 6"
-msgstr ""
-
-#: wp4/followups/old/models2.py:342
-msgid "FI15 dialysis on day 7"
-msgstr ""
-
-#: wp4/followups/old/models2.py:908
-msgid "F304 number of dialysis sessions"
-msgstr ""
-
-#: wp4/followups/old/models2.py:913
-msgid "F305 rejection periods"
-msgstr ""
-
-#: wp4/followups/old/models2.py:917
-msgid "F306 graft function complications"
-msgstr ""
-
-#: wp4/followups/old/models2.py:919
-msgid "F307 quality of life"
-msgstr ""
-
-#: wp4/followups/old/models2.py:957
-msgid "F604 number of dialysis sessions"
-msgstr ""
-
-#: wp4/followups/old/models2.py:961
-msgid "F605 graft function complications"
-msgstr ""
-
-#: wp4/followups/old/models2.py:995
-msgid "FY04 number of dialysis sessions"
-msgstr ""
-
-#: wp4/followups/old/models2.py:999
-msgid "FY05 rejection periods"
-msgstr ""
-
-#: wp4/followups/old/models2.py:1002
-msgid "FY06 graft function complications"
-msgstr ""
-
-#: wp4/followups/old/models2.py:1005
-msgid "FY07 quality of life"
 msgstr ""
 
 #: wp4/health_economics/models.py:22

@@ -8,11 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: v0.6.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-03 10:35+0000\n"
+"POT-Creation-Date: 2016-06-03 18:01+0000\n"
 "PO-Revision-Date: 2015-12-11 18:45+0000\n"
 "Last-Translator: SARAH MERTENS <SARAH.MERTENS@MED.KULEUVEN.BE>\n"
-"Language-Team: BELGIUM <LL@li.org>\n"
-"Language: nl-NL\n"
+"Language-Team: NETHERLANDS <LL@li.org>\n"
+"Language: fr-BE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -35,51 +35,52 @@ msgstr "Debug Mode"
 
 #: wp4/adverse_event/models.py:22
 msgid "AE04 trial id link"
-msgstr ""
+msgstr "Trial ID"
 
 #: wp4/adverse_event/models.py:29
-#, fuzzy
-#| msgid "OP02 date of birth"
 msgid "AE10 lead to death"
-msgstr "Date of Birth"
+msgstr "Did the adverse event lead to death?"
 
 #: wp4/adverse_event/models.py:30
 msgid "AE11 life threatening illness"
-msgstr ""
+msgstr "Did it result in a life-threatening illness or injury?"
 
 #: wp4/adverse_event/models.py:31
 msgid "AE12 permanent impairment"
 msgstr ""
+"Did it result in a permanent impairment of a body structure or a body "
+"function?"
 
 #: wp4/adverse_event/models.py:32
-#, fuzzy
-#| msgid "HOm1 hospital"
 msgid "AE13 hospitalisation"
-msgstr "Hospital"
+msgstr "Did it require hospitalisation?"
 
 #: wp4/adverse_event/models.py:33
 msgid "AE14 prolonged hospitalisation"
-msgstr ""
+msgstr "Did it require prolongation of hospitalisation?"
 
 #: wp4/adverse_event/models.py:34
 msgid "AE15 surgery required"
 msgstr ""
+"Did it result in medical or surgical intervention to prevent life-"
+"threatening illness or injury or permanent impairment to a body structure or "
+"a body function?"
 
 #: wp4/adverse_event/models.py:37
 msgid "AE02 onset date"
-msgstr "Start date of Adverse Event"
+msgstr "Date of Onset of Adverse Event"
 
 #: wp4/adverse_event/models.py:38
 msgid "AE03 event ongoing"
-msgstr ""
+msgstr "Is the event still ongoing?"
 
 #: wp4/adverse_event/models.py:39
 msgid "AE06 description"
-msgstr "Description of adverse event"
+msgstr "Please describe the event"
 
 #: wp4/adverse_event/models.py:40
 msgid "AE07 action"
-msgstr "Action taken "
+msgstr "Action taken"
 
 #: wp4/adverse_event/models.py:41
 msgid "AE08 outcome"
@@ -87,137 +88,122 @@ msgstr "Outcome"
 
 #: wp4/adverse_event/models.py:42
 msgid "AE20 incapcity"
-msgstr ""
+msgstr "Did the event result in incapacity/inability to work?"
 
 #: wp4/adverse_event/models.py:43
-#, fuzzy
-#| msgid "qol usual activites score"
 msgid "AE21 usual activity"
-msgstr "Usual activities"
+msgstr ""
+"Did the event result in a sign/symptom that interferes with the subject's "
+"usual activity?"
 
 #: wp4/adverse_event/models.py:44
 msgid "AE22 no sequelae"
-msgstr ""
+msgstr "Did the event cause signs/symptoms that resolved with no sequelae?"
 
 #: wp4/adverse_event/models.py:45
 msgid "AE23 device deficiency"
-msgstr ""
+msgstr "Did the event arise from device deficiency?"
 
 #: wp4/adverse_event/models.py:46
 msgid "AE24 device user error"
-msgstr ""
+msgstr "Did the event arise from device user error?"
 
 #: wp4/adverse_event/models.py:47
 msgid "AE25 life threatening illness"
-msgstr ""
+msgstr "Did the event result in a life-threatening illness or injury?"
 
 #: wp4/adverse_event/models.py:48
 msgid "AE26 permanent impairment"
 msgstr ""
+"Did the event result in permanent impairment of a body structure or a body "
+"function?"
 
 #: wp4/adverse_event/models.py:49
 msgid "AE27 prolonged hospitalisation"
-msgstr ""
+msgstr "Did the event require prolongation of hospitalisation?"
 
 #: wp4/adverse_event/models.py:50
 msgid "AE28 surgery required"
 msgstr ""
+"Did the event result in medical or surgical intervention to prevent life-"
+"threatening illness or injury or permanent impairment to a body structure or "
+"a body function?"
 
 #: wp4/adverse_event/models.py:53
 msgid "AE30 rehospitalisation"
-msgstr ""
+msgstr "Did the event require hospitalisation?"
 
 #: wp4/adverse_event/models.py:54
-#, fuzzy
-#| msgid "DO13 date of admission"
 msgid "AE31 date of admission"
-msgstr "Date of admission in hospital"
+msgstr "Date of admission"
 
 #: wp4/adverse_event/models.py:55
-#, fuzzy
-#| msgid "date of primary post tx discharge"
 msgid "AE32 date of discharge"
-msgstr "Date of discharge post transplant"
+msgstr "Date of discharge"
 
 #: wp4/adverse_event/models.py:56
-#, fuzzy
-#| msgid "DO14 admitted to ITU"
 msgid "AE33 admitted to ITU"
 msgstr "Were they admitted to ITU?"
 
 #: wp4/adverse_event/models.py:57
-#, fuzzy
-#| msgid "Dialysis type"
 msgid "AE34 dialysis needed"
-msgstr "Dialysis type"
+msgstr "Was dialysis needed?"
 
 #: wp4/adverse_event/models.py:58
 msgid "AE35 biopsy taken"
-msgstr ""
+msgstr "Was a kidney biopsy taken?"
 
 #: wp4/adverse_event/models.py:59
 msgid "AE36 surgery required"
-msgstr ""
+msgstr "Was surgery required?"
 
 #: wp4/adverse_event/models.py:60
 msgid "AE37 comments"
-msgstr ""
+msgstr "Comments"
 
 #: wp4/adverse_event/models.py:62
-#, fuzzy
-#| msgid "OP02 date of birth"
 msgid "AE40 led to death"
-msgstr "Date of Birth"
+msgstr "Did the event lead to death?"
 
 #: wp4/adverse_event/models.py:63
-#, fuzzy
-#| msgid "OP02 date of birth"
 msgid "AE41 date of death"
-msgstr "Date of Birth"
+msgstr "Date of death"
 
 #: wp4/adverse_event/models.py:65
-#, fuzzy
-#| msgid "AE05 device related"
 msgid "AE49 treatment related?"
-msgstr "Was the adverse event related to the device?"
+msgstr "Was death treatment related?"
 
 #: wp4/adverse_event/models.py:69
-#, fuzzy
-#| msgid "DOc01 Cerebrovascular Accident"
 msgid "AE42 cerebrovascular"
 msgstr "Cerebrovascular Accident"
 
 #: wp4/adverse_event/models.py:70
 msgid "AE43 multi organ"
-msgstr ""
+msgstr "Multi Organ Failure"
 
 #: wp4/adverse_event/models.py:71
 msgid "AE44 pneumonia"
-msgstr ""
+msgstr "Pneumonia"
 
 #: wp4/adverse_event/models.py:72
 msgid "AE45 sepsis"
-msgstr ""
+msgstr "Sepsis"
 
 #: wp4/adverse_event/models.py:73
-#, fuzzy
-#| msgid "RE26 untransplantable because"
 msgid "AE46 transplant related"
-msgstr "Reason kidney was untransplantable"
+msgstr "Transplant related"
 
 #: wp4/adverse_event/models.py:74
-#, fuzzy
-#| msgid "REc14 other"
 msgid "AE47 other"
 msgstr "Other"
 
 #: wp4/adverse_event/models.py:75
 msgid "AE48 comments"
-msgstr ""
+msgstr "If other, give details"
 
 #: wp4/adverse_event/models.py:78
 msgid "AE09 primary contact"
-msgstr "Contact person for adverse event details"
+msgstr "Please select the contact who can provide more information"
 
 #: wp4/adverse_event/models.py:105
 msgid "AEm1 adverse event"
@@ -228,92 +214,74 @@ msgid "AEm2 adverse events"
 msgstr "Adverse Events"
 
 #: wp4/compare/forms/core.py:21 wp4/compare/forms/core.py:27
-#: wp4/followups/old/forms.py:19 wp4/followups/old/forms.py:25
 #: wp4/samples/forms.py:19 wp4/samples/forms.py:24
 msgid "FF01 No"
 msgstr "No"
 
 #: wp4/compare/forms/core.py:22 wp4/compare/forms/core.py:26
-#: wp4/followups/old/forms.py:20 wp4/followups/old/forms.py:24
 #: wp4/samples/forms.py:20 wp4/samples/forms.py:23
 msgid "FF02 Yes"
 msgstr "Yes"
 
 #: wp4/compare/forms/core.py:81
 msgid "DSF02 Online Randomisation?"
-msgstr ""
+msgstr "Working online?"
 
 #: wp4/compare/forms/core.py:88
-#, fuzzy
-#| msgid "DOv12 Not Available"
 msgid "DSF03 Not Applicable"
-msgstr "Not available"
+msgstr "Not applicable"
 
 #: wp4/compare/forms/core.py:89
 msgid "DSF01 Offline Case ID"
-msgstr ""
+msgstr "Offline Case ID"
 
 #: wp4/compare/forms/core.py:150
 msgid "ASF01 Select trial id for case"
-msgstr ""
+msgstr "Select Organ ID"
 
 #: wp4/compare/forms/core.py:154
 msgid "ASF02 Has this been allocated to a recipient?"
-msgstr ""
+msgstr "Has this been allocated to a recipient?"
 
 #: wp4/compare/forms/core.py:160
 msgid "ASF03 Why was this not allocated?"
-msgstr ""
+msgstr "Why was this not allocated?"
 
 #: wp4/compare/forms/procurement.py:257
 msgid "DFv01 Please enter a valid reason for this case to not be randomised"
-msgstr ""
+msgstr "Please enter a valid reason for this case to not be randomised"
 
 #: wp4/compare/forms/procurement.py:264
 msgid "DFv02 Please add additional information"
-msgstr ""
+msgstr "Please enter additional information"
 
 #: wp4/compare/forms/procurement.py:269
-#, fuzzy
-#| msgid "DO01 retrieval team"
 msgid "DFv03 Missing retrieval hospital"
-msgstr "Retrieval Team"
+msgstr "Please enter the donor hospital"
 
 #: wp4/compare/forms/transplantation.py:308
-#, fuzzy
-#| msgid "OR09 machine perfusion possible?"
 msgid "RFv01 Please enter a reason why this was untransplantable"
-msgstr "Is machine perfusion possible?"
+msgstr "Please enter a reason why this was untransplantable"
 
 #: wp4/compare/forms/transplantation.py:317
-#, fuzzy
-#| msgid "TSv02 Please record the time the sample was taken"
 msgid "RFv02 Please enter time perfusion was stopped"
-msgstr "Time taken"
+msgstr "Please enter the time perfusion was stopped"
 
 #: wp4/compare/forms/transplantation.py:322
-#, fuzzy
-#| msgid "RE23 kidney removed from machine at"
 msgid "RFv03 Please enter time kidney was removed from machine"
-msgstr "Time kidney removed from machine"
+msgstr "Please enter time kidney was removed from machine"
 
 #: wp4/compare/forms/transplantation.py:327
-#, fuzzy
-#| msgid "TSv02 Please record the time the sample was taken"
 msgid "RFv04 Please enter time anesthesia was started"
-msgstr "Time taken"
+msgstr "Please enter the time anesthesia started at"
 
 #: wp4/compare/forms/transplantation.py:332
-#, fuzzy
-#| msgid "TSv02 Please record the time the sample was taken"
 msgid "RFv05 Please enter time anastomosis was started"
-msgstr "Time taken"
+msgstr "Please enter the time anastomosis started at"
 
 #: wp4/compare/forms/transplantation.py:337
-#, fuzzy
-#| msgid "TSv02 Please record the time the sample was taken"
 msgid "RFv06 Please enter time reperfusion was started"
-msgstr "Time taken"
+msgstr "Please enter the time reperfusion started at"
 
 #: wp4/compare/models/core.py:23
 msgid "MMc03 Unknown"
@@ -341,19 +309,19 @@ msgstr "Not set"
 
 #: wp4/compare/models/core.py:52
 msgid "RNc01 UK Live list"
-msgstr ""
+msgstr "UK Online List"
 
 #: wp4/compare/models/core.py:53
 msgid "RNc02 Europe Live list"
-msgstr ""
+msgstr "Europe Online List"
 
 #: wp4/compare/models/core.py:54
 msgid "RNc03 UK Offline list"
-msgstr ""
+msgstr "UK OFFline List"
 
 #: wp4/compare/models/core.py:55
 msgid "RNc04 Europe Offline list"
-msgstr ""
+msgstr "Europe OFFline list"
 
 #: wp4/compare/models/core.py:121
 msgid "OPc01 Male"
@@ -381,17 +349,15 @@ msgstr "Unknown"
 
 #: wp4/compare/models/core.py:148
 msgid "OP01 NHSBT Number"
-msgstr "ET number"
+msgstr "Hospital Number"
 
 #: wp4/compare/models/core.py:150
 msgid "OP02 date of birth"
 msgstr "Date of Birth"
 
 #: wp4/compare/models/core.py:157
-#, fuzzy
-#| msgid "OP02 date of birth"
 msgid "OP08 date of death"
-msgstr "Date of Birth"
+msgstr "Date of death"
 
 #: wp4/compare/models/core.py:163
 msgid "OP03 gender"
@@ -415,19 +381,15 @@ msgstr "Blood Group"
 
 #: wp4/compare/models/core.py:187
 msgid "OPm1 trial person"
-msgstr "Trial Person"
+msgstr "Patient"
 
 #: wp4/compare/models/core.py:188
-#, fuzzy
-#| msgid "ORm2 organs"
 msgid "OPm2 organ people"
-msgstr "Trial People"
+msgstr "Patients"
 
 #: wp4/compare/models/core.py:205
-#, fuzzy
-#| msgid "DOv02 Time travel detected! Donor's date of birth is in the future!"
 msgid "OPv02 Creepy prediction! Person's date of death is in the future!"
-msgstr " Donor’s date of birth is in the future.  Please make a correction"
+msgstr "Donor’s date of death is in the future. Please make a correction"
 
 #: wp4/compare/models/core.py:210
 msgid ""
@@ -452,34 +414,26 @@ msgid "RTm2 retrieval teams"
 msgstr "Retrieval Teams"
 
 #: wp4/compare/models/donor.py:40
-#, fuzzy
-#| msgid "DOv12 Not Available"
 msgid "DOc15 Not Applicable"
-msgstr "Not available"
+msgstr "Not applicable"
 
 #: wp4/compare/models/donor.py:41
 msgid "DOc10 Donor not proceeding"
-msgstr ""
+msgstr "Donor not proceeding"
 
 #: wp4/compare/models/donor.py:42
 msgid "DOc11 One or more kidneys allocated to non-trial location"
-msgstr ""
+msgstr "One or more kidneys allocated to non-trial location"
 
 #: wp4/compare/models/donor.py:43
-#, fuzzy
-#| msgid "RE10 reallocated"
 msgid "DOc12 Kidneys not allocated"
-msgstr "Was the kidney re-allocated to another transplant centre?"
+msgstr "Kidneys not allocated"
 
 #: wp4/compare/models/donor.py:44
-#, fuzzy
-#| msgid "OR07 is transplantable"
 msgid "DOc13 Kidneys not transplanable"
-msgstr "Transplantable?"
+msgstr "Kidneys not transplantable"
 
 #: wp4/compare/models/donor.py:45
-#, fuzzy
-#| msgid "DOc04 Other"
 msgid "DOc14 Other"
 msgstr "Other"
 
@@ -489,27 +443,27 @@ msgstr "Multiple Recipients"
 
 #: wp4/compare/models/donor.py:53
 msgid "DO51 Why was this not randomised?"
-msgstr ""
+msgstr "Why was this not randomised?"
 
 #: wp4/compare/models/donor.py:57
 msgid "DO52 More details"
-msgstr ""
+msgstr "More details"
 
 #: wp4/compare/models/donor.py:59
 msgid "DO99 Form complete"
-msgstr ""
+msgstr "Form completed?"
 
 #: wp4/compare/models/donor.py:61
 msgid ""
 "Select Yes when you believe the form is complete and you have no more data "
 "to enter"
 msgstr ""
+"Select Yes when you believe the form is complete and you have no more data "
+"to enter"
 
 #: wp4/compare/models/donor.py:63
-#, fuzzy
-#| msgid "DM02 notes"
 msgid "DO50 Admin notes"
-msgstr "Notes"
+msgstr "Admin only notes"
 
 #: wp4/compare/models/donor.py:66
 msgid "DO01 retrieval team"
@@ -517,27 +471,27 @@ msgstr "Retrieval Team"
 
 #: wp4/compare/models/donor.py:69
 msgid "DO03 name of transplant technician"
-msgstr "Name of Transplant Technician"
+msgstr "Name of MTO"
 
 #: wp4/compare/models/donor.py:75
 msgid "DO04 name of the SN-OD"
-msgstr "Name of the transplant coordinator"
+msgstr "Name of the SN-OD"
 
 #: wp4/compare/models/donor.py:82
 msgid "DO05 Consultant to MTO called at"
-msgstr "Consultant called transplant technician at"
+msgstr "Consultant called MTO at"
 
 #: wp4/compare/models/donor.py:88
 msgid "DO06 donor hospital"
-msgstr "Donor Hospital"
+msgstr "Retrieval Hospital"
 
 #: wp4/compare/models/donor.py:90
 msgid "DO07 time of withdrawal therapy"
-msgstr "Scheduled time of therapy withdrawal "
+msgstr "Scheduled time of therapy withdrawal"
 
 #: wp4/compare/models/donor.py:97
 msgid "DO08 arrival time of technician"
-msgstr "Arrival time of technician at the Hub"
+msgstr "Arrival time of MTO at the Hub"
 
 #: wp4/compare/models/donor.py:104
 msgid "DO09 ice boxes filled"
@@ -700,6 +654,8 @@ msgid ""
 "DO43h This also counts as Date of Death for donor. Date must be fall within "
 "1900-2050, and not be in the future"
 msgstr ""
+"This also counts as Date of Death for donor. Date must be fall within "
+"1900-2050, and not be in the future"
 
 #: wp4/compare/models/donor.py:303
 msgid "DO44 start in-situ cold perfusion"
@@ -730,10 +686,6 @@ msgid "DOm2 donors"
 msgstr "Donors"
 
 #: wp4/compare/models/donor.py:405
-#, fuzzy
-#| msgid ""
-#| "DOv01 Time travel detected! Arrival at donor hospital occurred before "
-#| "departure from perfusion centre"
 msgid ""
 "DOv01 Time travel detected! Arrival at donor hospital occurred before "
 "departurefrom perfusion centre"
@@ -742,15 +694,13 @@ msgstr ""
 "from perfusion centre"
 
 #: wp4/compare/models/donor.py:415
-#, fuzzy, python-format
-#| msgid ""
-#| "DOv05 Age does not match age as calculated (%(num)d years) from Date of "
-#| "Birth"
+#, python-format
 msgid ""
 "DOv05 Age (%(age)d) does not match age as calculated (%(num)d years) from "
 "Date ofBirth. DoB should be between %(date1)s and %(date2)s."
 msgstr ""
-"Age does not match age as calculated (%(num)d years) from Date of Birth"
+"Age (%(age)d) does not match age as calculated (%(num)d years) from Date of "
+"Birth. DoB should be between %(date1)s and %(date2)s."
 
 #: wp4/compare/models/donor.py:428
 #, python-format
@@ -782,7 +732,7 @@ msgstr "Missing the other diagnosis"
 
 #: wp4/compare/models/donor.py:446
 msgid "DOv12 Donor in ICU before they were admitted to hospital"
-msgstr ""
+msgstr "Donor admitted to ICU before admission to hospital"
 
 #: wp4/compare/models/donor.py:450
 msgid "DOv09 Life support withdrawn before admission to hospital"
@@ -797,54 +747,44 @@ msgid "DOv11 Missing the details of the other systemic flush solution used"
 msgstr "Missing the details of the other systemic flush solution used"
 
 #: wp4/compare/models/donor.py:461
-#, fuzzy
-#| msgid "DO01 retrieval team"
 msgid "DOv12 Missing retrieval hospital"
-msgstr "Retrieval Team"
+msgstr "Please enter the donor hospital"
 
 #: wp4/compare/models/donor.py:463
 msgid "DOv13 Please enter the NHSBT number"
-msgstr ""
+msgstr "Missing the hospital number for the donor"
 
 #: wp4/compare/models/donor.py:677
-#, fuzzy
-#| msgid "RT01 centre code"
 msgid "RA01 list code"
-msgstr "Centre Code"
+msgstr "List Code"
 
 #: wp4/compare/models/donor.py:680
 msgid "RA02 result"
-msgstr ""
+msgstr "Result"
 
 #: wp4/compare/models/donor.py:681
-#, fuzzy
-#| msgid "RE10 reallocated"
 msgid "RA03 allocated on"
-msgstr "Was the kidney re-allocated to another transplant centre?"
+msgstr "Result allocated on"
 
 #: wp4/compare/models/organ.py:105
 msgid "OR01 kidney location"
 msgstr "Kidney location"
 
 #: wp4/compare/models/organ.py:112
-#, fuzzy
-#| msgid "OR08 not transplantable because"
 msgid "OR31 not transplantable because"
 msgstr "Why not transplantable?"
 
 #: wp4/compare/models/organ.py:116
-#, fuzzy
-#| msgid "DM02 notes"
 msgid "OR50 Admin notes"
-msgstr "Notes"
+msgstr "Admin only notes"
 
 #: wp4/compare/models/organ.py:117
 msgid "OR51 Transplantation notes"
-msgstr ""
+msgstr "Transplantation notes (if any)"
 
 #: wp4/compare/models/organ.py:119
 msgid "OR99 Form complete"
-msgstr ""
+msgstr "Form completed?"
 
 #: wp4/compare/models/organ.py:132
 msgid "ORc01 None"
@@ -915,6 +855,8 @@ msgid ""
 "OR07h This answer can be amended after randomisation and saving of the form "
 "if necessary"
 msgstr ""
+"This answer can be amended after randomisation and saving of the form if "
+"necessary"
 
 #: wp4/compare/models/organ.py:182
 msgid "OR08 not transplantable because"
@@ -938,7 +880,7 @@ msgstr "Is machine perfusion possible?"
 
 #: wp4/compare/models/organ.py:213
 msgid "OR10 not possible because"
-msgstr "Why was machine perfusion not possible?  Please provide details"
+msgstr "Why was machine perfusion not possible? Please provide details"
 
 #: wp4/compare/models/organ.py:218
 msgid "OR11 machine perfusion"
@@ -1004,19 +946,15 @@ msgstr "Data file from the machine"
 
 #: wp4/compare/models/organ.py:305
 msgid "ORv01 Please enter a reason for not being transplantable"
-msgstr ""
+msgstr "Please enter a reason for not being transplantable"
 
 #: wp4/compare/models/organ.py:308
-#, fuzzy
-#| msgid "OR09 machine perfusion possible?"
 msgid "ORv02 Please enter a reason perfusion wasn't possible"
-msgstr "Is machine perfusion possible?"
+msgstr "Please enter a reason perfusion wasn't possible"
 
 #: wp4/compare/models/organ.py:311
-#, fuzzy
-#| msgid "TSv02 Please record the time the sample was taken"
 msgid "ORv03 Please enter the time perfusion started at"
-msgstr "Time taken"
+msgstr "Please enter the time perfusion started at"
 
 #: wp4/compare/models/organ.py:434
 msgid "ORm1 organ"
@@ -1079,118 +1017,80 @@ msgid "PRm2 procurement resources"
 msgstr "Procurement Resources"
 
 #: wp4/compare/models/transplantation.py:31
-#, fuzzy
-#| msgid "REc01 Positive crossmatch"
 msgid "OAc01 Positive crossmatch"
 msgstr "Positive crossmatch"
 
 #: wp4/compare/models/transplantation.py:32
-#, fuzzy
-#| msgid "REc02 Unknown"
 msgid "OAc02 Unknown"
 msgstr "Unknown"
 
 #: wp4/compare/models/transplantation.py:33
-#, fuzzy
-#| msgid "REc03 Other"
 msgid "OAc03 Other"
 msgstr "Other"
 
 #: wp4/compare/models/transplantation.py:37
-#, fuzzy
-#| msgid "RO01 name of transplant technician"
 msgid "OA01 name of transplant technician"
 msgstr "Name of TT attending"
 
 #: wp4/compare/models/transplantation.py:43
-#, fuzzy
-#| msgid "RE02 call received from transplant co-ordinator at"
 msgid "OA02 call received from transplant co-ordinator at"
-msgstr "Call received from transplant co-ordinator at "
+msgstr "Call received from MTO involved with Donor procedure at"
 
 #: wp4/compare/models/transplantation.py:49
-#, fuzzy
-#| msgid "RE03 transplant hospital"
 msgid "OA03 transplant hospital"
 msgstr "Transplant hospital"
 
 #: wp4/compare/models/transplantation.py:52
-#, fuzzy
-#| msgid "RE04 name of the theatre contact"
 msgid "OA04 name of the theatre contact"
 msgstr "Name of transplant hospital's operating theatre contact person"
 
 #: wp4/compare/models/transplantation.py:58
-#, fuzzy
-#| msgid "RE05 scheduled start"
 msgid "OA05 scheduled start"
 msgstr "Scheduled start time for transplant"
 
 #: wp4/compare/models/transplantation.py:65
-#, fuzzy
-#| msgid "RE06 arrival time at hub"
 msgid "OA06 arrival time at hub"
 msgstr "Arrival time at hub"
 
 #: wp4/compare/models/transplantation.py:72
-#, fuzzy
-#| msgid "RE07 departure from hub"
 msgid "OA07 departure from hub"
 msgstr "Departure time from hub"
 
 #: wp4/compare/models/transplantation.py:79
-#, fuzzy
-#| msgid "RE08 arrival at transplant hospital"
 msgid "OA08 arrival at transplant hospital"
 msgstr "Arrival time at transplant hospital"
 
 #: wp4/compare/models/transplantation.py:85
-#, fuzzy
-#| msgid "RE09 journey notes"
 msgid "OA09 journey notes"
 msgstr "Notes from the journey"
 
 #: wp4/compare/models/transplantation.py:86
-#, fuzzy
-#| msgid "RE10 reallocated"
 msgid "OA10 reallocated"
 msgstr "Was the kidney re-allocated to another transplant centre?"
 
 #: wp4/compare/models/transplantation.py:88
-#, fuzzy
-#| msgid "RE11 reason for re-allocation"
 msgid "OA11 reason for re-allocation"
 msgstr "Reason for re-allocation"
 
 #: wp4/compare/models/transplantation.py:92
-#, fuzzy
-#| msgid "RE12 other reason"
 msgid "OA12 other reason"
 msgstr "Details of other reason"
 
 #: wp4/compare/models/transplantation.py:102
-#, fuzzy
-#| msgid "RE11 reason for re-allocation"
 msgid "OAm1 organ allocation"
-msgstr "Reason for re-allocation"
+msgstr "Organ Allocation"
 
 #: wp4/compare/models/transplantation.py:103
-#, fuzzy
-#| msgid "ORm2 organs"
 msgid "OAm2 organ allocations"
-msgstr "Organs"
+msgstr "Organ Allocations"
 
 #: wp4/compare/models/transplantation.py:136
-#, fuzzy
-#| msgid "RE08 arrival at transplant hospital"
 msgid "OAv01 Please enter a transplant hospital to continue"
-msgstr "Arrival time at transplant hospital"
+msgstr "Please enter a transplant hospital to continue"
 
 #: wp4/compare/models/transplantation.py:138
-#, fuzzy
-#| msgid "RO01 name of transplant technician"
 msgid "OAv02 Please enter the name of the transplant technician"
-msgstr "Name of TT attending"
+msgstr "Please enter the name of the transplant technician"
 
 #: wp4/compare/models/transplantation.py:163
 msgid "RE13 informed consent given"
@@ -1222,7 +1122,7 @@ msgstr "Retransplant graft failure"
 
 #: wp4/compare/models/transplantation.py:176
 msgid "REc09 diabetic nephropathyes"
-msgstr "Diabetic nephropathy"
+msgstr "Diabetic nephropathyes"
 
 #: wp4/compare/models/transplantation.py:177
 msgid "REc10 hypertensive nephropathyes"
@@ -1338,7 +1238,7 @@ msgstr "Was the kidney discarded?"
 
 #: wp4/compare/models/transplantation.py:246
 msgid "REh25 Either answer means further questions will open below"
-msgstr ""
+msgstr "Either answer means further questions will open below"
 
 #: wp4/compare/models/transplantation.py:250
 msgid "RE26 untransplantable because"
@@ -1385,14 +1285,10 @@ msgid "RE36 mannitol used"
 msgstr "Mannitol used?"
 
 #: wp4/compare/models/transplantation.py:307
-#, fuzzy
-#| msgid "RE37 other diuretics used"
 msgid "RE37 other diurectics used"
 msgstr "Other diuretics used"
 
 #: wp4/compare/models/transplantation.py:312
-#, fuzzy
-#| msgid "RE38 other diuretics detail"
 msgid "RE38 other diurectics detail"
 msgstr "Details of other diuretics used"
 
@@ -1452,1004 +1348,481 @@ msgstr "Recipient"
 msgid "REm2 recipients"
 msgstr "Recipients"
 
-#: wp4/compare/models/transplantation.py:378
-#, fuzzy
-#| msgid "RE20 stop machine perfusion"
-msgid "REv01 Missing time machine perfusion stopped"
-msgstr "Time machine perfusion stopped"
-
 #: wp4/compare/models/transplantation.py:380
-#, fuzzy
-#| msgid "RE23 kidney removed from machine at"
 msgid "REv02 Missing time kidney removed from machine"
-msgstr "Time kidney removed from machine"
+msgstr "Missing time kidney removed from machine"
 
 #: wp4/compare/models/transplantation.py:382
-#, fuzzy
-#| msgid "RE27 start anesthesia at"
 msgid "REv03 Missing Start time of anaesthesia"
-msgstr "Start time of anaesthesia"
+msgstr "Missing Start time of anaesthesia"
 
 #: wp4/compare/models/transplantation.py:384
-#, fuzzy
-#| msgid "RE34 start anastomosis at"
 msgid "REv04 Missing Anastomosis Start Time"
-msgstr "Anastomosis start time"
+msgstr "Missing Anastomosis Start Time"
 
 #: wp4/compare/models/transplantation.py:386
-#, fuzzy
-#| msgid "RE35 start reperfusion at"
 msgid "REv05 Missing Reperfusion Start Time"
-msgstr "Reperfusion start time"
+msgstr "Missing Reperfusion Start Time"
 
-#: wp4/followups/models.py:26 wp4/followups/old/models2.py:18
-#: wp4/followups/old/models2.py:116
-#, fuzzy
-#| msgid "start date"
+#: wp4/followups/models.py:26
 msgid "FB01 start date"
 msgstr "Start date"
 
 #: wp4/followups/models.py:28
-#, fuzzy
-#| msgid "general notes"
 msgid "FB03 general notes"
 msgstr "General notes"
 
-#: wp4/followups/models.py:32 wp4/followups/old/models2.py:24
-#: wp4/followups/old/models2.py:131
+#: wp4/followups/models.py:32
 msgid "FBc01 Immunological"
-msgstr ""
-
-#: wp4/followups/models.py:33 wp4/followups/old/models2.py:25
-#: wp4/followups/old/models2.py:132
-#, fuzzy
-#| msgid "Preservation"
-msgid "FBc02 Preservation"
 msgstr "Immunological"
 
-#: wp4/followups/models.py:34 wp4/followups/old/models2.py:26
-#: wp4/followups/old/models2.py:133
-#, fuzzy
-#| msgid "Technical - artery"
+#: wp4/followups/models.py:33
+msgid "FBc02 Preservation"
+msgstr "Preservation"
+
+#: wp4/followups/models.py:34
 msgid "FBc03 Technical - artery"
 msgstr "Technical - artery"
 
-#: wp4/followups/models.py:35 wp4/followups/old/models2.py:27
-#: wp4/followups/old/models2.py:134
-#, fuzzy
-#| msgid "Technical - venous"
+#: wp4/followups/models.py:35
 msgid "FBc04 Technical - venous"
 msgstr "Technical - venous"
 
-#: wp4/followups/models.py:36 wp4/followups/old/models2.py:28
-#: wp4/followups/old/models2.py:135
-#, fuzzy
-#| msgid "Infection - bacterial"
+#: wp4/followups/models.py:36
 msgid "FBc05 Infection - bacterial"
 msgstr "Infection - bacterial"
 
-#: wp4/followups/models.py:37 wp4/followups/old/models2.py:29
-#: wp4/followups/old/models2.py:136
-#, fuzzy
-#| msgid "Infection - viral"
+#: wp4/followups/models.py:37
 msgid "FBc06 Infection - viral"
 msgstr "Infection - viral"
 
-#: wp4/followups/models.py:38 wp4/followups/old/models2.py:30
-#: wp4/followups/old/models2.py:137
-#, fuzzy
-#| msgid "OPc05 Other"
+#: wp4/followups/models.py:38
 msgid "FBc07 Other"
 msgstr "Other"
 
 #: wp4/followups/models.py:41
-#, fuzzy
-#| msgid "graft failure"
 msgid "FB10 graft failure"
-msgstr "Graft failure"
+msgstr "Graft failure?"
 
 #: wp4/followups/models.py:42
-#, fuzzy
-#| msgid "date of graft failure"
 msgid "FB11 date of graft failure"
 msgstr "Date of graft failure"
 
 #: wp4/followups/models.py:44
-#, fuzzy
-#| msgid "graft failure"
 msgid "FB12 graft failure"
-msgstr "Graft failure"
+msgstr "Graft failure?"
 
 #: wp4/followups/models.py:50
-#, fuzzy
-#| msgid "Other failure type"
 msgid "FB13 Other failure type"
 msgstr "Other failure type"
 
 #: wp4/followups/models.py:55
-#, fuzzy
-#| msgid "graft removal"
 msgid "FB14 graft removal"
 msgstr "Graft removal"
 
 #: wp4/followups/models.py:56
-#, fuzzy
-#| msgid "date of graft removal"
 msgid "FB15 date of graft removal"
 msgstr "Date of graft removal"
 
-#: wp4/followups/models.py:59 wp4/followups/old/models2.py:51
-#: wp4/followups/old/models2.py:182
+#: wp4/followups/models.py:59
 msgid "FBc10 CAPD"
-msgstr ""
+msgstr "CAPD"
 
-#: wp4/followups/models.py:60 wp4/followups/old/models2.py:52
-#: wp4/followups/old/models2.py:183
-#, fuzzy
-#| msgid "Hemodialysis"
+#: wp4/followups/models.py:60
 msgid "FBc11 Hemodialysis"
 msgstr "Hemodialysis"
 
-#: wp4/followups/models.py:61 wp4/followups/old/models2.py:53
-#: wp4/followups/old/models2.py:184
-#, fuzzy
-#| msgid "REc02 Unknown"
+#: wp4/followups/models.py:61
 msgid "FBc12 Unknown"
 msgstr "Unknown"
 
 #: wp4/followups/models.py:65
-#, fuzzy
-#| msgid "Dialysis type"
 msgid "FB16 Dialysis type"
 msgstr "Dialysis type"
 
 #: wp4/followups/models.py:72
-#, fuzzy
-#| msgid "Azathioprine"
 msgid "FB30 Post tx Azathioprine"
 msgstr "Azathioprine"
 
 #: wp4/followups/models.py:76
-#, fuzzy
-#| msgid "Cyclosporin"
 msgid "FB31 Post tx Cyclosporin"
 msgstr "Cyclosporin"
 
 #: wp4/followups/models.py:80
 msgid "FB32 Post tx MMF"
-msgstr ""
+msgstr "MMF"
 
 #: wp4/followups/models.py:84
-#, fuzzy
-#| msgid "Prednisolone"
 msgid "FB33 Post tx Prednisolone"
 msgstr "Prednisolone"
 
 #: wp4/followups/models.py:88
-#, fuzzy
-#| msgid "Sirolomus"
 msgid "FB34 Post tx Sirolomus"
 msgstr "Sirolomus"
 
 #: wp4/followups/models.py:92
-#, fuzzy
-#| msgid "Tacrolimus"
 msgid "FB35 Post tx Tacrolimus"
 msgstr "Tacrolimus"
 
 #: wp4/followups/models.py:96
-#, fuzzy
-#| msgid "REc26 other"
 msgid "FB36 Post tx Other"
 msgstr "Other"
 
 #: wp4/followups/models.py:100
-#, fuzzy
-#| msgid "Other immunosuppression"
 msgid "FB37 Other immunosuppression"
 msgstr "Other immunosuppression"
 
 #: wp4/followups/models.py:105
-#, fuzzy
-#| msgid "rejection"
 msgid "FB19 rejection"
 msgstr "Rejection"
 
 #: wp4/followups/models.py:107
-#, fuzzy
-#| msgid "treated with prednisolone"
 msgid "FB20 treated with prednisolone"
 msgstr "Treated with prednisolone"
 
 #: wp4/followups/models.py:108
-#, fuzzy
-#| msgid "treated with other drug"
 msgid "FB21 treated with other drug"
 msgstr "Treated with other drug"
 
 #: wp4/followups/models.py:110
-#, fuzzy
-#| msgid "Other rejection drug"
 msgid "FB22 Other rejection drug"
 msgstr "Other rejection drug"
 
 #: wp4/followups/models.py:113
-#, fuzzy
-#| msgid "biopsy proven"
 msgid "FB23 biopsy proven"
 msgstr "Biopsy proven rejection"
 
 #: wp4/followups/models.py:115
-#, fuzzy
-#| msgid "calcineurin inhibitor"
 msgid "FB24 calcineurin inhibitor"
 msgstr "Calcineurin inhibitor"
 
 #: wp4/followups/models.py:137
 msgid "FI01 Trial id"
-msgstr ""
+msgstr "Trial ID"
 
 #: wp4/followups/models.py:140
-#, fuzzy
-#| msgid "creatinine 3"
 msgid "FI02 creatinine unit"
-msgstr "Day 3 creatinine"
+msgstr "Creatinine Units"
 
 #: wp4/followups/models.py:147
-#, fuzzy
-#| msgid "creatinine 4"
 msgid "FI03 creatinine 1"
-msgstr "Day 4 creatinine"
+msgstr "Day 1 creatinine"
 
 #: wp4/followups/models.py:154
-#, fuzzy
-#| msgid "creatinine 5"
 msgid "FI04 creatinine 2"
-msgstr "Day 5 creatinine"
+msgstr "Day 2 creatinine"
 
 #: wp4/followups/models.py:161
-#, fuzzy
-#| msgid "creatinine 6"
 msgid "FI05 creatinine 3"
-msgstr "Day 6 creatinine"
+msgstr "Day 3 creatinine"
 
 #: wp4/followups/models.py:168
-#, fuzzy
-#| msgid "creatinine 7"
 msgid "FI06 creatinine 4"
-msgstr "Day 7 creatinine"
+msgstr "Day 4 creatinine"
 
 #: wp4/followups/models.py:175
-#, fuzzy
-#| msgid "creatinine 5"
 msgid "FI07 creatinine 5"
 msgstr "Day 5 creatinine"
 
 #: wp4/followups/models.py:182
-#, fuzzy
-#| msgid "creatinine 6"
 msgid "FI08 creatinine 6"
 msgstr "Day 6 creatinine"
 
 #: wp4/followups/models.py:189
-#, fuzzy
-#| msgid "creatinine 7"
 msgid "FI09 creatinine 7"
 msgstr "Day 7 creatinine"
 
 #: wp4/followups/models.py:195
-#, fuzzy
-#| msgid "Dialysis cause"
 msgid "FI10 dialysis on day 1"
-msgstr "Dialysis cause"
+msgstr "Dialysis on day 1"
 
 #: wp4/followups/models.py:199
-#, fuzzy
-#| msgid "Dialysis type"
 msgid "FI11 dialysis on day 2"
-msgstr "Dialysis type"
+msgstr "Dialysis on day 2"
 
 #: wp4/followups/models.py:203
-#, fuzzy
-#| msgid "Dialysis cause"
 msgid "FI12 dialysis on day 3"
-msgstr "Dialysis cause"
+msgstr "Dialysis on day 3"
 
 #: wp4/followups/models.py:207
-#, fuzzy
-#| msgid "Dialysis type"
 msgid "FI13 dialysis on day 4"
-msgstr "Dialysis type"
+msgstr "Dialysis on day 4"
 
 #: wp4/followups/models.py:211
-#, fuzzy
-#| msgid "Dialysis type"
 msgid "FI14 dialysis on day 5"
-msgstr "Dialysis type"
+msgstr "Dialysis on day 5"
 
 #: wp4/followups/models.py:215
-#, fuzzy
-#| msgid "Dialysis type"
 msgid "FI15 dialysis on day 6"
-msgstr "Dialysis type"
+msgstr "Dialysis on day 6"
 
 #: wp4/followups/models.py:219
-#, fuzzy
-#| msgid "Dialysis type"
 msgid "FI16 dialysis on day 7"
-msgstr "Dialysis type"
+msgstr "Dialysis on day 7"
 
 #: wp4/followups/models.py:224
-#, fuzzy
-#| msgid "Hemodialysis"
 msgid "FIc00 No dialysis"
-msgstr "Hemodialysis"
+msgstr "No dialysis"
 
-#: wp4/followups/models.py:225 wp4/followups/old/models2.py:347
-#, fuzzy
-#| msgid "Delayed graft function"
+#: wp4/followups/models.py:225
 msgid "FIc01 Delayed graft function"
 msgstr "Delayed graft function"
 
-#: wp4/followups/models.py:226 wp4/followups/old/models2.py:348
-#, fuzzy
-#| msgid "Hyperkalemia"
+#: wp4/followups/models.py:226
 msgid "FIc02 Hyperkalemia"
 msgstr "Hyperkalemia"
 
-#: wp4/followups/models.py:227 wp4/followups/old/models2.py:349
-#, fuzzy
-#| msgid "Fluid overload"
+#: wp4/followups/models.py:227
 msgid "FIc03 Fluid overload"
 msgstr "Fluid overload"
 
-#: wp4/followups/models.py:228 wp4/followups/old/models2.py:350
-#, fuzzy
-#| msgid "DOc04 Other"
+#: wp4/followups/models.py:228
 msgid "FIc04 Other"
 msgstr "Other"
 
-#: wp4/followups/models.py:231 wp4/followups/old/models2.py:353
-#, fuzzy
-#| msgid "Dialysis cause"
+#: wp4/followups/models.py:231
 msgid "FI20 Dialysis cause"
 msgstr "Dialysis cause"
 
-#: wp4/followups/models.py:237 wp4/followups/old/models2.py:359
-#, fuzzy
-#| msgid "Other dialysis cause"
+#: wp4/followups/models.py:237
 msgid "FI21 Other dialysis cause"
 msgstr "Other dialysis cause"
 
-#: wp4/followups/models.py:242 wp4/followups/old/models2.py:364
-#, fuzzy
-#| msgid "HLA A"
+#: wp4/followups/models.py:242
 msgid "FI22 HLA A"
 msgstr "HLA A"
 
-#: wp4/followups/models.py:243 wp4/followups/old/models2.py:365
-#, fuzzy
-#| msgid "HLA B"
+#: wp4/followups/models.py:243
 msgid "FI23 HLA B"
 msgstr "HLA B"
 
-#: wp4/followups/models.py:244 wp4/followups/old/models2.py:366
-#, fuzzy
-#| msgid "HLA DR"
+#: wp4/followups/models.py:244
 msgid "FI24 HLA DR"
 msgstr "HLA DR"
 
-#: wp4/followups/models.py:247 wp4/followups/old/models2.py:369
+#: wp4/followups/models.py:247
 msgid "FIc10 IL 2"
-msgstr ""
+msgstr "IL 2"
 
-#: wp4/followups/models.py:248 wp4/followups/old/models2.py:370
+#: wp4/followups/models.py:248
 msgid "FIc11 ATG"
-msgstr ""
+msgstr "ATG"
 
-#: wp4/followups/models.py:249 wp4/followups/old/models2.py:371
-#, fuzzy
-#| msgid "ORc01 None"
+#: wp4/followups/models.py:249
 msgid "FIc12 None"
-msgstr "No Damage"
+msgstr "None"
 
-#: wp4/followups/models.py:252 wp4/followups/old/models2.py:374
-#, fuzzy
-#| msgid "Induction therapy"
+#: wp4/followups/models.py:252
 msgid "FI25 Induction therapy"
 msgstr "Induction therapy"
 
-#: wp4/followups/models.py:258 wp4/followups/old/models2.py:380
-#, fuzzy
-#| msgid "date of primary post tx discharge"
+#: wp4/followups/models.py:258
 msgid "FI26 date of primary post tx discharge"
 msgstr "Date of discharge post transplant"
 
-#: wp4/followups/models.py:263 wp4/followups/old/models2.py:384
+#: wp4/followups/models.py:263
 msgid "FIm1 Initial FollowUp"
-msgstr ""
+msgstr "Initial FollowUp"
 
-#: wp4/followups/models.py:264 wp4/followups/old/models2.py:385
+#: wp4/followups/models.py:264
 msgid "FIm2 Initial FollowUps"
-msgstr ""
+msgstr "Initial FollowUps"
 
 #: wp4/followups/models.py:278
 msgid "F301 Trial id"
-msgstr ""
+msgstr "Trial ID"
 
 #: wp4/followups/models.py:281
-#, fuzzy
-#| msgid "creatinine 1"
 msgid "F310 creatinine unit"
-msgstr "Day 1 creatinine"
+msgstr "Creatinine Unit"
 
 #: wp4/followups/models.py:288
-#, fuzzy
-#| msgid "creatinine 2"
 msgid "F311 creatinine "
-msgstr "Day 2 creatinine"
+msgstr "Creatinine"
 
-#: wp4/followups/models.py:295 wp4/followups/old/models2.py:897
-#, fuzzy
-#| msgid "creatinine clearance"
+#: wp4/followups/models.py:295
 msgid "F302 creatinine clearance"
 msgstr "Creatinine clearance"
 
-#: wp4/followups/models.py:301 wp4/followups/old/models2.py:902
-#, fuzzy
-#| msgid "currently on dialysis"
+#: wp4/followups/models.py:301
 msgid "F303 currently on dialysis"
 msgstr "Currently on dialysis"
 
 #: wp4/followups/models.py:307
-#, fuzzy
-#| msgid "date of dialysis requirement 1"
 msgid "F304 date of last dialysis"
-msgstr "Date of first post-operative dialysis"
+msgstr "Date of last dialysis"
 
 #: wp4/followups/models.py:312
-#, fuzzy
-#| msgid "number of dialysis sessions"
 msgid "F305 number of dialysis sessions"
 msgstr "Number of dialysis sessions"
 
 #: wp4/followups/models.py:317
-#, fuzzy
-#| msgid "rejection periods"
 msgid "F306 rejection periods"
 msgstr "Rejection periods"
 
 #: wp4/followups/models.py:321
-#, fuzzy
-#| msgid "graft function complications"
 msgid "F307 graft function complications"
 msgstr "Graft function complications"
 
 #: wp4/followups/models.py:326
-#, fuzzy
-#| msgid "qol mobility score"
 msgid "F308 quality of life"
-msgstr "Mobility"
+msgstr "Quality of Life Survey"
 
-#: wp4/followups/models.py:332 wp4/followups/old/models2.py:922
+#: wp4/followups/models.py:332
 msgid "F3m1 3 Month FollowUp"
-msgstr ""
+msgstr "3 Month FollowUp"
 
-#: wp4/followups/models.py:333 wp4/followups/old/models2.py:923
+#: wp4/followups/models.py:333
 msgid "F3m2 3 Month FollowUps"
-msgstr ""
+msgstr "3 Month FollowUps"
 
 #: wp4/followups/models.py:347
 msgid "F601 Trial id"
-msgstr ""
+msgstr "Trial ID"
 
 #: wp4/followups/models.py:350
-#, fuzzy
-#| msgid "creatinine 1"
 msgid "F610 creatinine unit"
-msgstr "Day 1 creatinine"
+msgstr "Creatinine Unit"
 
 #: wp4/followups/models.py:357
-#, fuzzy
-#| msgid "creatinine 2"
 msgid "F611 creatinine "
-msgstr "Day 2 creatinine"
+msgstr "Creatinine"
 
-#: wp4/followups/models.py:364 wp4/followups/old/models2.py:941
-#, fuzzy
-#| msgid "creatinine clearance"
+#: wp4/followups/models.py:364
 msgid "F602 creatinine clearance"
 msgstr "Creatinine clearance"
 
-#: wp4/followups/models.py:370 wp4/followups/old/models2.py:947
-#, fuzzy
-#| msgid "currently on dialysis"
+#: wp4/followups/models.py:370
 msgid "F603 currently on dialysis"
 msgstr "Currently on dialysis"
 
 #: wp4/followups/models.py:376
-#, fuzzy
-#| msgid "date of dialysis requirement 1"
 msgid "F604 date of last dialysis"
-msgstr "Date of first post-operative dialysis"
+msgstr "Date of last dialysis"
 
 #: wp4/followups/models.py:381
-#, fuzzy
-#| msgid "number of dialysis sessions"
 msgid "F605 number of dialysis sessions"
 msgstr "Number of dialysis sessions"
 
-#: wp4/followups/models.py:386 wp4/followups/old/models2.py:953
-#, fuzzy
-#| msgid "rejection periods"
+#: wp4/followups/models.py:386
 msgid "F606 rejection periods"
 msgstr "Rejection periods"
 
 #: wp4/followups/models.py:390
-#, fuzzy
-#| msgid "graft function complications"
 msgid "F607 graft function complications"
 msgstr "Graft function complications"
 
-#: wp4/followups/models.py:393 wp4/followups/old/models2.py:964
+#: wp4/followups/models.py:393
 msgid "F6m1 6 Month FollowUp"
-msgstr ""
+msgstr "6 Month FollowUp"
 
-#: wp4/followups/models.py:394 wp4/followups/old/models2.py:965
+#: wp4/followups/models.py:394
 msgid "F6m2 6 Month FollowUps"
-msgstr ""
+msgstr "6 Month FollowUps"
 
 #: wp4/followups/models.py:408
 msgid "FY01 Trial id"
-msgstr ""
+msgstr "Trial ID"
 
 #: wp4/followups/models.py:411
-#, fuzzy
-#| msgid "creatinine 1"
 msgid "FY10 creatinine unit"
-msgstr "Day 1 creatinine"
+msgstr "Creatinine Unit"
 
 #: wp4/followups/models.py:418
-#, fuzzy
-#| msgid "creatinine 2"
 msgid "FY11 creatinine "
-msgstr "Day 2 creatinine"
+msgstr "Creatinine"
 
-#: wp4/followups/models.py:425 wp4/followups/old/models2.py:984
-#, fuzzy
-#| msgid "creatinine clearance"
+#: wp4/followups/models.py:425
 msgid "FY02 creatinine clearance"
 msgstr "Creatinine clearance"
 
-#: wp4/followups/models.py:431 wp4/followups/old/models2.py:989
-#, fuzzy
-#| msgid "currently on dialysis"
+#: wp4/followups/models.py:431
 msgid "FY03 currently on dialysis"
 msgstr "Currently on dialysis"
 
 #: wp4/followups/models.py:437
-#, fuzzy
-#| msgid "date of dialysis requirement 1"
 msgid "FY04 date of last dialysis"
-msgstr "Date of first post-operative dialysis"
+msgstr "Date of last dialysis"
 
 #: wp4/followups/models.py:442
-#, fuzzy
-#| msgid "number of dialysis sessions"
 msgid "FY05 number of dialysis sessions"
 msgstr "Number of dialysis sessions"
 
 #: wp4/followups/models.py:447
-#, fuzzy
-#| msgid "rejection periods"
 msgid "FY06 rejection periods"
 msgstr "Rejection periods"
 
 #: wp4/followups/models.py:451
-#, fuzzy
-#| msgid "graft function complications"
 msgid "FY07 graft function complications"
 msgstr "Graft function complications"
 
 #: wp4/followups/models.py:456
-#, fuzzy
-#| msgid "qol mobility score"
 msgid "FY08 quality of life"
-msgstr "Mobility"
+msgstr "Quality of Life Survey"
 
-#: wp4/followups/models.py:462 wp4/followups/old/models2.py:1008
+#: wp4/followups/models.py:462
 msgid "FYm1 1 Year FollowUp"
-msgstr ""
+msgstr "1 Year FollowUp"
 
-#: wp4/followups/models.py:463 wp4/followups/old/models2.py:1009
+#: wp4/followups/models.py:463
 msgid "FYm2 1 Year FollowUps"
-msgstr ""
-
-#: wp4/followups/old/forms.py:31 wp4/followups/old/forms.py:188
-msgid "Is the recipient still alive?"
-msgstr ""
-
-#: wp4/followups/old/forms.py:40 wp4/followups/old/forms.py:192
-#, fuzzy
-#| msgid "graft failure"
-msgid "FB02 graft failure"
-msgstr "Graft failure"
-
-#: wp4/followups/old/forms.py:52 wp4/followups/old/forms.py:196
-#, fuzzy
-#| msgid "graft removal"
-msgid "FB06 graft removal"
-msgstr "Graft removal"
-
-#: wp4/followups/old/forms.py:57 wp4/followups/old/forms.py:200
-msgid "Dialysis required?"
-msgstr ""
-
-#: wp4/followups/old/forms.py:73
-#, fuzzy
-#| msgid "creatinine clearance"
-msgid "Serum creatinine level"
-msgstr "Creatinine clearance"
-
-#: wp4/followups/old/forms.py:204
-#, fuzzy
-#| msgid "OP02 date of birth"
-msgid "Date of death"
-msgstr "Date of Birth"
-
-#: wp4/followups/old/models2.py:19 wp4/followups/old/models2.py:117
-msgid "FB21 form completed"
-msgstr ""
-
-#: wp4/followups/old/models2.py:20 wp4/followups/old/models2.py:232
-#, fuzzy
-#| msgid "general notes"
-msgid "FB20 general notes"
-msgstr "General notes"
-
-#: wp4/followups/old/models2.py:34 wp4/followups/old/models2.py:141
-#, fuzzy
-#| msgid "date of graft failure"
-msgid "FB05 date of graft failure"
-msgstr "Date of graft failure"
-
-#: wp4/followups/old/models2.py:36 wp4/followups/old/models2.py:143
-#, fuzzy
-#| msgid "graft failure"
-msgid "FB03 graft failure"
-msgstr "Graft failure"
-
-#: wp4/followups/old/models2.py:42 wp4/followups/old/models2.py:149
-#, fuzzy
-#| msgid "Other failure type"
-msgid "FB04 Other failure type"
-msgstr "Other failure type"
-
-#: wp4/followups/old/models2.py:48 wp4/followups/old/models2.py:155
-#, fuzzy
-#| msgid "date of graft removal"
-msgid "FB07 date of graft removal"
-msgstr "Date of graft removal"
-
-#: wp4/followups/old/models2.py:57 wp4/followups/old/models2.py:188
-#, fuzzy
-#| msgid "Dialysis type"
-msgid "FB11 Dialysis type"
-msgstr "Dialysis type"
-
-#: wp4/followups/old/models2.py:67 wp4/followups/old/models2.py:198
-#, fuzzy
-#| msgid "Azathioprine"
-msgid "FBc20 Azathioprine"
-msgstr "Azathioprine"
-
-#: wp4/followups/old/models2.py:68 wp4/followups/old/models2.py:199
-#, fuzzy
-#| msgid "Cyclosporin"
-msgid "FBc21 Cyclosporin"
-msgstr "Cyclosporin"
-
-#: wp4/followups/old/models2.py:69 wp4/followups/old/models2.py:200
-msgid "FBc22 MMF"
-msgstr ""
-
-#: wp4/followups/old/models2.py:70 wp4/followups/old/models2.py:201
-#, fuzzy
-#| msgid "Prednisolone"
-msgid "FBc23 Prednisolone"
-msgstr "Prednisolone"
-
-#: wp4/followups/old/models2.py:71 wp4/followups/old/models2.py:202
-#, fuzzy
-#| msgid "Sirolomus"
-msgid "FBc24 Sirolomus"
-msgstr "Sirolomus"
-
-#: wp4/followups/old/models2.py:72 wp4/followups/old/models2.py:203
-#, fuzzy
-#| msgid "Tacrolimus"
-msgid "FBc25 Tacrolimus"
-msgstr "Tacrolimus"
-
-#: wp4/followups/old/models2.py:73 wp4/followups/old/models2.py:204
-#, fuzzy
-#| msgid "REc26 other"
-msgid "FBc26 Other"
-msgstr "Other"
-
-#: wp4/followups/old/models2.py:76 wp4/followups/old/models2.py:207
-#, fuzzy
-#| msgid "Post tx immunosuppression"
-msgid "FB12 Post tx immunosuppression"
-msgstr "Post transplant immunosuppression"
-
-#: wp4/followups/old/models2.py:82 wp4/followups/old/models2.py:213
-#, fuzzy
-#| msgid "Other immunosuppression"
-msgid "FB13 Other immunosuppression"
-msgstr "Other immunosuppression"
-
-#: wp4/followups/old/models2.py:87 wp4/followups/old/models2.py:218
-#, fuzzy
-#| msgid "rejection"
-msgid "FB14 rejection"
-msgstr "Rejection"
-
-#: wp4/followups/old/models2.py:89 wp4/followups/old/models2.py:220
-#, fuzzy
-#| msgid "treated with prednisolone"
-msgid "FB15 treated with prednisolone"
-msgstr "Treated with prednisolone"
-
-#: wp4/followups/old/models2.py:90 wp4/followups/old/models2.py:221
-#, fuzzy
-#| msgid "treated with other drug"
-msgid "FB16 treated with other drug"
-msgstr "Treated with other drug"
-
-#: wp4/followups/old/models2.py:92 wp4/followups/old/models2.py:223
-#, fuzzy
-#| msgid "Other rejection drug"
-msgid "FB17 Other rejection drug"
-msgstr "Other rejection drug"
-
-#: wp4/followups/old/models2.py:95 wp4/followups/old/models2.py:226
-#, fuzzy
-#| msgid "biopsy proven"
-msgid "FB18 biopsy proven"
-msgstr "Biopsy proven rejection"
-
-#: wp4/followups/old/models2.py:97 wp4/followups/old/models2.py:228
-#, fuzzy
-#| msgid "calcineurin inhibitor"
-msgid "FB19 calcineurin inhibitor"
-msgstr "Calcineurin inhibitor"
-
-#: wp4/followups/old/models2.py:123
-#, fuzzy
-#| msgid "Dialysis type"
-msgid "FB30 on dialysis at death"
-msgstr "Dialysis type"
-
-#: wp4/followups/old/models2.py:168
-#, fuzzy
-#| msgid "creatinine 1"
-msgid "FB08 creatinine 1"
-msgstr "Day 1 creatinine"
-
-#: wp4/followups/old/models2.py:177
-#, fuzzy
-#| msgid "date of dialysis requirement 1"
-msgid "FB10 date of last dialysis"
-msgstr "Date of first post-operative dialysis"
-
-#: wp4/followups/old/models2.py:255
-#, fuzzy
-#| msgid "creatinine 2"
-msgid "FI01 creatinine 2"
-msgstr "Day 2 creatinine"
-
-#: wp4/followups/old/models2.py:266
-#, fuzzy
-#| msgid "creatinine 3"
-msgid "FI02 creatinine 3"
-msgstr "Day 3 creatinine"
-
-#: wp4/followups/old/models2.py:277
-#, fuzzy
-#| msgid "creatinine 4"
-msgid "FI03 creatinine 4"
-msgstr "Day 4 creatinine"
-
-#: wp4/followups/old/models2.py:288
-#, fuzzy
-#| msgid "creatinine 5"
-msgid "FI04 creatinine 5"
-msgstr "Day 5 creatinine"
-
-#: wp4/followups/old/models2.py:297
-#, fuzzy
-#| msgid "creatinine 6"
-msgid "FI05 creatinine 6"
-msgstr "Day 6 creatinine"
-
-#: wp4/followups/old/models2.py:308
-#, fuzzy
-#| msgid "creatinine 7"
-msgid "FI06 creatinine 7"
-msgstr "Day 7 creatinine"
-
-#: wp4/followups/old/models2.py:318
-#, fuzzy
-#| msgid "Dialysis cause"
-msgid "FI09 dialysis on day 1"
-msgstr "Dialysis cause"
-
-#: wp4/followups/old/models2.py:322
-#, fuzzy
-#| msgid "Dialysis cause"
-msgid "FI10 dialysis on day 2"
-msgstr "Dialysis cause"
-
-#: wp4/followups/old/models2.py:326
-#, fuzzy
-#| msgid "Dialysis type"
-msgid "FI11 dialysis on day 3"
-msgstr "Dialysis type"
-
-#: wp4/followups/old/models2.py:330
-#, fuzzy
-#| msgid "Dialysis cause"
-msgid "FI12 dialysis on day 4"
-msgstr "Dialysis cause"
-
-#: wp4/followups/old/models2.py:334
-#, fuzzy
-#| msgid "Dialysis type"
-msgid "FI13 dialysis on day 5"
-msgstr "Dialysis type"
-
-#: wp4/followups/old/models2.py:338
-#, fuzzy
-#| msgid "Dialysis type"
-msgid "FI14 dialysis on day 6"
-msgstr "Dialysis type"
-
-#: wp4/followups/old/models2.py:342
-#, fuzzy
-#| msgid "Dialysis type"
-msgid "FI15 dialysis on day 7"
-msgstr "Dialysis type"
-
-#: wp4/followups/old/models2.py:908
-#, fuzzy
-#| msgid "number of dialysis sessions"
-msgid "F304 number of dialysis sessions"
-msgstr "Number of dialysis sessions"
-
-#: wp4/followups/old/models2.py:913
-#, fuzzy
-#| msgid "rejection periods"
-msgid "F305 rejection periods"
-msgstr "Rejection periods"
-
-#: wp4/followups/old/models2.py:917
-#, fuzzy
-#| msgid "graft function complications"
-msgid "F306 graft function complications"
-msgstr "Graft function complications"
-
-#: wp4/followups/old/models2.py:919
-#, fuzzy
-#| msgid "qol mobility score"
-msgid "F307 quality of life"
-msgstr "Mobility"
-
-#: wp4/followups/old/models2.py:957
-#, fuzzy
-#| msgid "number of dialysis sessions"
-msgid "F604 number of dialysis sessions"
-msgstr "Number of dialysis sessions"
-
-#: wp4/followups/old/models2.py:961
-#, fuzzy
-#| msgid "graft function complications"
-msgid "F605 graft function complications"
-msgstr "Graft function complications"
-
-#: wp4/followups/old/models2.py:995
-#, fuzzy
-#| msgid "number of dialysis sessions"
-msgid "FY04 number of dialysis sessions"
-msgstr "Number of dialysis sessions"
-
-#: wp4/followups/old/models2.py:999
-#, fuzzy
-#| msgid "rejection periods"
-msgid "FY05 rejection periods"
-msgstr "Rejection periods"
-
-#: wp4/followups/old/models2.py:1002
-#, fuzzy
-#| msgid "graft function complications"
-msgid "FY06 graft function complications"
-msgstr "Graft function complications"
-
-#: wp4/followups/old/models2.py:1005
-msgid "FY07 quality of life"
-msgstr ""
+msgstr "1 Year FollowUps"
 
 #: wp4/health_economics/models.py:22
 msgid "QL07 date recorded"
-msgstr ""
+msgstr "Date Recorded"
 
 #: wp4/health_economics/models.py:28
-#, fuzzy
-#| msgid "qol mobility score"
 msgid "QL01 qol mobility score"
 msgstr "Mobility"
 
 #: wp4/health_economics/models.py:34
-#, fuzzy
-#| msgid "qol self care score"
 msgid "QL02 qol self care score"
 msgstr "Self care"
 
 #: wp4/health_economics/models.py:40
-#, fuzzy
-#| msgid "qol usual activites score"
 msgid "QL03 qol usual activites score"
 msgstr "Usual activities"
 
 #: wp4/health_economics/models.py:46
-#, fuzzy
-#| msgid "qol pain or discomfort score"
 msgid "QL04 qol pain or discomfort score"
 msgstr "Pain/Discomfort"
 
 #: wp4/health_economics/models.py:52
-#, fuzzy
-#| msgid "qol anxiety or depression score"
 msgid "QL05 qol anxiety or depression score"
 msgstr "Anxiety/Depression"
 
 #: wp4/health_economics/models.py:58
-#, fuzzy
-#| msgid "vas score"
 msgid "QL06 vas score"
 msgstr "VAS score"
 
 #: wp4/health_economics/models.py:65
 msgid "QLm1 Quality of Life record"
-msgstr ""
+msgstr "Quality of Life Record"
 
 #: wp4/health_economics/models.py:66
 msgid "QLm2 Quality of Life records"
-msgstr ""
+msgstr "Quality of Life Records"
 
 #: wp4/health_economics/models.py:84
 msgid "RL01 date given"
-msgstr ""
+msgstr "Date given"
 
 #: wp4/health_economics/models.py:90
 msgid "RL02 date returned"
-msgstr ""
+msgstr "Date returned"
 
 #: wp4/health_economics/models.py:99
-#, fuzzy
-#| msgid "DM02 notes"
 msgid "RL03 notes"
 msgstr "Notes"
 
 #: wp4/health_economics/models.py:107
 msgid "RLm1 Resource Usage Log"
-msgstr ""
+msgstr "Resource Usage Log"
 
 #: wp4/health_economics/models.py:108
-#, fuzzy
-#| msgid "PR02 resource used"
 msgid "RLm2 Resource Usage Logs"
-msgstr "Resource used"
+msgstr "Resource Usage Logs"
 
 #: wp4/health_economics/models.py:117
 msgid "RVc01 appointment at GP"
@@ -2468,10 +1841,8 @@ msgid "RVc04 A&E"
 msgstr ""
 
 #: wp4/health_economics/models.py:123
-#, fuzzy
-#| msgid "EV01 sample type"
 msgid "RV01 visit type"
-msgstr "Sample type"
+msgstr "Visit type"
 
 #: wp4/health_economics/models.py:128
 msgid "RH01 reason"
@@ -2486,228 +1857,216 @@ msgid "RH03 days in itu"
 msgstr ""
 
 #: wp4/health_economics/models.py:131
-#, fuzzy
-#| msgid "RT02 base hospital"
 msgid "RH04 days in hospital"
-msgstr "Based At"
+msgstr ""
 
 #: wp4/health_economics/models.py:136
 msgid "RR01 reason"
 msgstr ""
 
 #: wp4/health_economics/models.py:137
-#, fuzzy
-#| msgid "RT02 base hospital"
 msgid "RR02 days in hospital"
-msgstr "Based At"
+msgstr ""
 
 #: wp4/locations/models.py:18
-#, fuzzy
-#| msgid "MM10 United Kingdom"
 msgid "LOc01 United Kingdom"
 msgstr "United Kingdom"
 
 #: wp4/locations/models.py:19
-#, fuzzy
-#| msgid "SET02 Belgium"
 msgid "LOc02 Belgium"
 msgstr "Belgium"
 
 #: wp4/locations/models.py:20
-#, fuzzy
-#| msgid "SET03 Netherlands"
 msgid "LOc03 Netherlands"
 msgstr "Netherlands"
 
 #: wp4/locations/models.py:21
 msgid "LOc04 Albania"
-msgstr ""
+msgstr "Albania"
 
 #: wp4/locations/models.py:22
 msgid "LOc05 Andorra"
-msgstr ""
+msgstr "Andorra"
 
 #: wp4/locations/models.py:23
 msgid "LOc06 Armenia"
-msgstr ""
+msgstr "Armenia"
 
 #: wp4/locations/models.py:24
 msgid "LOc07 Austria"
-msgstr ""
+msgstr "Austria"
 
 #: wp4/locations/models.py:25
 msgid "LOc08 Azerbaijan"
-msgstr ""
+msgstr "Azerbaijan"
 
 #: wp4/locations/models.py:26
-#, fuzzy
-#| msgid "ORc09 Blue"
 msgid "LOc09 Belarus"
-msgstr "Blue"
+msgstr "Belarus"
 
 #: wp4/locations/models.py:27
 msgid "LOc10 Bosnia and Herzegovina"
-msgstr ""
+msgstr "Bosnia and Herzegovina"
 
 #: wp4/locations/models.py:28
 msgid "LOc11 Bulgaria"
-msgstr ""
+msgstr "Bulgaria"
 
 #: wp4/locations/models.py:29
 msgid "LOc12 Croatia"
-msgstr ""
+msgstr "Croatia"
 
 #: wp4/locations/models.py:30
 msgid "LOc13 Cyprus"
-msgstr ""
+msgstr "Cyprus"
 
 #: wp4/locations/models.py:31
 msgid "LOc14 Czech Republic"
-msgstr ""
+msgstr "Czech Republic"
 
 #: wp4/locations/models.py:32
 msgid "LOc15 Denmark"
-msgstr ""
+msgstr "Denmark"
 
 #: wp4/locations/models.py:33
 msgid "LOc16 Estonia"
-msgstr ""
+msgstr "Estonia"
 
 #: wp4/locations/models.py:34
 msgid "LOc17 Finland"
-msgstr ""
+msgstr "Finland"
 
 #: wp4/locations/models.py:35
 msgid "LOc18 France"
-msgstr ""
+msgstr "France"
 
 #: wp4/locations/models.py:36
 msgid "LOc19 Georgia"
-msgstr ""
+msgstr "Georgia"
 
 #: wp4/locations/models.py:37
 msgid "LOc20 Germany"
-msgstr ""
+msgstr "Germany"
 
 #: wp4/locations/models.py:38
 msgid "LOc21 Greece"
-msgstr ""
+msgstr "Greece"
 
 #: wp4/locations/models.py:39
 msgid "LOc22 Hungary"
-msgstr ""
+msgstr "Hungary"
 
 #: wp4/locations/models.py:40
 msgid "LOc23 Iceland"
-msgstr ""
+msgstr "Iceland"
 
 #: wp4/locations/models.py:41
 msgid "LOc24 Ireland"
-msgstr ""
+msgstr "Ireland"
 
 #: wp4/locations/models.py:42
 msgid "LOc25 Italy"
-msgstr ""
+msgstr "Italy"
 
 #: wp4/locations/models.py:43
 msgid "LOc26 Kazakhstan"
-msgstr ""
+msgstr "Kazakhstan"
 
 #: wp4/locations/models.py:44
 msgid "LOc27 Kosovo"
-msgstr ""
+msgstr "Kosovo"
 
 #: wp4/locations/models.py:45
 msgid "LOc28 Latvia"
-msgstr ""
+msgstr "Latvia"
 
 #: wp4/locations/models.py:46
 msgid "LOc29 Liechtenstein"
-msgstr ""
+msgstr "Liechtenstein"
 
 #: wp4/locations/models.py:47
 msgid "LOc30 Lithuania"
-msgstr ""
+msgstr "Lithuania"
 
 #: wp4/locations/models.py:48
 msgid "LOc31 Luxembourg"
-msgstr ""
+msgstr "Luxembourg"
 
 #: wp4/locations/models.py:49
 msgid "LOc32 Macedonia"
-msgstr ""
+msgstr "Macedonia"
 
 #: wp4/locations/models.py:50
 msgid "LOc33 Malta"
-msgstr ""
+msgstr "Malta"
 
 #: wp4/locations/models.py:51
 msgid "LOc34 Moldova"
-msgstr ""
+msgstr "Moldova"
 
 #: wp4/locations/models.py:52
 msgid "LOc35 Monaco"
-msgstr ""
+msgstr "Monaco"
 
 #: wp4/locations/models.py:53
 msgid "LOc36 Montenegro"
-msgstr ""
+msgstr "Montenegro"
 
 #: wp4/locations/models.py:54
 msgid "LOc37 Norway"
-msgstr ""
+msgstr "Norway"
 
 #: wp4/locations/models.py:55
 msgid "LOc38 Poland"
-msgstr ""
+msgstr "Poland"
 
 #: wp4/locations/models.py:56
 msgid "LOc39 Portugal"
-msgstr ""
+msgstr "Portugal"
 
 #: wp4/locations/models.py:57
 msgid "LOc40 Romania"
-msgstr ""
+msgstr "Romania"
 
 #: wp4/locations/models.py:58
 msgid "LOc41 Russia"
-msgstr ""
+msgstr "Russia"
 
 #: wp4/locations/models.py:59
 msgid "LOc42 San Marino"
-msgstr ""
+msgstr "San Marino"
 
 #: wp4/locations/models.py:60
 msgid "LOc43 Serbia"
-msgstr ""
+msgstr "Serbia"
 
 #: wp4/locations/models.py:61
 msgid "LOc44 Slovakia"
-msgstr ""
+msgstr "Slovakia"
 
 #: wp4/locations/models.py:62
 msgid "LOc45 Slovenia"
-msgstr ""
+msgstr "Slovenia"
 
 #: wp4/locations/models.py:63
 msgid "LOc46 Spain"
-msgstr ""
+msgstr "Spain"
 
 #: wp4/locations/models.py:64
 msgid "LOc47 Sweden"
-msgstr ""
+msgstr "Sweden"
 
 #: wp4/locations/models.py:65
 msgid "LOc48 Switzerland"
-msgstr ""
+msgstr "Switzerland"
 
 #: wp4/locations/models.py:66
 msgid "LOc49 Turkey"
-msgstr ""
+msgstr "Turkey"
 
 #: wp4/locations/models.py:67
 msgid "LOc50 Ukraine"
-msgstr ""
+msgstr "Ukraine"
 
 #: wp4/locations/models.py:76
 msgid "HO01 hospital name"
@@ -2775,51 +2134,43 @@ msgstr "Worksheets"
 
 #: wp4/samples/models.py:53
 msgid "EVc01 Blood"
-msgstr "Blood"
+msgstr "Blood Samples"
 
 #: wp4/samples/models.py:54
 msgid "EVc02 Urine"
-msgstr "Urine"
+msgstr "Urine Samples"
 
 #: wp4/samples/models.py:55
-#, fuzzy
-#| msgid "PRc07 Perfusate solution"
 msgid "EVc03 Perfusate"
-msgstr "Perfusate"
+msgstr "Perfusate Samples"
 
 #: wp4/samples/models.py:56
 msgid "EVc04 Tissue"
-msgstr "Tissue"
+msgstr "Tissue Samples"
 
 #: wp4/samples/models.py:68
 msgid "EVc05 donor blood 1"
-msgstr "DB1 Donor blood"
+msgstr "DB1 Donor Blood Sample"
 
 #: wp4/samples/models.py:69
 msgid "EVc06 donor urine 1"
-msgstr "DU1 Donor urine"
+msgstr "DU1 Donor Urine Sample at Withdrawal of Support"
 
 #: wp4/samples/models.py:70
 msgid "EVc07 donor urine 2"
-msgstr "DU2 donor urine"
+msgstr "DU2 Donor Urine Sample from Catheter Bag"
 
 #: wp4/samples/models.py:71
-#, fuzzy
-#| msgid "PRc07 Perfusate solution"
 msgid "EVc08 organ perfusate 1"
-msgstr "P1 Perfusate 15’ after start perfusion"
+msgstr "P1 Perfusate solution after 15 mins of HMP"
 
 #: wp4/samples/models.py:72
-#, fuzzy
-#| msgid "PRc07 Perfusate solution"
 msgid "EVc09 organ perfusate 2"
 msgstr "P2 Perfusate solution prior to departure"
 
 #: wp4/samples/models.py:73
-#, fuzzy
-#| msgid "PRc07 Perfusate solution"
 msgid "EVc10 organ perfusate 3"
-msgstr "P3 Perfusate solution at end of HMP"
+msgstr "P3 Perfusate solution at end of machine perfusion"
 
 #: wp4/samples/models.py:74
 msgid "EVc11 organ tissue 1"
@@ -2827,7 +2178,7 @@ msgstr "RKT Kidney Biopsy after reperfusion"
 
 #: wp4/samples/models.py:75
 msgid "EVc12 recipient blood 1"
-msgstr " RB1 Blood sample after anaesthesia "
+msgstr "RB1 Blood sample after anaesthesia "
 
 #: wp4/samples/models.py:76
 msgid "EVc13 recipient blood 2"
@@ -2894,10 +2245,8 @@ msgid "EVv11 invalid name selected (please select a tissue related name)"
 msgstr "Invalid name"
 
 #: wp4/samples/models.py:134
-#, fuzzy
-#| msgid "DOv02 Time travel detected! Donor's date of birth is in the future!"
 msgid "EVv05 Time travel detected! Taken at date and time is in the future!"
-msgstr "Time travel detected! Donor's date of birth is in the future!"
+msgstr "Time travel detected! Taken at date and time is in the future!"
 
 #: wp4/samples/models.py:145
 msgid "DM01 sample collected?"
@@ -2909,27 +2258,27 @@ msgstr "Notes"
 
 #: wp4/samples/models.py:162
 msgid "BSc01 Blood SST"
-msgstr "Blood SST"
+msgstr "Blood Sample SST"
 
 #: wp4/samples/models.py:163
 msgid "BSc02 Blood EDSA"
-msgstr "Blood EDTA"
+msgstr "Blood Sample EDTA"
 
 #: wp4/samples/models.py:171
 msgid "BS02 blood sample type"
-msgstr "blood sample type"
+msgstr "Blood sample type"
 
 #: wp4/samples/models.py:172
 msgid "BS03 sample from"
-msgstr "sample from"
+msgstr "Blood sample from"
 
 #: wp4/samples/models.py:173
 msgid "BS01 centrifuged at"
-msgstr "centrifuged at"
+msgstr "Time sample centrifuged"
 
 #: wp4/samples/models.py:177
 msgid "BSm1 blood sample"
-msgstr "Blood sample"
+msgstr "Blood Sample"
 
 #: wp4/samples/models.py:178
 msgid "BSm2 blood samples"
@@ -2944,16 +2293,14 @@ msgid "BSv04 Please record the time the sample was taken"
 msgstr "Time sample taken?"
 
 #: wp4/samples/models.py:197
-#, fuzzy
-#| msgid "DOv02 Time travel detected! Donor's date of birth is in the future!"
 msgid ""
 "BSv02 Time travel detected! Centrifuged at date and time is in the future!"
-msgstr "Time travel detected! Donor's date of birth is in the future!"
+msgstr "Time travel detected! Centrifuged at date and time is in the future!"
 
 #: wp4/samples/models.py:200
 msgid "BSv03 Body in spin dryer! Sample was centrifuged before it was taken?"
 msgstr ""
-"Time given of centrifugation is before sample was taken.  Please correct"
+"Time given of centrifugation is before sample was taken. Please correct"
 
 #: wp4/samples/models.py:215
 msgid "US02 sample from"
@@ -2973,18 +2320,16 @@ msgstr "Urine samples"
 
 #: wp4/samples/models.py:234
 msgid "USv01 you must enter some notes about why this sample was not collected"
-msgstr " Please provide details about why this urine sample was not collected "
+msgstr "Please provide details about why this urine sample was not collected "
 
 #: wp4/samples/models.py:236
 msgid "USv04 Please record the time the sample was taken"
 msgstr "Time sample taken"
 
 #: wp4/samples/models.py:240
-#, fuzzy
-#| msgid "DOv02 Time travel detected! Donor's date of birth is in the future!"
 msgid ""
 "USv02 Time travel detected! Centrifuged at date and time is in the future!"
-msgstr "Time travel detected! Donor's date of birth is in the future!"
+msgstr "Time travel detected! Centrifuged at date and time is in the future!"
 
 #: wp4/samples/models.py:243
 msgid "USv03 Body in spin dryer! Sample was centrifuged before it was taken?"
@@ -3000,20 +2345,12 @@ msgid "PS01 centrifuged at"
 msgstr "Time centrifuged"
 
 #: wp4/samples/models.py:263
-#, fuzzy
-#| msgid "OR22 perfusate measurable"
 msgid "PSm1 perfusate sample"
-msgstr ""
-"Is it logistically possible to measure pO2 perfusate (use blood gas "
-"analyser)?"
+msgstr "Perfusate sample"
 
 #: wp4/samples/models.py:264
-#, fuzzy
-#| msgid "OR22 perfusate measurable"
 msgid "PSm2 perfusate samples"
-msgstr ""
-"Is it logistically possible to measure pO2 perfusate (use blood gas "
-"analyser)?"
+msgstr "Perfusate samples"
 
 #: wp4/samples/models.py:277
 msgid "PSv01 you must enter some notes about why this sample was not collected"
@@ -3025,11 +2362,9 @@ msgid "PSv04 Please record the time the sample was taken"
 msgstr "Time perfusate taken"
 
 #: wp4/samples/models.py:283
-#, fuzzy
-#| msgid "DOv02 Time travel detected! Donor's date of birth is in the future!"
 msgid ""
 "PSv02 Time travel detected! Centrifuged at date and time is in the future!"
-msgstr "Time travel detected! Donor's date of birth is in the future!"
+msgstr "Time travel detected! Centrifuged at date and time is in the future!"
 
 #: wp4/samples/models.py:286
 msgid "PSv03 Body in spin dryer! Sample was centrifuged before it was taken?"
@@ -3067,7 +2402,7 @@ msgstr ""
 
 #: wp4/samples/models.py:327
 msgid "TSv02 Please record the time the sample was taken"
-msgstr "Time taken"
+msgstr "Please record the time the sample was taken"
 
 #: wp4/staff_person/models.py:54
 msgid "PE14 related user account"
@@ -3095,19 +2430,19 @@ msgstr "Email address"
 
 #: wp4/staff_person/models.py:101
 msgid "PEm1 person"
-msgstr "Person"
+msgstr "Staff Person"
 
 #: wp4/staff_person/models.py:102
 msgid "PEm2 people"
-msgstr "People"
+msgstr "Staff People"
 
 #: wp4/templates/admin/base_site.html:3
 msgid "COPE site admin"
-msgstr "COPE WP4 site admin"
+msgstr "COPE site admin"
 
 #: wp4/templates/admin/base_site.html:6
 msgid "COPE DB basic administration"
-msgstr " COPE WP4 DB basic administration "
+msgstr "COPE DB basic administration"
 
 #: wp4/templates/registration/logged_out.html:7
 #: wp4/templates/registration/password_change_done.html:6
@@ -3123,7 +2458,7 @@ msgstr "You have been successfully logged out"
 
 #: wp4/templates/registration/logged_out.html:13
 msgid "Log in again"
-msgstr "Your session has timed out.  Please log in again"
+msgstr "Your session has timed out. Please log in again"
 
 #: wp4/templates/registration/password_change_done.html:3
 msgid "Documentation"
@@ -3227,7 +2562,7 @@ msgid ""
 "user account at %(site_name)s."
 msgstr ""
 "You're receiving this email because you requested a password reset for your "
-"WP4 database log %(site_name)s."
+"COPE DB database account at %(site_name)s."
 
 #: wp4/templates/registration/password_reset_email.html:4
 msgid "Please go to the following page and choose a new password:"
@@ -3257,132 +2592,3 @@ msgstr ""
 #: wp4/templates/registration/password_reset_form.html:32
 msgid "Reset my password"
 msgstr "Reset my password"
-
-#~ msgid "OPm01 No Trial ID Assigned"
-#~ msgstr "Not randomised"
-
-#, fuzzy
-#~| msgid "DO14 admitted to ITU"
-#~ msgid "AE34 admitted to ITU"
-#~ msgstr "Were they admitted to ITU?"
-
-#, fuzzy
-#~| msgid "DO14 admitted to ITU"
-#~ msgid "AE35 admitted to ITU"
-#~ msgstr "Were they admitted to ITU?"
-
-#~ msgid "AE01 sequence number"
-#~ msgstr "First Adverse Event"
-
-#~ msgid "AE03 resolution date"
-#~ msgstr "Date adverse event resolved"
-
-#~ msgid "DOv12 Not Available"
-#~ msgstr "Not available"
-
-#, fuzzy
-#~| msgid "qol mobility score"
-#~ msgid "FY10 qol mobility score"
-#~ msgstr "Mobility"
-
-#, fuzzy
-#~| msgid "qol self care score"
-#~ msgid "FY11 qol self care score"
-#~ msgstr "Self care"
-
-#, fuzzy
-#~| msgid "qol pain or discomfort score"
-#~ msgid "FY13 qol pain or discomfort score"
-#~ msgstr "Pain/Discomfort"
-
-#, fuzzy
-#~| msgid "qol anxiety or depression score"
-#~ msgid "FY14 qol anxiety or depression score"
-#~ msgstr "Anxiety/Depression"
-
-#, fuzzy
-#~| msgid "vas score"
-#~ msgid "FY15 vas score"
-#~ msgstr "VAS score"
-
-#, fuzzy
-#~| msgid "date of dialysis requirement 2"
-#~ msgid "FI10 date of dialysis requirement 2"
-#~ msgstr " Date of second post-operative dialysis "
-
-#, fuzzy
-#~| msgid "date of dialysis requirement 3"
-#~ msgid "FI11 date of dialysis requirement 3"
-#~ msgstr " Date of third post-operative dialysis "
-
-#, fuzzy
-#~| msgid "date of dialysis requirement 4"
-#~ msgid "FI12 date of dialysis requirement 4"
-#~ msgstr " Date of fourth post-operative dialysis "
-
-#, fuzzy
-#~| msgid "date of dialysis requirement 5"
-#~ msgid "FI13 date of dialysis requirement 5"
-#~ msgstr " Date of fifth post-operative dialysis "
-
-#, fuzzy
-#~| msgid "date of dialysis requirement 6"
-#~ msgid "FI14 date of dialysis requirement 6"
-#~ msgstr " Date of sixth post-operative dialysis "
-
-#, fuzzy
-#~| msgid "date of dialysis requirement 7"
-#~ msgid "FI15 date of dialysis requirement 7"
-#~ msgstr " Date of seventh post-operative dialysis "
-
-#, fuzzy
-#~| msgid "urine creatinine"
-#~ msgid "F301 urine creatinine"
-#~ msgstr "Urine creatine"
-
-#, fuzzy
-#~| msgid "urine creatinine"
-#~ msgid "F601 urine creatinine"
-#~ msgstr "Urine creatine"
-
-#, fuzzy
-#~| msgid "urine creatinine"
-#~ msgid "FY01 urine creatinine"
-#~ msgstr "Urine creatine"
-
-#~ msgid "Add another"
-#~ msgstr "Add another"
-
-#~ msgid "Other"
-#~ msgstr "Other"
-
-#~ msgid "CAPD"
-#~ msgstr "CAPD"
-
-#~ msgid "Unknown"
-#~ msgstr "Unknown"
-
-#~ msgid "MMF"
-#~ msgstr "MMF"
-
-#~ msgid "IL 2"
-#~ msgstr "IL 2"
-
-#~ msgid "ATG"
-#~ msgstr "ATG"
-
-#~ msgid "MM11 Belgium"
-#~ msgstr "Belgium"
-
-#~ msgid "MM12 Netherlands"
-#~ msgstr "The Netherlands"
-
-#, fuzzy
-#~| msgid "HO02 country"
-#~ msgid "RA01 country"
-#~ msgstr "Country"
-
-#, fuzzy
-#~| msgid "DOv02 Time travel detected! Donor's date of birth is in the future!"
-#~ msgid "OPv01 Time travel detected! Person's date of birth is in the future!"
-#~ msgstr "Donor’s date of birth is in the future.  Please make a correction"
