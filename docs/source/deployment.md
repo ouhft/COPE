@@ -442,6 +442,28 @@ Periodically there are maintainence tasks to do, such as:
 When things do not go to plan, we want to find out what we can. There's no debug mode on the production server, so it's into the error logs for information. Logs from supervisord are found via: ``cd /var/log/supervisor/``. Unfortunately stack traces aren't captured here (for example on a Server Error), so more work needs to be done to help the monitoring of this server.
 
 
+## Migrating to Python 3 and Postgres
+
+* Using installed python 3.4.3
+* Installed postgres following instructions at [https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-14-04](). 
+ * Results in Postgres 9.3 being installed.
+ * Created user `copedb` and database `copedb`. 
+ * Set password on user.
+
+Follow site setup again, but pointing at `/usr/bin/python3` for virtualenv, and changing the files linked below to use the new `/sites/py3_cope path`::
+
+    # NB: cwd is /sites/py3_cope
+    ln -s /sites/py3_cope/cope_repo/deploy/production/etc/nginx/sites-available/cope.conf /sites/py3_cope/etc/nginx/sites-available/py3_cope.conf
+    sudo ln -s /sites/py3_cope/etc/nginx/sites-available/cope.conf /etc/nginx/sites-available/py3_cope.conf
+    sudo ln -s /etc/nginx/sites-available/py3_cope.conf /etc/nginx/sites-enabled/py3_cope.conf
+
+    sudo ln -s /sites/py3_cope/cope_repo/deploy/production/etc/supervisor/conf.d/nginx.conf /etc/supervisor/conf.d/nginx.conf
+    sudo ln -s /sites/cope/cope_repo/deploy/production/etc/supervisor/conf.d/django.conf /etc/supervisor/conf.d/django.conf
+
+    ln -s /sites/cope/cope_repo/deploy/production/bin/gunicorn_start.sh /sites/cope/bin/gunicorn_start.sh
+    chmod 775 /sites/cope/cope_repo/deploy/production/bin/gunicorn_start.sh
+
+
 
 **TODO**
 

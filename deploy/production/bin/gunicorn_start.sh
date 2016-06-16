@@ -1,7 +1,7 @@
 #!/bin/bash
 
 NAME="cope_app"                                   # Name of the application
-APP_ROOT=/sites/cope                              # Application root path
+APP_ROOT=/sites/py3_cope                          # Application root path
 DJANGODIR=$APP_ROOT/cope_repo                     # Django project directory
 SOCKFILE=$APP_ROOT/var/run/wsgi.socket            # we will communicte using this unix socket
 USER=cope-app-user                                # the user to run as
