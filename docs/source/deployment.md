@@ -455,15 +455,26 @@ Follow site setup again, but pointing at `/usr/bin/python3` for virtualenv, and 
 
     # NB: cwd is /sites/py3_cope
     ln -s /sites/py3_cope/cope_repo/deploy/production/etc/nginx/sites-available/cope.conf /sites/py3_cope/etc/nginx/sites-available/py3_cope.conf
-    sudo ln -s /sites/py3_cope/etc/nginx/sites-available/cope.conf /etc/nginx/sites-available/py3_cope.conf
+    sudo ln -s /sites/py3_cope/etc/nginx/sites-available/py3_cope.conf /etc/nginx/sites-available/py3_cope.conf
     sudo ln -s /etc/nginx/sites-available/py3_cope.conf /etc/nginx/sites-enabled/py3_cope.conf
+    sudo rm /etc/nginx/sites-enabled/cope.conf 
 
+    sudo rm /etc/supervisor/conf.d/nginx.conf 
+    sudo ln -s /sites/py3_cope/cope_repo/deploy/production/etc/supervisor/conf.d/nginx.conf /etc/supervisor/conf.d/nginx.conf
     sudo ln -s /sites/py3_cope/cope_repo/deploy/production/etc/supervisor/conf.d/django.conf /etc/supervisor/conf.d/py3_django.conf
+    sudo rm /etc/supervisor/conf.d/django.conf 
 
     ln -s /sites/py3_cope/cope_repo/deploy/production/bin/gunicorn_start.sh /sites/py3_cope/bin/gunicorn_start.sh
     chmod 775 /sites/py3_cope/cope_repo/deploy/production/bin/gunicorn_start.sh
+    
+    sudo chown -R www-data:worker *
 
 Continue the site setup (`python` will default to the environment version of 3.4.3). Use the previous local.env file (NB: edit the static root path!), as we need to setup first to use the existing sqlite db file, and then port it to the new postgres engine.
+
+* `python manage.py check`
+* `python manage.py migrate`
+* `python manage.py collectstatic`
+* `python manage.py compilemessages`
 
 Now is a good time to reboot the server, then we can go and see about gunicorn config/starting.
 
