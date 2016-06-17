@@ -445,6 +445,7 @@ When things do not go to plan, we want to find out what we can. There's no debug
 ## Migrating to Python 3 and Postgres
 
 * Using installed python 3.4.3
+ * Needs extra: `sudo apt-get install python3.4-dev libpq-dev` for psycopg2 to install
 * Installed postgres following instructions at [https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-14-04](). 
  * Results in Postgres 9.3 being installed.
  * Created user `copedb` and database `copedb`. 
@@ -457,11 +458,14 @@ Follow site setup again, but pointing at `/usr/bin/python3` for virtualenv, and 
     sudo ln -s /sites/py3_cope/etc/nginx/sites-available/cope.conf /etc/nginx/sites-available/py3_cope.conf
     sudo ln -s /etc/nginx/sites-available/py3_cope.conf /etc/nginx/sites-enabled/py3_cope.conf
 
-    sudo ln -s /sites/py3_cope/cope_repo/deploy/production/etc/supervisor/conf.d/nginx.conf /etc/supervisor/conf.d/nginx.conf
-    sudo ln -s /sites/cope/cope_repo/deploy/production/etc/supervisor/conf.d/django.conf /etc/supervisor/conf.d/django.conf
+    sudo ln -s /sites/py3_cope/cope_repo/deploy/production/etc/supervisor/conf.d/django.conf /etc/supervisor/conf.d/py3_django.conf
 
-    ln -s /sites/cope/cope_repo/deploy/production/bin/gunicorn_start.sh /sites/cope/bin/gunicorn_start.sh
-    chmod 775 /sites/cope/cope_repo/deploy/production/bin/gunicorn_start.sh
+    ln -s /sites/py3_cope/cope_repo/deploy/production/bin/gunicorn_start.sh /sites/py3_cope/bin/gunicorn_start.sh
+    chmod 775 /sites/py3_cope/cope_repo/deploy/production/bin/gunicorn_start.sh
+
+Continue the site setup (`python` will default to the environment version of 3.4.3). Use the previous local.env file (NB: edit the static root path!), as we need to setup first to use the existing sqlite db file, and then port it to the new postgres engine.
+
+Now is a good time to reboot the server, then we can go and see about gunicorn config/starting.
 
 
 
