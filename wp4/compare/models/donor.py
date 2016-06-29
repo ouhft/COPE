@@ -422,7 +422,7 @@ class Donor(VersionControlMixin):
                         })
                 )
             if self.date_of_procurement:
-                calculated_age = relativedelta(self.date_of_procurement, self.date_of_birth).years
+                calculated_age = relativedelta(self.date_of_procurement, self.person.date_of_birth).years
                 if calculated_age < 50:
                     raise ValidationError(
                         _("DOv03 Date of birth is less than 50 years from the date of procurement (%(num)d)"

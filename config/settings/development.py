@@ -26,6 +26,7 @@ CRISPY_FAIL_SILENTLY = not DEBUG
 LANGUAGES = LANGUAGES + [
     ('en-db', _('SET04 Debug Language')),
 ]
+ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['example.com'])
 
 # SECRET CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -51,8 +52,8 @@ CACHES = {
 
 # django-debug-toolbar
 # ------------------------------------------------------------------------------
-MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
-INSTALLED_APPS += ('debug_toolbar',)
+# MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
+# INSTALLED_APPS += ('debug_toolbar',)
 
 INTERNAL_IPS = ('127.0.0.1',)
 

@@ -3,8 +3,8 @@
 Welcome to the COPE DB Online Trials System. This guide provides an overview of what to expect as a user.
 
 * Written by: *Carl Marshall*
-* For DB version: *0.4.5*
-* Last updated: *18th Jan 2016*
+* For DB version: *0.6.0*
+* Last updated: *29th June 2016*
 
 ## Overview
 By visiting the system at [https://cope.nds.ox.ac.uk/]() you should see a page similar to the one below:
@@ -125,7 +125,16 @@ Try and correct all the errors, and then save again. It is possible to have recu
 
 ## WP4: Compare
 
-The system is currently focussed on the WP4 trial. There are two key sections: Procurement and Transplantation
+The system is currently focussed on the WP4 trial. There are several sections devoted to this trial:
+
+* **Procurement** - Data collection related to the Donor
+* **Transplantation** - Data collection related to the Recipient Operation
+* **Follow Up** - Data collection related to the Recipient in the following year
+* **Adverse Events** - Data collection related to events outside of acceptable and expected process
+
+Additionally there are sections dedicated to *Sample Management*, and *Health Economics* data collection. The former is mostly used during the Procurement and Transplantation stages, with the former related to data capture for the Recipient from prior to the operation through to the conclusion of the follow up.
+
+Depending on your job/role, you will be granted access to only the appropriate areas.
 
 ### Procurement
 
