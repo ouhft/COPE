@@ -17,7 +17,7 @@ from wp4.compare.models import Donor, Organ, OrganAllocation
 from wp4.staff_person.models import StaffJob
 from wp4.adverse_event.models import AdverseEvent
 
-from .utils import group_required, job_required
+from .utils import job_required
 
 
 # Some forced errors to allow for testing the Error Page Templates
@@ -58,15 +58,12 @@ def wp4_index(request):
     return render(request, 'dashboard/wp4_index.html', {})
 
 
-# @group_required('Central Co-ordinators')
-# @login_required
 @job_required(StaffJob.CENTRAL_COORDINATOR, StaffJob.STATISTICIAN)
 def administrator_index(request):
     return render(request, 'dashboard/administrator_index.html', {})
 
 
-@group_required('Central Co-ordinators')
-@login_required
+@job_required(StaffJob.CENTRAL_COORDINATOR)
 def administrator_uk_list(request):
     randomisation_listing = Randomisation.objects.filter(list_code=PAPER_UNITED_KINGDOM)
     return render(
@@ -80,8 +77,7 @@ def administrator_uk_list(request):
     )
 
 
-@group_required('Central Co-ordinators')
-@login_required
+@job_required(StaffJob.CENTRAL_COORDINATOR)
 def administrator_europe_list(request):
     randomisation_listing = Randomisation.objects.filter(list_code=PAPER_EUROPE)
     return render(
@@ -94,18 +90,19 @@ def administrator_europe_list(request):
         }
     )
 
-@login_required
-def administrator_datalist(request):
-    organs = Organ.objects.all()
-    return render(
-        request,
-        'dashboard/administrator_data_list.html',
-        {
-            'listing': organs,
-            # 'location': "Europe",
-            # 'timestamp': timezone.now()
-        }
-    )
+
+# @login_required
+# def administrator_datalist(request):
+#     organs = Organ.objects.all()
+#     return render(
+#         request,
+#         'dashboard/administrator_data_list.html',
+#         {
+#             'listing': organs,
+#             # 'location': "Europe",
+#             # 'timestamp': timezone.now()
+#         }
+#     )
 
 
 @job_required(StaffJob.STATISTICIAN, StaffJob.CENTRAL_COORDINATOR)

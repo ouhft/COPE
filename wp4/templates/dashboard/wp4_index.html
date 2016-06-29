@@ -1,5 +1,5 @@
 {% extends "base_site.html" %}
-{% load l10n i18n %}
+{% load l10n i18n theme_tags %}
 
 {% block page_title %}Work Package 4: Compare{% endblock %}
 {% block page_header %}Work Package 4: Compare{% endblock %}
@@ -9,6 +9,7 @@
 {% endblock %}
 
 {% block content %}
+{# This page requires a user to be logged in to access #}
     <p>This section supports activities on Work Package 4: Compare (WP4) which is a Kidney preservation trial.
 
     <h3>Actions available</h3>
@@ -35,12 +36,10 @@
         {% endif %}
     </ul>
 
-    {% if user.is_staff %}{# TODO: Fix the permissions here to be group oriented, not staff #}
-        <h3>Administrator Functions</h3>
-        <ul class="list-group">
-            <a href="{% url 'wp4:admin_europe_list' %}" class="list-group-item">Europe OFFLINE list</a>
-            <a href="{% url 'wp4:admin_uk_list' %}" class="list-group-item">United Kingdom OFFLINE list</a>
-            <a href="{% url 'wp4:admin_index' %}" class="list-group-item list-group-item-info">Administration Home</a>
-        </ul>
+    <h3>Administration Functions</h3>
+    <ul class="list-group">
+    {% if user|has_job:6 or user|has_job:5 %}{# Statisticians or Central co-ordinators #}
+        <a href="{% url 'wp4:admin_index' %}" class="list-group-item list-group-item-info">Administration Home</a>
     {% endif %}
+    </ul>
 {% endblock %}

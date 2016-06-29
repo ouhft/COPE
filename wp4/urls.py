@@ -13,7 +13,8 @@ from .locations import urls as locations_urls
 from .samples import urls as samples_urls
 from .compare import urls as compare_urls
 from .views import wp4_index, report_procurement, report_organ, report_allocations, report_adverse_events
-from .views import administrator_index, administrator_uk_list, administrator_europe_list, administrator_datalist
+from .views import administrator_index, administrator_uk_list, administrator_europe_list
+
 
 urlpatterns = [
     url(r'^health-economics/', include(health_economics_urls, namespace="health_economics")),
@@ -43,11 +44,6 @@ urlpatterns = [
         regex=r'^administrator/stats/reports/adverse-events$',
         view=report_adverse_events,
         name='admin_stats_ae'
-    ),
-    url(
-        regex=r'^administrator/data-list$',
-        view=administrator_datalist,
-        name='admin_data_list'
     ),
     url(
         regex=r'^administrator/europe-list$',

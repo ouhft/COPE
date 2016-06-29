@@ -6,6 +6,7 @@ import markdown
 
 from django import template
 from django.conf import settings
+from django.contrib.auth.models import Group
 
 import wp4
 
@@ -58,3 +59,18 @@ def markdownify(text):
     output = output.replace("<img ", "<img class=\"img-responsive\" ")
     # print("DEBUG: output=%s" % output)
     return output
+
+
+# http://www.abidibo.net/blog/2014/05/22/check-if-user-belongs-group-django-templates/
+@register.filter(name='has_group')
+def has_group(user, group_name):
+    group = Group.objects.get(name=group_name)
+    return True if group in user.groups.all() else False
+
+
+# Based on wp4/utils.py:job_required()
+@register.filter(name='has_job')
+def has_job(user, job_id):
+    if user.is_superuser or bool(user.profile.has_job(job_id)):
+        return True
+    return False
