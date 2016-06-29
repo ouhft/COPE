@@ -147,7 +147,7 @@ To start a new case (i.e. to collect Donor and Organ details during retrieval) y
 
 * **Name of the Retrieval Team**
 * **Name of the MTO/Transplant Technician** - This should default to your name if you are registered as a Perfusion Technician on the system
-* **Age of the Donor** - remember 50 years old or more
+* **Age of the Donor** - remember: 50 years old, or more
 * **Gender of the Donor**
 
 Additionally, to allow for all eventualities, we need to account for when things go wrong with the data recording. We anticipate the following scenarios:
@@ -253,7 +253,7 @@ After a successful save, you should now see messsages and changes such as the fo
 
 #### If the facts change...
 
-Understandably during the course of the procedure, and early positive inspection leading to a timely randomisation (allowing the Technician to set up the machines), can be overriden by later events. Back table inspection may find serious damage or other issues with the kidney, and the surgeon can now deem the organs to not be transplantable.
+Understandably during the course of the procedure, an early positive inspection leading to a timely randomisation (allowing the Technician to set up the machines), can be overriden by later events. Back table inspection may find serious damage or other issues with the kidney, and the surgeon can now deem the organs to not be transplantable.
 
 We want you to record these changes of data as they happen. Even if you've done a randomisation, you can subsequently declare the organ not transplantable (remember to give a reason in the followup question), and then save the form again. Similarly with the recipient data - it may be unknown at the start when you need to randomise, but later it turns out that there are not two separate recipients. Again, save the changes and update the relevant notes.
 
@@ -261,11 +261,15 @@ We want you to record these changes of data as they happen. Even if you've done 
 
 ![](../static/docs/user_manual/screen_transplantation_empty.png)
 
-Following procurement of a kidney, the next stage of recording is picked up by the Transplant Technician assigned to the Recipient location. Organs that have been procured, but not yet assigned to recipients will appear on the right side of the Tranplantation listing screen (see above), and can be identified by their Trial ID. Cases that you are currently working on will appear in the listing on the left hand side of the Page Content area.
+Following procurement of a kidney, the next stage of recording is picked up by the Transplant Technician assigned to the Recipient location. Organs that have been procured, but not yet assigned to recipients will appear on the right side of the Tranplantation listing screen in the Select Organ ID field (see above), and can be identified by their Trial ID. Cases that you are currently working on will appear in the listing on the left hand side of the Page Content area.
 
-Let's look at the next stage of the Left Kidney that was procured earlier in this manual. Clicking on case WP421001L will allow us to allocate the kidney to a location.
+If this organ was not able to be allocated for any known reason at this stage, select No on the second question, complete the information about why it was not allocated, and then click Save.
+
+Selecting a case, saying yes to allocated, and clicking Save, will allow us to allocate the kidney to a location and begin the Transplantation form
 
 ![](../static/docs/user_manual/screen_transplantation_allocation_1.png)
+
+**YOU ARE HERE!!!!! EDIT ME!**
 
 Again, if you are a Technician, you will see your name appear as the answer to Name of TT Attending under Allocation Round 1. This can be changed for another technician by following the instructions for a Typeahead Field.
 
