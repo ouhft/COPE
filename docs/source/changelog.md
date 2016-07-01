@@ -2,6 +2,9 @@
 
 This is a list of changes made to the website and application for each release.
 
+## v0.6.1 (1 July 2016) - Bugfix
+* Resolved Internal Server Errors due to an issue with date_of_birth (Issue #116)
+
 ## v0.6.0 (21 June 2016) - The Follow Up edition
 ### New Features
 * Follow Up forms added for Initial, 3 Month, 6 Month, and 1 Year data collection based on the current paper forms (Issue #79)
