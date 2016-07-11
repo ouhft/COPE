@@ -32,7 +32,7 @@
                     <td><a href="{% url "wp4:samples:update" pk=worksheet.id %}" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> {{ "WS"|add:internal_id }}</a></td>
                 {% endwith %}
                 <td>{{ worksheet.barcode|default:"Not Set" }}</td>
-                <td>{{ worksheet.person.trial_id }}</td>
+                <td>{{ worksheet.person.donor.trial_id }}{{ worksheet.person.recipient.trial_id }}</td>
                 <td>{{ worksheet.person.number }}</td>
                 <td>{{ worksheet.person.age_from_dob }}</td>
                 <td>{{ worksheet.person.get_gender_display }}</td>
