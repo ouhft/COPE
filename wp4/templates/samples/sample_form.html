@@ -32,11 +32,11 @@
             </div>
             {% if worksheet_form.instance.person.is_donor %}
                 <p><a href="{% url 'wp4:compare:procurement_detail' pk=worksheet_form.instance.person.donor.id %}"
-                      class="btn btn-default">Go to Procurement Record</a></p>
+                      class="btn btn-default">Go to Procurement Record for {{ worksheet_form.instance.person }}</a></p>
             {% else %}
                 <p>
                     <a href="{% url 'wp4:compare:transplantation_detail' pk=worksheet_form.instance.person.recipient.organ.id %}"
-                       class="btn btn-default">Go to Transplant Record</a></p>
+                       class="btn btn-default">Go to Transplant Record for {{ worksheet_form.instance.person }}</a></p>
             {% endif %}
         </div>
     </div>
