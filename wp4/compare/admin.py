@@ -4,7 +4,8 @@ from __future__ import absolute_import, unicode_literals
 
 from django.contrib import admin
 from django.utils import timezone
-from reversion_compare.admin import CompareVersionAdmin
+# from reversion_compare.admin import CompareVersionAdmin
+from reversion.admin import VersionAdmin
 
 # Register your models here.
 from .models import OrganPerson, RetrievalTeam, Donor, Recipient, Organ
@@ -40,7 +41,7 @@ class BaseModelAdmin(admin.ModelAdmin):
         formset.save_m2m()
 
 
-class VersionControlAdmin(CompareVersionAdmin):
+class VersionControlAdmin(VersionAdmin):
     exclude = ('version', 'created_on', 'created_by', 'record_locked')
     actions_on_top = True
     actions_on_bottom = True
@@ -69,7 +70,7 @@ class VersionControlAdmin(CompareVersionAdmin):
 
 
 # Compare Admin modules
-class RetrievalTeamAdmin(CompareVersionAdmin):
+class RetrievalTeamAdmin(VersionAdmin):
     list_display = ('based_at', 'centre_code')
     ordering = ('centre_code',)
     fields = ('centre_code', 'based_at')
@@ -373,7 +374,7 @@ class RecipientAdmin(VersionControlAdmin):
 admin.site.register(Recipient, RecipientAdmin)
 
 
-class RandomisationAdmin(CompareVersionAdmin):
+class RandomisationAdmin(VersionAdmin):
     list_display = ('id', 'list_code', 'donor', 'result', 'allocated_on')
     ordering = ('id',)
     fields = ('donor', 'result', 'allocated_on')
