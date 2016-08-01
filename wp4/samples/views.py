@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
+from django.utils import timezone
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
 
 from braces.views import LoginRequiredMixin, OrderableListMixin
@@ -67,9 +68,10 @@ def sample_form(request, pk=None):
     :return: Page response
     """
     worksheet = Worksheet.objects.\
-        select_related('person__donor').\
-        prefetch_related('event_set').\
-        filter(pk=int(pk))[0]  # TODO: Clean this up, as it's not very smart!
+        get(pk=pk)
+        # select_related('person__donor').\
+        # prefetch_related('event_set').\
+        # filter(pk=int(pk))[0]  # TODO: Clean this up, as it's not very smart!
     current_person = StaffPerson.objects.get(user__id=request.user.id)
 
     worksheet_form = WorksheetForm(request.POST or None, instance=worksheet, prefix="worksheet")
