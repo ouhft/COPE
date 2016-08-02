@@ -30,7 +30,6 @@ test -d $RUNDIR || mkdir -p $RUNDIR
 # Programs meant to be run under supervisor should not daemonize themselves (do not use --daemon)
 exec ../bin/gunicorn ${DJANGO_WSGI_MODULE}:application \
   --name $NAME \
-  --user=$USER --group=$GROUP \
   --workers $NUM_WORKERS \
   --bind=unix:$SOCKFILE \
   --timeout $TIMEOUT \
@@ -39,3 +38,5 @@ exec ../bin/gunicorn ${DJANGO_WSGI_MODULE}:application \
   --access-logfile=$ACCESS_LOG \
   --error-logfile=$ERROR_LOG \
   --pid=$PID_FILE
+
+#  --user=$USER --group=$GROUP \
