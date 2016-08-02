@@ -223,8 +223,7 @@ class OrganPerson(VersionControlMixin):
         height_in_m = self.height / 100
         return (self.weight / height_in_m) / height_in_m
 
-    @property
-    def age_from_dob(self):
+    def _age_from_dob(self):
         """
         Determines a person's age from their Date of Birth, compared initially against a Date of Death
         (if it exists), or against the current date if not applicable.
@@ -236,6 +235,8 @@ class OrganPerson(VersionControlMixin):
         if self.date_of_birth:
             return relativedelta(the_end, self.date_of_birth).years
         return None
+
+    age_from_dob = cached_property(_age_from_dob, name='age_from_dob')
 
     # def _trial_id(self):
     #     """

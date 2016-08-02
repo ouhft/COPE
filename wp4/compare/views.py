@@ -112,8 +112,9 @@ def procurement_list(request):
     if current_person.has_job(
             (StaffJob.SYSTEMS_ADMINISTRATOR, StaffJob.CENTRAL_COORDINATOR, StaffJob.NATIONAL_COORDINATOR)
     ):
+            # order_by('retrieval_team__centre_code', '-pk').\
         open_donors = Donor.objects.filter(procurement_form_completed=False).\
-            order_by('retrieval_team__centre_code', '-pk').\
+            order_by('-created_on').\
             select_related('person').\
             select_related('retrieval_team__based_at').\
             select_related('randomisation').\

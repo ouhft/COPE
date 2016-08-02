@@ -26,7 +26,7 @@
                         <th>Last Updated</th>
                         <th>Allocated?</th>
                         <th>Number</th>
-                        <th>Age</th>
+{#                        <th>Age</th>  TOO SLOW TO CALCULATE AND DISPLAY #}
                         <th>Gender</th>
                         <th>Samples</th>
                     </tr>
@@ -35,7 +35,7 @@
                     {% for case in existing_cases %}
                         <tr>
                             <td>
-                                {% if perms.is_staff %}
+                                {% if request.user.is_staff %}
                                     <a href="{% url 'admin:compare_organ_change' case.id %}"><i
                                             class="glyphicon glyphicon-briefcase"></i></a>
                                 {% endif %}
@@ -59,21 +59,25 @@
                             {% endif %}
                             </td>
                             <td>
-                                {% if perms.is_staff and case.recipient %}
+                                {% if request.user.is_staff and case.recipient %}
                                     <a href="{% url 'admin:compare_recipient_change' case.recipient.id %}"><i
                                             class="glyphicon glyphicon-briefcase"></i></a>
                                 {% endif %}
                                 {{ case.recipient.person.number|default:"Unknown number" }}
                             </td>
-                            <td>{{ case.recipient.person.age_from_dob|default:"Unknown age" }}</td>
-                            <td>{{ case.recipient.person.get_gender_display }}</td>
+{#                            <td>#}
+{#                                {{ case.recipient.person.age_from_dob|default:"Unknown age" }}#}
+{#                            </td>#}
+                            <td>
+                                {{ case.recipient.person.get_gender_display }}
+                            </td>
+                            <td>
                             {% if case.recipient.person.worksheet %}
-                                <td>
-                                    <a href="{% url 'wp4:samples:update' pk=case.recipient.person.worksheet.id %}">{{ case.recipient.person.worksheet }}</a>
-                                </td>
+                                    <a href="{% url 'wp4:samples:update' pk=case.recipient.person.worksheet.id %}" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-share"></i> {{ case.recipient.person.worksheet }}</a>
                             {% else %}
-                                <td>No Worksheet</td>
+                                No Worksheet
                             {% endif %}
+                            </td>
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -123,7 +127,7 @@
                         <th>Last Updated</th>
                         <th>Allocated?</th>
                         <th>Number</th>
-                        <th>Age</th>
+{#                        <th>Age</th>#}
                         <th>Gender</th>
                         <th>Samples</th>
                     </tr>
@@ -132,7 +136,7 @@
                     {% for case in closed_cases %}
                         <tr>
                             <td>
-                                {% if perms.is_staff %}
+                                {% if request.user.is_staff %}
                                     <a href="{% url 'admin:compare_organ_change' case.id %}"><i
                                             class="glyphicon glyphicon-briefcase"></i></a>
                                 {% endif %}
@@ -153,13 +157,15 @@
                             {% endif %}
                             </td>
                             <td>
-                                {% if perms.is_staff and case.recipient %}
+                                {% if request.user.is_staff and case.recipient %}
                                     <a href="{% url 'admin:compare_recipient_change' case.recipient.id %}"><i
                                             class="glyphicon glyphicon-briefcase"></i></a>
                                 {% endif %}
                                 {{ case.recipient.person.number|default:"Unknown number" }}
                             </td>
-                            <td>{{ case.recipient.person.age_from_dob|default:"Unknown age" }}</td>
+{#                            <td>#}
+{#                                {{ case.recipient.person.age_from_dob|default:"Unknown age" }}#}
+{#                            </td>#}
                             <td>{{ case.recipient.person.get_gender_display }}</td>
                             {% if case.recipient.person.worksheet %}
                                 <td>
@@ -173,7 +179,7 @@
                     </tbody>
                 </table>
             {% else %}
-                {% if perms.is_staff %}
+                {% if request.user.is_staff %}
                 <h3>
                     Closed Cases
                     <small>({{ closed_cases|length }} closed case{{ closed_cases|pluralize }})</small>

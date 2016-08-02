@@ -9,7 +9,7 @@ from django.forms.models import inlineformset_factory
 from django.utils.translation import ugettext_lazy as _
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Field, Div
+from crispy_forms.layout import Layout, Field, Div, HTML
 
 from ..theme.layout import FieldWithFollowup, DateTimeField, FormPanel
 from .models import Event, Worksheet, UrineSample, BloodSample, TissueSample, PerfusateSample
@@ -25,17 +25,19 @@ YES_NO_CHOICES = (
 
 
 class WorksheetForm(forms.ModelForm):
-    helper = FormHelper()
-    helper.form_tag = False
-    helper.html5_required = True
-    helper.layout = Layout(
-        Div(Field('person', template="bootstrap3/layout/read-only.html"), css_class="col-md-6"),
-        Div('barcode', css_class="col-md-6"),
-    )
-
     def __init__(self, *args, **kwargs):
         super(WorksheetForm, self).__init__(*args, **kwargs)
         self.fields['person'].widget = forms.HiddenInput()
+
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+        self.helper.html5_required = True
+        self.helper.layout = Layout(
+            'person',
+            # Div(HTML(self.instance.person.__str__()), css_class="col-md-6"),
+            # Div(Field('person', template="bootstrap3/layout/read-only.html"), css_class="col-md-6"),
+            Div('barcode', css_class="col-md-6"),
+        )
 
     class Meta:
         model = Worksheet
@@ -43,16 +45,6 @@ class WorksheetForm(forms.ModelForm):
 
 
 class EventForm(forms.ModelForm):
-    helper = FormHelper()
-    helper.form_tag = False
-    helper.html5_required = True
-    helper.layout = Layout(
-        Div(Field('name', template="bootstrap3/layout/read-only.html"), css_class="col-md-6"),
-        Div(DateTimeField('taken_at'), css_class="col-md-6"),
-        'worksheet',
-        'type',
-    )
-
     def __init__(self, *args, **kwargs):
         super(EventForm, self).__init__(*args, **kwargs)
         self.render_required_fields = True
@@ -61,6 +53,16 @@ class EventForm(forms.ModelForm):
         self.fields['type'].widget = forms.HiddenInput()
         self.fields['name'].widget = forms.HiddenInput()
         self.fields['taken_at'].input_formats = settings.DATETIME_INPUT_FORMATS
+
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+        self.helper.html5_required = True
+        self.helper.layout = Layout(
+            Div(Field('name', template="bootstrap3/layout/read-only.html"), css_class="col-md-6"),
+            Div(DateTimeField('taken_at'), css_class="col-md-6"),
+            'worksheet',
+            'type',
+        )
 
     class Meta:
         model = Event
@@ -76,28 +78,6 @@ class BloodSampleForm(forms.ModelForm):
         'barcode',
         DateTimeField('centrifuged_at'),
     )
-    helper = FormHelper()
-    helper.form_tag = False
-    helper.html5_required = True
-    helper.layout = Layout(
-        'event',
-        'person',
-        'created_by',
-        Div(
-            Field('blood_type', template="bootstrap3/layout/read-only.html"),
-            css_class="col-md-4"
-        ),
-        Div(
-            FieldWithFollowup(
-                Field('collected', template="bootstrap3/layout/radioselect-buttons.html"),
-                layout_collected
-            ),
-            css_class="col-md-4"
-        ),
-        Div(
-            'notes',
-            css_class="col-md-4"
-        ))
 
     def __init__(self, *args, **kwargs):
         super(BloodSampleForm, self).__init__(*args, **kwargs)
@@ -108,6 +88,30 @@ class BloodSampleForm(forms.ModelForm):
         self.fields['collected'].choices = NO_YES_CHOICES
         self.fields['centrifuged_at'].input_formats = settings.DATETIME_INPUT_FORMATS
         self.fields['created_by'].widget = forms.HiddenInput()
+
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+        self.helper.html5_required = True
+        self.helper.layout = Layout(
+            'event',
+            'person',
+            'created_by',
+            Div(
+                Field('blood_type', template="bootstrap3/layout/read-only.html"),
+                css_class="col-md-4"
+            ),
+            Div(
+                FieldWithFollowup(
+                    Field('collected', template="bootstrap3/layout/radioselect-buttons.html"),
+                    self.layout_collected
+                ),
+                css_class="col-md-4"
+            ),
+            Div(
+                'notes',
+                css_class="col-md-4"
+            )
+        )
 
     class Meta:
         model = BloodSample

@@ -42,11 +42,12 @@ DJANGO_APPS = [
 
     # Admin
     'django.contrib.admin',
+    'django.contrib.admindocs',
 ]
 THIRD_PARTY_APPS = [
     'crispy_forms',  # Form layouts
     'reversion',  # Data version control
-    'reversion_compare',
+    # 'reversion_compare',  Not presently compatible with reversion >=2.0
     # 'allauth',  # registration
     # 'allauth.account',  # registration
     # 'allauth.socialaccount',  # registration
