@@ -18,7 +18,7 @@ echo "Starting $NAME as `/usr/bin/whoami`"
 
 # Activate the virtual environment
 cd $DJANGODIR
-source ../bin/activate
+source $APP_ROOT/bin/activate
 # export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
 # export PYTHONPATH=$DJANGODIR:$PYTHONPATH
 
