@@ -74,3 +74,23 @@ def has_job(user, job_id):
     if user.is_superuser or bool(user.profile.has_job(job_id)):
         return True
     return False
+
+
+# http://stackoverflow.com/questions/2894365/use-variable-as-dictionary-key-in-django-template
+@register.filter
+def keyvalue(t_dict, key):
+    """
+    {{dictionary|keyvalue:key_variable}}
+    """
+    return t_dict[key]
+
+
+@register.filter
+def selected_choice_text(field):
+    """
+    Takes a given crispy form multichoice field, and returns the selected item as text
+    """
+    for key, value in field.field.choices:
+        if key == field.value():
+            return value
+    return ""
