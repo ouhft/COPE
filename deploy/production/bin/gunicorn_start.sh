@@ -23,7 +23,7 @@ source $APP_ROOT/bin/activate
 # export PYTHONPATH=$DJANGODIR:$PYTHONPATH
 
 # Create the run directory if it doesn't exist
-RUNDIR=$(dirname $SOCKFILE)
+RUNDIR=$(/usr/bin/dirname $SOCKFILE)
 test -d $RUNDIR || mkdir -p $RUNDIR
 
 # Start your Django Unicorn
