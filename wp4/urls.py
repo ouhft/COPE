@@ -14,6 +14,7 @@ from .samples import urls as samples_urls
 from .compare import urls as compare_urls
 from .views import wp4_index, report_procurement, report_organ, report_allocations, report_adverse_events
 from .views import administrator_index, administrator_uk_list, administrator_europe_list
+from .views import administrator_procurement_pairs
 
 
 urlpatterns = [
@@ -44,6 +45,11 @@ urlpatterns = [
         regex=r'^administrator/stats/reports/adverse-events$',
         view=report_adverse_events,
         name='admin_stats_ae'
+    ),
+    url(
+        regex=r'^administrator/procurement-pairs$',
+        view=administrator_procurement_pairs,
+        name='admin_procurement_pairs'
     ),
     url(
         regex=r'^administrator/europe-list$',

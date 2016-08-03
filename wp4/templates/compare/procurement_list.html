@@ -28,6 +28,9 @@
                         <th>Age</th>
                         <th>Gender</th>
                         <th>Eligible</th>
+                        {% if request.user.is_staff %}
+                            <th>Admin</th>
+                        {% endif %}
                         <th>Samples</th>
                         {% if request.user|has_job:5 %}
                             <th>Technician</th>
@@ -71,6 +74,14 @@
                                 </td>
                             {% else %}
                                 <td>ERROR</td>
+                            {% endif %}
+                            {% if request.user.is_staff %}
+                                <td>
+                                <a href="{% url 'admin:compare_organ_change' donor.left_kidney.id %}"><i
+                                        class="glyphicon glyphicon-briefcase"></i>L</a>
+                                <a href="{% url 'admin:compare_organ_change' donor.right_kidney.id %}"><i
+                                        class="glyphicon glyphicon-briefcase"></i>R</a>
+                                </td>
                             {% endif %}
 
                             <td>

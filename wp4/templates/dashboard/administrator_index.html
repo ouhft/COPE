@@ -16,13 +16,14 @@
     <ul>
         <li><a href="{% url 'wp4:admin_europe_list' %}">Europe OFFLINE list</a></li>
         <li><a href="{% url 'wp4:admin_uk_list' %}">United Kingdom OFFLINE list</a></li>
+        <li><a href="{% url 'wp4:admin_procurement_pairs' %}">Procurement Pairs</a></li>
     </ul>
 
     <h3>Statistician Functions</h3>
     <ul>
-        <li><a href="{% url 'wp4:admin_stats_p' %}">Procurement Report</a></li>
-        <li><a href="{% url 'wp4:admin_stats_o' %}">Organ Report</a></li>
-        <li><a href="{% url 'wp4:admin_stats_a' %}">Allocation Report</a></li>
-        <li><a href="{% url 'wp4:admin_stats_ae' %}">Adverse Events Report</a></li>
+        <li><a href="{% url 'wp4:admin_stats_p' %}" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-export"></i> Procurement Report</a></li>
+        <li><a href="{% url 'wp4:admin_stats_o' %}" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-export"></i> Organ Report</a></li>
+        <li><a href="{% url 'wp4:admin_stats_a' %}" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-export"></i> Allocation Report</a></li>
+        <li><a href="{% url 'wp4:admin_stats_ae' %}" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-export"></i> Adverse Events Report</a></li>
     </ul>
 {% endblock %}

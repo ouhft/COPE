@@ -14,6 +14,7 @@ from django.utils import timezone
 
 from wp4.compare.models import Randomisation, PAPER_UNITED_KINGDOM, PAPER_EUROPE
 from wp4.compare.models import Donor, Organ, OrganAllocation
+from wp4.compare.models import RetrievalTeam
 from wp4.staff_person.models import StaffJob
 from wp4.adverse_event.models import AdverseEvent
 
@@ -91,6 +92,34 @@ def administrator_europe_list(request):
     )
 
 
+@job_required(StaffJob.CENTRAL_COORDINATOR)
+def administrator_procurement_pairs(request):
+
+    listing = Donor.objects.\
+        filter(randomisation__isnull=False).\
+        order_by('retrieval_team__centre_code')
+    centres = dict()
+    for centre in RetrievalTeam.objects.all():
+        centres[centre.centre_code] = {
+            "code": centre.centre_code,
+            "name": centre.based_at.__str__(),
+            "count": 0
+        }
+    summary = {
+        "full_count": 0,
+        "centres": centres
+    }
+    for donor in listing:
+        summary["full_count"] += 1
+        summary["centres"][donor.retrieval_team.centre_code]["count"] += 1
+    return render(
+        request,
+        'dashboard/administrator_procurement_pairs.html',
+        {
+            'listing': listing,
+            'summary': summary
+        }
+    )
 # @login_required
 # def administrator_datalist(request):
 #     organs = Organ.objects.all()
