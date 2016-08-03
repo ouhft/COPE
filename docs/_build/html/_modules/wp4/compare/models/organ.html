@@ -135,19 +135,19 @@
   <h1>Source code for wp4.compare.models.organ</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/python</span>
 <span class="c1"># coding: utf-8</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">unicode_literals</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">unicode_literals</span>
 
-<span class="kn">from</span> <span class="nn">django.core.validators</span> <span class="kn">import</span> <span class="n">MinValueValidator</span><span class="p">,</span> <span class="n">MaxValueValidator</span><span class="p">,</span> <span class="n">ValidationError</span>
-<span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
-<span class="kn">from</span> <span class="nn">django.utils.functional</span> <span class="kn">import</span> <span class="n">cached_property</span>
-<span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">ugettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
+<span class="kn">from</span> <span class="nn">django.core.validators</span> <span class="k">import</span> <span class="n">MinValueValidator</span><span class="p">,</span> <span class="n">MaxValueValidator</span><span class="p">,</span> <span class="n">ValidationError</span>
+<span class="kn">from</span> <span class="nn">django.db</span> <span class="k">import</span> <span class="n">models</span>
+<span class="kn">from</span> <span class="nn">django.utils.functional</span> <span class="k">import</span> <span class="n">cached_property</span>
+<span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="k">import</span> <span class="n">ugettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
 
-<span class="kn">from</span> <span class="nn">wp4.perfusion_machine.models</span> <span class="kn">import</span> <span class="n">PerfusionMachine</span><span class="p">,</span> <span class="n">PerfusionFile</span>
+<span class="kn">from</span> <span class="nn">wp4.perfusion_machine.models</span> <span class="k">import</span> <span class="n">PerfusionMachine</span><span class="p">,</span> <span class="n">PerfusionFile</span>
 
-<span class="kn">from</span> <span class="nn">..validators</span> <span class="kn">import</span> <span class="n">validate_between_1900_2050</span><span class="p">,</span> <span class="n">validate_not_in_future</span>
-<span class="kn">from</span> <span class="nn">.core</span> <span class="kn">import</span> <span class="n">BaseModelMixin</span><span class="p">,</span> <span class="n">VersionControlMixin</span>
-<span class="kn">from</span> <span class="nn">.core</span> <span class="kn">import</span> <span class="n">LOCATION_CHOICES</span><span class="p">,</span> <span class="n">PRESERVATION_CHOICES</span><span class="p">,</span> <span class="n">PRESERVATION_NOT_SET</span>
-<span class="kn">from</span> <span class="nn">.donor</span> <span class="kn">import</span> <span class="n">Donor</span>
+<span class="kn">from</span> <span class="nn">..validators</span> <span class="k">import</span> <span class="n">validate_between_1900_2050</span><span class="p">,</span> <span class="n">validate_not_in_future</span>
+<span class="kn">from</span> <span class="nn">.core</span> <span class="k">import</span> <span class="n">BaseModelMixin</span><span class="p">,</span> <span class="n">VersionControlMixin</span>
+<span class="kn">from</span> <span class="nn">.core</span> <span class="k">import</span> <span class="n">LOCATION_CHOICES</span><span class="p">,</span> <span class="n">PRESERVATION_CHOICES</span><span class="p">,</span> <span class="n">PRESERVATION_NOT_SET</span>
+<span class="kn">from</span> <span class="nn">.donor</span> <span class="k">import</span> <span class="n">Donor</span>
 
 
 <div class="viewcode-block" id="ClosedOrganManager"><a class="viewcode-back" href="../../../../source/generated/wp4.compare.models.organ.html#wp4.compare.models.organ.ClosedOrganManager">[docs]</a><span class="k">class</span> <span class="nc">ClosedOrganManager</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Manager</span><span class="p">):</span>
@@ -177,7 +177,7 @@
             <span class="n">select_related</span><span class="p">(</span><span class="s1">&#39;donor__retrieval_team&#39;</span><span class="p">)</span><span class="o">.</span>\
             <span class="n">prefetch_related</span><span class="p">(</span><span class="s1">&#39;organallocation_set&#39;</span><span class="p">)</span><span class="o">.</span>\
             <span class="nb">filter</span><span class="p">(</span>
-                <span class="n">transplantation_form_completed</span><span class="o">=</span><span class="bp">True</span>
+                <span class="n">transplantation_form_completed</span><span class="o">=</span><span class="kc">True</span>
             <span class="p">)</span></div></div>
 
 
@@ -199,8 +199,8 @@
             <span class="n">select_related</span><span class="p">(</span><span class="s1">&#39;donor__randomisation&#39;</span><span class="p">)</span><span class="o">.</span> \
             <span class="n">select_related</span><span class="p">(</span><span class="s1">&#39;donor__retrieval_team&#39;</span><span class="p">)</span><span class="o">.</span>\
             <span class="nb">filter</span><span class="p">(</span>
-                <span class="n">organallocation__isnull</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">transplantable</span><span class="o">=</span><span class="bp">True</span>
-            <span class="p">)</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="n">preservation</span><span class="o">=</span><span class="n">PRESERVATION_NOT_SET</span><span class="p">)</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="n">transplantation_form_completed</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span></div></div>
+                <span class="n">organallocation__isnull</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">transplantable</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="n">preservation</span><span class="o">=</span><span class="n">PRESERVATION_NOT_SET</span><span class="p">)</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="n">transplantation_form_completed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="OpenOrganManager"><a class="viewcode-back" href="../../../../source/generated/wp4.compare.models.organ.html#wp4.compare.models.organ.OpenOrganManager">[docs]</a><span class="k">class</span> <span class="nc">OpenOrganManager</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Manager</span><span class="p">):</span>
@@ -225,9 +225,9 @@
             <span class="n">select_related</span><span class="p">(</span><span class="s1">&#39;donor__randomisation&#39;</span><span class="p">)</span><span class="o">.</span> \
             <span class="n">select_related</span><span class="p">(</span><span class="s1">&#39;donor__retrieval_team&#39;</span><span class="p">)</span><span class="o">.</span>\
             <span class="n">prefetch_related</span><span class="p">(</span><span class="s1">&#39;organallocation_set&#39;</span><span class="p">)</span><span class="o">.</span>\
-            <span class="nb">filter</span><span class="p">(</span><span class="n">transplantable</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span>\
-            <span class="n">exclude</span><span class="p">(</span><span class="n">transplantation_form_completed</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span>\
-            <span class="n">exclude</span><span class="p">(</span><span class="n">organallocation__isnull</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span>\
+            <span class="nb">filter</span><span class="p">(</span><span class="n">transplantable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span>\
+            <span class="n">exclude</span><span class="p">(</span><span class="n">transplantation_form_completed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span>\
+            <span class="n">exclude</span><span class="p">(</span><span class="n">organallocation__isnull</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span>\
             <span class="n">exclude</span><span class="p">(</span><span class="n">preservation</span><span class="o">=</span><span class="n">PRESERVATION_NOT_SET</span><span class="p">)</span></div></div>
 
 
@@ -246,13 +246,13 @@
     <span class="n">not_allocated_reason</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR31 not transplantable because&#39;</span><span class="p">),</span>
         <span class="n">max_length</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
-    <span class="n">admin_notes</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;OR50 Admin notes&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">transplantation_notes</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;OR51 Transplantation notes&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">admin_notes</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;OR50 Admin notes&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">transplantation_notes</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;OR51 Transplantation notes&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">transplantation_form_completed</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;OR99 Form complete&quot;</span><span class="p">),</span>
-        <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Select Yes when you believe the form is complete and you have no more data to enter&quot;</span>
     <span class="p">)</span>
 
@@ -286,14 +286,14 @@
 
     <span class="n">removal</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR02 time out&#39;</span><span class="p">),</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-        <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">validate_between_1900_2050</span><span class="p">,</span> <span class="n">validate_not_in_future</span><span class="p">],</span>
         <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Date must be fall within 1900-2050, and not be in the future&quot;</span>
     <span class="p">)</span>
     <span class="n">renal_arteries</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR03 number of renal arteries&#39;</span><span class="p">),</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">MinValueValidator</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">MaxValueValidator</span><span class="p">(</span><span class="mi">5</span><span class="p">)],</span>
         <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Number of arteries must be in range 0-5&quot;</span>
     <span class="p">)</span>
@@ -302,21 +302,21 @@
         <span class="n">choices</span><span class="o">=</span><span class="n">GRAFT_DAMAGE_CHOICES</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="n">GRAFT_DAMAGE_NONE</span>
     <span class="p">)</span>  <span class="c1">#: Choices limited to GRAFT_DAMAGE_CHOICES</span>
-    <span class="n">graft_damage_other</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR05 other damage done&#39;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">graft_damage_other</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR05 other damage done&#39;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">washout_perfusion</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR06 perfusion characteristics&#39;</span><span class="p">),</span>
         <span class="n">choices</span><span class="o">=</span><span class="n">WASHOUT_PERFUSION_CHOICES</span><span class="p">,</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>  <span class="c1">#: Choices limited to WASHOUT_PERFUSION_CHOICES</span>
     <span class="n">transplantable</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR07 is transplantable&#39;</span><span class="p">),</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;OR07h This answer can be amended after randomisation and saving of the form if necessary&quot;</span><span class="p">)</span>
     <span class="p">)</span>
     <span class="n">not_transplantable_reason</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR08 not transplantable because&#39;</span><span class="p">),</span>
         <span class="n">max_length</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
 
     <span class="c1"># Randomisation data</span>
@@ -342,73 +342,73 @@
     <span class="p">)</span>  <span class="c1">#: Organ artificial_patch_size choices</span>
     <span class="n">perfusion_possible</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR09 machine perfusion possible?&#39;</span><span class="p">),</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
     <span class="n">perfusion_not_possible_because</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR10 not possible because&#39;</span><span class="p">),</span>
         <span class="n">max_length</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
     <span class="n">perfusion_started</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR11 machine perfusion&#39;</span><span class="p">),</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">validate_between_1900_2050</span><span class="p">,</span> <span class="n">validate_not_in_future</span><span class="p">],</span>
         <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Date must be fall within 1900-2050, and not be in the future&quot;</span>
     <span class="p">)</span>
     <span class="n">patch_holder</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR12 used patch holder&#39;</span><span class="p">),</span>
         <span class="n">choices</span><span class="o">=</span><span class="n">PATCH_HOLDER_CHOICES</span><span class="p">,</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>  <span class="c1">#: Choices limited to PATCH_HOLDER_CHOICES</span>
-    <span class="n">artificial_patch_used</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR13 artificial patch used&#39;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">artificial_patch_used</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR13 artificial patch used&#39;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">artificial_patch_size</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR14 artificial patch size&#39;</span><span class="p">),</span>
         <span class="n">choices</span><span class="o">=</span><span class="n">ARTIFICIAL_PATCH_CHOICES</span><span class="p">,</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>  <span class="c1">#: Choices limited to ARTIFICIAL_PATCH_CHOICES</span>
     <span class="n">artificial_patch_number</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR15 number of patches&#39;</span><span class="p">),</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-        <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">MinValueValidator</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">MaxValueValidator</span><span class="p">(</span><span class="mi">2</span><span class="p">)]</span>
     <span class="p">)</span>  <span class="c1">#: Limited to range 1-2</span>
     <span class="n">oxygen_bottle_full</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR16 is oxygen bottle full&#39;</span><span class="p">),</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
-    <span class="n">oxygen_bottle_open</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR17 oxygen bottle opened&#39;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">oxygen_bottle_changed</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR18 oxygen bottle changed&#39;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">oxygen_bottle_open</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR17 oxygen bottle opened&#39;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">oxygen_bottle_changed</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR18 oxygen bottle changed&#39;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">oxygen_bottle_changed_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR19 oxygen bottle changed at&#39;</span><span class="p">),</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">validate_between_1900_2050</span><span class="p">,</span> <span class="n">validate_not_in_future</span><span class="p">],</span>
         <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Date must be fall within 1900-2050, and not be in the future&quot;</span>
     <span class="p">)</span>
-    <span class="n">oxygen_bottle_changed_at_unknown</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Internal unknown flag&quot;</span><span class="p">)</span>
+    <span class="n">oxygen_bottle_changed_at_unknown</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Internal unknown flag&quot;</span><span class="p">)</span>
     <span class="n">ice_container_replenished</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR20 ice container replenished&#39;</span><span class="p">),</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
     <span class="n">ice_container_replenished_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR21 ice container replenished at&#39;</span><span class="p">),</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">validate_between_1900_2050</span><span class="p">,</span> <span class="n">validate_not_in_future</span><span class="p">],</span>
         <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Date must be fall within 1900-2050, and not be in the future&quot;</span>
     <span class="p">)</span>
-    <span class="n">ice_container_replenished_at_unknown</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Internal unknown flag&quot;</span><span class="p">)</span>
+    <span class="n">ice_container_replenished_at_unknown</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Internal unknown flag&quot;</span><span class="p">)</span>
     <span class="n">perfusate_measurable</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR22 perfusate measurable&#39;</span><span class="p">),</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>  <span class="c1">#: logistically possible to measure pO2 perfusate (use blood gas analyser)</span>
-    <span class="n">perfusate_measure</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">FloatField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR23 value pO2&#39;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">perfusate_measure</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">FloatField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR23 value pO2&#39;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="c1"># TODO: Check the value range for perfusate_measure</span>
     <span class="n">perfusion_machine</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span>
         <span class="n">PerfusionMachine</span><span class="p">,</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR24 perfusion machine&#39;</span><span class="p">),</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-        <span class="n">null</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">null</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
-    <span class="n">perfusion_file</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">PerfusionFile</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR25 machine file&#39;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">perfusion_file</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">PerfusionFile</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OR25 machine file&#39;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="c1"># Commonly filtered options</span>
     <span class="n">objects</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Manager</span><span class="p">()</span>  <span class="c1">#: Default Organ manager</span>
@@ -432,17 +432,17 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Clean the fields that at Not Known</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">oxygen_bottle_changed_at_unknown</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">oxygen_bottle_changed_at</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">oxygen_bottle_changed_at</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ice_container_replenished_at_unknown</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">ice_container_replenished_at</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ice_container_replenished_at</span> <span class="o">=</span> <span class="kc">None</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">transplantable</span> <span class="ow">is</span> <span class="bp">False</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">not_transplantable_reason</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">transplantable</span> <span class="ow">is</span> <span class="kc">False</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">not_transplantable_reason</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;ORv01 Please enter a reason for not being transplantable&quot;</span><span class="p">))</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">perfusion_possible</span> <span class="ow">is</span> <span class="bp">False</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">perfusion_not_possible_because</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">perfusion_possible</span> <span class="ow">is</span> <span class="kc">False</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">perfusion_not_possible_because</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;ORv02 Please enter a reason perfusion wasn&#39;t possible&quot;</span><span class="p">))</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">perfusion_possible</span> <span class="ow">is</span> <span class="bp">True</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">perfusion_started</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">perfusion_possible</span> <span class="ow">is</span> <span class="kc">True</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">perfusion_started</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;ORv03 Please enter the time perfusion started at&quot;</span><span class="p">))</span></div>
 
 
@@ -455,10 +455,10 @@
 <span class="sd">        :rtype: wp4.compare.models.transplantation.Recipient</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">recipient</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">recipient</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">recipient</span>  <span class="c1"># We have a recipient</span>
         <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>  <span class="c1"># RelatedObjectDoesNotExist</span>
-            <span class="k">return</span> <span class="bp">None</span>
+            <span class="k">return</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">_final_allocation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -495,15 +495,15 @@
 <span class="sd">        :return: True, if either of those criteria are met</span>
 <span class="sd">        :rtype: bool</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">safe_recipient</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">True</span>  <span class="c1"># We have a recipient, which can only occur if at a project site</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">safe_recipient</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>  <span class="c1"># We have a recipient, which can only occur if at a project site</span>
 
         <span class="n">final_allocation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">final_allocation</span>
-        <span class="k">if</span> <span class="n">final_allocation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">final_allocation</span><span class="o">.</span><span class="n">reallocated</span> <span class="ow">is</span> <span class="bp">False</span> <span class="ow">and</span> <span class="n">final_allocation</span><span class="o">.</span><span class="n">transplant_hospital</span><span class="o">.</span><span class="n">is_project_site</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">final_allocation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">final_allocation</span><span class="o">.</span><span class="n">reallocated</span> <span class="ow">is</span> <span class="kc">False</span> <span class="ow">and</span> <span class="n">final_allocation</span><span class="o">.</span><span class="n">transplant_hospital</span><span class="o">.</span><span class="n">is_project_site</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
                 <span class="c1"># We can&#39;t say not-reallocated without saving a transplant hospital as well</span>
-                <span class="k">return</span> <span class="bp">True</span>
-        <span class="k">return</span> <span class="bp">False</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">explain_is_allocated</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -515,19 +515,19 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">final_allocation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">final_allocation</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_allocated</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">safe_recipient</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">safe_recipient</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">return</span> <span class="s2">&quot;Allocated to Recipient&quot;</span>
 
-            <span class="k">if</span> <span class="n">final_allocation</span><span class="o">.</span><span class="n">reallocated</span> <span class="ow">is</span> <span class="bp">False</span> <span class="ow">and</span> <span class="n">final_allocation</span><span class="o">.</span><span class="n">transplant_hospital</span><span class="o">.</span><span class="n">is_project_site</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">final_allocation</span><span class="o">.</span><span class="n">reallocated</span> <span class="ow">is</span> <span class="kc">False</span> <span class="ow">and</span> <span class="n">final_allocation</span><span class="o">.</span><span class="n">transplant_hospital</span><span class="o">.</span><span class="n">is_project_site</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
                 <span class="k">return</span> <span class="s2">&quot;Allocated to a non-project site&quot;</span>  <span class="c1"># This should be caught by not_allocated_reason</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">not_allocated_reason</span><span class="p">:</span>
                 <span class="k">return</span> <span class="s2">&quot;Not allocated because: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">not_allocated_reason</span>
 
-            <span class="k">if</span> <span class="n">final_allocation</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">final_allocation</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">return</span> <span class="s2">&quot;No allocations created (and no explanation as yet)&quot;</span>
 
-            <span class="k">if</span> <span class="n">final_allocation</span><span class="o">.</span><span class="n">reallocated</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">final_allocation</span><span class="o">.</span><span class="n">reallocated</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
                 <span class="k">return</span> <span class="s2">&quot;ERROR: last allocation shows a reallocation&quot;</span>  <span class="c1"># This shouldn&#39;t occur!</span>
 
             <span class="k">return</span> <span class="s2">&quot;Re-allocation status not yet set&quot;</span>  <span class="c1"># Possible for a form that is WIP</span>
@@ -556,7 +556,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">allocation</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">organallocation_set</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">allocation</span><span class="o">.</span><span class="n">reallocated</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">allocation</span><span class="o">.</span><span class="n">reallocated</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
                 <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">count</span>
 
@@ -592,9 +592,9 @@
     <span class="p">)</span>  <span class="c1">#: ProcurementResource type choices</span>
     <span class="n">organ</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Organ</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;PR01 related kidney&#39;</span><span class="p">))</span>
     <span class="nb">type</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;PR02 resource used&#39;</span><span class="p">),</span> <span class="n">choices</span><span class="o">=</span><span class="n">TYPE_CHOICES</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-    <span class="n">lot_number</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;PR03 lot number&#39;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">expiry_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;PR04 expiry date&#39;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">expiry_date_unknown</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Internal unknown flag&quot;</span><span class="p">)</span>
+    <span class="n">lot_number</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;PR03 lot number&#39;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">expiry_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;PR04 expiry date&#39;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">expiry_date_unknown</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Internal unknown flag&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_type_display</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39; for &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">organ</span><span class="o">.</span><span class="n">trial_id</span>
@@ -609,7 +609,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Clean the fields that at Not Known</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">expiry_date_unknown</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">expiry_date</span> <span class="o">=</span> <span class="bp">None</span></div></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">expiry_date</span> <span class="o">=</span> <span class="kc">None</span></div></div>
 </pre></div>
 
            </div>

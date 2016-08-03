@@ -88,7 +88,13 @@
 <li class="toctree-l1"><a class="reference internal" href="design/wp7_design.html">Design - WP7:Biobanking</a></li>
 <li class="toctree-l1"><a class="reference internal" href="models.html">Data Models</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#v0-6-0-tbc-early-may-2016-the-follow-up-edition">v0.6.0 (TBC - Early May 2016) - The Follow Up edition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v0-6-1-1-july-2016-bugfix">v0.6.1 (1 July 2016) - Bugfix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v0-6-0-21-june-2016-the-follow-up-edition">v0.6.0 (21 June 2016) - The Follow Up edition</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#new-features">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#main-changes">Main changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minor-and-background-changes">Minor (and background) changes</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#v0-5-1-1-may-2016-bugfix">v0.5.1 (1 May 2016) - Bugfix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#v0-5-0-29-apr-2016-adversely-related">v0.5.0 (29 Apr 2016) - Adversely Related</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#new-features">New Features</a></li>
@@ -147,12 +153,39 @@
   <div class="section" id="changelog">
 <span id="changelog"></span><h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
 <p>This is a list of changes made to the website and application for each release.</p>
-<div class="section" id="v0-6-0-tbc-early-may-2016-the-follow-up-edition">
-<span id="v0-6-0-tbc-early-may-2016-the-follow-up-edition"></span><h2>v0.6.0 (TBC - Early May 2016) - The Follow Up edition<a class="headerlink" href="#v0-6-0-tbc-early-may-2016-the-follow-up-edition" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="v0-6-1-1-july-2016-bugfix">
+<span id="v0-6-1-1-july-2016-bugfix"></span><h2>v0.6.1 (1 July 2016) - Bugfix<a class="headerlink" href="#v0-6-1-1-july-2016-bugfix" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>Follow Up forms added for Initial, 3 Month, 6 Month, and 1 Year data collection (Issue #79)</li>
-<li>Health Economics forms added for Quality of Life data collection</li>
+<li>Resolved Internal Server Errors due to an issue with date_of_birth (Issue #116)</li>
 </ul>
+</div>
+<div class="section" id="v0-6-0-21-june-2016-the-follow-up-edition">
+<span id="v0-6-0-21-june-2016-the-follow-up-edition"></span><h2>v0.6.0 (21 June 2016) - The Follow Up edition<a class="headerlink" href="#v0-6-0-21-june-2016-the-follow-up-edition" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="new-features">
+<span id="new-features"></span><h3>New Features<a class="headerlink" href="#new-features" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Follow Up forms added for Initial, 3 Month, 6 Month, and 1 Year data collection based on the current paper forms (Issue #79)</li>
+<li>Health Economics forms added for Quality of Life data collection (Issue #97)</li>
+<li>Initial reports added for DMC/Statistical analysis (Issues #90, #105, &amp; #110)</li>
+</ul>
+</div>
+<div class="section" id="main-changes">
+<span id="main-changes"></span><h3>Main changes<a class="headerlink" href="#main-changes" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Removed validation check for Perfusion Stopped on the Procurement form at close (Issue #104)</li>
+<li>Initial work done to change several sections where slow performance was affecting usability. More remains to be done on this (Issues #82, &amp; #77)</li>
+<li>User Manual updated to reflect new sections and previous updates</li>
+</ul>
+</div>
+<div class="section" id="minor-and-background-changes">
+<span id="minor-and-background-changes"></span><h3>Minor (and background) changes<a class="headerlink" href="#minor-and-background-changes" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Samples label correction for Perfusate (Issues #39)</li>
+<li>Admin rights restored along with UI shortcuts (Issue #91)</li>
+<li>Ported to Python 3.x from 2.x, for improved support with unicode and csv libraries (Issue #111)</li>
+<li>Various library updates for security improvements</li>
+</ul>
+</div>
 </div>
 <div class="section" id="v0-5-1-1-may-2016-bugfix">
 <span id="v0-5-1-1-may-2016-bugfix"></span><h2>v0.5.1 (1 May 2016) - Bugfix<a class="headerlink" href="#v0-5-1-1-may-2016-bugfix" title="Permalink to this headline">¶</a></h2>
@@ -165,7 +198,7 @@
 <div class="section" id="v0-5-0-29-apr-2016-adversely-related">
 <span id="v0-5-0-29-apr-2016-adversely-related"></span><h2>v0.5.0 (29 Apr 2016) - Adversely Related<a class="headerlink" href="#v0-5-0-29-apr-2016-adversely-related" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="new-features">
-<span id="new-features"></span><h3>New Features<a class="headerlink" href="#new-features" title="Permalink to this headline">¶</a></h3>
+<span id="id1"></span><h3>New Features<a class="headerlink" href="#new-features" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Adverse Event reporting added (Issue #80)</li>
 <li>Offline Randomisation Listings for Administrators. Shows available randomisation codes.</li>
@@ -176,7 +209,7 @@
 </ul>
 </div>
 <div class="section" id="main-changes">
-<span id="main-changes"></span><h3>Main changes<a class="headerlink" href="#main-changes" title="Permalink to this headline">¶</a></h3>
+<span id="id2"></span><h3>Main changes<a class="headerlink" href="#main-changes" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Procurement form:</li>
 <li>Record information about cases that are not randomised (Issue #23)</li>
@@ -203,7 +236,7 @@
 </ul>
 </div>
 <div class="section" id="minor-and-background-changes">
-<span id="minor-and-background-changes"></span><h3>Minor (and background) changes<a class="headerlink" href="#minor-and-background-changes" title="Permalink to this headline">¶</a></h3>
+<span id="id3"></span><h3>Minor (and background) changes<a class="headerlink" href="#minor-and-background-changes" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Person&#8217;s weight now recorded as a float, rather than an int (Issue #22)</li>
 <li>Fixed a middleware issue that caused problems with the debug language setting on the Test server (Issue #54)</li>

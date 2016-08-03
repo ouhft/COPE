@@ -45,7 +45,7 @@ Which left us with a working instance, so the application setup was started (wil
 
 Create a link to the auto-deploy script and add it to the crontab::
 
-    ln -s COPE/deploy/webfaction/deploy-cm13.sh ./update_by_cron.sh
+    ln -s cope_repo/deploy/webfaction/deploy-cm13.sh ./update_by_cron.sh
     chmod 755 COPE/deploy/webfaction/deploy-cm13.sh
     crontab -e    # To edit the cron record, and to insert...
     */2 * * * * $HOME/webapps/wp4_django/update_by_cron.sh >> $HOME/webapps/wp4_django/cron-wp4_django.log 2>&1
@@ -442,8 +442,97 @@ Periodically there are maintainence tasks to do, such as:
 When things do not go to plan, we want to find out what we can. There's no debug mode on the production server, so it's into the error logs for information. Logs from supervisord are found via: ``cd /var/log/supervisor/``. Unfortunately stack traces aren't captured here (for example on a Server Error), so more work needs to be done to help the monitoring of this server.
 
 
+### Migrating to Python 3 and Postgres
 
-**TODO**
+* Perform the usual system maintainence (apt-get update, upgrade, autoclean, etc)
+* Using installed python 3.4.3
+ * Needs extra: `sudo apt-get install python3.4-dev libpq-dev` for psycopg2 to install
+* Installed postgres following instructions at [https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-14-04](). 
+ * `sudo apt-get install postgresql postgresql-contrib`
+ * Results in Postgres 9.3 being installed.
+ * Created user `copedb` and database `copedb`
+
+  ```
+  postgres@cope:~$ createuser --interactive
+  Enter name of role to add: copedb
+  Shall the new role be a superuser? (y/n) n
+  Shall the new role be allowed to create databases? (y/n) n
+  Shall the new role be allowed to create more new roles? (y/n) n
+  postgres@cope:~$ createdb copedb
+  ```
+
+ * Set password on user. `postgres=# \password copedb`
+
+Follow site setup again, but pointing at `/usr/bin/python3` for virtualenv, and changing the files linked below to use the new `/sites/py3_cope path`::
+
+    mkproject -p /usr/bin/python3 py3_cope
+    # NB: cwd is now /sites/py3_cope
+    git clone git@github.com:AllyBradley/COPE.git cope_repo
+    mkdir -p var/log var/run etc/nginx/sites-available htdocs/media etc/gunicorn
+    ln -s /sites/.virtualenvs/py3_cope/lib ./lib
+    ln -s /sites/.virtualenvs/py3_cope/bin ./bin
+   
+    ln -s /sites/py3_cope/cope_repo/deploy/production/etc/nginx/sites-available/cope.conf /sites/py3_cope/etc/nginx/sites-available/py3_cope.conf
+    sudo ln -s /sites/py3_cope/etc/nginx/sites-available/py3_cope.conf /etc/nginx/sites-available/py3_cope.conf
+    sudo ln -s /etc/nginx/sites-available/py3_cope.conf /etc/nginx/sites-enabled/py3_cope.conf
+    sudo rm /etc/nginx/sites-enabled/cope.conf 
+
+    sudo rm /etc/supervisor/conf.d/nginx.conf 
+    sudo ln -s /sites/py3_cope/cope_repo/deploy/production/etc/supervisor/conf.d/nginx.conf /etc/supervisor/conf.d/nginx.conf
+    
+    sudo ln -s /sites/py3_cope/cope_repo/deploy/production/etc/supervisor/conf.d/django.conf /etc/supervisor/conf.d/py3_django.conf
+    # sudo rm /etc/supervisor/conf.d/django.conf  <-- See Supervisor config steps below
+
+    ln -s /sites/py3_cope/cope_repo/deploy/production/bin/gunicorn_start.sh /sites/py3_cope/bin/gunicorn_start.sh
+    chmod 775 /sites/py3_cope/cope_repo/deploy/production/bin/gunicorn_start.sh
+    
+    sudo chown -R www-data:worker *
+    
+    cd cope_repo
+    chmod 775 manage.py
+    pip install -U -r requirements/production.txt
+
+Continue the site setup (`python` will default to the environment version of 3.4.3). 
+
+* Use the previous local.env file (`cp ../../cope/cope_repo/local.env local.env` - NB: edit the static root path!), as we need to setup first to use the existing sqlite db file, and then port it to the new postgres engine. 
+* Don't forget a location.env file too (`cp ../../cope/cope_repo/location.env location.env`)
+* And we need the existing data: `cp ../../cope/cope_repo/db.sqlite3 ./db.sqlite3`
+* `python manage.py check`
+ * Because of breaking DB changes in 0.6.0, the previous 'followups' migrations need to be cleared from the database before we migrate, otherwise we won't have the tables in.
+ * `python manage.py dbshell` and then `DELETE FROM django_migrations WHERE app="followups";`
+* `python manage.py migrate`
+* `python manage.py collectstatic`
+* `python manage.py compilemessages`
+
+Now is a good time to reboot the server, then we can go and see about gunicorn config/starting.
+
+#### Supervisor Config
+`sudo supervisorctl` to get into the interactive shell. Then:
+
+* `reread` should show a new app available (py3-cope-django)
+* `stop cope-django` to turn off the old app
+* `remove cope-django` to stop it coming back on reboot
+* `add py3-cope-django` to make the new config active for use
+* `start py3-cope-django`... and we should be good to go
+* When we're happy everything is running we can do some cleanup:
+ * `sudo rm /etc/supervisor/conf.d/django.conf` 
+
+#### Debugging Supervisor
+On the likely outcome that something doesn't work, remember the following:
+
+* Supervisor log output goes to `cd /var/log/supervisor/`, and this require root priviledges
+* Nginx default log output goes to `cd /var/log/nginx/`, and is also root only access
+* Gunicorn root log folder should be empty, but is at `cd /var/log/gunicorn/`
+
+#### Reset backup:
+
+* Make backup dir
+* Link the dbbackup.sh script to the local bin folder
+ * `ln -s /sites/py3_cope/cope_repo/deploy/production/bin/dbbackup.sh /sites/py3_cope/bin/dbbackup.sh`
+* Update Cron with the new path
+
+
+### TODO
 
 * Run the django-secure scan
 

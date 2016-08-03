@@ -133,21 +133,21 @@
            <div itemprop="articleBody">
             
   <h1>Source code for django.core.validators</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">unicode_literals</span>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">unicode_literals</span>
 
 <span class="kn">import</span> <span class="nn">re</span>
 
-<span class="kn">from</span> <span class="nn">django.core.exceptions</span> <span class="kn">import</span> <span class="n">ValidationError</span>
-<span class="kn">from</span> <span class="nn">django.utils</span> <span class="kn">import</span> <span class="n">six</span>
-<span class="kn">from</span> <span class="nn">django.utils.deconstruct</span> <span class="kn">import</span> <span class="n">deconstructible</span>
-<span class="kn">from</span> <span class="nn">django.utils.encoding</span> <span class="kn">import</span> <span class="n">force_text</span>
-<span class="kn">from</span> <span class="nn">django.utils.functional</span> <span class="kn">import</span> <span class="n">SimpleLazyObject</span>
-<span class="kn">from</span> <span class="nn">django.utils.ipv6</span> <span class="kn">import</span> <span class="n">is_valid_ipv6_address</span>
-<span class="kn">from</span> <span class="nn">django.utils.six.moves.urllib.parse</span> <span class="kn">import</span> <span class="n">urlsplit</span><span class="p">,</span> <span class="n">urlunsplit</span>
-<span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">ugettext_lazy</span> <span class="k">as</span> <span class="n">_</span><span class="p">,</span> <span class="n">ungettext_lazy</span>
+<span class="kn">from</span> <span class="nn">django.core.exceptions</span> <span class="k">import</span> <span class="n">ValidationError</span>
+<span class="kn">from</span> <span class="nn">django.utils</span> <span class="k">import</span> <span class="n">six</span>
+<span class="kn">from</span> <span class="nn">django.utils.deconstruct</span> <span class="k">import</span> <span class="n">deconstructible</span>
+<span class="kn">from</span> <span class="nn">django.utils.encoding</span> <span class="k">import</span> <span class="n">force_text</span>
+<span class="kn">from</span> <span class="nn">django.utils.functional</span> <span class="k">import</span> <span class="n">SimpleLazyObject</span>
+<span class="kn">from</span> <span class="nn">django.utils.ipv6</span> <span class="k">import</span> <span class="n">is_valid_ipv6_address</span>
+<span class="kn">from</span> <span class="nn">django.utils.six.moves.urllib.parse</span> <span class="k">import</span> <span class="n">urlsplit</span><span class="p">,</span> <span class="n">urlunsplit</span>
+<span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="k">import</span> <span class="n">ugettext_lazy</span> <span class="k">as</span> <span class="n">_</span><span class="p">,</span> <span class="n">ungettext_lazy</span>
 
 <span class="c1"># These values, if given to validate(), will trigger the self.required check.</span>
-<span class="n">EMPTY_VALUES</span> <span class="o">=</span> <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="p">[],</span> <span class="p">(),</span> <span class="p">{})</span>
+<span class="n">EMPTY_VALUES</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="p">[],</span> <span class="p">(),</span> <span class="p">{})</span>
 
 
 <span class="k">def</span> <span class="nf">_lazy_re_compile</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
@@ -167,19 +167,19 @@
     <span class="n">regex</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
     <span class="n">message</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;Enter a valid value.&#39;</span><span class="p">)</span>
     <span class="n">code</span> <span class="o">=</span> <span class="s1">&#39;invalid&#39;</span>
-    <span class="n">inverse_match</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">inverse_match</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">flags</span> <span class="o">=</span> <span class="mi">0</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">inverse_match</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">regex</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">inverse_match</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">regex</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">regex</span> <span class="o">=</span> <span class="n">regex</span>
-        <span class="k">if</span> <span class="n">message</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">message</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">message</span>
-        <span class="k">if</span> <span class="n">code</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">code</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">code</span> <span class="o">=</span> <span class="n">code</span>
-        <span class="k">if</span> <span class="n">inverse_match</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">inverse_match</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">inverse_match</span> <span class="o">=</span> <span class="n">inverse_match</span>
-        <span class="k">if</span> <span class="n">flags</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">flags</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">flags</span> <span class="o">=</span> <span class="n">flags</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">flags</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">regex</span><span class="p">,</span> <span class="n">six</span><span class="o">.</span><span class="n">string_types</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;If the flags are set, regex must be a regular expression string.&quot;</span><span class="p">)</span>
@@ -214,7 +214,7 @@
     <span class="n">ul</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\u00a1</span><span class="s1">-</span><span class="se">\uffff</span><span class="s1">&#39;</span>  <span class="c1"># unicode letters range (must be a unicode string, not a raw string)</span>
 
     <span class="c1"># IP patterns</span>
-    <span class="n">ipv4_re</span> <span class="o">=</span> <span class="s1">r&#39;(?:25[0-5]|2[0-4]\d|[0-1]?\d?\d)(?:\.(?:25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}&#39;</span>
+    <span class="n">ipv4_re</span> <span class="o">=</span> <span class="s1">r&#39;(?:25[0-5]|2[0-4]\d|[0-1]?\d?\d)(?:\.(?:25[0-5]|2[0-4]\d|[0-1]?\d?\d))</span><span class="si">{3}</span><span class="s1">&#39;</span>
     <span class="n">ipv6_re</span> <span class="o">=</span> <span class="s1">r&#39;\[[0-9a-f:\.]+\]&#39;</span>  <span class="c1"># (simple regex, validated later)</span>
 
     <span class="c1"># Host patterns</span>
@@ -240,9 +240,9 @@
     <span class="n">message</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;Enter a valid URL.&#39;</span><span class="p">)</span>
     <span class="n">schemes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;http&#39;</span><span class="p">,</span> <span class="s1">&#39;https&#39;</span><span class="p">,</span> <span class="s1">&#39;ftp&#39;</span><span class="p">,</span> <span class="s1">&#39;ftps&#39;</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schemes</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schemes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">URLValidator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">schemes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">schemes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">schemes</span> <span class="o">=</span> <span class="n">schemes</span>
 
     <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
@@ -294,7 +294,7 @@
     <span class="n">message</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;Enter a valid email address.&#39;</span><span class="p">)</span>
     <span class="n">code</span> <span class="o">=</span> <span class="s1">&#39;invalid&#39;</span>
     <span class="n">user_regex</span> <span class="o">=</span> <span class="n">_lazy_re_compile</span><span class="p">(</span>
-        <span class="s2">r&quot;(^[-!#$%&amp;&#39;*+/=?^_`{}|~0-9A-Z]+(\.[-!#$%&amp;&#39;*+/=?^_`{}|~0-9A-Z]+)*\Z&quot;</span>  <span class="c1"># dot-atom</span>
+        <span class="s2">r&quot;(^[-!#$%&amp;&#39;*+/=?^_`</span><span class="si">{}</span><span class="s2">|~0-9A-Z]+(\.[-!#$%&amp;&#39;*+/=?^_`</span><span class="si">{}</span><span class="s2">|~0-9A-Z]+)*\Z&quot;</span>  <span class="c1"># dot-atom</span>
         <span class="s1">r&#39;|^&quot;([\001-\010\013\014\016-\037!#-\[\]-\177]|</span><span class="se">\\</span><span class="s1">[\001-\011\013\014\016-\177])*&quot;\Z)&#39;</span><span class="p">,</span>  <span class="c1"># quoted-string</span>
         <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
     <span class="n">domain_regex</span> <span class="o">=</span> <span class="n">_lazy_re_compile</span><span class="p">(</span>
@@ -307,12 +307,12 @@
         <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
     <span class="n">domain_whitelist</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;localhost&#39;</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">whitelist</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">message</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">whitelist</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">message</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">message</span>
-        <span class="k">if</span> <span class="n">code</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">code</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">code</span> <span class="o">=</span> <span class="n">code</span>
-        <span class="k">if</span> <span class="n">whitelist</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">whitelist</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">domain_whitelist</span> <span class="o">=</span> <span class="n">whitelist</span>
 
     <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
@@ -339,17 +339,17 @@
 
     <span class="k">def</span> <span class="nf">validate_domain_part</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain_part</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain_regex</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">domain_part</span><span class="p">):</span>
-            <span class="k">return</span> <span class="bp">True</span>
+            <span class="k">return</span> <span class="kc">True</span>
 
         <span class="n">literal_match</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">literal_regex</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">domain_part</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">literal_match</span><span class="p">:</span>
             <span class="n">ip_address</span> <span class="o">=</span> <span class="n">literal_match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">validate_ipv46_address</span><span class="p">(</span><span class="n">ip_address</span><span class="p">)</span>
-                <span class="k">return</span> <span class="bp">True</span>
+                <span class="k">return</span> <span class="kc">True</span>
             <span class="k">except</span> <span class="n">ValidationError</span><span class="p">:</span>
                 <span class="k">pass</span>
-        <span class="k">return</span> <span class="bp">False</span>
+        <span class="k">return</span> <span class="kc">False</span>
 
     <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">(</span>
@@ -375,7 +375,7 @@
     <span class="s1">&#39;invalid&#39;</span>
 <span class="p">)</span>
 
-<span class="n">ipv4_re</span> <span class="o">=</span> <span class="n">_lazy_re_compile</span><span class="p">(</span><span class="s1">r&#39;^(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}\Z&#39;</span><span class="p">)</span>
+<span class="n">ipv4_re</span> <span class="o">=</span> <span class="n">_lazy_re_compile</span><span class="p">(</span><span class="s1">r&#39;^(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d))</span><span class="si">{3}</span><span class="s1">\Z&#39;</span><span class="p">)</span>
 <span class="n">validate_ipv4_address</span> <span class="o">=</span> <span class="n">RegexValidator</span><span class="p">(</span><span class="n">ipv4_re</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;Enter a valid IPv4 address.&#39;</span><span class="p">),</span> <span class="s1">&#39;invalid&#39;</span><span class="p">)</span>
 
 
@@ -417,7 +417,7 @@
                          <span class="o">%</span> <span class="p">(</span><span class="n">protocol</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">ip_address_validator_map</span><span class="p">)))</span>
 
 
-<span class="k">def</span> <span class="nf">int_list_validator</span><span class="p">(</span><span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="s1">&#39;invalid&#39;</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">int_list_validator</span><span class="p">(</span><span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="s1">&#39;invalid&#39;</span><span class="p">):</span>
     <span class="n">regexp</span> <span class="o">=</span> <span class="n">_lazy_re_compile</span><span class="p">(</span><span class="s1">&#39;^\d+(?:</span><span class="si">%s</span><span class="s1">\d+)*\Z&#39;</span> <span class="o">%</span> <span class="n">re</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="n">sep</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">RegexValidator</span><span class="p">(</span><span class="n">regexp</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="n">message</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">)</span>
 
@@ -434,7 +434,7 @@
     <span class="n">message</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;Ensure this value is </span><span class="si">%(limit_value)s</span><span class="s1"> (it is </span><span class="si">%(show_value)s</span><span class="s1">).&#39;</span><span class="p">)</span>
     <span class="n">code</span> <span class="o">=</span> <span class="s1">&#39;limit_value&#39;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit_value</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit_value</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">limit_value</span> <span class="o">=</span> <span class="n">limit_value</span>
         <span class="k">if</span> <span class="n">message</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">message</span>
@@ -531,19 +531,19 @@
             <span class="n">digits</span> <span class="o">=</span> <span class="n">decimals</span>
         <span class="n">whole_digits</span> <span class="o">=</span> <span class="n">digits</span> <span class="o">-</span> <span class="n">decimals</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_digits</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">digits</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_digits</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_digits</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">digits</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_digits</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">messages</span><span class="p">[</span><span class="s1">&#39;max_digits&#39;</span><span class="p">],</span>
                 <span class="n">code</span><span class="o">=</span><span class="s1">&#39;max_digits&#39;</span><span class="p">,</span>
                 <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;max&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_digits</span><span class="p">},</span>
             <span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">decimal_places</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">decimals</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">decimal_places</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">decimal_places</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">decimals</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">decimal_places</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">messages</span><span class="p">[</span><span class="s1">&#39;max_decimal_places&#39;</span><span class="p">],</span>
                 <span class="n">code</span><span class="o">=</span><span class="s1">&#39;max_decimal_places&#39;</span><span class="p">,</span>
                 <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;max&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">decimal_places</span><span class="p">},</span>
             <span class="p">)</span>
-        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_digits</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">decimal_places</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_digits</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">decimal_places</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
                 <span class="ow">and</span> <span class="n">whole_digits</span> <span class="o">&gt;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_digits</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">decimal_places</span><span class="p">)):</span>
             <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">messages</span><span class="p">[</span><span class="s1">&#39;max_whole_digits&#39;</span><span class="p">],</span>

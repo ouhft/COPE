@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: v0.6.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-03 18:01+0000\n"
+"POT-Creation-Date: 2016-08-03 14:39+0000\n"
 "PO-Revision-Date: 2015-12-11 18:45+0000\n"
 "Last-Translator: ALLY BRADLEY <ALLY.BRADLEY@NDS.OX.AC.UK>\n"
 "Language-Team: OXFORD <LL@li.org>\n"
@@ -17,15 +17,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: config/settings/common.py:340
+#: config/settings/common.py:341
 msgid "SET01 Great Britain"
 msgstr "Great Britain"
 
-#: config/settings/common.py:341
+#: config/settings/common.py:342
 msgid "SET02 Belgium"
 msgstr "Belgium"
 
-#: config/settings/common.py:342
+#: config/settings/common.py:343
 msgid "SET03 Netherlands"
 msgstr "Netherlands"
 
@@ -397,19 +397,19 @@ msgid ""
 "born!"
 msgstr "Date of death given is before date of birth.  Please make a correction"
 
-#: wp4/compare/models/core.py:325
+#: wp4/compare/models/core.py:326
 msgid "RT01 centre code"
 msgstr "Centre Code"
 
-#: wp4/compare/models/core.py:329
+#: wp4/compare/models/core.py:330
 msgid "RT02 base hospital"
 msgstr "Based At"
 
-#: wp4/compare/models/core.py:389
+#: wp4/compare/models/core.py:390
 msgid "RTm1 retrieval team"
 msgstr "Retrieval Team"
 
-#: wp4/compare/models/core.py:390
+#: wp4/compare/models/core.py:391
 msgid "RTm2 retrieval teams"
 msgstr "Retrieval Teams"
 

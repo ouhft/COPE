@@ -135,16 +135,16 @@
   <h1>Source code for wp4.followups.models</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/python</span>
 <span class="c1"># coding: utf-8</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">unicode_literals</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">unicode_literals</span>
 
-<span class="kn">from</span> <span class="nn">django.core.urlresolvers</span> <span class="kn">import</span> <span class="n">reverse</span>
-<span class="kn">from</span> <span class="nn">django.core.validators</span> <span class="kn">import</span> <span class="n">MinValueValidator</span>
-<span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
-<span class="kn">from</span> <span class="nn">django.utils</span> <span class="kn">import</span> <span class="n">timezone</span>
-<span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">ugettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
+<span class="kn">from</span> <span class="nn">django.core.urlresolvers</span> <span class="k">import</span> <span class="n">reverse</span>
+<span class="kn">from</span> <span class="nn">django.core.validators</span> <span class="k">import</span> <span class="n">MinValueValidator</span>
+<span class="kn">from</span> <span class="nn">django.db</span> <span class="k">import</span> <span class="n">models</span>
+<span class="kn">from</span> <span class="nn">django.utils</span> <span class="k">import</span> <span class="n">timezone</span>
+<span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="k">import</span> <span class="n">ugettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
 
-<span class="kn">from</span> <span class="nn">wp4.compare.models</span> <span class="kn">import</span> <span class="n">VersionControlMixin</span><span class="p">,</span> <span class="n">Organ</span><span class="p">,</span> <span class="n">YES_NO_UNKNOWN_CHOICES</span>
-<span class="kn">from</span> <span class="nn">wp4.health_economics.models</span> <span class="kn">import</span> <span class="n">QualityOfLife</span>
+<span class="kn">from</span> <span class="nn">wp4.compare.models</span> <span class="k">import</span> <span class="n">VersionControlMixin</span><span class="p">,</span> <span class="n">Organ</span><span class="p">,</span> <span class="n">YES_NO_UNKNOWN_CHOICES</span>
+<span class="kn">from</span> <span class="nn">wp4.health_economics.models</span> <span class="k">import</span> <span class="n">QualityOfLife</span>
 
 
 <div class="viewcode-block" id="FollowUpBase"><a class="viewcode-back" href="../../../source/generated/wp4.followups.models.html#wp4.followups.models.FollowUpBase">[docs]</a><span class="k">class</span> <span class="nc">FollowUpBase</span><span class="p">(</span><span class="n">VersionControlMixin</span><span class="p">):</span>
@@ -160,7 +160,7 @@
     <span class="c1"># Form metadata</span>
     <span class="n">start_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FB01 start date&quot;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">)</span>
     <span class="c1"># completed = models.BooleanField(verbose_name=_(&quot;FB02 form completed&quot;), default=False)</span>
-    <span class="n">notes</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FB03 general notes&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">notes</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FB03 general notes&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="n">FAILURE_OTHER</span> <span class="o">=</span> <span class="mi">10</span>
     <span class="n">FAILURE_CHOICES</span> <span class="o">=</span> <span class="p">(</span>
@@ -173,22 +173,22 @@
         <span class="p">(</span><span class="n">FAILURE_OTHER</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;FBc07 Other&quot;</span><span class="p">)),</span>
     <span class="p">)</span>
     <span class="c1"># replace this with a property that looks at graft_failure_date: No unless date set.</span>
-    <span class="n">graft_failure</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FB10 graft failure&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">graft_failure_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FB11 date of graft failure&quot;</span><span class="p">),</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">graft_failure</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FB10 graft failure&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">graft_failure_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FB11 date of graft failure&quot;</span><span class="p">),</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">graft_failure_type</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FB12 graft failure&quot;</span><span class="p">),</span>
         <span class="n">choices</span><span class="o">=</span><span class="n">FAILURE_CHOICES</span><span class="p">,</span>
-        <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
     <span class="n">graft_failure_type_other</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FB13 Other failure type&quot;</span><span class="p">),</span>
         <span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
     <span class="c1"># replace this with a property that looks at graft_removal_date: No unless date set.</span>
-    <span class="n">graft_removal</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FB14 graft removal&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">graft_removal_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FB15 date of graft removal&quot;</span><span class="p">),</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">graft_removal</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FB14 graft removal&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">graft_removal_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FB15 date of graft removal&quot;</span><span class="p">),</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="n">DIALYSIS_TYPE_CHOICES</span> <span class="o">=</span> <span class="p">(</span>
         <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;FBc10 CAPD&quot;</span><span class="p">)),</span>
@@ -199,73 +199,73 @@
     <span class="n">dialysis_type</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FB16 Dialysis type&quot;</span><span class="p">),</span>
         <span class="n">choices</span><span class="o">=</span><span class="n">DIALYSIS_TYPE_CHOICES</span><span class="p">,</span>
-        <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
 
     <span class="n">immunosuppression_1</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FB30 Post tx Azathioprine&quot;</span><span class="p">),</span>
-        <span class="n">default</span><span class="o">=</span><span class="bp">False</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">False</span>
     <span class="p">)</span>
     <span class="n">immunosuppression_2</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FB31 Post tx Cyclosporin&quot;</span><span class="p">),</span>
-        <span class="n">default</span><span class="o">=</span><span class="bp">False</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">False</span>
     <span class="p">)</span>
     <span class="n">immunosuppression_3</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FB32 Post tx MMF&quot;</span><span class="p">),</span>
-        <span class="n">default</span><span class="o">=</span><span class="bp">False</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">False</span>
     <span class="p">)</span>
     <span class="n">immunosuppression_4</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FB33 Post tx Prednisolone&quot;</span><span class="p">),</span>
-        <span class="n">default</span><span class="o">=</span><span class="bp">False</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">False</span>
     <span class="p">)</span>
     <span class="n">immunosuppression_5</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FB34 Post tx Sirolomus&quot;</span><span class="p">),</span>
-        <span class="n">default</span><span class="o">=</span><span class="bp">False</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">False</span>
     <span class="p">)</span>
     <span class="n">immunosuppression_6</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FB35 Post tx Tacrolimus&quot;</span><span class="p">),</span>
-        <span class="n">default</span><span class="o">=</span><span class="bp">False</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">False</span>
     <span class="p">)</span>
     <span class="n">immunosuppression_7</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FB36 Post tx Other&quot;</span><span class="p">),</span>
-        <span class="n">default</span><span class="o">=</span><span class="bp">False</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">False</span>
     <span class="p">)</span>
     <span class="n">immunosuppression_other</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FB37 Other immunosuppression&quot;</span><span class="p">),</span>
         <span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
 
-    <span class="n">rejection</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FB19 rejection&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">rejection</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FB19 rejection&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="c1"># rejection_periods</span>
-    <span class="n">rejection_prednisolone</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FB20 treated with prednisolone&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">rejection_drug</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FB21 treated with other drug&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">rejection_prednisolone</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FB20 treated with prednisolone&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">rejection_drug</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FB21 treated with other drug&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">rejection_drug_other</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FB22 Other rejection drug&quot;</span><span class="p">),</span>
         <span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">rejection_biopsy</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FB23 biopsy proven&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">rejection_biopsy</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FB23 biopsy proven&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">calcineurin</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FB24 calcineurin inhibitor&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">calcineurin</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FB24 calcineurin inhibitor&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
-        <span class="n">abstract</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="n">abstract</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">recipient_alive</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">True</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">organ</span><span class="o">.</span><span class="n">recipient</span><span class="o">.</span><span class="n">person</span><span class="o">.</span><span class="n">date_of_death</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="bp">False</span>
+        <span class="k">return</span> <span class="kc">True</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">organ</span><span class="o">.</span><span class="n">recipient</span><span class="o">.</span><span class="n">person</span><span class="o">.</span><span class="n">date_of_death</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">False</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">graft_failure_get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">True</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">graft_failure_date</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="bp">False</span>
+        <span class="k">return</span> <span class="kc">True</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">graft_failure_date</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">False</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">graft_removal_get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">True</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">graft_failure_date</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="bp">False</span>
+        <span class="k">return</span> <span class="kc">True</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">graft_failure_date</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">False</span>
 
 <div class="viewcode-block" id="FollowUpBase.Meta"><a class="viewcode-back" href="../../../source/generated/wp4.followups.models.html#wp4.followups.models.FollowUpBase.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
-        <span class="n">abstract</span> <span class="o">=</span> <span class="bp">True</span></div></div>
+        <span class="n">abstract</span> <span class="o">=</span> <span class="kc">True</span></div></div>
 
 
 <div class="viewcode-block" id="FollowUpInitial"><a class="viewcode-back" href="../../../source/generated/wp4.followups.models.html#wp4.followups.models.FollowUpInitial">[docs]</a><span class="k">class</span> <span class="nc">FollowUpInitial</span><span class="p">(</span><span class="n">FollowUpBase</span><span class="p">):</span>
@@ -281,78 +281,78 @@
         <span class="n">decimal_places</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;FI03 creatinine 1&#39;</span><span class="p">),</span>
         <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">MinValueValidator</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span> <span class="p">],</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
     <span class="n">serum_creatinine_2</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DecimalField</span><span class="p">(</span>
         <span class="n">max_digits</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
         <span class="n">decimal_places</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;FI04 creatinine 2&#39;</span><span class="p">),</span>
         <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">MinValueValidator</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span> <span class="p">],</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
     <span class="n">serum_creatinine_3</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DecimalField</span><span class="p">(</span>
         <span class="n">max_digits</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
         <span class="n">decimal_places</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;FI05 creatinine 3&#39;</span><span class="p">),</span>
         <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">MinValueValidator</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span> <span class="p">],</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
     <span class="n">serum_creatinine_4</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DecimalField</span><span class="p">(</span>
         <span class="n">max_digits</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
         <span class="n">decimal_places</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;FI06 creatinine 4&#39;</span><span class="p">),</span>
         <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">MinValueValidator</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span> <span class="p">],</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
     <span class="n">serum_creatinine_5</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DecimalField</span><span class="p">(</span>
         <span class="n">max_digits</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
         <span class="n">decimal_places</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;FI07 creatinine 5&#39;</span><span class="p">),</span>
         <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">MinValueValidator</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span> <span class="p">],</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
     <span class="n">serum_creatinine_6</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DecimalField</span><span class="p">(</span>
         <span class="n">max_digits</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
         <span class="n">decimal_places</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;FI08 creatinine 6&#39;</span><span class="p">),</span>
         <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">MinValueValidator</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span> <span class="p">],</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
     <span class="n">serum_creatinine_7</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DecimalField</span><span class="p">(</span>
         <span class="n">max_digits</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
         <span class="n">decimal_places</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;FI09 creatinine 7&#39;</span><span class="p">),</span>
         <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">MinValueValidator</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span> <span class="p">],</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
 
     <span class="n">dialysis_requirement_1</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FI10 dialysis on day 1&quot;</span><span class="p">),</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
     <span class="n">dialysis_requirement_2</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FI11 dialysis on day 2&quot;</span><span class="p">),</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
     <span class="n">dialysis_requirement_3</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FI12 dialysis on day 3&quot;</span><span class="p">),</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
     <span class="n">dialysis_requirement_4</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FI13 dialysis on day 4&quot;</span><span class="p">),</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
     <span class="n">dialysis_requirement_5</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FI14 dialysis on day 5&quot;</span><span class="p">),</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
     <span class="n">dialysis_requirement_6</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FI15 dialysis on day 6&quot;</span><span class="p">),</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
     <span class="n">dialysis_requirement_7</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FI16 dialysis on day 7&quot;</span><span class="p">),</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
 
     <span class="n">DIALYSIS_CAUSE_CHOICES</span> <span class="o">=</span> <span class="p">(</span>
@@ -365,18 +365,18 @@
     <span class="n">dialysis_cause</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FI20 Dialysis cause&quot;</span><span class="p">),</span>
         <span class="n">choices</span><span class="o">=</span><span class="n">DIALYSIS_CAUSE_CHOICES</span><span class="p">,</span>
-        <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
     <span class="n">dialysis_cause_other</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FI21 Other dialysis cause&quot;</span><span class="p">),</span>
         <span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
 
-    <span class="n">hla_mismatch_a</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FI22 HLA A&quot;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">hla_mismatch_b</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FI23 HLA B&quot;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">hla_mismatch_dr</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FI24 HLA DR&quot;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">hla_mismatch_a</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FI22 HLA A&quot;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">hla_mismatch_b</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FI23 HLA B&quot;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">hla_mismatch_dr</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FI24 HLA DR&quot;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="n">INDUCTION_CHOICES</span> <span class="o">=</span> <span class="p">(</span>
         <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;FIc10 IL 2&quot;</span><span class="p">)),</span>
@@ -386,12 +386,12 @@
     <span class="n">induction_therapy</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FI25 Induction therapy&quot;</span><span class="p">),</span>
         <span class="n">choices</span><span class="o">=</span><span class="n">INDUCTION_CHOICES</span><span class="p">,</span>
-        <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
     <span class="n">discharge_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FI26 date of primary post tx discharge&quot;</span><span class="p">),</span>
-        <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
 
     <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
@@ -422,45 +422,45 @@
         <span class="n">decimal_places</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;F311 creatinine &#39;</span><span class="p">),</span>
         <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">MinValueValidator</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span> <span class="p">],</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
     <span class="n">creatinine_clearance</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DecimalField</span><span class="p">(</span>
         <span class="n">max_digits</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
         <span class="n">decimal_places</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;F302 creatinine clearance&#39;</span><span class="p">),</span>
         <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">MinValueValidator</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span> <span class="p">],</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-        <span class="n">null</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">null</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
     <span class="n">currently_on_dialysis</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;F303 currently on dialysis&quot;</span><span class="p">),</span>
         <span class="n">choices</span><span class="o">=</span><span class="n">YES_NO_UNKNOWN_CHOICES</span><span class="p">,</span>
-        <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
     <span class="n">dialysis_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;F304 date of last dialysis&quot;</span><span class="p">),</span>
-        <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
     <span class="n">number_of_dialysis_sessions</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;F305 number of dialysis sessions&quot;</span><span class="p">),</span>
-        <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
     <span class="n">rejection_periods</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;F306 rejection periods&quot;</span><span class="p">),</span>
-        <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
-    <span class="n">graft_complications</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;F307 graft function complications&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">graft_complications</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;F307 graft function complications&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="c1"># QoL is in health_economics app</span>
     <span class="n">quality_of_life</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span>
         <span class="n">QualityOfLife</span><span class="p">,</span>
         <span class="n">related_name</span><span class="o">=</span><span class="s2">&quot;followup_3m&quot;</span><span class="p">,</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;F308 quality of life&quot;</span><span class="p">),</span>
-        <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
 
     <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
@@ -491,38 +491,38 @@
         <span class="n">decimal_places</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;F611 creatinine &#39;</span><span class="p">),</span>
         <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">MinValueValidator</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span> <span class="p">],</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
     <span class="n">creatinine_clearance</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DecimalField</span><span class="p">(</span>
         <span class="n">max_digits</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
         <span class="n">decimal_places</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;F602 creatinine clearance&#39;</span><span class="p">),</span>
         <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">MinValueValidator</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span> <span class="p">],</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-        <span class="n">null</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">null</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
     <span class="n">currently_on_dialysis</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;F603 currently on dialysis&quot;</span><span class="p">),</span>
         <span class="n">choices</span><span class="o">=</span><span class="n">YES_NO_UNKNOWN_CHOICES</span><span class="p">,</span>
-        <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
     <span class="n">dialysis_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;F604 date of last dialysis&quot;</span><span class="p">),</span>
-        <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
     <span class="n">number_of_dialysis_sessions</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;F605 number of dialysis sessions&quot;</span><span class="p">),</span>
-        <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
     <span class="n">rejection_periods</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;F606 rejection periods&quot;</span><span class="p">),</span>
-        <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
-    <span class="n">graft_complications</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;F607 graft function complications&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">graft_complications</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;F607 graft function complications&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
         <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;F6m1 6 Month FollowUp&quot;</span><span class="p">)</span>
@@ -552,45 +552,45 @@
         <span class="n">decimal_places</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;FY11 creatinine &#39;</span><span class="p">),</span>
         <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">MinValueValidator</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span> <span class="p">],</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
     <span class="n">creatinine_clearance</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DecimalField</span><span class="p">(</span>
         <span class="n">max_digits</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
         <span class="n">decimal_places</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;FY02 creatinine clearance&#39;</span><span class="p">),</span>
         <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">MinValueValidator</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span> <span class="p">],</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-        <span class="n">null</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">null</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
     <span class="n">currently_on_dialysis</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FY03 currently on dialysis&quot;</span><span class="p">),</span>
         <span class="n">choices</span><span class="o">=</span><span class="n">YES_NO_UNKNOWN_CHOICES</span><span class="p">,</span>
-        <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
     <span class="n">dialysis_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FY04 date of last dialysis&quot;</span><span class="p">),</span>
-        <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
     <span class="n">number_of_dialysis_sessions</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FY05 number of dialysis sessions&quot;</span><span class="p">),</span>
-        <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
     <span class="n">rejection_periods</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FY06 rejection periods&quot;</span><span class="p">),</span>
-        <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
-    <span class="n">graft_complications</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FY07 graft function complications&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">graft_complications</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FY07 graft function complications&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="c1"># QoL is in health_economics app</span>
     <span class="n">quality_of_life</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span>
         <span class="n">QualityOfLife</span><span class="p">,</span>
         <span class="n">related_name</span><span class="o">=</span><span class="s2">&quot;followup_1y&quot;</span><span class="p">,</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FY08 quality of life&quot;</span><span class="p">),</span>
-        <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span>
+        <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
 
     <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>

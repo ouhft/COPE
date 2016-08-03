@@ -104,6 +104,13 @@
 <li class="toctree-l4"><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#migrating-to-python-3-and-postgres">Migrating to Python 3 and Postgres</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#supervisor-config">Supervisor Config</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#debugging-supervisor">Debugging Supervisor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reset-backup">Reset backup:</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#todo">TODO</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#footnotes-for-production">Footnotes for Production</a></li>
 </ul>
 </li>
@@ -201,7 +208,7 @@ bash history on the server - and excludes the steps taken on the webfaction cont
 </pre></div>
 </div>
 <p>Create a link to the auto-deploy script and add it to the crontab::</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>ln -s COPE/deploy/webfaction/deploy-cm13.sh ./update_by_cron.sh
+<div class="highlight-default"><div class="highlight"><pre><span></span>ln -s cope_repo/deploy/webfaction/deploy-cm13.sh ./update_by_cron.sh
 chmod 755 COPE/deploy/webfaction/deploy-cm13.sh
 crontab -e    # To edit the cron record, and to insert...
 */2 * * * * $HOME/webapps/wp4_django/update_by_cron.sh &gt;&gt; $HOME/webapps/wp4_django/cron-wp4_django.log 2&gt;&amp;1
@@ -588,11 +595,109 @@ start of x-header names before making the header available in request.META.)
 <div class="section" id="troubleshooting">
 <span id="troubleshooting"></span><h4>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h4>
 <p>When things do not go to plan, we want to find out what we can. There&#8217;s no debug mode on the production server, so it&#8217;s into the error logs for information. Logs from supervisord are found via: <code class="docutils literal"><span class="pre">cd</span> <span class="pre">/var/log/supervisor/</span></code>. Unfortunately stack traces aren&#8217;t captured here (for example on a Server Error), so more work needs to be done to help the monitoring of this server.</p>
-<p><strong>TODO</strong></p>
+</div>
+</div>
+<div class="section" id="migrating-to-python-3-and-postgres">
+<span id="migrating-to-python-3-and-postgres"></span><h3>Migrating to Python 3 and Postgres<a class="headerlink" href="#migrating-to-python-3-and-postgres" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Perform the usual system maintainence (apt-get update, upgrade, autoclean, etc)</li>
+<li>Using installed python 3.4.3</li>
+<li>Needs extra: <code class="docutils literal"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">python3.4-dev</span> <span class="pre">libpq-dev</span></code> for psycopg2 to install</li>
+<li>Installed postgres following instructions at <a class="reference external" href="#">https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-14-04</a>.</li>
+<li><code class="docutils literal"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">postgresql</span> <span class="pre">postgresql-contrib</span></code></li>
+<li>Results in Postgres 9.3 being installed.</li>
+<li>Created user <code class="docutils literal"><span class="pre">copedb</span></code> and database <code class="docutils literal"><span class="pre">copedb</span></code></li>
+</ul>
+<div class="highlight-default"><div class="highlight"><pre><span></span>postgres@cope:~$ createuser --interactive
+Enter name of role to add: copedb
+Shall the new role be a superuser? (y/n) n
+Shall the new role be allowed to create databases? (y/n) n
+Shall the new role be allowed to create more new roles? (y/n) n
+postgres@cope:~$ createdb copedb
+</pre></div>
+</div>
+<ul class="simple">
+<li>Set password on user. <code class="docutils literal"><span class="pre">postgres=#</span> <span class="pre">\password</span> <span class="pre">copedb</span></code></li>
+</ul>
+<p>Follow site setup again, but pointing at <code class="docutils literal"><span class="pre">/usr/bin/python3</span></code> for virtualenv, and changing the files linked below to use the new <code class="docutils literal"><span class="pre">/sites/py3_cope</span> <span class="pre">path</span></code>::</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">mkproject</span> <span class="o">-</span><span class="n">p</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">python3</span> <span class="n">py3_cope</span>
+<span class="c1"># NB: cwd is now /sites/py3_cope</span>
+<span class="n">git</span> <span class="n">clone</span> <span class="n">git</span><span class="nd">@github</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="n">AllyBradley</span><span class="o">/</span><span class="n">COPE</span><span class="o">.</span><span class="n">git</span> <span class="n">cope_repo</span>
+<span class="n">mkdir</span> <span class="o">-</span><span class="n">p</span> <span class="n">var</span><span class="o">/</span><span class="n">log</span> <span class="n">var</span><span class="o">/</span><span class="n">run</span> <span class="n">etc</span><span class="o">/</span><span class="n">nginx</span><span class="o">/</span><span class="n">sites</span><span class="o">-</span><span class="n">available</span> <span class="n">htdocs</span><span class="o">/</span><span class="n">media</span> <span class="n">etc</span><span class="o">/</span><span class="n">gunicorn</span>
+<span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">sites</span><span class="o">/.</span><span class="n">virtualenvs</span><span class="o">/</span><span class="n">py3_cope</span><span class="o">/</span><span class="n">lib</span> <span class="o">./</span><span class="n">lib</span>
+<span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">sites</span><span class="o">/.</span><span class="n">virtualenvs</span><span class="o">/</span><span class="n">py3_cope</span><span class="o">/</span><span class="nb">bin</span> <span class="o">./</span><span class="nb">bin</span>
+
+<span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">sites</span><span class="o">/</span><span class="n">py3_cope</span><span class="o">/</span><span class="n">cope_repo</span><span class="o">/</span><span class="n">deploy</span><span class="o">/</span><span class="n">production</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">nginx</span><span class="o">/</span><span class="n">sites</span><span class="o">-</span><span class="n">available</span><span class="o">/</span><span class="n">cope</span><span class="o">.</span><span class="n">conf</span> <span class="o">/</span><span class="n">sites</span><span class="o">/</span><span class="n">py3_cope</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">nginx</span><span class="o">/</span><span class="n">sites</span><span class="o">-</span><span class="n">available</span><span class="o">/</span><span class="n">py3_cope</span><span class="o">.</span><span class="n">conf</span>
+<span class="n">sudo</span> <span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">sites</span><span class="o">/</span><span class="n">py3_cope</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">nginx</span><span class="o">/</span><span class="n">sites</span><span class="o">-</span><span class="n">available</span><span class="o">/</span><span class="n">py3_cope</span><span class="o">.</span><span class="n">conf</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">nginx</span><span class="o">/</span><span class="n">sites</span><span class="o">-</span><span class="n">available</span><span class="o">/</span><span class="n">py3_cope</span><span class="o">.</span><span class="n">conf</span>
+<span class="n">sudo</span> <span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">nginx</span><span class="o">/</span><span class="n">sites</span><span class="o">-</span><span class="n">available</span><span class="o">/</span><span class="n">py3_cope</span><span class="o">.</span><span class="n">conf</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">nginx</span><span class="o">/</span><span class="n">sites</span><span class="o">-</span><span class="n">enabled</span><span class="o">/</span><span class="n">py3_cope</span><span class="o">.</span><span class="n">conf</span>
+<span class="n">sudo</span> <span class="n">rm</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">nginx</span><span class="o">/</span><span class="n">sites</span><span class="o">-</span><span class="n">enabled</span><span class="o">/</span><span class="n">cope</span><span class="o">.</span><span class="n">conf</span> 
+
+<span class="n">sudo</span> <span class="n">rm</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">supervisor</span><span class="o">/</span><span class="n">conf</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">nginx</span><span class="o">.</span><span class="n">conf</span> 
+<span class="n">sudo</span> <span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">sites</span><span class="o">/</span><span class="n">py3_cope</span><span class="o">/</span><span class="n">cope_repo</span><span class="o">/</span><span class="n">deploy</span><span class="o">/</span><span class="n">production</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">supervisor</span><span class="o">/</span><span class="n">conf</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">nginx</span><span class="o">.</span><span class="n">conf</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">supervisor</span><span class="o">/</span><span class="n">conf</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">nginx</span><span class="o">.</span><span class="n">conf</span>
+
+<span class="n">sudo</span> <span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">sites</span><span class="o">/</span><span class="n">py3_cope</span><span class="o">/</span><span class="n">cope_repo</span><span class="o">/</span><span class="n">deploy</span><span class="o">/</span><span class="n">production</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">supervisor</span><span class="o">/</span><span class="n">conf</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">django</span><span class="o">.</span><span class="n">conf</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">supervisor</span><span class="o">/</span><span class="n">conf</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">py3_django</span><span class="o">.</span><span class="n">conf</span>
+<span class="c1"># sudo rm /etc/supervisor/conf.d/django.conf  &lt;-- See Supervisor config steps below</span>
+
+<span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">sites</span><span class="o">/</span><span class="n">py3_cope</span><span class="o">/</span><span class="n">cope_repo</span><span class="o">/</span><span class="n">deploy</span><span class="o">/</span><span class="n">production</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">gunicorn_start</span><span class="o">.</span><span class="n">sh</span> <span class="o">/</span><span class="n">sites</span><span class="o">/</span><span class="n">py3_cope</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">gunicorn_start</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">chmod</span> <span class="mi">775</span> <span class="o">/</span><span class="n">sites</span><span class="o">/</span><span class="n">py3_cope</span><span class="o">/</span><span class="n">cope_repo</span><span class="o">/</span><span class="n">deploy</span><span class="o">/</span><span class="n">production</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">gunicorn_start</span><span class="o">.</span><span class="n">sh</span>
+
+<span class="n">sudo</span> <span class="n">chown</span> <span class="o">-</span><span class="n">R</span> <span class="n">www</span><span class="o">-</span><span class="n">data</span><span class="p">:</span><span class="n">worker</span> <span class="o">*</span>
+
+<span class="n">cd</span> <span class="n">cope_repo</span>
+<span class="n">chmod</span> <span class="mi">775</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="o">/</span><span class="n">production</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<p>Continue the site setup (<code class="docutils literal"><span class="pre">python</span></code> will default to the environment version of 3.4.3).</p>
+<ul class="simple">
+<li>Use the previous local.env file (<code class="docutils literal"><span class="pre">cp</span> <span class="pre">../../cope/cope_repo/local.env</span> <span class="pre">local.env</span></code> - NB: edit the static root path!), as we need to setup first to use the existing sqlite db file, and then port it to the new postgres engine.</li>
+<li>Don&#8217;t forget a location.env file too (<code class="docutils literal"><span class="pre">cp</span> <span class="pre">../../cope/cope_repo/location.env</span> <span class="pre">location.env</span></code>)</li>
+<li>And we need the existing data: <code class="docutils literal"><span class="pre">cp</span> <span class="pre">../../cope/cope_repo/db.sqlite3</span> <span class="pre">./db.sqlite3</span></code></li>
+<li><code class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">check</span></code></li>
+<li>Because of breaking DB changes in 0.6.0, the previous &#8216;followups&#8217; migrations need to be cleared from the database before we migrate, otherwise we won&#8217;t have the tables in.</li>
+<li><code class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">dbshell</span></code> and then <code class="docutils literal"><span class="pre">DELETE</span> <span class="pre">FROM</span> <span class="pre">django_migrations</span> <span class="pre">WHERE</span> <span class="pre">app=&quot;followups&quot;;</span></code></li>
+<li><code class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">migrate</span></code></li>
+<li><code class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">collectstatic</span></code></li>
+<li><code class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">compilemessages</span></code></li>
+</ul>
+<p>Now is a good time to reboot the server, then we can go and see about gunicorn config/starting.</p>
+<div class="section" id="supervisor-config">
+<span id="supervisor-config"></span><h4>Supervisor Config<a class="headerlink" href="#supervisor-config" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">sudo</span> <span class="pre">supervisorctl</span></code> to get into the interactive shell. Then:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">reread</span></code> should show a new app available (py3-cope-django)</li>
+<li><code class="docutils literal"><span class="pre">stop</span> <span class="pre">cope-django</span></code> to turn off the old app</li>
+<li><code class="docutils literal"><span class="pre">remove</span> <span class="pre">cope-django</span></code> to stop it coming back on reboot</li>
+<li><code class="docutils literal"><span class="pre">add</span> <span class="pre">py3-cope-django</span></code> to make the new config active for use</li>
+<li><code class="docutils literal"><span class="pre">start</span> <span class="pre">py3-cope-django</span></code>... and we should be good to go</li>
+<li>When we&#8217;re happy everything is running we can do some cleanup:</li>
+<li><code class="docutils literal"><span class="pre">sudo</span> <span class="pre">rm</span> <span class="pre">/etc/supervisor/conf.d/django.conf</span></code></li>
+</ul>
+</div>
+<div class="section" id="debugging-supervisor">
+<span id="debugging-supervisor"></span><h4>Debugging Supervisor<a class="headerlink" href="#debugging-supervisor" title="Permalink to this headline">¶</a></h4>
+<p>On the likely outcome that something doesn&#8217;t work, remember the following:</p>
+<ul class="simple">
+<li>Supervisor log output goes to <code class="docutils literal"><span class="pre">cd</span> <span class="pre">/var/log/supervisor/</span></code>, and this require root priviledges</li>
+<li>Nginx default log output goes to <code class="docutils literal"><span class="pre">cd</span> <span class="pre">/var/log/nginx/</span></code>, and is also root only access</li>
+<li>Gunicorn root log folder should be empty, but is at <code class="docutils literal"><span class="pre">cd</span> <span class="pre">/var/log/gunicorn/</span></code></li>
+</ul>
+</div>
+<div class="section" id="reset-backup">
+<span id="reset-backup"></span><h4>Reset backup:<a class="headerlink" href="#reset-backup" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li>Make backup dir</li>
+<li>Link the dbbackup.sh script to the local bin folder</li>
+<li><code class="docutils literal"><span class="pre">ln</span> <span class="pre">-s</span> <span class="pre">/sites/py3_cope/cope_repo/deploy/production/bin/dbbackup.sh</span> <span class="pre">/sites/py3_cope/bin/dbbackup.sh</span></code></li>
+<li>Update Cron with the new path</li>
+</ul>
+</div>
+</div>
+<div class="section" id="todo">
+<span id="todo"></span><h3>TODO<a class="headerlink" href="#todo" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Run the django-secure scan</li>
 </ul>
-</div>
 </div>
 <div class="section" id="footnotes-for-production">
 <span id="footnotes-for-production"></span><h3>Footnotes for Production<a class="headerlink" href="#footnotes-for-production" title="Permalink to this headline">¶</a></h3>

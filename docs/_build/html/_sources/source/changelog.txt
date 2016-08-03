@@ -2,9 +2,26 @@
 
 This is a list of changes made to the website and application for each release.
 
-## v0.6.0 (TBC - Early May 2016) - The Follow Up edition
-* Follow Up forms added for Initial, 3 Month, 6 Month, and 1 Year data collection (Issue #79)
-* Health Economics forms added for Quality of Life data collection
+## v0.6.1 (1 July 2016) - Bugfix
+* Resolved Internal Server Errors due to an issue with date_of_birth (Issue #116)
+
+## v0.6.0 (21 June 2016) - The Follow Up edition
+### New Features
+* Follow Up forms added for Initial, 3 Month, 6 Month, and 1 Year data collection based on the current paper forms (Issue #79)
+* Health Economics forms added for Quality of Life data collection (Issue #97)
+* Initial reports added for DMC/Statistical analysis (Issues #90, #105, & #110)
+
+### Main changes
+* Removed validation check for Perfusion Stopped on the Procurement form at close (Issue #104)
+* Initial work done to change several sections where slow performance was affecting usability. More remains to be done on this (Issues #82, & #77)
+* User Manual updated to reflect new sections and previous updates
+
+### Minor (and background) changes
+* Samples label correction for Perfusate (Issues #39)
+* Admin rights restored along with UI shortcuts (Issue #91)
+* Ported to Python 3.x from 2.x, for improved support with unicode and csv libraries (Issue #111)
+* Various library updates for security improvements
+
 
 ## v0.5.1 (1 May 2016) - Bugfix 
 * Internal documentation comments were appearing in the UI. These have been modifed or hidden (Issue #89)
