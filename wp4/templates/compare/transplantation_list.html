@@ -1,6 +1,7 @@
 {% extends "base_site.html" %}
 {% load l10n i18n %}
 {% load crispy_forms_tags %}
+{% load theme_tags %}
 
 {% block page_title %}Transplantation{% endblock %}
 {% block page_header %}Transplantation - Cases{% endblock %}
@@ -29,6 +30,9 @@
 {#                        <th>Age</th>  TOO SLOW TO CALCULATE AND DISPLAY #}
                         <th>Gender</th>
                         <th>Samples</th>
+                        {% if request.user|has_job:5 %}
+                            <th>Technician</th>
+                        {% endif %}
                     </tr>
                     </thead>
                     <tbody>
@@ -78,6 +82,11 @@
                                 No Worksheet
                             {% endif %}
                             </td>
+                            {% if request.user|has_job:5 %}
+                                <td>
+                                    {{ case.recipient.allocation.perfusion_technician }}
+                                </td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -130,6 +139,9 @@
 {#                        <th>Age</th>#}
                         <th>Gender</th>
                         <th>Samples</th>
+                        {% if request.user|has_job:5 %}
+                            <th>Technician</th>
+                        {% endif %}
                     </tr>
                     </thead>
                     <tbody>
@@ -167,12 +179,17 @@
 {#                                {{ case.recipient.person.age_from_dob|default:"Unknown age" }}#}
 {#                            </td>#}
                             <td>{{ case.recipient.person.get_gender_display }}</td>
+                            <td>
                             {% if case.recipient.person.worksheet %}
-                                <td>
-                                    <a href="{% url 'wp4:samples:update' pk=case.recipient.person.worksheet.id %}">{{ case.recipient.person.worksheet }}</a>
-                                </td>
+                                <a href="{% url 'wp4:samples:update' pk=case.recipient.person.worksheet.id %}" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-share"></i> {{ case.recipient.person.worksheet }}</a>
                             {% else %}
-                                <td>No Worksheet</td>
+                                No Worksheet
+                            {% endif %}
+                            </td>
+                            {% if request.user|has_job:5 %}
+                                <td>
+                                    {{ case.recipient.allocation.perfusion_technician }}
+                                </td>
                             {% endif %}
                         </tr>
                     {% endfor %}

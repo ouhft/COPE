@@ -1,6 +1,7 @@
 {% extends "base_site.html" %}
 {% load l10n i18n %}
 {% load crispy_forms_tags %}
+{% load theme_tags %}
 
 {% block page_title %}Procurement{% endblock %}
 {% block page_header %}Procurement{% endblock %}
@@ -28,15 +29,24 @@
                         <th>Gender</th>
                         <th>Eligible</th>
                         <th>Samples</th>
+                        {% if request.user|has_job:5 %}
+                            <th>Technician</th>
+                        {% endif %}
                     </tr>
                     </thead>
                     <tbody>
                     {% for donor in open_donors %}
                         <tr>
-                            <td><a href="{% url 'wp4:compare:procurement_detail' donor.id %}"
+                            <td>
+                                {% if request.user.is_staff %}
+                                    <a href="{% url 'admin:compare_donor_change' donor.id %}"><i
+                                            class="glyphicon glyphicon-briefcase"></i></a>
+                                {% endif %}
+                                <a href="{% url 'wp4:compare:procurement_detail' donor.id %}"
                                    class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i>
                                 {{ donor.trial_id }}
-                            </a></td>
+                            </a>
+                            </td>
                             <td>{{ donor.created_on }}</td>
                             {#                        TODO: Replace this text with a flag image #}
                             <td>{{ donor.retrieval_team.based_in_country }}</td>
@@ -63,12 +73,17 @@
                                 <td>ERROR</td>
                             {% endif %}
 
+                            <td>
                             {% if donor.person.worksheet %}
-                                <td>
-                                    <a href="{% url 'wp4:samples:update' pk=donor.person.worksheet.id %}">{{ donor.person.worksheet }}</a>
-                                </td>
+                                <a href="{% url 'wp4:samples:update' pk=donor.person.worksheet.id %}" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-share"></i> {{ donor.person.worksheet }}</a>
                             {% else %}
-                                <td>No Worksheet</td>
+                                No Worksheet
+                            {% endif %}
+                            </td>
+                            {% if request.user|has_job:5 %}
+                                <td>
+                                    {{ donor.perfusion_technician }}
+                                </td>
                             {% endif %}
                         </tr>
                     {% endfor %}
@@ -122,13 +137,25 @@
                         <th>Age</th>
                         <th>Gender</th>
                         <th>Eligible</th>
+                        {% if request.user.is_staff %}
+                            <th>Admin</th>
+                        {% endif %}
                         <th>Samples</th>
+                        {% if request.user|has_job:5 %}
+                            <th>Technician</th>
+                        {% endif %}
                     </tr>
                     </thead>
                     <tbody>
                     {% for donor in closed_donors %}
                         <tr>
-                            <td><strong>{{ donor.trial_id }}</strong></td>
+                            <td>
+                                {% if request.user.is_staff %}
+                                    <a href="{% url 'admin:compare_donor_change' donor.id %}"><i
+                                            class="glyphicon glyphicon-briefcase"></i></a>
+                                {% endif %}
+                                <strong>{{ donor.trial_id }}</strong>
+                            </td>
                             <td>{{ donor.created_on }}</td>
                             {#                        TODO: Replace this text with a flag image #}
                             <td>{{ donor.retrieval_team.based_in_country }}</td>
@@ -154,13 +181,26 @@
                             {% else %}
                                 <td>ERROR</td>
                             {% endif %}
-
-                            {% if donor.person.worksheet %}
+                            {% if request.user.is_staff %}
                                 <td>
-                                    <a href="{% url 'wp4:samples:update' pk=donor.person.worksheet.id %}">{{ donor.person.worksheet }}</a>
+                                <a href="{% url 'admin:compare_organ_change' donor.left_kidney.id %}"><i
+                                        class="glyphicon glyphicon-briefcase"></i>L</a>
+                                <a href="{% url 'admin:compare_organ_change' donor.right_kidney.id %}"><i
+                                        class="glyphicon glyphicon-briefcase"></i>R</a>
                                 </td>
+                            {% endif %}
+
+                            <td>
+                            {% if donor.person.worksheet %}
+                                <a href="{% url 'wp4:samples:update' pk=donor.person.worksheet.id %}" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-share"></i> {{ donor.person.worksheet }}</a>
                             {% else %}
-                                <td>No Worksheet</td>
+                                No Worksheet
+                            {% endif %}
+                            </td>
+                            {% if request.user|has_job:5 %}
+                                <td>
+                                    {{ donor.perfusion_technician }}
+                                </td>
                             {% endif %}
                         </tr>
                     {% endfor %}
