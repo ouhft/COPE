@@ -20,7 +20,7 @@
             .badge {
                 padding: 2px 6px;
                 border: 1px solid #000;
-                margin-right: 3em;
+                margin-right: 3em;c
             }
         }
     </style>
@@ -50,7 +50,11 @@
     <tbody>
     {% for row in listing %}
         <tr>
-            <td>{{ row.trial_id }}</td>
+            <td>
+                <a href="{% url 'admin:compare_donor_change' row.id %}"><i
+                        class="glyphicon glyphicon-briefcase"></i></a>
+                <a href="{% url 'wp4:compare:procurement_detail' row.id %}">{{ row.trial_id }}</a>
+            </td>
             <td>{{ row.retrieval_team.based_at }}</td>
             <td>{{ row.randomisation.allocated_on }}</td>
         </tr>

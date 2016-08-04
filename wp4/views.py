@@ -15,6 +15,8 @@ from django.utils import timezone
 from wp4.compare.models import Randomisation, PAPER_UNITED_KINGDOM, PAPER_EUROPE
 from wp4.compare.models import Donor, Organ, OrganAllocation
 from wp4.compare.models import RetrievalTeam
+from wp4.compare.models import PRESERVATION_HMP, PRESERVATION_HMPO2, PRESERVATION_NOT_SET
+from wp4.locations.models import Hospital
 from wp4.staff_person.models import StaffJob
 from wp4.adverse_event.models import AdverseEvent
 
@@ -97,7 +99,7 @@ def administrator_procurement_pairs(request):
 
     listing = Donor.objects.\
         filter(randomisation__isnull=False).\
-        order_by('retrieval_team__centre_code')
+        order_by('retrieval_team__centre_code', 'randomisation__allocated_on')
     centres = dict()
     for centre in RetrievalTeam.objects.all():
         centres[centre.centre_code] = {
@@ -120,6 +122,58 @@ def administrator_procurement_pairs(request):
             'summary': summary
         }
     )
+
+
+@job_required(StaffJob.CENTRAL_COORDINATOR)
+def administrator_transplantation_sites(request):
+
+    listing = Organ.objects.\
+        filter(recipient__isnull=False).\
+        order_by('recipient__allocation__transplant_hospital')
+    centres = dict()
+    for centre in Hospital.objects.filter(is_project_site=True).filter(is_active=True):
+        centres[centre.id] = {
+            "name": centre.name,
+            "full_count": 0,
+            "discarded": 0
+        }
+    summary = {
+        "full_count": 0,
+        "centres": centres,
+        "preservations": {
+            # Preservation counts: discarded, total
+            PRESERVATION_HMP: [0, 0],
+            PRESERVATION_HMPO2: [0, 0],
+            PRESERVATION_NOT_SET: [0, 0]
+        }
+    }
+    for organ in listing:
+        summary["full_count"] += 1
+        summary["preservations"][organ.preservation][1] += 1  # total count
+        if organ.recipient.organ_untransplantable:
+            summary["preservations"][organ.preservation][0] += 1  # discard count
+        try:
+            summary["centres"][organ.recipient.allocation.transplant_hospital.id]["full_count"] += 1
+            if organ.recipient.organ_untransplantable:
+                summary["centres"][organ.recipient.allocation.transplant_hospital.id]["discarded"] += 1
+        except AttributeError:
+            print("DEBUG: Investigate organ {0} for missing data".format(organ.id))
+            pass
+        except KeyError:
+            print("DEBUG: Investigate organ {0} for allocation to a non project site".format(organ.id))
+            pass
+
+    print(summary)
+    return render(
+        request,
+        'dashboard/administrator_transplantation_sites.html',
+        {
+            'listing': listing,
+            'summary': summary
+        }
+    )
+
+
 # @login_required
 # def administrator_datalist(request):
 #     organs = Organ.objects.all()

@@ -1,0 +1,95 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+
+{% block page_title %}{{ location }} Report: Transplantation Sites - Administration{% endblock %}
+{% block page_header %}
+    Transplantation Sites
+    <small>REPORT</small>
+{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:admin_index' %}">Administration</a></li>
+    <li class="active">Report: Transplantation Sites</li>
+{% endblock %}
+
+{% block content %}
+{#    CSS Hack here because Bootstrap hides the badges on print view #}
+    <style>
+        @media print {
+            .badge {
+                padding: 2px 6px;
+                border: 1px solid #000;
+                margin-right: 3em;c
+            }
+        }
+    </style>
+    <h2>Summary</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Total set</h3>
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-info">
+                    Total number of organs with recipients
+                    <span class="badge">{{ summary.full_count }}</span>
+                </li>
+            </ul>
+
+            <h3>By Preservation</h3>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    HMP
+                    <span class="badge">{{ summary.preservations.0.0 }} / {{ summary.preservations.0.1 }}</span>
+                </li>
+                <li class="list-group-item">
+                    HMP O2
+                    <span class="badge">{{ summary.preservations.1.0 }} / {{ summary.preservations.1.1 }}</span>
+                </li>
+                <li class="list-group-item">
+                    Not Set
+                    <span class="badge">{{ summary.preservations.9.0 }} / {{ summary.preservations.9.1 }}</span>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <h3>By Project Site</h3>
+            <ul class="list-group">
+                {% for key, value in summary.centres.items %}
+                <li class="list-group-item">
+                    {{ value.name }}
+                    <span class="badge">{{ value.discarded }} / {{ value.full_count }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+
+    <h2>Listing</h2>
+    <table class="table table-condensed">
+    <thead>
+    <tr>
+        <th>Organ ID</th>
+        <th>Transplant Hospital</th>
+        <th>Preservation</th>
+        <th>Discarded</th>
+        <th>Form Completed</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for row in listing %}
+        <tr>
+            <td>
+                <a href="{% url 'admin:compare_organ_change' row.id %}"><i
+                        class="glyphicon glyphicon-briefcase"></i></a>
+                <a href="{% url 'wp4:compare:transplantation_detail' row.id %}">{{ row.trial_id }}</a>
+            </td>
+            <td>{{ row.recipient.allocation.transplant_hospital }}</td>
+            <td>{{ row.get_preservation_display }}</td>
+            <td>{{ row.recipient.organ_untransplantable|yesno }}</td>
+            <td>{{ row.transplantation_form_completed|yesno }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+{% endblock %}
