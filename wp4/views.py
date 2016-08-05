@@ -162,11 +162,54 @@ def administrator_transplantation_sites(request):
         except KeyError:
             print("DEBUG: Investigate organ {0} for allocation to a non project site".format(organ.id))
             pass
-
-    print(summary)
     return render(
         request,
         'dashboard/administrator_transplantation_sites.html',
+        {
+            'listing': listing,
+            'summary': summary
+        }
+    )
+
+
+@job_required(StaffJob.CENTRAL_COORDINATOR)
+def administrator_sae_sites(request):
+
+    listing = AdverseEvent.objects.all().\
+        order_by('organ__recipient__allocation__transplant_hospital', 'created_on')
+
+    centres = dict()
+    for centre in Hospital.objects.filter(is_active=True):
+        centres[centre.id] = {
+            "name": centre.name,
+            "event_count": 0,
+        }
+    summary = {
+        "full_count": 0,
+        "centres": centres,
+        "preservations": {
+            # Preservation counts
+            PRESERVATION_HMP: 0,
+            PRESERVATION_HMPO2: 0,
+            PRESERVATION_NOT_SET: 0
+        }
+    }
+
+    for event in listing:
+        summary["full_count"] += 1
+        summary["preservations"][event.organ.preservation] += 1  # total count
+        try:
+            summary["centres"][event.organ.recipient.allocation.transplant_hospital.id]["event_count"] += 1
+        except AttributeError:
+            print("DEBUG: Investigate organ {0} for missing data".format(event.organ.id))
+            pass
+        except KeyError:
+            print("DEBUG: Investigate organ {0} for allocation to a non project site".format(event.organ.id))
+            pass
+
+    return render(
+        request,
+        'dashboard/administrator_sae_sites.html',
         {
             'listing': listing,
             'summary': summary

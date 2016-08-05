@@ -1,0 +1,130 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+
+{% block page_title %}{{ location }} Report: (S)AE Sites - Administration{% endblock %}
+{% block page_header %}
+    (S)AE Sites
+    <small>REPORT</small>
+{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:admin_index' %}">Administration</a></li>
+    <li class="active">Report: (S)AE Sites</li>
+{% endblock %}
+
+{% block content %}
+{#    CSS Hack here because Bootstrap hides the badges on print view #}
+    <style>
+        @media print {
+            .badge {
+                padding: 2px 6px;
+                border: 1px solid #000;
+                margin-right: 3em;c
+            }
+        }
+    </style>
+    <h2>Summary</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Total set</h3>
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-info">
+                    Total number of events
+                    <span class="badge">{{ summary.full_count }}</span>
+                </li>
+            </ul>
+
+            <h3>By Preservation</h3>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    HMP
+                    <span class="badge">{{ summary.preservations.0 }}</span>
+                </li>
+                <li class="list-group-item">
+                    HMP O2
+                    <span class="badge">{{ summary.preservations.1 }}</span>
+                </li>
+                <li class="list-group-item">
+                    Not Set
+                    <span class="badge">{{ summary.preservations.9 }}</span>
+                </li>
+            </ul>
+
+        </div>
+        <div class="col-md-6">
+            <h3>By Site</h3>
+            <ul class="list-group">
+                {% for key, value in summary.centres.items %}
+                <li class="list-group-item {% if value.event_count == 0 %}list-group-item-success{% endif %}">
+                    {{ value.name }}
+                    <span class="badge">{{ value.event_count }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+
+    <h2>Listing</h2>
+    <dl class="dl-horizontal">
+        <dt>Q1</dt>
+        <dd>Did the adverse event lead to death?</dd>
+        <dt>Q2</dt>
+        <dd>Did it result in a life-threatening illness or injury?</dd>
+        <dt>Q3</dt>
+        <dd>Did it result in a permanent impairment of a body structure or a body function?</dd>
+        <dt>Q4</dt>
+        <dd>Did it require hospitalisation?</dd>
+        <dt>Q5</dt>
+        <dd>Did it require prolongation of hospitalisation?</dd>
+        <dt>Q6</dt>
+        <dd>Did it result in medical or surgical intervention to prevent life-threatening illness or injury or permanent impairment to a body structure or a body function?</dd>
+    </dl>
+    <table class="table table-condensed">
+    <thead>
+    <tr>
+        <th>Organ ID</th>
+        <th>Transplant Hospital</th>
+        <th>Preservation</th>
+        <th>Q1</th>
+        <th>Q2</th>
+        <th>Q3</th>
+        <th>Q4</th>
+        <th>Q5</th>
+        <th>Q6</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for row in listing %}
+        <tr>
+            <td>
+                <a href="{% url 'admin:adverse_event_adverseevent_change' row.id %}"><i
+                        class="glyphicon glyphicon-briefcase"></i></a>
+                <a href="{% url 'wp4:adverse_event:update' row.id %}">{{ row.organ.trial_id }}</a>
+            </td>
+            <td>{{ row.organ.recipient.allocation.transplant_hospital }}</td>
+            <td>{{ row.organ.get_preservation_display }}</td>
+            <td class="{% if row.serious_eligible_1 %}danger{% endif %}">
+                {{ row.serious_eligible_1|yesno }}
+            </td>
+            <td class="{% if row.serious_eligible_2 %}danger{% endif %}">
+                {{ row.serious_eligible_2|yesno }}
+            </td>
+            <td class="{% if row.serious_eligible_3 %}danger{% endif %}">
+                {{ row.serious_eligible_3|yesno }}
+            </td>
+            <td class="{% if row.serious_eligible_4 %}danger{% endif %}">
+                {{ row.serious_eligible_4|yesno }}
+            </td>
+            <td class="{% if row.serious_eligible_5 %}danger{% endif %}">
+                {{ row.serious_eligible_5|yesno }}
+            </td>
+            <td class="{% if row.serious_eligible_6 %}danger{% endif %}">
+                {{ row.serious_eligible_6|yesno }}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+{% endblock %}
