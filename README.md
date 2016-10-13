@@ -1,5 +1,7 @@
 # COPE DB Online Trial System
 
+[![Stories in Ready](https://badge.waffle.io/allybradley/cope.png?label=ready&title=Ready)](https://waffle.io/allybradley/cope)
+
 Trials support software, second edition.
 
 * Test site is at [https://wp4.cm13.net](https://wp4.cm13.net)
