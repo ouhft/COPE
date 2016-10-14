@@ -137,9 +137,9 @@ def procurement_list(request):
         closed_donors = []
 
     return render(
-        request,
-        "compare/procurement_list.html",
-        {
+        request=request,
+        template_name="compare/procurement_list.html",
+        context={
             "donor_form": donor_form,
             "open_donors": open_donors,
             "closed_donors": closed_donors,
