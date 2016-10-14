@@ -23,7 +23,7 @@
         {% endif %}
     {% endif %}
 
-    <form method="post" action="{% url 'django.contrib.auth.views.login' %}" class="row">
+    <form method="post" action="{% url 'login' %}" class="row">
         {% csrf_token %}
 
         <div class="form-group {% if form.username.errors %}has-error{% endif %} col-md-5">

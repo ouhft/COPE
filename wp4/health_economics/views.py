@@ -4,7 +4,7 @@ from __future__ import absolute_import, unicode_literals
 
 from django import forms
 from django.contrib.auth.decorators import login_required, permission_required
-from django.shortcuts import get_object_or_404, render, render_to_response
+from django.shortcuts import render
 
 
 from django.contrib import messages

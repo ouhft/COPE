@@ -41,4 +41,8 @@ if settings.DEBUG:
         )
     except ImportError:
         pass
-#     print("DEBUG: config.urls loaded")
+
+    import debug_toolbar
+    urlpatterns += (
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+    )

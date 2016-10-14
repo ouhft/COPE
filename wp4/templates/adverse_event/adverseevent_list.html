@@ -11,9 +11,34 @@
 {% block content %}
     <h2>Event listing</h2>
     {% if adverseevent_list %}
+
+        <table class="table table-responsive">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Trial ID</th>
+            <th>Onset Date</th>
+            <th>Is Serious?</th>
+            <th>Is Ongoing?</th>
+            <th>Led to Death?</th>
+            <th>Treatment related?</th>
+        </tr>
+        </thead>
+        <tbody>
         {% for event in adverseevent_list %}
-        <p>{{ event.id }}. <a href="{% url 'wp4:adverse_event:update' pk=event.id %}">{{ event }}</a></p>
+        <tr>
+            <td><a href="{% url 'wp4:adverse_event:update' pk=event.id %}" class="btn btn-sm btn-default"><i title="edit" class="glyphicon glyphicon-edit"></i> {{ event.id}}</a></td>
+            <td>{{ event.organ.trial_id }}</td>
+            <td>{{ event.onset_at_date }}</td>
+            <td class="{% if event.is_serious %}bg-danger{% endif %}">{{ event.is_serious|yesno|capfirst }}</td>
+            <td class="{% if event.event_ongoing %}bg-danger{% endif %}">{{ event.event_ongoing|yesno|capfirst }}</td>
+            <td>{{ event.death|yesno|capfirst }}</td>
+            <td>{{ event.get_treatment_related_display|default_if_none:"Not Answered" }}</td>
+        </tr>
         {% endfor %}
+        </tbody>
+        </table>
+
     {% else %}
         <p>No events are available.</p>
     {% endif %}

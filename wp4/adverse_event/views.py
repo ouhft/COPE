@@ -85,6 +85,7 @@ class AjaxFormMixin(object):
 class AdverseEventListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = AdverseEvent
     permission_required = "adverse_event.add_adverseevent"
+    ordering = ['onset_at_date']
 
 
 class AdverseEventDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):

@@ -2,13 +2,10 @@
 # coding: utf-8
 from __future__ import absolute_import, unicode_literals
 
-from itertools import chain
-
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from django.shortcuts import get_object_or_404, render_to_response
+from django.shortcuts import render
 from django.template import RequestContext
-from django.utils import timezone
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
 
 from braces.views import LoginRequiredMixin, OrderableListMixin
@@ -120,11 +117,11 @@ def sample_form(request, pk=None):
 
         events.append({"form": event_form, "formset": event_formset})
 
-    return render_to_response(
-        "samples/sample_form.html",
-        {
+    return render(
+        request=request,
+        template_name="samples/sample_form.html",
+        context={
             "worksheet_form": worksheet_form,
             "events": events
-        },
-        context_instance=RequestContext(request)
+        }
     )

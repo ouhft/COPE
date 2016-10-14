@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render, render_to_response
+from django.shortcuts import render
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
 from django.views.generic.edit import ModelFormMixin
 

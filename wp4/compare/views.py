@@ -6,7 +6,7 @@ from __future__ import absolute_import, unicode_literals
 from django.contrib import messages
 from django.db.models import Q
 from django.template import RequestContext
-from django.shortcuts import get_object_or_404, render, render_to_response
+from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect
@@ -136,14 +136,14 @@ def procurement_list(request):
         open_donors = []
         closed_donors = []
 
-    return render_to_response(
+    return render(
+        request,
         "compare/procurement_list.html",
         {
             "donor_form": donor_form,
             "open_donors": open_donors,
             "closed_donors": closed_donors,
-        },
-        context_instance=RequestContext(request)
+        }
     )
 
 
@@ -288,9 +288,10 @@ def procurement_form(request, pk):
     else:
         worksheet = None
 
-    return render_to_response(
-        "compare/procurement_form.html",
-        {
+    return render(
+        request=request,
+        template_name="compare/procurement_form.html",
+        context={
             "person_form": person_form,
             "donor_form": donor_form,
             "left_organ_form": left_organ_form,
@@ -301,8 +302,7 @@ def procurement_form(request, pk):
             "right_organ_error_count": right_organ_error_count,
             "donor": donor,
             "worksheet": worksheet,
-        },
-        context_instance=RequestContext(request)
+        }
     )
 
 
@@ -350,15 +350,15 @@ def transplantation_list(request):
 
     organs_available_count = Organ.allocatable_objects.count()
 
-    return render_to_response(
-        "compare/transplantation_list.html",
-        {
+    return render(
+        request=request,
+        template_name="compare/transplantation_list.html",
+        context={
             "existing_cases": existing_cases,
             "closed_cases": closed_cases,
             "allocation_form": allocation_form,
             "organs_available_count": organs_available_count
-        },
-        context_instance=RequestContext(request)
+        }
     )
 
 
@@ -564,9 +564,10 @@ def transplantation_form(request, pk=None):
 
     print("DEBUG: errors_found %d" % errors_found)
 
-    return render_to_response(
-        "compare/transplantation_form.html",
-        {
+    return render(
+        request=request,
+        template_name="compare/transplantation_form.html",
+        context={
             "allocation_formset": allocation_formset,
             "person_form": person_form,
             "recipient_form": recipient_form,
@@ -574,5 +575,5 @@ def transplantation_form(request, pk=None):
             "organ": organ,
             "recipient_form_loaded": recipient_form_loaded,
             "worksheet": worksheet
-        },
-        context_instance=RequestContext(request))
+        }
+    )
