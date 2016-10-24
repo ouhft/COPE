@@ -531,6 +531,40 @@ On the likely outcome that something doesn't work, remember the following:
  * `ln -s /sites/py3_cope/cope_repo/deploy/production/bin/dbbackup.sh /sites/py3_cope/bin/dbbackup.sh`
 * Update Cron with the new path
 
+### Migrating from LTS 14.04 to LTS 16.04.1
+...did not go smoothly :-/
+
+* ``sudo apt-get autoremove`` to clear enough space on ``/boot``
+* ``sudo do-release-upgrade``
+ * Will need to update ``\etc\sudoers`` via the command ``visudo`` which has to be executed as root
+ * Update ``/etc/nginx/nginx.conf`` 
+ * Investigate the Postgres updates
+* ``sudo systemctl enable supervisor.service`` to re-enable supervisor to start on bootup
+* Reboot the server manually
+* ... now we diagnose why the supervisor cope script won't start up; outwardly because the virtualenv is not working.
+ * Recreate the virtualenv, because the python links are broken since there has been a change from python3.4 to python3.5 
+
+
+
+```
+Configuring postgresql-common ├─────────────────────────────────────────┐  
+ │                                                                                                                   │  
+ │ Obsolete major version 9.3                                                                                        │  
+ │                                                                                                                   │  
+ │ The PostgreSQL version 9.3 is obsolete, but the server or client packages are still installed. Please install     │  
+ │ the latest packages (postgresql-9.5 and postgresql-client-9.5) and upgrade the existing  clusters with            │  
+ │ pg_upgradecluster (see manpage).                                                                                  │  
+ │                                                                                                                   │  
+ │ Please be aware that the installation of postgresql-9.5 will automatically create a default cluster 9.5/main. If  │  
+ │ you want to upgrade the 9.3/main cluster, you need to remove the already existing 9.5 cluster (pg_dropcluster     │  
+ │ --stop 9.5 main, see manpage for details).                                                                        │  
+ │                                                                                                                   │  
+ │ The old server and client packages are no longer supported. After the existing clusters are upgraded, the         │  
+ │ postgresql-9.3 and postgresql-client-9.3 packages should be removed.                                              │  
+ │                                                                                                                   │  
+ │ Please see /usr/share/doc/postgresql-common/README.Debian.gz for details.         
+ ```
+
 
 ### TODO
 
