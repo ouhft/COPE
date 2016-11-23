@@ -1,0 +1,14 @@
+[Unit]
+Description=System Email Notification at Startup and Shutdown
+Wants=network-online.target
+After=network-online.target postfix.service
+
+[Service]
+User=root
+WorkingDirectory=/root
+ExecStart=/root/bin/email_on_boot.sh start
+ExecStop=/root/bin/email_on_boot.sh stop
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,18 @@
+/sites/py3_cope/var/log/*.log {
+	monthly
+	missingok
+	rotate 12
+	compress
+	delaycompress
+	notifempty
+	create 0640 www-data worker
+	sharedscripts
+	prerotate
+		if [ -d /etc/logrotate.d/httpd-prerotate ]; then \
+			run-parts /etc/logrotate.d/httpd-prerotate; \
+		fi \
+	endscript
+	postrotate
+		supervisorctl restart cope-django-py3 >/dev/null 2>&1
+	endscript
+}

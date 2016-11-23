@@ -195,7 +195,7 @@ Postfix will ask for some config, so it is set to use a mail-relay/smarthost for
     changing /etc/mailname to cope.nds.ox.ac.uk
     setting myorigin
     setting destinations: cope.nds.ox.ac.uk, cope.nds, localhost.nds, localhost
-    setting relayhost: oxmail.ox.ac.uk
+    setting relayhost: smtp.ox.ac.uk
 
 Current info on the Oxford smarthost is at [http://help.it.ox.ac.uk/network/smtp/relay/index]()
 
