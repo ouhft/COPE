@@ -47,7 +47,7 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     'crispy_forms',  # Form layouts
     'reversion',  # Data version control
-    # 'reversion_compare',  Not presently compatible with reversion >=2.0
+    'reversion_compare',  # Not presently compatible with reversion >=2.0
     # 'allauth',  # registration
     # 'allauth.account',  # registration
     # 'allauth.socialaccount',  # registration
@@ -358,3 +358,6 @@ REDIRECT_FIELD_NAME = 'redirect_to'
 MESSAGE_TAGS = {
     message_constants.ERROR: 'danger'
 }
+
+# Add reversion models to admin interface:
+ADD_REVERSION_ADMIN = True

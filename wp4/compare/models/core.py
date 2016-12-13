@@ -320,7 +320,7 @@ class RetrievalTeam(BaseModelMixin):
     Lookup class for the preset Retrieval Team list. Doesn't inherit from VersionControlMixin as this
     is primarily a preset list of data, with helper functions attached.
     """
-    from wp4.locations.models import Hospital, UNITED_KINGDOM
+    from wp4.locations.models import Hospital
 
     centre_code = models.PositiveSmallIntegerField(
         verbose_name=_("RT01 centre code"),
