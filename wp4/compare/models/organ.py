@@ -461,6 +461,23 @@ class Organ(VersionControlMixin):
         # TODO: Write this function
         return "Unknown closed status"
 
+    @property
+    def was_cold_stored(self):
+        """
+        A kidney should be flagged as COLD STORED when (1) OR (2) where
+        (1) if wp4.compare.models.organ.Organ - perfusion_possible (django.db.models.NullBooleanField) – “OR09 machine
+        perfusion possible?” is FALSE
+        (2) if "Was the kidney cold stored because of a machine problem" in the Transplantation form is TRUE
+
+        See discussion in Issue 166 for more detail
+
+        :return: True if criteria are met, False otherwise
+        :rtype: bool
+        """
+        if self.perfusion_possible or (self.safe_recipient and self.safe_recipient.organ_cold_stored):
+            return True
+        return False
+
     def _reallocation_count(self):
         """
         Counts the number of organ allocations where reallocated is true
