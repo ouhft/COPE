@@ -9,6 +9,8 @@ from django.views.generic import ListView, CreateView, UpdateView, DetailView
 
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 
+from wp4.staff_person.utils import get_emails_from_ids
+from wp4.staff_person.utils import JACQUES_PIREENE, INA_JOCHMANS, SARAH_MERTENS, ALLY_BRADLEY
 from .models import AdverseEvent
 from .forms import AdverseEventForm
 
@@ -26,24 +28,32 @@ class EmailOnSaveMixin(object):
         # From ModelFormMixin.form_valid()
         self.object = form.save()
 
-        # Create and send the email
-        message_text = "Visit https://{0}{1} for more details".format(
-            self.request.get_host(),
-            self.object.get_absolute_url()
-        )
-        send_to = ['jacques.pirenne@uzleuven.be', 'ina.jochmans@uzleuven.be', 'sarah.mertens@uzleuven.be']
-        cc_to = ['ally.bradley@nds.ox.ac.uk', ]
-        subject_text = "Adverse Event Updated - {0}".format(self.object.organ.trial_id)
-        from_email = settings.DEFAULT_FROM_EMAIL
-        email = EmailMessage(
-            subject=subject_text,
-            body=message_text,
-            from_email=from_email,
-            to=send_to,
-            cc=cc_to
-        )
-        email.send()
-        # return super(EmailOnSaveMixin, self).form_valid(form)
+        # Create and send the email if this is serious (Issue #155)
+        if self.object.is_serious:
+            message_text = "Visit https://{0}{1} for more details. The Local Investigator is {2} who has been " + \
+                "emailed at [{3}].".format(
+                    self.request.get_host(),
+                    self.object.get_absolute_url(),
+                    self.object.contact.full_name,
+                    self.object.contact.email if self.object.contact.email is not None else "Address Unknown"
+                )
+            send_to = [
+                JACQUES_PIREENE,
+                INA_JOCHMANS,
+                SARAH_MERTENS,
+                self.object.contact.email if self.object.contact else 0
+            ]
+            cc_to = [ALLY_BRADLEY, ]
+            subject_text = "Serious Adverse Event Updated - {0}".format(self.object.organ.trial_id)
+            from_email = settings.DEFAULT_FROM_EMAIL
+            email = EmailMessage(
+                subject=subject_text,
+                body=message_text,
+                from_email=from_email,
+                to=get_emails_from_ids(send_to),
+                cc=get_emails_from_ids(cc_to)
+            )
+            email.send()
 
         # From FormMixin.form_valid()
         return HttpResponseRedirect(self.get_success_url())

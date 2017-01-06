@@ -16,6 +16,8 @@ from .models import AdverseEvent
 
 
 class AdverseEventForm(forms.ModelForm):
+    date_of_death = forms.DateField()  # This is to allow DoD to be captured and sent to the linked recipient
+
     def __init__(self, *args, **kwargs):
         super(AdverseEventForm, self).__init__(*args, **kwargs)
         self.fields['serious_eligible_1'].choices = NO_YES_CHOICES
@@ -145,6 +147,14 @@ class AdverseEventForm(forms.ModelForm):
             ForeignKeyModal('contact'),
         )
 
+    def save(self, commit=True):
+        date_of_death = self.cleaned_data['date_of_death']
+        organ = self.cleaned_data['organ']
+        if date_of_death is not None and organ.safe_recipient is not None:
+            organ.safe_recipient.person.date_of_death = date_of_death
+            organ.safe_recipient.person.save()
+        return super(AdverseEventForm, self).save(commit=commit)
+
     class Meta:
         model = AdverseEvent
         fields = [
@@ -178,7 +188,7 @@ class AdverseEventForm(forms.ModelForm):
             'surgery_required',
             'rehospitalisation_comments',
             'death',
-            'date_of_death',
+            # 'date_of_death',  # No longer in AE model
             'treatment_related',
             'cause_of_death_1',
             'cause_of_death_2',

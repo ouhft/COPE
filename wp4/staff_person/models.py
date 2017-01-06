@@ -31,6 +31,10 @@ class StaffJob(models.Model):
     LOCAL_INVESTIGATOR = 8  #: Constant for StaffJob
     OTHER_PROJECT_MEMBER = 9  #: Constant for StaffJob
     BIOBANK_COORDINATOR = 10  #: Constant for StaffJob
+    CHIEF_INVESTIGATOR = 11  #: Constant for StaffJob
+    PRINCIPLE_INVESTIGATOR = 12  #: Constant for StaffJob
+    CENTRAL_INVESTIGATOR = 13  #: Constant for StaffJob
+    NATIONAL_INVESTIGATOR = 14  #: Constant for StaffJob
     THEATRE_CONTACT = 15  #: Constant for StaffJob
 
     description = models.CharField(max_length=100, help_text="Job Label")
@@ -64,13 +68,14 @@ class StaffPerson(VersionControlMixin):
         max_length=15,
         blank=True
     )  #: Contents validated against phone_regex ``r'^\+?1?\d{9,15}$'``
-    email = models.EmailField(verbose_name=_("PE15 email"), blank=True)
+    email = models.EmailField(verbose_name=_("PE15 email"), blank=True, unique=True)
     based_at = models.ForeignKey(
         Hospital,
         blank=True, null=True,
         help_text="Link to a primary hospital location for the member of staff"
     )
 
+    @property
     def full_name(self):
         return self.first_names + ' ' + self.last_names
     full_name.short_description = 'Name'
@@ -95,9 +100,10 @@ class StaffPerson(VersionControlMixin):
             raise TypeError("acceptable jobs is an invalid type")
 
     def __str__(self):
-        return self.full_name()  # + ' : ' + self.get_job_display()  TODO: List jobs?
+        return self.full_name
 
     class Meta:
+        unique_together = ('first_names', 'last_names')
         verbose_name = _('PEm1 person')
         verbose_name_plural = _('PEm2 people')
 

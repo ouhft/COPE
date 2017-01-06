@@ -60,7 +60,8 @@ class AdverseEvent(VersionControlMixin):
     rehospitalisation_comments = models.TextField(verbose_name=_("AE37 comments"), null=True, blank=True)
 
     death = models.BooleanField(verbose_name=_("AE40 led to death"), default=False)
-    date_of_death = models.DateField(verbose_name=_("AE41 date of death"), null=True, blank=True)
+    # date_of_death = models.DateField(verbose_name=_("AE41 date of death"), null=True, blank=True)
+    # date of death should reference the Recipient Organ Person date of death
     treatment_related = models.PositiveSmallIntegerField(
         verbose_name=_('AE49 treatment related?'),
         choices=YES_NO_UNKNOWN_CHOICES,
@@ -75,7 +76,11 @@ class AdverseEvent(VersionControlMixin):
     cause_of_death_comment = models.CharField(verbose_name=_("AE48 comments"), max_length=500, null=True, blank=True)
 
     # Page 4
-    contact = models.ForeignKey(StaffPerson, verbose_name=_("AE09 primary contact"), blank=True, null=True)
+    contact = models.ForeignKey(
+        StaffPerson,
+        verbose_name=_("AE09 primary contact"),
+        help_text=_("AEh09 This should be the Local Investigator for the Transplant Centre")
+    )
 
     @property
     def is_serious(self):
