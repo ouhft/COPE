@@ -41,7 +41,7 @@ node_modules/
 *.env
 
 # SQLLite dbs
-*.sqlite3
+*.sqlite3*
 
 # Codekit
 config.codekit
