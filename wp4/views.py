@@ -217,6 +217,34 @@ def administrator_sae_sites(request):
     )
 
 
+@job_required(StaffJob.CENTRAL_COORDINATOR)
+def administrator_existence_checks(request):
+
+    listing = Organ.objects.all().order_by('id')
+
+    summary = {
+        "full_count": 0,
+        "preservations": {
+            # Preservation counts
+            PRESERVATION_HMP: 0,
+            PRESERVATION_HMPO2: 0,
+            PRESERVATION_NOT_SET: 0
+        }
+    }
+
+    for organ in listing:
+        summary["full_count"] += 1
+        summary["preservations"][organ.preservation] += 1  # total count
+
+    return render(
+        request,
+        'dashboard/administrator_existence_checks.html',
+        {
+            'listing': listing,
+            'summary': summary
+        }
+    )
+
 # @login_required
 # def administrator_datalist(request):
 #     organs = Organ.objects.all()
@@ -550,6 +578,7 @@ def report_adverse_events(request):
         "adverseevent.cause_of_death_5",
         "adverseevent.cause_of_death_6",
         "adverseevent.cause_of_death_comment",
+        "adverseevent.organ.final_allocation.transplant_hospital.name"
     ])
 
     events = AdverseEvent.objects.all()
@@ -608,6 +637,7 @@ def report_adverse_events(request):
         result_row.append(event.cause_of_death_5)
         result_row.append(event.cause_of_death_6)
         result_row.append(event.cause_of_death_comment)
+        result_row.append(event.organ.final_allocation.transplant_hospital.name)
 
         writer.writerow(result_row)
 
