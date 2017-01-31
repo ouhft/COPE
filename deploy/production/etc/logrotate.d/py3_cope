@@ -14,5 +14,6 @@
 	endscript
 	postrotate
 		supervisorctl restart cope-django-py3 >/dev/null 2>&1
+		chmod g+w /sites/py3_cope/var/log/*.log
 	endscript
 }
