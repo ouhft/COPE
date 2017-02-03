@@ -3,6 +3,7 @@
 from __future__ import absolute_import, unicode_literals
 
 from django.core.validators import MinValueValidator, MaxValueValidator, ValidationError
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
@@ -426,6 +427,29 @@ class Organ(VersionControlMixin):
         return count
 
     reallocation_count = cached_property(_reallocation_count, name='reallocation_count')
+
+    def _graft_failed(self):
+        """
+        Scan through the follow ups to determine if there is a graft failure reported for this organ. We can afford
+        to presume that if something fails in this sequence there is no point looking for later related objects.
+
+        :return: 0, if no failures. 1 for Initial, 2 for Month 3, 3 for Month 6, and 4 for Month 12
+        :rtype: int
+        """
+        try:
+            if self.followup_initial.graft_failure is True:
+                return 1
+            if self.followup_3m.graft_failure is True:
+                return 2
+            if self.followup_6m.graft_failure is True:
+                return 3
+            if self.followup_1y.graft_failure is True:
+                return 4
+        except ObjectDoesNotExist:
+            pass
+        return 0
+
+    graft_failed = cached_property(_graft_failed, name='graft_failed')
 
     def __str__(self):
         return self.trial_id

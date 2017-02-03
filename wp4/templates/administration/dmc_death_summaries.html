@@ -1,0 +1,114 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+
+{% block page_title %}{{ location }} Report: DMC Death Summaries - Administration{% endblock %}
+{% block page_header %}
+    DMC Death Summaries
+    <small>REPORT</small>
+{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:administration:index' %}">Administration</a></li>
+    <li class="active">Report: DMC Death Summaries</li>
+{% endblock %}
+
+{% block content %}
+{#    CSS Hack here because Bootstrap hides the badges on print view #}
+    <style>
+        @media print {
+            .badge {
+                padding: 2px 6px;
+                border: 1px solid #000;
+                margin-right: 3em;
+            }
+        }
+    </style>
+
+    <h2>Listing</h2>
+    <h3>HMP+O2</h3>
+    {% for organ in listing.0 %}
+        <div class="row">
+            <div class="col-md-3"><strong></strong></div>
+            <div class="col-md-6"></div>
+            <div class="col-md-3"></div>
+        </div>
+
+        <h4>{{ organ.trial_id }} <small>{{ organ.date_of_transplant }} @ {{ organ.centre_name }}</small></h4>
+        <table class="table table-bordered table-condensed">
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Causes of Death</th>
+            <th>Device Deficiency?</th>
+            <th>Device User Error?</th>
+        </tr>
+        {% for event in organ.events %}
+            <tr>
+                <td class="col-md-1"><a href="{% url 'wp4:adverse_event:update' event.id %}">{{ event.id }}</a></td>
+                <td class="col-md-2">{{ event.date_of_death|date }}</td>
+                <td class="col-md-5">
+                    {{ event.cause_of_death_1|yesno:"Cerebrovascular," }}
+                    {{ event.cause_of_death_2|yesno:"Multi Organ," }}
+                    {{ event.cause_of_death_3|yesno:"Pneumonia," }}
+                    {{ event.cause_of_death_4|yesno:"Sepsis," }}
+                    {{ event.cause_of_death_5|yesno:"Transplant Related," }}
+                    {% if event.cause_of_death_6 is not False %}
+                        Other: &quot;{{ event.cause_of_death_comment }}&quot;
+                    {% endif %}
+
+                </td>
+                <td class="col-md-2">
+                    {{ event.alive_query_4|yesno }}
+                </td>
+                <td class="col-md-2">
+                    {{ event.alive_query_5|yesno }}
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+    {% endfor %}
+
+    <h3>HMP-O2</h3>
+    {% for organ in listing.1 %}
+        <div class="row">
+            <div class="col-md-3"><strong></strong></div>
+            <div class="col-md-6"></div>
+            <div class="col-md-3"></div>
+        </div>
+
+        <h4>{{ organ.trial_id }} <small>{{ organ.date_of_transplant|date }} @ {{ organ.centre_name }}</small></h4>
+        <table class="table table-bordered table-condensed">
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Causes of Death</th>
+            <th>Device Deficiency?</th>
+            <th>Device User Error?</th>
+        </tr>
+        {% for event in organ.events %}
+            <tr>
+                <td class="col-md-1"><a href="{% url 'wp4:adverse_event:update' event.id %}">{{ event.id }}</a></td>
+                <td class="col-md-2">{{ event.date_of_death|date }}</td>
+                <td class="col-md-5">
+                    {{ event.cause_of_death_1|yesno:"Cerebrovascular," }}
+                    {{ event.cause_of_death_2|yesno:"Multi Organ," }}
+                    {{ event.cause_of_death_3|yesno:"Pneumonia," }}
+                    {{ event.cause_of_death_4|yesno:"Sepsis," }}
+                    {{ event.cause_of_death_5|yesno:"Transplant Related," }}
+                    {% if event.cause_of_death_6 is not False %}
+                        Other: &quot;{{ event.cause_of_death_comment }}&quot;
+                    {% endif %}
+
+                </td>
+                <td class="col-md-2">
+                    {{ event.alive_query_4|yesno }}
+                </td>
+                <td class="col-md-2">
+                    {{ event.alive_query_5|yesno }}
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+    {% endfor %}
+{% endblock %}

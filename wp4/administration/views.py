@@ -648,7 +648,6 @@ def flowchart(request):
         }
     )
 
-
 @job_required(StaffJob.CENTRAL_COORDINATOR)
 def dmc_secondary_outcomes(request):
     """
@@ -704,8 +703,6 @@ def dmc_secondary_outcomes(request):
 
     for event in listing:
         continue
-
-    return render(
         request,
         'administration/dmc_secondary_outcomes.html',
         {
