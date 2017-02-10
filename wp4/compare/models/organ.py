@@ -5,18 +5,19 @@ from __future__ import absolute_import, unicode_literals
 from django.core.validators import MinValueValidator, MaxValueValidator, ValidationError
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
+from django.db.models.query import EmptyQuerySet
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
 from wp4.perfusion_machine.models import PerfusionMachine, PerfusionFile
 
 from ..validators import validate_between_1900_2050, validate_not_in_future
-from .core import BaseModelMixin, VersionControlMixin
+from .core import BaseModelMixin, VersionControlMixin, ModelByRequestManagerBase
 from .core import LOCATION_CHOICES, PRESERVATION_CHOICES, PRESERVATION_NOT_SET
 from .donor import Donor
 
 
-class ClosedOrganManager(models.Manager):
+class ClosedOrganManager(ModelByRequestManagerBase):
     """
     Get only the Organs that have had completed outcomes. These are:
 
@@ -27,54 +28,85 @@ class ClosedOrganManager(models.Manager):
     close the case? Yes, yes it does, and we can more trivially cover this by writing a message into
     not_allocated_reason of $MESSAGE$, and then setting the transplantation_form_completed flag
     """
-    def get_queryset(self):
+    def get_queryset(self, request=None):
         """
         Filter Organs results by only returning where transplantation_form_completed=True
 
         :return: Queryset
         """
-        return super(ClosedOrganManager, self).get_queryset().\
-            select_related('recipient'). \
-            select_related('recipient__person').\
-            prefetch_related('recipient__person__worksheet_set'). \
-            select_related('donor'). \
-            select_related('donor__person'). \
-            select_related('donor__randomisation'). \
-            select_related('donor__retrieval_team').\
-            prefetch_related('organallocation_set').\
-            filter(
-                transplantation_form_completed=True
-            )
+        if request is not None:
+            qs = super(ClosedOrganManager, self).\
+                get_queryset(request).\
+                select_related('recipient'). \
+                select_related('recipient__person').\
+                prefetch_related('recipient__person__worksheet_set'). \
+                select_related('donor'). \
+                select_related('donor__person'). \
+                select_related('donor__randomisation'). \
+                select_related('donor__retrieval_team').\
+                prefetch_related('organallocation_set')
+
+            if request.user.has_perm('restrict_to_national'):
+                qs = qs.filter(
+                    models.Q(donor__retrieval_team__based_at__country=self.country_id) |
+                    models.Q(recipient__allocation__transplant_hospital__based_at__country=self.country_id) |
+                    models.Q(organallocation__transplant_hospital_id=self.hospital_id)
+                )
+
+            if request.user.has_perm('restrict_to_local'):
+                qs = qs.filter(
+                    models.Q(donor__retrieval_team__based_at_id=self.hospital_id) |
+                    models.Q(recipient__allocation__transplant_hospital_id=self.hospital_id) |
+                    models.Q(organallocation__transplant_hospital_id=self.hospital_id)
+                )
+
+            return qs.filter(
+                    transplantation_form_completed=True
+                )
+        return EmptyQuerySet
 
 
-class AllocatableOrganManager(models.Manager):
+class AllocatableOrganManager(ModelByRequestManagerBase):
     """
     Get only the Organs that are available for allocation, which means they're Unallocated (not
     deliberately), Randomised, and still Transplantable (but not necessarily a completed P form).
     """
-    def get_queryset(self):
+    def get_queryset(self, request=None):
         """
         Filter Organ results by organallocation__isnull=True AND transplantable=True, excluding results
         where preservation=PRESERVATION_NOT_SET OR transplantation_form_completed=True
 
         :return: Queryset
         """
-        return super(AllocatableOrganManager, self).get_queryset().\
-            select_related('donor'). \
-            select_related('donor__person'). \
-            select_related('donor__randomisation'). \
-            select_related('donor__retrieval_team').\
-            filter(
-                organallocation__isnull=True, transplantable=True
-            ).exclude(preservation=PRESERVATION_NOT_SET).exclude(transplantation_form_completed=True)
+        if request is not None:
+            qs = super(AllocatableOrganManager, self).\
+                get_queryset(request).\
+                select_related('donor'). \
+                select_related('donor__person'). \
+                select_related('donor__randomisation'). \
+                select_related('donor__retrieval_team')
+
+            if request.user.has_perm('restrict_to_national'):
+                qs = qs.filter(donor__retrieval_team__based_at__country=self.country_id)
+
+            if request.user.has_perm('restrict_to_local'):
+                qs = qs.filter(donor__retrieval_team__based_at_id=self.hospital_id)
+
+            return qs.filter(
+                    organallocation__isnull=True,
+                    transplantable=True
+                ).\
+                exclude(preservation=PRESERVATION_NOT_SET).\
+                exclude(transplantation_form_completed=True)
+        return EmptyQuerySet
 
 
-class OpenOrganManager(models.Manager):
+class OpenOrganManager(ModelByRequestManagerBase):
     """
     Get only the Organs that are open for transplantation, which means they've one or more allocations,
     and have not had their form closed (either by allocation outside of project area, or completed form).
     """
-    def get_queryset(self):
+    def get_queryset(self, request=None):
         """
         Filter Organ results by transplantable=True, excluding results where
         transplantation_form_completed=True OR organallocation__isnull=True OR
@@ -82,19 +114,35 @@ class OpenOrganManager(models.Manager):
 
         :return: Queryset
         """
-        return super(OpenOrganManager, self).get_queryset().\
-            select_related('recipient'). \
-            select_related('recipient__person').\
-            prefetch_related('recipient__person__worksheet_set'). \
-            select_related('donor'). \
-            select_related('donor__person'). \
-            select_related('donor__randomisation'). \
-            select_related('donor__retrieval_team').\
-            prefetch_related('organallocation_set').\
-            filter(transplantable=True).\
-            exclude(transplantation_form_completed=True).\
-            exclude(organallocation__isnull=True).\
-            exclude(preservation=PRESERVATION_NOT_SET)
+        if request is not None:
+            qs = super(OpenOrganManager, self).\
+                get_queryset(request).\
+                select_related('recipient'). \
+                select_related('recipient__person').\
+                prefetch_related('recipient__person__worksheet_set'). \
+                select_related('donor'). \
+                select_related('donor__person'). \
+                select_related('donor__randomisation'). \
+                select_related('donor__retrieval_team').\
+                prefetch_related('organallocation_set')
+
+            if request.user.has_perm('restrict_to_national'):
+                qs = qs.filter(
+                    models.Q(donor__retrieval_team__based_at__country=self.country_id) |
+                    models.Q(organallocation__transplant_hospital_id=self.hospital_id)
+                )
+
+            if request.user.has_perm('restrict_to_local'):
+                qs = qs.filter(
+                    models.Q(donor__retrieval_team__based_at_id=self.hospital_id) |
+                    models.Q(organallocation__transplant_hospital_id=self.hospital_id)
+                )
+
+            return qs.filter(transplantable=True).\
+                exclude(transplantation_form_completed=True).\
+                exclude(organallocation__isnull=True).\
+                exclude(preservation=PRESERVATION_NOT_SET)
+        return EmptyQuerySet
 
 
 class Organ(VersionControlMixin):
@@ -454,9 +502,11 @@ class Organ(VersionControlMixin):
     def __str__(self):
         return self.trial_id
 
-    class Meta:
+    class Meta(VersionControlMixin.Meta):
         verbose_name = _('ORm1 organ')
         verbose_name_plural = _('ORm2 organs')
+        default_manager_name = 'objects'
+        base_manager_name = 'objects'
 
 
 class ProcurementResource(BaseModelMixin):

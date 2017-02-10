@@ -5,6 +5,7 @@ from __future__ import absolute_import, unicode_literals
 from bdateutil import relativedelta
 from django.core.validators import MinValueValidator, MaxValueValidator, ValidationError
 from django.db import models, transaction
+from django.db.models.query import EmptyQuerySet
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
@@ -14,11 +15,32 @@ from wp4.staff_person.models import StaffJob, StaffPerson
 from wp4.locations.models import Hospital
 
 from ..validators import validate_between_1900_2050, validate_not_in_future
+from .core import ModelByRequestManagerBase
 from .core import VersionControlMixin, OrganPerson, RetrievalTeam
 from .core import YES_NO_UNKNOWN_CHOICES, PRESERVATION_HMP, PRESERVATION_HMPO2, PRESERVATION_NOT_SET
 from .core import LEFT, RIGHT
 from .core import LIST_CHOICES
 from .core import PAPER_EUROPE, PAPER_UNITED_KINGDOM
+
+
+class DonorRequestManager(ModelByRequestManagerBase):
+    def get_queryset(self, request=None):
+        """
+        Test for permissions to view and restrict based on rules
+        :param request:
+        :return:
+        """
+        if request is not None:
+            qs = super(DonorRequestManager, self).get_queryset(request)
+
+            if request.user.has_perm('can_view_only_national'):
+                return qs.filter(retrieval_team__based_at__country=self.country_id)
+
+            if request.user.has_perm('can_view_only_local'):
+                return qs.filter(donor__retrieval_team__based_at_id=self.hospital_id)
+
+            return qs
+        return EmptyQuerySet
 
 
 class Donor(VersionControlMixin):
@@ -329,7 +351,10 @@ class Donor(VersionControlMixin):
     _left_kidney = models.OneToOneField('Organ', related_name='left_kidney', null=True, default=None)
     _right_kidney = models.OneToOneField('Organ', related_name='right_kidney', null=True, default=None)
 
-    class Meta:
+    objects = models.Manager()  # Needs this for default_manager to work with forms and admin
+    safe_objects = DonorRequestManager()
+
+    class Meta(VersionControlMixin.Meta):
         order_with_respect_to = 'retrieval_team'
         verbose_name = _('DOm1 donor')
         verbose_name_plural = _('DOm2 donors')

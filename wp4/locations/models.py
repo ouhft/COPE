@@ -90,7 +90,7 @@ class Hospital(VersionControlMixin):
     def __str__(self):
         return self.full_description
 
-    class Meta:
+    class Meta(VersionControlMixin.Meta):
         ordering = ['country', 'name']
         verbose_name = _('HOm1 hospital')
         verbose_name_plural = _('HOm2 hospitals')

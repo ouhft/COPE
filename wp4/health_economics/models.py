@@ -61,7 +61,7 @@ class QualityOfLife(VersionControlMixin):
         help_text="Answer must be in range 0-100"
     )
 
-    class Meta:
+    class Meta(VersionControlMixin.Meta):
         verbose_name = _("QLm1 Quality of Life record")
         verbose_name_plural = _("QLm2 Quality of Life records")
 
@@ -103,7 +103,7 @@ class ResourceLog(VersionControlMixin):
         # TODO: Implement me!
         return 0
 
-    class Meta:
+    class Meta(VersionControlMixin.Meta):
         verbose_name = _("RLm1 Resource Usage Log")
         verbose_name_plural = _("RLm2 Resource Usage Logs")
 

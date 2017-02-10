@@ -16,7 +16,7 @@ class BarCodedItem(VersionControlMixin):
     """
     barcode = models.CharField(verbose_name=_("BC01 barcode number"), max_length=20, blank=True)
 
-    class Meta:
+    class Meta(VersionControlMixin.Meta):
         abstract = True
 
     def __str__(self):
@@ -29,7 +29,7 @@ class Worksheet(BarCodedItem):
     """
     person = models.ForeignKey(OrganPerson, help_text="Donor or Recipient that this worksheet relates to")
 
-    class Meta:
+    class Meta(BarCodedItem.Meta):
         ordering = ['person']
         verbose_name = _('WSm1 worksheet')
         verbose_name_plural = _('WSm2 worksheets')
@@ -81,7 +81,7 @@ class Event(VersionControlMixin):
     name = models.PositiveSmallIntegerField(_("EV03 sample process name"), choices=NAME_CHOICES)
     taken_at = models.DateTimeField(verbose_name=_("EV02 date and time taken"), null=True, blank=True)
 
-    class Meta:
+    class Meta(VersionControlMixin.Meta):
         ordering = ['type', 'name']
         verbose_name = _('EVm1 sample event')
         verbose_name_plural = _('EVm2 sample events')
@@ -172,7 +172,7 @@ class BloodSample(BarCodedItem, DeviationMixin):
     person = models.ForeignKey(OrganPerson, verbose_name=_("BS03 sample from"))
     centrifuged_at = models.DateTimeField(verbose_name=_("BS01 centrifuged at"), null=True, blank=True)
 
-    class Meta:
+    class Meta(BarCodedItem.Meta):
         ordering = ['person', 'event__taken_at']
         verbose_name = _('BSm1 blood sample')
         verbose_name_plural = _('BSm2 blood samples')
@@ -215,7 +215,7 @@ class UrineSample(BarCodedItem, DeviationMixin):
     person = models.ForeignKey(OrganPerson, verbose_name=_("US02 sample from"))
     centrifuged_at = models.DateTimeField(verbose_name=_("US01 centrifuged at"), null=True, blank=True)
 
-    class Meta:
+    class Meta(BarCodedItem.Meta):
         ordering = ['person', 'event__taken_at']
         verbose_name = _('USm1 urine sample')
         verbose_name_plural = _('USm2 urine samples')
@@ -258,7 +258,7 @@ class PerfusateSample(BarCodedItem, DeviationMixin):
     organ = models.ForeignKey(Organ, verbose_name=_("PS02 sample from"))
     centrifuged_at = models.DateTimeField(verbose_name=_("PS01 centrifuged at"), null=True, blank=True)
 
-    class Meta:
+    class Meta(BarCodedItem.Meta):
         ordering = ['organ', 'event__taken_at']
         verbose_name = _('PSm1 perfusate sample')
         verbose_name_plural = _('PSm2 perfusate samples')
@@ -308,7 +308,7 @@ class TissueSample(BarCodedItem, DeviationMixin):
     organ = models.ForeignKey(Organ, verbose_name=_("TS01 sample from"))
     tissue_type = models.CharField(max_length=1, choices=SAMPLE_CHOICES, verbose_name=_("TS02 tissue sample type"))
 
-    class Meta:
+    class Meta(BarCodedItem.Meta):
         ordering = ['organ', 'event__taken_at']
         verbose_name = _('TSm1 tissue sample')
         verbose_name_plural = _('TSm2 tissue samples')

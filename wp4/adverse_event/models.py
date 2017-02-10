@@ -99,7 +99,7 @@ class AdverseEvent(VersionControlMixin):
             return True
         return False
 
-    class Meta:
+    class Meta(VersionControlMixin.Meta):
         order_with_respect_to = 'organ'
         # ordering = ['sequence_number']
         verbose_name = _('AEm1 adverse event')

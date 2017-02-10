@@ -129,7 +129,7 @@ class FollowUpBase(VersionControlMixin):
     def graft_removal_get(self):
         return True if self.graft_failure_date is not None else False
 
-    class Meta:
+    class Meta(VersionControlMixin.Meta):
         abstract = True
 
 
@@ -259,7 +259,7 @@ class FollowUpInitial(FollowUpBase):
         null=True, blank=True
     )
 
-    class Meta:
+    class Meta(FollowUpBase.Meta):
         verbose_name = _("FIm1 Initial FollowUp")
         verbose_name_plural = _("FIm2 Initial FollowUps")
 
@@ -328,7 +328,7 @@ class FollowUp3M(FollowUpBase):
         blank=True
     )
 
-    class Meta:
+    class Meta(FollowUpBase.Meta):
         verbose_name = _("F3m1 3 Month FollowUp")
         verbose_name_plural = _("F3m2 3 Month FollowUps")
 
@@ -389,7 +389,7 @@ class FollowUp6M(FollowUpBase):
     )
     graft_complications = models.TextField(verbose_name=_("F607 graft function complications"), blank=True)
 
-    class Meta:
+    class Meta(FollowUpBase.Meta):
         verbose_name = _("F6m1 6 Month FollowUp")
         verbose_name_plural = _("F6m2 6 Month FollowUps")
 
@@ -458,7 +458,7 @@ class FollowUp1Y(FollowUpBase):
         blank=True
     )
 
-    class Meta:
+    class Meta(FollowUpBase.Meta):
         verbose_name = _("FYm1 1 Year FollowUp")
         verbose_name_plural = _("FYm2 1 Year FollowUps")
 

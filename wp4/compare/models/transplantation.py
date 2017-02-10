@@ -4,6 +4,7 @@ from __future__ import absolute_import, unicode_literals
 
 from django.core.validators import MinValueValidator, MaxValueValidator, ValidationError
 from django.db import models
+from django.db.models.query import EmptyQuerySet
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
@@ -11,6 +12,7 @@ from wp4.staff_person.models import StaffJob, StaffPerson
 from wp4.locations.models import Hospital
 
 from ..validators import validate_between_1900_2050, validate_not_in_future
+from .core import ModelByRequestManagerBase
 from .core import VersionControlMixin, OrganPerson
 from .core import YES_NO_UNKNOWN_CHOICES, LOCATION_CHOICES
 from .organ import Organ
@@ -20,6 +22,8 @@ class OrganAllocation(VersionControlMixin):
     """
     Organs can be allocated multiple times before finding a definitive recipient. This class acts as
     the record of these allocations and a link between Organ and Recipient.
+
+    NB: Can't restrict allocations to country or hospital
     """
     organ = models.ForeignKey(Organ)  # Internal link to the Organ
 
@@ -97,7 +101,7 @@ class OrganAllocation(VersionControlMixin):
         help_text="Internal forward link value to another OrganAllocation record"
     )
 
-    class Meta:
+    class Meta(VersionControlMixin.Meta):
         order_with_respect_to = 'organ'
         verbose_name = _('OAm1 organ allocation')
         verbose_name_plural = _('OAm2 organ allocations')
@@ -144,6 +148,26 @@ class OrganAllocation(VersionControlMixin):
         except AttributeError:
             recipient_string = "None"
         return 'Organ: %s | Recipient: %s' % (self.organ.pk, recipient_string)
+
+
+class RecipientRequestManager(ModelByRequestManagerBase):
+    def get_queryset(self, request=None):
+        """
+        Test for permissions to view and restrict based on rules
+        :param request:
+        :return:
+        """
+        if request is not None:
+            qs = super(RecipientRequestManager, self).get_queryset(request)
+
+            if request.user.has_perm('restrict_to_national'):
+                return qs.filter(allocation__transplant_hospital__based_at__country=self.country_id)
+
+            if request.user.has_perm('restrict_to_local'):
+                return qs.filter(allocation__transplant_hospital_id=self.hospital_id)
+
+            return qs
+        return EmptyQuerySet
 
 
 class Recipient(VersionControlMixin):
@@ -346,7 +370,10 @@ class Recipient(VersionControlMixin):
     batteries_charged = models.NullBooleanField(verbose_name=_('RE49 batteries charged'), blank=True, null=True)
     cleaning_log = models.TextField(verbose_name=_("RE50 cleaning log notes"), blank=True)
 
-    class Meta:
+    objects = models.Manager()  # Needs this for default_manager to work with forms and admin
+    safe_objects = RecipientRequestManager()
+
+    class Meta(VersionControlMixin.Meta):
         order_with_respect_to = 'organ'
         verbose_name = _('REm1 recipient')
         verbose_name_plural = _('REm2 recipients')

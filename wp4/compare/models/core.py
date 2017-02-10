@@ -90,7 +90,7 @@ class VersionControlMixin(BaseModelMixin):
     """
     version = models.PositiveIntegerField(default=0, help_text="Internal tracking version number")
     record_locked = models.BooleanField(default=False, help_text="Not presently implemented or used")
-    live = LiveField()  # Wanted this to be record_active, but that means modifying the LifeField code
+    live = LiveField()  # Wanted this to be record_active, but that means modifying the LiveField code
 
     objects = LiveManager()
     all_objects = LiveManager(include_soft_deleted=True)
@@ -98,6 +98,11 @@ class VersionControlMixin(BaseModelMixin):
     # NB: Used in multiple apps
     class Meta:
         abstract = True
+        permissions = (
+            ("view", "Can view the data, but not modify it"),
+            ("restrict_to_national", "Can only use data from the same location country"),
+            ("restrict_to_local", "Can only use data from a specific location"),
+        )
 
     def save(self, created_by=None, force_insert=False, force_update=False, using=None,
              update_fields=None):
@@ -114,6 +119,68 @@ class VersionControlMixin(BaseModelMixin):
             using,
             update_fields
         )
+
+
+class MissingRequest(Exception):
+    """A request was missing from the object manager"""
+    pass
+
+
+class MissingUserLocation(Exception):
+    """A request.user has no valid based_at location"""
+    pass
+
+
+class ModelByRequestManagerBase(models.Manager):
+    country_id = None
+    hospital_id = None
+
+    def get_queryset(self, request=None):
+        """
+        Test for request and valid profile before applying any further rules
+
+        NB: Each manager that inherits from this will need to check for the existance of Request, and determine what
+        to do accordingly. We can't have a blanket exception raised here because it breaks when forms do a check for
+        data managers
+
+        :param request:
+        :return:
+        """
+        if request.user.profile.based_at is None:
+            raise MissingUserLocation("ObjectManager.get_queryset current user has no location set in profile")
+
+        self.country_id = request.user.profile.based_at.country
+        self.hospital_id = request.user.profile.based_at.id
+
+        return super(ModelByRequestManagerBase, self).get_queryset(request)
+
+
+class OrganPersonRequestManager(ModelByRequestManagerBase):
+    def get_queryset(self, request=None):
+        """
+        Test for permissions to view and restrict based on rules
+
+        :param request:
+        :return:
+        """
+        qs = super(OrganPersonRequestManager, self).\
+            get_queryset(request).\
+            prefetch_related('donor').\
+            prefetch_related('recipient')
+
+        if request.user.has_perm('restrict_to_national'):
+            return qs.filter(
+                models.Q(donor__retrieval_team__based_at__country=self.country_id) |
+                models.Q(recipient__allocation__transplant_hospital__based_at__country=self.country_id)
+            )
+
+        if request.user.has_perm('restrict_to_local'):
+            return qs.filter(
+                models.Q(donor__retrieval_team__based_at_id=self.hospital_id) |
+                models.Q(recipient__allocation__transplant_hospital_id=self.hospital_id)
+            )
+
+        return qs
 
 
 class OrganPerson(VersionControlMixin):
@@ -187,7 +254,10 @@ class OrganPerson(VersionControlMixin):
         blank=True, null=True
     )
 
-    class Meta:
+    objects = models.Manager()  # Needs this for default_manager to work with forms and admin
+    safe_objects = OrganPersonRequestManager()
+
+    class Meta(VersionControlMixin.Meta):
         ordering = ['number']
         verbose_name = _('OPm1 trial person')
         verbose_name_plural = _('OPm2 organ people')
