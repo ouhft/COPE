@@ -7,7 +7,7 @@ from django.contrib.admin.options import IS_POPUP_VAR
 from django.utils import timezone
 
 from wp4.compare.admin import VersionControlAdmin
-from .models import UrineSample, BloodSample, PerfusateSample, TissueSample, Event, Worksheet
+from .models import UrineSample, BloodSample, PerfusateSample, TissueSample, Event
 
 
 class BloodSampleInline(admin.TabularInline):
@@ -47,9 +47,9 @@ class TissueSampleInline(admin.TabularInline):
 
 
 class EventAdmin(VersionControlAdmin):
-    fields = ('worksheet', 'type', 'name', 'taken_at')
-    list_display = ('id', 'worksheet', 'type', 'name', 'taken_at')
-    ordering = ('worksheet', 'type', 'taken_at')
+    fields = ('type', 'name', 'taken_at')
+    list_display = ('id', 'type', 'name', 'taken_at')
+    ordering = ('type', 'taken_at')
 
     inlines = []  # Overrided by the get_inline_instances function below
 
@@ -90,39 +90,22 @@ class EventAdmin(VersionControlAdmin):
         # Overrides VersionControlAdmin.save_formset(). Doesn't allow deletion.
         if formset.model == UrineSample:
             for subform in formset:
-                subform.instance.person = form.instance.worksheet.person
+                # subform.instance.person = form.instance.worksheet.person
                 subform.instance.created_by = request.user
                 subform.instance.created_on = timezone.now()
         if formset.model == BloodSample:
             for subform in formset:
-                subform.instance.person = form.instance.worksheet.person
+                # subform.instance.person = form.instance.worksheet.person
                 subform.instance.created_by = request.user
                 subform.instance.created_on = timezone.now()
         if formset.model == TissueSample:
             for subform in formset:
-                # TODO: Find a way to auto-populate organ from Worksheet person, if plausible
                 subform.instance.created_by = request.user
                 subform.instance.created_on = timezone.now()
         if formset.model == PerfusateSample:
             for subform in formset:
-                # TODO: Find a way to auto-populate organ from Worksheet person, if plausible
                 subform.instance.created_by = request.user
                 subform.instance.created_on = timezone.now()
         formset.save()
 
 admin.site.register(Event, EventAdmin)
-
-
-class EventInline(admin.TabularInline):
-    model = Event
-    fields = ('worksheet', 'type', 'name', 'taken_at')
-    can_delete = True
-    extra = 1
-
-
-class WorksheetAdmin(VersionControlAdmin):
-    list_display = ('id', 'barcode', 'person',)
-    fields = ('barcode', 'person')
-    inlines = [EventInline]
-
-admin.site.register(Worksheet, WorksheetAdmin)

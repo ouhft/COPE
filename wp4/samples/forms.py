@@ -12,7 +12,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, Div, HTML
 
 from ..theme.layout import FieldWithFollowup, DateTimeField, FormPanel
-from .models import Event, Worksheet, UrineSample, BloodSample, TissueSample, PerfusateSample
+from .models import Event, UrineSample, BloodSample, TissueSample, PerfusateSample
 
 # Common CONSTANTS
 NO_YES_CHOICES = (
@@ -24,32 +24,30 @@ YES_NO_CHOICES = (
     (False, _("FF01 No")))
 
 
-class WorksheetForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super(WorksheetForm, self).__init__(*args, **kwargs)
-        self.fields['person'].widget = forms.HiddenInput()
-
-        self.helper = FormHelper(self)
-        self.helper.form_tag = False
-        self.helper.html5_required = True
-        self.helper.layout = Layout(
-            'person',
-            # Div(HTML(self.instance.person.__str__()), css_class="col-md-6"),
-            # Div(Field('person', template="bootstrap3/layout/read-only.html"), css_class="col-md-6"),
-            Div('barcode', css_class="col-md-6"),
-        )
-
-    class Meta:
-        model = Worksheet
-        fields = ('barcode', 'person')
+# class WorksheetForm(forms.ModelForm):
+#     def __init__(self, *args, **kwargs):
+#         super(WorksheetForm, self).__init__(*args, **kwargs)
+#         self.fields['person'].widget = forms.HiddenInput()
+#
+#         self.helper = FormHelper(self)
+#         self.helper.form_tag = False
+#         self.helper.html5_required = True
+#         self.helper.layout = Layout(
+#             'person',
+#             # Div(HTML(self.instance.person.__str__()), css_class="col-md-6"),
+#             # Div(Field('person', template="bootstrap3/layout/read-only.html"), css_class="col-md-6"),
+#             Div('barcode', css_class="col-md-6"),
+#         )
+#
+#     class Meta:
+#         model = Worksheet
+#         fields = ('barcode', 'person')
 
 
 class EventForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(EventForm, self).__init__(*args, **kwargs)
         self.render_required_fields = True
-        self.fields['worksheet'].widget = forms.HiddenInput()
-        # self.fields['type'].choices = Event.TYPE_CHOICES
         self.fields['type'].widget = forms.HiddenInput()
         self.fields['name'].widget = forms.HiddenInput()
         self.fields['taken_at'].input_formats = settings.DATETIME_INPUT_FORMATS
@@ -60,17 +58,17 @@ class EventForm(forms.ModelForm):
         self.helper.layout = Layout(
             Div(Field('name', template="bootstrap3/layout/read-only.html"), css_class="col-md-6"),
             Div(DateTimeField('taken_at'), css_class="col-md-6"),
-            'worksheet',
+            # 'worksheet',
             'type',
         )
 
     class Meta:
         model = Event
-        fields = ('worksheet', 'type', 'name', 'taken_at')
+        fields = ('type', 'name', 'taken_at')
 
 
-EventFormSet = inlineformset_factory(
-    Worksheet, Event, form=EventForm, extra=0, can_delete=False)
+# EventFormSet = inlineformset_factory(
+#     Worksheet, Event, form=EventForm, extra=0, can_delete=False)
 
 
 class BloodSampleForm(forms.ModelForm):

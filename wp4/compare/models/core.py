@@ -64,8 +64,10 @@ class BaseModelMixin(models.Model):
     created_on = models.DateTimeField(default=timezone.now)
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        help_text="User account for the person logged in when this record was made/updated"
+        help_text="User account for the person logged in when this record was made/updated",
+        related_name='%(app_label)s_%(class)s_created_by'
     )
+    # https://docs.djangoproject.com/en/1.10/topics/db/models/#abstract-related-name
 
     class Meta:
         abstract = True

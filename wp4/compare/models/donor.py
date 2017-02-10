@@ -89,7 +89,7 @@ class Donor(VersionControlMixin):
     perfusion_technician = models.ForeignKey(
         Person,
         verbose_name=_('DO03 name of transplant technician'),
-        related_name="donor_perfusion_technician_set"
+        related_name="donor_perfusion_technician_set",
     )
     transplant_coordinator = models.ForeignKey(
         Person,

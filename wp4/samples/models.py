@@ -23,21 +23,6 @@ class BarCodedItem(VersionControlMixin):
         return "%s" % self.barcode
 
 
-class Worksheet(BarCodedItem):
-    """
-    Record of each Worksheet that links specific samples taken with a specific OrganPerson
-    """
-    person = models.ForeignKey(OrganPerson, help_text="Donor or Recipient that this worksheet relates to")
-
-    class Meta(BarCodedItem.Meta):
-        ordering = ['person']
-        verbose_name = _('WSm1 worksheet')
-        verbose_name_plural = _('WSm2 worksheets')
-
-    def __str__(self):
-        return "%s" % (self.barcode if len(self.barcode) > 0 else "%s - No Barcode entered" % self.id)
-
-
 class Event(VersionControlMixin):
     """
     A Sample Event is a timepoint and process where a specific type of biological sample was extracted
@@ -76,7 +61,6 @@ class Event(VersionControlMixin):
         (NAME_RECIPIENT_BLOOD2, _("EVc13 recipient blood 2")),
     )  #: Limit of choices for Event name data
 
-    worksheet = models.ForeignKey(Worksheet)  # Internal link to the Worksheet
     type = models.PositiveSmallIntegerField(_("EV01 sample type"), choices=TYPE_CHOICES)
     name = models.PositiveSmallIntegerField(_("EV03 sample process name"), choices=NAME_CHOICES)
     taken_at = models.DateTimeField(verbose_name=_("EV02 date and time taken"), null=True, blank=True)

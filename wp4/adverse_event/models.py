@@ -79,7 +79,8 @@ class AdverseEvent(VersionControlMixin):
     contact = models.ForeignKey(
         Person,
         verbose_name=_("AE09 primary contact"),
-        help_text=_("AEh09 This should be the Local Investigator for the Transplant Centre")
+        help_text=_("AEh09 This should be the Local Investigator for the Transplant Centre"),
+        related_name='adverse_event_contact'
     )
 
     @property
