@@ -134,8 +134,9 @@ class OrganAllocation(VersionControlMixin):
         if self.reallocated is not None:
             if self.transplant_hospital is None:
                 raise ValidationError(_("OAv01 Please enter a transplant hospital to continue"))
-            if self.perfusion_technician is None:
-                raise ValidationError(_("OAv02 Please enter the name of the transplant technician"))
+            #     Removed this as per Issue #192
+            # if self.perfusion_technician is None:
+            #     raise ValidationError(_("OAv02 Please enter the name of the transplant technician"))
 
     def __str__(self):
         try:
