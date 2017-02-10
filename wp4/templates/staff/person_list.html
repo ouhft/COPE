@@ -1,0 +1,37 @@
+{% extends "base_site.html" %}
+
+{% block page_title %}People{% endblock %}
+{% block page_header %}People{% endblock %}
+
+{% block content %}
+    {% if person_list %}
+        <table class="table table-responsive table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Full Name</th>
+                <th>Based at Hospital</th>
+                <th>Country</th>
+                <th>Telephone</th>
+                <th>Email</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for person in person_list %}
+                <tr>
+                    <td>{{ person.id }}</td>
+                    <td><a href="{% url 'staff_person:update' person.id %}" class="btn btn-xs btn-primary"><i
+                            class="glyphicon glyphicon-edit"></i> {{ person.full_name }}</a></td>
+                    <td>{{ person.based_at.name }}</td>
+                    <td>{{ person.based_at.get_country_display }}</td>
+                    <td>{{ person.telephone }}</td>
+                    <td>{{ person.email }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No people are available.</p>
+    {% endif %}
+    <p><a href="{% url "wp4:staff:add" %}" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Add Person</a></p>
+{% endblock %}

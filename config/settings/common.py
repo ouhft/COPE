@@ -61,13 +61,15 @@ THIRD_PARTY_PRE_DJANGO_APPS = [
 LOCAL_APPS = [
     'wp4.compare',
     'wp4.locations',
+    'wp4.staff',
     'wp4.staff_person',
     'wp4.perfusion_machine',
     'wp4.health_economics',
     'wp4.samples',
     'wp4.adverse_event',
     'wp4.followups',
-    'wp4.theme'
+    'wp4.administration',
+    'wp4.theme',
 ]
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = THIRD_PARTY_PRE_DJANGO_APPS + DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -259,7 +261,7 @@ ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
 # Custom user app defaults
 # Select the correct user model
-# AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = 'staff.Person'
 # LOGIN_REDIRECT_URL = 'users:redirect'
 # LOGIN_URL = 'account_login'
 

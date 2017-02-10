@@ -8,74 +8,25 @@ from django.conf.urls import include, url
 from .health_economics import urls as health_economics_urls
 from .followups import urls as followup_urls
 from .adverse_event import urls as adverseevent_urls
-from .staff_person import urls as staffperson_urls
+from .staff import urls as person_urls
+# from .staff_person import urls as staffperson_urls
 from .locations import urls as locations_urls
 from .samples import urls as samples_urls
 from .compare import urls as compare_urls
-from .views import wp4_index, report_procurement, report_organ, report_allocations, report_adverse_events
-from .views import administrator_index, administrator_uk_list, administrator_europe_list
-from .views import administrator_procurement_pairs, administrator_transplantation_sites, administrator_sae_sites
+from .administration import urls as administration_urls
+from .views import wp4_index
 
 
 urlpatterns = [
     url(r'^health-economics/', include(health_economics_urls, namespace="health_economics")),
     url(r'^followup/', include(followup_urls, namespace="followup")),
     url(r'^adverse-event/', include(adverseevent_urls, namespace="adverse_event")),
-    url(r'^person/', include(staffperson_urls, namespace="staff_person")),
+    url(r'^staff/', include(person_urls, namespace="staff")),
+    # url(r'^person/', include(staffperson_urls, namespace="staff_person")),
     url(r'^location/', include(locations_urls, namespace="locations")),
     url(r'^sample/', include(samples_urls, namespace="samples")),
     url(r'^compare/', include(compare_urls, namespace="compare")),
-
-    url(
-        regex=r'^administrator/stats/reports/procurement$',
-        view=report_procurement,
-        name='admin_stats_p'
-    ),
-    url(
-        regex=r'^administrator/stats/reports/organs$',
-        view=report_organ,
-        name='admin_stats_o'
-    ),
-    url(
-        regex=r'^administrator/stats/reports/allocations$',
-        view=report_allocations,
-        name='admin_stats_a'
-    ),
-    url(
-        regex=r'^administrator/stats/reports/adverse-events$',
-        view=report_adverse_events,
-        name='admin_stats_ae'
-    ),
-    url(
-        regex=r'^administrator/procurement-pairs$',
-        view=administrator_procurement_pairs,
-        name='admin_procurement_pairs'
-    ),
-    url(
-        regex=r'^administrator/transplantation-sites$',
-        view=administrator_transplantation_sites,
-        name='admin_transplantation_sites'
-    ),
-    url(
-        regex=r'^administrator/sae-sites$',
-        view=administrator_sae_sites,
-        name='admin_sae_sites'
-    ),
-    url(
-        regex=r'^administrator/europe-list$',
-        view=administrator_europe_list,
-        name='admin_europe_list'
-    ),
-    url(
-        regex=r'^administrator/uk-list$',
-        view=administrator_uk_list,
-        name='admin_uk_list'
-    ),
-    url(
-        regex=r'^administrator/$',
-        view=administrator_index,
-        name='admin_index'
-    ),
+    url(r'^administration/', include(administration_urls, namespace="administration")),
 
     url(
         regex=r'^$',

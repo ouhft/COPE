@@ -1,0 +1,309 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+
+{% block page_title %}{{ location }} Report: Flowchart - Administration{% endblock %}
+{% block page_header %}
+    Flowchart
+    <small>REPORT</small>
+{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:administration:index' %}">Administration</a></li>
+    <li class="active">Report: Flowchart</li>
+{% endblock %}
+
+{% block content %}
+{#    CSS Hack here because Bootstrap hides the badges on print view #}
+    <style>
+        @media print {
+            .badge {
+                padding: 2px 6px;
+                border: 1px solid #000;
+                margin-right: 3em;
+            }
+        }
+    </style>
+    <p>Reporting at {{ summary.dates.today|date }} on the overall status of Procurement and Transplantation for all
+        Organs. Last P-Form updated on {{ summary.dates.latest_p_form|date }}, and latest T-Form updated on
+        {{ summary.dates.latest_t_form|date }}.</p>
+    <h2>Summary</h2>
+
+    <div class="row">
+        <div class="col-md-4">
+            <h3>Donors</h3>
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-info">
+                    Total number of donors
+                    <span class="badge">{{ summary.donors.total }}</span>
+                </li>
+                <li class="list-group-item">
+                    Completed P-Forms
+                    <span class="badge">{{ summary.donors.p_forms_completed }}</span>
+                </li>
+            </ul>
+
+            <ul class="list-group">
+                <li class="list-group-item">
+                    0 Kidneys
+                    <span class="badge">{{ summary.donors.eligibility.0 }}</span>
+                </li>
+                <li class="list-group-item">
+                    1 Kidney
+                    <span class="badge">{{ summary.donors.eligibility.1 }}</span>
+                </li>
+                <li class="list-group-item">
+                    2 Kidneys
+                    <span class="badge">{{ summary.donors.eligibility.2 }}</span>
+                </li>
+                <li class="list-group-item">
+                    Not Randomised
+                    <span class="badge">{{ summary.donors.eligibility.not_randomised }}</span>
+                </li>
+            </ul>
+
+        </div>
+        <div class="col-md-4">
+            <h3>Kidneys</h3>
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-info">
+                    Randomised Total
+                    <span class="badge">{{ summary.kidneys.total }}</span>
+                </li>
+            </ul>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    Transplantable Total
+                    <span class="badge">{{ summary.kidneys.transplantable.total }}</span>
+                </li>
+                <li class="list-group-item">
+                    Transplantable Left
+                    <span class="badge">{{ summary.kidneys.transplantable.left }}</span>
+                </li>
+                <li class="list-group-item">
+                    Transplantable Right
+                    <span class="badge">{{ summary.kidneys.transplantable.right }}</span>
+                </li>
+            </ul>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    Allocated Total
+                    <span class="badge">{{ summary.kidneys.allocated.total }}</span>
+                </li>
+                <li class="list-group-item">
+                    Allocated Left
+                    <span class="badge">{{ summary.kidneys.allocated.left }}</span>
+                </li>
+                <li class="list-group-item">
+                    Allocated Right
+                    <span class="badge">{{ summary.kidneys.allocated.right }}</span>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <h3>Recipients</h3>
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-info">
+                    Total
+                    <span class="badge">{{ summary.recipients.total }}</span>
+                </li>
+                <li class="list-group-item">
+                    Left
+                    <span class="badge">{{ summary.recipients.left }}</span>
+                </li>
+                <li class="list-group-item">
+                    Right
+                    <span class="badge">{{ summary.recipients.right }}</span>
+                </li>
+            </ul>
+
+            <ul class="list-group">
+                <li class="list-group-item">
+                    T-Forms Theoretical Total
+                    <span class="badge">{{ summary.recipients.t_forms_theoretical }}</span>
+                </li>
+                <li class="list-group-item">
+                    T-Forms Started
+                    <span class="badge">{{ summary.recipients.t_forms_started }}</span>
+                </li>
+                <li class="list-group-item">
+                    T-Forms Completed
+                    <span class="badge">{{ summary.recipients.t_forms_completed }}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <h2>Data Breakdown</h2>
+    <h4>Key</h4>
+    <div class="row">
+        <div class="col-md-5">
+            <dl class="dl-horizontal">
+                <dt>#</dt>
+                <dd>Denotes a system ID number</dd>
+                <dt>T?</dt>
+                <dd>Organ Transplantable?</dd>
+                <dt>PP?</dt>
+                <dd>Organ Was Perfusion Possible?</dd>
+                <dt>A?</dt>
+                <dd>Organ Is Allocated?</dd>
+            </dl>
+        </div>
+        <div class="col-md-7">
+            <dl class="dl-horizontal">
+                <dt>P-Form</dt>
+                <dd>Procurment Form Completed + Last Person to edit the donor record</dd>
+                <dt>T-Form</dt>
+                <dd>Transplant Form Completed + Last Person to edit the recipient record</dd>
+            </dl>
+
+        </div>
+    </div>
+
+    <table class="table table-condensed">
+    <thead>
+        <tr>
+            <th>Donor</th>
+            <th title="Procurement Form Status">P-Form</th>
+            <th>Organ</th>
+            <th title="Transplantable?">T?</th>
+            <th title="Perfusion Possible?">PP?</th>
+            <th title="Is Allocated?">A?</th>
+            <th>Explain Allocation</th>
+            <th>Recipient</th>
+            <th title="Transplant Form Status">T-Form</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for row in listing %}
+        <tr>
+            <td rowspan="2">
+                <strong>{{ row.trial_id }}</strong> <sup>#{{ row.id }}</sup><br>
+                {% if row.is_eligible == -1 %}
+                    <small>Not Randomised</small>
+                {% else %}
+                    <small>{{ row.is_eligible }} Eligible Kidneys</small>
+                {% endif %}
+            </td>
+            <td rowspan="2">
+                {% if row.procurement_form_completed %}
+                <i class="glyphicon glyphicon-ok-sign text-success" title="Yes"></i>
+                {% else %}
+                <i class="glyphicon glyphicon-remove-sign text-danger" title="No"></i>
+                {% endif %}
+
+                <i class="glyphicon glyphicon-user" title="{{ row.created_by.get_full_name }}"><sup>#{{ row.created_by_id }}</sup></i>
+            </td>
+            <td>LEFT <sup>#{{ row.left_kidney.id }}</sup></td>
+            <td>
+                {% if row.left_kidney.transplantable is True %}
+                <i class="glyphicon glyphicon-ok text-success" title="Yes"></i>
+                {% elif row.left_kidney.transplantable is False %}
+                <i class="glyphicon glyphicon-remove text-danger" title="No"></i>
+                {% else %}
+                <i class="glyphicon glyphicon-resize-horizontal text-warning" title="Not Answered"></i>
+                {% endif %}
+            </td>
+            {% if row.left_kidney.transplantable is True%}
+                <td>
+                    {% if row.left_kidney.perfusion_possible is True %}
+                    <i class="glyphicon glyphicon-ok text-success" title="Yes"></i>
+                    {% elif row.left_kidney.perfusion_possible is False %}
+                    <i class="glyphicon glyphicon-remove text-danger" title="No"></i>
+                    {% else %}
+                    <i class="glyphicon glyphicon-resize-horizontal text-warning" title="Not Answered"></i>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if row.left_kidney.is_allocated is True %}
+                    <i class="glyphicon glyphicon-ok text-success" title="Yes"></i>
+                    {% elif row.left_kidney.is_allocated is False %}
+                    <i class="glyphicon glyphicon-remove text-danger" title="No"></i>
+                    {% else %}
+                    <i class="glyphicon glyphicon-resize-horizontal text-warning" title="Not Answered"></i>
+                    {% endif %}
+                </td>
+                {% if row.left_kidney.is_allocated is True %}
+                    <td>{{ row.left_kidney.explain_is_allocated }}</td>
+                    <td>
+                        <strong>{{ row.left_kidney.trial_id }}</strong> <sup>#{{ row.left_kidney.recipient.id }}</sup>
+                    </td>
+                {% else %}
+                    <td colspan="2">{{ row.left_kidney.not_allocated_reason }}</td>
+                {% endif %}
+            {% else %}
+                <td colspan="4">Because: {{ row.left_kidney.not_transplantable_reason }}</td>
+            {% endif %}
+            <td>
+                {% if row.left_kidney.transplantation_form_completed is True %}
+                <i class="glyphicon glyphicon-ok-sign text-success" title="Completed"></i>
+                {% elif row.left_kidney.final_allocation is not None %}
+                <i class="glyphicon glyphicon-info-sign text-warning" title="Started"></i>
+                {% elif row.left_kidney.transplantable is True %}
+                <i class="glyphicon glyphicon-question-sign text-danger" title="Missing"></i>
+                {% else %}
+                <i class="glyphicon glyphicon-info-sign text-info" title="Not Applicable"></i>
+                {% endif %}
+
+                <i class="glyphicon glyphicon-user" title="{{ row.left_kidney.safe_recipient.created_by.get_full_name }}"><sup>#{{ row.left_kidney.safe_recipient.created_by_id }}</sup></i>
+            </td>
+        </tr>
+        <tr>
+            <td>RIGHT <sup>#{{ row.right_kidney.id }}</sup></td>
+            <td>
+                {% if row.right_kidney.transplantable is True %}
+                <i class="glyphicon glyphicon-ok text-success" title="Yes"></i>
+                {% elif row.right_kidney.transplantable is False %}
+                <i class="glyphicon glyphicon-remove text-danger" title="No"></i>
+                {% else %}
+                <i class="glyphicon glyphicon-resize-horizontal text-warning" title="Not Answered"></i>
+                {% endif %}
+            </td>
+            {% if row.right_kidney.transplantable is True%}
+                <td>
+                    {% if row.right_kidney.perfusion_possible is True %}
+                    <i class="glyphicon glyphicon-ok text-success" title="Yes"></i>
+                    {% elif row.right_kidney.perfusion_possible is False %}
+                    <i class="glyphicon glyphicon-remove text-danger" title="No"></i>
+                    {% else %}
+                    <i class="glyphicon glyphicon-resize-horizontal text-warning" title="Not Answered"></i>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if row.right_kidney.is_allocated is True %}
+                    <i class="glyphicon glyphicon-ok text-success" title="Yes"></i>
+                    {% elif row.right_kidney.is_allocated is False %}
+                    <i class="glyphicon glyphicon-remove text-danger" title="No"></i>
+                    {% else %}
+                    <i class="glyphicon glyphicon-resize-horizontal text-warning" title="Not Answered"></i>
+                    {% endif %}
+                </td>
+                {% if row.right_kidney.is_allocated is True %}
+                    <td>{{ row.right_kidney.explain_is_allocated }}</td>
+                    <td>
+                        <strong>{{ row.right_kidney.trial_id }}</strong> <sup>#{{ row.right_kidney.recipient.id }}</sup>
+                    </td>
+                {% else %}
+                    <td colspan="2">{{ row.right_kidney.not_allocated_reason }}</td>
+                {% endif %}
+            {% else %}
+                <td colspan="4">Because: {{ row.right_kidney.not_transplantable_reason }}</td>
+            {% endif %}
+            <td>
+                {% if row.right_kidney.transplantation_form_completed is True %}
+                <i class="glyphicon glyphicon-ok-sign text-success" title="Completed"></i>
+                {% elif row.right_kidney.final_allocation is not None %}
+                <i class="glyphicon glyphicon-info-sign text-warning" title="Started"></i>
+                {% elif row.right_kidney.transplantable is True %}
+                <i class="glyphicon glyphicon-question-sign text-danger" title="Missing"></i>
+                {% else %}
+                <i class="glyphicon glyphicon-info-sign text-info" title="Not Applicable"></i>
+                {% endif %}
+
+                <i class="glyphicon glyphicon-user" title="{{ row.right_kidney.safe_recipient.created_by.get_full_name }}"><sup>#{{ row.right_kidney.safe_recipient.created_by_id }}</sup></i>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+{% endblock %}

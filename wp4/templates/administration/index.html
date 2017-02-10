@@ -1,0 +1,36 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+
+{% block page_title %}WP4: Administration{% endblock %}
+{% block page_header %}WP4: Administration{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li class="active">Administration</li>
+{% endblock %}
+
+{% block content %}
+    <p>This section supports activities on Work Package 4: Compare (WP4) which is a Kidney preservation trial.
+
+    <h3>Administrator Functions</h3>
+    <ul>
+        <li><a href="{% url 'wp4:administration:europe_list' %}">Europe OFFLINE list</a></li>
+        <li><a href="{% url 'wp4:administration:uk_list' %}">United Kingdom OFFLINE list</a></li>
+        <li><a href="{% url 'wp4:administration:procurement_pairs' %}">Procurement Pairs</a></li>
+        <li><a href="{% url 'wp4:administration:transplantation_sites' %}">Transplantation Sites</a></li>
+        <li><a href="{% url 'wp4:administration:sae_sites' %}">(S)AE Sites</a></li>
+        <li><a href="{% url 'wp4:administration:flowchart' %}">Donor Flowchart</a></li>
+    </ul>
+
+    <ul>
+        <li><a href="">Merge Staff Person</a></li>
+    </ul>
+
+    <h3>Statistician Functions</h3>
+    <ul>
+        <li><a href="{% url 'wp4:administration:stats_p' %}" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-export"></i> Procurement Report</a></li>
+        <li><a href="{% url 'wp4:administration:stats_o' %}" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-export"></i> Organ Report</a></li>
+        <li><a href="{% url 'wp4:administration:stats_a' %}" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-export"></i> Allocation Report</a></li>
+        <li><a href="{% url 'wp4:administration:stats_ae' %}" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-export"></i> Adverse Events Report</a></li>
+    </ul>
+{% endblock %}

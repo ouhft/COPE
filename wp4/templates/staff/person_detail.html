@@ -1,0 +1,27 @@
+{% extends "base_site.html" %}
+
+{% block page_title %}People{% endblock %}
+{% block page_header %}People{% endblock %}
+
+{% block content %}
+    <h2>{{ person.full_name }} <a href="{% url 'wp4:staff:update' person.id %}" class="btn btn-sm btn-primary"><i
+                            class="glyphicon glyphicon-edit"></i></a></h2>
+    <dl class="dl-horizontal">
+    <dt>Based At</dt>
+    <dd>{{ person.based_at }}</dd>
+    <dt>Telephone</dt>
+    <dd>{{ person.telephone|default:"Unknown" }}</dd>
+    <dt>Email</dt>
+    <dd>{{ person.email|default:"Unknown" }}</dd>
+    <dt>Jobs</dt>
+    <dd>
+        <ul>
+            {% for job in person.groups.all %}
+            <li>{{ job.name }}</li>
+            {% endfor %}
+        </ul>
+    </dd>
+    </dl>
+
+    <p><a href="{%  url "wp4:staff:list" %}">Return to listings</a></p>
+{% endblock %}

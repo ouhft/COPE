@@ -3,8 +3,9 @@
 from __future__ import absolute_import, unicode_literals
 
 from bdateutil import relativedelta
+from livefield import LiveField, LiveManager
+
 from django.conf import settings
-from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.validators import MinValueValidator, MaxValueValidator, ValidationError
 from django.db import models
@@ -62,7 +63,7 @@ class BaseModelMixin(models.Model):
     """
     created_on = models.DateTimeField(default=timezone.now)
     created_by = models.ForeignKey(
-        User,
+        settings.AUTH_USER_MODEL,
         help_text="User account for the person logged in when this record was made/updated"
     )
 
@@ -89,8 +90,12 @@ class VersionControlMixin(BaseModelMixin):
     """
     version = models.PositiveIntegerField(default=0, help_text="Internal tracking version number")
     record_locked = models.BooleanField(default=False, help_text="Not presently implemented or used")
+    live = LiveField()  # Wanted this to be record_active, but that means modifying the LifeField code
 
-    # NB: Used in Samples and FollowUp Apps too
+    objects = LiveManager()
+    all_objects = LiveManager(include_soft_deleted=True)
+
+    # NB: Used in multiple apps
     class Meta:
         abstract = True
 
