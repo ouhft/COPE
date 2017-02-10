@@ -9,8 +9,8 @@ from django.views.generic import ListView, CreateView, UpdateView, DetailView
 
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 
-from wp4.staff_person.utils import get_emails_from_ids
-from wp4.staff_person.utils import JACQUES_PIREENE, INA_JOCHMANS, SARAH_MERTENS, ALLY_BRADLEY
+from wp4.staff.utils import get_emails_from_ids
+from wp4.staff.utils import JACQUES_PIREENE, INA_JOCHMANS, SARAH_MERTENS, ALLY_BRADLEY
 from .models import AdverseEvent
 from .forms import AdverseEventForm
 

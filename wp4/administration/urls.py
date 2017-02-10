@@ -9,7 +9,6 @@ from .views import administrator_index, administrator_uk_list, administrator_eur
 from .views import administrator_procurement_pairs, administrator_transplantation_sites, administrator_sae_sites
 from .views import flowchart
 from .views import dmc_secondary_outcomes, dmc_death_summaries
-from .views import merge_staff_person
 
 urlpatterns = [
     # Statisticians' Reports
@@ -80,11 +79,7 @@ urlpatterns = [
     ),
 
     # Admin tools
-    url(
-        regex=r'^tools/merge/staffperson',
-        view=merge_staff_person,
-        name='tools_merge_staffperson'
-    ),
+
 
     # Admin Home
     url(

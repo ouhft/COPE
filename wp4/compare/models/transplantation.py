@@ -8,7 +8,7 @@ from django.db.models.query import EmptyQuerySet
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
-from wp4.staff_person.models import StaffJob, StaffPerson
+from wp4.staff.models import Person
 from wp4.locations.models import Hospital
 
 from ..validators import validate_between_1900_2050, validate_not_in_future
@@ -37,12 +37,11 @@ class OrganAllocation(VersionControlMixin):
         (REALLOCATION_OTHER, _('OAc03 Other'))
     )  #: OrganAllocation reallocation_reason choices
     perfusion_technician = models.ForeignKey(
-        StaffPerson,
+        Person,
         verbose_name=_('OA01 name of transplant technician'),
-        limit_choices_to={"jobs": StaffJob.PERFUSION_TECHNICIAN},
         related_name="recipient_perfusion_technician_set",
         blank=True, null=True
-    )  #: Limit choices to StaffPerson with job StaffJob.PERFUSION_TECHNICIAN
+    )
     call_received = models.DateTimeField(
         verbose_name=_('OA02 call received from transplant co-ordinator at'),
         blank=True, null=True,
@@ -52,12 +51,11 @@ class OrganAllocation(VersionControlMixin):
     call_received_unknown = models.BooleanField(default=False, help_text="Internal unknown flag")
     transplant_hospital = models.ForeignKey(Hospital, verbose_name=_('OA03 transplant hospital'), blank=True, null=True)
     theatre_contact = models.ForeignKey(
-        StaffPerson,
+        Person,
         verbose_name=_('OA04 name of the theatre contact'),
-        limit_choices_to={"jobs": StaffJob.THEATRE_CONTACT},
         related_name="recipient_transplant_coordinator_set",
         blank=True, null=True
-    )  #: Limit choices to StaffPerson with job StaffJob.THEATRE_CONTACT
+    )
     scheduled_start = models.DateTimeField(
         verbose_name=_('OA05 scheduled start'),
         blank=True, null=True,

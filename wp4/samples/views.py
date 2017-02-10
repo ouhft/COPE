@@ -5,12 +5,11 @@ from __future__ import absolute_import, unicode_literals
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import render
-from django.template import RequestContext
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
 
 from braces.views import LoginRequiredMixin, OrderableListMixin
 
-from wp4.staff_person.models import StaffPerson, StaffJob
+from wp4.staff.models import Person
 
 from .models import Worksheet, Event
 from .forms import WorksheetForm, EventForm, BloodSampleFormSet, UrineSampleFormSet, PerfusateSampleFormSet, TissueSampleFormSet
@@ -32,12 +31,12 @@ class WorksheetListView(LoginRequiredMixin, OrderableListMixin, ListView):
         return "id"
 
     def get(self, request, *args, **kwargs):
-        self.current_person = StaffPerson.objects.get(user__id=request.user.id)
+        self.current_person = request.user
         return super(WorksheetListView, self).get(request, *args, **kwargs)
 
     def get_queryset(self):
         if self.current_person.has_job(
-            (StaffJob.SYSTEMS_ADMINISTRATOR, StaffJob.CENTRAL_COORDINATOR, StaffJob.NATIONAL_COORDINATOR)
+            (Person.SYSTEMS_ADMINISTRATOR, Person.CENTRAL_COORDINATOR, Person.NATIONAL_COORDINATOR)
         ):
             self.queryset = Worksheet.objects.all().\
                 select_related('person').\
@@ -46,7 +45,7 @@ class WorksheetListView(LoginRequiredMixin, OrderableListMixin, ListView):
                 select_related('person__donor__randomisation').\
                 select_related('person__recipient')
 
-        elif self.current_person.has_job(StaffJob.PERFUSION_TECHNICIAN):
+        elif self.current_person.has_group(Person.PERFUSION_TECHNICIAN):  # TODO: This is a likely hack that'll fail!
             self.queryset = Worksheet.objects.filter(
                 Q(person__donor__perfusion_technician=self.current_person) |
                 Q(person__recipient__allocation__perfusion_technician=self.current_person)
@@ -64,12 +63,8 @@ def sample_form(request, pk=None):
     :param pk: worksheet ID
     :return: Page response
     """
-    worksheet = Worksheet.objects.\
-        get(pk=pk)
-        # select_related('person__donor').\
-        # prefetch_related('event_set').\
-        # filter(pk=int(pk))[0]  # TODO: Clean this up, as it's not very smart!
-    current_person = StaffPerson.objects.get(user__id=request.user.id)
+    worksheet = Worksheet.objects.get(pk=pk)
+    current_person = request.user
 
     worksheet_form = WorksheetForm(request.POST or None, instance=worksheet, prefix="worksheet")
     if worksheet_form.is_valid():
@@ -81,7 +76,7 @@ def sample_form(request, pk=None):
         event_prefix = "event_%d" % i
         event_form = EventForm(request.POST or None, instance=event, prefix=event_prefix)
         if event_form.is_valid():
-            event_form.instance.created_by = current_person.user
+            event_form.instance.created_by = current_person
             event = event_form.save()
 
         if event.type == Event.TYPE_BLOOD:
@@ -111,7 +106,7 @@ def sample_form(request, pk=None):
 
         if event_formset.is_valid():
             for subform in event_formset:
-                subform.instance.created_by = current_person.user
+                subform.instance.created_by = current_person
             event_formset.save()
         # print("DEBUG: event_formset is valid (%s) and errors=%s" % (event_formset.is_valid(), event_formset.errors))
 

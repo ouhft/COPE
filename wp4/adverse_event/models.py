@@ -6,8 +6,8 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from ..compare.models import VersionControlMixin, Organ, YES_NO_UNKNOWN_CHOICES
-from ..staff_person.models import StaffPerson
+from wp4.compare.models import VersionControlMixin, Organ, YES_NO_UNKNOWN_CHOICES
+from wp4.staff.models import Person
 
 
 class AdverseEvent(VersionControlMixin):
@@ -77,7 +77,7 @@ class AdverseEvent(VersionControlMixin):
 
     # Page 4
     contact = models.ForeignKey(
-        StaffPerson,
+        Person,
         verbose_name=_("AE09 primary contact"),
         help_text=_("AEh09 This should be the Local Investigator for the Transplant Centre")
     )

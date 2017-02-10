@@ -33,6 +33,10 @@ class Person(AbstractUser):
     LOCAL_INVESTIGATOR = 8  #: Constant for Group ID
     OTHER_PROJECT_MEMBER = 9  #: Constant for Group ID
     BIOBANK_COORDINATOR = 10  #: Constant for Group ID
+    CHIEF_INVESTIGATOR = 11  #: Constant for Group ID
+    PRINCIPLE_INVESTIGATOR = 12  #: Constant for Group ID
+    CENTRAL_INVESTIGATOR = 13  #: Constant for Group ID
+    NATIONAL_INVESTIGATOR = 14  #: Constant for Group ID
     THEATRE_CONTACT = 15  #: Constant for Group ID
 
     phone_regex = RegexValidator(

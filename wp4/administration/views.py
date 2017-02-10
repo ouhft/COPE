@@ -16,14 +16,14 @@ from wp4.compare.models import Donor, Organ, OrganAllocation
 from wp4.compare.models import RetrievalTeam
 from wp4.compare.models import PRESERVATION_HMP, PRESERVATION_HMPO2, PRESERVATION_NOT_SET
 from wp4.locations.models import Hospital
-from wp4.staff_person.models import StaffJob, StaffPerson
+from wp4.staff.models import Person
 from wp4.adverse_event.models import AdverseEvent
 
-from wp4.utils import job_required
+from wp4.utils import group_required
 
 
 # Statisticians' Reports
-@job_required(StaffJob.STATISTICIAN, StaffJob.CENTRAL_COORDINATOR)
+@group_required(Person.STATISTICIAN, Person.CENTRAL_COORDINATOR)
 def report_procurement(request):
     # Create the HttpResponse object with the appropriate CSV header.
     response = HttpResponse(content_type='text/csv')
@@ -122,7 +122,7 @@ def report_procurement(request):
     return response
 
 
-@job_required(StaffJob.STATISTICIAN, StaffJob.CENTRAL_COORDINATOR)
+@group_required(Person.STATISTICIAN, Person.CENTRAL_COORDINATOR)
 def report_organ(request):
     # Create the HttpResponse object with the appropriate CSV header.
     response = HttpResponse(content_type='text/csv')
@@ -261,7 +261,7 @@ def report_organ(request):
     return response
 
 
-@job_required(StaffJob.STATISTICIAN, StaffJob.CENTRAL_COORDINATOR)
+@group_required(Person.STATISTICIAN, Person.CENTRAL_COORDINATOR)
 def report_allocations(request):
     # Create the HttpResponse object with the appropriate CSV header.
     response = HttpResponse(content_type='text/csv')
@@ -293,7 +293,7 @@ def report_allocations(request):
     return response
 
 
-@job_required(StaffJob.STATISTICIAN, StaffJob.CENTRAL_COORDINATOR)
+@group_required(Person.STATISTICIAN, Person.CENTRAL_COORDINATOR)
 def report_adverse_events(request):
     # Create the HttpResponse object with the appropriate CSV header.
     response = HttpResponse(content_type='text/csv')
@@ -392,7 +392,7 @@ def report_adverse_events(request):
 
 
 # Administrator Reports
-@job_required(StaffJob.CENTRAL_COORDINATOR)
+@group_required(Person.CENTRAL_COORDINATOR)
 def administrator_uk_list(request):
     randomisation_listing = Randomisation.objects.filter(list_code=PAPER_UNITED_KINGDOM)
     return render(
@@ -406,7 +406,7 @@ def administrator_uk_list(request):
     )
 
 
-@job_required(StaffJob.CENTRAL_COORDINATOR)
+@group_required(Person.CENTRAL_COORDINATOR)
 def administrator_europe_list(request):
     randomisation_listing = Randomisation.objects.filter(list_code=PAPER_EUROPE)
     return render(
@@ -420,7 +420,7 @@ def administrator_europe_list(request):
     )
 
 
-@job_required(StaffJob.CENTRAL_COORDINATOR)
+@group_required(Person.CENTRAL_COORDINATOR)
 def administrator_procurement_pairs(request):
 
     listing = Donor.objects.\
@@ -450,7 +450,7 @@ def administrator_procurement_pairs(request):
     )
 
 
-@job_required(StaffJob.CENTRAL_COORDINATOR)
+@group_required(Person.CENTRAL_COORDINATOR)
 def administrator_transplantation_sites(request):
 
     listing = Organ.objects.\
@@ -498,7 +498,7 @@ def administrator_transplantation_sites(request):
     )
 
 
-@job_required(StaffJob.CENTRAL_COORDINATOR)
+@group_required(Person.CENTRAL_COORDINATOR)
 def administrator_sae_sites(request):
 
     listing = AdverseEvent.objects.all().\
@@ -543,7 +543,7 @@ def administrator_sae_sites(request):
     )
 
 
-@job_required(StaffJob.CENTRAL_COORDINATOR)
+@group_required(Person.CENTRAL_COORDINATOR)
 def flowchart(request):
     listing = Donor.objects.all().\
         select_related('_left_kidney').\
@@ -648,7 +648,7 @@ def flowchart(request):
         }
     )
 
-@job_required(StaffJob.CENTRAL_COORDINATOR)
+@group_required(Person.CENTRAL_COORDINATOR)
 def dmc_secondary_outcomes(request):
     """
     Produce a series of matrix tables that list Graft Failure against Death for each of the Follow Up periods
@@ -703,6 +703,8 @@ def dmc_secondary_outcomes(request):
 
     for event in listing:
         continue
+
+    return render(
         request,
         'administration/dmc_secondary_outcomes.html',
         {
@@ -711,7 +713,7 @@ def dmc_secondary_outcomes(request):
     )
 
 
-@job_required(StaffJob.CENTRAL_COORDINATOR)
+@group_required(Person.CENTRAL_COORDINATOR)
 def dmc_death_summaries(request):
     """
     Produce a list of S/AE records where death is recorded, separated into preservation groups
@@ -773,6 +775,6 @@ def dmc_death_summaries(request):
 
 
 # Admin Home
-@job_required(StaffJob.CENTRAL_COORDINATOR, StaffJob.STATISTICIAN)
+@group_required(Person.CENTRAL_COORDINATOR, Person.STATISTICIAN)
 def administrator_index(request):
     return render(request, 'administration/index.html', {})

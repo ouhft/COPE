@@ -11,7 +11,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 from random import random
 
-from wp4.staff_person.models import StaffJob, StaffPerson
+from wp4.staff.models import Person
 from wp4.locations.models import Hospital
 
 from ..validators import validate_between_1900_2050, validate_not_in_future
@@ -87,19 +87,17 @@ class Donor(VersionControlMixin):
     # Procedure data
     retrieval_team = models.ForeignKey(RetrievalTeam, verbose_name=_("DO01 retrieval team"))
     perfusion_technician = models.ForeignKey(
-        StaffPerson,
+        Person,
         verbose_name=_('DO03 name of transplant technician'),
-        limit_choices_to={"jobs": StaffJob.PERFUSION_TECHNICIAN},
         related_name="donor_perfusion_technician_set"
-    )  #: Choices limited to staff with StaffJob.PERFUSION_TECHNICIAN set
+    )
     transplant_coordinator = models.ForeignKey(
-        StaffPerson,
+        Person,
         verbose_name=_('DO04 name of the SN-OD'),
-        limit_choices_to={"jobs": StaffJob.TRANSPLANT_COORDINATOR},
         related_name="donor_transplant_coordinator_set",
         blank=True,
         null=True
-    )  #: Choices limited to staff with StaffJob.TRANSPLANT_COORDINATOR set
+    )
     call_received = models.DateTimeField(
         verbose_name=_('DO05 Consultant to MTO called at'),
         blank=True, null=True,

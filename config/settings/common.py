@@ -62,7 +62,7 @@ LOCAL_APPS = [
     'wp4.compare',
     'wp4.locations',
     'wp4.staff',
-    'wp4.staff_person',
+    # 'wp4.staff_person',  Removed as per #208
     'wp4.perfusion_machine',
     'wp4.health_economics',
     'wp4.samples',

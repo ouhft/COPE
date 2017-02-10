@@ -7,7 +7,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from ..compare.models import OrganPerson, VersionControlMixin, Organ
+from wp4.compare.models import OrganPerson, VersionControlMixin, Organ
 
 
 class BarCodedItem(VersionControlMixin):
