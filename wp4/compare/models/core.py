@@ -100,6 +100,8 @@ class VersionControlMixin(BaseModelMixin):
     # NB: Used in multiple apps
     class Meta:
         abstract = True
+        # NB: Class names are not yet dynamically added to permissions as we would want. May appear in django 1.11?
+        # http://stackoverflow.com/questions/4963428/how-to-dynamically-name-permissions-in-a-django-abstract-model-class
         permissions = (
             ("view", "Can view the data, but not modify it"),
             ("restrict_to_national", "Can only use data from the same location country"),
