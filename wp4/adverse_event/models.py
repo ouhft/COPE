@@ -10,7 +10,21 @@ from wp4.compare.models import VersionControlMixin, Organ, YES_NO_UNKNOWN_CHOICE
 from wp4.staff.models import Person
 
 
-class AdverseEvent(VersionControlMixin):
+class Category(VersionControlMixin):
+    """
+    Allows S/AE events to be categorised for DMC reporting purposes. Outlined in Issue #190
+    """
+    description = models.CharField(verbose_name=_("AC01 category description"), max_length=50)
+
+    class Meta(VersionControlMixin.Meta):
+        verbose_name = _('AECm1 adverse event category')
+        verbose_name_plural = _('AECm2 adverse event categories')
+
+    def __str__(self):
+        return "{0}".format(self.description)
+
+
+class Event(VersionControlMixin):
     """
     Collects (serious) adverse event information related to a specific Organ within the study
 
@@ -22,8 +36,6 @@ class AdverseEvent(VersionControlMixin):
     organ = models.ForeignKey(Organ, verbose_name=_("AE04 trial id link"))
     # Because even if the form wants to record a trial id string, it's going to be pointless if it doesn't actually
     # link to a record
-    # sequence_number = models.PositiveSmallIntegerField(verbose_name=_("AE01 sequence number"), default=0)
-    # resolution_at_date = models.DateField(verbose_name=_("AE03 resolution date"), blank=True, null=True)
 
     # Page 1
     serious_eligible_1 = models.BooleanField(verbose_name=_("AE10 lead to death"), default=False)
@@ -45,9 +57,13 @@ class AdverseEvent(VersionControlMixin):
     alive_query_4 = models.BooleanField(verbose_name=_("AE23 device deficiency"), default=False)
     alive_query_5 = models.BooleanField(verbose_name=_("AE24 device user error"), default=False)
     alive_query_6 = models.BooleanField(verbose_name=_("AE25 life threatening illness"), default=False)
+    # repeat of serious_eligible_2
     alive_query_7 = models.BooleanField(verbose_name=_("AE26 permanent impairment"), default=False)
+    # repeat of serious_eligible_3
     alive_query_8 = models.BooleanField(verbose_name=_("AE27 prolonged hospitalisation"), default=False)
+    # repeat of serious_eligible_5
     alive_query_9 = models.BooleanField(verbose_name=_("AE28 surgery required"), default=False)
+    # repeat of serious_eligible_6
 
     # Page 3
     rehospitalisation = models.BooleanField(verbose_name=_("AE30 rehospitalisation"), default=False)
@@ -59,8 +75,7 @@ class AdverseEvent(VersionControlMixin):
     surgery_required = models.BooleanField(verbose_name=_("AE36 surgery required"), default=False)
     rehospitalisation_comments = models.TextField(verbose_name=_("AE37 comments"), null=True, blank=True)
 
-    death = models.BooleanField(verbose_name=_("AE40 led to death"), default=False)
-    # date_of_death = models.DateField(verbose_name=_("AE41 date of death"), null=True, blank=True)
+    death = models.BooleanField(verbose_name=_("AE40 led to death"), default=False)  # repeat of serious_eligible_1
     # date of death should reference the Recipient Organ Person date of death
     treatment_related = models.PositiveSmallIntegerField(
         verbose_name=_('AE49 treatment related?'),

@@ -11,7 +11,7 @@ from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 
 from wp4.staff.utils import get_emails_from_ids
 from wp4.staff.utils import JACQUES_PIREENE, INA_JOCHMANS, SARAH_MERTENS, ALLY_BRADLEY
-from .models import AdverseEvent
+from .models import Event
 from .forms import AdverseEventForm
 
 
@@ -93,21 +93,21 @@ class AjaxFormMixin(object):
 
 # ============================================  CBVs
 class AdverseEventListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    model = AdverseEvent
+    model = Event
     permission_required = "adverse_event.add_adverseevent"
     ordering = ['onset_at_date']
 
 
 class AdverseEventDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
-    model = AdverseEvent
+    model = Event
     permission_required = "adverse_event.add_adverseevent"
 
 
 class AdverseEventCreateView(LoginRequiredMixin, PermissionRequiredMixin, AjaxFormMixin, EmailOnSaveMixin, CreateView):
-    model = AdverseEvent
+    model = Event
     permission_required = "adverse_event.add_adverseevent"
 
 
 class AdverseEventUpdateView(LoginRequiredMixin, PermissionRequiredMixin, AjaxFormMixin, EmailOnSaveMixin, UpdateView):
-    model = AdverseEvent
+    model = Event
     permission_required = "adverse_event.add_adverseevent"

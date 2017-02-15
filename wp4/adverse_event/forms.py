@@ -12,7 +12,7 @@ from wp4.compare.models import YES_NO_UNKNOWN_CHOICES
 from wp4.compare.forms.core import NO_YES_CHOICES
 from wp4.theme.layout import DateField, FormPanel, ForeignKeyModal, FieldWithFollowup
 
-from .models import AdverseEvent
+from .models import Event
 
 
 class AdverseEventForm(forms.ModelForm):
@@ -156,7 +156,7 @@ class AdverseEventForm(forms.ModelForm):
         return super(AdverseEventForm, self).save(commit=commit)
 
     class Meta:
-        model = AdverseEvent
+        model = Event
         fields = [
             'organ',
             'serious_eligible_1',

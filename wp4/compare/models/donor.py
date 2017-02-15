@@ -105,7 +105,8 @@ class Donor(VersionControlMixin):
         help_text="Date must be fall within 1900-2050, and not be in the future"
     )
     call_received_unknown = models.BooleanField(default=False, help_text="Internal unknown flag")
-    retrieval_hospital = models.ForeignKey(Hospital, verbose_name=_('DO06 donor hospital'), blank=True, null=True)
+    # retrieval_hospital changed to charfield from foreignkey as per issue #211
+    retrieval_hospital = models.CharField(verbose_name=_('DO06 donor hospital'), max_length=100, blank=True)
     scheduled_start = models.DateTimeField(
         verbose_name=_('DO07 time of withdrawal therapy'),
         blank=True, null=True,

@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 from django.contrib import admin
 
 from wp4.compare.admin import VersionControlAdmin
-from .models import AdverseEvent
+from .models import Event
 
 
 class AdverseEventAdmin(VersionControlAdmin):
@@ -52,4 +52,4 @@ class AdverseEventAdmin(VersionControlAdmin):
         'contact',
     )
 
-admin.site.register(AdverseEvent, AdverseEventAdmin)
+admin.site.register(Event, AdverseEventAdmin)

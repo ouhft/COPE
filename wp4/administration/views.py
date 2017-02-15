@@ -17,7 +17,7 @@ from wp4.compare.models import RetrievalTeam
 from wp4.compare.models import PRESERVATION_HMP, PRESERVATION_HMPO2, PRESERVATION_NOT_SET
 from wp4.locations.models import Hospital
 from wp4.staff.models import Person
-from wp4.adverse_event.models import AdverseEvent
+from wp4.adverse_event.models import Event
 
 from wp4.utils import group_required
 
@@ -336,7 +336,7 @@ def report_adverse_events(request):
         "adverseevent.cause_of_death_comment",
     ])
 
-    events = AdverseEvent.objects.all()
+    events = Event.objects.all()
     for event in events:
         result_row = []
 
@@ -501,7 +501,7 @@ def administrator_transplantation_sites(request):
 @group_required(Person.CENTRAL_COORDINATOR)
 def administrator_sae_sites(request):
 
-    listing = AdverseEvent.objects.all().\
+    listing = Event.objects.all().\
         order_by('organ__recipient__allocation__transplant_hospital', 'created_on')
 
     centres = dict()
@@ -660,7 +660,7 @@ def dmc_secondary_outcomes(request):
     :param request:
     :return:
     """
-    listing = AdverseEvent.objects.filter(Q('') | Q()).select_related().order_by('organ__id', 'created_on')
+    listing = Event.objects.filter(Q('') | Q()).select_related().order_by('organ__id', 'created_on')
 
     report_period = {
         "graft_failure": {
@@ -724,7 +724,7 @@ def dmc_death_summaries(request):
     :param request:
     :return:
     """
-    listing = AdverseEvent.objects.filter(date_of_death__isnull=False).select_related('organ__recipient').\
+    listing = Event.objects.filter(date_of_death__isnull=False).select_related('organ__recipient').\
         order_by('organ__id', 'created_on')
 
     data = {

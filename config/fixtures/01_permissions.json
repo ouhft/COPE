@@ -3,28 +3,6 @@
     "fields": {
       "name": "Perfusion Technicians",
       "permissions": [
-        61,
-        62,
-        64,
-        65,
-        70,
-        71,
-        58,
-        59,
-        68,
-        77,
-        73,
-        74,
-        22,
-        23,
-        44,
-        41,
-        50,
-        53,
-        47,
-        38,
-        28,
-        29
       ]
     },
     "model": "auth.group",
