@@ -39,7 +39,50 @@ WHERE first_name = 'Fleur'
 
  Overwrite data in:
  * django_site
+ * django_content_type
+   * Amend records in here as changes are made elsewhere in the migration process.
+   * Add adverse_event.category record
+   * Remove redundant types (e.g. samples.worksheet)
+   * Amend adverse_event.adverseevent to event
+ * compare_randomisation - no need to bother with fixture, but does need staff_person to be filled first
 
+
+ New Table
+ * adverse_event_category   -- new table; populate from fixture 11_adverseevent_categories.json after staff_person is filled
+ * staff_person_groups      -- Do nothing
+ * staff_person_user_permissions
+
+
+ TBD
+ * adverse_event_event  (was adverse_event_adverseevent)
+ * compare_donor
+ * compare_organ
+ * compare_organallocation
+ * compare_organperson
+ * compare_procurementresource
+ * compare_recipient
+ * compare_retrievalteam
+ * django_admin_log
+ * followups_followup1y
+ * followups_followup3m
+ * followups_followup6m
+ * followups_followupinitial
+ * health_economics_qualityoflife
+ * health_economics_resourcehospital
+ * health_economics_resourcelog
+ * health_economics_resourcerehabilitation
+ * health_economics_resourcevisit
+ * perfusion_machine_perfusionfile
+ * perfusion_machine_perfusionmachine
+ * reversion_revision
+ * reversion_version
+ * samples_bloodsample
+ * samples_event
+ * samples_perfusatesample
+ * samples_tissuesample
+ * samples_urinesample
+ * sqlite_sequence
+ * staff_person
 
 
  For Issue #211 - Remove link to Hospital from Donor
