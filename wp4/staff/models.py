@@ -48,7 +48,8 @@ class Person(AbstractUser):
         verbose_name=_("SP01 telephone number"),
         validators=[phone_regex],
         max_length=15,
-        blank=True
+        blank=True,
+        null=True
     )  #: Contents validated against phone_regex ``r'^\+?1?\d{9,15}$'``
     based_at = models.ForeignKey(
         Hospital,

@@ -478,5 +478,16 @@
       "based_at": 25,
       "created_by": 1
     }
+  },
+  {
+    "model": "locations.hospital",
+    "pk": 26,
+    "fields": {
+      "name": "Other / Austria",
+      "country": 13,
+      "is_active": true,
+      "is_project_site": false,
+      "created_by": 1
+    }
   }
 ]
