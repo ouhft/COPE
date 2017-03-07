@@ -1,6 +1,60 @@
 /*
  Script to migrate data safely from a 0.6.4 schema to the new 0.8.0 schema
  */
+
+/* UTILS
+
+ */
+SELECT count(id) FROM old.reversion_version;
+
+SELECT *
+FROM old.adverse_event_adverseevent
+WHERE contact_id IS NULL;
+
+SELECT * FROM old.staff_person_staffperson;
+INSERT INTO new.TABLE SELECT * FROM old.TABLE;
+INSERT INTO new.TABLE(fieldname1, fieldname2) SELECT fieldname1, fieldname2 FROM old.TABLE;
+/*
+ Do not copy:
+ * auth_group_permissions  -- populated from fixture 01_permissions.json
+ * auth_permission         -- populated by migrations
+ * auth_group              -- populated from fixture 01_permissions.json
+ * django_sessions         -- data temp table for django
+ * django_migrations       -- populated by migrations
+ * staffperson_staffjob    -- redundant, replaced by groups
+ * samples_worksheet       -- redundant, no replacement for data
+ * locations_hospital      -- populated from fixture 03_hospitals.json (Issue #210)
+ * compare_retrievalteam   -- populated from fixture 03_hospitals.json (Issue #210)
+ * perfusion_machine_perfusionfile -- nothing in the old data
+ * sqlite_sequence
+
+ New Tables
+ * adverse_event_category   -- new table; populate from fixture 11_adverseevent_categories.json after staff_person is filled
+ * staff_person_groups      -- Do nothing
+ * staff_person_user_permissions -- Do nothing
+
+ Overwrite data in:
+ * django_site
+ * django_content_type
+   * Amend records in here as changes are made elsewhere in the migration process.
+     * e.g. Amend adverse_event.adverseevent to event
+   * Remove redundant types (e.g. samples.worksheet)
+   * Add adverse_event.category
+ * compare_randomisation - no need to bother with fixture, but does need staff_person to be filled first
+
+ For Issue #211 - Remove link to Hospital from Donor
+ * Map locations.hospital.name to donor.retrieval_hospital on copy
+
+ Order of processing
+ - create new database `pm migrate`
+ - load fixture `pm loaddata config/fixtures/01_permissions.json`
+ - Execute BLOCK 1
+ - load fixture `pm loaddata config/fixtures/10_hospitals.json`
+ - load fixture `pm loaddata config/fixtures/11_adverseevent_categories.json`
+ - Execute BLOCK 2
+ */
+
+
 /* BLOCK 1 */
 DETACH DATABASE old;
 DETACH DATABASE new;
@@ -23,11 +77,38 @@ DELETE FROM new.django_content_type WHERE id IN (9,10,13);
 
 
 INSERT INTO new.staff_person (
-  id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined
+  id,
+  password,
+  last_login,
+  is_superuser,
+  username,
+  first_name,
+  last_name,
+  email,
+  is_staff,
+  is_active,
+  date_joined,
+  telephone,
+  based_at_id
 )
   SELECT
-  id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined
-  FROM old.auth_user;
+  oau.id,
+  oau.password,
+  oau.last_login,
+  oau.is_superuser,
+  oau.username,
+  oau.first_name,
+  oau.last_name,
+  oau.email,
+  oau.is_staff,
+  oau.is_active,
+  oau.date_joined,
+  osp.telephone,
+  osp.based_at_id
+  FROM old.auth_user as oau
+  LEFT OUTER JOIN old.staff_person_staffperson as osp
+    ON osp.user_id = oau.id
+;
 UPDATE new.staff_person SET is_active=0 WHERE id=105;
 
 INSERT INTO new.compare_randomisation SELECT * FROM old.compare_randomisation;
@@ -39,6 +120,10 @@ INSERT INTO new.perfusion_machine_perfusionmachine SELECT * FROM old.perfusion_m
 
 
 /* BLOCK 2 */
+/*
+ Changes to account for:
+ - live - added as part of VersionControlMixin, defaults to 1
+ */
 INSERT INTO new.compare_organperson
 (
   id
@@ -77,24 +162,13 @@ INSERT INTO new.compare_organperson
     created_by_id
   FROM old.compare_organperson;
 
-
-
-
-/* Can't copy donor until staff_person has been mapped to new users */
-/* Only practical solution I can see here is to manually go through all old.Staffperson records, and create
-user accounts for those who do not have them. Also manually update the auth_user record with any salient differences
-in names or email. Can then use the user_id in old.staffperson to replace technician_ids, etc.
-Also means we can do an update to pull in telephone numbers where available, as well as based_at info from linked profiles -- this has to be done as a separate update because of the need to load fixture data for locations, which
-rely on user records existing first.
-
-348 Staff Person records adjusted
-auth_user records created for all valid StaffPerson records
-Locations updated to display NOT PROJECT SITE
-... can return to the move and merge process on MONDAY
+/*
+ Changes to account for:
+ - live - added as part of VersionControlMixin, defaults to 1
+ - perfusion_technician - was Staff_Person.StaffPerson, now Staff.Person, which replaces Auth.User
+ - transplant_coordinator - was Staff_Person.StaffPerson, now Staff.Person, which replaces Auth.User
+ - retrieval_hospital - is a new charfield that replaces retrieval_hospital(_id) which was a Location.Hospital
  */
-
-
-
 INSERT INTO new.compare_donor (
   id, created_on, version, record_locked, sequence_number, multiple_recipients
   ,not_randomised_because
@@ -162,8 +236,12 @@ INSERT INTO new.compare_donor (
   ,systemic_flush_volume_used
   ,heparin
   ,created_by_id
+  ,perfusion_technician_id
   ,person_id
   ,retrieval_team_id
+  ,transplant_coordinator_id
+  ,_order
+  ,live
   )
   SELECT
   odo.id
@@ -178,7 +256,7 @@ INSERT INTO new.compare_donor (
   ,odo.admin_notes
   ,odo.call_received
   ,odo.call_received_unknown
-  ,oho.name
+  ,ifnull(oho.name,'')
   ,odo.scheduled_start
   ,odo.scheduled_start_unknown
   ,odo.technician_arrival
@@ -237,88 +315,1027 @@ INSERT INTO new.compare_donor (
   ,odo.systemic_flush_volume_used
   ,odo.heparin
   ,odo.created_by_id
+  ,techid_sp.user_id
   ,odo.person_id
   ,odo.retrieval_team_id
+  ,coorid_sp.user_id
+  ,odo._order
+  ,1
   FROM old.compare_donor as odo,
-    old.locations_hospital as oho
-  WHERE odo.retrieval_hospital_id=oho.id
+    old.staff_person_staffperson as techid_sp
+  LEFT OUTER JOIN old.locations_hospital as oho
+    ON odo.retrieval_hospital_id=oho.id
+  LEFT OUTER JOIN old.staff_person_staffperson as coorid_sp
+    ON odo.transplant_coordinator_id = coorid_sp.id
+  WHERE odo.perfusion_technician_id = techid_sp.id
 ;
-/* NB:
-  ,perfusion_technician_id << NEEDS REMAPPING
-  ,transplant_coordinator_id << NEEDS REMAPPING
-*/
 
-SELECT * FROM old.compare_organperson;
-INSERT INTO new.TABLE SELECT * FROM old.TABLE;
-INSERT INTO new.TABLE(fieldname1, fieldname2) SELECT fieldname1, fieldname2 FROM old.TABLE;
+
 /*
-
- Do not copy:
- * auth_group_permissions  -- populated from fixture 01_permissions.json
- * auth_permission         -- populated by migrations
- * auth_group              -- populated from fixture 01_permissions.json
- * django_sessions         -- data temp table for django
- * django_migrations       -- populated by migrations
- * staffperson_staffjob    -- redundant, replaced by groups
- * samples_worksheet       -- redundant, no replacement for data
- * locations_hospital      -- populated from fixture 03_hospitals.json (Issue #210)
- * compare_retrievalteam   -- populated from fixture 03_hospitals.json (Issue #210)
- * perfusion_machine_perfusionfile -- nothing in the old data
-
- New Tables
- * adverse_event_category   -- new table; populate from fixture 11_adverseevent_categories.json after staff_person is filled
- * staff_person_groups      -- Do nothing
- * staff_person_user_permissions -- Do nothing
-
- Overwrite data in:
- * django_site
- * django_content_type
-   * Amend records in here as changes are made elsewhere in the migration process.
-     * e.g. Amend adverse_event.adverseevent to event
-   * Remove redundant types (e.g. samples.worksheet)
-   * Add adverse_event.category
- * compare_randomisation - no need to bother with fixture, but does need staff_person to be filled first
-
- Order of processing
- - create new database `pm migrate`
- - load fixture `pm loaddata config/fixtures/01_permissions.json`
- - Execute BLOCK 1
- - load fixture `pm loaddata config/fixtures/10_hospitals.json`
- - load fixture `pm loaddata config/fixtures/11_adverseevent_categories.json`
- - Execute BLOCK 2
-
-
- TBD
- * adverse_event_event  (was adverse_event_adverseevent)
- *
- * compare_organ
- * compare_organallocation
- * compare_organperson
- * compare_procurementresource
- * compare_recipient
- * followups_followup1y
- * followups_followup3m
- * followups_followup6m
- * followups_followupinitial
- * health_economics_qualityoflife
- * health_economics_resourcehospital
- * health_economics_resourcelog
- * health_economics_resourcerehabilitation
- * health_economics_resourcevisit
- *
- *
- * reversion_revision
- * reversion_version
- * samples_bloodsample
- * samples_event
- * samples_perfusatesample
- * samples_tissuesample
- * samples_urinesample
- * sqlite_sequence
- * staff_person
-
-
- For Issue #211 - Remove link to Hospital from Donor
- * Map locations.hospital.name to donor.retrieval_hospital on copy
-
+ Changes to account for:
+ - live - added as part of VersionControlMixin, defaults to 1
  */
+INSERT INTO new.compare_organ
+(
+  id
+  ,created_on
+  ,version
+  ,record_locked
+  ,live
+  ,location
+  ,not_allocated_reason
+  ,admin_notes
+  ,transplantation_notes
+  ,transplantation_form_completed
+  ,removal
+  ,renal_arteries
+  ,graft_damage
+  ,graft_damage_other
+  ,washout_perfusion
+  ,transplantable
+  ,not_transplantable_reason
+  ,preservation
+  ,perfusion_possible
+  ,perfusion_not_possible_because
+  ,perfusion_started
+  ,patch_holder
+  ,artificial_patch_used
+  ,artificial_patch_size
+  ,artificial_patch_number
+  ,oxygen_bottle_full
+  ,oxygen_bottle_open
+  ,oxygen_bottle_changed
+  ,oxygen_bottle_changed_at
+  ,oxygen_bottle_changed_at_unknown
+  ,ice_container_replenished
+  ,ice_container_replenished_at
+  ,ice_container_replenished_at_unknown
+  ,perfusate_measurable
+  ,perfusate_measure
+  ,created_by_id
+  ,donor_id
+  ,perfusion_file_id
+  ,perfusion_machine_id
+)
+  SELECT
+    oco.id
+    ,oco.created_on
+    ,oco.version
+    ,oco.record_locked
+    ,1
+    ,oco.location
+    ,oco.not_allocated_reason
+    ,oco.admin_notes
+    ,oco.transplantation_notes
+    ,oco.transplantation_form_completed
+    ,oco.removal
+    ,oco.renal_arteries
+    ,oco.graft_damage
+    ,oco.graft_damage_other
+    ,oco.washout_perfusion
+    ,oco.transplantable
+    ,oco.not_transplantable_reason
+    ,oco.preservation
+    ,oco.perfusion_possible
+    ,oco.perfusion_not_possible_because
+    ,oco.perfusion_started
+    ,oco.patch_holder
+    ,oco.artificial_patch_used
+    ,oco.artificial_patch_size
+    ,oco.artificial_patch_number
+    ,oco.oxygen_bottle_full
+    ,oco.oxygen_bottle_open
+    ,oco.oxygen_bottle_changed
+    ,oco.oxygen_bottle_changed_at
+    ,oco.oxygen_bottle_changed_at_unknown
+    ,oco.ice_container_replenished
+    ,oco.ice_container_replenished_at
+    ,oco.ice_container_replenished_at_unknown
+    ,oco.perfusate_measurable
+    ,oco.perfusate_measure
+    ,oco.created_by_id
+    ,oco.donor_id
+    ,oco.perfusion_file_id
+    ,oco.perfusion_machine_id
+  FROM old.compare_organ as oco;
+
+
+INSERT INTO new.compare_procurementresource (
+  id
+  ,created_on
+  ,type
+  ,lot_number
+  ,expiry_date
+  ,expiry_date_unknown
+  ,created_by_id
+  ,organ_id
+)
+  SELECT
+  id
+  ,created_on
+  ,type
+  ,ifnull(lot_number,'')
+  ,expiry_date
+  ,expiry_date_unknown
+  ,created_by_id
+  ,organ_id
+  FROM old.compare_procurementresource;
+
+/*
+ Changes to account for:
+ - live - added as part of VersionControlMixin, defaults to 1
+ - perfusion_technician - was Staff_Person.StaffPerson, now Staff.Person, which replaces Auth.User
+ - theatre_contact - was Staff_Person.StaffPerson, now Staff.Person, which replaces Auth.User
+ */
+
+INSERT INTO new.compare_organallocation (
+    id,
+    created_on,
+    version,
+    record_locked,
+    live,
+    call_received,
+    call_received_unknown,
+    scheduled_start,
+    scheduled_start_unknown,
+    technician_arrival,
+    technician_arrival_unknown,
+    depart_perfusion_centre,
+    depart_perfusion_centre_unknown,
+    arrival_at_recipient_hospital,
+    arrival_at_recipient_hospital_unknown,
+    journey_remarks,
+    reallocated,
+    reallocation_reason,
+    reallocation_reason_other,
+    created_by_id,
+    organ_id,
+    perfusion_technician_id,
+    theatre_contact_id,
+    transplant_hospital_id,
+    _order,
+    reallocation_id
+)
+  SELECT 
+    compare_organallocation.id,
+    compare_organallocation.created_on,
+    compare_organallocation.version,
+    compare_organallocation.record_locked,
+    1,
+    compare_organallocation.call_received,
+    compare_organallocation.call_received_unknown,
+    compare_organallocation.scheduled_start,
+    compare_organallocation.scheduled_start_unknown,
+    compare_organallocation.technician_arrival,
+    compare_organallocation.technician_arrival_unknown,
+    compare_organallocation.depart_perfusion_centre,
+    compare_organallocation.depart_perfusion_centre_unknown,
+    compare_organallocation.arrival_at_recipient_hospital,
+    compare_organallocation.arrival_at_recipient_hospital_unknown,
+    compare_organallocation.journey_remarks,
+    compare_organallocation.reallocated,
+    compare_organallocation.reallocation_reason,
+    compare_organallocation.reallocation_reason_other,
+    compare_organallocation.created_by_id,
+    compare_organallocation.organ_id,
+    pt_sp.user_id,
+    tc_sp.user_id,
+    compare_organallocation.transplant_hospital_id,
+    compare_organallocation._order,
+    compare_organallocation.reallocation_id
+  FROM old.compare_organallocation as compare_organallocation
+  LEFT OUTER JOIN old.staff_person_staffperson as tc_sp
+    ON compare_organallocation.theatre_contact_id = tc_sp.id
+  LEFT OUTER JOIN old.staff_person_staffperson as pt_sp
+    ON compare_organallocation.perfusion_technician_id = pt_sp.id
+;
+
+/*
+ Changes to account for:
+ - live - added as part of VersionControlMixin, defaults to 1
+ */
+INSERT INTO new.compare_recipient (
+    id,
+    created_on,
+    version,
+    record_locked,
+    live,
+    signed_consent,
+    single_kidney_transplant,
+    renal_disease,
+    renal_disease_other,
+    pre_transplant_diuresis,
+    knife_to_skin,
+    perfusate_measure,
+    perfusion_stopped,
+    organ_cold_stored,
+    tape_broken,
+    removed_from_machine_at,
+    oxygen_full_and_open,
+    organ_untransplantable,
+    organ_untransplantable_reason,
+    anesthesia_started_at,
+    incision,
+    transplant_side,
+    arterial_problems,
+    arterial_problems_other,
+    venous_problems,
+    venous_problems_other,
+    anastomosis_started_at,
+    anastomosis_started_at_unknown,
+    reperfusion_started_at,
+    reperfusion_started_at_unknown,
+    mannitol_used,
+    other_diurectics,
+    other_diurectics_details,
+    systolic_blood_pressure,
+    cvp,
+    intra_operative_diuresis,
+    successful_conclusion,
+    operation_concluded_at,
+    probe_cleaned,
+    ice_removed,
+    oxygen_flow_stopped,
+    oxygen_bottle_removed,
+    box_cleaned,
+    batteries_charged,
+    cleaning_log,
+    allocation_id,
+    created_by_id,
+    organ_id,
+    person_id,
+    _order
+)
+  SELECT 
+    ocr.id,
+    ocr.created_on,
+    ocr.version,
+    ocr.record_locked,
+    1,
+    ocr.signed_consent,
+    ocr.single_kidney_transplant,
+    ocr.renal_disease,
+    ocr.renal_disease_other,
+    ocr.pre_transplant_diuresis,
+    ocr.knife_to_skin,
+    ocr.perfusate_measure,
+    ocr.perfusion_stopped,
+    ocr.organ_cold_stored,
+    ocr.tape_broken,
+    ocr.removed_from_machine_at,
+    ocr.oxygen_full_and_open,
+    ocr.organ_untransplantable,
+    ocr.organ_untransplantable_reason,
+    ocr.anesthesia_started_at,
+    ocr.incision,
+    ocr.transplant_side,
+    ocr.arterial_problems,
+    ocr.arterial_problems_other,
+    ocr.venous_problems,
+    ocr.venous_problems_other,
+    ocr.anastomosis_started_at,
+    ocr.anastomosis_started_at_unknown,
+    ocr.reperfusion_started_at,
+    ocr.reperfusion_started_at_unknown,
+    ocr.mannitol_used,
+    ocr.other_diurectics,
+    ocr.other_diurectics_details,
+    ocr.systolic_blood_pressure,
+    ocr.cvp,
+    ocr.intra_operative_diuresis,
+    ocr.successful_conclusion,
+    ocr.operation_concluded_at,
+    ocr.probe_cleaned,
+    ocr.ice_removed,
+    ocr.oxygen_flow_stopped,
+    ocr.oxygen_bottle_removed,
+    ocr.box_cleaned,
+    ocr.batteries_charged,
+    ocr.cleaning_log,
+    ocr.allocation_id,
+    ocr.created_by_id,
+    ocr.organ_id,
+    ocr.person_id,
+    ocr._order
+  FROM old.compare_recipient as ocr;
+
+
+/*
+ adverse_event_event  (was adverse_event_adverseevent)
+ Changes to account for:
+ - live - added as part of VersionControlMixin, defaults to 1
+ - date_of_death - removed from old, no long part of new event
+ - contact - was Staff_Person.StaffPerson, now Staff.Person, which replaces Auth.User
+ - Where contact is missing (19 or so examples) set it to Ina Jochmans (Staff id=108)as PI
+ */
+INSERT INTO new.adverse_event_event (
+    id,
+    created_on,
+    version,
+    record_locked,
+    live,
+    serious_eligible_1,
+    serious_eligible_2,
+    serious_eligible_3,
+    serious_eligible_4,
+    serious_eligible_5,
+    serious_eligible_6,
+    onset_at_date,
+    event_ongoing,
+    description,
+    action,
+    outcome,
+    alive_query_1,
+    alive_query_2,
+    alive_query_3,
+    alive_query_4,
+    alive_query_5,
+    alive_query_6,
+    alive_query_7,
+    alive_query_8,
+    alive_query_9,
+    rehospitalisation,
+    date_of_admission,
+    date_of_discharge,
+    admitted_to_itu,
+    dialysis_needed,
+    biopsy_taken,
+    surgery_required,
+    rehospitalisation_comments,
+    death,
+    treatment_related,
+    cause_of_death_1,
+    cause_of_death_2,
+    cause_of_death_3,
+    cause_of_death_4,
+    cause_of_death_5,
+    cause_of_death_6,
+    cause_of_death_comment,
+    contact_id,
+    created_by_id,
+    organ_id,
+    _order
+)
+  SELECT
+    adverse_event_event.id,
+    adverse_event_event.created_on,
+    adverse_event_event.version,
+    adverse_event_event.record_locked,
+    1,
+    adverse_event_event.serious_eligible_1,
+    adverse_event_event.serious_eligible_2,
+    adverse_event_event.serious_eligible_3,
+    adverse_event_event.serious_eligible_4,
+    adverse_event_event.serious_eligible_5,
+    adverse_event_event.serious_eligible_6,
+    adverse_event_event.onset_at_date,
+    adverse_event_event.event_ongoing,
+    adverse_event_event.description,
+    adverse_event_event.action,
+    adverse_event_event.outcome,
+    adverse_event_event.alive_query_1,
+    adverse_event_event.alive_query_2,
+    adverse_event_event.alive_query_3,
+    adverse_event_event.alive_query_4,
+    adverse_event_event.alive_query_5,
+    adverse_event_event.alive_query_6,
+    adverse_event_event.alive_query_7,
+    adverse_event_event.alive_query_8,
+    adverse_event_event.alive_query_9,
+    adverse_event_event.rehospitalisation,
+    adverse_event_event.date_of_admission,
+    adverse_event_event.date_of_discharge,
+    adverse_event_event.admitted_to_itu,
+    adverse_event_event.dialysis_needed,
+    adverse_event_event.biopsy_taken,
+    adverse_event_event.surgery_required,
+    adverse_event_event.rehospitalisation_comments,
+    adverse_event_event.death,
+    adverse_event_event.treatment_related,
+    adverse_event_event.cause_of_death_1,
+    adverse_event_event.cause_of_death_2,
+    adverse_event_event.cause_of_death_3,
+    adverse_event_event.cause_of_death_4,
+    adverse_event_event.cause_of_death_5,
+    adverse_event_event.cause_of_death_6,
+    adverse_event_event.cause_of_death_comment,
+    ifnull(contact_sp.user_id,108),
+    adverse_event_event.created_by_id,
+    adverse_event_event.organ_id,
+    adverse_event_event._order
+  FROM old.adverse_event_adverseevent as adverse_event_event
+  LEFT OUTER JOIN old.staff_person_staffperson as contact_sp
+    ON adverse_event_event.contact_id = contact_sp.id
+;
+
+
+/*
+ TABLE: followups_followup1y
+ Changes to account for:
+ - live - added as part of VersionControlMixin, defaults to 1
+ */
+INSERT INTO new.followups_followup1y (
+    id,
+    created_on,
+    version,
+    record_locked,
+    live,
+    start_date,
+    notes,
+    graft_failure,
+    graft_failure_date,
+    graft_failure_type,
+    graft_failure_type_other,
+    graft_removal,
+    graft_removal_date,
+    dialysis_type,
+    immunosuppression_1,
+    immunosuppression_2,
+    immunosuppression_3,
+    immunosuppression_4,
+    immunosuppression_5,
+    immunosuppression_6,
+    immunosuppression_7,
+    immunosuppression_other,
+    rejection,
+    rejection_prednisolone,
+    rejection_drug,
+    rejection_drug_other,
+    rejection_biopsy,
+    calcineurin,
+    serum_creatinine_unit,
+    serum_creatinine,
+    creatinine_clearance,
+    currently_on_dialysis,
+    dialysis_date,
+    number_of_dialysis_sessions,
+    rejection_periods,
+    graft_complications,
+    created_by_id,
+    organ_id,
+    quality_of_life_id  
+)
+  SELECT
+    followups_followup1y.id,
+    followups_followup1y.created_on,
+    followups_followup1y.version,
+    followups_followup1y.record_locked,
+    1,
+    followups_followup1y.start_date,
+    followups_followup1y.notes,
+    followups_followup1y.graft_failure,
+    followups_followup1y.graft_failure_date,
+    followups_followup1y.graft_failure_type,
+    followups_followup1y.graft_failure_type_other,
+    followups_followup1y.graft_removal,
+    followups_followup1y.graft_removal_date,
+    followups_followup1y.dialysis_type,
+    followups_followup1y.immunosuppression_1,
+    followups_followup1y.immunosuppression_2,
+    followups_followup1y.immunosuppression_3,
+    followups_followup1y.immunosuppression_4,
+    followups_followup1y.immunosuppression_5,
+    followups_followup1y.immunosuppression_6,
+    followups_followup1y.immunosuppression_7,
+    followups_followup1y.immunosuppression_other,
+    followups_followup1y.rejection,
+    followups_followup1y.rejection_prednisolone,
+    followups_followup1y.rejection_drug,
+    followups_followup1y.rejection_drug_other,
+    followups_followup1y.rejection_biopsy,
+    followups_followup1y.calcineurin,
+    followups_followup1y.serum_creatinine_unit,
+    followups_followup1y.serum_creatinine,
+    followups_followup1y.creatinine_clearance,
+    followups_followup1y.currently_on_dialysis,
+    followups_followup1y.dialysis_date,
+    followups_followup1y.number_of_dialysis_sessions,
+    followups_followup1y.rejection_periods,
+    followups_followup1y.graft_complications,
+    followups_followup1y.created_by_id,
+    followups_followup1y.organ_id,
+    followups_followup1y.quality_of_life_id  
+  FROM old.followups_followup1y as followups_followup1y;
+
+/*
+ TABLE: followups_followup3m
+ Changes to account for:
+ - live - added as part of VersionControlMixin, defaults to 1
+ */
+INSERT INTO new.followups_followup3m (
+    id
+    ,created_on
+    ,version
+    ,record_locked
+    ,live
+    ,start_date
+    ,notes
+    ,graft_failure
+    ,graft_failure_date
+    ,graft_failure_type
+    ,graft_failure_type_other
+    ,graft_removal
+    ,graft_removal_date
+    ,dialysis_type
+    ,immunosuppression_1
+    ,immunosuppression_2
+    ,immunosuppression_3
+    ,immunosuppression_4
+    ,immunosuppression_5
+    ,immunosuppression_6
+    ,immunosuppression_7
+    ,immunosuppression_other
+    ,rejection
+    ,rejection_prednisolone
+    ,rejection_drug
+    ,rejection_drug_other
+    ,rejection_biopsy
+    ,calcineurin
+    ,serum_creatinine_unit
+    ,serum_creatinine
+    ,creatinine_clearance
+    ,currently_on_dialysis
+    ,dialysis_date
+    ,number_of_dialysis_sessions
+    ,rejection_periods
+    ,graft_complications
+    ,created_by_id
+    ,organ_id
+    ,quality_of_life_id
+)
+  SELECT
+    followups_followup3m.id
+    ,followups_followup3m.created_on
+    ,followups_followup3m.version
+    ,followups_followup3m.record_locked
+    ,1
+    ,followups_followup3m.start_date
+    ,followups_followup3m.notes
+    ,followups_followup3m.graft_failure
+    ,followups_followup3m.graft_failure_date
+    ,followups_followup3m.graft_failure_type
+    ,followups_followup3m.graft_failure_type_other
+    ,followups_followup3m.graft_removal
+    ,followups_followup3m.graft_removal_date
+    ,followups_followup3m.dialysis_type
+    ,followups_followup3m.immunosuppression_1
+    ,followups_followup3m.immunosuppression_2
+    ,followups_followup3m.immunosuppression_3
+    ,followups_followup3m.immunosuppression_4
+    ,followups_followup3m.immunosuppression_5
+    ,followups_followup3m.immunosuppression_6
+    ,followups_followup3m.immunosuppression_7
+    ,followups_followup3m.immunosuppression_other
+    ,followups_followup3m.rejection
+    ,followups_followup3m.rejection_prednisolone
+    ,followups_followup3m.rejection_drug
+    ,followups_followup3m.rejection_drug_other
+    ,followups_followup3m.rejection_biopsy
+    ,followups_followup3m.calcineurin
+    ,followups_followup3m.serum_creatinine_unit
+    ,followups_followup3m.serum_creatinine
+    ,followups_followup3m.creatinine_clearance
+    ,followups_followup3m.currently_on_dialysis
+    ,followups_followup3m.dialysis_date
+    ,followups_followup3m.number_of_dialysis_sessions
+    ,followups_followup3m.rejection_periods
+    ,followups_followup3m.graft_complications
+    ,followups_followup3m.created_by_id
+    ,followups_followup3m.organ_id
+    ,followups_followup3m.quality_of_life_id
+  FROM old.followups_followup3m as followups_followup3m
+;
+
+/*
+ TABLE: followups_followup6m
+ Changes to account for:
+ - live - added as part of VersionControlMixin, defaults to 1
+ */
+INSERT INTO new.followups_followup6m 
+(
+    id,
+    created_on,
+    version,
+    record_locked,
+    live,
+    start_date,
+    notes,
+    graft_failure,
+    graft_failure_date,
+    graft_failure_type,
+    graft_failure_type_other,
+    graft_removal,
+    graft_removal_date,
+    dialysis_type,
+    immunosuppression_1,
+    immunosuppression_2,
+    immunosuppression_3,
+    immunosuppression_4,
+    immunosuppression_5,
+    immunosuppression_6,
+    immunosuppression_7,
+    immunosuppression_other,
+    rejection,
+    rejection_prednisolone,
+    rejection_drug,
+    rejection_drug_other,
+    rejection_biopsy,
+    calcineurin,
+    serum_creatinine_unit,
+    serum_creatinine,
+    creatinine_clearance,
+    currently_on_dialysis,
+    dialysis_date,
+    number_of_dialysis_sessions,
+    rejection_periods,
+    graft_complications,
+    created_by_id,
+    organ_id
+)
+  SELECT
+    followups_followup6m.id,
+    followups_followup6m.created_on,
+    followups_followup6m.version,
+    followups_followup6m.record_locked,
+    1,
+    followups_followup6m.start_date,
+    followups_followup6m.notes,
+    followups_followup6m.graft_failure,
+    followups_followup6m.graft_failure_date,
+    followups_followup6m.graft_failure_type,
+    followups_followup6m.graft_failure_type_other,
+    followups_followup6m.graft_removal,
+    followups_followup6m.graft_removal_date,
+    followups_followup6m.dialysis_type,
+    followups_followup6m.immunosuppression_1,
+    followups_followup6m.immunosuppression_2,
+    followups_followup6m.immunosuppression_3,
+    followups_followup6m.immunosuppression_4,
+    followups_followup6m.immunosuppression_5,
+    followups_followup6m.immunosuppression_6,
+    followups_followup6m.immunosuppression_7,
+    followups_followup6m.immunosuppression_other,
+    followups_followup6m.rejection,
+    followups_followup6m.rejection_prednisolone,
+    followups_followup6m.rejection_drug,
+    followups_followup6m.rejection_drug_other,
+    followups_followup6m.rejection_biopsy,
+    followups_followup6m.calcineurin,
+    followups_followup6m.serum_creatinine_unit,
+    followups_followup6m.serum_creatinine,
+    followups_followup6m.creatinine_clearance,
+    followups_followup6m.currently_on_dialysis,
+    followups_followup6m.dialysis_date,
+    followups_followup6m.number_of_dialysis_sessions,
+    followups_followup6m.rejection_periods,
+    followups_followup6m.graft_complications,
+    followups_followup6m.created_by_id,
+    followups_followup6m.organ_id
+  FROM old.followups_followup6m as followups_followup6m;
+
+/*
+ TABLE: followups_followupinitial
+ Changes to account for:
+ - live - added as part of VersionControlMixin, defaults to 1
+ */
+INSERT INTO new.followups_followupinitial 
+(
+    id,
+    created_on,
+    version,
+    record_locked,
+    live,
+    start_date,
+    notes,
+    graft_failure,
+    graft_failure_date,
+    graft_failure_type,
+    graft_failure_type_other,
+    graft_removal,
+    graft_removal_date,
+    dialysis_type,
+    immunosuppression_1,
+    immunosuppression_2,
+    immunosuppression_3,
+    immunosuppression_4,
+    immunosuppression_5,
+    immunosuppression_6,
+    immunosuppression_7,
+    immunosuppression_other,
+    rejection,
+    rejection_prednisolone,
+    rejection_drug,
+    rejection_drug_other,
+    rejection_biopsy,
+    calcineurin,
+    serum_creatinine_unit,
+    serum_creatinine_1,
+    serum_creatinine_2,
+    serum_creatinine_3,
+    serum_creatinine_4,
+    serum_creatinine_5,
+    serum_creatinine_6,
+    serum_creatinine_7,
+    dialysis_requirement_1,
+    dialysis_requirement_2,
+    dialysis_requirement_3,
+    dialysis_requirement_4,
+    dialysis_requirement_5,
+    dialysis_requirement_6,
+    dialysis_requirement_7,
+    dialysis_cause,
+    dialysis_cause_other,
+    hla_mismatch_a,
+    hla_mismatch_b,
+    hla_mismatch_dr,
+    induction_therapy,
+    discharge_date,
+    created_by_id,
+    organ_id
+)
+  SELECT
+    followups_followupinitial.id,
+    followups_followupinitial.created_on,
+    followups_followupinitial.version,
+    followups_followupinitial.record_locked,
+    1,
+    followups_followupinitial.start_date,
+    followups_followupinitial.notes,
+    followups_followupinitial.graft_failure,
+    followups_followupinitial.graft_failure_date,
+    followups_followupinitial.graft_failure_type,
+    followups_followupinitial.graft_failure_type_other,
+    followups_followupinitial.graft_removal,
+    followups_followupinitial.graft_removal_date,
+    followups_followupinitial.dialysis_type,
+    followups_followupinitial.immunosuppression_1,
+    followups_followupinitial.immunosuppression_2,
+    followups_followupinitial.immunosuppression_3,
+    followups_followupinitial.immunosuppression_4,
+    followups_followupinitial.immunosuppression_5,
+    followups_followupinitial.immunosuppression_6,
+    followups_followupinitial.immunosuppression_7,
+    followups_followupinitial.immunosuppression_other,
+    followups_followupinitial.rejection,
+    followups_followupinitial.rejection_prednisolone,
+    followups_followupinitial.rejection_drug,
+    followups_followupinitial.rejection_drug_other,
+    followups_followupinitial.rejection_biopsy,
+    followups_followupinitial.calcineurin,
+    followups_followupinitial.serum_creatinine_unit,
+    followups_followupinitial.serum_creatinine_1,
+    followups_followupinitial.serum_creatinine_2,
+    followups_followupinitial.serum_creatinine_3,
+    followups_followupinitial.serum_creatinine_4,
+    followups_followupinitial.serum_creatinine_5,
+    followups_followupinitial.serum_creatinine_6,
+    followups_followupinitial.serum_creatinine_7,
+    followups_followupinitial.dialysis_requirement_1,
+    followups_followupinitial.dialysis_requirement_2,
+    followups_followupinitial.dialysis_requirement_3,
+    followups_followupinitial.dialysis_requirement_4,
+    followups_followupinitial.dialysis_requirement_5,
+    followups_followupinitial.dialysis_requirement_6,
+    followups_followupinitial.dialysis_requirement_7,
+    followups_followupinitial.dialysis_cause,
+    followups_followupinitial.dialysis_cause_other,
+    followups_followupinitial.hla_mismatch_a,
+    followups_followupinitial.hla_mismatch_b,
+    followups_followupinitial.hla_mismatch_dr,
+    followups_followupinitial.induction_therapy,
+    followups_followupinitial.discharge_date,
+    followups_followupinitial.created_by_id,
+    followups_followupinitial.organ_id
+  FROM old.followups_followupinitial as followups_followupinitial;
+
+/*
+The following tables appear to be empty in the original data, but copy them verbatim anyhow
+ */
+INSERT INTO new.health_economics_resourcehospitaladmission SELECT * FROM old.health_economics_resourcehospitaladmission;
+INSERT INTO new.health_economics_resourcerehabilitation SELECT * FROM old.health_economics_resourcerehabilitation;
+INSERT INTO new.health_economics_resourcevisit SELECT * FROM old.health_economics_resourcevisit;
+
+/*
+ TABLE: health_economics_qualityoflife
+ Changes to account for:
+ - live - added as part of VersionControlMixin, defaults to 1
+ */
+INSERT INTO new.health_economics_qualityoflife (
+    id,
+    created_on,
+    version,
+    record_locked,
+    live,
+    date_recorded,
+    qol_mobility,
+    qol_selfcare,
+    qol_usual_activities,
+    qol_pain,
+    qol_anxiety,
+    vas_score,
+    created_by_id,
+    recipient_id
+)
+  SELECT
+    health_economics_qualityoflife.id,
+    health_economics_qualityoflife.created_on,
+    health_economics_qualityoflife.version,
+    health_economics_qualityoflife.record_locked,
+    1,
+    health_economics_qualityoflife.date_recorded,
+    health_economics_qualityoflife.qol_mobility,
+    health_economics_qualityoflife.qol_selfcare,
+    health_economics_qualityoflife.qol_usual_activities,
+    health_economics_qualityoflife.qol_pain,
+    health_economics_qualityoflife.qol_anxiety,
+    health_economics_qualityoflife.vas_score,
+    health_economics_qualityoflife.created_by_id,
+    health_economics_qualityoflife.recipient_id
+  FROM old.health_economics_qualityoflife as health_economics_qualityoflife
+;
+
+/*
+ TABLE: health_economics_resourcelog
+ Note: Appears to be empty!
+ Changes to account for:
+ - live - added as part of VersionControlMixin, defaults to 1
+ */
+
+INSERT INTO new.health_economics_resourcelog
+(
+  id,
+  created_on,
+  version,
+  record_locked,
+  live,
+  date_given,
+  date_returned,
+  notes,
+  created_by_id,
+  recipient_id
+)
+  SELECT
+    id,
+    created_on,
+    version,
+    record_locked,
+    1,
+    date_given,
+    date_returned,
+    notes,
+    created_by_id,
+    recipient_id
+  FROM old.health_economics_resourcelog
+;
+
+
+/*
+ TABLE: samples_event
+ Changes to account for:
+ - live - added as part of VersionControlMixin, defaults to 1
+ - worksheet - removed from old model, not in new model
+ */
+INSERT INTO new.samples_event (
+    id,
+    created_on,
+    version,
+    record_locked,
+    live,
+    type,
+    name,
+    taken_at,
+    created_by_id
+  )
+  SELECT
+    id,
+    created_on,
+    version,
+    record_locked,
+    1,
+    type,
+    name,
+    taken_at,
+    created_by_id
+  FROM old.samples_event;
+
+/*
+ TABLE: samples_bloodsample
+ Changes to account for:
+ - live - added as part of VersionControlMixin, defaults to 1
+ */
+INSERT INTO new.samples_bloodsample
+(
+    id,
+    created_on,
+    version,
+    record_locked,
+    live,
+    barcode,
+    collected,
+    notes,
+    blood_type,
+    centrifuged_at,
+    created_by_id,
+    event_id,
+    person_id
+)
+  SELECT
+    id,
+    created_on,
+    version,
+    record_locked,
+    1,
+    barcode,
+    collected,
+    notes,
+    blood_type,
+    centrifuged_at,
+    created_by_id,
+    event_id,
+    person_id
+  FROM old.samples_bloodsample;
+
+/*
+ TABLE: samples_perfusatesample
+ Changes to account for:
+ - live - added as part of VersionControlMixin, defaults to 1
+ */
+INSERT INTO new.samples_perfusatesample (
+    id,
+    created_on,
+    version,
+    record_locked,
+    live,
+    barcode,
+    collected,
+    notes,
+    centrifuged_at,
+    created_by_id,
+    event_id,
+    organ_id
+)
+  SELECT
+    id,
+    created_on,
+    version,
+    record_locked,
+    1,
+    barcode,
+    collected,
+    notes,
+    centrifuged_at,
+    created_by_id,
+    event_id,
+    organ_id
+  FROM old.samples_perfusatesample;
+
+
+/*
+ TABLE: samples_tissuesample
+ Changes to account for:
+ - live - added as part of VersionControlMixin, defaults to 1
+ */
+INSERT INTO new.samples_urinesample (
+    id,
+    created_on,
+    version,
+    record_locked,
+    live,
+    barcode,
+    collected,
+    notes,
+    centrifuged_at,
+    created_by_id,
+    event_id,
+    person_id
+)
+  SELECT
+    id,
+    created_on,
+    version,
+    record_locked,
+    1,
+    barcode,
+    collected,
+    notes,
+    centrifuged_at,
+    created_by_id,
+    event_id,
+    person_id
+  FROM old.samples_urinesample;
+
+/*
+ TABLE: reversion_revision
+ No changes to note, all references should be consistent
+ */
+INSERT INTO new.reversion_revision SELECT * FROM old.reversion_revision;
+
+/*
+ TABLE: reversion_version
+ No changes to note, all references should be consistent as content_type_ids have not changed.
+ */
+INSERT INTO new.reversion_version SELECT * FROM old.reversion_version;
+
+
+
+
