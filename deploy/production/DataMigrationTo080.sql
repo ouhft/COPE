@@ -61,11 +61,9 @@ DETACH DATABASE new;
 ATTACH DATABASE 'file:///Users/carl/Projects/py3_cope/cope_repo/old.db.sqlite3?mode=ro' AS old;
 ATTACH DATABASE 'file:///Users/carl/Projects/py3_cope/cope_repo/db.sqlite3' AS new;
 
-SELECT * FROM old.django_site;
 DELETE FROM new.django_site;
 UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='new.django_site';
 INSERT INTO new.django_site SELECT * FROM old.django_site;
-SELECT * FROM new.django_site;
 
 DELETE FROM new.django_content_type;
 UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='new.django_content_type';
@@ -97,9 +95,9 @@ INSERT INTO new.staff_person (
   oau.last_login,
   oau.is_superuser,
   oau.username,
-  oau.first_name,
-  oau.last_name,
-  oau.email,
+  ifnull(osp.first_names, oau.first_name),
+  ifnull(osp.last_names, oau.last_name),
+  ifnull(osp.email, oau.email),
   oau.is_staff,
   oau.is_active,
   oau.date_joined,
@@ -109,7 +107,6 @@ INSERT INTO new.staff_person (
   LEFT OUTER JOIN old.staff_person_staffperson as osp
     ON osp.user_id = oau.id
 ;
-UPDATE new.staff_person SET is_active=0 WHERE id=105;
 
 INSERT INTO new.compare_randomisation SELECT * FROM old.compare_randomisation;
 
