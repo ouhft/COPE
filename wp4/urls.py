@@ -19,10 +19,9 @@ from .views import wp4_index
 
 urlpatterns = [
     url(r'^health-economics/', include(health_economics_urls, namespace="health_economics")),
-    url(r'^followup/', include(followup_urls, namespace="followup")),
+    url(r'^follow-up/', include(followup_urls, namespace="followup")),
     url(r'^adverse-event/', include(adverseevent_urls, namespace="adverse_event")),
     url(r'^staff/', include(person_urls, namespace="staff")),
-    # url(r'^person/', include(staffperson_urls, namespace="staff_person")),
     url(r'^location/', include(locations_urls, namespace="locations")),
     url(r'^sample/', include(samples_urls, namespace="samples")),
     url(r'^compare/', include(compare_urls, namespace="compare")),

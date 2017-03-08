@@ -36,6 +36,7 @@ class Event(VersionControlMixin):
     organ = models.ForeignKey(Organ, verbose_name=_("AE04 trial id link"))
     # Because even if the form wants to record a trial id string, it's going to be pointless if it doesn't actually
     # link to a record
+    categories = models.ManyToManyField(Category)
 
     # Page 1
     serious_eligible_1 = models.BooleanField(verbose_name=_("AE10 lead to death"), default=False)

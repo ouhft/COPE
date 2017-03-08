@@ -68,12 +68,12 @@ urlpatterns = [
 
     # DMC Reports
     url(
-        regex=r'^dmc-secondary-outcomes',
+        regex=r'^dmc/secondary-outcomes',
         view=dmc_secondary_outcomes,
         name='dmc_secondary_outcomes'
     ),
     url(
-        regex=r'^dmc-death-summaries',
+        regex=r'^dmc/death-summaries',
         view=dmc_death_summaries,
         name='dmc_death_summaries'
     ),

@@ -59,6 +59,18 @@ class Person(AbstractUser):
         help_text="Link to a primary hospital location for the member of staff"
     )
 
+    def has_group(self, group_ids=[]):
+        my_group_ids = [g.id for g in self.groups.all()]
+        print("DEBUG: my_group_ids={0}".format(my_group_ids))
+        if type(group_ids) is list:
+            for group in group_ids:
+                if group in my_group_ids:
+                    return True
+        else:
+            if group_ids in my_group_ids:
+                return True
+        return False
+
     class Meta:
         verbose_name = _('SPm1 person')
         verbose_name_plural = _('SPm2 people')

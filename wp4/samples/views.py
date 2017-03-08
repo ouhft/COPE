@@ -11,26 +11,20 @@ from braces.views import LoginRequiredMixin, OrderableListMixin
 
 from wp4.staff.models import Person
 
-# from .models import Event
+from .models import Event
 # from .forms import EventForm, BloodSampleFormSet, UrineSampleFormSet, PerfusateSampleFormSet, TissueSampleFormSet
 
 
 # ============================================  CBVs
-class WorksheetListView(LoginRequiredMixin, OrderableListMixin, ListView):
-    pass
-    # model = Worksheet
-    # current_person = None
-    # paginate_by = 20
-    # paginate_orphans = 5
-    #
-    # def get_orderable_columns(self):
-    #     # return an iterable
-    #     return ("id", "barcode", "person__number", "person__date_of_birth", "person__gender")
-    #
-    # def get_orderable_columns_default(self):
-    #     # return a string
-    #     return "id"
-    #
+class EventListView(LoginRequiredMixin, OrderableListMixin, ListView):
+    # pass
+    model = Event
+    current_person = None
+    paginate_by = 20
+    paginate_orphans = 5
+    orderable_columns = ("id", "type", "name",)
+    orderable_columns_default = "id"
+
     # def get(self, request, *args, **kwargs):
     #     self.current_person = request.user
     #     return super(WorksheetListView, self).get(request, *args, **kwargs)

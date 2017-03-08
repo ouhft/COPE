@@ -4,23 +4,23 @@ from __future__ import absolute_import, unicode_literals
 
 from django.test import TestCase, RequestFactory
 from django.test.client import Client
-from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 
-from ..views import index, procurement_list, transplantation_list
-from .tests import CoreDataMixin
+from wp4.staff.models import Person
+from wp4.compare.models.donor import Randomisation
+from wp4.compare.views import index as co_index, procurement_list, transplantation_list
 
-LANGUAGE_URL_GB = '/en-gb'
-PACKAGE_URL = '/wp4'
-APP_URL = '/compare'
-BASE_URL = LANGUAGE_URL_GB + PACKAGE_URL + APP_URL
+from .tests import CoreDataMixin
 
 
 class CompareViewsTestCase(CoreDataMixin, TestCase):
+    BASE_URL = "/en-gb/wp4/compare"
+
     def setUp(self):
         self.factory = RequestFactory()
         self.client = Client()
-        self.user = User.objects.get_by_natural_key("tech")
+        self.user = Person.objects.get_by_natural_key("tech")
+        # print("DEBUG: Randomisations loaded = {0}".format(Randomisation.objects.count()))
 
     def test_login(self):
         """
@@ -33,21 +33,19 @@ class CompareViewsTestCase(CoreDataMixin, TestCase):
 
     def test_index_view_basic(self):
         """
-        Test that index view returns a 200 response and uses
-        the correct template
+        Test that index view returns a 200 response and uses the correct template
         """
-        request = self.factory.get(BASE_URL + '/')
+        request = self.factory.get(CompareViewsTestCase.BASE_URL + '/')
         request.user = self.user  # Fake being logged in
         with self.assertTemplateUsed('compare/index.html'):
-            response = index(request)
+            response = co_index(request)
             self.assertEqual(response.status_code, 200)
 
     def test_procurement_list_view_basic(self):
         """
-        Test that procurement_list view returns a 200 response and uses
-        the correct template
+        Test that procurement_list view returns a 200 response and uses the correct template
         """
-        request = self.factory.get(BASE_URL + '/Procurement/')
+        request = self.factory.get(CompareViewsTestCase.BASE_URL + '/procurement/')
         request.user = self.user  # Fake being logged in
         with self.assertTemplateUsed('compare/procurement_list.html'):
             response = procurement_list(request)
@@ -55,10 +53,9 @@ class CompareViewsTestCase(CoreDataMixin, TestCase):
 
     def test_transplant_list_view_basic(self):
         """
-        Test that transplantation_list view returns a 200 response and uses
-        the correct template
+        Test that transplantation_list view returns a 200 response and uses the correct template
         """
-        request = self.factory.get(BASE_URL + '/Transplant/')
+        request = self.factory.get(CompareViewsTestCase.BASE_URL + '/transplant/')
         request.user = self.user  # Fake being logged in
         with self.assertTemplateUsed('compare/transplantation_list.html'):
             response = transplantation_list(request)

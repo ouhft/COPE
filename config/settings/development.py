@@ -89,14 +89,17 @@ INSTALLED_APPS += ('django_extensions',)
 # ------------------------------------------------------------------------------
 INSTALLED_APPS += ('django_spaghetti',)
 
+# https://django-spaghetti-and-meatballs.readthedocs.io/en/latest/customising.html
 SPAGHETTI_SAUCE = {
     'apps': [
-        'compare',
-        'locations',
-        'staff_person',
+        'administration',
         'adverse_event',
-        'samples',
+        'compare',
         'followups',
+        'health_economics',
+        'locations',
+        'samples',
+        'staff',
         'theme'
     ],
     'show_fields': False,

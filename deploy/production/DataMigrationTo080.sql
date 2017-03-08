@@ -107,6 +107,55 @@ INSERT INTO new.staff_person (
   LEFT OUTER JOIN old.staff_person_staffperson as osp
     ON osp.user_id = oau.id
 ;
+/*
+Add these users to their relevant groups based on their Staff_Person jobs
+
+StaffJobs
+1,Perfusion Technician
+2,Transplant Co-ordinator
+3,Research Nurse / Follow-up
+4,National Co-ordinator
+5,Central Co-ordinator
+6,Statistician
+7,Sys-admin
+8,Local Investigator
+9,Other Project Member
+10,Biobank Coordinator
+11,Chief Investigator
+12,Principle Investigator
+13,Central Investigator
+14,National Investigator
+15,Transplant Theatre Contact
+
+Groups
+1,Perfusion Technicians
+2,Transplant Co-ordinators
+3,Research Nurse / Follow-up
+4,National Co-ordinator
+5,Central Co-ordinator
+6,Statistician
+7,Sys-admin
+8,Local Investigator
+9,Other Project Member
+10,Biobank Coordinator
+11,Chief Investigator
+12,Principle Investigator
+13,Central Investigator
+14,National Investigator
+15,Transplant Theatre Contact
+
+ */
+INSERT INTO new.staff_person_groups (
+  person_id,
+  group_id
+)
+SELECT
+  sp.user_id,
+  spj.staffjob_id
+FROM old.staff_person_staffperson_jobs as spj,
+  old.staff_person_staffperson as sp
+WHERE sp.id = spj.staffperson_id
+  AND sp.user_id IS NOT NULL;
 
 INSERT INTO new.compare_randomisation SELECT * FROM old.compare_randomisation;
 
