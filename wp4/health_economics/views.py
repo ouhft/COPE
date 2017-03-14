@@ -10,7 +10,7 @@ from django.shortcuts import render
 from django.contrib import messages
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
 
-from braces.views import LoginRequiredMixin
+from braces.views import LoginRequiredMixin, OrderableListMixin
 
 from wp4.theme.layout import AjaxReturnIDMixin
 from .models import QualityOfLife
@@ -55,8 +55,13 @@ class AjaxFormMixin(object):
 
 
 # ============================================  CBVs
-class QualityOfLifeListView(AjaxReturnIDMixin, LoginRequiredMixin, ListView):
+class QualityOfLifeListView(AjaxReturnIDMixin, LoginRequiredMixin, OrderableListMixin, ListView):
     model = QualityOfLife
+    ordering = "id"
+    paginate_by = 25
+    paginate_orphans = 5
+    orderable_columns = ("id", "date_recorded")
+    orderable_columns_default = "id"
 
 
 class QualityOfLifeDetailView(AjaxReturnIDMixin, DetailView):

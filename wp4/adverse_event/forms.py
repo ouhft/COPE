@@ -15,11 +15,11 @@ from wp4.theme.layout import DateField, FormPanel, ForeignKeyModal, FieldWithFol
 from .models import Event
 
 
-class AdverseEventForm(forms.ModelForm):
+class EventForm(forms.ModelForm):
     date_of_death = forms.DateField()  # This is to allow DoD to be captured and sent to the linked recipient
 
     def __init__(self, *args, **kwargs):
-        super(AdverseEventForm, self).__init__(*args, **kwargs)
+        super(EventForm, self).__init__(*args, **kwargs)
         self.fields['serious_eligible_1'].choices = NO_YES_CHOICES
         self.fields['serious_eligible_2'].choices = NO_YES_CHOICES
         self.fields['serious_eligible_3'].choices = NO_YES_CHOICES
@@ -153,7 +153,7 @@ class AdverseEventForm(forms.ModelForm):
         if date_of_death is not None and organ.safe_recipient is not None:
             organ.safe_recipient.person.date_of_death = date_of_death
             organ.safe_recipient.person.save()
-        return super(AdverseEventForm, self).save(commit=commit)
+        return super(EventForm, self).save(commit=commit)
 
     class Meta:
         model = Event

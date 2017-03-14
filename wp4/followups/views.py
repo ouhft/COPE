@@ -10,7 +10,7 @@ from django.shortcuts import render
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
 from django.views.generic.edit import ModelFormMixin
 
-from braces.views import LoginRequiredMixin, PermissionRequiredMixin
+from braces.views import LoginRequiredMixin, PermissionRequiredMixin, OrderableListMixin
 
 from wp4.health_economics.models import QualityOfLife
 
@@ -86,6 +86,8 @@ class FollowUpInitialListView(LoginRequiredMixin, PermissionRequiredMixin, ListV
     model = FollowUpInitial
     permission_required = "followups.add_followupinitial"
     form_class = FollowUpInitialStartForm
+    paginate_by = 25
+    ordering = "organ__id"
 
     def get_success_url(self):
         return reverse('wp4:followup:initial_update', kwargs={'pk': self.object.pk})
@@ -113,6 +115,8 @@ class FollowUp3MListView(LoginRequiredMixin, PermissionRequiredMixin, ListView, 
     model = FollowUp3M
     permission_required = "followups.add_followup3m"
     form_class = FollowUp3MStartForm
+    paginate_by = 25
+    ordering = "organ__id"
 
     def get_success_url(self):
         return reverse('wp4:followup:month3_update', kwargs={'pk': self.object.pk})
@@ -140,6 +144,8 @@ class FollowUp6MListView(LoginRequiredMixin, PermissionRequiredMixin, ListView, 
     model = FollowUp6M
     permission_required = "followups.add_followup6m"
     form_class = FollowUp6MStartForm
+    paginate_by = 25
+    ordering = "organ__id"
 
     def get_success_url(self):
         return reverse('wp4:followup:month6_update', kwargs={'pk': self.object.pk})
@@ -167,6 +173,8 @@ class FollowUp1YListView(LoginRequiredMixin, PermissionRequiredMixin, ListView, 
     model = FollowUp1Y
     permission_required = "followups.add_followup1y"
     form_class = FollowUp1YStartForm
+    paginate_by = 25
+    ordering = "organ__id"
 
     def get_success_url(self):
         return reverse('wp4:followup:final_update', kwargs={'pk': self.object.pk})

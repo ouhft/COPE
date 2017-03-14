@@ -61,14 +61,17 @@ class Person(AbstractUser):
 
     def has_group(self, group_ids=[]):
         my_group_ids = [g.id for g in self.groups.all()]
-        print("DEBUG: my_group_ids={0}".format(my_group_ids))
-        if type(group_ids) is list:
+        print("DEBUG: I am {2}, and my_group_ids={0} and group_ids={1} ({3})".format(
+            my_group_ids, group_ids, self.get_full_name(), type(group_ids))
+        )
+        if type(group_ids) in (list, tuple):
             for group in group_ids:
                 if group in my_group_ids:
                     return True
         else:
             if group_ids in my_group_ids:
                 return True
+        print("DEBUG: has_group returning False")
         return False
 
     class Meta:

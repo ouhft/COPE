@@ -16,28 +16,47 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row">
-        <div class="col-md-8">
-            <ul>
-                {% for follow in followup3m_list %}
-                    <li>
-                        <a href="{% url 'wp4:followup:month3_update' pk=follow.pk %}" class="btn btn-default btn-xs"><i title="edit" class="glyphicon glyphicon-edit"></i></a>
-                        <a href="{% url 'wp4:followup:month3_detail' pk=follow.pk %}">{{ follow }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-        <div class="col-md-4">
-            <form method="post" class="" id="followup_form">
-                {% if form.non_field_errors %}
-                    {% for error in form.non_field_errors %}
-                        <p class="alert alert-danger">{{ error }}</p>
-                    {% endfor %}
-                {% endif %}
-                {% crispy form %}
-                <button type="submit" class="btn btn-default">Add New Month 3 Follow Up</button>
-            </form>
-        </div>
-    </div>
+    {% if followup3m_list %}
+    <h2>Follow Up listing
+        <small>{{ followup3m_list|length }} events on this page</small>
+    </h2>
+
+    {% include 'includes/paginator.html' %}
+    <table class="table table-responsive table-condensed">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Trial ID</th>
+            <th>Visit Date</th>
+            <th>Graft Failure</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for follow in followup3m_list %}
+            <tr>
+                <td><a href="{% url 'wp4:followup:month3_update' pk=follow.pk %}" class="btn btn-default btn-xs"><i
+                        title="edit" class="glyphicon glyphicon-edit"></i></a> <a
+                        href="{% url 'wp4:followup:month3_detail' pk=follow.pk %}">{{ follow.id }}</a></td>
+                <td>{{ follow.organ.trial_id }}</td>
+                <td>{{ follow.start_date }}</td>
+                <td>{{ follow.graft_failure|yesno|capfirst }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% include 'includes/paginator.html' %}
+    {% else %}
+        <p>No Initial Follow Ups are available</p>
+    {% endif %}
+
+    <form method="post" class="" id="followup_form">
+        {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+                <p class="alert alert-danger">{{ error }}</p>
+            {% endfor %}
+        {% endif %}
+        {% crispy form %}
+        <button type="submit" class="btn btn-default">Add New Month 3 Follow Up</button>
+    </form>
 
 {% endblock %}

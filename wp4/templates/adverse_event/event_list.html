@@ -1,0 +1,99 @@
+{% extends "base_site.html" %}
+
+{% block page_title %}Adverse Events{% endblock %}
+{% block page_header %}Adverse Events{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li class="active">Adverse Events</li>
+{% endblock %}
+
+{% block content %}
+    {% if event_list %}
+    <h2>Event listing <small>{{ event_list|length }} events on this page</small></h2>
+
+        {% include 'includes/paginator.html' %}
+        <table class="table table-responsive table-condensed">
+        <thead>
+        <tr>
+            <th>ID
+                {% if request.GET.order_by == "id" and request.GET.ordering == "asc" %}
+                    <i class="text-info glyphicon glyphicon glyphicon-sort-by-attributes"></i>
+                {% else %}
+                    <a href="?order_by=id&ordering=asc&page={{ request.GET.page }}"><i class="glyphicon glyphicon glyphicon-sort-by-attributes"></i></a>
+                {% endif %}
+                {% if request.GET.order_by == "id" and request.GET.ordering == "desc" %}
+                    <i class="text-info glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i>
+                {% else %}
+                    <a href="?order_by=id&ordering=desc&page={{ request.GET.page }}"><i class="glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i></a>
+                {% endif %}
+            </th>
+            <th>Trial ID</th>
+            <th>Onset Date
+                {% if request.GET.order_by == "onset_at_date" and request.GET.ordering == "asc" %}
+                    <i class="text-info glyphicon glyphicon glyphicon-sort-by-attributes"></i>
+                {% else %}
+                    <a href="?order_by=onset_at_date&ordering=asc&page={{ request.GET.page }}"><i class="glyphicon glyphicon glyphicon-sort-by-attributes"></i></a>
+                {% endif %}
+                {% if request.GET.order_by == "onset_at_date" and request.GET.ordering == "desc" %}
+                    <i class="text-info glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i>
+                {% else %}
+                    <a href="?order_by=onset_at_date&ordering=desc&page={{ request.GET.page }}"><i class="glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i></a>
+                {% endif %}
+            </th>
+            <th title="Is Ongoing?">O?
+                {% if request.GET.order_by == "event_ongoing" and request.GET.ordering == "asc" %}
+                    <i class="text-info glyphicon glyphicon glyphicon-sort-by-attributes"></i>
+                {% else %}
+                    <a href="?order_by=event_ongoing&ordering=asc&page={{ request.GET.page }}"><i class="glyphicon glyphicon glyphicon-sort-by-attributes"></i></a>
+                {% endif %}
+                {% if request.GET.order_by == "event_ongoing" and request.GET.ordering == "desc" %}
+                    <i class="text-info glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i>
+                {% else %}
+                    <a href="?order_by=event_ongoing&ordering=desc&page={{ request.GET.page }}"><i class="glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i></a>
+                {% endif %}
+            </th>
+            <th title="Led to Death?">D?
+                {% if request.GET.order_by == "death" and request.GET.ordering == "asc" %}
+                    <i class="text-info glyphicon glyphicon glyphicon-sort-by-attributes"></i>
+                {% else %}
+                    <a href="?order_by=death&ordering=asc&page={{ request.GET.page }}"><i class="glyphicon glyphicon glyphicon-sort-by-attributes"></i></a>
+                {% endif %}
+                {% if request.GET.order_by == "death" and request.GET.ordering == "desc" %}
+                    <i class="text-info glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i>
+                {% else %}
+                    <a href="?order_by=death&ordering=desc&page={{ request.GET.page }}"><i class="glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i></a>
+                {% endif %}
+            </th>
+            <th title="Is Serious?">S?</th>
+            <th title="Treatment related?">TR?</th>
+            <th>Organ Location</th>
+            <th>Local Contact</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for event in event_list %}
+        <tr class="{% if event.is_serious %}text-danger{% endif %} {% if event.death %}bg-danger{% endif %}">
+            <td><a href="{% url 'wp4:adverse_event:update' pk=event.id %}" class="btn btn-sm btn-default"><i title="edit" class="glyphicon glyphicon-edit"></i> {{ event.id}}</a></td>
+            <td>{{ event.organ.trial_id }}</td>
+            <td>{{ event.onset_at_date }}</td>
+            <td class="{% if event.event_ongoing %}text-info{% endif %}">{{ event.event_ongoing|yesno|capfirst }}</td>
+            <td>{{ event.death|yesno|capfirst }}</td>
+            <td>{{ event.is_serious|yesno|capfirst }}</td>
+            <td>{{ event.get_treatment_related_display }}</td>
+            <td>{{ event.organ.final_allocation.transplant_hospital|default_if_none:"Organ Location Unknown" }}</td>
+            <td>{{ event.contact.get_full_name }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+
+        {% include 'includes/paginator.html' %}
+
+    {% else %}
+        <p>No events are available.</p>
+    {% endif %}
+    {% if perms.adverse_event.add_event %}
+    <p><a href="{% url "wp4:adverse_event:add" %}" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Add Event</a></p>
+    {% endif %}
+{% endblock %}

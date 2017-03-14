@@ -7,12 +7,12 @@ from django.core.mail import EmailMessage
 from django.http import HttpResponseRedirect
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
 
-from braces.views import LoginRequiredMixin, PermissionRequiredMixin
+from braces.views import LoginRequiredMixin, PermissionRequiredMixin, OrderableListMixin
 
 from wp4.staff.utils import get_emails_from_ids
 from wp4.staff.utils import JACQUES_PIREENE, INA_JOCHMANS, SARAH_MERTENS, ALLY_BRADLEY
 from .models import Event
-from .forms import AdverseEventForm
+from .forms import EventForm
 
 
 # ============================================  MIXINS
@@ -60,7 +60,7 @@ class EmailOnSaveMixin(object):
 
 
 class AjaxFormMixin(object):
-    form_class = AdverseEventForm
+    form_class = EventForm
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user
@@ -92,22 +92,27 @@ class AjaxFormMixin(object):
 
 
 # ============================================  CBVs
-class AdverseEventListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+class AdverseEventListView(LoginRequiredMixin, PermissionRequiredMixin, OrderableListMixin, ListView):
     model = Event
-    permission_required = "adverse_event.add_adverseevent"
+    permission_required = "adverse_event.add_event"
     ordering = ['onset_at_date']
+    paginate_by = 50
+    paginate_orphans = 5
+    orderable_columns = ("id", "onset_at_date", "death", "event_ongoing")
+    orderable_columns_default = "onset_at_date"
 
 
 class AdverseEventDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = Event
-    permission_required = "adverse_event.add_adverseevent"
+    permission_required = "adverse_event.add_event"
 
 
 class AdverseEventCreateView(LoginRequiredMixin, PermissionRequiredMixin, AjaxFormMixin, EmailOnSaveMixin, CreateView):
     model = Event
-    permission_required = "adverse_event.add_adverseevent"
+    permission_required = "adverse_event.add_event"
 
 
 class AdverseEventUpdateView(LoginRequiredMixin, PermissionRequiredMixin, AjaxFormMixin, EmailOnSaveMixin, UpdateView):
     model = Event
-    permission_required = "adverse_event.add_adverseevent"
+    permission_required = "adverse_event.add_event"
+

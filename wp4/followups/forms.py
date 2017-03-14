@@ -76,7 +76,7 @@ class FollowUpInitialForm(forms.ModelForm):
         self.helper.layout = Layout(
             Div(
                 Div(
-                    'organ',  # FI01
+                    Field('organ', template="bootstrap3/layout/read-only.html"),  # FI01
                     FieldWithFollowup(
                         Field('graft_failure', template="bootstrap3/layout/radioselect-buttons.html"),  # FB10
                         Layout(
@@ -267,6 +267,7 @@ class FollowUp3MStartForm(forms.ModelForm):
 class FollowUp3MForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(FollowUp3MForm, self).__init__(*args, **kwargs)
+        self.fields['organ'].widget = forms.HiddenInput()
 
         self.fields['start_date'].input_formats = settings.DATE_INPUT_FORMATS  # FB01
         self.fields['graft_failure_date'].input_formats = settings.DATE_INPUT_FORMATS  # FB11
@@ -294,7 +295,7 @@ class FollowUp3MForm(forms.ModelForm):
         self.helper.layout = Layout(
             Div(
                 Div(
-                    'organ',  # FI01
+                    Field('organ', template="bootstrap3/layout/read-only.html"),  # FI01
                     FieldWithFollowup(
                         Field('graft_failure', template="bootstrap3/layout/radioselect-buttons.html"),  # FB10
                         Layout(
@@ -444,6 +445,7 @@ class FollowUp6MStartForm(forms.ModelForm):
 class FollowUp6MForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(FollowUp6MForm, self).__init__(*args, **kwargs)
+        self.fields['organ'].widget = forms.HiddenInput()
 
         self.fields['start_date'].input_formats = settings.DATE_INPUT_FORMATS  # FB01
         self.fields['graft_failure_date'].input_formats = settings.DATE_INPUT_FORMATS  # FB11
@@ -471,7 +473,7 @@ class FollowUp6MForm(forms.ModelForm):
         self.helper.layout = Layout(
             Div(
                 Div(
-                    'organ',  # F601
+                    Field('organ', template="bootstrap3/layout/read-only.html"),  # FI01
                     FieldWithFollowup(
                         Field('graft_failure', template="bootstrap3/layout/radioselect-buttons.html"),  # FB10
                         Layout(
@@ -620,6 +622,7 @@ class FollowUp1YStartForm(forms.ModelForm):
 class FollowUp1YForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(FollowUp1YForm, self).__init__(*args, **kwargs)
+        self.fields['organ'].widget = forms.HiddenInput()
 
         self.fields['start_date'].input_formats = settings.DATE_INPUT_FORMATS  # FB01
         self.fields['graft_failure_date'].input_formats = settings.DATE_INPUT_FORMATS  # FB11
@@ -647,7 +650,7 @@ class FollowUp1YForm(forms.ModelForm):
         self.helper.layout = Layout(
             Div(
                 Div(
-                    'organ',  # FY01
+                    Field('organ', template="bootstrap3/layout/read-only.html"),  # FI01
                     FieldWithFollowup(
                         Field('graft_failure', template="bootstrap3/layout/radioselect-buttons.html"),  # FB10
                         Layout(

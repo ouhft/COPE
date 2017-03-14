@@ -13,24 +13,28 @@
 
 {% block content %}
     {% if qualityoflife_list %}
+        {% include 'includes/paginator.html' %}
         <table class="table table-responsive table-striped">
             <thead>
             <tr>
                 <th>ID</th>
-                <th>Name</th>
+                <th>Recipient</th>
+                <th>Date</th>
             </tr>
             </thead>
             <tbody>
             {% for qol_record in qualityoflife_list %}
                 <tr>
-                    <td>{{ qol_record.id }}</td>
-                    <td><a href="{% url 'wp4:health_economics:update' qol_record.id %}" class="btn btn-xs btn-primary"><i
-                            class="glyphicon glyphicon-edit"></i> {{ qol_record }}</a></td>
-{#                    <td>{{ qol_record.followup }}</td>#}
+                    <td>
+                        <a href="{% url 'wp4:health_economics:update' qol_record.id %}" class="btn btn-xs btn-default"><i
+                            class="glyphicon glyphicon-edit"></i> {{ qol_record.id }}</a></td>
+                    <td>{{ qol_record.recipient.trial_id }}</td>
+                    <td>{{ qol_record.date_recorded }}</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
+        {% include 'includes/paginator.html' %}
     {% else %}
         <p>No records are available.</p>
     {% endif %}
