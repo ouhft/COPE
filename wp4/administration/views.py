@@ -649,6 +649,30 @@ def flowchart(request):
     )
 
 @group_required(Person.CENTRAL_COORDINATOR)
+def completed_pairs(request):
+    listing = Donor.objects.all().\
+        select_related('_left_kidney').\
+        select_related('_right_kidney').\
+        order_by('id')
+
+    # Donors,
+    # Organs,
+    # Organ.knifetoskin (if missing, date of procedure, or anastmosis time, or reperfusion time) to get a time of transplant
+    # If a pair: has recipient, is consented, allocated to project site, is a single organ transplant, has a T-Form
+    # Determine Follow up windows
+    # Looking for 12month follow up: check for completed as: creatinine clearance entered
+
+    summary = {}
+    return render(
+        request,
+        'administration/completed_pairs.html',
+        {
+            'listing': listing,
+            'summary': summary
+        }
+    )
+
+@group_required(Person.CENTRAL_COORDINATOR)
 def dmc_secondary_outcomes(request):
     """
     Produce a series of matrix tables that list Graft Failure against Death for each of the Follow Up periods

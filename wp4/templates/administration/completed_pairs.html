@@ -1,0 +1,211 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+
+{% block page_title %}{{ location }} Report: Completed Pairs - Administration{% endblock %}
+{% block page_header %}
+    Completed Pairs
+    <small>REPORT</small>
+{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:administration:index' %}">Administration</a></li>
+    <li class="active">Report: Completed Pairs</li>
+{% endblock %}
+
+{% block content %}
+{#    CSS Hack here because Bootstrap hides the badges on print view #}
+    <style>
+        @media print {
+            .badge {
+                padding: 2px 6px;
+                border: 1px solid #000;
+                margin-right: 3em;
+            }
+        }
+    </style>
+    <p>Reporting at {{ summary.dates.today|date }} on the overall status of all
+        Organs. Last P-Form updated on {{ summary.dates.latest_p_form|date }}, and latest T-Form updated on
+        {{ summary.dates.latest_t_form|date }}.</p>
+    <h2>Summary</h2>
+
+{#    <div class="row">#}
+{#        <div class="col-md-4">#}
+{#            <h3>Donors</h3>#}
+{#            <ul class="list-group">#}
+{#                <li class="list-group-item list-group-item-info">#}
+{#                    Total number of donors#}
+{#                    <span class="badge">{{ summary.donors.total }}</span>#}
+{#                </li>#}
+{#                <li class="list-group-item">#}
+{#                    Completed P-Forms#}
+{#                    <span class="badge">{{ summary.donors.p_forms_completed }}</span>#}
+{#                </li>#}
+{#            </ul>#}
+{##}
+{#            <ul class="list-group">#}
+{#                <li class="list-group-item">#}
+{#                    0 Kidneys#}
+{#                    <span class="badge">{{ summary.donors.eligibility.0 }}</span>#}
+{#                </li>#}
+{#                <li class="list-group-item">#}
+{#                    1 Kidney#}
+{#                    <span class="badge">{{ summary.donors.eligibility.1 }}</span>#}
+{#                </li>#}
+{#                <li class="list-group-item">#}
+{#                    2 Kidneys#}
+{#                    <span class="badge">{{ summary.donors.eligibility.2 }}</span>#}
+{#                </li>#}
+{#                <li class="list-group-item">#}
+{#                    Not Randomised#}
+{#                    <span class="badge">{{ summary.donors.eligibility.not_randomised }}</span>#}
+{#                </li>#}
+{#            </ul>#}
+{##}
+{#        </div>#}
+{#        <div class="col-md-4">#}
+{#            <h3>Kidneys</h3>#}
+{#            <ul class="list-group">#}
+{#                <li class="list-group-item list-group-item-info">#}
+{#                    Randomised Total#}
+{#                    <span class="badge">{{ summary.kidneys.total }}</span>#}
+{#                </li>#}
+{#            </ul>#}
+{#            <ul class="list-group">#}
+{#                <li class="list-group-item">#}
+{#                    Transplantable Total#}
+{#                    <span class="badge">{{ summary.kidneys.transplantable.total }}</span>#}
+{#                </li>#}
+{#                <li class="list-group-item">#}
+{#                    Transplantable Left#}
+{#                    <span class="badge">{{ summary.kidneys.transplantable.left }}</span>#}
+{#                </li>#}
+{#                <li class="list-group-item">#}
+{#                    Transplantable Right#}
+{#                    <span class="badge">{{ summary.kidneys.transplantable.right }}</span>#}
+{#                </li>#}
+{#            </ul>#}
+{#            <ul class="list-group">#}
+{#                <li class="list-group-item">#}
+{#                    Allocated Total#}
+{#                    <span class="badge">{{ summary.kidneys.allocated.total }}</span>#}
+{#                </li>#}
+{#                <li class="list-group-item">#}
+{#                    Allocated Left#}
+{#                    <span class="badge">{{ summary.kidneys.allocated.left }}</span>#}
+{#                </li>#}
+{#                <li class="list-group-item">#}
+{#                    Allocated Right#}
+{#                    <span class="badge">{{ summary.kidneys.allocated.right }}</span>#}
+{#                </li>#}
+{#            </ul>#}
+{#        </div>#}
+{#        <div class="col-md-4">#}
+{#            <h3>Recipients</h3>#}
+{#            <ul class="list-group">#}
+{#                <li class="list-group-item list-group-item-info">#}
+{#                    Total#}
+{#                    <span class="badge">{{ summary.recipients.total }}</span>#}
+{#                </li>#}
+{#                <li class="list-group-item">#}
+{#                    Left#}
+{#                    <span class="badge">{{ summary.recipients.left }}</span>#}
+{#                </li>#}
+{#                <li class="list-group-item">#}
+{#                    Right#}
+{#                    <span class="badge">{{ summary.recipients.right }}</span>#}
+{#                </li>#}
+{#            </ul>#}
+{##}
+{#            <ul class="list-group">#}
+{#                <li class="list-group-item">#}
+{#                    T-Forms Theoretical Total#}
+{#                    <span class="badge">{{ summary.recipients.t_forms_theoretical }}</span>#}
+{#                </li>#}
+{#                <li class="list-group-item">#}
+{#                    T-Forms Started#}
+{#                    <span class="badge">{{ summary.recipients.t_forms_started }}</span>#}
+{#                </li>#}
+{#                <li class="list-group-item">#}
+{#                    T-Forms Completed#}
+{#                    <span class="badge">{{ summary.recipients.t_forms_completed }}</span>#}
+{#                </li>#}
+{#            </ul>#}
+{#        </div>#}
+{#    </div>#}
+
+    <h2>Data Breakdown</h2>
+{#    <h4>Key</h4>#}
+{#    <div class="row">#}
+{#        <div class="col-md-5">#}
+{#            <dl class="dl-horizontal">#}
+{#                <dt>#</dt>#}
+{#                <dd>Denotes a system ID number</dd>#}
+{#                <dt>T?</dt>#}
+{#                <dd>Organ Transplantable?</dd>#}
+{#                <dt>PP?</dt>#}
+{#                <dd>Organ Was Perfusion Possible?</dd>#}
+{#                <dt>A?</dt>#}
+{#                <dd>Organ Is Allocated?</dd>#}
+{#            </dl>#}
+{#        </div>#}
+{#        <div class="col-md-7">#}
+{#            <dl class="dl-horizontal">#}
+{#                <dt>P-Form</dt>#}
+{#                <dd>Procurment Form Completed + Last Person to edit the donor record</dd>#}
+{#                <dt>T-Form</dt>#}
+{#                <dd>Transplant Form Completed + Last Person to edit the recipient record</dd>#}
+{#            </dl>#}
+{##}
+{#        </div>#}
+{#    </div>#}
+
+    <table class="table table-condensed">
+    <thead>
+        <tr>
+            <th>Donor</th>
+            <th>Organ</th>
+            <th>Recipient</th>
+            <th>12 Month Followup</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for row in listing %}
+        <tr>
+            <td rowspan="2">
+                <strong>{{ row.trial_id }}</strong> <sup>#{{ row.id }}</sup><br>
+                {% if row.is_eligible == -1 %}
+                    <small>Not Randomised</small>
+                {% else %}
+                    <small>{{ row.is_eligible }} Eligible Kidneys</small>
+                {% endif %}
+            </td>
+            <td>LEFT <sup>#{{ row.left_kidney.id }}</sup> <strong>{{ row.left_kidney.trial_id }}</strong></td>
+            <td>
+                {% if row.left_kidney.safe_recipient %}
+                 <sup>#{{ row.left_kidney.safe_recipient.id }}</sup>
+                {% else %}
+                    No Recipient
+                {% endif %}
+            </td>
+            <td>
+                {{ row.left_kidney.followup_1y.id }}
+            </td>
+        </tr>
+        <tr>
+            <td>RIGHT <sup>#{{ row.right_kidney.id }}</sup><strong>{{ row.right_kidney.trial_id }}</strong> </td>
+            <td>
+                {% if row.right_kidney.safe_recipient %}
+                <sup>#{{ row.right_kidney.safe_recipient.id }}</sup>
+                {% else %}
+                    No Recipient
+                {% endif %}
+            </td>
+            <td>
+                {{ row.right_kidney.followup_1y.id }}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+{% endblock %}

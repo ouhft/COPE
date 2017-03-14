@@ -12,7 +12,6 @@ from django.utils.translation import ugettext_lazy as _
 from random import random
 
 from wp4.staff.models import Person
-from wp4.locations.models import Hospital
 
 from ..validators import validate_between_1900_2050, validate_not_in_future
 from .core import ModelByRequestManagerBase
@@ -24,23 +23,30 @@ from .core import PAPER_EUROPE, PAPER_UNITED_KINGDOM
 
 
 class DonorRequestManager(ModelByRequestManagerBase):
-    def get_queryset(self, request=None):
+    def get_queryset(self):
         """
-        Test for permissions to view and restrict based on rules
-        :param request:
+        Test for permissions to view and restrict based on rules. Relies on for_user() having been called prior
         :return:
         """
-        if request is not None:
-            qs = super(DonorRequestManager, self).get_queryset(request)
+        qs = super(DonorRequestManager, self).get_queryset().\
+            select_related('_left_kidney').\
+            select_related('_right_kidney')
 
-            if request.user.has_perm('can_view_only_national'):
-                return qs.filter(retrieval_team__based_at__country=self.country_id)
+        if self.current_user is not None:
+            if self.current_user.is_superuser:
+                # http://stackoverflow.com/questions/2507086/django-auth-has-perm-returns-true-while-list-of-permissions-is-empty/2508576
+                # Superusers get *all* permissions :-/
+                return qs
 
-            if request.user.has_perm('can_view_only_local'):
+            if self.current_user.has_perm('can_view_only_local'):
+                print("DEBUG: DonorRequestManager - Restrict to hospital")
                 return qs.filter(donor__retrieval_team__based_at_id=self.hospital_id)
 
-            return qs
-        return EmptyQuerySet
+            if self.current_user.has_perm('can_view_only_national'):
+                print("DEBUG: DonorRequestManager - Restrict to country")
+                return qs.filter(retrieval_team__based_at__country=self.country_id)
+
+        return qs
 
 
 class Donor(VersionControlMixin):
@@ -83,6 +89,7 @@ class Donor(VersionControlMixin):
         help_text=_("Select Yes when you believe the form is complete and you have no more data to enter")
     )
     admin_notes = models.TextField(verbose_name=_("DO50 Admin notes"), blank=True)
+    trial_id = models.CharField(verbose_name=_('DO99 donor id'), max_length=10, blank=True)
 
     # Procedure data
     retrieval_team = models.ForeignKey(RetrievalTeam, verbose_name=_("DO01 retrieval team"))
@@ -350,8 +357,7 @@ class Donor(VersionControlMixin):
     _left_kidney = models.OneToOneField('Organ', related_name='left_kidney', null=True, default=None)
     _right_kidney = models.OneToOneField('Organ', related_name='right_kidney', null=True, default=None)
 
-    objects = models.Manager()  # Needs this for default_manager to work with forms and admin
-    safe_objects = DonorRequestManager()
+    objects = DonorRequestManager()
 
     class Meta(VersionControlMixin.Meta):
         order_with_respect_to = 'retrieval_team'
@@ -560,12 +566,14 @@ class Donor(VersionControlMixin):
             try:
                 self._left_kidney = self.organ_set.filter(location__exact=LEFT)[0]
             except IndexError:  # Organ.DoesNotExist:
+                # print("DEBUG: Donor.left_kidney() raised IndexError")
                 new_organ = organ_model.Organ(location=LEFT, created_by=self.created_by)
                 if self.id > 0:
                     new_organ.donor = self
                 new_organ.save()
                 self._left_kidney = new_organ
             # Consider saving self here... if we could determine created_by is set
+            self.save(created_by=self.created_by)
         return self._left_kidney
 
     @property
@@ -582,12 +590,14 @@ class Donor(VersionControlMixin):
             try:
                 self._right_kidney = self.organ_set.filter(location__exact=RIGHT)[0]
             except IndexError:  # Organ.DoesNotExist:
+                # print("DEBUG: Donor.right_kidney() raised IndexError")
                 new_organ = organ_model.Organ(location=RIGHT, created_by=self.created_by)
                 if self.id > 0:
                     new_organ.donor = self
                 new_organ.save()
                 self._right_kidney = new_organ
             # Consider saving self here... if we could determine created_by is set
+            self.save(created_by=self.created_by)
         return self._right_kidney
 
     def _centre_code(self):
@@ -603,7 +613,7 @@ class Donor(VersionControlMixin):
             return 0
     centre_code = cached_property(_centre_code, name='centre_code')
 
-    def _trial_id(self):
+    def make_trial_id(self):
         """
         Returns the composite trial id string.
 
@@ -621,13 +631,12 @@ class Donor(VersionControlMixin):
         """
         trial_id = "WP4" + format(self.centre_code, '02')
         if self.centre_code == 0 or self.sequence_number < 1:
-            trial_id = "No Trial ID Assigned (DO%s)" % format(self.id, '03')
+            trial_id = "DO%s" % format(self.id, '03')
         elif self.is_offline:
             trial_id += "9" + format(self.sequence_number, '02')
         else:
             trial_id += format(self.sequence_number, '03')
         return trial_id
-    trial_id = cached_property(_trial_id, name='trial_id')
 
     def _is_offline(self):
         """

@@ -149,23 +149,27 @@ class OrganAllocation(VersionControlMixin):
 
 
 class RecipientRequestManager(ModelByRequestManagerBase):
-    def get_queryset(self, request=None):
+    def get_queryset(self):
         """
         Test for permissions to view and restrict based on rules
         :param request:
         :return:
         """
-        if request is not None:
-            qs = super(RecipientRequestManager, self).get_queryset(request)
+        qs = super(RecipientRequestManager, self).get_queryset()
 
-            if request.user.has_perm('restrict_to_national'):
-                return qs.filter(allocation__transplant_hospital__based_at__country=self.country_id)
+        if self.current_user is not None:
+            if self.current_user.is_superuser:
+                # http://stackoverflow.com/questions/2507086/django-auth-has-perm-returns-true-while-list-of-permissions-is-empty/2508576
+                # Superusers get *all* permissions :-/
+                return qs
 
-            if request.user.has_perm('restrict_to_local'):
+            if self.current_user.has_perm('restrict_to_local'):
                 return qs.filter(allocation__transplant_hospital_id=self.hospital_id)
 
-            return qs
-        return EmptyQuerySet
+            if self.current_user.has_perm('restrict_to_national'):
+                return qs.filter(allocation__transplant_hospital__based_at__country=self.country_id)
+
+        return qs
 
 
 class Recipient(VersionControlMixin):
@@ -368,8 +372,7 @@ class Recipient(VersionControlMixin):
     batteries_charged = models.NullBooleanField(verbose_name=_('RE49 batteries charged'), blank=True, null=True)
     cleaning_log = models.TextField(verbose_name=_("RE50 cleaning log notes"), blank=True)
 
-    objects = models.Manager()  # Needs this for default_manager to work with forms and admin
-    safe_objects = RecipientRequestManager()
+    objects = RecipientRequestManager()
 
     class Meta(VersionControlMixin.Meta):
         order_with_respect_to = 'organ'

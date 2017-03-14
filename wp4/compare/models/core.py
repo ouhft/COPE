@@ -125,7 +125,7 @@ class VersionControlMixin(BaseModelMixin):
         )
 
 
-class MissingRequest(Exception):
+class MissingUser(Exception):
     """A request was missing from the object manager"""
     pass
 
@@ -138,51 +138,59 @@ class MissingUserLocation(Exception):
 class ModelByRequestManagerBase(models.Manager):
     country_id = None
     hospital_id = None
+    current_user = None
 
-    def get_queryset(self, request=None):
+    def for_user(self, user=None):
         """
-        Test for request and valid profile before applying any further rules
+        To enable per user filtering, we need to have this passed into the manager by a mechanism such as this. If
+        no user is specified, then the manager should continue to work as the default manager
 
-        NB: Each manager that inherits from this will need to check for the existance of Request, and determine what
-        to do accordingly. We can't have a blanket exception raised here because it breaks when forms do a check for
-        data managers
-
-        :param request:
+        :param user:
         :return:
         """
-        if request.user.profile.based_at is None:
-            raise MissingUserLocation("ObjectManager.get_queryset current user has no location set in profile")
+        if user is None:
+            raise MissingUser("ObjectManager.for_user has no user specified")
+        else:
+            self.current_user = user
 
-        self.country_id = request.user.profile.based_at.country
-        self.hospital_id = request.user.profile.based_at.id
+            if self.current_user.based_at is None:
+                raise MissingUserLocation("ObjectManager.get_queryset current user has no location set in profile")
+            else:
+                self.country_id = self.current_user.based_at.country
+                self.hospital_id = self.current_user.based_at.id
 
-        return super(ModelByRequestManagerBase, self).get_queryset(request)
+        return self.get_queryset()
 
 
 class OrganPersonRequestManager(ModelByRequestManagerBase):
-    def get_queryset(self, request=None):
+    def get_queryset(self):
         """
         Test for permissions to view and restrict based on rules
 
         :param request:
         :return:
         """
-        qs = super(OrganPersonRequestManager, self).\
-            get_queryset(request).\
+        qs = super(OrganPersonRequestManager, self).get_queryset().\
             prefetch_related('donor').\
             prefetch_related('recipient')
 
-        if request.user.has_perm('restrict_to_national'):
-            return qs.filter(
-                models.Q(donor__retrieval_team__based_at__country=self.country_id) |
-                models.Q(recipient__allocation__transplant_hospital__based_at__country=self.country_id)
-            )
+        if self.current_user is not None:
+            if self.current_user.is_superuser:
+                # http://stackoverflow.com/questions/2507086/django-auth-has-perm-returns-true-while-list-of-permissions-is-empty/2508576
+                # Superusers get *all* permissions :-/
+                return qs
 
-        if request.user.has_perm('restrict_to_local'):
-            return qs.filter(
-                models.Q(donor__retrieval_team__based_at_id=self.hospital_id) |
-                models.Q(recipient__allocation__transplant_hospital_id=self.hospital_id)
-            )
+            if self.current_user.has_perm('restrict_to_local'):
+                return qs.filter(
+                    models.Q(donor__retrieval_team__based_at_id=self.hospital_id) |
+                    models.Q(recipient__allocation__transplant_hospital_id=self.hospital_id)
+                )
+
+            if self.current_user.has_perm('restrict_to_national'):
+                return qs.filter(
+                    models.Q(donor__retrieval_team__based_at__country=self.country_id) |
+                    models.Q(recipient__allocation__transplant_hospital__based_at__country=self.country_id)
+                )
 
         return qs
 
@@ -258,8 +266,7 @@ class OrganPerson(VersionControlMixin):
         blank=True, null=True
     )
 
-    objects = models.Manager()  # Needs this for default_manager to work with forms and admin
-    safe_objects = OrganPersonRequestManager()
+    objects = OrganPersonRequestManager()
 
     class Meta(VersionControlMixin.Meta):
         ordering = ['number']
@@ -394,6 +401,11 @@ class OrganPerson(VersionControlMixin):
             )
 
 
+class RetrievalTeamManager(models.Manager):
+    def get_queryset(self):
+        return super(RetrievalTeamManager, self).get_queryset().select_related('based_at')
+
+
 class RetrievalTeam(BaseModelMixin):
     """
     Lookup class for the preset Retrieval Team list. Doesn't inherit from VersionControlMixin as this
@@ -407,6 +419,8 @@ class RetrievalTeam(BaseModelMixin):
         help_text="Value must be in the range 10-99"
     )
     based_at = models.ForeignKey(Hospital, verbose_name=_("RT02 base hospital"))
+
+    objects = RetrievalTeamManager()
 
     def next_sequence_number(self, is_online=True):
         """

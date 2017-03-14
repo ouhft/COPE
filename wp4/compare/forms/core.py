@@ -114,7 +114,7 @@ class DonorStartForm(forms.ModelForm):
         model = Donor
         fields = ['retrieval_team', 'perfusion_technician', 'age', 'gender']
         widgets = {
-            'perfusion_technician': autocomplete.ModelSelect2(url='wp4:staff_person:technician-autocomplete'),
+            'perfusion_technician': autocomplete.ModelSelect2(url='wp4:staff:technician-autocomplete'),
             'retrieval_team': autocomplete.ModelSelect2(url='wp4:compare:retrieval-team-autocomplete')
         }
         localized_fields = '__all__'
@@ -135,7 +135,7 @@ class DonorStartForm(forms.ModelForm):
             retrieval_team = cleaned_data.get("retrieval_team")
             if not randomisation:
                 self.add_error('randomisation', forms.ValidationError("Please select an Offline Case ID"))
-            elif randomisation.list_code != retrieval_team.get_randomisation_list(False):
+            elif randomisation.list_code != retrieval_team.get_randomisation_list(is_online=False):
                 self.add_error(
                     'randomisation',
                     forms.ValidationError("Please select an Offline Case ID for the same region as the Retrieval team")

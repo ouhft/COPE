@@ -202,8 +202,7 @@ class DonorAdmin(VersionControlAdmin):
             'retrieval_team',
             'retrieval_team__based_at',
             'perfusion_technician',
-            'transplant_coordinator',
-            'retrieval_hospital'
+            'transplant_coordinator'
         )
 
 admin.site.register(Donor, DonorAdmin)

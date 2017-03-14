@@ -169,6 +169,7 @@ class Organ(VersionControlMixin):
         default=False,
         help_text="Select Yes when you believe the form is complete and you have no more data to enter"
     )
+    trial_id = models.CharField(verbose_name=_('OR99 organ id'), max_length=10, blank=True)
 
     # Inspection data
     GRAFT_DAMAGE_ARTERIAL = 1  #: Constant for GRAFT_DAMAGE_CHOICES
@@ -385,7 +386,7 @@ class Organ(VersionControlMixin):
 
     final_allocation = cached_property(_final_allocation, name='final_allocation')
 
-    def _trial_id(self):
+    def make_trial_id(self):
         """
         Returns the Donor Trial ID combined with the Location (L or R) for the Organ
 
@@ -393,8 +394,6 @@ class Organ(VersionControlMixin):
         :rtype: str
         """
         return self.donor.trial_id + self.location
-
-    trial_id = cached_property(_trial_id, name='trial_id')
 
     @property
     def is_allocated(self):
