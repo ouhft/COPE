@@ -40,8 +40,7 @@ class DonorRequestManager(ModelByRequestManagerBase):
             if self.current_user.has_perm('can_view_only_local'):
                 print("DEBUG: DonorRequestManager - Restrict to hospital")
                 return qs.filter(donor__retrieval_team__based_at_id=self.hospital_id)
-
-            if self.current_user.has_perm('can_view_only_national'):
+            elif self.current_user.has_perm('can_view_only_national'):
                 print("DEBUG: DonorRequestManager - Restrict to country")
                 return qs.filter(retrieval_team__based_at__country=self.country_id)
 

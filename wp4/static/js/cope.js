@@ -1,12 +1,12 @@
-// JQuery 2.1.4
-// @codekit-prepend "../js-plugins/jquery-2.1.4.js"
+// JQuery 3.1.1
+// @codekit-prepend "../js-plugins/jquery-3.1.1.js"
 
 // http://stackoverflow.com/questions/920236/how-can-i-detect-if-a-selector-returns-null
 $.fn.exists = function () {
     return this.length !== 0;
 }
 
-// Bootstrap 3.3.4 JS
+// Bootstrap 3.3.7 JS
 // @codekit-append "../js-plugins/affix.js"
 // @codekit-append "../js-plugins/affix.js"
 // @codekit-append "../js-plugins/alert.js"
@@ -72,21 +72,16 @@ function openForeignKeyModal(keyName, dbValue) {
     var keyNameSplit = keyName.split("-");
     if (keyName == "id_donor-transplant_coordinator") {
         //console.log("DEBUG: loading modal for transplant co-ord");
-        ajaxURL += (dbValue < 1 ? "wp4/person/" : "wp4/person/" + dbValue + "/");
+        ajaxURL += (dbValue < 1 ? "wp4/staff/" : "wp4/staff/" + dbValue + "/");
         ajaxDATA = {"pk": dbValue, "q": 2, "return_id": keyName}  // TRANSPLANT_COORDINATOR
     } else if (keyNameSplit[0] == "id_allocation" && keyNameSplit[2] == "theatre_contact") {
         //console.log("DEBUG: loading modal for theatre contact");
-        ajaxURL += (dbValue < 1 ? "wp4/person/" : "wp4/person/" + dbValue + "/");
+        ajaxURL += (dbValue < 1 ? "wp4/staff/" : "wp4/staff/" + dbValue + "/");
         ajaxDATA = {"pk": dbValue, "q": 15, "return_id": keyName}  // THEATRE_CONTACT
     } else if (keyName == "id_contact") {
         //console.log("DEBUG: loading modal for adverse event contact");
-        ajaxURL += (dbValue < 1 ? "wp4/person/" : "wp4/person/" + dbValue + "/");
+        ajaxURL += (dbValue < 1 ? "wp4/staff/" : "wp4/staff/" + dbValue + "/");
         ajaxDATA = {"pk": dbValue, "q": 8, "return_id": keyName}  // LOCAL_INVESTIGATOR
-    } else if (keyName == "id_donor-retrieval_hospital" ||
-        (keyNameSplit[0] == "id_allocation" && keyNameSplit[2] == "transplant_hospital")) {
-        //console.log("DEBUG: loading modal for hospital");
-        ajaxURL += (dbValue < 1 ? "wp4/location/" : "wp4/location/" + dbValue + "/");
-        ajaxDATA = {"pk": dbValue, "return_id": keyName}
     } else if (keyName == "id_quality_of_life") {
         //console.log("DEBUG: loading modal for follow up qol record");
         ajaxURL += (dbValue < 1 ? "wp4/health-economics/add" : "wp4/health-economics/" + dbValue + "/");
@@ -128,7 +123,7 @@ function changeForeignKeyModalToAdd(keyName) {
     var keyNameSplit = keyName.split("-");
     if (keyName == "id_donor-transplant_coordinator") {
         //console.log("DEBUG: loading modal for transplant co-ord");
-        ajaxURL += "wp4/person/add";
+        ajaxURL += "wp4/staff/add";
         ajaxSUCCESS = function (returnHTML) {
             $('#myModal').modal('show');
             toggleModalContent(true, returnHTML);
@@ -136,7 +131,7 @@ function changeForeignKeyModalToAdd(keyName) {
         };
     } else if (keyNameSplit[0] == "id_allocation" && keyNameSplit[2] == "theatre_contact") {
         //console.log("DEBUG: loading modal for transplant hospital");
-        ajaxURL += "wp4/person/add";
+        ajaxURL += "wp4/staff/add";
         ajaxSUCCESS = function (returnHTML) {
             $('#myModal').modal('show');
             toggleModalContent(true, returnHTML);

@@ -39,7 +39,7 @@ class AllocationForm(forms.ModelForm):
                     'call_received_unknown',
                     label=OrganAllocation._meta.get_field("call_received").verbose_name.title()
                 ),
-                ForeignKeyModal('transplant_hospital'),
+                'transplant_hospital',
                 ForeignKeyModal('theatre_contact'),
                 FieldWithNotKnown(
                     DateTimeField('scheduled_start', notknown=True),

@@ -335,17 +335,20 @@ def transplantation_list(request):
     if current_person.has_group(
         (Person.SYSTEMS_ADMINISTRATOR, Person.CENTRAL_COORDINATOR, Person.NATIONAL_COORDINATOR)
     ):
-        existing_cases = Organ.open_objects.order_by('-created_on')
-        closed_cases = Organ.closed_objects.order_by('-created_on')
+        existing_cases = Organ.open_objects.for_user(current_person).order_by('-created_on')
+        closed_cases = Organ.closed_objects.for_user(current_person).order_by('-created_on')
     elif current_person.has_group(Person.PERFUSION_TECHNICIAN):
-        existing_cases = Organ.open_objects.\
+        existing_cases = Organ.open_objects.for_user(current_person).\
             filter(recipient__allocation__perfusion_technician=current_person)
-        closed_cases = []
+        closed_cases = Organ.closed_objects.for_user(current_person).order_by('-created_on').\
+            filter(recipient__allocation__perfusion_technician=current_person)
     else:
         existing_cases = []
         closed_cases = []
 
     organs_available_count = Organ.allocatable_objects.count()
+    print("DEBUG: transplantation_list(request): Total number of organs={0} of which {1} are not transplantable".format(
+        Organ.objects.count(), Organ.objects.filter(transplantable=False).count()))
 
     return render(
         request=request,
