@@ -45,10 +45,13 @@
                     {% endif %}
                 </ul>
 
-                {% if user|has_job:6 or user|has_job:5 %}{# Statisticians or Central co-ordinators #}
+                {% if user|has_group:6 or user|has_group:5 %}{# Statisticians or Central co-ordinators #}
                 <h3>Administration Functions</h3>
                 <ul class="list-group">
                     <a href="{% url 'wp4:administration:index' %}" class="list-group-item list-group-item-info">Administration Home</a>
+                    {% if perms.staff.add_person %}
+                        <a href="{% url 'wp4:staff:list' %}" class="list-group-item">Staff</a>
+                    {% endif %}
                 </ul>
                 {% endif %}
 

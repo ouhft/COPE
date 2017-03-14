@@ -30,7 +30,7 @@
 {#                        <th>Age</th>  TOO SLOW TO CALCULATE AND DISPLAY #}
                         <th>Gender</th>
                         <th>Samples</th>
-                        {% if request.user|has_job:5 %}
+                        {% if request.user|has_group:5 %}
                             <th>Technician</th>
                         {% endif %}
                     </tr>
@@ -82,7 +82,7 @@
                                 No Worksheet
                             {% endif %}
                             </td>
-                            {% if request.user|has_job:5 %}
+                            {% if request.user|has_group:5 %}
                                 <td>
                                     {{ case.recipient.allocation.perfusion_technician }}
                                 </td>
@@ -139,7 +139,7 @@
 {#                        <th>Age</th>#}
                         <th>Gender</th>
                         <th>Samples</th>
-                        {% if request.user|has_job:5 %}
+                        {% if request.user|has_group:5 %}
                             <th>Technician</th>
                         {% endif %}
                     </tr>
@@ -186,7 +186,7 @@
                                 No Worksheet
                             {% endif %}
                             </td>
-                            {% if request.user|has_job:5 %}
+                            {% if request.user|has_group:5 %}
                                 <td>
                                     {{ case.recipient.allocation.perfusion_technician }}
                                 </td>

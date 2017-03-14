@@ -63,17 +63,15 @@ def markdownify(text):
 
 # http://www.abidibo.net/blog/2014/05/22/check-if-user-belongs-group-django-templates/
 @register.filter(name='has_group')
-def has_group(user, group_name):
-    group = Group.objects.get(name=group_name)
-    return True if group in user.groups.all() else False
-
-
-# Based on wp4/utils.py:job_required()
-@register.filter(name='has_job')
-def has_job(user, job_id):
-    if user.is_superuser or bool(user.profile.has_job(job_id)):
+def has_group(user, group_identifier):
+    if user.is_superuser:
         return True
-    return False
+
+    if type(group_identifier) not in (int, tuple):
+        group_identifier = Group.objects.get(name=group_identifier).id
+
+    print("DEBUG: has_group(tag filter) group_identifier={0}".format(group_identifier))
+    return user.has_group(group_identifier)
 
 
 # http://stackoverflow.com/questions/2894365/use-variable-as-dictionary-key-in-django-template

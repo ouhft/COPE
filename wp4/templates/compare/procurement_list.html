@@ -32,7 +32,7 @@
                             <th>Admin</th>
                         {% endif %}
                         <th>Samples</th>
-                        {% if request.user|has_job:5 %}
+                        {% if request.user|has_group:5 or request.user|has_group:7 %}
                             <th>Technician</th>
                         {% endif %}
                     </tr>
@@ -85,15 +85,15 @@
                             {% endif %}
 
                             <td>
-                            {% if donor.person.worksheet %}
-                                <a href="{% url 'wp4:samples:update' pk=donor.person.worksheet.id %}" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-share"></i> {{ donor.person.worksheet }}</a>
-                            {% else %}
+{#                            {% if donor.person.worksheet %}#}
+{#                                <a href="{% url 'wp4:samples:update' pk=donor.person.worksheet.id %}" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-share"></i> {{ donor.person.worksheet }}</a>#}
+{#                            {% else %}#}
                                 No Worksheet
-                            {% endif %}
+{#                            {% endif %}#}
                             </td>
-                            {% if request.user|has_job:5 %}
+                            {% if request.user|has_group:5 or request.user|has_group:7 %}
                                 <td>
-                                    {{ donor.perfusion_technician }}
+                                    {{ donor.perfusion_technician.get_full_name }}
                                 </td>
                             {% endif %}
                         </tr>
@@ -152,7 +152,7 @@
                             <th>Admin</th>
                         {% endif %}
                         <th>Samples</th>
-                        {% if request.user|has_job:5 %}
+                        {% if request.user|has_group:5 or request.user|has_group:7 %}
                             <th>Technician</th>
                         {% endif %}
                     </tr>
@@ -202,15 +202,15 @@
                             {% endif %}
 
                             <td>
-                            {% if donor.person.worksheet %}
-                                <a href="{% url 'wp4:samples:update' pk=donor.person.worksheet.id %}" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-share"></i> {{ donor.person.worksheet }}</a>
-                            {% else %}
+{#                            {% if donor.person.worksheet %}#}
+{#                                <a href="{% url 'wp4:samples:update' pk=donor.person.worksheet.id %}" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-share"></i> {{ donor.person.worksheet }}</a>#}
+{#                            {% else %}#}
                                 No Worksheet
-                            {% endif %}
+{#                            {% endif %}#}
                             </td>
-                            {% if request.user|has_job:5 %}
+                            {% if request.user|has_group:5 or request.user|has_group:7 %}
                                 <td>
-                                    {{ donor.perfusion_technician }}
+                                    {{ donor.perfusion_technician.get_full_name }}
                                 </td>
                             {% endif %}
                         </tr>
