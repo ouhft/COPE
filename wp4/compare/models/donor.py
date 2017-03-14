@@ -5,7 +5,6 @@ from __future__ import absolute_import, unicode_literals
 from bdateutil import relativedelta
 from django.core.validators import MinValueValidator, MaxValueValidator, ValidationError
 from django.db import models, transaction
-from django.db.models.query import EmptyQuerySet
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
@@ -524,6 +523,8 @@ class Donor(VersionControlMixin):
         :rtype: bool
         """
         #
+        from ..utils import update_trial_ids_and_save
+
         left_kidney = self.left_kidney
         right_kidney = self.right_kidney
         if left_kidney.preservation == PRESERVATION_NOT_SET \
@@ -539,13 +540,15 @@ class Donor(VersionControlMixin):
             else:
                 left_kidney.preservation = PRESERVATION_HMP
                 right_kidney.preservation = PRESERVATION_HMPO2
-            left_kidney.save()
-            right_kidney.save()
+            # left_kidney.save()
+            # right_kidney.save()
 
             # On randomise (not save anymore), get and save the sequence number from the retrieval team
             if self.sequence_number < 1:
                 self.sequence_number = self.retrieval_team.next_sequence_number()
-                self.save()
+                # self.save()
+
+            update_trial_ids_and_save(self)  # Saves to self and both organs should happen in here
             return True
         return False
 
@@ -712,6 +715,7 @@ class Randomisation(models.Model):
     )  #: Choices limited to LIST_CHOICES
     result = models.BooleanField(verbose_name=_("RA02 result"), default=random_5050)
     allocated_on = models.DateTimeField(verbose_name=_("RA03 allocated on"), default=timezone.now)
+    allocated_by = models.ForeignKey(Person, verbose_name=_("RA04 allocated by"), default=None, null=True)
 
     @staticmethod
     def get_and_assign_result(list_code, link_donor):
@@ -730,6 +734,7 @@ class Randomisation(models.Model):
         result = options[0]
         result.donor = link_donor
         result.allocated_on = timezone.now()
+        result.allocated_by = link_donor.created_by
         result.save()
         return result.result
 

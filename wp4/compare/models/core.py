@@ -377,19 +377,6 @@ class OrganPerson(VersionControlMixin):
         """
         return True if self.date_of_death is None else False
 
-    def _worksheet(self):
-        """
-        Looks for the first sample worksheet linked to this person
-
-        :return: Samples.Worksheet object, or None
-        :rtype: wp4.samples.models.worksheet
-        """
-        for worksheet in self.worksheet_set.all():
-            return worksheet
-        return None
-
-    worksheet = cached_property(_worksheet, name='worksheet')
-
     def __str__(self):
         if settings.DEBUG:
             return '%s : (%s, %s) %s' % (
@@ -411,7 +398,7 @@ class RetrievalTeam(BaseModelMixin):
     Lookup class for the preset Retrieval Team list. Doesn't inherit from VersionControlMixin as this
     is primarily a preset list of data, with helper functions attached.
     """
-    from wp4.locations.models import Hospital
+    from wp4.locations.models import Hospital, UNITED_KINGDOM
 
     centre_code = models.PositiveSmallIntegerField(
         verbose_name=_("RT01 centre code"),
@@ -448,7 +435,7 @@ class RetrievalTeam(BaseModelMixin):
         :return: Number matching one of the LIST_CHOICE constants
         :rtype: int
         """
-        if self.based_at.country == self.UNITED_KINGDOM:
+        if self.based_at.country == RetrievalTeam.UNITED_KINGDOM:
             if is_online:
                 return LIVE_UNITED_KINGDOM
             else:

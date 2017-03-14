@@ -65,7 +65,8 @@ brew doctor
 
 Start by putting Homebrew's python installs into the system to avoid conflicts with the system python::
 
-    brew install python python3
+    brew install python python3 gettext
+    brew link gettext --force   # This is to enable the language files to be processed in Django
 
 Have installed both python (2.7.10) and python3 (3.6) brew packages, which gives us setuptools, sqlite3 and pip.
 
@@ -130,6 +131,8 @@ virtualenv project for development, then get the latest code from the central gi
     pm migrate
     pm collectstatic         # NB: Should point to the htdocs folder and ask for confirmation
     pm createsuperuser       # superuser is 'carl'
+    pm makemessages
+    pm compilemessages
     
     # Fixture loading needs to be updated to reflect current project setup
     ## pm loaddata config/fixtures/01_hospitals.json

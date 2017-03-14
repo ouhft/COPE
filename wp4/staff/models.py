@@ -80,3 +80,6 @@ class Person(AbstractUser):
 
     def get_absolute_url(self):
         return reverse("wp4:staff:detail", kwargs={"pk": self.pk})
+
+    def __str__(self):
+        return self.get_full_name()

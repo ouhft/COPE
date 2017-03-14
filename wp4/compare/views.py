@@ -14,7 +14,7 @@ from django.utils import timezone
 from dal import autocomplete
 
 from wp4.staff.models import Person
-from wp4.samples.utils import create_donor_worksheet, create_recipient_worksheet
+from wp4.samples.utils import create_donor_samples, create_recipient_samples
 
 from .models import OrganPerson, Donor, Organ, Recipient, ProcurementResource, OrganAllocation, RetrievalTeam
 from .models import PRESERVATION_HMPO2, PRESERVATION_HMP
@@ -22,6 +22,7 @@ from .forms.core import DonorStartForm, OrganPersonForm, AllocationStartForm
 from .forms.procurement import DonorForm, OrganForm
 from .forms.procurement import ProcurementResourceLeftInlineFormSet, ProcurementResourceRightInlineFormSet
 from .forms.transplantation import AllocationFormSet, RecipientForm, TransplantOrganForm
+from .utils import update_trial_ids_and_save
 
 
 @login_required
@@ -47,7 +48,7 @@ class RetrievalTeamAutoComplete(autocomplete.Select2QuerySetView):
 def procurement_list(request):
     new_donor = Donor()
     current_person = request.user
-    print("DEBUG: current_person={0}".format(current_person))
+    # print("DEBUG: current_person={0}".format(current_person))
     if current_person.has_group(Person.PERFUSION_TECHNICIAN):
         new_donor.perfusion_technician = current_person
 
@@ -73,8 +74,8 @@ def procurement_list(request):
             create_procurement_initial_data(donor.left_kidney, current_person)
             create_procurement_initial_data(donor.right_kidney, current_person)
 
-            # Create the sample place holders for this form
-            create_donor_worksheet(donor, current_person)
+            # Create the sample event place holders for the donor and organs
+            create_donor_samples(donor, current_person)
 
             is_online = donor_form.cleaned_data.get("online")
             # print("DEBUG: donor_start_form: online: %s" % is_online)
@@ -82,23 +83,22 @@ def procurement_list(request):
                 # Randomisation has been done, so link to the donor, and set the basic organ parameters
                 randomisation = donor_form.cleaned_data.get("randomisation")
                 # print("DEBUG: donor_start_form: randomisation: %s" % randomisation)
-                # randomisation = Randomisation.objects.get(randomisation_id)
                 randomisation.donor = donor
                 randomisation.allocated_on = timezone.now()
                 randomisation.save()
 
                 donor.sequence_number = donor.retrieval_team.next_sequence_number(False)
-                donor.save(created_by=current_person)
+                donor.created_by = current_person
 
-                left_kidney = donor.left_kidney
-                left_kidney.transplantable = True
-                left_kidney.preservation = PRESERVATION_HMPO2 if randomisation.result else PRESERVATION_HMP
-                left_kidney.save(created_by=current_person)
+                donor.left_kidney.transplantable = True  # Assumption that has to be made to randomise offline
+                donor.left_kidney.preservation = PRESERVATION_HMPO2 if randomisation.result else PRESERVATION_HMP
+                donor.left_kidney.created_by = current_person
 
-                right_kidney = donor.right_kidney
-                right_kidney.transplantable = True
-                right_kidney.preservation = PRESERVATION_HMP if randomisation.result else PRESERVATION_HMPO2
-                right_kidney.save(created_by=current_person)
+                donor.right_kidney.transplantable = True
+                donor.right_kidney.preservation = PRESERVATION_HMP if randomisation.result else PRESERVATION_HMPO2
+                donor.right_kidney.created_by = current_person
+
+                update_trial_ids_and_save(donor)  # This will do the saving of the donor and both kidneys
 
                 messages.success(request, '<strong>Offline</strong> case has been successfully started')
 
@@ -110,30 +110,26 @@ def procurement_list(request):
     if current_person.has_group(
             (Person.SYSTEMS_ADMINISTRATOR, Person.CENTRAL_COORDINATOR, Person.NATIONAL_COORDINATOR)
     ):
-        print("DEBUG: Group1")
+        # print("DEBUG: Group1")
         # order_by('retrieval_team__centre_code', '-pk').\
         open_donors = Donor.objects.for_user(current_person).filter(procurement_form_completed=False).\
             order_by('-created_on').\
-            select_related('person').\
-            select_related('perfusion_technician').\
-            select_related('retrieval_team__based_at').\
-            select_related('randomisation')
-        print("DEBUG: open_donors length: {0}".format(len(open_donors)))
+            select_related('person', 'perfusion_technician', 'retrieval_team__based_at', 'randomisation')
         closed_donors = Donor.objects.for_user(current_person).filter(procurement_form_completed=True).\
             order_by('retrieval_team__centre_code', '-pk').\
-            select_related('person').\
-            select_related('perfusion_technician').\
-            select_related('retrieval_team__based_at').\
-            select_related('randomisation')
-        print("DEBUG: closed_donors length: {0}".format(len(closed_donors)))
+            select_related('person', 'perfusion_technician', 'retrieval_team__based_at', 'randomisation')
     elif current_person.has_group(Person.PERFUSION_TECHNICIAN):
-        print("DEBUG: Group2")
+        # print("DEBUG: Group2")
         open_donors = Donor.objects.for_user(current_person).\
             filter(perfusion_technician=current_person, procurement_form_completed=False).\
-            order_by('-pk')
-        closed_donors = []
+            order_by('-pk').\
+            select_related('person', 'perfusion_technician', 'retrieval_team__based_at', 'randomisation')
+        closed_donors = Donor.objects.for_user(current_person).\
+            filter(perfusion_technician=current_person, procurement_form_completed=True).\
+            order_by('-pk').\
+            select_related('person', 'perfusion_technician', 'retrieval_team__based_at', 'randomisation')
     else:
-        print("DEBUG: Group3")
+        # print("DEBUG: Group3")
         open_donors = []
         closed_donors = []
 
@@ -284,10 +280,10 @@ def procurement_form(request, pk):
     # messages.error(request, '<strong>Document</strong> deleted.')
 
     # Load the relevant samples worksheet
-    if len(donor.person.worksheet_set.all()) > 0:
-        worksheet = donor.person.worksheet_set.all()[0]
-    else:
-        worksheet = None
+    # if len(donor.person.worksheet_set.all()) > 0:
+    #     worksheet = donor.person.worksheet_set.all()[0]
+    # else:
+    worksheet = None
 
     return render(
         request=request,
@@ -530,7 +526,7 @@ def transplantation_form(request, pk=None):
                     recipient.save(created_by=current_person)
 
                     # create the related sample placeholder for this recipient
-                    create_recipient_worksheet(recipient, current_person)
+                    create_recipient_samples(recipient, current_person)
 
         # There should be no errors when we redirect here
         version_string = " Organ v:" + str(organ.version) if current_person.is_superuser else ""
@@ -552,10 +548,10 @@ def transplantation_form(request, pk=None):
     # TODO: FIX THIS - disabling the radiobuttons causes the fields to not be submitted, and thus the value is reset to None
 
     # Load the relevant samples worksheet
-    if recipient_form_loaded and len(organ.recipient.person.worksheet_set.all()):
-        worksheet = organ.recipient.person.worksheet_set.all()[0]
-    else:
-        worksheet = None
+    # if recipient_form_loaded and len(organ.recipient.person.worksheet_set.all()):
+    #     worksheet = organ.recipient.person.worksheet_set.all()[0]
+    # else:
+    worksheet = None
 
     # print("DEBUG: Second Error Message Update")
     if errors_found > 0:

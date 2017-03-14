@@ -117,7 +117,7 @@ class DonorForm(forms.ModelForm):
                         'call_received_unknown',
                         label=Donor._meta.get_field("call_received").verbose_name.title()
                     ),
-                    ForeignKeyModal('retrieval_hospital'),
+                    'retrieval_hospital',
                     FieldWithNotKnown(
                         DateTimeField('scheduled_start', notknown=True),
                         'scheduled_start_unknown',
@@ -384,7 +384,6 @@ class OrganForm(forms.ModelForm):
                 style="margin-top: 10px;"
             )
         )
-
 
     class Meta:
         model = Organ

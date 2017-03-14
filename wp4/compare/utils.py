@@ -3,9 +3,23 @@
 from __future__ import absolute_import, unicode_literals
 from __future__ import print_function
 
-from wp4.compare.models import Donor
-from wp4.compare.models import PAPER_EUROPE, PAPER_UNITED_KINGDOM, LIVE_UNITED_KINGDOM, LIVE_EUROPE
-from wp4.compare.models import LEFT, RIGHT
+from .models import Donor
+from .models import PAPER_EUROPE, PAPER_UNITED_KINGDOM, LIVE_UNITED_KINGDOM, LIVE_EUROPE
+from .models import LEFT, RIGHT
+
+
+def update_trial_ids_and_save(donor):
+    """
+    For a given donor record, update the trial ids
+    :param donor: Compare.Donor record to be processed
+    :return:
+    """
+    donor.trial_id = donor.make_trial_id()
+    donor.save()
+    donor.left_kidney.trial_id = donor.left_kidney.make_trial_id()
+    donor.left_kidney.save()
+    donor.right_kidney.trial_id = donor.right_kidney.make_trial_id()
+    donor.right_kidney.save()
 
 
 class TrialIDUtility(object):
