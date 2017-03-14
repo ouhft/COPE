@@ -2,6 +2,7 @@
 
 coverage
 django-debug-toolbar
+django-debug-toolbar-template-profiler
 ipython
 django-spaghetti-and-meatballs
 django-extensions
