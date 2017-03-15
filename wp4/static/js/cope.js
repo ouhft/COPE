@@ -72,11 +72,11 @@ function openForeignKeyModal(keyName, dbValue) {
     if (keyName == "id_donor-transplant_coordinator") {
         //console.log("DEBUG: loading modal for transplant co-ord");
         ajaxURL += (dbValue < 1 ? "wp4/staff/" : "wp4/staff/" + dbValue + "/");
-        ajaxDATA = {"pk": dbValue, "q": 2, "return_id": keyName}  // TRANSPLANT_COORDINATOR
+        ajaxDATA = {"pk": dbValue, "return_id": keyName}  // "q": 2, TRANSPLANT_COORDINATOR
     } else if (keyNameSplit[0] == "id_allocation" && keyNameSplit[2] == "theatre_contact") {
         //console.log("DEBUG: loading modal for theatre contact");
         ajaxURL += (dbValue < 1 ? "wp4/staff/" : "wp4/staff/" + dbValue + "/");
-        ajaxDATA = {"pk": dbValue, "q": 15, "return_id": keyName}  // THEATRE_CONTACT
+        ajaxDATA = {"pk": dbValue, "return_id": keyName}  // "q": 15, THEATRE_CONTACT
     } else if (keyName == "id_contact") {
         //console.log("DEBUG: loading modal for adverse event contact");
         ajaxURL += (dbValue < 1 ? "wp4/staff/" : "wp4/staff/" + dbValue + "/");

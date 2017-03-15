@@ -31,7 +31,7 @@ class TechnicianAutoComplete(autocomplete.Select2QuerySetView):
 class AjaxListSearchMixin(object):
     def get_queryset(self):
         # If a q value is set, filter based on jobs/groups
-        queryset = super(AjaxListSearchMixin, self).get_queryset()
+        queryset = super(AjaxListSearchMixin, self).get_queryset().order_by('first_name')
 
         q = self.request.GET.get("q")
         if q and q.isdigit():
