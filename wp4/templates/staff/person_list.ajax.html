@@ -2,8 +2,8 @@
     <ul class="list-group">
         {% for person in person_list %}
             <a href="#"
-               onclick="selectAndCloseForeignKeyModal('{{ return_id }}', {{ person.id }}, '{{ person.full_name }}');"
-               class="list-group-item"><i class="glyphicon glyphicon-save"></i> <strong>{{ person.full_name }}</strong> ({{ person.based_at.name }})</a>
+               onclick="selectAndCloseForeignKeyModal('{{ return_id }}', {{ person.id }}, '{{ person.get_full_name }}');"
+               class="list-group-item"><i class="glyphicon glyphicon-save"></i> <strong>{{ person.get_full_name }}</strong> ({{ person.based_at.name|default:"Unknown location" }})</a>
         {% endfor %}
     </ul>
 {% else %}
