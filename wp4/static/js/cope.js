@@ -8,7 +8,6 @@ $.fn.exists = function () {
 
 // Bootstrap 3.3.7 JS
 // @codekit-append "../js-plugins/affix.js"
-// @codekit-append "../js-plugins/affix.js"
 // @codekit-append "../js-plugins/alert.js"
 // @codekit-append "../js-plugins/button.js"
 // @codekit-append "../js-plugins/carousel.js"

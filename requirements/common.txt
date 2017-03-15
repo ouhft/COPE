@@ -9,11 +9,10 @@ django-reversion-compare==0.7.3
 bdateutil==0.1
 markdown==2.6.8
 django-livefield==2.6.0
+django-crispy-forms==1.6.1
 
 pytz
 pip
 wheel
 setuptools
 psycopg2
-
--e git+git://github.com/maraujop/django-crispy-forms.git@dev#egg=django-crispy-forms

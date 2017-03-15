@@ -29,6 +29,7 @@ class AllocationForm(forms.ModelForm):
     helper = FormHelper()
     helper.form_tag = False
     helper.html5_required = True
+    helper.include_media = False  # We will add the media ourselves in the footer
     helper.layout = Layout(
         'organ',
         Div(
@@ -106,7 +107,7 @@ class AllocationForm(forms.ModelForm):
             'reallocation'
         ]
         widgets = {
-            'perfusion_technician': autocomplete.ModelSelect2(url='wp4:staff_person:technician-autocomplete')
+            'perfusion_technician': autocomplete.ModelSelect2(url='wp4:staff:technician-autocomplete')
         }
         localized_fields = "__all__"
 
