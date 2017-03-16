@@ -163,10 +163,42 @@
     <table class="table table-condensed">
     <thead>
         <tr>
-            <th>Donor</th>
-            <th>Organ</th>
-            <th>Recipient</th>
-            <th>12 Month Followup</th>
+            <th>
+                Donor<br>
+                Total: {{ summary.donors.total }}
+            </th>
+            <th>
+                Organ<br>
+                Total: {{ summary.organs.total }}<br>
+                Eligible: {{ summary.organs.total_eligible }}<br>
+                - Randomised: {{ summary.organs.total_randomised }}<br>
+                - Single Organ: {{ summary.organs.total_singleorgan }}<br>
+                - Transplantable: {{ summary.organs.total_transplantable }}<br>
+            </th>
+            <th>
+                Allocation<br>
+                Total: {{ summary.allocations.total }}<br>
+                - To Project Sites: {{ summary.allocations.total_to_project_sites }}<br>
+                - To Non-Project Sites: {{ summary.allocations.total_to_non_project_sites }}<br>
+                - To Unknown Hospitals: {{ summary.allocations.total_to_unknown_hospital }}
+            </th>
+            <th>
+                Recipient<br>
+                Total records: {{ summary.recipients.total }}<br>
+                Total Operated on: {{ summary.recipients.operated_on.total }}<br>
+                - Consented: {{ summary.recipients.operated_on.consented }}<br>
+                - Single Organ: {{ summary.recipients.operated_on.single_organ }}<br>
+                Total Eligible: {{ summary.recipients.operated_on.eligible }}
+            </th>
+            <th>
+                Pairs<br>
+                Eligible: {{ summary.eligible_pairs.total }}<br>
+            </th>
+            <th>
+                12 Month Followup<br>
+                In Window: {{ summary.finals.on_time.with_cc }} with CC, {{ summary.finals.on_time.with_cc }} without<br>
+                Outside Window: {{ summary.finals.outside_window.early }} early, and {{ summary.finals.outside_window.overdue }} overdue
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -180,29 +212,122 @@
                     <small>{{ row.is_eligible }} Eligible Kidneys</small>
                 {% endif %}
             </td>
-            <td>LEFT <sup>#{{ row.left_kidney.id }}</sup> <strong>{{ row.left_kidney.trial_id }}</strong></td>
+            <td>
+                LEFT <sup>#{{ row.left_kidney.id }}</sup> <strong>{{ row.left_kidney.trial_id }}</strong><br>
+                {% if row.left_kidney.preservation == 9 %}<i class="glyphicon glyphicon-remove text-danger" title="Randomised? No"></i>{% else %}<i class="glyphicon glyphicon-ok text-success" title="Randomised? Yes"></i>{% endif %}
+                {% if not row.multiple_recipients %}<i class="glyphicon glyphicon-remove text-danger" title="multiple_recipients? No"></i>{% else %}<i class="glyphicon glyphicon-ok text-success" title="multiple_recipients - Yes"></i>{% endif %}
+                {% if not row.left_kidney.transplantable %}<i class="glyphicon glyphicon-remove text-danger" title="transplantable? No"></i>{% else %}<i class="glyphicon glyphicon-ok text-success" title="transplantable? Yes"></i>{% endif %}
+            </td>
+            <td>
+                {% with row.left_kidney.final_allocation as allocation %}
+                    {{ allocation.transplant_hospital }}<br>
+
+                    {% if not allocation.transplant_hospital.is_project_site %}<i class="glyphicon glyphicon-remove text-danger" title="is_project_site? No"></i>{% else %}<i class="glyphicon glyphicon-ok text-success" title="is_project_site? Yes"></i>{% endif %}
+                    {% if allocation.reallocated %}<i class="glyphicon glyphicon-remove text-danger" title="reallocated? Yes"></i>{% else %}<i class="glyphicon glyphicon-ok text-success" title="reallocated? No"></i>{% endif %}
+                {% endwith %}
+            </td>
             <td>
                 {% if row.left_kidney.safe_recipient %}
-                 <sup>#{{ row.left_kidney.safe_recipient.id }}</sup>
+                    {% with row.left_kidney.safe_recipient as recipient %}
+                 <sup>#{{ recipient.id }}</sup>
+                        {% if not recipient.signed_consent %}<i class="glyphicon glyphicon-remove text-danger" title="Consented? No"></i>{% else %}<i class="glyphicon glyphicon-ok text-success" title="Consented? Yes"></i>{% endif %}
+                        {% if not recipient.single_kidney_transplant %}<i class="glyphicon glyphicon-remove text-danger" title="single_kidney_transplant? No"></i>{% else %}<i class="glyphicon glyphicon-ok text-success" title="single_kidney_transplant? Yes"></i>{% endif %}
+                        {% if not recipient.successful_conclusion %}<i class="glyphicon glyphicon-remove text-danger" title="successful_conclusion? No"></i>{% else %}<i class="glyphicon glyphicon-ok text-success" title="successful_conclusion? Yes"></i>{% endif %}
+                        {% if not recipient.knife_to_skin %}<i class="glyphicon glyphicon-remove text-danger" title="knife_to_skin? No answer"></i>{% else %}<i class="glyphicon glyphicon-ok text-success" title="knife_to_skin={{ recipient.knife_to_skin }}"></i>{% endif %}
+                        {% if not recipient.anastomosis_started_at %}<i class="glyphicon glyphicon-remove text-danger" title="anastomosis_started_at? No answer"></i>{% else %}<i class="glyphicon glyphicon-ok text-success" title="anastomosis_started_at={{ recipient.anastomosis_started_at }}"></i>{% endif %}
+                        {% if not recipient.reperfusion_started_at %}<i class="glyphicon glyphicon-remove text-danger" title="reperfusion_started_at? No answer"></i>{% else %}<i class="glyphicon glyphicon-ok text-success" title="reperfusion_started_at={{ recipient.reperfusion_started_at }}"></i>{% endif %}
+                        {% if not recipient.operation_concluded_at %}<i class="glyphicon glyphicon-remove text-danger" title="operation_concluded_at? No answer"></i>{% else %}<i class="glyphicon glyphicon-ok text-success" title="operation_concluded_at={{ recipient.operation_concluded_at }}"></i>{% endif %}
+                    {% endwith %}
+
                 {% else %}
                     No Recipient
                 {% endif %}
             </td>
+            <td rowspan="2">
+                {% if row.multiple_recipients and row.left_kidney.preservation != 9 and row.left_kidney.transplantable and row.right_kidney.transplantable %}
+                    {% if row.left_kidney.final_allocation.transplant_hospital.is_project_site and row.right_kidney.final_allocation.transplant_hospital.is_project_site %}
+                        {% with row.left_kidney.safe_recipient as left_recipient %}{% with row.right_kidney.safe_recipient as right_recipient %}
+                            {% if left_recipient.signed_consent and left_recipient.single_kidney_transplant and right_recipient.signed_consent and right_recipient.single_kidney_transplant %}
+                                {% if left_recipient.knife_to_skin or left_recipient.anastomosis_started_at or left_recipient.reperfusion_started_at or left_recipient.operation_concluded_at %} {% if right_recipient.knife_to_skin or right_recipient.anastomosis_started_at or right_recipient.reperfusion_started_at or right_recipient.operation_concluded_at %}
+                                    <i class="glyphicon glyphicon-thumbs-up text-success" title="PAIR" style="font-size: xx-large;"></i>
+                                {% endif %}{% endif %}
+                            {% endif %}
+                        {% endwith %}{% endwith %}
+                    {% endif %}
+                {% endif %}
+            </td>
             <td>
-                {{ row.left_kidney.followup_1y.id }}
+                {% if row.multiple_recipients and row.left_kidney.preservation != 9 and row.left_kidney.transplantable %}{% if row.left_kidney.final_allocation.transplant_hospital.is_project_site %}{% with row.left_kidney.safe_recipient as left_recipient %}{% if left_recipient.signed_consent and left_recipient.single_kidney_transplant %}{% if left_recipient.knife_to_skin or left_recipient.anastomosis_started_at or left_recipient.reperfusion_started_at or left_recipient.operation_concluded_at %}
+
+                    {% now "Y-m-d" as today %}
+                    {% if row.left_kidney.followup_done_within_followup_final_window %}
+                        <i class="glyphicon glyphicon-ok text-success" title="Follow Up Done within window"></i>
+                    {% elif row.left_kidney.followup_1y.start_date < row.left_kidney.followup_final_begin_by %}
+                        <i class="glyphicon glyphicon-warning-sign text-warning" title="Follow Up Done EARLY"></i>
+                    {% elif row.left_kidney.followup_1y.start_date > row.left_kidney.followup_final_completed_by %}
+                        <i class="glyphicon glyphicon-warning-sign text-warning" title="Follow Up Done LATE"></i>
+                    {% elif today > row.left_kidney.followup_final_completed_by|date:"Y-m-d" %}
+                        <i class="glyphicon glyphicon-remove text-danger" title="Follow Up Missed Window"></i>
+                    {% elif today < row.left_kidney.followup_final_begin_by|date:"Y-m-d" %}
+                        <i class="glyphicon glyphicon-time text-success" title="Not yet due ({{ row.left_kidney.followup_final_begin_by }})"></i>
+                    {% else %}
+                        <i class="glyphicon glyphicon-time text-info" title="Due by ({{ row.left_kidney.followup_final_begin_by }})"></i>
+                    {% endif %}
+                    {% if row.left_kidney.followup_1y.creatinine_clearance > 0 %}<i class="glyphicon glyphicon-ok text-success" title="Creatinine Clearance Recorded"></i>{% else %}<i class="glyphicon glyphicon-remove text-danger" title="No CC"></i>{% endif %}
+                    {% if row.left_kidney.followup_1y %}<sup title="{{ row.left_kidney.followup_1y.start_date }}">#{{ row.left_kidney.followup_1y.id }}</sup>{% endif %}
+                 {% endif %}{% endif %}{% endwith %}{% endif %}{% endif %}
             </td>
         </tr>
         <tr>
-            <td>RIGHT <sup>#{{ row.right_kidney.id }}</sup><strong>{{ row.right_kidney.trial_id }}</strong> </td>
+            <td>RIGHT <sup>#{{ row.right_kidney.id }}</sup><strong>{{ row.right_kidney.trial_id }}</strong><br>
+                {% if row.right_kidney.preservation == 9 %}<i class="glyphicon glyphicon-remove text-danger" title="Randomised? No"></i>{% else %}<i class="glyphicon glyphicon-ok text-success" title="Randomised? Yes"></i>{% endif %}
+                {% if not row.multiple_recipients %}<i class="glyphicon glyphicon-remove text-danger" title="multiple_recipients - No"></i>{% else %}<i class="glyphicon glyphicon-ok text-success" title="multiple_recipients - Yes"></i>{% endif %}
+                {% if not row.right_kidney.transplantable %}<i class="glyphicon glyphicon-remove text-danger" title="transplantable? No"></i>{% else %}<i class="glyphicon glyphicon-ok text-success" title="transplantable? Yes"></i>{% endif %}
+            </td>
+            <td>
+                {% with row.right_kidney.final_allocation as allocation %}
+                    {{ allocation.transplant_hospital }}<br>
+
+                    {% if not allocation.transplant_hospital.is_project_site %}<i class="glyphicon glyphicon-remove text-danger" title="is_project_site? No"></i>{% else %}<i class="glyphicon glyphicon-ok text-success" title="is_project_site? Yes"></i>{% endif %}
+                    {% if allocation.reallocated %}<i class="glyphicon glyphicon-remove text-danger" title="reallocated? Yes"></i>{% else %}<i class="glyphicon glyphicon-ok text-success" title="reallocated? No"></i>{% endif %}
+                {% endwith %}
+            </td>
             <td>
                 {% if row.right_kidney.safe_recipient %}
-                <sup>#{{ row.right_kidney.safe_recipient.id }}</sup>
+                    {% with row.right_kidney.safe_recipient as recipient %}
+                 <sup>#{{ recipient.id }}</sup>
+                        {% if not recipient.signed_consent %}<i class="glyphicon glyphicon-remove text-danger" title="Consented? No"></i>{% else %}<i class="glyphicon glyphicon-ok text-success" title="Consented? Yes"></i>{% endif %}
+                        {% if not recipient.single_kidney_transplant %}<i class="glyphicon glyphicon-remove text-danger" title="single_kidney_transplant? No"></i>{% else %}<i class="glyphicon glyphicon-ok text-success" title="single_kidney_transplant? Yes"></i>{% endif %}
+                        {% if not recipient.successful_conclusion %}<i class="glyphicon glyphicon-remove text-danger" title="successful_conclusion? No"></i>{% else %}<i class="glyphicon glyphicon-ok text-success" title="successful_conclusion? Yes"></i>{% endif %}
+                        {% if not recipient.knife_to_skin %}<i class="glyphicon glyphicon-remove text-danger" title="knife_to_skin? No answer"></i>{% else %}<i class="glyphicon glyphicon-ok text-success" title="knife_to_skin={{ recipient.knife_to_skin }}"></i>{% endif %}
+                        {% if not recipient.anastomosis_started_at %}<i class="glyphicon glyphicon-remove text-danger" title="anastomosis_started_at? No answer"></i>{% else %}<i class="glyphicon glyphicon-ok text-success" title="anastomosis_started_at={{ recipient.anastomosis_started_at }}"></i>{% endif %}
+                        {% if not recipient.reperfusion_started_at %}<i class="glyphicon glyphicon-remove text-danger" title="reperfusion_started_at? No answer"></i>{% else %}<i class="glyphicon glyphicon-ok text-success" title="reperfusion_started_at={{ recipient.reperfusion_started_at }}"></i>{% endif %}
+                        {% if not recipient.operation_concluded_at %}<i class="glyphicon glyphicon-remove text-danger" title="operation_concluded_at? No answer"></i>{% else %}<i class="glyphicon glyphicon-ok text-success" title="operation_concluded_at={{ recipient.operation_concluded_at }}"></i>{% endif %}
+                    {% endwith %}
                 {% else %}
                     No Recipient
                 {% endif %}
             </td>
             <td>
-                {{ row.right_kidney.followup_1y.id }}
+                {% if row.multiple_recipients and row.right_kidney.preservation != 9 and row.right_kidney.transplantable %}{% if row.right_kidney.final_allocation.transplant_hospital.is_project_site %}{% with row.right_kidney.safe_recipient as right_recipient %}{% if right_recipient.signed_consent and right_recipient.single_kidney_transplant %}{% if right_recipient.knife_to_skin or right_recipient.anastomosis_started_at or right_recipient.reperfusion_started_at or right_recipient.operation_concluded_at %}
+
+                    {% now "Y-m-d" as today %}
+                    {% if row.right_kidney.followup_done_within_followup_final_window %}
+                        <i class="glyphicon glyphicon-ok text-success" title="Follow Up Done within window"></i>
+                    {% elif row.right_kidney.followup_1y.start_date < row.right_kidney.followup_final_begin_by %}
+                        <i class="glyphicon glyphicon-warning-sign text-warning" title="Follow Up Done EARLY"></i>
+                    {% elif row.right_kidney.followup_1y.start_date > row.right_kidney.followup_final_completed_by %}
+                        <i class="glyphicon glyphicon-warning-sign text-warning" title="Follow Up Done LATE"></i>
+                    {% elif today > row.right_kidney.followup_final_completed_by|date:"Y-m-d" %}
+                        <i class="glyphicon glyphicon-remove text-danger" title="Follow Up Missed Window"></i>
+                    {% elif today < row.right_kidney.followup_final_begin_by|date:"Y-m-d" %}
+                        <i class="glyphicon glyphicon-time text-success" title="Not yet due ({{ row.right_kidney.followup_final_begin_by }})"></i>
+                    {% else %}
+                        <i class="glyphicon glyphicon-time text-info" title="Due by ({{ row.right_kidney.followup_final_begin_by }})"></i>
+                    {% endif %}
+                    {% if row.right_kidney.followup_1y.creatinine_clearance > 0 %}<i class="glyphicon glyphicon-ok text-success" title="Creatinine Clearance Recorded"></i>{% else %}<i class="glyphicon glyphicon-remove text-danger" title="No CC"></i>{% endif %}
+                    {% if row.right_kidney.followup_1y %}<sup title="{{ row.right_kidney.followup_1y.start_date }}">#{{ row.right_kidney.followup_1y.id }}</sup>{% endif %}
+                 {% endif %}{% endif %}{% endwith %}{% endif %}{% endif %}
             </td>
         </tr>
     {% endfor %}

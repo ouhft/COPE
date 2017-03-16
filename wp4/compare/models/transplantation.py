@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # coding: utf-8
 from __future__ import absolute_import, unicode_literals
+import datetime
 
 from django.core.validators import MinValueValidator, MaxValueValidator, ValidationError
 from django.db import models

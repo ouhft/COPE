@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # coding: utf-8
 from __future__ import absolute_import, unicode_literals
+import datetime
 
 from django.core.validators import MinValueValidator, MaxValueValidator, ValidationError
 from django.core.exceptions import ObjectDoesNotExist
@@ -491,6 +492,31 @@ class Organ(VersionControlMixin):
         return 0
 
     graft_failed = cached_property(_graft_failed, name='graft_failed')
+
+    def _followup_final_begin_by(self):
+        """
+        Returns the date that the final follow up can begin by. This is the randomisation date + 300 days
+        :return:
+        """
+        return (self.donor.randomisation.allocated_on + datetime.timedelta(days=300)).date()
+
+    followup_final_begin_by = cached_property(_followup_final_begin_by, name='followup_final_begin_by')
+
+    def _followup_final_completed_by(self):
+        """
+        Returns the date that the final follow up should be completed by. This is the randomisation date + 365+65 days
+        :return:
+        """
+        return (self.donor.randomisation.allocated_on + datetime.timedelta(days=430)).date()
+
+    followup_final_completed_by = cached_property(_followup_final_completed_by, name='followup_final_completed_by')
+
+    def followup_done_within_followup_final_window(self):
+        if self.followup_1y is not None:
+            if self.followup_1y.start_date >= self.followup_final_begin_by \
+                and self.followup_1y.start_date <= self.followup_final_completed_by:
+                return True
+        return False
 
     def __str__(self):
         return self.trial_id

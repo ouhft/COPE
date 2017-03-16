@@ -347,8 +347,8 @@ def transplantation_list(request):
         closed_cases = []
 
     organs_available_count = Organ.allocatable_objects.count()
-    print("DEBUG: transplantation_list(request): Total number of organs={0} of which {1} are not transplantable".format(
-        Organ.objects.count(), Organ.objects.filter(transplantable=False).count()))
+    print("DEBUG: transplantation_list(request): Total number of organs={0} of which {1} are not transplantable and {2} are not randomised".format(
+        Organ.objects.count(), Organ.objects.filter(transplantable=False).count(), Organ.objects.filter(preservation=9).count()))
 
     return render(
         request=request,

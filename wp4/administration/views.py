@@ -4,6 +4,7 @@ from __future__ import absolute_import, unicode_literals
 
 import csv
 import pytz
+import datetime
 
 # from django.contrib import messages
 from django.db.models import Q
@@ -662,7 +663,94 @@ def completed_pairs(request):
     # Determine Follow up windows
     # Looking for 12month follow up: check for completed as: creatinine clearance entered
 
-    summary = {}
+    summary = {
+        "donors" : {
+            "total": 0
+        },
+        "organs": {
+            "total": 0,
+            "total_eligible": 0,
+            "total_randomised": 0,
+            "total_singleorgan": 0,
+            "total_transplantable": 0,
+        },
+        "allocations": {
+            "total": 0,
+            "total_to_unknown_hospital": 0,
+            "total_to_project_sites": 0,
+            "total_to_non_project_sites": 0
+        },
+        "recipients": {
+            "total": 0,
+            "operated_on": {
+                "total": 0,
+                "consented": 0,
+                "single_organ": 0,
+                "eligible": 0,
+            }
+        },
+        "eligible_pairs": {
+            "total": 0,
+            "singles": 0,
+        },
+        "finals": {
+            "on_time": {
+                "without_cc": 0,
+                "with_cc": 0
+            },
+            "outside_window": {
+                "early": 0,
+                "overdue": 0
+            }
+        }
+    }
+
+    for donor in listing:
+        summary["donors"]["total"] += 1
+        previous_organ_eligible = False
+
+        for organ in (donor.left_kidney, donor.right_kidney):
+            summary["organs"]["total"] += 1
+            summary["organs"]["total_eligible"] += 1 if organ.preservation != 9 and donor.multiple_recipients and organ.transplantable else 0
+            summary["organs"]["total_randomised"] += 1 if organ.preservation != 9 else 0
+            summary["organs"]["total_singleorgan"] += 1 if donor.multiple_recipients else 0
+            summary["organs"]["total_transplantable"] += 1 if organ.transplantable else 0
+
+            if organ.final_allocation and organ.preservation != 9 and donor.multiple_recipients and organ.transplantable:
+                summary["allocations"]["total"] += 1
+                if organ.final_allocation.transplant_hospital:
+                    if organ.final_allocation.transplant_hospital.is_project_site:
+                        summary["allocations"]["total_to_project_sites"] += 1
+
+                        if organ.safe_recipient:
+                            recipient = organ.safe_recipient
+                            summary["recipients"]["total"] += 1
+
+                            if recipient.knife_to_skin or recipient.anastomosis_started_at or recipient.reperfusion_started_at or recipient.operation_concluded_at:
+                                summary["recipients"]["operated_on"]["total"] += 1
+                                summary["recipients"]["operated_on"]["consented"] += 1 if recipient.signed_consent else 0
+                                summary["recipients"]["operated_on"]["single_organ"] += 1 if recipient.single_kidney_transplant else 0
+
+                                if recipient.signed_consent and recipient.single_kidney_transplant:
+                                    summary["recipients"]["operated_on"]["eligible"] += 1
+
+                                    # Pair analysis
+                                    summary["eligible_pairs"]["total"] += 1 if previous_organ_eligible else 0
+                                    previous_organ_eligible = True if not previous_organ_eligible else False
+                                    if organ.followup_done_within_followup_final_window():
+                                        if organ.followup_1y.creatinine_clearance:
+                                            summary["finals"]["on_time"]["with_cc"] += 1
+                                        else:
+                                            summary["finals"]["on_time"]["without_cc"] += 1
+                                    elif organ.followup_1y.start_date > organ.followup_final_completed_by or timezone.now().date() > organ.followup_final_completed_by:
+                                        summary["finals"]["outside_window"]["early"] += 1
+                                    else:
+                                        summary["finals"]["outside_window"]["overdue"] += 1
+                    else:
+                        summary["allocations"]["total_to_non_project_sites"] += 1
+                else:
+                    summary["allocations"]["total_to_unknown_hospital"] += 1
+
     return render(
         request,
         'administration/completed_pairs.html',
