@@ -5,7 +5,6 @@ import datetime
 
 from django.core.validators import MinValueValidator, MaxValueValidator, ValidationError
 from django.db import models
-from django.db.models.query import EmptyQuerySet
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 

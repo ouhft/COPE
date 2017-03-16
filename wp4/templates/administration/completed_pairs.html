@@ -196,8 +196,10 @@
             </th>
             <th>
                 12 Month Followup<br>
-                In Window: {{ summary.finals.on_time.with_cc }} with CC, {{ summary.finals.on_time.with_cc }} without<br>
-                Outside Window: {{ summary.finals.outside_window.early }} early, and {{ summary.finals.outside_window.overdue }} overdue
+                In Window: {{ summary.finals.on_time.with_cc|add:summary.finals.on_time.with_cc }}<br>
+                - With CC: {{ summary.finals.on_time.with_cc }}<br>
+                - Without CC {{ summary.finals.on_time.without_cc }}<br>
+{#                Outside Window: {{ summary.finals.outside_window.early }} early, and {{ summary.finals.outside_window.overdue }} overdue#}
             </th>
         </tr>
     </thead>

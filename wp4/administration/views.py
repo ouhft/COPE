@@ -742,10 +742,11 @@ def completed_pairs(request):
                                             summary["finals"]["on_time"]["with_cc"] += 1
                                         else:
                                             summary["finals"]["on_time"]["without_cc"] += 1
-                                    elif organ.followup_1y.start_date > organ.followup_final_completed_by or timezone.now().date() > organ.followup_final_completed_by:
-                                        summary["finals"]["outside_window"]["early"] += 1
-                                    else:
-                                        summary["finals"]["outside_window"]["overdue"] += 1
+                                    # Too Many problems with RelatedObjectDoesNotExist: Organ has no followup_1y
+                                    # elif organ.followup_1y and (organ.followup_1y.start_date > organ.followup_final_completed_by or timezone.now().date() > organ.followup_final_completed_by):
+                                    #     summary["finals"]["outside_window"]["early"] += 1
+                                    # else:
+                                    #     summary["finals"]["outside_window"]["overdue"] += 1
                     else:
                         summary["allocations"]["total_to_non_project_sites"] += 1
                 else:
