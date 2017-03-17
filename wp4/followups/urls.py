@@ -14,11 +14,11 @@ urlpatterns = [
         name='index'
     ),
 
-    url(
-        regex=r'^initial/add/$',
-        view=views.FollowUpInitialCreateView.as_view(),
-        name='initial_add'
-    ),
+    # url(
+    #     regex=r'^initial/add/$',
+    #     view=views.FollowUpInitialCreateView.as_view(),
+    #     name='initial_add'
+    # ),
     url(
         regex=r'^initial/(?P<pk>[0-9]+)/details/$',
         view=views.FollowUpInitialDetailView.as_view(),
@@ -35,11 +35,11 @@ urlpatterns = [
         name='initial_list'
     ),
 
-    url(
-        regex=r'^month3/add/$',
-        view=views.FollowUp3MCreateView.as_view(),
-        name='month3_add'
-    ),
+    # url(
+    #     regex=r'^month3/add/$',
+    #     view=views.FollowUp3MCreateView.as_view(),
+    #     name='month3_add'
+    # ),
     url(
         regex=r'^month3/(?P<pk>[0-9]+)/details/$',
         view=views.FollowUp3MDetailView.as_view(),
@@ -56,11 +56,11 @@ urlpatterns = [
         name='month3_list'
     ),
 
-    url(
-        regex=r'^month6/add/$',
-        view=views.FollowUp6MCreateView.as_view(),
-        name='month6_add'
-    ),
+    # url(
+    #     regex=r'^month6/add/$',
+    #     view=views.FollowUp6MCreateView.as_view(),
+    #     name='month6_add'
+    # ),
     url(
         regex=r'^month6/(?P<pk>[0-9]+)/details/$',
         view=views.FollowUp6MDetailView.as_view(),
@@ -77,11 +77,11 @@ urlpatterns = [
         name='month6_list'
     ),
 
-    url(
-        regex=r'^final/add/$',
-        view=views.FollowUp1YCreateView.as_view(),
-        name='final_add'
-    ),
+    # url(
+    #     regex=r'^final/add/$',
+    #     view=views.FollowUp1YCreateView.as_view(),
+    #     name='final_add'
+    # ),
     url(
         regex=r'^final/(?P<pk>[0-9]+)/details/$',
         view=views.FollowUp1YDetailView.as_view(),

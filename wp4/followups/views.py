@@ -7,25 +7,42 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.utils import six
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
 from django.views.generic.edit import ModelFormMixin
 
-from braces.views import LoginRequiredMixin, PermissionRequiredMixin, OrderableListMixin
+from braces.views import LoginRequiredMixin, MultiplePermissionsRequiredMixin, OrderableListMixin
 
 from wp4.health_economics.models import QualityOfLife
 
 from .models import FollowUpInitial, FollowUp3M, FollowUp6M, FollowUp1Y
 from .forms import FollowUpInitialForm, FollowUp3MForm, FollowUp6MForm, FollowUp1YForm
-from .forms import FollowUpInitialStartForm, FollowUp3MStartForm, FollowUp6MStartForm, FollowUp1YStartForm
 
 
-@permission_required('followups.add_followupinitial')
+@permission_required('followups.change_followupinitial')
 @login_required
 def index(request):
     return render(request, 'followups/index.html', {})
 
 
 # ============================================  CBVs
+class UserBasedQuerysetMixin(object):
+    """
+    Ensure that the queries we run include the current user to allow for the filtering and permissions to take hold
+    """
+
+    def get_queryset(self):
+        queryset = self.model.objects.for_user(self.request.user).all()
+
+        ordering = self.get_ordering()
+        if ordering:
+            if isinstance(ordering, six.string_types):
+                ordering = (ordering,)
+            queryset = queryset.order_by(*ordering)
+
+        return queryset
+
+
 class FormSaveMixin(object):
     def form_valid(self, form):
         messages.success(
@@ -35,7 +52,7 @@ class FormSaveMixin(object):
         return super(FormSaveMixin, self).form_valid(form)
 
     def form_invalid(self, form):
-        print("DEBUG: form_invalid() errors: %s" % form.errors)
+        # print("DEBUG: form_invalid() errors: %s" % form.errors)
         error_count = len(form.errors)
         error_pluralise = "" if error_count == 1 else "s"
         messages.error(
@@ -46,150 +63,126 @@ class FormSaveMixin(object):
         return super(FormSaveMixin, self).form_invalid(form)
 
 
-class FormStartMixin(ModelFormMixin):
-    object = None
-
-    def get_context_data(self, **kwargs):
-        context = super(FormStartMixin, self).get_context_data(**kwargs)
-        context['form'] = self.get_form()
-        return context
-
-    def post(self, request, *args, **kwargs):
-        self.object = None
-        form = self.get_form()
-        if form.is_valid():
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
-
-
-class FormSaveAndCreateQOLMixin(FormSaveMixin):
-    def form_valid(self, form):
-        qol_object = QualityOfLife()
-        qol_object.recipient = form.instance.organ.safe_recipient
-        qol_object.save()
-
-        form.instance.quality_of_life = qol_object
-        self.object = form.save()
-
-        messages.success(
-            self.request,
-            'Form was <strong>saved SUCCESSFULLY</strong>, please review it below'
-        )
-        return HttpResponseRedirect(self.get_success_url())
-
-
 # Initial
-class FollowUpInitialListView(LoginRequiredMixin, PermissionRequiredMixin, ListView, FormSaveMixin, FormStartMixin):
+class FollowUpInitialListView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, OrderableListMixin,
+                              UserBasedQuerysetMixin, ListView):
     model = FollowUpInitial
-    permission_required = "followups.add_followupinitial"
-    form_class = FollowUpInitialStartForm
+    permissions = {
+        "all": (),
+        "any": ("followups.change_followupinitial", "followups.view_followupinitial"),
+    }
     paginate_by = 25
-    ordering = "organ__id"
-
-    def get_success_url(self):
-        return reverse('wp4:followup:initial_update', kwargs={'pk': self.object.pk})
+    orderable_columns = ("organ__trial_id", "start_date",)
+    orderable_columns_default = "organ__trial_id"
 
 
-class FollowUpInitialDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
+class FollowUpInitialDetailView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, UserBasedQuerysetMixin,
+                                DetailView):
     model = FollowUpInitial
-    permission_required = "followups.add_followupinitial"
+    permissions = {
+        "all": (),
+        "any": ("followups.change_followupinitial", "followups.view_followupinitial"),
+    }
 
 
-class FollowUpInitialCreateView(LoginRequiredMixin, PermissionRequiredMixin, FormSaveMixin, CreateView):
-    model = FollowUpInitial
-    form_class = FollowUpInitialForm
-    permission_required = "followups.add_followupinitial"
-
-
-class FollowUpInitialUpdateView(LoginRequiredMixin, PermissionRequiredMixin, FormSaveMixin, UpdateView):
+class FollowUpInitialUpdateView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, UserBasedQuerysetMixin,
+                                FormSaveMixin, UpdateView):
     model = FollowUpInitial
     form_class = FollowUpInitialForm
-    permission_required = "followups.add_followupinitial"
+    permissions = {
+        "all": ("followups.change_followupinitial", ),
+        "any": (),
+    }
 
 
 # 3 Months
-class FollowUp3MListView(LoginRequiredMixin, PermissionRequiredMixin, ListView, FormSaveAndCreateQOLMixin, FormStartMixin):
+class FollowUp3MListView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, OrderableListMixin,
+                         UserBasedQuerysetMixin, ListView):
     model = FollowUp3M
-    permission_required = "followups.add_followup3m"
-    form_class = FollowUp3MStartForm
+    permissions = {
+        "all": (),
+        "any": ("followups.change_followup3m", "followups.view_followup3m"),
+    }
     paginate_by = 25
-    ordering = "organ__id"
-
-    def get_success_url(self):
-        return reverse('wp4:followup:month3_update', kwargs={'pk': self.object.pk})
+    orderable_columns = ("organ__trial_id", "start_date",)
+    orderable_columns_default = "organ__trial_id"
 
 
-class FollowUp3MDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
+class FollowUp3MDetailView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, UserBasedQuerysetMixin, DetailView):
     model = FollowUp3M
-    permission_required = "followups.add_followup3m"
+    permissions = {
+        "all": (),
+        "any": ("followups.change_followup3m", "followups.view_followup3m"),
+    }
 
 
-class FollowUp3MCreateView(LoginRequiredMixin, PermissionRequiredMixin, FormSaveMixin, CreateView):
-    model = FollowUp3M
-    form_class = FollowUp3MForm
-    permission_required = "followups.add_followup3m"
-
-
-class FollowUp3MUpdateView(LoginRequiredMixin, PermissionRequiredMixin, FormSaveMixin, UpdateView):
+class FollowUp3MUpdateView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, UserBasedQuerysetMixin, FormSaveMixin,
+                           UpdateView):
     model = FollowUp3M
     form_class = FollowUp3MForm
-    permission_required = "followups.add_followup3m"
+    permissions = {
+        "all": ("followups.change_followup3m", ),
+        "any": (),
+    }
 
 
 # 6 Months
-class FollowUp6MListView(LoginRequiredMixin, PermissionRequiredMixin, ListView, FormSaveMixin, FormStartMixin):
+class FollowUp6MListView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, OrderableListMixin,
+                         UserBasedQuerysetMixin, ListView):
     model = FollowUp6M
-    permission_required = "followups.add_followup6m"
-    form_class = FollowUp6MStartForm
+    permissions = {
+        "all": (),
+        "any": ("followups.change_followup6m", "followups.view_followup6m"),
+    }
     paginate_by = 25
-    ordering = "organ__id"
-
-    def get_success_url(self):
-        return reverse('wp4:followup:month6_update', kwargs={'pk': self.object.pk})
+    orderable_columns = ("organ__trial_id", "start_date",)
+    orderable_columns_default = "organ__trial_id"
 
 
-class FollowUp6MDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
+class FollowUp6MDetailView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, UserBasedQuerysetMixin, DetailView):
     model = FollowUp6M
-    permission_required = "followups.add_followup6m"
+    permissions = {
+        "all": (),
+        "any": ("followups.change_followup6m", "followups.view_followup6m"),
+    }
 
 
-class FollowUp6MCreateView(LoginRequiredMixin, PermissionRequiredMixin, FormSaveMixin, CreateView):
-    model = FollowUp6M
-    form_class = FollowUp6MForm
-    permission_required = "followups.add_followup6m"
-
-
-class FollowUp6MUpdateView(LoginRequiredMixin, PermissionRequiredMixin, FormSaveMixin, UpdateView):
+class FollowUp6MUpdateView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, UserBasedQuerysetMixin, FormSaveMixin,
+                           UpdateView):
     model = FollowUp6M
     form_class = FollowUp6MForm
-    permission_required = "followups.add_followup6m"
+    permissions = {
+        "all": ("followups.change_followup6m",),
+        "any": (),
+    }
 
 
 # 1 Year
-class FollowUp1YListView(LoginRequiredMixin, PermissionRequiredMixin, ListView, FormSaveAndCreateQOLMixin, FormStartMixin):
+class FollowUp1YListView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, OrderableListMixin,
+                         UserBasedQuerysetMixin, ListView):
     model = FollowUp1Y
-    permission_required = "followups.add_followup1y"
-    form_class = FollowUp1YStartForm
+    permissions = {
+        "all": (),
+        "any": ("followups.change_followup1y", "followups.view_followup1y"),
+    }
     paginate_by = 25
-    ordering = "organ__id"
-
-    def get_success_url(self):
-        return reverse('wp4:followup:final_update', kwargs={'pk': self.object.pk})
+    orderable_columns = ("organ__trial_id", "start_date",)
+    orderable_columns_default = "organ__trial_id"
 
 
-class FollowUp1YDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
+class FollowUp1YDetailView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, UserBasedQuerysetMixin, DetailView):
     model = FollowUp1Y
-    permission_required = "followups.add_followup1y"
+    permissions = {
+        "all": (),
+        "any": ("followups.change_followup1y", "followups.view_followup1y"),
+    }
 
 
-class FollowUp1YCreateView(LoginRequiredMixin, PermissionRequiredMixin, FormSaveMixin, CreateView):
-    model = FollowUp1Y
-    form_class = FollowUp1YForm
-    permission_required = "followups.add_followup1y"
-
-
-class FollowUp1YUpdateView(LoginRequiredMixin, PermissionRequiredMixin, FormSaveMixin, UpdateView):
+class FollowUp1YUpdateView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, UserBasedQuerysetMixin, FormSaveMixin,
+                           UpdateView):
     model = FollowUp1Y
     form_class = FollowUp1YForm
-    permission_required = "followups.add_followup1y"
+    permissions = {
+        "all": ("followups.change_followup1y", ),
+        "any": (),
+    }

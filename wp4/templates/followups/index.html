@@ -13,33 +13,26 @@
     <h3>Actions available</h3>
     <ul class="list-group">
         <li class="list-group-item list-group-item-info">Follow Up: Home</li>
-        {#  You can't get to this page without add_followupinitial permissions!  #}
+        {% if perms.followups.change_followupinitial or perms.followups.view_followupinitial %}
         <a href="{% url 'wp4:followup:initial_list' %}" class="list-group-item">Initial</a>
-        {% if perms.followups.add_followup3m %}
+        {% endif %}
+        {% if perms.followups.change_followup3m or perms.followups.view_followup3m %}
             <a href="{% url 'wp4:followup:month3_list' %}" class="list-group-item">Month 3</a>
         {% endif %}
-        {% if perms.followups.add_followup6m %}
+        {% if perms.followups.change_followup6m or perms.followups.view_followup6m %}
             <a href="{% url 'wp4:followup:month6_list' %}" class="list-group-item">Month 6</a>
         {% endif %}
-        {% if perms.followups.add_followup1y %}
+        {% if perms.followups.change_followup1y or perms.followups.view_followup1y %}
             <a href="{% url 'wp4:followup:final_list' %}" class="list-group-item">Final</a>
         {% endif %}
     </ul>
 
-    {% if perms.health_economics.add_qualityoflife %}
     <ul class="list-group">
         <li class="list-group-item list-group-item-info">
             Related: <a href="{% url 'wp4:health_economics:index' %}">Health Economics</a>
         </li>
+        {% if perms.health_economics.change_qualityoflife or perms.health_economics.view_qualityoflife %}
         <a href="{% url 'wp4:health_economics:list' %}" class="list-group-item">Quality of Life Forms</a>
-        {% if perms.health_economics.add_resourcelog %}
-        <a href="" class="list-group-item">Resource Logs</a>
         {% endif %}
     </ul>
-    {% endif %}
-
-    {% if user.is_staff %}
-        <h3>Overview</h3>
-        <p>TBC</p>
-    {% endif %}
 {% endblock %}

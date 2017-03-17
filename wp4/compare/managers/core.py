@@ -85,7 +85,7 @@ class PatientModelForUserManager(LiveManager, ModelForUserManagerMixin):
             if self.current_user.has_perm('restrict_to_national'):
                 return qs.filter(
                     models.Q(donor__retrieval_team__based_at__country=self.country_id) |
-                    models.Q(recipient__allocation__transplant_hospital__based_at__country=self.country_id)
+                    models.Q(recipient__allocation__transplant_hospital__country=self.country_id)
                 )
 
         return qs
@@ -161,7 +161,7 @@ class OrganModelForUserManager(LiveManager, ModelForUserManagerMixin):
                 elif self.current_user.has_perm('restrict_to_national'):
                     qs = qs.filter(
                         models.Q(donor__retrieval_team__based_at__country=self.country_id) |
-                        models.Q(organallocation__transplant_hospital__based_at__country=self.country_id)
+                        models.Q(organallocation__transplant_hospital__country=self.country_id)
                     )
 
         return qs
@@ -199,7 +199,7 @@ class ClosedOrganModelForUserManager(LiveManager, ModelForUserManagerMixin):
                 elif self.current_user.has_perm('restrict_to_national'):
                     qs = qs.filter(
                         models.Q(donor__retrieval_team__based_at__country=self.country_id) |
-                        models.Q(organallocation__transplant_hospital__based_at__country=self.country_id)
+                        models.Q(organallocation__transplant_hospital__country=self.country_id)
                     )
 
         return qs.filter(
@@ -262,7 +262,7 @@ class OpenOrganModelForUserManager(LiveManager, ModelForUserManagerMixin):
                 elif self.current_user.has_perm('restrict_to_national'):
                     qs = qs.filter(
                         models.Q(donor__retrieval_team__based_at__country=self.country_id) |
-                        models.Q(organallocation__transplant_hospital__based_at__country=self.country_id)
+                        models.Q(organallocation__transplant_hospital__country=self.country_id)
                 )
 
         return qs.filter(transplantable=True).\
@@ -299,7 +299,7 @@ class OrganAllocationModelForUserManager(LiveManager, ModelForUserManagerMixin):
                 return qs.filter(transplant_hospital_id=self.hospital_id)
 
             if self.current_user.has_perm('restrict_to_national'):
-                return qs.filter(transplant_hospital__based_at__country=self.country_id)
+                return qs.filter(transplant_hospital__country=self.country_id)
 
         return qs
 
@@ -321,6 +321,6 @@ class RecipientModelForUserManager(LiveManager, ModelForUserManagerMixin):
             if self.current_user.has_perm('restrict_to_local'):
                 return qs.filter(allocation__transplant_hospital_id=self.hospital_id)
             elif self.current_user.has_perm('restrict_to_national'):
-                return qs.filter(allocation__transplant_hospital__based_at__country=self.country_id)
+                return qs.filter(allocation__transplant_hospital__country=self.country_id)
 
         return qs

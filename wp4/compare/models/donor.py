@@ -1094,6 +1094,42 @@ class Organ(AuditControlModelBase):
 
     graft_failed = cached_property(_graft_failed, name='graft_failed')
 
+    def _followup_3m_begin_by(self):
+        """
+        Returns the date that the final follow up can begin by. This is the randomisation date + 70 days
+        :return:
+        """
+        return (self.donor.randomisation.allocated_on + datetime.timedelta(days=70)).date()
+
+    followup_3m_begin_by = cached_property(_followup_3m_begin_by, name='followup_3m_begin_by')
+
+    def _followup_3m_completed_by(self):
+        """
+        Returns the date that the final follow up should be completed by. This is the randomisation date + 91 + 21 days
+        :return:
+        """
+        return (self.donor.randomisation.allocated_on + datetime.timedelta(days=112)).date()
+
+    followup_3m_completed_by = cached_property(_followup_3m_completed_by, name='followup_3m_completed_by')
+
+    def _followup_6m_begin_by(self):
+        """
+        Returns the date that the final follow up can begin by. This is the randomisation date + 150 days
+        :return:
+        """
+        return (self.donor.randomisation.allocated_on + datetime.timedelta(days=150)).date()
+
+    followup_6m_begin_by = cached_property(_followup_6m_begin_by, name='followup_6m_begin_by')
+
+    def _followup_6m_completed_by(self):
+        """
+        Returns the date that the final follow up should be completed by. This is the randomisation date + 182 + 32 days
+        :return:
+        """
+        return (self.donor.randomisation.allocated_on + datetime.timedelta(days=214)).date()
+
+    followup_6m_completed_by = cached_property(_followup_6m_completed_by, name='followup_6m_completed_by')
+
     def _followup_final_begin_by(self):
         """
         Returns the date that the final follow up can begin by. This is the randomisation date + 300 days
@@ -1111,15 +1147,6 @@ class Organ(AuditControlModelBase):
         return (self.donor.randomisation.allocated_on + datetime.timedelta(days=430)).date()
 
     followup_final_completed_by = cached_property(_followup_final_completed_by, name='followup_final_completed_by')
-
-    def followup_done_within_followup_final_window(self):
-        try:
-            if self.followup_1y.start_date >= self.followup_final_begin_by \
-                and self.followup_1y.start_date <= self.followup_final_completed_by:
-                return True
-        except Organ.followup_1y.RelatedObjectDoesNotExist:
-            pass
-        return False
 
     def __str__(self):
         return self.trial_id

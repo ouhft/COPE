@@ -15,30 +15,6 @@ from wp4.theme.layout import DateField, FieldWithFollowup, ForeignKeyModal
 from .models import FollowUpInitial, FollowUp3M, FollowUp6M, FollowUp1Y, FollowUpBase
 
 
-class FollowUpInitialStartForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super(FollowUpInitialStartForm, self).__init__(*args, **kwargs)
-
-        self.fields['organ'].queryset = self.fields['organ'].queryset.filter(
-            transplantation_form_completed=True,
-            recipient__isnull=False,
-            followup_initial__isnull=True
-        )
-
-        self.helper = FormHelper(self)
-        self.helper.form_tag = False
-        self.helper.html5_required = True
-        self.helper.layout = Layout(
-            'organ',  # FI01
-        )
-
-    class Meta:
-        model = FollowUpInitial
-        fields = [
-            'organ',  # FI01
-        ]
-
-
 class FollowUpInitialForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(FollowUpInitialForm, self).__init__(*args, **kwargs)

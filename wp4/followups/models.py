@@ -373,6 +373,12 @@ class FollowUp3M(FollowUpBase):
         """
         return self.organ.location_for_restriction
 
+    @property
+    def started_within_window(self):
+        if self.organ.followup_3m_completed_by >= self.start_date >= self.organ.followup_3m_begin_by:
+            return True
+        return False
+
     def __str__(self):
         return '%s (%s)' % (self.trial_id, self.start_date)
 
@@ -454,6 +460,12 @@ class FollowUp6M(FollowUpBase):
         :return: Int: Hospital object id
         """
         return self.organ.location_for_restriction
+
+    @property
+    def started_within_window(self):
+        if self.organ.followup_6m_completed_by >= self.start_date >= self.organ.followup_6m_begin_by:
+            return True
+        return False
 
     def __str__(self):
         return '%s (%s)' % (self.trial_id, self.start_date)
@@ -544,6 +556,12 @@ class FollowUp1Y(FollowUpBase):
         :return: Int: Hospital object id
         """
         return self.organ.location_for_restriction
+
+    @property
+    def started_within_window(self):
+        if self.organ.followup_final_completed_by >= self.start_date >= self.organ.followup_final_begin_by:
+            return True
+        return False
 
     def __str__(self):
         return '%s (%s)' % (self.trial_id, self.start_date)

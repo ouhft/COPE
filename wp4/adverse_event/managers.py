@@ -27,6 +27,6 @@ class EventModelForUserManager(LiveManager, ModelForUserManagerMixin):
             if self.current_user.has_perm('restrict_to_local'):
                 return qs.filter(organ__recipient__allocation__transplant_hospital_id=self.hospital_id)
             elif self.current_user.has_perm('restrict_to_national'):
-                return qs.filter(organ__recipient__allocation__transplant_hospital__based_at__country=self.country_id)
+                return qs.filter(organ__recipient__allocation__transplant_hospital__country=self.country_id)
 
         return qs
