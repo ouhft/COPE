@@ -85,7 +85,6 @@ class BloodSampleForm(forms.ModelForm):
         self.fields['person'].widget = forms.HiddenInput()
         self.fields['collected'].choices = NO_YES_CHOICES
         self.fields['centrifuged_at'].input_formats = settings.DATETIME_INPUT_FORMATS
-        self.fields['created_by'].widget = forms.HiddenInput()
 
         self.helper = FormHelper(self)
         self.helper.form_tag = False
@@ -93,7 +92,6 @@ class BloodSampleForm(forms.ModelForm):
         self.helper.layout = Layout(
             'event',
             'person',
-            'created_by',
             Div(
                 Field('blood_type', template="bootstrap3/layout/read-only.html"),
                 css_class="col-md-4"
@@ -113,7 +111,7 @@ class BloodSampleForm(forms.ModelForm):
 
     class Meta:
         model = BloodSample
-        fields = ('event', 'collected', 'barcode', 'person', 'blood_type', 'centrifuged_at', 'notes', 'created_by')
+        fields = ('event', 'collected', 'barcode', 'person', 'blood_type', 'centrifuged_at', 'notes')
         localized_fields = "__all__"
 
 
@@ -132,7 +130,6 @@ class UrineSampleForm(forms.ModelForm):
     helper.layout = Layout(
         'event',
         'person',
-        'created_by',
         Div(
             FieldWithFollowup(
                 Field('collected', template="bootstrap3/layout/radioselect-buttons.html"),
@@ -152,11 +149,10 @@ class UrineSampleForm(forms.ModelForm):
         self.fields['person'].widget = forms.HiddenInput()
         self.fields['collected'].choices = NO_YES_CHOICES
         self.fields['centrifuged_at'].input_formats = settings.DATETIME_INPUT_FORMATS
-        self.fields['created_by'].widget = forms.HiddenInput()
 
     class Meta:
         model = UrineSample
-        fields = ('event', 'collected', 'barcode', 'person', 'centrifuged_at', 'notes', 'created_by')
+        fields = ('event', 'collected', 'barcode', 'person', 'centrifuged_at', 'notes')
         localized_fields = "__all__"
 
 
@@ -175,7 +171,6 @@ class PerfusateSampleForm(forms.ModelForm):
     helper.layout = Layout(
         'event',
         'organ',
-        'created_by',
         Div(
             FieldWithFollowup(
                 Field('collected', template="bootstrap3/layout/radioselect-buttons.html"),
@@ -195,11 +190,10 @@ class PerfusateSampleForm(forms.ModelForm):
         self.fields['organ'].widget = forms.HiddenInput()
         self.fields['collected'].choices = NO_YES_CHOICES
         self.fields['centrifuged_at'].input_formats = settings.DATETIME_INPUT_FORMATS
-        self.fields['created_by'].widget = forms.HiddenInput()
 
     class Meta:
         model = PerfusateSample
-        fields = ('collected', 'barcode', 'organ', 'event', 'centrifuged_at', 'notes', 'created_by')
+        fields = ('collected', 'barcode', 'organ', 'event', 'centrifuged_at', 'notes')
         localized_fields = "__all__"
 
 
@@ -218,7 +212,6 @@ class TissueSampleForm(forms.ModelForm):
     helper.layout = Layout(
         'event',
         'organ',
-        'created_by',
         Div(
             Field('tissue_type', template="bootstrap3/layout/read-only.html"),
             css_class="col-md-4"
@@ -242,11 +235,10 @@ class TissueSampleForm(forms.ModelForm):
         self.fields['organ'].widget = forms.HiddenInput()
         self.fields['collected'].choices = NO_YES_CHOICES
         self.fields['tissue_type'].widget = forms.HiddenInput()
-        self.fields['created_by'].widget = forms.HiddenInput()
 
     class Meta:
         model = TissueSample
-        fields = ('collected', 'barcode', 'organ', 'event', 'tissue_type', 'notes', 'created_by')
+        fields = ('collected', 'barcode', 'organ', 'event', 'tissue_type', 'notes')
         localized_fields = "__all__"
 
 

@@ -7,11 +7,14 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from wp4.compare.models import BaseModelMixin, VersionControlMixin, Recipient
+from wp4.compare.models.core import AuditControlModelBase
+from wp4.compare.models.transplantation import Recipient
 from wp4.compare.validators import validate_not_in_future
 
+from .managers import HealthEconomicsModelForUserManager, ResourceLogModelForUserManager
 
-class QualityOfLife(VersionControlMixin):
+
+class QualityOfLife(AuditControlModelBase):
     """
     WORK IN PROGRESS - Class definition prone to rapid change
 
@@ -61,9 +64,36 @@ class QualityOfLife(VersionControlMixin):
         help_text="Answer must be in range 0-100"
     )
 
-    class Meta(VersionControlMixin.Meta):
+    # FK related name links
+    # followupinitial
+    # followup3m
+    # followup6m
+    # followup1y
+
+    objects = HealthEconomicsModelForUserManager()
+
+    class Meta:
         verbose_name = _("QLm1 Quality of Life record")
         verbose_name_plural = _("QLm2 Quality of Life records")
+        permissions = (
+            ("view_qualityoflife", "Can only view the data"),
+            ("restrict_to_national", "Can only use data from the same location country"),
+            ("restrict_to_local", "Can only use data from a specific location"),
+        )
+
+    def country_for_restriction(self):
+        """
+        Get the country to be used for geographic restriction of this data
+        :return: Int: Value from list in Locations.Models. Should be in range [1,4,5]
+        """
+        return self.recipient.country_for_restriction
+
+    def location_for_restriction(self):
+        """
+        Get the location to be used for geographic restriction of this data
+        :return: Int: Hospital object id
+        """
+        return self.recipient.location_for_restriction
 
     def get_absolute_url(self):
         return reverse("wp4:health_economics:update", kwargs={"pk": self.pk})
@@ -72,7 +102,7 @@ class QualityOfLife(VersionControlMixin):
         return "{0} @ {1}".format(self.recipient.trial_id, self.date_recorded)
 
 
-class ResourceLog(VersionControlMixin):
+class ResourceLog(AuditControlModelBase):
     """
     WORK IN PROGRESS
 
@@ -93,22 +123,44 @@ class ResourceLog(VersionControlMixin):
         help_text="Date can not be in the future"
     )
 
+    # FK related names:
     # visits
-    # hospitalisation
-    # rehabilitation
+    # hospitalisations
+    # rehabilitations
     notes = models.TextField(verbose_name=_("RL03 notes"), null=True, blank=True)
+
+    objects = HealthEconomicsModelForUserManager()
+
+    class Meta:
+        verbose_name = _("RLm1 Resource Usage Log")
+        verbose_name_plural = _("RLm2 Resource Usage Logs")
+        permissions = (
+            ("view_resourcelog", "Can only view the data"),
+            ("restrict_to_national", "Can only use data from the same location country"),
+            ("restrict_to_local", "Can only use data from a specific location"),
+        )
+
+    def country_for_restriction(self):
+        """
+        Get the country to be used for geographic restriction of this data
+        :return: Int: Value from list in Locations.Models. Should be in range [1,4,5]
+        """
+        return self.recipient.country_for_restriction
+
+    def location_for_restriction(self):
+        """
+        Get the location to be used for geographic restriction of this data
+        :return: Int: Hospital object id
+        """
+        return self.recipient.location_for_restriction
 
     @property
     def count_visits(self, visit_type=None):
         # TODO: Implement me!
         return 0
 
-    class Meta(VersionControlMixin.Meta):
-        verbose_name = _("RLm1 Resource Usage Log")
-        verbose_name_plural = _("RLm2 Resource Usage Logs")
 
-
-class ResourceVisit(BaseModelMixin):
+class ResourceVisit(AuditControlModelBase):
     TYPE_VISIT_GP = 1
     TYPE_GP_VISIT = 2
     TYPE_SPECIALIST = 3
@@ -119,19 +171,88 @@ class ResourceVisit(BaseModelMixin):
         (TYPE_SPECIALIST, _("RVc03 appointment at specialist")),
         (TYPE_HOSPITAL, _("RVc04 A&E")),
     )
-    log = models.ForeignKey(ResourceLog)
+    log = models.ForeignKey(ResourceLog, related_name="visits")
     type = models.PositiveSmallIntegerField(verbose_name=_('RV01 visit type'), choices=TYPE_CHOICES)
 
+    objects = ResourceLogModelForUserManager()
 
-class ResourceHospitalAdmission(BaseModelMixin):
-    log = models.ForeignKey(ResourceLog)
+    class Meta:
+        permissions = (
+            ("view_resourcevisit", "Can only view the data"),
+            ("restrict_to_national", "Can only use data from the same location country"),
+            ("restrict_to_local", "Can only use data from a specific location"),
+        )
+
+    def country_for_restriction(self):
+        """
+        Get the country to be used for geographic restriction of this data
+        :return: Int: Value from list in Locations.Models. Should be in range [1,4,5]
+        """
+        return self.log.country_for_restriction
+
+    def location_for_restriction(self):
+        """
+        Get the location to be used for geographic restriction of this data
+        :return: Int: Hospital object id
+        """
+        return self.log.location_for_restriction
+
+
+class ResourceHospitalAdmission(AuditControlModelBase):
+    log = models.ForeignKey(ResourceLog, related_name="hospitalisations")
     reason = models.CharField(verbose_name=_('RH01 reason'), max_length=200, blank=True)
     had_surgery = models.NullBooleanField(verbose_name=_("RH02 had surgery"), blank=True)
     days_in_itu = models.PositiveSmallIntegerField(verbose_name=_("RH03 days in itu"), default=0)
     days_in_hospital = models.PositiveSmallIntegerField(verbose_name=_("RH04 days in hospital"), default=1)
 
+    objects = ResourceLogModelForUserManager()
 
-class ResourceRehabilitation(BaseModelMixin):
-    log = models.ForeignKey(ResourceLog)
+    class Meta:
+        permissions = (
+            ("view_resourcehospitaladmission", "Can only view the data"),
+            ("restrict_to_national", "Can only use data from the same location country"),
+            ("restrict_to_local", "Can only use data from a specific location"),
+        )
+
+    def country_for_restriction(self):
+        """
+        Get the country to be used for geographic restriction of this data
+        :return: Int: Value from list in Locations.Models. Should be in range [1,4,5]
+        """
+        return self.log.country_for_restriction
+
+    def location_for_restriction(self):
+        """
+        Get the location to be used for geographic restriction of this data
+        :return: Int: Hospital object id
+        """
+        return self.log.location_for_restriction
+
+
+class ResourceRehabilitation(AuditControlModelBase):
+    log = models.ForeignKey(ResourceLog, related_name="rehabilitations")
     reason = models.CharField(verbose_name=_('RR01 reason'), max_length=200, blank=True)
     days_in_hospital = models.PositiveSmallIntegerField(verbose_name=_("RR02 days in hospital"), default=1)
+
+    objects = ResourceLogModelForUserManager()
+
+    class Meta:
+        permissions = (
+            ("view_resourcerehabilitation", "Can only view the data"),
+            ("restrict_to_national", "Can only use data from the same location country"),
+            ("restrict_to_local", "Can only use data from a specific location"),
+        )
+
+    def country_for_restriction(self):
+        """
+        Get the country to be used for geographic restriction of this data
+        :return: Int: Value from list in Locations.Models. Should be in range [1,4,5]
+        """
+        return self.log.country_for_restriction
+
+    def location_for_restriction(self):
+        """
+        Get the location to be used for geographic restriction of this data
+        :return: Int: Hospital object id
+        """
+        return self.log.location_for_restriction

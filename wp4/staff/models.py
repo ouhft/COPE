@@ -8,19 +8,17 @@ from django.core.validators import RegexValidator
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from wp4.locations.models import Hospital
-
 
 class Person(AbstractUser):
     """
     Replacement for original StaffPerson class which was linked to User as a one-to-one via "profile" attribute.
 
     This represents any person that is a member of staff (medical, administrative, academic, etc) and therefore not
-    a patient (see compare.OrganPerson for that). Not all people with records here will be active users of the system
+    a patient (see compare.Patient for that). Not all people with records here will be active users of the system
 
-    Rather than base off of VersionControlMixin, we'll rely on Django-Reversion to capture changes to records, and thus
-    the audit trail (so no created_by, created_on fields).
+    We'll rely on Django-Reversion to capture changes to records, and thus the audit trail.
     """
+    from wp4.locations.models import Hospital
 
     # Constants to help reference specific staff groups (auth_groups, defined by fixtures)
     PERFUSION_TECHNICIAN = 1  #: Constant for Group ID

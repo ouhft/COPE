@@ -24,7 +24,7 @@
                     <thead>
                     <tr>
                         <th>Trial ID</th>
-                        <th>Last Updated</th>
+{#                        <th>Last Updated</th>#}
                         <th>Allocated?</th>
                         <th>Number</th>
 {#                        <th>Age</th>  TOO SLOW TO CALCULATE AND DISPLAY #}
@@ -48,7 +48,7 @@
                                     {{ case.trial_id }}
                                 </a>
                             </td>
-                            <td>{{ case.created_on }}</td>
+{#                            <td>{{ case.created_on }}</td>#}
                             <td
                                     {% if case.is_allocated %}
                                         class="success"><i class="glyphicon glyphicon-ok"></i>
@@ -133,7 +133,7 @@
                     <thead>
                     <tr>
                         <th>Trial ID</th>
-                        <th>Last Updated</th>
+{#                        <th>Last Updated</th>#}
                         <th>Allocated?</th>
                         <th>Number</th>
 {#                        <th>Age</th>#}
@@ -154,7 +154,7 @@
                                 {% endif %}
                                 {{ case.trial_id }}
                             </td>
-                            <td>{{ case.created_on }}</td>
+{#                            <td>{{ case.created_on }}</td>#}
                             <td
                                     {% if case.is_allocated %}
                                         class="success"><i class="glyphicon glyphicon-ok"></i>

@@ -1,7 +1,6 @@
 #!/usr/bin/python
 # coding: utf-8
 from __future__ import absolute_import, unicode_literals
-import datetime
 
 from django.core.validators import MinValueValidator, MaxValueValidator, ValidationError
 from django.db import models
@@ -11,19 +10,18 @@ from django.utils.translation import ugettext_lazy as _
 from wp4.staff.models import Person
 from wp4.locations.models import Hospital
 
+from . import YES_NO_UNKNOWN_CHOICES, LOCATION_CHOICES
+from . import AuditControlModelBase
+from .core import Patient
+from .donor import Organ
 from ..validators import validate_between_1900_2050, validate_not_in_future
-from .core import ModelByRequestManagerBase
-from .core import VersionControlMixin, OrganPerson
-from .core import YES_NO_UNKNOWN_CHOICES, LOCATION_CHOICES
-from .organ import Organ
+from ..managers.core import OrganAllocationModelForUserManager, RecipientModelForUserManager
 
 
-class OrganAllocation(VersionControlMixin):
+class OrganAllocation(AuditControlModelBase):
     """
     Organs can be allocated multiple times before finding a definitive recipient. This class acts as
     the record of these allocations and a link between Organ and Recipient.
-
-    NB: Can't restrict allocations to country or hospital
     """
     organ = models.ForeignKey(Organ)  # Internal link to the Organ
 
@@ -36,6 +34,7 @@ class OrganAllocation(VersionControlMixin):
         (REALLOCATION_UNKNOWN, _('OAc02 Unknown')),
         (REALLOCATION_OTHER, _('OAc03 Other'))
     )  #: OrganAllocation reallocation_reason choices
+
     perfusion_technician = models.ForeignKey(
         Person,
         verbose_name=_('OA01 name of transplant technician'),
@@ -99,11 +98,36 @@ class OrganAllocation(VersionControlMixin):
         help_text="Internal forward link value to another OrganAllocation record"
     )
 
-    class Meta(VersionControlMixin.Meta):
+    objects = OrganAllocationModelForUserManager()
+
+    class Meta:
         order_with_respect_to = 'organ'
         verbose_name = _('OAm1 organ allocation')
         verbose_name_plural = _('OAm2 organ allocations')
-        get_latest_by = 'created_on'
+        get_latest_by = 'pk'
+        permissions = (
+            ("view_organallocation", "Can only view the data"),
+            ("restrict_to_national", "Can only use data from the same location country"),
+            ("restrict_to_local", "Can only use data from a specific location"),
+        )
+
+    def country_for_restriction(self):
+        """
+        Get the country to be used for geographic restriction of this data
+        :return: Int: Value from list in Locations.Models. Should be in range [None, 1,4,5]
+        """
+        if self.transplant_hospital:
+            return self.transplant_hospital.based_at.country
+        return None
+
+    def location_for_restriction(self):
+        """
+        Get the location to be used for geographic restriction of this data
+        :return: Int: Hospital object id
+        """
+        if self.transplant_hospital:
+            return self.transplant_hospital.based_at.id
+        return None
 
     def clean(self):
         """
@@ -148,40 +172,16 @@ class OrganAllocation(VersionControlMixin):
         return 'Organ: %s | Recipient: %s' % (self.organ.pk, recipient_string)
 
 
-class RecipientRequestManager(ModelByRequestManagerBase):
-    def get_queryset(self):
-        """
-        Test for permissions to view and restrict based on rules
-        :param request:
-        :return:
-        """
-        qs = super(RecipientRequestManager, self).get_queryset()
-
-        if self.current_user is not None:
-            if self.current_user.is_superuser:
-                # http://stackoverflow.com/questions/2507086/django-auth-has-perm-returns-true-while-list-of-permissions-is-empty/2508576
-                # Superusers get *all* permissions :-/
-                return qs
-
-            if self.current_user.has_perm('restrict_to_local'):
-                return qs.filter(allocation__transplant_hospital_id=self.hospital_id)
-
-            if self.current_user.has_perm('restrict_to_national'):
-                return qs.filter(allocation__transplant_hospital__based_at__country=self.country_id)
-
-        return qs
-
-
-class Recipient(VersionControlMixin):
+class Recipient(AuditControlModelBase):
     """
-    Extension of an OrganPerson record (via OneToOne link for good ORM/DB management) to capture
+    Extension of an Patient record (via OneToOne link for good ORM/DB management) to capture
     the Recipient specific data.
 
     Linked also to a single Organ (Kidney), and, for convenience, an OrganAllocation (once confirmed)
 
     Also holds the meta-data specific to the Transplantation Form
     """
-    person = models.OneToOneField(OrganPerson, help_text="Internal link to OrganPerson")
+    person = models.OneToOneField(Patient, help_text="Internal link to Patient")
     organ = models.OneToOneField(Organ, help_text="Internal link to Organ")
     allocation = models.OneToOneField(OrganAllocation, help_text="Internal link to OrganAllocation")
 
@@ -193,7 +193,7 @@ class Recipient(VersionControlMixin):
         verbose_name=_("RE14 receiving one kidney"), blank=True, default=None
     )
 
-    # Recipient details (in addition to OrganPerson)
+    # Recipient details (in addition to Patient)
     RENAL_DISEASE_CHOICES = (
         (1, _('REc04 Glomerular diseases')),
         (2, _('REc05 Polycystic kidneys')),
@@ -372,13 +372,32 @@ class Recipient(VersionControlMixin):
     batteries_charged = models.NullBooleanField(verbose_name=_('RE49 batteries charged'), blank=True, null=True)
     cleaning_log = models.TextField(verbose_name=_("RE50 cleaning log notes"), blank=True)
 
-    objects = RecipientRequestManager()
+    objects = RecipientModelForUserManager()
 
-    class Meta(VersionControlMixin.Meta):
+    class Meta:
         order_with_respect_to = 'organ'
         verbose_name = _('REm1 recipient')
         verbose_name_plural = _('REm2 recipients')
-        get_latest_by = 'created_on'
+        get_latest_by = 'pk'
+        permissions = (
+            ("view_recipient", "Can only view the data"),
+            ("restrict_to_national", "Can only use data from the same location country"),
+            ("restrict_to_local", "Can only use data from a specific location"),
+        )
+
+    def country_for_restriction(self):
+        """
+        Get the country to be used for geographic restriction of this data
+        :return: Int: Value from list in Locations.Models. Should be in range [1,4,5]
+        """
+        return self.allocation.country_for_restriction
+
+    def location_for_restriction(self):
+        """
+        Get the location to be used for geographic restriction of this data
+        :return: Int: Hospital object id
+        """
+        return self.allocation.location_for_restriction
 
     def clean(self):
         """

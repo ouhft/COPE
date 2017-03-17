@@ -7,23 +7,31 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from wp4.compare.models import OrganPerson, VersionControlMixin, Organ
+from wp4.compare.models.core import AuditControlModelBase
+from wp4.compare.models import Patient, Organ
+from .managers import EventModelForUserManager, SampleModelForUserManager
 
 
-class BarCodedItem(VersionControlMixin):
+class BarCodeMixin(object):
     """
-    Base meta class for many Sample classes, that extends VersionControlMixin with a barcode field
+    Extends with a barcode field
     """
     barcode = models.CharField(verbose_name=_("BC01 barcode number"), max_length=20, blank=True)
-
-    class Meta(VersionControlMixin.Meta):
-        abstract = True
 
     def __str__(self):
         return "%s" % self.barcode
 
 
-class Event(VersionControlMixin):
+class DeviationMixin(object):
+    """
+    In place of Deviation records on a worksheet, we have a way of tracking them per sample.
+    Also holds the meta question of whether this specific sample was actually taken or not.
+    """
+    collected = models.NullBooleanField(verbose_name=_("DM01 sample collected?"), blank=True)
+    notes = models.TextField(verbose_name=_("DM02 notes"), blank=True, help_text="Deviation record")
+
+
+class Event(AuditControlModelBase):
     """
     A Sample Event is a timepoint and process where a specific type of biological sample was extracted
     from a person. This even can validate whether enough biological samples were taken (e.g. a blood
@@ -65,7 +73,9 @@ class Event(VersionControlMixin):
     name = models.PositiveSmallIntegerField(_("EV03 sample process name"), choices=NAME_CHOICES)
     taken_at = models.DateTimeField(verbose_name=_("EV02 date and time taken"), null=True, blank=True)
 
-    class Meta(VersionControlMixin.Meta):
+    objects = EventModelForUserManager()
+
+    class Meta:
         ordering = ['type', 'name']
         verbose_name = _('EVm1 sample event')
         verbose_name_plural = _('EVm2 sample events')
@@ -121,24 +131,12 @@ class Event(VersionControlMixin):
         return "%s (%s)" % (self.get_type_display(), self.taken_at)
 
 
-class DeviationMixin(models.Model):
-    """
-    In place of Deviation records on a worksheet, we have a way of tracking them per sample.
-    Also holds the meta question of whether this specific sample was actually taken or not.
-    """
-    collected = models.NullBooleanField(verbose_name=_("DM01 sample collected?"), blank=True)
-    notes = models.TextField(verbose_name=_("DM02 notes"), blank=True, help_text="Deviation record")
-
-    class Meta:
-        abstract = True
-
-
-class BloodSample(BarCodedItem, DeviationMixin):
+class BloodSample(BarCodeMixin, DeviationMixin, AuditControlModelBase):
     """
     Sample class type for Blood samples.
 
-    Also contains a helper (repeated, but direct) link to the OrganPerson this sample was from (mainly
-    to aide reverse sample look ups from OrganPerson)
+    Also contains a helper (repeated, but direct) link to the Patient this sample was from (mainly
+    to aide reverse sample look ups from Patient)
     """
     SAMPLE_SST = 1  #: Constant for SAMPLE_CHOICES
     SAMPLE_EDSA = 2  #: Constant for SAMPLE_CHOICES
@@ -153,10 +151,12 @@ class BloodSample(BarCodedItem, DeviationMixin):
         help_text="Link to an event of type Blood"
     )
     blood_type = models.PositiveSmallIntegerField(verbose_name=_("BS02 blood sample type"), choices=SAMPLE_CHOICES)
-    person = models.ForeignKey(OrganPerson, verbose_name=_("BS03 sample from"))
+    person = models.ForeignKey(Patient, verbose_name=_("BS03 sample from"))
     centrifuged_at = models.DateTimeField(verbose_name=_("BS01 centrifuged at"), null=True, blank=True)
 
-    class Meta(BarCodedItem.Meta):
+    objects = SampleModelForUserManager()
+
+    class Meta:
         ordering = ['person', 'event__taken_at']
         verbose_name = _('BSm1 blood sample')
         verbose_name_plural = _('BSm2 blood samples')
@@ -184,22 +184,24 @@ class BloodSample(BarCodedItem, DeviationMixin):
                     raise ValidationError(_("BSv03 Body in spin dryer! Sample was centrifuged before it was taken?"))
 
 
-class UrineSample(BarCodedItem, DeviationMixin):
+class UrineSample(BarCodeMixin, DeviationMixin, AuditControlModelBase):
     """
     Sample class type for Urine samples.
 
-    Also contains a helper (repeated, but direct) link to the OrganPerson this sample was from (mainly
-    to aide reverse sample look ups from OrganPerson)
+    Also contains a helper (repeated, but direct) link to the Patient this sample was from (mainly
+    to aide reverse sample look ups from Patient)
     """
     event = models.ForeignKey(
         Event,
         limit_choices_to={'type': Event.TYPE_URINE},
         help_text="Link to an event of type Urine"
     )
-    person = models.ForeignKey(OrganPerson, verbose_name=_("US02 sample from"))
+    person = models.ForeignKey(Patient, verbose_name=_("US02 sample from"))
     centrifuged_at = models.DateTimeField(verbose_name=_("US01 centrifuged at"), null=True, blank=True)
 
-    class Meta(BarCodedItem.Meta):
+    objects = SampleModelForUserManager()
+
+    class Meta(BarCodeMixin.Meta):
         ordering = ['person', 'event__taken_at']
         verbose_name = _('USm1 urine sample')
         verbose_name_plural = _('USm2 urine samples')
@@ -227,12 +229,12 @@ class UrineSample(BarCodedItem, DeviationMixin):
                     raise ValidationError(_("USv03 Body in spin dryer! Sample was centrifuged before it was taken?"))
 
 
-class PerfusateSample(BarCodedItem, DeviationMixin):
+class PerfusateSample(BarCodeMixin, DeviationMixin, AuditControlModelBase):
     """
     Sample class type for Perfusate samples.
 
-    Also contains a helper (repeated, but direct) link to the OrganPerson this sample was from (mainly
-    to aide reverse sample look ups from OrganPerson)
+    Also contains a helper (repeated, but direct) link to the Patient this sample was from (mainly
+    to aide reverse sample look ups from Patient)
     """
     event = models.ForeignKey(
         Event,
@@ -242,7 +244,9 @@ class PerfusateSample(BarCodedItem, DeviationMixin):
     organ = models.ForeignKey(Organ, verbose_name=_("PS02 sample from"))
     centrifuged_at = models.DateTimeField(verbose_name=_("PS01 centrifuged at"), null=True, blank=True)
 
-    class Meta(BarCodedItem.Meta):
+    objects = SampleModelForUserManager()
+
+    class Meta(BarCodeMixin.Meta):
         ordering = ['organ', 'event__taken_at']
         verbose_name = _('PSm1 perfusate sample')
         verbose_name_plural = _('PSm2 perfusate samples')
@@ -270,12 +274,12 @@ class PerfusateSample(BarCodedItem, DeviationMixin):
                     raise ValidationError(_("PSv03 Body in spin dryer! Sample was centrifuged before it was taken?"))
 
 
-class TissueSample(BarCodedItem, DeviationMixin):
+class TissueSample(BarCodeMixin, DeviationMixin, AuditControlModelBase):
     """
     Sample class type for Perfusate samples.
 
-    Also contains a helper (repeated, but direct) link to the OrganPerson this sample was from (mainly
-    to aide reverse sample look ups from OrganPerson)
+    Also contains a helper (repeated, but direct) link to the Patient this sample was from (mainly
+    to aide reverse sample look ups from Patient)
     """
     SAMPLE_R = "R"  #: Constant for SAMPLE_CHOICES
     SAMPLE_F = "F"  #: Constant for SAMPLE_CHOICES
@@ -292,7 +296,9 @@ class TissueSample(BarCodedItem, DeviationMixin):
     organ = models.ForeignKey(Organ, verbose_name=_("TS01 sample from"))
     tissue_type = models.CharField(max_length=1, choices=SAMPLE_CHOICES, verbose_name=_("TS02 tissue sample type"))
 
-    class Meta(BarCodedItem.Meta):
+    objects = SampleModelForUserManager()
+
+    class Meta(BarCodeMixin.Meta):
         ordering = ['organ', 'event__taken_at']
         verbose_name = _('TSm1 tissue sample')
         verbose_name_plural = _('TSm2 tissue samples')

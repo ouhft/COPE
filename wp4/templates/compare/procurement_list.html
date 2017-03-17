@@ -22,7 +22,7 @@
                     <thead>
                     <tr>
                         <th>Trial ID</th>
-                        <th>Last updated on</th>
+{#                        <th>Last updated on</th>#}
                         <th>Country</th>
                         <th>Number</th>
                         <th>Age</th>
@@ -50,25 +50,25 @@
                                 {{ donor.trial_id }}
                             </a>
                             </td>
-                            <td>{{ donor.created_on }}</td>
+{#                            <td>{{ donor.created_on }}</td>#}
                             {#                        TODO: Replace this text with a flag image #}
                             <td>{{ donor.retrieval_team.based_in_country }}</td>
                             <td>{{ donor.person.number|default:"Unknown number" }}</td>
                             <td>{{ donor.age }}</td>
                             <td>{{ donor.person.get_gender_display }}</td>
-                            {% if donor.is_eligible == -1 %}
+                            {% if donor.count_of_eligible_organs == -1 %}
                                 <td class="info">
                                     <i class="glyphicon glyphicon-info-sign"></i> Not randomised
                                 </td>
-                            {% elif donor.is_eligible == 0 %}
+                            {% elif donor.count_of_eligible_organs == 0 %}
                                 <td class="danger">
                                     <i class="glyphicon glyphicon-ban-circle"></i> No kidneys
                                 </td>
-                            {% elif donor.is_eligible == 1 %}
+                            {% elif donor.count_of_eligible_organs == 1 %}
                                 <td class="warning">
                                     <i class="glyphicon glyphicon-warning-sign"></i> 1 kidney
                                 </td>
-                            {% elif donor.is_eligible == 2 %}
+                            {% elif donor.count_of_eligible_organs == 2 %}
                                 <td class="success">
                                     <i class="glyphicon glyphicon-ok"></i> 2 kidneys
                                 </td>
@@ -142,7 +142,7 @@
                     <thead>
                     <tr>
                         <th>Trial ID</th>
-                        <th>Last updated on</th>
+{#                        <th>Last updated on</th>#}
                         <th>Country</th>
                         <th>Number</th>
                         <th>Age</th>
@@ -167,25 +167,25 @@
                                 {% endif %}
                                 <strong>{{ donor.trial_id }}</strong>
                             </td>
-                            <td>{{ donor.created_on }}</td>
+{#                            <td>{{ donor.created_on }}</td>#}
                             {#                        TODO: Replace this text with a flag image #}
                             <td>{{ donor.retrieval_team.based_in_country }}</td>
                             <td>{{ donor.person.number|default:"Unknown number" }}</td>
                             <td>{{ donor.age }}</td>
                             <td>{{ donor.person.get_gender_display }}</td>
-                            {% if donor.is_eligible == -1 %}
+                            {% if donor.count_of_eligible_organs == -1 %}
                                 <td class="info">
                                     <i class="glyphicon glyphicon-info-sign"></i> Not randomised
                                 </td>
-                            {% elif donor.is_eligible == 0 %}
+                            {% elif donor.count_of_eligible_organs == 0 %}
                                 <td class="danger">
                                     <i class="glyphicon glyphicon-ban-circle"></i> No kidneys
                                 </td>
-                            {% elif donor.is_eligible == 1 %}
+                            {% elif donor.count_of_eligible_organs == 1 %}
                                 <td class="warning">
                                     <i class="glyphicon glyphicon-warning-sign"></i> 1 kidney
                                 </td>
-                            {% elif donor.is_eligible == 2 %}
+                            {% elif donor.count_of_eligible_organs == 2 %}
                                 <td class="success">
                                     <i class="glyphicon glyphicon-ok"></i> 2 kidneys
                                 </td>

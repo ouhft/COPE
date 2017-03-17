@@ -32,7 +32,6 @@ class FormSaveMixin(object):
             self.request,
             'Form was <strong>saved SUCCESSFULLY</strong>, please review it below'
         )
-        form.instance.created_by = self.request.user
         return super(FormSaveMixin, self).form_valid(form)
 
     def form_invalid(self, form):
@@ -68,9 +67,8 @@ class FormSaveAndCreateQOLMixin(FormSaveMixin):
     def form_valid(self, form):
         qol_object = QualityOfLife()
         qol_object.recipient = form.instance.organ.safe_recipient
-        qol_object.save(created_by=self.request.user)
+        qol_object.save()
 
-        form.instance.created_by = self.request.user
         form.instance.quality_of_life = qol_object
         self.object = form.save()
 

@@ -6,17 +6,17 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from wp4.compare.models import VersionControlMixin, Organ, YES_NO_UNKNOWN_CHOICES
+from wp4.compare.models import AuditControlModelBase, YES_NO_UNKNOWN_CHOICES, Organ
 from wp4.staff.models import Person
 
 
-class Category(VersionControlMixin):
+class Category(AuditControlModelBase):
     """
     Allows S/AE events to be categorised for DMC reporting purposes. Outlined in Issue #190
     """
     description = models.CharField(verbose_name=_("AC01 category description"), max_length=50)
 
-    class Meta(VersionControlMixin.Meta):
+    class Meta:
         verbose_name = _('AECm1 adverse event category')
         verbose_name_plural = _('AECm2 adverse event categories')
 
@@ -24,7 +24,7 @@ class Category(VersionControlMixin):
         return "{0}".format(self.description)
 
 
-class Event(VersionControlMixin):
+class Event(AuditControlModelBase):
     """
     Collects (serious) adverse event information related to a specific Organ within the study
 
@@ -121,7 +121,7 @@ class Event(VersionControlMixin):
             return True
         return False
 
-    class Meta(VersionControlMixin.Meta):
+    class Meta:
         order_with_respect_to = 'organ'
         # ordering = ['sequence_number']
         verbose_name = _('AEm1 adverse event')

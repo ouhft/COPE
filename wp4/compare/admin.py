@@ -5,68 +5,27 @@ from __future__ import absolute_import, unicode_literals
 from django.contrib import admin
 from django.utils import timezone
 from reversion_compare.admin import CompareVersionAdmin
-# from reversion.admin import VersionAdmin
 
 # Register your models here.
-from .models import OrganPerson, RetrievalTeam, Donor, Recipient, Organ
+from .models import Patient, RetrievalTeam, Donor, Recipient, Organ
 from .models import ProcurementResource, OrganAllocation, Randomisation
 
 
 # CORE Admin classes used throughout the whole system
 class BaseModelAdmin(admin.ModelAdmin):
-    exclude = ('created_on', 'created_by')
     actions_on_top = True
     actions_on_bottom = True
     save_on_top = True
-    date_hierarchy = 'created_on'
-
-    def save_model(self, request, obj, form, change):
-        obj.save(created_by=request.user)
-
-    def save_formset(self, request, form, formset, change):
-        """
-        Need to override the standard save_formset to ensure that the user is added to created_by
-
-        :param request:
-        :param form:
-        :param formset:
-        :param change:
-        :return:
-        """
-        instances = formset.save(commit=False)
-        for obj in formset.deleted_objects:
-            obj.delete()
-        for instance in instances:
-            instance.save(created_by=request.user)
-        formset.save_m2m()
+    # date_hierarchy = 'created_on'
 
 
 class VersionControlAdmin(CompareVersionAdmin):
-    exclude = ('version', 'created_on', 'created_by', 'record_locked')
+    # TODO: FIX THIS
+    exclude = ('record_locked',)
     actions_on_top = True
     actions_on_bottom = True
     save_on_top = True
-    date_hierarchy = 'created_on'
-
-    def save_model(self, request, obj, form, change):
-        obj.save(created_by=request.user)
-
-    def save_formset(self, request, form, formset, change):
-        """
-        Need to override the standard save_formset to ensure that the user is added to created_by
-
-        :param request:
-        :param form:
-        :param formset:
-        :param change:
-        :return:
-        """
-        instances = formset.save(commit=False)
-        for obj in formset.deleted_objects:
-            obj.delete()
-        for instance in instances:
-            instance.save(created_by=request.user)
-        formset.save_m2m()
+    # date_hierarchy = 'created_on'
 
 
 # Compare Admin modules
@@ -74,9 +33,6 @@ class RetrievalTeamAdmin(CompareVersionAdmin):
     list_display = ('based_at', 'centre_code')
     ordering = ('centre_code',)
     fields = ('centre_code', 'based_at')
-
-    def save_model(self, request, obj, form, change):
-        obj.save(created_by=request.user)
 
 admin.site.register(RetrievalTeam, RetrievalTeamAdmin)
 
@@ -97,7 +53,7 @@ class OrganPersonAdmin(VersionControlAdmin):
         'blood_group'
     )
 
-admin.site.register(OrganPerson, OrganPersonAdmin)
+admin.site.register(Patient, OrganPersonAdmin)
 
 
 class DonorAdmin(VersionControlAdmin):
@@ -209,7 +165,7 @@ admin.site.register(Donor, DonorAdmin)
 
 
 class OrganAllocationAdmin(VersionControlAdmin):
-    ordering = ('organ__pk', 'created_on')
+    ordering = ('organ__pk',)
     list_display = (
         '__str__', 'organ', 'perfusion_technician', 'transplant_hospital',
         'reallocated', 'reallocation'
@@ -300,23 +256,13 @@ class OrganAdmin(VersionControlAdmin):
             'ice_container_replenished_at_unknown',
             'perfusate_measurable',
             'perfusate_measure',
-            'perfusion_machine',
-            'perfusion_file'
+            'perfusion_machine'
         ]})
     ]
     inlines = [
         ProcurementResourceInline,
         OrganAllocationInline
     ]
-
-    def save_formset(self, request, form, formset, change):
-        if formset.model == ProcurementResource:
-            for subform in formset:
-                subform.instance.created_by = request.user
-                subform.instance.created_on = timezone.now()
-            formset.save()
-        else:
-            super(OrganAdmin, self).save_formset(request, form, formset, change)
 
 admin.site.register(Organ, OrganAdmin)
 
@@ -325,7 +271,7 @@ class RecipientAdmin(VersionControlAdmin):
     list_display = (
         '__str__', 'person', 'organ', 'allocation', 'signed_consent', 'successful_conclusion'
     )
-    ordering = ('organ__pk', 'created_on')
+    ordering = ('organ__pk', )
     fieldsets = [
         ('Case information', {'fields': [
             'person',

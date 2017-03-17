@@ -208,10 +208,10 @@
         <tr>
             <td rowspan="2">
                 <strong>{{ row.trial_id }}</strong> <sup>#{{ row.id }}</sup><br>
-                {% if row.is_eligible == -1 %}
+                {% if row.count_of_eligible_organs == -1 %}
                     <small>Not Randomised</small>
                 {% else %}
-                    <small>{{ row.is_eligible }} Eligible Kidneys</small>
+                    <small>{{ row.count_of_eligible_organs }} Eligible Kidneys</small>
                 {% endif %}
             </td>
             <td>

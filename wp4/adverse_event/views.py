@@ -63,7 +63,6 @@ class AjaxFormMixin(object):
     form_class = EventForm
 
     def form_valid(self, form):
-        form.instance.created_by = self.request.user
         if self.request.is_ajax():
             self.object = form.save()
             return self.render_to_response(self.get_context_data(form=form))
@@ -80,15 +79,6 @@ class AjaxFormMixin(object):
             (error_count, error_pluralise)
         )
         return super(AjaxFormMixin, self).form_invalid(form)
-
-    # def get_form(self, form_class=None):
-    #     form = super(AjaxFormMixin, self).get_form(form_class)
-    #     # Both post() and get() call get_form() first, so this is best place to intercept ajax changes
-    #     if self.request.is_ajax():
-    #         form.fields['user'].widget = forms.HiddenInput()
-    #         form.fields['jobs'].widget = forms.HiddenInput()
-    #         self.template_name = "staff_person/staffperson_form.ajax.html"
-    #     return form
 
 
 # ============================================  CBVs

@@ -179,10 +179,10 @@
         <tr>
             <td rowspan="2">
                 <strong>{{ row.trial_id }}</strong> <sup>#{{ row.id }}</sup><br>
-                {% if row.is_eligible == -1 %}
+                {% if row.count_of_eligible_organs == -1 %}
                     <small>Not Randomised</small>
                 {% else %}
-                    <small>{{ row.is_eligible }} Eligible Kidneys</small>
+                    <small>{{ row.count_of_eligible_organs }} Eligible Kidneys</small>
                 {% endif %}
             </td>
             <td rowspan="2">
@@ -192,7 +192,7 @@
                 <i class="glyphicon glyphicon-remove-sign text-danger" title="No"></i>
                 {% endif %}
 
-                <i class="glyphicon glyphicon-user" title="{{ row.created_by.get_full_name }}"><sup>#{{ row.created_by_id }}</sup></i>
+{#                <i class="glyphicon glyphicon-user" title="{{ row.created_by.get_full_name }}"><sup>#{{ row.created_by_id }}</sup></i>#}
             </td>
             <td>LEFT <sup>#{{ row.left_kidney.id }}</sup></td>
             <td>
@@ -245,7 +245,7 @@
                 <i class="glyphicon glyphicon-info-sign text-info" title="Not Applicable"></i>
                 {% endif %}
 
-                <i class="glyphicon glyphicon-user" title="{{ row.left_kidney.safe_recipient.created_by.get_full_name }}"><sup>#{{ row.left_kidney.safe_recipient.created_by_id }}</sup></i>
+{#                <i class="glyphicon glyphicon-user" title="{{ row.left_kidney.safe_recipient.created_by.get_full_name }}"><sup>#{{ row.left_kidney.safe_recipient.created_by_id }}</sup></i>#}
             </td>
         </tr>
         <tr>
@@ -300,7 +300,7 @@
                 <i class="glyphicon glyphicon-info-sign text-info" title="Not Applicable"></i>
                 {% endif %}
 
-                <i class="glyphicon glyphicon-user" title="{{ row.right_kidney.safe_recipient.created_by.get_full_name }}"><sup>#{{ row.right_kidney.safe_recipient.created_by_id }}</sup></i>
+{#                <i class="glyphicon glyphicon-user" title="{{ row.right_kidney.safe_recipient.created_by.get_full_name }}"><sup>#{{ row.right_kidney.safe_recipient.created_by_id }}</sup></i>#}
             </td>
         </tr>
     {% endfor %}

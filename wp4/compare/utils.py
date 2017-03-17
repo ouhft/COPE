@@ -3,8 +3,7 @@
 from __future__ import absolute_import, unicode_literals
 from __future__ import print_function
 
-from .models import Donor
-from .models import PAPER_EUROPE, PAPER_UNITED_KINGDOM, LIVE_UNITED_KINGDOM, LIVE_EUROPE
+from .models import Donor, Randomisation
 from .models import LEFT, RIGHT
 
 
@@ -47,9 +46,9 @@ class TrialIDUtility(object):
 
     def _get_randomisation_list_codes(self):
         if self._get_is_offline():
-            return [PAPER_EUROPE, PAPER_UNITED_KINGDOM]
+            return [Randomisation.PAPER_EUROPE, Randomisation.PAPER_UNITED_KINGDOM]
         else:
-            return [LIVE_UNITED_KINGDOM, LIVE_EUROPE]
+            return [Randomisation.LIVE_UNITED_KINGDOM, Randomisation.LIVE_EUROPE]
 
     def _get_organ_location(self):
         last_character = self.trial_id[-1]

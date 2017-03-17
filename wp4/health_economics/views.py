@@ -27,7 +27,6 @@ class AjaxFormMixin(object):
     form_class = QualityOfLifeForm
 
     def form_valid(self, form):
-        form.instance.created_by = self.request.user
         if self.request.is_ajax():
             self.object = form.save()
             return self.render_to_response(self.get_context_data(form=form))

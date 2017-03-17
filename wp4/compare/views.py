@@ -16,7 +16,7 @@ from dal import autocomplete
 from wp4.staff.models import Person
 from wp4.samples.utils import create_donor_samples, create_recipient_samples
 
-from .models import OrganPerson, Donor, Organ, Recipient, ProcurementResource, OrganAllocation, RetrievalTeam
+from .models import Patient, Donor, Organ, Recipient, ProcurementResource, OrganAllocation, RetrievalTeam
 from .models import PRESERVATION_HMPO2, PRESERVATION_HMP
 from .forms.core import DonorStartForm, OrganPersonForm, AllocationStartForm
 from .forms.procurement import DonorForm, OrganForm
@@ -52,9 +52,9 @@ def procurement_list(request):
     if current_person.has_group(Person.PERFUSION_TECHNICIAN):
         new_donor.perfusion_technician = current_person
 
-    def create_procurement_initial_data(organ, created_by_user):
+    def create_procurement_initial_data(organ):
         for resource in ProcurementResource.TYPE_CHOICES:
-            new_resource = ProcurementResource(organ=organ, type=resource[0], created_by=created_by_user)
+            new_resource = ProcurementResource(organ=organ, type=resource[0])
             new_resource.save()
 
     # Process the new case form
@@ -62,13 +62,13 @@ def procurement_list(request):
     if request.method == 'POST':
         if donor_form.is_valid():
             # This is a new set of objects, so remember to create the Person for the Donor first
-            person = OrganPerson()
+            person = Patient()
             person.gender = donor_form.cleaned_data.get("gender")
-            person.save(created_by=current_person)
+            person.save()
 
             donor = donor_form.save(current_person, commit=False)
             donor.person = person
-            donor.save(created_by=current_person)
+            donor.save()
 
             # Create the organs and the procurement resources
             create_procurement_initial_data(donor.left_kidney, current_person)
@@ -88,15 +88,12 @@ def procurement_list(request):
                 randomisation.save()
 
                 donor.sequence_number = donor.retrieval_team.next_sequence_number(False)
-                donor.created_by = current_person
 
                 donor.left_kidney.transplantable = True  # Assumption that has to be made to randomise offline
                 donor.left_kidney.preservation = PRESERVATION_HMPO2 if randomisation.result else PRESERVATION_HMP
-                donor.left_kidney.created_by = current_person
 
                 donor.right_kidney.transplantable = True
                 donor.right_kidney.preservation = PRESERVATION_HMP if randomisation.result else PRESERVATION_HMPO2
-                donor.right_kidney.created_by = current_person
 
                 update_trial_ids_and_save(donor)  # This will do the saving of the donor and both kidneys
 
@@ -112,8 +109,8 @@ def procurement_list(request):
     ):
         # print("DEBUG: Group1")
         # order_by('retrieval_team__centre_code', '-pk').\
-        open_donors = Donor.objects.for_user(current_person).filter(procurement_form_completed=False).\
-            order_by('-created_on').\
+        open_donors = Donor.objects.for_user(current_person).filter(procurement_form_completed=False). \
+            order_by('-pk'). \
             select_related('person', 'perfusion_technician', 'retrieval_team__based_at', 'randomisation')
         closed_donors = Donor.objects.for_user(current_person).filter(procurement_form_completed=True).\
             order_by('retrieval_team__centre_code', '-pk').\
@@ -160,19 +157,6 @@ def procurement_form(request, pk):
         return redirect(reverse('wp4:compare:procurement_list'))
 
     current_person = request.user
-
-    def randomise(donor, donor_form, left_organ_form, right_organ_form):
-        # NB: Offline randomisations will have happened on case creation, so this is only ever online randomisations
-        if not donor.is_randomised and donor.randomise():
-            # Reload the forms with the modified results
-            donor_form = DonorForm(instance=donor, prefix="donor")
-            left_organ_form = OrganForm(instance=donor.left_kidney, prefix="left-organ")
-            right_organ_form = OrganForm(instance=donor.right_kidney, prefix="right-organ")
-            messages.warning(
-                request,
-                '<strong>This case has now been randomised!</strong> Preservation results: Left=%s and Right=%s'
-                % (donor.left_kidney.get_preservation_display(), donor.right_kidney.get_preservation_display()))
-        return donor_form, left_organ_form, right_organ_form
 
 
     # ================================================ DONOR
@@ -246,20 +230,27 @@ def procurement_form(request, pk):
     # print("DEBUG: all_valid=%d" % all_valid)
     if all_valid == 6:
         # This has to wait till the organ forms are saved...
-        donor_form, left_organ_form, right_organ_form = randomise(donor, donor_form, left_organ_form, right_organ_form)
+        # NB: Offline randomisations will have happened on case creation, so this is only ever online randomisations
+        if not donor.is_randomised and donor.randomise(active_user=current_person):
+            # Reload the forms with the modified results
+            donor_form = DonorForm(instance=donor, prefix="donor")
+            left_organ_form = OrganForm(instance=donor.left_kidney, prefix="left-organ")
+            right_organ_form = OrganForm(instance=donor.right_kidney, prefix="right-organ")
+            messages.warning(
+                request,
+                '<strong>This case has now been randomised!</strong> Preservation results: Left=%s and Right=%s'
+                % (donor.left_kidney.get_preservation_display(), donor.right_kidney.get_preservation_display())
+            )
 
+        messages.success(request, 'Form has been <strong>successfully saved</strong>')
         if donor.procurement_form_completed:
-            messages.success(request, 'Form has been successfully saved <strong>and CLOSED</strong>')
             return redirect(reverse('wp4:compare:procurement_list'))
-
-        else:
-            messages.success(request, 'Form has been <strong>successfully saved</strong>')
 
         # TODO: If a kidney is marked as not transplantable, we may need to write that reason into
         # the Organ not allocated reason field (and close any open T forms?)
     elif request.POST:
         donor.procurement_form_completed = False  # Can't say the form is completed if there are errors
-        donor.save(created_by=current_person)
+        donor.save()
 
         error_count = left_organ_error_count + right_organ_error_count + len(donor_form.errors) + \
             len(person_form.errors)
@@ -314,9 +305,9 @@ def transplantation_list(request):
         organ = allocation_form.cleaned_data.get("organ")
         if allocation_form.cleaned_data.get("allocated"):
             # print("DEBUG: transplantation_list: Allocated, Yes")
-            organ.save(created_by=current_person)  # Update the organ
+            organ.save()  # Update the organ
             # First time in? Create an allocation record (and set the TT if user is a Perfusion Technician
-            initial_organ_allocation = OrganAllocation(organ=organ, created_by=current_person)
+            initial_organ_allocation = OrganAllocation(organ=organ)
             if current_person.has_group(Person.PERFUSION_TECHNICIAN):
                 initial_organ_allocation.perfusion_technician = current_person
             initial_organ_allocation.save()
@@ -329,18 +320,18 @@ def transplantation_list(request):
             # Otherwise close the Organ record with the reason, and do nothing more
             organ.not_allocated_reason = allocation_form.cleaned_data["not_allocated_reason"]
             organ.transplantation_form_completed = True
-            organ.save(created_by=current_person)
+            organ.save()
             allocation_form = AllocationStartForm(prefix="allocation")
 
     if current_person.has_group(
         (Person.SYSTEMS_ADMINISTRATOR, Person.CENTRAL_COORDINATOR, Person.NATIONAL_COORDINATOR)
     ):
-        existing_cases = Organ.open_objects.for_user(current_person).order_by('-created_on')
-        closed_cases = Organ.closed_objects.for_user(current_person).order_by('-created_on')
+        existing_cases = Organ.open_objects.for_user(current_person).order_by('-pk')
+        closed_cases = Organ.closed_objects.for_user(current_person).order_by('-pk')
     elif current_person.has_group(Person.PERFUSION_TECHNICIAN):
         existing_cases = Organ.open_objects.for_user(current_person).\
             filter(recipient__allocation__perfusion_technician=current_person)
-        closed_cases = Organ.closed_objects.for_user(current_person).order_by('-created_on').\
+        closed_cases = Organ.closed_objects.for_user(current_person).order_by('-pk').\
             filter(recipient__allocation__perfusion_technician=current_person)
     else:
         existing_cases = []
@@ -428,7 +419,7 @@ def transplantation_form(request, pk=None):
 
                 if no_consent_confirmed:
                     organ.transplantation_form_completed = True
-                    organ.save(created_by=current_person)
+                    organ.save()
                     messages.success(
                         request,
                         'Case %s has been <strong>successfully saved and closed</strong>' % organ.trial_id
@@ -449,7 +440,7 @@ def transplantation_form(request, pk=None):
 
                 if more_than_one_kidney_confirmed:
                     organ.transplantation_form_completed = True
-                    organ.save(created_by=current_person)
+                    organ.save()
                     messages.success(
                         request,
                         'Case %s has been <strong>successfully saved and closed</strong>' % organ.trial_id
@@ -491,7 +482,7 @@ def transplantation_form(request, pk=None):
                     if allocation_confirmed:
                         organ.not_allocated_reason = "Allocated to a non-Project Site"
                         organ.transplantation_form_completed = True
-                        organ.save(created_by=current_person)
+                        organ.save()
                         messages.success(
                             request,
                             'Case %s has been <strong>successfully saved and closed</strong>' % organ.trial_id
@@ -509,7 +500,6 @@ def transplantation_form(request, pk=None):
                     # If this is the latest Allocation and reallocation has occurred, create a new Allocation
                     new_allocation = OrganAllocation()
                     new_allocation.organ = organ
-                    new_allocation.created_by = current_person
                     if current_person.has_group(Person.PERFUSION_TECHNICIAN):
                         new_allocation.perfusion_technician = current_person
                     new_allocation.save()
@@ -519,20 +509,20 @@ def transplantation_form(request, pk=None):
 
                 elif allocation.reallocated is not None and not recipient_form_loaded:
                     # For a new set of objects, remember to create the Person for the Recipient first
-                    person = OrganPerson()
-                    person.save(created_by=current_person)
+                    person = Patient()
+                    person.save()
 
                     recipient = Recipient()
                     recipient.person = person
                     recipient.allocation = allocation
                     recipient.organ = organ
-                    recipient.save(created_by=current_person)
+                    recipient.save()
 
                     # create the related sample placeholder for this recipient
                     create_recipient_samples(recipient, current_person)
 
         # There should be no errors when we redirect here
-        version_string = " Organ v:" + str(organ.version) if current_person.is_superuser else ""
+        version_string = ""  # "" Organ v:" + str(organ.version) if current_person.is_superuser else ""
         messages.success(request, 'Form has been <strong>successfully saved</strong>' + version_string)
         return redirect(reverse('wp4:compare:transplantation_detail', kwargs={'pk': organ.id}))
     else:

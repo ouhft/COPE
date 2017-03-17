@@ -12,7 +12,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.utils import timezone
 
-from wp4.compare.models import Randomisation, PAPER_UNITED_KINGDOM, PAPER_EUROPE
+from wp4.compare.models import Randomisation
 from wp4.compare.models import Donor, Organ, OrganAllocation
 from wp4.compare.models import RetrievalTeam
 from wp4.compare.models import PRESERVATION_HMP, PRESERVATION_HMPO2, PRESERVATION_NOT_SET
@@ -395,7 +395,7 @@ def report_adverse_events(request):
 # Administrator Reports
 @group_required(Person.CENTRAL_COORDINATOR)
 def administrator_uk_list(request):
-    randomisation_listing = Randomisation.objects.filter(list_code=PAPER_UNITED_KINGDOM)
+    randomisation_listing = Randomisation.objects.filter(list_code=Randomisation.PAPER_UNITED_KINGDOM)
     return render(
         request,
         'administration/offline_list.html',
@@ -409,7 +409,7 @@ def administrator_uk_list(request):
 
 @group_required(Person.CENTRAL_COORDINATOR)
 def administrator_europe_list(request):
-    randomisation_listing = Randomisation.objects.filter(list_code=PAPER_EUROPE)
+    randomisation_listing = Randomisation.objects.filter(list_code=Randomisation.PAPER_EUROPE)
     return render(
         request,
         'administration/offline_list.html',
@@ -503,7 +503,7 @@ def administrator_transplantation_sites(request):
 def administrator_sae_sites(request):
 
     listing = Event.objects.all().\
-        order_by('organ__recipient__allocation__transplant_hospital', 'created_on')
+        order_by('organ__recipient__allocation__transplant_hospital')
 
     centres = dict()
     for centre in Hospital.objects.filter(is_active=True):
@@ -593,23 +593,23 @@ def flowchart(request):
 
     for donor in listing:
         summary["donors"]["total"] += 1
-        summary["donors"]["eligibility"][donor.is_eligible if not donor.is_eligible == -1 else "not_randomised"] += 1
+        summary["donors"]["eligibility"][donor.count_of_eligible_organs if donor.count_of_eligible_organs >= 0 else "not_randomised"] += 1
         if donor.procurement_form_completed is True:
             summary["donors"]["p_forms_completed"] += 1
 
-        if donor.created_on > summary["dates"]["latest_p_form"]:
-            summary["dates"]["latest_p_form"] = donor.created_on
+        # if donor.created_on > summary["dates"]["latest_p_form"]:
+        #     summary["dates"]["latest_p_form"] = donor.created_on
 
         if donor.is_randomised:
             summary["kidneys"]["total"] += 2
-        if donor.is_eligible > 0:
+        if donor.count_of_eligible_organs > 0:
             if donor.left_kidney.transplantable is True:
                 summary["kidneys"]["transplantable"]["left"] += 1
                 summary["recipients"]["t_forms_theoretical"] += 1
                 if donor.left_kidney.final_allocation is not None:
                     summary["recipients"]["t_forms_started"] += 1
-                    if donor.left_kidney.final_allocation.created_on > summary["dates"]["latest_t_form"]:
-                        summary["dates"]["latest_t_form"] = donor.left_kidney.final_allocation.created_on
+                    # if donor.left_kidney.final_allocation.created_on > summary["dates"]["latest_t_form"]:
+                    #     summary["dates"]["latest_t_form"] = donor.left_kidney.final_allocation.created_on
 
                 if donor.left_kidney.is_allocated:
                     summary["kidneys"]["allocated"]["left"] += 1
@@ -623,8 +623,8 @@ def flowchart(request):
                 summary["recipients"]["t_forms_theoretical"] += 1
                 if donor.right_kidney.final_allocation is not None:
                     summary["recipients"]["t_forms_started"] += 1
-                    if donor.right_kidney.final_allocation.created_on > summary["dates"]["latest_t_form"]:
-                        summary["dates"]["latest_t_form"] = donor.right_kidney.final_allocation.created_on
+                    # if donor.right_kidney.final_allocation.created_on > summary["dates"]["latest_t_form"]:
+                    #     summary["dates"]["latest_t_form"] = donor.right_kidney.final_allocation.created_on
 
                 if donor.right_kidney.is_allocated:
                     summary["kidneys"]["allocated"]["right"] += 1
@@ -773,7 +773,7 @@ def dmc_secondary_outcomes(request):
     :param request:
     :return:
     """
-    listing = Event.objects.filter(Q('') | Q()).select_related().order_by('organ__id', 'created_on')
+    listing = Event.objects.filter(Q('') | Q()).select_related().order_by('organ__id')
 
     report_period = {
         "graft_failure": {
@@ -838,7 +838,7 @@ def dmc_death_summaries(request):
     :return:
     """
     listing = Event.objects.filter(date_of_death__isnull=False).select_related('organ__recipient').\
-        order_by('organ__id', 'created_on')
+        order_by('organ__id')
 
     data = {
         PRESERVATION_HMP: [],

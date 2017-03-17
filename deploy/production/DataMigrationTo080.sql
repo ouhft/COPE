@@ -1,134 +1,42 @@
 /*
  Script to migrate data safely from a 0.6.4 schema to the new 0.8.0 schema
- */
 
-/* UTILS
-
- */
-SELECT count(id)
-FROM old.reversion_version;
-
-SELECT *
-FROM old.adverse_event_adverseevent
-WHERE contact_id IS NULL;
-
-SELECT *
-FROM old.staff_person_staffperson;
-INSERT INTO new.TABLE (fieldname1, fieldname2)
-  SELECT
-    fieldname1,
-    fieldname2
-  FROM old.TABLE;
-
-SELECT
-  lh.id,
-  lh.name,
-  lh.country
-FROM old.locations_hospital AS lh,
-  old.compare_organallocation AS oa
-WHERE oa.transplant_hospital_id = lh.id
-GROUP BY lh.id;
-
-/*
- NB: Be explicit in naming the fields and ordering for all inserts and selects, otherwise some fields are out of order.
-
- Do not copy:
- * auth_group_permissions  -- populated from fixture 01_permissions.json
- * auth_permission         -- populated by migrations
- * auth_group              -- populated from fixture 01_permissions.json
- * django_sessions         -- data temp table for django
- * django_migrations       -- populated by migrations
- * staffperson_staffjob    -- redundant, replaced by groups
- * samples_worksheet       -- redundant, no replacement for data
- * locations_hospital      -- populated from fixture 03_hospitals.json (Issue #210)
- * compare_retrievalteam   -- populated from fixture 03_hospitals.json (Issue #210)
- * perfusion_machine_perfusionfile -- nothing in the old data
- * sqlite_sequence
-
- New Tables
- * adverse_event_category   -- new table; populate from fixture 11_adverseevent_categories.json after staff_person is filled
- * staff_person_groups      -- Do nothing
- * staff_person_user_permissions -- Do nothing
-
- Overwrite data in:
- * django_site
- * django_content_type
-   * Amend records in here as changes are made elsewhere in the migration process.
-     * e.g. Amend adverse_event.adverseevent to event
-   * Remove redundant types (e.g. samples.worksheet)
-   * Add adverse_event.category
- * compare_randomisation - no need to bother with fixture, but does need staff_person to be filled first
-
- For Issue #211 - Remove link to Hospital from Donor
- * Map locations.hospital.name to donor.retrieval_hospital on copy
-
- Map StaffJobs to AuthGroups:
-
-StaffJobs
-1,Perfusion Technician
-2,Transplant Co-ordinator
-3,Research Nurse / Follow-up
-4,National Co-ordinator
-5,Central Co-ordinator
-6,Statistician
-7,Sys-admin
-8,Local Investigator
-9,Other Project Member
-10,Biobank Coordinator
-11,Chief Investigator
-12,Principle Investigator
-13,Central Investigator
-14,National Investigator
-15,Transplant Theatre Contact
-
-Groups
-1,Perfusion Technicians
-2,Transplant Co-ordinators
-3,Research Nurse / Follow-up
-4,National Co-ordinator
-5,Central Co-ordinator
-6,Statistician
-7,Sys-admin
-8,Local Investigator
-9,Other Project Member
-10,Biobank Coordinator
-11,Chief Investigator
-12,Principle Investigator
-13,Central Investigator
-14,National Investigator
-15,Transplant Theatre Contact
-
-
- Order of processing
+ #######################################################################################################################
+ ################################################  Order of processing  ################################################
+ #######################################################################################################################
  - create new database `pm migrate`
- - load fixture `pm loaddata config/fixtures/01_permissions.json`
- - Execute BLOCK 1
+ - EXECUTE BLOCK 1
+ - load fixture `pm loaddata config/fixtures/01_contenttypes.json`
+ - load fixture `pm loaddata config/fixtures/02_permissions.json`
+ - load fixture `pm loaddata config/fixtures/03_groups.json`
+ - Execute BLOCK 2
  - load fixture `pm loaddata config/fixtures/10_hospitals.json`
  - load fixture `pm loaddata config/fixtures/11_adverseevent_categories.json`
- - Execute BLOCK 2
+ - Execute BLOCK 3
  - Make the Trial IDs via Python script in shell:
+     ```
+    from wp4.compare.models.donor import Donor
+    from wp4.staff.models import Person
+    creator = Person.objects.get(pk=1)
+    for donor in Donor.objects.all():
+        donor.trial_id = donor.make_trial_id()
+        donor.save(created_by=creator)
+        donor.left_kidney.trial_id = donor.left_kidney.make_trial_id()
+        donor.left_kidney.save(created_by=creator)
+        donor.right_kidney.trial_id = donor.right_kidney.make_trial_id()
+        donor.right_kidney.save(created_by=creator)
 
- ```
-from wp4.compare.models.donor import Donor
-from wp4.staff.models import Person
-creator = Person.objects.get(pk=1)
-for donor in Donor.objects.all():
-    donor.trial_id = donor.make_trial_id()
-    donor.save(created_by=creator)
-    donor.left_kidney.trial_id = donor.left_kidney.make_trial_id()
-    donor.left_kidney.save(created_by=creator)
-    donor.right_kidney.trial_id = donor.right_kidney.make_trial_id()
-    donor.right_kidney.save(created_by=creator)
-
- ```
+     ```
  */
 
 
-/* BLOCK 1 */
+/* =============================================  BLOCK 1  =============================================  */
 DETACH DATABASE old;
 DETACH DATABASE new;
-ATTACH DATABASE 'file:///Users/carl/Projects/py3_cope/cope_repo/old.db.sqlite3?mode=ro' AS old;
-ATTACH DATABASE 'file:///Users/carl/Projects/py3_cope/cope_repo/db.sqlite3' AS new;
+-- ATTACH DATABASE 'file:///Users/carl/Projects/py3_cope/cope_repo/old.db.sqlite3?mode=ro' AS old;
+-- ATTACH DATABASE 'file:///Users/carl/Projects/py3_cope/cope_repo/db.sqlite3' AS new;
+ATTACH DATABASE 'file:///Volumes/ExtSSD/Users/carl/Projects/py3_cope/cope_repo/old.db.sqlite3?mode=ro' AS old;
+ATTACH DATABASE 'file:///Volumes/ExtSSD/Users/carl/Projects/py3_cope/cope_repo//db.sqlite3' AS new;
 
 DELETE FROM new.django_site;
 
@@ -143,32 +51,24 @@ INSERT INTO new.django_site (id, name, domain)
     domain
   FROM old.django_site;
 
-DELETE FROM new.django_content_type;
-
-UPDATE SQLITE_SEQUENCE
-SET SEQ = 0
-WHERE NAME = 'new.django_content_type';
-
-INSERT INTO new.django_content_type (id, app_label, model)
-  SELECT
-    id,
-    app_label,
-    model
-  FROM old.django_content_type;
-INSERT INTO new.django_content_type (app_label, model) VALUES ('adverse_event', 'category');
-
-UPDATE new.django_content_type
-SET model = 'event'
-WHERE id = 29;
-
-UPDATE new.django_content_type
-SET model = 'person', app_label = 'staff'
-WHERE id = 3;
-
-DELETE FROM new.django_content_type
-WHERE id IN (9, 10, 13);
+-- DELETE FROM new.django_content_type;
+-- DELETE FROM new.auth_permission;
 
 
+/* =============================================  BLOCK 2  =============================================  */
+
+-- Rebuild Content Types  -------------------------------------------------------------------------
+-- UPDATE SQLITE_SEQUENCE
+-- SET SEQ = 41
+-- WHERE NAME = 'new.django_content_type';
+
+
+-- Rebuild Permissions to use these content types  -----------------------------------------------
+-- UPDATE SQLITE_SEQUENCE
+-- SET SEQ = 183
+-- WHERE NAME = 'new.auth_permission';
+
+-- Bring in all the staff ------------------------------------------------------------------------
 INSERT INTO new.staff_person (
   id,
   password,
@@ -216,13 +116,15 @@ INSERT INTO new.staff_person_groups (
   WHERE sp.id = spj.staffperson_id
         AND sp.user_id IS NOT NULL;
 
-INSERT INTO new.compare_randomisation (id, list_code, result, allocated_on, donor_id)
+INSERT INTO new.compare_randomisation (id, list_code, result, allocated_on, donor_id, created_on, created_by_id)
   SELECT
     id,
     list_code,
     result,
     allocated_on,
-    donor_id
+    donor_id,
+    DATETIME('now'),
+    1
   FROM old.compare_randomisation;
 
 INSERT INTO new.django_admin_log (
@@ -251,10 +153,11 @@ INSERT INTO new.perfusion_machine_perfusionmachine (id, created_on, machine_seri
   FROM old.perfusion_machine_perfusionmachine;
 
 
-/* BLOCK 2 */
+
+/* =============================================  BLOCK 3  =============================================  */
 /*
  Changes to account for:
- - live - added as part of VersionControlMixin, defaults to 1
+ - live - added as part of AuditControlModelBase, defaults to 1
  */
 INSERT INTO new.compare_organperson (
   id, created_on, version, record_locked, live, number, date_of_birth, date_of_birth_unknown, date_of_death, date_of_death_unknown, gender, weight, height, ethnicity, blood_group, created_by_id
@@ -280,7 +183,7 @@ INSERT INTO new.compare_organperson (
 
 /*
  Changes to account for:
- - live - added as part of VersionControlMixin, defaults to 1
+ - live - added as part of AuditControlModelBase, defaults to 1
  - perfusion_technician - was Staff_Person.StaffPerson, now Staff.Person, which replaces Auth.User
  - transplant_coordinator - was Staff_Person.StaffPerson, now Staff.Person, which replaces Auth.User
  - retrieval_hospital - is a new charfield that replaces retrieval_hospital(_id) which was a Location.Hospital
@@ -459,7 +362,7 @@ INSERT INTO new.compare_donor (
 
 /*
  Changes to account for:
- - live - added as part of VersionControlMixin, defaults to 1
+ - live - added as part of AuditControlModelBase, defaults to 1
  */
 INSERT INTO new.compare_organ
 (
@@ -571,7 +474,7 @@ INSERT INTO new.compare_procurementresource (
 
 /*
  Changes to account for:
- - live - added as part of VersionControlMixin, defaults to 1
+ - live - added as part of AuditControlModelBase, defaults to 1
  - perfusion_technician - was Staff_Person.StaffPerson, now Staff.Person, which replaces Auth.User
  - theatre_contact - was Staff_Person.StaffPerson, now Staff.Person, which replaces Auth.User
  */
@@ -658,7 +561,7 @@ WHERE transplant_hospital_id = 68;
 
 /*
  Changes to account for:
- - live - added as part of VersionControlMixin, defaults to 1
+ - live - added as part of AuditControlModelBase, defaults to 1
  */
 INSERT INTO new.compare_recipient (
   id,
@@ -769,7 +672,7 @@ INSERT INTO new.compare_recipient (
 /*
  adverse_event_event  (was adverse_event_adverseevent)
  Changes to account for:
- - live - added as part of VersionControlMixin, defaults to 1
+ - live - added as part of AuditControlModelBase, defaults to 1
  - date_of_death - removed from old, no long part of new event
  - contact - was Staff_Person.StaffPerson, now Staff.Person, which replaces Auth.User
  - Where contact is missing (19 or so examples) set it to Ina Jochmans (Staff id=108)as PI
@@ -877,7 +780,7 @@ INSERT INTO new.adverse_event_event (
 /*
  TABLE: followups_followup1y
  Changes to account for:
- - live - added as part of VersionControlMixin, defaults to 1
+ - live - added as part of AuditControlModelBase, defaults to 1
  */
 INSERT INTO new.followups_followup1y (
   id,
@@ -965,7 +868,7 @@ INSERT INTO new.followups_followup1y (
 /*
  TABLE: followups_followup3m
  Changes to account for:
- - live - added as part of VersionControlMixin, defaults to 1
+ - live - added as part of AuditControlModelBase, defaults to 1
  */
 INSERT INTO new.followups_followup3m (
   id
@@ -1053,7 +956,7 @@ INSERT INTO new.followups_followup3m (
 /*
  TABLE: followups_followup6m
  Changes to account for:
- - live - added as part of VersionControlMixin, defaults to 1
+ - live - added as part of AuditControlModelBase, defaults to 1
  */
 INSERT INTO new.followups_followup6m
 (
@@ -1140,7 +1043,7 @@ INSERT INTO new.followups_followup6m
 /*
  TABLE: followups_followupinitial
  Changes to account for:
- - live - added as part of VersionControlMixin, defaults to 1
+ - live - added as part of AuditControlModelBase, defaults to 1
  */
 INSERT INTO new.followups_followupinitial
 (
@@ -1308,7 +1211,7 @@ INSERT INTO new.health_economics_resourcevisit (
 /*
  TABLE: health_economics_qualityoflife
  Changes to account for:
- - live - added as part of VersionControlMixin, defaults to 1
+ - live - added as part of AuditControlModelBase, defaults to 1
  */
 INSERT INTO new.health_economics_qualityoflife (
   id,
@@ -1347,7 +1250,7 @@ INSERT INTO new.health_economics_qualityoflife (
  TABLE: health_economics_resourcelog
  Note: Appears to be empty!
  Changes to account for:
- - live - added as part of VersionControlMixin, defaults to 1
+ - live - added as part of AuditControlModelBase, defaults to 1
  */
 
 INSERT INTO new.health_economics_resourcelog
@@ -1380,7 +1283,7 @@ INSERT INTO new.health_economics_resourcelog
 /*
  TABLE: samples_event
  Changes to account for:
- - live - added as part of VersionControlMixin, defaults to 1
+ - live - added as part of AuditControlModelBase, defaults to 1
  - worksheet - removed from old model, not in new model
  */
 INSERT INTO new.samples_event (
@@ -1409,7 +1312,7 @@ INSERT INTO new.samples_event (
 /*
  TABLE: samples_bloodsample
  Changes to account for:
- - live - added as part of VersionControlMixin, defaults to 1
+ - live - added as part of AuditControlModelBase, defaults to 1
  */
 INSERT INTO new.samples_bloodsample
 (
@@ -1446,7 +1349,7 @@ INSERT INTO new.samples_bloodsample
 /*
  TABLE: samples_perfusatesample
  Changes to account for:
- - live - added as part of VersionControlMixin, defaults to 1
+ - live - added as part of AuditControlModelBase, defaults to 1
  */
 INSERT INTO new.samples_perfusatesample (
   id,
@@ -1481,7 +1384,7 @@ INSERT INTO new.samples_perfusatesample (
 /*
  TABLE: samples_tissuesample
  Changes to account for:
- - live - added as part of VersionControlMixin, defaults to 1
+ - live - added as part of AuditControlModelBase, defaults to 1
  */
 INSERT INTO new.samples_urinesample (
   id,
@@ -1554,3 +1457,105 @@ INSERT INTO new.reversion_version (
     db
   FROM old.reversion_version;
 
+
+
+/*
+ #######################################################################################################################
+ #######################################################################################################################
+ #######################################################################################################################
+
+UTILS
+
+SELECT count(id)
+FROM old.reversion_version;
+
+SELECT *
+FROM old.adverse_event_adverseevent
+WHERE contact_id IS NULL;
+
+SELECT *
+FROM old.staff_person_staffperson;
+INSERT INTO new.TABLE (fieldname1, fieldname2)
+  SELECT
+    fieldname1,
+    fieldname2
+  FROM old.TABLE;
+
+SELECT
+  lh.id,
+  lh.name,
+  lh.country
+FROM old.locations_hospital AS lh,
+  old.compare_organallocation AS oa
+WHERE oa.transplant_hospital_id = lh.id
+GROUP BY lh.id;
+
+
+ NB: Be explicit in naming the fields and ordering for all inserts and selects, otherwise some fields are out of order.
+
+ Do not copy:
+ * auth_group_permissions  -- populated from fixture 03_groups.json
+ * auth_permission         -- populated from fixture 02_permissions.json
+ * auth_group              -- populated from fixture 03_groups.json
+ * django_sessions         -- data temp table for django
+ * django_migrations       -- populated by migrations
+ * staffperson_staffjob    -- redundant, replaced by groups
+ * samples_worksheet       -- redundant, no replacement for data
+ * locations_hospital      -- populated from fixture 03_hospitals.json (Issue #210)
+ * compare_retrievalteam   -- populated from fixture 03_hospitals.json (Issue #210)
+ * perfusion_machine_perfusionfile -- nothing in the old data
+ * sqlite_sequence
+
+ New Tables
+ * adverse_event_category   -- new table; populate from fixture 11_adverseevent_categories.json after staff_person is filled
+ * staff_person_groups      -- Do nothing
+ * staff_person_user_permissions -- Do nothing
+
+ Overwrite data in:
+ * django_site
+ * django_content_type     -- populated now by 01_contenttypes.json
+   * Amend records in here as changes are made elsewhere in the migration process.
+     * e.g. Amend adverse_event.adverseevent to event
+   * Remove redundant types (e.g. samples.worksheet)
+   * Add adverse_event.category
+ * compare_randomisation - no need to bother with fixture, but does need staff_person to be filled first
+
+ For Issue #211 - Remove link to Hospital from Donor
+ * Map locations.hospital.name to donor.retrieval_hospital on copy
+
+ Map StaffJobs to AuthGroups:
+
+StaffJobs
+1,Perfusion Technician
+2,Transplant Co-ordinator
+3,Research Nurse / Follow-up
+4,National Co-ordinator
+5,Central Co-ordinator
+6,Statistician
+7,Sys-admin
+8,Local Investigator
+9,Other Project Member
+10,Biobank Coordinator
+11,Chief Investigator
+12,Principle Investigator
+13,Central Investigator
+14,National Investigator
+15,Transplant Theatre Contact
+
+Groups
+1,Perfusion Technicians
+2,Transplant Co-ordinators
+3,Research Nurse / Follow-up
+4,National Co-ordinator
+5,Central Co-ordinator
+6,Statistician
+7,Sys-admin
+8,Local Investigator
+9,Other Project Member
+10,Biobank Coordinator
+11,Chief Investigator
+12,Principle Investigator
+13,Central Investigator
+14,National Investigator
+15,Transplant Theatre Contact
+*/

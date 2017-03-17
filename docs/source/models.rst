@@ -4,11 +4,11 @@ Data Models
 
 This is source documentation for the WP4 data models. These are Python/Django classes mapped to the database by Django's ORM, and as such follow the usual Django conventions on model design. There are a few other conventions to note, general ones are noted here, class specific notes are inline below.
 
-Compare is the central app to this system (presently), and the Core models (such as VersionControlMixin) will appear all over the rest of the apps. This means common fields such as `version`, `created_on`, `created_by`, and `record_locked` will feature repeatedly on many of the models below.
+Compare is the central app to this system (presently), and the Core models (such as AuditControlMixin) will appear all over the rest of the apps. This means common fields such as `version`, `created_on`, `created_by`, and `record_locked` will feature repeatedly on many of the models below.
 
 Items that appear in CAPITAL LETTERS are frequently the constants used in the system. Whilst many of them follow a clear naming convention (e.g. BLOOD_xxx), some are still in their orignal format (e.g. MALE, FEMALE, CAUCASIAN). Most are also part of groups, which means you'll see a topicname_CHOICES constant that links certain constants - typically for the benefit of dropdown lists and other static content (e.g. BLOOD_GROUP_CHOICES).
 
-Where model attributes use a choice list (e.g. from a constant), there are helper methods to translate the stored value into a display string. These take the form of OBJECT.get_ATTRIBUTE_display() methods (e.g. OrganPerson.get_gender_display() )
+Where model attributes use a choice list (e.g. from a constant), there are helper methods to translate the stored value into a display string. These take the form of OBJECT.get_ATTRIBUTE_display() methods (e.g. Patient.get_gender_display() )
 
 
 Compare

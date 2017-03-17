@@ -238,14 +238,6 @@ class DonorForm(forms.ModelForm):
         ]
         localized_fields = "__all__"
 
-    def save(self, user=None, *args, **kwargs):
-        donor = super(DonorForm, self).save(commit=False)
-        if kwargs.get("commit", True):
-            if user is None:
-                raise Exception("Missing user record when saving DonorForm")
-            donor.save(created_by=user)
-        return donor
-
     def clean(self):
         cleaned_data = super(DonorForm, self).clean()
         form_completed = cleaned_data.get("procurement_form_completed")
@@ -401,14 +393,6 @@ class OrganForm(forms.ModelForm):
         ]
         localized_fields = "__all__"
 
-    def save(self, user=None, *args, **kwargs):
-        organ = super(OrganForm, self).save(commit=False)
-        if kwargs.get("commit", True):
-            if user is None:
-                raise Exception("Missing user record when saving OrganForm")
-            organ.save(created_by=user)
-        return organ
-
 
 class ProcurementResourceForm(forms.ModelForm):
     helper = FormHelper()
@@ -422,8 +406,7 @@ class ProcurementResourceForm(forms.ModelForm):
             DateField('expiry_date', notknown=True),
             'expiry_date_unknown',
             label=ProcurementResource._meta.get_field("expiry_date").verbose_name.title()
-        ),
-        'created_by'
+        )
     )
 
     def __init__(self, *args, **kwargs):
@@ -433,11 +416,10 @@ class ProcurementResourceForm(forms.ModelForm):
         self.fields['type'].widget = forms.HiddenInput()
         self.fields['type'].choices = ProcurementResource.TYPE_CHOICES
         self.fields['expiry_date'].input_formats = settings.DATE_INPUT_FORMATS
-        self.fields['created_by'].widget = forms.HiddenInput()
 
     class Meta:
         model = ProcurementResource
-        fields = ('organ', 'type', 'lot_number', 'expiry_date', 'expiry_date_unknown', 'created_by')
+        fields = ('organ', 'type', 'lot_number', 'expiry_date', 'expiry_date_unknown')
         localized_fields = "__all__"
 
 

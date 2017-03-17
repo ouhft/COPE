@@ -111,14 +111,6 @@ class AllocationForm(forms.ModelForm):
         }
         localized_fields = "__all__"
 
-    def save(self, user=None, *args, **kwargs):
-        allocation_instance = super(AllocationForm, self).save(commit=False)
-        if kwargs.get("commit", True):
-            if user is None:
-                raise Exception("Missing user record when saving AllocationForm")
-            allocation_instance.save(created_by=user)
-        return allocation_instance
-
 
 AllocationFormSet = forms.modelformset_factory(
     OrganAllocation,

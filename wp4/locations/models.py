@@ -1,13 +1,14 @@
 #!/usr/bin/python
 # coding: utf-8
 from __future__ import absolute_import, unicode_literals
+from livefield.managers import LiveManager
 
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
-from wp4.compare.models.core import VersionControlMixin
+from wp4.compare.models import AuditControlModelBase
 
 
 # Common CONSTANTS
@@ -68,10 +69,13 @@ COUNTRY_CHOICES = (
 )  #: Choices for Hospital.country
 
 
-class Hospital(VersionControlMixin):
+class Hospital(AuditControlModelBase):
     """
     Simple helper class to hold information related to the various project and non-project locations.
-    Currently referenced from Donor, OrganAllocation, RetrievalTeam, and StaffPerson
+    Currently referenced from Donor, OrganAllocation, RetrievalTeam, Person
+
+    This data is so generic and widely used that there should be no restrictions on geography, and everyone should be
+    able to view it.
     """
     name = models.CharField(verbose_name=_("HO01 hospital name"), max_length=100)
     country = models.PositiveSmallIntegerField(verbose_name=_("HO02 country"), choices=COUNTRY_CHOICES)
@@ -82,18 +86,20 @@ class Hospital(VersionControlMixin):
     )
     is_project_site = models.BooleanField(verbose_name=_("HO04 is project site"), default=False)
 
+    objects = LiveManager()
+
+    class Meta:
+        ordering = ['country', 'name']
+        verbose_name = _('HOm1 hospital')
+        verbose_name_plural = _('HOm2 hospitals')
+
     def _full_description(self):
         return '%s, %s' % (self.name, self.get_country_display())
 
     full_description = cached_property(_full_description, name='full_description')
 
-    def __str__(self):
-        return self.full_description
-
-    class Meta(VersionControlMixin.Meta):
-        ordering = ['country', 'name']
-        verbose_name = _('HOm1 hospital')
-        verbose_name_plural = _('HOm2 hospitals')
-
     def get_absolute_url(self):
         return reverse("locations:detail", kwargs={"pk": self.pk})
+
+    def __str__(self):
+        return self.full_description

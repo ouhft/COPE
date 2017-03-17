@@ -3,7 +3,7 @@
 from __future__ import absolute_import, unicode_literals
 
 from bdateutil import relativedelta
-from livefield import LiveField, LiveManager
+from random import random
 
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
@@ -13,198 +13,26 @@ from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
+from wp4.staff.models import Person
+from . import AuditControlModelBase
 from ..validators import validate_not_in_future
+from ..managers.core import PatientModelForUserManager, RetrievalTeamModelForUserManager
 
 
-# Common CONSTANTS
-NO = 0  #: CONSTANT for YES_NO_UNKNOWN_CHOICES
-YES = 1  #: CONSTANT for YES_NO_UNKNOWN_CHOICES
-UNKNOWN = 2  #: CONSTANT for YES_NO_UNKNOWN_CHOICES
-YES_NO_UNKNOWN_CHOICES = (
-    (UNKNOWN, _("MMc03 Unknown")),
-    (NO, _("MMc01 No")),
-    (YES, _("MMc02 Yes"))
-)  #: Need Yes to be the last choice for any FieldWithFollowUp where additional elements appear on Yes
-
-# Originally from Organ
-LEFT = "L"  #: CONSTANT for LOCATION_CHOICES
-RIGHT = "R"  #: CONSTANT for LOCATION_CHOICES
-LOCATION_CHOICES = (
-    (LEFT, _('ORc01 Left')),
-    (RIGHT, _('ORc02 Right'))
-)   #: Organ location choices
-
-# Originally from Organ
-PRESERVATION_HMP = 0  #: CONSTANT for PRESERVATION_CHOICES
-PRESERVATION_HMPO2 = 1  #: CONSTANT for PRESERVATION_CHOICES
-PRESERVATION_NOT_SET = 9  #: CONSTANT for PRESERVATION_CHOICES
-PRESERVATION_CHOICES = (
-    (PRESERVATION_NOT_SET, _("ORc11 Not Set")),
-    (PRESERVATION_HMP, "HMP"),
-    (PRESERVATION_HMPO2, "HMP O2")
-)  #: Organ preservation choices
-
-# Originally from Randomisation
-LIVE_UNITED_KINGDOM = 1  #: CONSTANT for LIST_CHOICES
-LIVE_EUROPE = 2  #: CONSTANT for LIST_CHOICES
-PAPER_EUROPE = 3  #: CONSTANT for LIST_CHOICES
-PAPER_UNITED_KINGDOM = 4  #: CONSTANT for LIST_CHOICES
-LIST_CHOICES = (
-    (LIVE_UNITED_KINGDOM, _("RNc01 UK Live list")),
-    (LIVE_EUROPE, _("RNc02 Europe Live list")),
-    (PAPER_UNITED_KINGDOM, _("RNc03 UK Offline list")),
-    (PAPER_EUROPE, _("RNc04 Europe Offline list")),
-)  #: Randomisation list choices
-
-
-class BaseModelMixin(models.Model):
+class Patient(AuditControlModelBase):
     """
-    Common data record fields for tracking changes
-    """
-    created_on = models.DateTimeField(default=timezone.now)
-    created_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        help_text="User account for the person logged in when this record was made/updated",
-        related_name='%(app_label)s_%(class)s_created_by'
-    )
-    # https://docs.djangoproject.com/en/1.10/topics/db/models/#abstract-related-name
+    Base attributes for a person involved in this case as a donor or recipient.
 
-    class Meta:
-        abstract = True
-
-    def save(self, created_by=None, force_insert=False, force_update=False, using=None,
-             update_fields=None):
-        """
-        Meta save function that allows models to have their save() method called, and to set the required
-        created_by link at the same time.
-        """
-        self.created_on = timezone.now()
-        if created_by:
-            self.created_by = created_by
-        if not self.created_by:
-            raise Exception("%s Record does not have created_by set" % type(self).__name__)
-        return super(BaseModelMixin, self).save(force_insert, force_update, using, update_fields)
-
-
-class VersionControlMixin(BaseModelMixin):
-    """
-    Internal common attributes to aide system auditing of records
-    """
-    version = models.PositiveIntegerField(default=0, help_text="Internal tracking version number")
-    record_locked = models.BooleanField(default=False, help_text="Not presently implemented or used")
-    live = LiveField()  # Wanted this to be record_active, but that means modifying the LiveField code
-
-    objects = LiveManager()
-    all_objects = LiveManager(include_soft_deleted=True)
-
-    # NB: Used in multiple apps
-    class Meta:
-        abstract = True
-        # NB: Class names are not yet dynamically added to permissions as we would want. May appear in django 1.11?
-        # http://stackoverflow.com/questions/4963428/how-to-dynamically-name-permissions-in-a-django-abstract-model-class
-        permissions = (
-            ("view", "Can view the data, but not modify it"),
-            ("restrict_to_national", "Can only use data from the same location country"),
-            ("restrict_to_local", "Can only use data from a specific location"),
-        )
-
-    def save(self, created_by=None, force_insert=False, force_update=False, using=None,
-             update_fields=None):
-        """
-        Meta save function that increments the version number over the previous saved version.
-        """
-        if self.record_locked:
-            raise Exception("%s Record is locked, and can not be saved" % type(self).__name__)
-        self.version += 1
-        return super(VersionControlMixin, self).save(
-            created_by,
-            force_insert,
-            force_update,
-            using,
-            update_fields
-        )
-
-
-class MissingUser(Exception):
-    """A request was missing from the object manager"""
-    pass
-
-
-class MissingUserLocation(Exception):
-    """A request.user has no valid based_at location"""
-    pass
-
-
-class ModelByRequestManagerBase(models.Manager):
-    country_id = None
-    hospital_id = None
-    current_user = None
-
-    def for_user(self, user=None):
-        """
-        To enable per user filtering, we need to have this passed into the manager by a mechanism such as this. If
-        no user is specified, then the manager should continue to work as the default manager
-
-        :param user:
-        :return:
-        """
-        if user is None:
-            raise MissingUser("ObjectManager.for_user has no user specified")
-        else:
-            self.current_user = user
-
-            if self.current_user.based_at is None:
-                raise MissingUserLocation("ObjectManager.get_queryset current user has no location set in profile")
-            else:
-                self.country_id = self.current_user.based_at.country
-                self.hospital_id = self.current_user.based_at.id
-
-        return self.get_queryset()
-
-
-class OrganPersonRequestManager(ModelByRequestManagerBase):
-    def get_queryset(self):
-        """
-        Test for permissions to view and restrict based on rules
-
-        :param request:
-        :return:
-        """
-        qs = super(OrganPersonRequestManager, self).get_queryset().\
-            prefetch_related('donor').\
-            prefetch_related('recipient')
-
-        if self.current_user is not None:
-            if self.current_user.is_superuser:
-                # http://stackoverflow.com/questions/2507086/django-auth-has-perm-returns-true-while-list-of-permissions-is-empty/2508576
-                # Superusers get *all* permissions :-/
-                return qs
-
-            if self.current_user.has_perm('restrict_to_local'):
-                return qs.filter(
-                    models.Q(donor__retrieval_team__based_at_id=self.hospital_id) |
-                    models.Q(recipient__allocation__transplant_hospital_id=self.hospital_id)
-                )
-
-            if self.current_user.has_perm('restrict_to_national'):
-                return qs.filter(
-                    models.Q(donor__retrieval_team__based_at__country=self.country_id) |
-                    models.Q(recipient__allocation__transplant_hospital__based_at__country=self.country_id)
-                )
-
-        return qs
-
-
-class OrganPerson(VersionControlMixin):
-    """
-    Base attributes for a person involved in this case as a donor or recipient
+    Patients are not localised in and of themselves, but Donors and Recipients are, thus this class has no geographic
+    permissions set. Similiarly, because this data is a subset of the Donor and Recipient records it will be treated
+    using the permissions given to those objects.
     """
     MALE = 'M'  #: CONSTANT for GENDER_CHOICES
     FEMALE = 'F'  #: CONSTANT for GENDER_CHOICES
     GENDER_CHOICES = (
         (MALE, _('OPc01 Male')),
         (FEMALE, _('OPc02 Female'))
-    )  #: OrganPerson gender choices
+    )  #: Patient gender choices
 
     CAUCASIAN = 1  #: CONSTANT for ETHNICITY_CHOICES
     BLACK = 2  #: CONSTANT for ETHNICITY_CHOICES
@@ -213,7 +41,7 @@ class OrganPerson(VersionControlMixin):
         (CAUCASIAN, _('OPc03 Caucasian')),
         (BLACK, _('OPc04 Black')),
         (OTHER_ETHNICITY, _('OPc05 Other'))
-    )  #: OrganPerson ethnicity choices
+    )  #: Patient ethnicity choices
 
     BLOOD_O = 1  #: CONSTANT for BLOOD_GROUP_CHOICES
     BLOOD_A = 2  #: CONSTANT for BLOOD_GROUP_CHOICES
@@ -226,7 +54,7 @@ class OrganPerson(VersionControlMixin):
         (BLOOD_B, 'B'),
         (BLOOD_AB, 'AB'),
         (BLOOD_UNKNOWN, _('OPc06 Unknown'))
-    )  #: OrganPerson blood_group choices
+    )  #: Patient blood_group choices
 
     # "ET Donor number/ NHSBT Number",
     number = models.CharField(verbose_name=_('OP01 NHSBT Number'), max_length=20, blank=True)
@@ -266,9 +94,9 @@ class OrganPerson(VersionControlMixin):
         blank=True, null=True
     )
 
-    objects = OrganPersonRequestManager()
+    objects = PatientModelForUserManager()
 
-    class Meta(VersionControlMixin.Meta):
+    class Meta:
         ordering = ['number']
         verbose_name = _('OPm1 trial person')
         verbose_name_plural = _('OPm2 organ people')
@@ -280,7 +108,7 @@ class OrganPerson(VersionControlMixin):
         Error if date_of_death is in the future (OPv02).
         Error if date_of_death is before date_of_birth (OPv03)
         """
-        # Clean the fields that at Not Known
+        # Clean the fields that are Unknown
         if self.date_of_birth_unknown:
             self.date_of_birth = None
         if self.date_of_death_unknown:
@@ -323,21 +151,6 @@ class OrganPerson(VersionControlMixin):
         return None
 
     age_from_dob = cached_property(_age_from_dob, name='age_from_dob')
-
-    # def _trial_id(self):
-    #     """
-    #     Returns the composite trial id string by calling either donor.trial_id() or recipient.trial_id()
-    #
-    #     :return: If no donor or recipient trial id found, returns "No Trial ID Assigned"
-    #     :rtype: str
-    #     """
-    #     if self.is_donor:
-    #         return self.donor.trial_id()
-    #     elif self.is_recipient:
-    #         return self.recipient.trial_id()
-    #     return _("OPm01 No Trial ID Assigned")
-    #
-    # trial_id = cached_property(_trial_id, name='trial_id')
 
     def _is_recipient(self):
         """
@@ -388,14 +201,82 @@ class OrganPerson(VersionControlMixin):
             )
 
 
-class RetrievalTeamManager(models.Manager):
-    def get_queryset(self):
-        return super(RetrievalTeamManager, self).get_queryset().select_related('based_at')
-
-
-class RetrievalTeam(BaseModelMixin):
+def random_5050():
     """
-    Lookup class for the preset Retrieval Team list. Doesn't inherit from VersionControlMixin as this
+    Handy method to return a True/False value with a 0.5 distribution using random()
+
+    :return: True or False
+    :rtype: bool
+    """
+    return random() >= 0.5  # True/False
+
+
+class Randomisation(models.Model):
+    """
+    Populated from the supplied CSV file via the fixture. A 'True' result is HMP+O2 for the Left Organ
+
+    Randomisations are system defined and controlled, so whilst users shouldn't be troubled with permissions, we do
+    want to use the hide permission here on users that are to be "blinded" to the effects of randomisation
+    """
+    LIVE_UNITED_KINGDOM = 1  #: CONSTANT for LIST_CHOICES
+    LIVE_EUROPE = 2  #: CONSTANT for LIST_CHOICES
+    PAPER_EUROPE = 3  #: CONSTANT for LIST_CHOICES
+    PAPER_UNITED_KINGDOM = 4  #: CONSTANT for LIST_CHOICES
+    LIST_CHOICES = (
+        (LIVE_UNITED_KINGDOM, _("RNc01 UK Live list")),
+        (LIVE_EUROPE, _("RNc02 Europe Live list")),
+        (PAPER_UNITED_KINGDOM, _("RNc03 UK Offline list")),
+        (PAPER_EUROPE, _("RNc04 Europe Offline list")),
+    )  #: Randomisation list choices
+
+    donor = models.OneToOneField(
+        'Donor',
+        null=True, blank=True,
+        default=None,
+        help_text="Internal link to the Donor"
+    )
+    list_code = models.PositiveSmallIntegerField(
+        verbose_name=_("RA01 list code"),
+        choices=LIST_CHOICES
+    )  #: Choices limited to LIST_CHOICES
+    result = models.BooleanField(verbose_name=_("RA02 result"), default=random_5050)
+    allocated_on = models.DateTimeField(verbose_name=_("RA03 allocated on"), default=timezone.now)
+    allocated_by = models.ForeignKey(Person, verbose_name=_("RA04 allocated by"), default=None, null=True)
+
+    class Meta:
+        permissions = (
+            ("hide_randomisation", "User should be kept ignorant of this data"),
+        )
+
+    @staticmethod
+    def get_and_assign_result(list_code, link_donor, active_user):
+        """
+        Finds the next unassigned record on the randomisation list, and then assigns it to the
+        Donor record supplied, whilst returning the result
+
+        :param list_code: int. Value from LIST_CHOICES
+        :param link_donor: Donor object. Donor record to link against this randomisation
+        :param active_user: Person object. Currently logged in user
+        :return: 'True' result is HMP+O2 for the Left Organ
+        :rtype: bool
+        """
+        options = Randomisation.objects.filter(list_code=list_code, donor=None).order_by('id')
+        if len(options) < 1:
+            raise Exception("No remaining values for randomisation")
+        result = options[0]
+        result.donor = link_donor
+        result.allocated_on = timezone.now()
+        result.allocated_by = active_user
+        result.save()
+        return result.result
+
+    def __str__(self):
+        return '%s : %s' % (format(self.id, '03'), self.get_list_code_display())
+
+
+class RetrievalTeam(models.Model):
+    """
+    Lookup class for the preset Retrieval Team list. Doesn't inherit from AuditControlModelBase as this
     is primarily a preset list of data, with helper functions attached.
     """
     from wp4.locations.models import Hospital, UNITED_KINGDOM
@@ -407,7 +288,31 @@ class RetrievalTeam(BaseModelMixin):
     )
     based_at = models.ForeignKey(Hospital, verbose_name=_("RT02 base hospital"))
 
-    objects = RetrievalTeamManager()
+    objects = RetrievalTeamModelForUserManager()
+
+    class Meta:
+        ordering = ['centre_code']
+        verbose_name = _('RTm1 retrieval team')
+        verbose_name_plural = _('RTm2 retrieval teams')
+        permissions = (
+            ("view_retrievalteam", "Can only view the data"),
+            ("restrict_to_national", "Can only use data from the same location country"),
+            ("restrict_to_local", "Can only use data from a specific location"),
+        )
+
+    def country_for_restriction(self):
+        """
+        Get the country to be used for geographic restriction of this data
+        :return: Int: Value from list in Locations.Models. Should be in range [1,4,5]
+        """
+        return self.based_at.country
+
+    def location_for_restriction(self):
+        """
+        Get the location to be used for geographic restriction of this data
+        :return: Int: Hospital object id
+        """
+        return self.based_at.id
 
     def next_sequence_number(self, is_online=True):
         """
@@ -437,14 +342,14 @@ class RetrievalTeam(BaseModelMixin):
         """
         if self.based_at.country == RetrievalTeam.UNITED_KINGDOM:
             if is_online:
-                return LIVE_UNITED_KINGDOM
+                return Randomisation.LIVE_UNITED_KINGDOM
             else:
-                return PAPER_UNITED_KINGDOM
+                return Randomisation.PAPER_UNITED_KINGDOM
         else:
             if is_online:
-                return LIVE_EUROPE
+                return Randomisation.LIVE_EUROPE
             else:
-                return PAPER_EUROPE
+                return Randomisation.PAPER_EUROPE
 
     def _name(self):
         """
@@ -453,7 +358,7 @@ class RetrievalTeam(BaseModelMixin):
         :return: (Centre Code) Team Location Description
         :rtype: str
         """
-        return '(%d) %s' % (self.centre_code, self.based_at.full_description)
+        return '({0:d}) {1}'.format(self.centre_code, self.based_at.full_description)
 
     name = cached_property(_name, name='name')
 
@@ -464,8 +369,3 @@ class RetrievalTeam(BaseModelMixin):
 
     def __str__(self):
         return self.name
-
-    class Meta:
-        ordering = ['centre_code']
-        verbose_name = _('RTm1 retrieval team')
-        verbose_name_plural = _('RTm2 retrieval teams')

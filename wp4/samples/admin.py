@@ -86,26 +86,26 @@ class EventAdmin(VersionControlAdmin):
             request.POST['_continue'] = 1
         return super(EventAdmin, self).response_add(request, obj, post_url_continue)
 
-    def save_formset(self, request, form, formset, change):
-        # Overrides VersionControlAdmin.save_formset(). Doesn't allow deletion.
-        if formset.model == UrineSample:
-            for subform in formset:
-                # subform.instance.person = form.instance.worksheet.person
-                subform.instance.created_by = request.user
-                subform.instance.created_on = timezone.now()
-        if formset.model == BloodSample:
-            for subform in formset:
-                # subform.instance.person = form.instance.worksheet.person
-                subform.instance.created_by = request.user
-                subform.instance.created_on = timezone.now()
-        if formset.model == TissueSample:
-            for subform in formset:
-                subform.instance.created_by = request.user
-                subform.instance.created_on = timezone.now()
-        if formset.model == PerfusateSample:
-            for subform in formset:
-                subform.instance.created_by = request.user
-                subform.instance.created_on = timezone.now()
-        formset.save()
+    # def save_formset(self, request, form, formset, change):
+    #     # Overrides VersionControlAdmin.save_formset(). Doesn't allow deletion.
+    #     if formset.model == UrineSample:
+    #         for subform in formset:
+    #             # subform.instance.person = form.instance.worksheet.person
+    #             subform.instance.created_by = request.user
+    #             subform.instance.created_on = timezone.now()
+    #     if formset.model == BloodSample:
+    #         for subform in formset:
+    #             # subform.instance.person = form.instance.worksheet.person
+    #             subform.instance.created_by = request.user
+    #             subform.instance.created_on = timezone.now()
+    #     if formset.model == TissueSample:
+    #         for subform in formset:
+    #             subform.instance.created_by = request.user
+    #             subform.instance.created_on = timezone.now()
+    #     if formset.model == PerfusateSample:
+    #         for subform in formset:
+    #             subform.instance.created_by = request.user
+    #             subform.instance.created_on = timezone.now()
+    #     formset.save()
 
 admin.site.register(Event, EventAdmin)

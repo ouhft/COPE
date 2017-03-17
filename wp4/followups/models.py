@@ -8,11 +8,13 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from wp4.compare.models import VersionControlMixin, Organ, YES_NO_UNKNOWN_CHOICES
+from wp4.compare.models.core import AuditControlModelBase
+from wp4.compare.models import Organ, YES_NO_UNKNOWN_CHOICES
 from wp4.health_economics.models import QualityOfLife
+from .managers import FollowupModelForUserManager
 
 
-class FollowUpBase(VersionControlMixin):
+class FollowUpBase(AuditControlModelBase):
     UNIT_MGDL = 1
     UNIT_UMOLL = 2
     UNIT_MMOLL = 3
@@ -118,19 +120,16 @@ class FollowUpBase(VersionControlMixin):
         abstract = True
 
     @property
-    def recipient_alive(self):
+    def is_recipient_alive(self):
         return True if self.organ.recipient.person.date_of_death is None else False
 
     @property
-    def graft_failure_get(self):
+    def has_graft_failed(self):
         return True if self.graft_failure_date is not None else False
 
     @property
-    def graft_removal_get(self):
+    def was_graft_removed(self):
         return True if self.graft_failure_date is not None else False
-
-    class Meta(VersionControlMixin.Meta):
-        abstract = True
 
 
 class FollowUpInitial(FollowUpBase):
@@ -259,9 +258,30 @@ class FollowUpInitial(FollowUpBase):
         null=True, blank=True
     )
 
-    class Meta(FollowUpBase.Meta):
+    objects = FollowupModelForUserManager()
+
+    class Meta:
         verbose_name = _("FIm1 Initial FollowUp")
         verbose_name_plural = _("FIm2 Initial FollowUps")
+        permissions = (
+            ("view_followupinitial", "Can only view the data"),
+            ("restrict_to_national", "Can only use data from the same location country"),
+            ("restrict_to_local", "Can only use data from a specific location"),
+        )
+
+    def country_for_restriction(self):
+        """
+        Get the country to be used for geographic restriction of this data
+        :return: Int: Value from list in Locations.Models. Should be in range [1,4,5]
+        """
+        return self.organ.country_for_restriction
+
+    def location_for_restriction(self):
+        """
+        Get the location to be used for geographic restriction of this data
+        :return: Int: Hospital object id
+        """
+        return self.organ.location_for_restriction
 
     def __str__(self):
         return '%s (%s)' % (self.trial_id, self.start_date)
@@ -328,9 +348,30 @@ class FollowUp3M(FollowUpBase):
         blank=True
     )
 
-    class Meta(FollowUpBase.Meta):
+    objects = FollowupModelForUserManager()
+
+    class Meta:
         verbose_name = _("F3m1 3 Month FollowUp")
         verbose_name_plural = _("F3m2 3 Month FollowUps")
+        permissions = (
+            ("view_followup3m", "Can only view the data"),
+            ("restrict_to_national", "Can only use data from the same location country"),
+            ("restrict_to_local", "Can only use data from a specific location"),
+        )
+
+    def country_for_restriction(self):
+        """
+        Get the country to be used for geographic restriction of this data
+        :return: Int: Value from list in Locations.Models. Should be in range [1,4,5]
+        """
+        return self.organ.country_for_restriction
+
+    def location_for_restriction(self):
+        """
+        Get the location to be used for geographic restriction of this data
+        :return: Int: Hospital object id
+        """
+        return self.organ.location_for_restriction
 
     def __str__(self):
         return '%s (%s)' % (self.trial_id, self.start_date)
@@ -389,9 +430,30 @@ class FollowUp6M(FollowUpBase):
     )
     graft_complications = models.TextField(verbose_name=_("F607 graft function complications"), blank=True)
 
-    class Meta(FollowUpBase.Meta):
+    objects = FollowupModelForUserManager()
+
+    class Meta:
         verbose_name = _("F6m1 6 Month FollowUp")
         verbose_name_plural = _("F6m2 6 Month FollowUps")
+        permissions = (
+            ("view_followup6m", "Can only view the data"),
+            ("restrict_to_national", "Can only use data from the same location country"),
+            ("restrict_to_local", "Can only use data from a specific location"),
+        )
+
+    def country_for_restriction(self):
+        """
+        Get the country to be used for geographic restriction of this data
+        :return: Int: Value from list in Locations.Models. Should be in range [1,4,5]
+        """
+        return self.organ.country_for_restriction
+
+    def location_for_restriction(self):
+        """
+        Get the location to be used for geographic restriction of this data
+        :return: Int: Hospital object id
+        """
+        return self.organ.location_for_restriction
 
     def __str__(self):
         return '%s (%s)' % (self.trial_id, self.start_date)
@@ -458,9 +520,30 @@ class FollowUp1Y(FollowUpBase):
         blank=True
     )
 
-    class Meta(FollowUpBase.Meta):
+    objects = FollowupModelForUserManager()
+
+    class Meta:
         verbose_name = _("FYm1 1 Year FollowUp")
         verbose_name_plural = _("FYm2 1 Year FollowUps")
+        permissions = (
+            ("view_followup1y", "Can only view the data"),
+            ("restrict_to_national", "Can only use data from the same location country"),
+            ("restrict_to_local", "Can only use data from a specific location"),
+        )
+
+    def country_for_restriction(self):
+        """
+        Get the country to be used for geographic restriction of this data
+        :return: Int: Value from list in Locations.Models. Should be in range [1,4,5]
+        """
+        return self.organ.country_for_restriction
+
+    def location_for_restriction(self):
+        """
+        Get the location to be used for geographic restriction of this data
+        :return: Int: Hospital object id
+        """
+        return self.organ.location_for_restriction
 
     def __str__(self):
         return '%s (%s)' % (self.trial_id, self.start_date)

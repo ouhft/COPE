@@ -12,8 +12,7 @@ from dal import autocomplete
 
 from wp4.theme.layout import FieldWithFollowup, FieldWithNotKnown
 from wp4.theme.layout import DateField, FormPanel
-from ..models import OrganPerson, Donor, Randomisation, Organ
-from ..models import PAPER_EUROPE, PAPER_UNITED_KINGDOM
+from ..models import Patient, Donor, Randomisation, Organ
 
 
 # Common CONSTANTS
@@ -34,7 +33,7 @@ class OrganPersonForm(forms.ModelForm):
         FieldWithNotKnown(
             DateField('date_of_birth', notknown=True),
             'date_of_birth_unknown',
-            label=OrganPerson._meta.get_field("date_of_birth").verbose_name.title()
+            label=Patient._meta.get_field("date_of_birth").verbose_name.title()
         ),
         Field('gender', template="bootstrap3/layout/radioselect-buttons.html"),
         'weight',
@@ -55,25 +54,17 @@ class OrganPersonForm(forms.ModelForm):
         super(OrganPersonForm, self).__init__(*args, **kwargs)
         self.fields['number'].required = False
         self.fields['date_of_birth'].input_formats = settings.DATE_INPUT_FORMATS
-        self.fields['gender'].choices = OrganPerson.GENDER_CHOICES
-        self.fields['ethnicity'].choices = OrganPerson.ETHNICITY_CHOICES
-        self.fields['blood_group'].choices = OrganPerson.BLOOD_GROUP_CHOICES
+        self.fields['gender'].choices = Patient.GENDER_CHOICES
+        self.fields['ethnicity'].choices = Patient.ETHNICITY_CHOICES
+        self.fields['blood_group'].choices = Patient.BLOOD_GROUP_CHOICES
 
     class Meta:
-        model = OrganPerson
+        model = Patient
         fields = [
             'number', 'date_of_birth', 'date_of_birth_unknown',
             'gender', 'weight', 'height', 'ethnicity', 'blood_group'
         ]
         localized_fields = "__all__"
-
-    def save(self, user=None, *args, **kwargs):
-        person = super(OrganPersonForm, self).save(commit=False)
-        if kwargs.get("commit", True):
-            if user is None:
-                raise Exception("No user specified when saving OrganPerson Form")
-            person.save(created_by=user)
-        return person
 
 
 class DonorStartForm(forms.ModelForm):
@@ -82,7 +73,7 @@ class DonorStartForm(forms.ModelForm):
     randomisation = forms.ModelChoiceField(
         Randomisation.objects.filter(
             donor__isnull=True,
-            list_code__in=[PAPER_EUROPE, PAPER_UNITED_KINGDOM]
+            list_code__in=[Randomisation.PAPER_EUROPE, Randomisation.PAPER_UNITED_KINGDOM]
         ),
         required=False,
         empty_label=_("DSF03 Not Applicable"),
@@ -105,8 +96,8 @@ class DonorStartForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(DonorStartForm, self).__init__(*args, **kwargs)
-        self.fields['gender'].label = OrganPerson._meta.get_field("gender").verbose_name.title()
-        self.fields['gender'].choices = OrganPerson.GENDER_CHOICES
+        self.fields['gender'].label = Patient._meta.get_field("gender").verbose_name.title()
+        self.fields['gender'].choices = Patient.GENDER_CHOICES
         self.fields['online'].required = False
         self.fields['online'].choices = YES_NO_CHOICES
 
@@ -118,14 +109,6 @@ class DonorStartForm(forms.ModelForm):
             'retrieval_team': autocomplete.ModelSelect2(url='wp4:compare:retrieval-team-autocomplete')
         }
         localized_fields = '__all__'
-
-    def save(self, user=None, *args, **kwargs):
-        donor = super(DonorStartForm, self).save(commit=False)
-        if kwargs.get("commit", True):
-            if user is None:
-                raise Exception("No user specified when saving DonorStartForm")
-            donor.save(created_by=user)
-        return donor
 
     def clean(self):
         cleaned_data = super(DonorStartForm, self).clean()

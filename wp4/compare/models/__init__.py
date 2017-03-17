@@ -1,15 +1,73 @@
 #!/usr/bin/python
 # coding: utf-8
 from __future__ import unicode_literals
+from livefield import LiveField, LiveManager
 
-from .core import NO, YES, YES_NO_UNKNOWN_CHOICES
-from .core import LEFT, RIGHT, LOCATION_CHOICES
-from .core import PRESERVATION_HMP, PRESERVATION_HMPO2, PRESERVATION_NOT_SET, PRESERVATION_CHOICES
-from .core import LIVE_UNITED_KINGDOM, LIVE_EUROPE, PAPER_EUROPE, PAPER_UNITED_KINGDOM, LIST_CHOICES
-from .core import BaseModelMixin, VersionControlMixin, OrganPerson, RetrievalTeam
+from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
-from .donor import Donor, Randomisation, random_5050
+# Common CONSTANTS
+NO = 0  #: CONSTANT for YES_NO_UNKNOWN_CHOICES
+YES = 1  #: CONSTANT for YES_NO_UNKNOWN_CHOICES
+UNKNOWN = 2  #: CONSTANT for YES_NO_UNKNOWN_CHOICES
+YES_NO_UNKNOWN_CHOICES = (
+    (UNKNOWN, _("MMc03 Unknown")),
+    (NO, _("MMc01 No")),
+    (YES, _("MMc02 Yes"))
+)  #: Need Yes to be the last choice for any FieldWithFollowUp where additional elements appear on Yes
 
-from .organ import Organ, ProcurementResource
+# Originally from Organ
+LEFT = "L"  #: CONSTANT for LOCATION_CHOICES
+RIGHT = "R"  #: CONSTANT for LOCATION_CHOICES
+LOCATION_CHOICES = (
+    (LEFT, _('ORc01 Left')),
+    (RIGHT, _('ORc02 Right'))
+)   #: Organ location choices
+
+# Originally from Organ
+PRESERVATION_HMP = 0  #: CONSTANT for PRESERVATION_CHOICES
+PRESERVATION_HMPO2 = 1  #: CONSTANT for PRESERVATION_CHOICES
+PRESERVATION_NOT_SET = 9  #: CONSTANT for PRESERVATION_CHOICES
+PRESERVATION_CHOICES = (
+    (PRESERVATION_NOT_SET, _("ORc11 Not Set")),
+    (PRESERVATION_HMP, "HMP"),
+    (PRESERVATION_HMPO2, "HMP O2")
+)  #: Organ preservation choices
+
+
+class AuditControlModelBase(models.Model):
+    """
+    Internal common attributes to aid systematic auditing of records.
+
+    live (aka record_active) will allow us to soft delete data.
+    record_locked will allow the admin team to mark records as having been reviewed and put to rest.
+    """
+    record_locked = models.BooleanField(default=False, help_text="locked by the admin team")
+    live = LiveField()  # Wanted this to be record_active, but that means modifying the LiveField code
+
+    objects = LiveManager()
+    all_objects = LiveManager(include_soft_deleted=True)
+
+    # NB: Used in multiple apps
+    class Meta:
+        abstract = True
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        """
+        Meta save function that stops changes when record is locked
+        """
+        if self.record_locked:
+            raise Exception("%s Record is locked, and can not be saved" % type(self).__name__)
+        return super(AuditControlModelBase, self).save(
+            force_insert,
+            force_update,
+            using,
+            update_fields
+        )
+
+
+from .core import Patient, Randomisation, RetrievalTeam
+
+from .donor import Donor, Organ, ProcurementResource
 
 from .transplantation import OrganAllocation, Recipient
