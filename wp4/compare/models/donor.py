@@ -482,8 +482,9 @@ class Donor(AuditControlModelBase):
             raise ValidationError(_("DOv11 Missing the details of the other systemic flush solution used"))
 
         if self.procurement_form_completed:
-            if self.retrieval_hospital is None:
-                raise ValidationError(_("DOv12 Missing retrieval hospital"))
+            # This is not a critical piece of information any more
+            # if self.retrieval_hospital is None:
+            #     raise ValidationError(_("DOv12 Missing retrieval hospital"))
             if self.person.number == "":
                 raise ValidationError(_("DOv13 Please enter the NHSBT number"))
 
@@ -536,15 +537,15 @@ class Donor(AuditControlModelBase):
             else:
                 left_kidney.preservation = PRESERVATION_HMP
                 right_kidney.preservation = PRESERVATION_HMPO2
-            # left_kidney.save()
-            # right_kidney.save()
+            left_kidney.save()
+            right_kidney.save()
 
             # On randomise (not save anymore), get and save the sequence number from the retrieval team
             if self.sequence_number < 1:
                 self.sequence_number = self.retrieval_team.next_sequence_number()
-                # self.save()
+                self.save()
 
-            update_trial_ids_and_save(self)  # Saves to self and both organs should happen in here
+            update_trial_ids_and_save(self)
             return True
         return False
 
@@ -970,6 +971,7 @@ class Organ(AuditControlModelBase):
         :return: 'WP4cctnns'
         :rtype: str
         """
+        print("DEBUG: Organ.make_trial_id: {0}".format(self.donor.trial_id))
         return self.donor.trial_id + self.location
 
     @property

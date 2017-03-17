@@ -65,6 +65,14 @@ class AuditControlModelBase(models.Model):
             update_fields
         )
 
+    def delete(self, using=None):
+        self.live = False
+        self.save(using=using)
+
+    def undelete(self, using=None):
+        self.live = True
+        self.save(using=using)
+
 
 from .core import Patient, Randomisation, RetrievalTeam
 

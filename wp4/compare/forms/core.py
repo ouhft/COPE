@@ -128,7 +128,7 @@ class DonorStartForm(forms.ModelForm):
 
 class AllocationStartForm(forms.Form):
     organ = forms.ModelChoiceField(
-        queryset=Organ.allocatable_objects.all(),
+        queryset=Organ.allocatable_objects.order_by('trial_id'),
         # widget=autocomplete.ModelSelect2(url='wp4:compare:transplantable-organs-autocomplete'),
         label=_("ASF01 Select trial id for case")
     )

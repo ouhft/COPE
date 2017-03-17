@@ -1,49 +1,122 @@
 {% extends "base_site.html" %}
 
-{% block page_title %}People{% endblock %}
-{% block page_header %}People{% endblock %}
+{% block page_title %}Staff{% endblock %}
+{% block page_header %}Staff {% endblock %}
 {% block page_trail %}
     <li><a href="{% url 'home' %}">Home</a></li>
-    <li class="active">People</li>
+    <li class="active">Staff</li>
 {% endblock %}
 
 {% block content %}
+<div class="row">
+    <div class="col-md-9">
     {% if person_list %}
+        {% include 'includes/paginator.html' %}
         <table class="table table-responsive table-striped table-condensed">
             <thead>
             <tr>
-                <th>ID</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Telephone</th>
-                <th>Email</th>
-                <th>Based at Hospital</th>
-                <th>Country</th>
-                <th>Jobs</th>
+                <th class="col-md-1">&nbsp;</th>
+                <th title="First Name">
+                    First
+                    {% if request.GET.order_by == "first_name" and request.GET.ordering == "asc" or request.GET.order_by == none %}
+                        <a href="?order_by=first_name&ordering=desc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes"></i></a>
+                    {% elif request.GET.order_by == "first_name" and request.GET.ordering == "desc" %}
+                        <a href="?page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i></a>
+                    {% else %}
+                        <a href="?order_by=first_name&ordering=asc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="glyphicon glyphicon glyphicon-sort"></i></a>
+                    {% endif %}
+                </th>
+                <th title="Last Name">
+                    Last
+                    {% if request.GET.order_by == "last_name" and request.GET.ordering == "asc" %}
+                        <a href="?order_by=last_name&ordering=desc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes"></i></a>
+                    {% elif request.GET.order_by == "last_name" and request.GET.ordering == "desc" %}
+                        <a href="?page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i></a>
+                    {% else %}
+                        <a href="?order_by=last_name&ordering=asc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="glyphicon glyphicon glyphicon-sort"></i></a>
+                    {% endif %}
+                </th>
+                <th title="Telephone">
+                    Tel
+                    {% if request.GET.order_by == "telephone" and request.GET.ordering == "asc" %}
+                        <a href="?order_by=telephone&ordering=desc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes"></i></a>
+                    {% elif request.GET.order_by == "telephone" and request.GET.ordering == "desc" %}
+                        <a href="?page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i></a>
+                    {% else %}
+                        <a href="?order_by=telephone&ordering=asc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="glyphicon glyphicon glyphicon-sort"></i></a>
+                    {% endif %}
+                </th>
+                <th title="Email">
+                    Email
+                    {% if request.GET.order_by == "email" and request.GET.ordering == "asc" %}
+                        <a href="?order_by=email&ordering=desc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes"></i></a>
+                    {% elif request.GET.order_by == "email" and request.GET.ordering == "desc" %}
+                        <a href="?page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i></a>
+                    {% else %}
+                        <a href="?order_by=email&ordering=asc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="glyphicon glyphicon glyphicon-sort"></i></a>
+                    {% endif %}
+                </th>
+                <th title="Based at Hospital">
+                    Base
+                    {% if request.GET.order_by == "based_at" and request.GET.ordering == "asc" %}
+                        <a href="?order_by=based_at&ordering=desc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes"></i></a>
+                    {% elif request.GET.order_by == "based_at" and request.GET.ordering == "desc" %}
+                        <a href="?page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i></a>
+                    {% else %}
+                        <a href="?order_by=based_at&ordering=asc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="glyphicon glyphicon glyphicon-sort"></i></a>
+                    {% endif %}
+                </th>
             </tr>
             </thead>
             <tbody>
             {% for person in person_list %}
                 <tr>
-                    <td><a href="{% url 'wp4:staff:update' person.id %}" class="btn btn-xs btn-default"><i
-                            class="glyphicon glyphicon-edit"></i> {{ person.id }}</a></td>
+                    <td>
+                        {% if perms.staff.change_person %}
+                        <a href="{% url 'wp4:staff:update' person.id %}" class="btn btn-xs btn-default"><i
+                            class="glyphicon glyphicon-edit"></i> {{ person.id }}</a>
+                        {% elif perms.staff.view_person %}
+                        <a href="{% url 'wp4:staff:detail' person.id %}" class="btn btn-xs btn-default"><i
+                            class="glyphicon glyphicon-eye-open"></i> {{ person.id }}</a>
+                        {% else %}
+                            {{ person.id }}
+                        {% endif %}
+                    </td>
                     <td>{{ person.first_name }}</td>
                     <td>{{ person.last_name }}</td>
                     <td>{{ person.telephone }}</td>
                     <td>{{ person.email }}</td>
                     <td>{{ person.based_at.name }}</td>
-                    <td>{{ person.based_at.get_country_display }}</td>
-                    <td>
-                        {% for job in person.groups.all %}
-                            {{ job.name }}<br>
-                        {% endfor %}
-                    </td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
-    {% else %}
-        <p>No people are available.</p>
-    {% endif %}
-    <p><a href="{% url "wp4:staff:add" %}" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Add Person</a></p>
+        {% include 'includes/paginator.html' %}
+
+        {% else %}
+            <p>No people are available.</p>
+        {% endif %}
+    </div>
+    <div class="col-md-3">
+        <h3>Filters</h3>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <h4 class="list-group-item-heading">Roles</h4>
+            </li>
+            <a class="list-group-item {% if request.GET.q == none %}active{% endif %}"
+               href="?order_by={{ request.GET.order_by }}&ordering={{ request.GET.ordering }}&page={{ request.GET.page }}">All</a>
+            {% for role in  group_list %}
+                <a class="list-group-item {% if request.GET.q == role.id|lower %}active{% endif %}"
+                   href="?order_by={{ request.GET.order_by }}&ordering={{ request.GET.ordering }}&page={{ request.GET.page }}&q={{ role.id }}">
+                    {{ role.name }}
+                    <span class="badge">{{ role.user_set.count }}</span>
+                </a>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+{% if perms.staff.add_person %}
+<p><a href="{% url "wp4:staff:add" %}" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Add Person</a></p>
+{% endif %}
 {% endblock %}

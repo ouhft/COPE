@@ -14,7 +14,7 @@ from wp4.staff.models import Person
 # from wp4.locations.models import Hospital, UNITED_KINGDOM, BELGIUM, NETHERLANDS
 # from wp4.staff_person.models import StaffJob, StaffPerson
 # from ..models import RetrievalTeam, Randomisation
-from .utils.setup import get_permission_dictionary
+
 
 class CoreDataMixin(object):
     fixtures = [
@@ -26,6 +26,7 @@ class CoreDataMixin(object):
 
     @classmethod
     def setUpClass(cls):
+        # print("setUpClass called")
         super(CoreDataMixin, cls).setUpClass()
 
         # configure the groups and permissions
@@ -62,7 +63,6 @@ class CoreDataMixin(object):
         cls.user_local.save()
 
         # print("CoreDataMixin.setUpClass completed")
-
 
 
 # class ProcurementTestCase(CoreDataMixin, LiveServerTestCase):

@@ -1,0 +1,37 @@
+{% if user.is_authenticated %}
+    <ul class="list-group">
+        <a href="{% url 'wp4:index' %}" class="list-group-item list-group-item-info">WP4: Home</a>
+        {% if perms.compare.change_donor or perms.compare.view_donor %}
+            <a href="{% url 'wp4:compare:procurement_list' %}" class="list-group-item">Procurement Forms</a>
+        {% endif %}
+        {% if perms.compare.change_recipient or perms.compare.view_recipient %}
+            <a href="{% url 'wp4:compare:transplantation_list' %}" class="list-group-item">Transplantation Forms</a>
+        {% endif %}
+        {% if perms.samples.change_event or perms.samples.view_event %}
+            <a href="{% url 'wp4:samples:home' %}" class="list-group-item">Sample Collection</a>
+        {% endif %}
+        {% if perms.followups.change_followupinitial or perms.followups.view_followupinitial %}
+            <a href="{% url 'wp4:followup:index' %}" class="list-group-item">Follow Up Forms</a>
+        {% endif %}
+        {% if perms.health_economics.change_qualityoflife or perms.health_economics.view_qualityoflife %}
+            <a href="{% url 'wp4:health_economics:index' %}" class="list-group-item">Health Economics Forms</a>
+        {% endif %}
+        {% if perms.adverse_event.change_event or perms.adverse_event.view_event %}
+            <a href="{% url 'wp4:adverse_event:list' %}" class="list-group-item">Adverse Event Forms</a>
+        {% endif %}
+    </ul>
+
+    <h3>Administration Functions</h3>
+    <ul class="list-group">
+        {% if user.is_administrator %}
+            <a href="{% url 'wp4:administration:index' %}" class="list-group-item list-group-item-info">Administration
+                Home</a>
+        {% endif %}
+
+        {% if perms.staff.change_person or perms.staff.single_person %}
+            <a href="{% url 'wp4:staff:list' %}" class="list-group-item">Staff</a>
+        {% endif %}
+    </ul>
+{% else %}
+    <p>Please log in to see the application list</p>
+{% endif %}

@@ -256,9 +256,9 @@ class DonorForm(forms.ModelForm):
                     forms.ValidationError(_("DFv02 Please add additional information"))
                 )
 
-            retrieval_hospital = cleaned_data.get("retrieval_hospital")
-            if not retrieval_hospital:
-                self.add_error('retrieval_hospital', forms.ValidationError(_("DFv03 Missing retrieval hospital")))
+            # retrieval_hospital = cleaned_data.get("retrieval_hospital")
+            # if not retrieval_hospital:
+            #     self.add_error('retrieval_hospital', forms.ValidationError(_("DFv03 Missing retrieval hospital")))
 
         if self.errors:
             cleaned_data["procurement_form_completed"] = False

@@ -11,38 +11,9 @@
 {% block content %}
 {# This page requires a user to be logged in to access #}
     <p>This section supports activities on Work Package 4: Compare (WP4) which is a Kidney preservation trial.
-
-    <h3>Actions available</h3>
-    <ul class="list-group">
-        <li class="list-group-item list-group-item-info">WP4: Home</li>
-        {% if perms.compare.add_donor %}
-            <a href="{% url 'wp4:compare:procurement_list' %}" class="list-group-item">Procurement Forms</a>
-        {% endif %}
-        {% if perms.compare.add_recipient %}
-            <a href="{% url 'wp4:compare:transplantation_list' %}" class="list-group-item">Transplantation
-                Forms</a>
-        {% endif %}
-        {% if perms.samples.change_worksheet %}
-            <a href="{% url 'wp4:samples:home' %}" class="list-group-item">Sample Collection</a>
-        {% endif %}
-        {% if perms.followups.add_followupinitial %}
-            <a href="{% url 'wp4:followup:index' %}" class="list-group-item">Follow Up Forms</a>
-        {% endif %}
-        {% if perms.health_economics.add_qualityoflife %}
-            <a href="{% url 'wp4:health_economics:index' %}" class="list-group-item">Health Economics Forms</a>
-        {% endif %}
-        {% if perms.adverse_event.add_adverseevent %}
-            <a href="{% url 'wp4:adverse_event:list' %}" class="list-group-item">Adverse Event Forms</a>
-        {% endif %}
-    </ul>
-
-    <h3>Administration Functions</h3>
-    <ul class="list-group">
-    {% if user|has_group:6 or user|has_group:5 %}{# Statisticians or Central co-ordinators #}
-        <a href="{% url 'wp4:administration:index' %}" class="list-group-item list-group-item-info">Administration Home</a>
-        {% if perms.staff.add_person %}
-            <a href="{% url 'wp4:staff:list' %}" class="list-group-item">Staff</a>
-        {% endif %}
-    {% endif %}
-    </ul>
+    <div class="row">
+        <div class="col-md-6">
+    {% include "dashboard/wp4panel.html" %}
+            </div>
+    </div>
 {% endblock %}

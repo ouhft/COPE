@@ -15,9 +15,9 @@ def update_trial_ids_and_save(donor):
     """
     donor.trial_id = donor.make_trial_id()
     donor.save()
-    donor.left_kidney.trial_id = donor.left_kidney.make_trial_id()
+    donor.left_kidney.trial_id = donor.trial_id + 'L'
     donor.left_kidney.save()
-    donor.right_kidney.trial_id = donor.right_kidney.make_trial_id()
+    donor.right_kidney.trial_id = donor.trial_id + 'R'
     donor.right_kidney.save()
 
 

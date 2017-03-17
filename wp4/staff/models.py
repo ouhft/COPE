@@ -72,9 +72,25 @@ class Person(AbstractUser):
         # print("DEBUG: has_group returning False")
         return False
 
+    @property
+    def is_administrator(self):
+        """
+        Checks for membership of an admin group
+        :return:
+        """
+        administrator_groups = (self.NATIONAL_COORDINATOR, self.CENTRAL_COORDINATOR, self.SYSTEMS_ADMINISTRATOR,
+                                self.BIOBANK_COORDINATOR, self.CHIEF_INVESTIGATOR, self.PRINCIPLE_INVESTIGATOR,
+                                self.NATIONAL_INVESTIGATOR)
+        if self.has_group(administrator_groups):
+            return True
+        return False
+
     class Meta:
         verbose_name = _('SPm1 person')
         verbose_name_plural = _('SPm2 people')
+        permissions = (
+            ("single_person", "Can only view their own person record"),
+        )
 
     def get_absolute_url(self):
         return reverse("wp4:staff:detail", kwargs={"pk": self.pk})

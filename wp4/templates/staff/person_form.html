@@ -3,8 +3,13 @@
 {% load crispy_forms_tags %}
 {% load crispy_forms_field %}
 
-{% block page_title %}People{% endblock %}
-{% block page_header %}People{% endblock %}
+{% block page_title %}Staff{% endblock %}
+{% block page_header %}Staff{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:staff:list' %}">Staff</a></li>
+    <li class="active"><i class="glyphicon glyphicon-edit"></i> {{ person.get_full_name }}</li>
+{% endblock %}
 
 {% block content %}
     <form method="post" class="" id="person_form">

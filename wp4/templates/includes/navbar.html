@@ -29,34 +29,51 @@
                             <li class="{% active request url_wp4index %}"><a href="{{ url_wp4index }}">WP4 Home</a></li>
                             <li role="separator" class="divider"></li>
 
-                            {% if perms.compare.add_donor %}
+                            {% if perms.compare.change_donor or perms.compare.view_donor %}
                                 {% url 'wp4:compare:procurement_list' as url_procurement %}
                                 <li class="{% active request url_procurement %}"><a href="{{ url_procurement }}">Procurement</a></li>
                             {% endif %}
 
-                            {% if perms.compare.add_recipient %}
+                            {% if perms.compare.change_recipient or perms.compare.view_recipient %}
                                 {% url 'wp4:compare:transplantation_list' as url_transplantation %}
                                 <li class="{% active request url_transplantation %}"><a href="{{ url_transplantation }}">Transplantation</a></li>
                             {% endif %}
 
-                            {% if perms.samples.change_worksheet %}
+                            {% if perms.samples.change_event or perms.samples.view_event %}
                                 {% url 'wp4:samples:home' as url_samples %}
                                 <li class="{% active request url_samples %}"><a href="{{ url_samples }}">Samples</a></li>
                             {% endif %}
 
-                            {% if perms.followups.add_followupinitial %}
+                            {% if perms.followups.change_followupinitial or perms.followups.view_followupinitial %}
                                 {% url 'wp4:followup:index' as url_followup %}
                                 <li class="{% active request url_followup %}"><a href="{{ url_followup }}">Follow Up</a></li>
                             {% endif %}
 
-                            {% if perms.health_economics.add_qualityoflife %}
+                            {% if perms.health_economics.change_qualityoflife or perms.health_economics.view_qualityoflife %}
                                 {% url 'wp4:health_economics:index' as url_healtheconomics %}
                                 <li class="{% active request url_healtheconomics %}"><a href="{{ url_healtheconomics }}">Health Economics</a></li>
                             {% endif %}
 
-                            {% if perms.adverse_event.add_adverseevent %}
+                            {% if perms.adverse_event.change_event or perms.adverse_event.view_event %}
                                 {% url 'wp4:adverse_event:list' as url_adverseevents %}
                                 <li class="{% active request url_adverseevents %}"><a href="{{ url_adverseevents }}">Adverse Events</a></li>
+                            {% endif %}
+                        </ul>
+                    </li>
+
+                    <li class="dropdown" id="navbar-menu-wp4">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">Administration <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            {% if user.is_administrator %}
+                                {% url 'wp4:administration:index' as url_administration_home %}
+                                <li class="{% active request url_administration_home %}"><a href="{{ url_administration_home }}">Administration Home</a></li>
+                                <li role="separator" class="divider"></li>
+                            {% endif %}
+
+                            {% if perms.staff.change_person or perms.staff.single_person %}
+                                {% url 'wp4:staff:list' as url_staff %}
+                                <li class="{% active request url_staff %}"><a href="{{ url_staff }}">Staff</a></li>
                             {% endif %}
                         </ul>
                     </li>
@@ -68,7 +85,7 @@
 
                     <li class="dropdown" id="navbar-menu-aboutme">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                            <i class="glyphicon glyphicon-user"></i><span class="visible-xs-block"> About Me</span>
+                            <i class="glyphicon glyphicon-user"></i><span class="visible-xs-block"> About Me</span> {{ user.first_name }}
                         </a>
                         <ul class="dropdown-menu" role="menu">
                             <li class="dropdown-header">About me</li>
@@ -81,6 +98,7 @@
                             <li><a href="#">Timezone: {{ TIME_ZONE }}</a></li>
                             <li class="dropdown-header">Actions</li>
                             <li><a href="{% url 'password_change' %}">Change Password</a></li>
+                            <li><a href="{% url 'wp4:staff:update' pk=user.id %}">Edit Profile</a></li>
                         </ul>
                     </li>
 
@@ -142,11 +160,10 @@
                 </ul>
                 <a href="{% url 'login' %}" class="btn btn-default navbar-btn navbar-right">Login</a>
             {% endif %}
-
-
         </div>
     </div>
 </nav>
+
 {% if debug %}
 <div class="alert alert-danger text-center" role="alert">
     <h2>THIS IS THE TEST SYSTEM - DEBUG IS ACTIVE</h2>

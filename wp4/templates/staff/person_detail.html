@@ -1,27 +1,55 @@
 {% extends "base_site.html" %}
 
-{% block page_title %}People{% endblock %}
-{% block page_header %}People{% endblock %}
+{% block page_title %}Staff{% endblock %}
+{% block page_header %}Staff{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:staff:list' %}">Staff</a></li>
+    <li class="active"><i class="glyphicon glyphicon-eye-open"></i> {{ person.get_full_name }}</li>
+{% endblock %}
 
 {% block content %}
-    <h2>{{ person.full_name }} <a href="{% url 'wp4:staff:update' person.id %}" class="btn btn-sm btn-primary"><i
-                            class="glyphicon glyphicon-edit"></i></a></h2>
-    <dl class="dl-horizontal">
-    <dt>Based At</dt>
-    <dd>{{ person.based_at }}</dd>
-    <dt>Telephone</dt>
-    <dd>{{ person.telephone|default:"Unknown" }}</dd>
-    <dt>Email</dt>
-    <dd>{{ person.email|default:"Unknown" }}</dd>
-    <dt>Jobs</dt>
-    <dd>
-        <ul>
-            {% for job in person.groups.all %}
-            <li>{{ job.name }}</li>
-            {% endfor %}
-        </ul>
-    </dd>
-    </dl>
+    <h2><a href="{% url 'wp4:staff:update' person.id %}" class="btn btn-primary" title="Edit this Person"><i
+                            class="glyphicon glyphicon-edit"></i>{{ person.id }}</a> {{ person.get_full_name }}</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <dl class="dl-horizontal">
+                <dt>First Name</dt>
+                <dd>{{ person.first_name }}</dd>
+                <dt>Last Name</dt>
+                <dd>{{ person.last_name }}</dd>
+                <dt>Telephone</dt>
+                <dd>{{ person.telephone|default:"Unknown" }}</dd>
+                <dt>Email</dt>
+                <dd>{{ person.email|default:"Unknown" }}</dd>
+                <dt>Based At</dt>
+                <dd>{{ person.based_at|default:"Unknown" }}</dd>
+            </dl>
+        </div>
+        <div class="col-md-6">
 
-    <p><a href="{%  url "wp4:staff:list" %}">Return to listings</a></p>
+            <dl class="dl-horizontal">
+                <dt>ID</dt>
+                <dd>{{ person.id }}</dd>
+                <dt>Username</dt>
+                <dd>{{ person.username }}</dd>
+                {% if user.is_staff %}
+                <dt>Is Active?</dt>
+                <dd>{{ person.is_active|yesno|capfirst }}</dd>
+                <dt>Is Staff?</dt>
+                <dd>{{ person.is_staff|yesno|capfirst }}</dd>
+                <dt>Is Superuser?</dt>
+                <dd>{{ person.is_superuser|yesno|capfirst }}</dd>
+                {% endif %}
+                <dt>Is Administrator</dt>
+                <dd>{{ person.is_administrator|yesno|capfirst }}</dd>
+                <dt>Roles</dt>
+                <dd>
+                {% for job in person.groups.all %}
+                {{ job.name }}<br>
+                {% endfor %}
+                </dd>
+            </dl>
+        </div>
+    </div>
 {% endblock %}

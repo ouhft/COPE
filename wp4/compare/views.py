@@ -4,6 +4,7 @@ from __future__ import absolute_import, unicode_literals
 
 
 from django.contrib import messages
+from django.contrib.auth.models import Group
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required, permission_required
@@ -15,6 +16,7 @@ from dal import autocomplete
 
 from wp4.staff.models import Person
 from wp4.samples.utils import create_donor_samples, create_recipient_samples
+from wp4.followups.utils import generate_followups_from_recipient
 
 from .models import Patient, Donor, Organ, Recipient, ProcurementResource, OrganAllocation, RetrievalTeam
 from .models import PRESERVATION_HMPO2, PRESERVATION_HMP
@@ -66,16 +68,16 @@ def procurement_list(request):
             person.gender = donor_form.cleaned_data.get("gender")
             person.save()
 
-            donor = donor_form.save(current_person, commit=False)
+            donor = donor_form.save(commit=False)
             donor.person = person
             donor.save()
 
             # Create the organs and the procurement resources
-            create_procurement_initial_data(donor.left_kidney, current_person)
-            create_procurement_initial_data(donor.right_kidney, current_person)
+            create_procurement_initial_data(donor.left_kidney)
+            create_procurement_initial_data(donor.right_kidney)
 
             # Create the sample event place holders for the donor and organs
-            create_donor_samples(donor, current_person)
+            create_donor_samples(donor)
 
             is_online = donor_form.cleaned_data.get("online")
             # print("DEBUG: donor_start_form: online: %s" % is_online)
@@ -95,9 +97,9 @@ def procurement_list(request):
                 donor.right_kidney.transplantable = True
                 donor.right_kidney.preservation = PRESERVATION_HMP if randomisation.result else PRESERVATION_HMPO2
 
-                update_trial_ids_and_save(donor)  # This will do the saving of the donor and both kidneys
-
                 messages.success(request, '<strong>Offline</strong> case has been successfully started')
+
+            update_trial_ids_and_save(donor)  # This will do the saving of the donor and both kidneys
 
             return redirect(reverse('wp4:compare:procurement_detail', kwargs={'pk': donor.id}))
         else:
@@ -175,6 +177,13 @@ def procurement_form(request, pk):
     donor_form = DonorForm(request.POST or None, request.FILES or None, instance=donor, prefix="donor")
     if donor_form.is_valid():
         donor = donor_form.save(current_person)
+
+        # See if the SN-OD is in the Transplant Technicians group, if not, add them
+        if donor.transplant_coordinator:
+            tc_group = Group.objects.get(pk=Person.TRANSPLANT_COORDINATOR)
+            if tc_group not in donor.transplant_coordinator.groups.all():
+                donor.transplant_coordinator.groups.add(tc_group)
+                donor.transplant_coordinator.save()
         all_valid += 1
     else:
         print("DEBUG: donor form errors: %s" % donor_form.errors)
@@ -410,6 +419,7 @@ def transplantation_form(request, pk=None):
         )
         if recipient_form.is_valid():
             recipient_instance = recipient_form.save()
+
             # Check for closing criteria
             if recipient_instance.signed_consent is False:
                 no_consent_confirmed = True
@@ -469,7 +479,14 @@ def transplantation_form(request, pk=None):
     if allocation_formset.is_valid() and errors_found == 0:
         last_form_index = len(allocation_formset)-1
         for i, form in enumerate(allocation_formset):
-            allocation = form.save(current_person)
+            allocation = form.save()
+
+            # See if the Theatre Contact is in the relevant group, if not, add them
+            if allocation.theatre_contact:
+                tc_group = Group.objects.get(pk=Person.THEATRE_CONTACT)
+                if tc_group not in allocation.theatre_contact.groups.all():
+                    allocation.theatre_contact.groups.add(tc_group)
+                    allocation.theatre_contact.save()
 
             if i == last_form_index:
                 if allocation.transplant_hospital and not allocation.transplant_hospital.is_project_site:
@@ -518,8 +535,9 @@ def transplantation_form(request, pk=None):
                     recipient.organ = organ
                     recipient.save()
 
-                    # create the related sample placeholder for this recipient
-                    create_recipient_samples(recipient, current_person)
+                    # create the related sample placeholder for this recipient, and follow ups
+                    create_recipient_samples(recipient)
+                    generate_followups_from_recipient(recipient)
 
         # There should be no errors when we redirect here
         version_string = ""  # "" Organ v:" + str(organ.version) if current_person.is_superuser else ""
