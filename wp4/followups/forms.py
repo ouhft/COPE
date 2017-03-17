@@ -216,30 +216,6 @@ class FollowUpInitialForm(forms.ModelForm):
         localized_fields = "__all__"
 
 
-class FollowUp3MStartForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super(FollowUp3MStartForm, self).__init__(*args, **kwargs)
-
-        self.fields['organ'].queryset = self.fields['organ'].queryset.filter(
-            # transplantation_form_completed=True,   <-- Redundant filter
-            followup_initial__isnull=False,
-            followup_3m__isnull=True
-        )
-
-        self.helper = FormHelper(self)
-        self.helper.form_tag = False
-        self.helper.html5_required = True
-        self.helper.layout = Layout(
-            'organ',  # F301
-        )
-
-    class Meta:
-        model = FollowUp3M
-        fields = [
-            'organ',  # F301
-        ]
-
-
 class FollowUp3MForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(FollowUp3MForm, self).__init__(*args, **kwargs)
@@ -393,31 +369,6 @@ class FollowUp3MForm(forms.ModelForm):
         localized_fields = "__all__"
 
 
-class FollowUp6MStartForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super(FollowUp6MStartForm, self).__init__(*args, **kwargs)
-
-        self.fields['organ'].queryset = self.fields['organ'].queryset.filter(
-            # transplantation_form_completed=True,   <-- Redundant filters
-            # followup_initial__isnull=False,
-            followup_3m__isnull=False,
-            followup_6m__isnull=True
-        )
-
-        self.helper = FormHelper(self)
-        self.helper.form_tag = False
-        self.helper.html5_required = True
-        self.helper.layout = Layout(
-            'organ',  # F601
-        )
-
-    class Meta:
-        model = FollowUp6M
-        fields = [
-            'organ',  # F601
-        ]
-
-
 class FollowUp6MForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(FollowUp6MForm, self).__init__(*args, **kwargs)
@@ -567,32 +518,6 @@ class FollowUp6MForm(forms.ModelForm):
             'notes',  # FB03
         ]
         localized_fields = "__all__"
-
-
-class FollowUp1YStartForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super(FollowUp1YStartForm, self).__init__(*args, **kwargs)
-
-        self.fields['organ'].queryset = self.fields['organ'].queryset.filter(
-            # transplantation_form_completed=True,   <-- Redundant filters
-            # followup_initial__isnull=False,
-            # followup_3m__isnull=False,
-            followup_6m__isnull=False,
-            followup_1y__isnull=True
-        )
-
-        self.helper = FormHelper(self)
-        self.helper.form_tag = False
-        self.helper.html5_required = True
-        self.helper.layout = Layout(
-            'organ',  # FY01
-        )
-
-    class Meta:
-        model = FollowUp1Y
-        fields = [
-            'organ',  # FY01
-        ]
 
 
 class FollowUp1YForm(forms.ModelForm):

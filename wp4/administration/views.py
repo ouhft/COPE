@@ -21,6 +21,7 @@ from wp4.staff.models import Person
 from wp4.adverse_event.models import Event
 
 from wp4.utils import group_required
+from wp4.followups.models import FollowUp1Y
 
 
 # Statisticians' Reports
@@ -737,12 +738,14 @@ def completed_pairs(request):
                                     # Pair analysis
                                     summary["eligible_pairs"]["total"] += 1 if previous_organ_eligible else 0
                                     previous_organ_eligible = True if not previous_organ_eligible else False
-                                    if organ.followup_done_within_followup_final_window():
-                                        if organ.followup_1y.creatinine_clearance:
-                                            summary["finals"]["on_time"]["with_cc"] += 1
-                                        else:
-                                            summary["finals"]["on_time"]["without_cc"] += 1
-                                    # Too Many problems with RelatedObjectDoesNotExist: Organ has no followup_1y
+                                    try:
+                                        if organ.followup_1y.started_within_window:
+                                            if organ.followup_1y.creatinine_clearance:
+                                                summary["finals"]["on_time"]["with_cc"] += 1
+                                            else:
+                                                summary["finals"]["on_time"]["without_cc"] += 1
+                                    except FollowUp1Y.DoesNotExist:
+                                        pass
                                     # elif organ.followup_1y and (organ.followup_1y.start_date > organ.followup_final_completed_by or timezone.now().date() > organ.followup_final_completed_by):
                                     #     summary["finals"]["outside_window"]["early"] += 1
                                     # else:

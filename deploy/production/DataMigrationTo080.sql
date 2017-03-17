@@ -9,7 +9,7 @@
  - load fixture `pm loaddata config/fixtures/06_adverseevent_categories.json`
  - EXECUTE BLOCK 1
  - Make the Trial IDs via Python script in shell:
-     ```
+
     from wp4.compare.models.donor import Donor
     for donor in Donor.objects.all():
         donor.trial_id = donor.make_trial_id()
@@ -18,6 +18,19 @@
         donor.left_kidney.save()
         donor.right_kidney.trial_id = donor.right_kidney.make_trial_id()
         donor.right_kidney.save()
+
+- Generate the missing follow up forms
+
+    from wp4.compare.models.transplantation import Recipient
+    from wp4.followups.utils import generate_followups_from_recipient
+    for r in Recipient.objects.all():
+        generate_followups_from_recipient(r)
+
+- Run the initial activation for follow ups
+
+    from wp4.followups.utils import activate_followups_in_window
+    activate_followups_in_window()
+
      ```
  */
 
