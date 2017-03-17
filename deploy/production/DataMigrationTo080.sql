@@ -5,26 +5,19 @@
  ################################################  Order of processing  ################################################
  #######################################################################################################################
  - create new database `pm migrate`
+ - load fixture `pm loaddata config/fixtures/05_hospitals.json`
+ - load fixture `pm loaddata config/fixtures/06_adverseevent_categories.json`
  - EXECUTE BLOCK 1
- - load fixture `pm loaddata config/fixtures/01_contenttypes.json`
- - load fixture `pm loaddata config/fixtures/02_permissions.json`
- - load fixture `pm loaddata config/fixtures/03_groups.json`
- - Execute BLOCK 2
- - load fixture `pm loaddata config/fixtures/10_hospitals.json`
- - load fixture `pm loaddata config/fixtures/11_adverseevent_categories.json`
- - Execute BLOCK 3
  - Make the Trial IDs via Python script in shell:
      ```
     from wp4.compare.models.donor import Donor
-    from wp4.staff.models import Person
-    creator = Person.objects.get(pk=1)
     for donor in Donor.objects.all():
         donor.trial_id = donor.make_trial_id()
-        donor.save(created_by=creator)
+        donor.save()
         donor.left_kidney.trial_id = donor.left_kidney.make_trial_id()
-        donor.left_kidney.save(created_by=creator)
+        donor.left_kidney.save()
         donor.right_kidney.trial_id = donor.right_kidney.make_trial_id()
-        donor.right_kidney.save(created_by=creator)
+        donor.right_kidney.save()
 
      ```
  */
@@ -50,23 +43,6 @@ INSERT INTO new.django_site (id, name, domain)
     name,
     domain
   FROM old.django_site;
-
--- DELETE FROM new.django_content_type;
--- DELETE FROM new.auth_permission;
-
-
-/* =============================================  BLOCK 2  =============================================  */
-
--- Rebuild Content Types  -------------------------------------------------------------------------
--- UPDATE SQLITE_SEQUENCE
--- SET SEQ = 41
--- WHERE NAME = 'new.django_content_type';
-
-
--- Rebuild Permissions to use these content types  -----------------------------------------------
--- UPDATE SQLITE_SEQUENCE
--- SET SEQ = 183
--- WHERE NAME = 'new.auth_permission';
 
 -- Bring in all the staff ------------------------------------------------------------------------
 INSERT INTO new.staff_person (
@@ -101,9 +77,8 @@ INSERT INTO new.staff_person (
   FROM old.auth_user AS oau
     LEFT OUTER JOIN old.staff_person_staffperson AS osp
       ON osp.user_id = oau.id;
-/*
-Add these users to their relevant groups based on their Staff_Person jobs
-*/
+
+-- Add these users to their relevant groups based on their Staff_Person jobs
 INSERT INTO new.staff_person_groups (
   person_id,
   group_id
@@ -116,17 +91,18 @@ INSERT INTO new.staff_person_groups (
   WHERE sp.id = spj.staffperson_id
         AND sp.user_id IS NOT NULL;
 
-INSERT INTO new.compare_randomisation (id, list_code, result, allocated_on, donor_id, created_on, created_by_id)
+-- Copy the Randomisations. NB, allocated_on, and allocated_by will need manual cleaning up
+INSERT INTO new.compare_randomisation (id, list_code, result, allocated_on, allocated_by_id, donor_id)
   SELECT
     id,
     list_code,
     result,
     allocated_on,
-    donor_id,
-    DATETIME('now'),
-    1
+    1,
+    donor_id
   FROM old.compare_randomisation;
 
+-- Copy the admin log over, but purge the ones related to deleted content types
 INSERT INTO new.django_admin_log (
   id, object_id, object_repr, action_flag, change_message, content_type_id, user_id, action_time)
   SELECT
@@ -138,34 +114,39 @@ INSERT INTO new.django_admin_log (
     content_type_id,
     user_id,
     action_time
-  FROM old.django_admin_log;
+  FROM old.django_admin_log
+  WHERE NOT content_type_id IN (9, 10, 13);
 
-DELETE FROM new.django_admin_log
-WHERE content_type_id IN (9, 10, 13);
-
-INSERT INTO new.perfusion_machine_perfusionmachine (id, created_on, machine_serial_number, machine_reference_number, created_by_id)
+-- Copy the Perfusion machine data across, noting the change in table name
+INSERT INTO new.perfusion_machine_machine (id, machine_serial_number, machine_reference_number)
   SELECT
     id,
-    created_on,
     machine_serial_number,
-    machine_reference_number,
-    created_by_id
+    machine_reference_number
   FROM old.perfusion_machine_perfusionmachine;
 
-
-
-/* =============================================  BLOCK 3  =============================================  */
 /*
  Changes to account for:
+ - table renamed to compare_patient
  - live - added as part of AuditControlModelBase, defaults to 1
  */
-INSERT INTO new.compare_organperson (
-  id, created_on, version, record_locked, live, number, date_of_birth, date_of_birth_unknown, date_of_death, date_of_death_unknown, gender, weight, height, ethnicity, blood_group, created_by_id
+INSERT INTO new.compare_patient (
+id,
+record_locked,
+live,
+number,
+date_of_birth,
+date_of_birth_unknown,
+date_of_death,
+date_of_death_unknown,
+gender,
+weight,
+height,
+ethnicity,
+blood_group
 )
   SELECT
     id,
-    created_on,
-    version,
     record_locked,
     1,
     number,
@@ -177,8 +158,7 @@ INSERT INTO new.compare_organperson (
     weight,
     height,
     ethnicity,
-    blood_group,
-    created_by_id
+    blood_group
   FROM old.compare_organperson;
 
 /*
@@ -189,91 +169,86 @@ INSERT INTO new.compare_organperson (
  - retrieval_hospital - is a new charfield that replaces retrieval_hospital(_id) which was a Location.Hospital
  */
 INSERT INTO new.compare_donor (
-  id,
-  created_on,
-  version,
-  record_locked,
-  live,
-  sequence_number,
-  multiple_recipients,
-  not_randomised_because,
-  not_randomised_because_other,
-  procurement_form_completed,
-  admin_notes,
-  call_received,
-  call_received_unknown,
-  retrieval_hospital,
-  scheduled_start,
-  scheduled_start_unknown,
-  technician_arrival,
-  technician_arrival_unknown,
-  ice_boxes_filled,
-  ice_boxes_filled_unknown,
-  depart_perfusion_centre,
-  depart_perfusion_centre_unknown,
-  arrival_at_donor_hospital,
-  arrival_at_donor_hospital_unknown,
-  age,
-  date_of_admission,
-  date_of_admission_unknown,
-  admitted_to_itu,
-  date_admitted_to_itu,
-  date_admitted_to_itu_unknown,
-  date_of_procurement,
-  other_organs_procured,
-  other_organs_lungs,
-  other_organs_pancreas,
-  other_organs_liver,
-  other_organs_tissue,
-  diagnosis,
-  diagnosis_other,
-  diabetes_melitus,
-  alcohol_abuse,
-  cardiac_arrest,
-  systolic_blood_pressure,
-  diastolic_blood_pressure,
-  diuresis_last_day,
-  diuresis_last_day_unknown,
-  diuresis_last_hour,
-  diuresis_last_hour_unknown,
-  dopamine,
-  dobutamine,
-  nor_adrenaline,
-  vasopressine,
-  other_medication_details,
-  last_creatinine,
-  last_creatinine_unit,
-  max_creatinine,
-  max_creatinine_unit,
-  life_support_withdrawal,
-  systolic_pressure_low,
-  systolic_pressure_low_unknown,
-  o2_saturation,
-  o2_saturation_unknown,
-  circulatory_arrest,
-  circulatory_arrest_unknown,
-  length_of_no_touch,
-  death_diagnosed,
-  perfusion_started,
-  perfusion_started_unknown,
-  systemic_flush_used,
-  systemic_flush_used_other,
-  systemic_flush_volume_used,
-  heparin,
-  _left_kidney_id,
-  _right_kidney_id,
-  created_by_id,
-  perfusion_technician_id,
-  person_id,
-  retrieval_team_id,
-  transplant_coordinator_id,
-  _order,
-  trial_id
+id,
+record_locked,
+live,
+sequence_number,
+multiple_recipients,
+not_randomised_because,
+not_randomised_because_other,
+procurement_form_completed,
+admin_notes,
+trial_id,
+call_received,
+call_received_unknown,
+retrieval_hospital,
+scheduled_start,
+scheduled_start_unknown,
+technician_arrival,
+technician_arrival_unknown,
+ice_boxes_filled,
+ice_boxes_filled_unknown,
+depart_perfusion_centre,
+depart_perfusion_centre_unknown,
+arrival_at_donor_hospital,
+arrival_at_donor_hospital_unknown,
+age,
+date_of_admission,
+date_of_admission_unknown,
+admitted_to_itu,
+date_admitted_to_itu,
+date_admitted_to_itu_unknown,
+date_of_procurement,
+other_organs_procured,
+other_organs_lungs,
+other_organs_pancreas,
+other_organs_liver,
+other_organs_tissue,
+diagnosis,
+diagnosis_other,
+diabetes_melitus,
+alcohol_abuse,
+cardiac_arrest,
+systolic_blood_pressure,
+diastolic_blood_pressure,
+diuresis_last_day,
+diuresis_last_day_unknown,
+diuresis_last_hour,
+diuresis_last_hour_unknown,
+dopamine,
+dobutamine,
+nor_adrenaline,
+vasopressine,
+other_medication_details,
+last_creatinine,
+last_creatinine_unit,
+max_creatinine,
+max_creatinine_unit,
+life_support_withdrawal,
+systolic_pressure_low,
+systolic_pressure_low_unknown,
+o2_saturation,
+o2_saturation_unknown,
+circulatory_arrest,
+circulatory_arrest_unknown,
+length_of_no_touch,
+death_diagnosed,
+perfusion_started,
+perfusion_started_unknown,
+systemic_flush_used,
+systemic_flush_used_other,
+systemic_flush_volume_used,
+heparin,
+_left_kidney_id,
+_right_kidney_id,
+perfusion_technician_id,
+person_id,
+retrieval_team_id,
+transplant_coordinator_id,
+_order
 )
   SELECT
     odo.id,
-    odo.created_on,
-    odo.version,
     odo.record_locked,
     1,
     odo.sequence_number,
@@ -282,6 +257,7 @@ INSERT INTO new.compare_donor (
     odo.not_randomised_because_other,
     odo.procurement_form_completed,
     odo.admin_notes,
+    '',
     odo.call_received,
     odo.call_received_unknown,
     ifnull(oho.name, ''),
@@ -344,13 +320,11 @@ INSERT INTO new.compare_donor (
     odo.heparin,
     odo._left_kidney_id,
     odo._right_kidney_id,
-    odo.created_by_id,
     techid_sp.user_id,
     odo.person_id,
     odo.retrieval_team_id,
     coorid_sp.user_id,
-    odo._order,
-    ''
+    odo._order
   FROM old.compare_donor AS odo,
     old.staff_person_staffperson AS techid_sp
     LEFT OUTER JOIN old.locations_hospital AS oho
@@ -359,58 +333,52 @@ INSERT INTO new.compare_donor (
       ON odo.transplant_coordinator_id = coorid_sp.id
   WHERE odo.perfusion_technician_id = techid_sp.id;
 
-
 /*
  Changes to account for:
  - live - added as part of AuditControlModelBase, defaults to 1
+ - perfusion_file_id removed
  */
 INSERT INTO new.compare_organ
 (
-  id
-  , created_on
-  , version
-  , record_locked
-  , live
-  , location
-  , not_allocated_reason
-  , admin_notes
-  , transplantation_notes
-  , transplantation_form_completed
-  , removal
-  , renal_arteries
-  , graft_damage
-  , graft_damage_other
-  , washout_perfusion
-  , transplantable
-  , not_transplantable_reason
-  , preservation
-  , perfusion_possible
-  , perfusion_not_possible_because
-  , perfusion_started
-  , patch_holder
-  , artificial_patch_used
-  , artificial_patch_size
-  , artificial_patch_number
-  , oxygen_bottle_full
-  , oxygen_bottle_open
-  , oxygen_bottle_changed
-  , oxygen_bottle_changed_at
-  , oxygen_bottle_changed_at_unknown
-  , ice_container_replenished
-  , ice_container_replenished_at
-  , ice_container_replenished_at_unknown
-  , perfusate_measurable
-  , perfusate_measure
-  , created_by_id
-  , donor_id
-  , perfusion_file_id
-  , perfusion_machine_id,
-  trial_id
+id,
+record_locked,
+live,
+location,
+not_allocated_reason,
+admin_notes,
+transplantation_notes,
+transplantation_form_completed,
+trial_id,
+removal,
+renal_arteries,
+graft_damage,
+graft_damage_other,
+washout_perfusion,
+transplantable,
+not_transplantable_reason,
+preservation,
+perfusion_possible,
+perfusion_not_possible_because,
+perfusion_started,
+patch_holder,
+artificial_patch_used,
+artificial_patch_size,
+artificial_patch_number,
+oxygen_bottle_full,
+oxygen_bottle_open,
+oxygen_bottle_changed,
+oxygen_bottle_changed_at,
+oxygen_bottle_changed_at_unknown,
+ice_container_replenished,
+ice_container_replenished_at,
+ice_container_replenished_at_unknown,
+perfusate_measurable,
+perfusate_measure,
+donor_id,
+perfusion_machine_id
 )
   SELECT
     oco.id,
-    oco.created_on,
-    oco.version,
     oco.record_locked,
     1,
     oco.location,
@@ -418,6 +386,7 @@ INSERT INTO new.compare_organ
     oco.admin_notes,
     oco.transplantation_notes,
     oco.transplantation_form_completed,
+    '',
     oco.removal,
     oco.renal_arteries,
     oco.graft_damage,
@@ -443,32 +412,29 @@ INSERT INTO new.compare_organ
     oco.ice_container_replenished_at_unknown,
     oco.perfusate_measurable,
     oco.perfusate_measure,
-    oco.created_by_id,
     oco.donor_id,
-    oco.perfusion_file_id,
-    oco.perfusion_machine_id,
-    ''
+    oco.perfusion_machine_id
   FROM old.compare_organ AS oco;
 
-
+-- Copy procurement resource
 INSERT INTO new.compare_procurementresource (
-  id
-  , created_on
-  , type
-  , lot_number
-  , expiry_date
-  , expiry_date_unknown
-  , created_by_id
-  , organ_id
+  id,
+record_locked,
+live,
+type,
+lot_number,
+expiry_date,
+expiry_date_unknown,
+organ_id
 )
   SELECT
     id,
-    created_on,
+    0,
+    1,
     type,
     ifnull(lot_number, ''),
     expiry_date,
     expiry_date_unknown,
-    created_by_id,
     organ_id
   FROM old.compare_procurementresource;
 
@@ -480,37 +446,32 @@ INSERT INTO new.compare_procurementresource (
  */
 
 INSERT INTO new.compare_organallocation (
-  id,
-  created_on,
-  version,
-  record_locked,
-  live,
-  call_received,
-  call_received_unknown,
-  scheduled_start,
-  scheduled_start_unknown,
-  technician_arrival,
-  technician_arrival_unknown,
-  depart_perfusion_centre,
-  depart_perfusion_centre_unknown,
-  arrival_at_recipient_hospital,
-  arrival_at_recipient_hospital_unknown,
-  journey_remarks,
-  reallocated,
-  reallocation_reason,
-  reallocation_reason_other,
-  created_by_id,
-  organ_id,
-  perfusion_technician_id,
-  theatre_contact_id,
-  transplant_hospital_id,
-  _order,
-  reallocation_id
+id,
+record_locked,
+live,
+call_received,
+call_received_unknown,
+scheduled_start,
+scheduled_start_unknown,
+technician_arrival,
+technician_arrival_unknown,
+depart_perfusion_centre,
+depart_perfusion_centre_unknown,
+arrival_at_recipient_hospital,
+arrival_at_recipient_hospital_unknown,
+journey_remarks,
+reallocated,
+reallocation_reason,
+reallocation_reason_other,
+organ_id,
+perfusion_technician_id,
+theatre_contact_id,
+transplant_hospital_id,
+_order,
+reallocation_id
 )
   SELECT
     compare_organallocation.id,
-    compare_organallocation.created_on,
-    compare_organallocation.version,
     compare_organallocation.record_locked,
     1,
     compare_organallocation.call_received,
@@ -527,7 +488,6 @@ INSERT INTO new.compare_organallocation (
     compare_organallocation.reallocated,
     compare_organallocation.reallocation_reason,
     compare_organallocation.reallocation_reason_other,
-    compare_organallocation.created_by_id,
     compare_organallocation.organ_id,
     pt_sp.user_id,
     tc_sp.user_id,
@@ -539,7 +499,7 @@ INSERT INTO new.compare_organallocation (
       ON compare_organallocation.theatre_contact_id = tc_sp.id
     LEFT OUTER JOIN old.staff_person_staffperson AS pt_sp
       ON compare_organallocation.perfusion_technician_id = pt_sp.id;
-/* Map old austria other, to new other/austria as per Issue #210*/
+/* Map old austria other, to new other/austria as per Issue #210 */
 UPDATE new.compare_organallocation
 SET transplant_hospital_id = 14
 WHERE transplant_hospital_id = 35;
@@ -564,61 +524,56 @@ WHERE transplant_hospital_id = 68;
  - live - added as part of AuditControlModelBase, defaults to 1
  */
 INSERT INTO new.compare_recipient (
-  id,
-  created_on,
-  version,
-  record_locked,
-  live,
-  signed_consent,
-  single_kidney_transplant,
-  renal_disease,
-  renal_disease_other,
-  pre_transplant_diuresis,
-  knife_to_skin,
-  perfusate_measure,
-  perfusion_stopped,
-  organ_cold_stored,
-  tape_broken,
-  removed_from_machine_at,
-  oxygen_full_and_open,
-  organ_untransplantable,
-  organ_untransplantable_reason,
-  anesthesia_started_at,
-  incision,
-  transplant_side,
-  arterial_problems,
-  arterial_problems_other,
-  venous_problems,
-  venous_problems_other,
-  anastomosis_started_at,
-  anastomosis_started_at_unknown,
-  reperfusion_started_at,
-  reperfusion_started_at_unknown,
-  mannitol_used,
-  other_diurectics,
-  other_diurectics_details,
-  systolic_blood_pressure,
-  cvp,
-  intra_operative_diuresis,
-  successful_conclusion,
-  operation_concluded_at,
-  probe_cleaned,
-  ice_removed,
-  oxygen_flow_stopped,
-  oxygen_bottle_removed,
-  box_cleaned,
-  batteries_charged,
-  cleaning_log,
-  allocation_id,
-  created_by_id,
-  organ_id,
-  person_id,
-  _order
+id,
+record_locked,
+live,
+signed_consent,
+single_kidney_transplant,
+renal_disease,
+renal_disease_other,
+pre_transplant_diuresis,
+knife_to_skin,
+perfusate_measure,
+perfusion_stopped,
+organ_cold_stored,
+tape_broken,
+removed_from_machine_at,
+oxygen_full_and_open,
+organ_untransplantable,
+organ_untransplantable_reason,
+anesthesia_started_at,
+incision,
+transplant_side,
+arterial_problems,
+arterial_problems_other,
+venous_problems,
+venous_problems_other,
+anastomosis_started_at,
+anastomosis_started_at_unknown,
+reperfusion_started_at,
+reperfusion_started_at_unknown,
+mannitol_used,
+other_diurectics,
+other_diurectics_details,
+systolic_blood_pressure,
+cvp,
+intra_operative_diuresis,
+successful_conclusion,
+operation_concluded_at,
+probe_cleaned,
+ice_removed,
+oxygen_flow_stopped,
+oxygen_bottle_removed,
+box_cleaned,
+batteries_charged,
+cleaning_log,
+allocation_id,
+organ_id,
+person_id,
+_order
 )
   SELECT
     ocr.id,
-    ocr.created_on,
-    ocr.version,
     ocr.record_locked,
     1,
     ocr.signed_consent,
@@ -662,12 +617,10 @@ INSERT INTO new.compare_recipient (
     ocr.batteries_charged,
     ocr.cleaning_log,
     ocr.allocation_id,
-    ocr.created_by_id,
     ocr.organ_id,
     ocr.person_id,
     ocr._order
   FROM old.compare_recipient AS ocr;
-
 
 /*
  adverse_event_event  (was adverse_event_adverseevent)
@@ -675,60 +628,55 @@ INSERT INTO new.compare_recipient (
  - live - added as part of AuditControlModelBase, defaults to 1
  - date_of_death - removed from old, no long part of new event
  - contact - was Staff_Person.StaffPerson, now Staff.Person, which replaces Auth.User
- - Where contact is missing (19 or so examples) set it to Ina Jochmans (Staff id=108)as PI
+ - Where contact is missing (19 or so examples) set it to Ina Jochmans (Staff id=108) as PI
  */
 INSERT INTO new.adverse_event_event (
-  id,
-  created_on,
-  version,
-  record_locked,
-  live,
-  serious_eligible_1,
-  serious_eligible_2,
-  serious_eligible_3,
-  serious_eligible_4,
-  serious_eligible_5,
-  serious_eligible_6,
-  onset_at_date,
-  event_ongoing,
-  description,
-  action,
-  outcome,
-  alive_query_1,
-  alive_query_2,
-  alive_query_3,
-  alive_query_4,
-  alive_query_5,
-  alive_query_6,
-  alive_query_7,
-  alive_query_8,
-  alive_query_9,
-  rehospitalisation,
-  date_of_admission,
-  date_of_discharge,
-  admitted_to_itu,
-  dialysis_needed,
-  biopsy_taken,
-  surgery_required,
-  rehospitalisation_comments,
-  death,
-  treatment_related,
-  cause_of_death_1,
-  cause_of_death_2,
-  cause_of_death_3,
-  cause_of_death_4,
-  cause_of_death_5,
-  cause_of_death_6,
-  cause_of_death_comment,
-  contact_id,
-  created_by_id,
-  organ_id,
-  _order
+id,
+record_locked,
+live,
+serious_eligible_1,
+serious_eligible_2,
+serious_eligible_3,
+serious_eligible_4,
+serious_eligible_5,
+serious_eligible_6,
+onset_at_date,
+event_ongoing,
+description,
+action,
+outcome,
+alive_query_1,
+alive_query_2,
+alive_query_3,
+alive_query_4,
+alive_query_5,
+alive_query_6,
+alive_query_7,
+alive_query_8,
+alive_query_9,
+rehospitalisation,
+date_of_admission,
+date_of_discharge,
+admitted_to_itu,
+dialysis_needed,
+biopsy_taken,
+surgery_required,
+rehospitalisation_comments,
+death,
+treatment_related,
+cause_of_death_1,
+cause_of_death_2,
+cause_of_death_3,
+cause_of_death_4,
+cause_of_death_5,
+cause_of_death_6,
+cause_of_death_comment,
+contact_id,
+organ_id,
+_order
 )
   SELECT
     adverse_event_event.id,
-    adverse_event_event.created_on,
-    adverse_event_event.version,
     adverse_event_event.record_locked,
     1,
     adverse_event_event.serious_eligible_1,
@@ -769,13 +717,11 @@ INSERT INTO new.adverse_event_event (
     adverse_event_event.cause_of_death_6,
     adverse_event_event.cause_of_death_comment,
     ifnull(contact_sp.user_id, 108),
-    adverse_event_event.created_by_id,
     adverse_event_event.organ_id,
     adverse_event_event._order
   FROM old.adverse_event_adverseevent AS adverse_event_event
     LEFT OUTER JOIN old.staff_person_staffperson AS contact_sp
       ON adverse_event_event.contact_id = contact_sp.id;
-
 
 /*
  TABLE: followups_followup1y
@@ -783,50 +729,45 @@ INSERT INTO new.adverse_event_event (
  - live - added as part of AuditControlModelBase, defaults to 1
  */
 INSERT INTO new.followups_followup1y (
-  id,
-  created_on,
-  version,
-  record_locked,
-  live,
-  start_date,
-  notes,
-  graft_failure,
-  graft_failure_date,
-  graft_failure_type,
-  graft_failure_type_other,
-  graft_removal,
-  graft_removal_date,
-  dialysis_type,
-  immunosuppression_1,
-  immunosuppression_2,
-  immunosuppression_3,
-  immunosuppression_4,
-  immunosuppression_5,
-  immunosuppression_6,
-  immunosuppression_7,
-  immunosuppression_other,
-  rejection,
-  rejection_prednisolone,
-  rejection_drug,
-  rejection_drug_other,
-  rejection_biopsy,
-  calcineurin,
-  serum_creatinine_unit,
-  serum_creatinine,
-  creatinine_clearance,
-  currently_on_dialysis,
-  dialysis_date,
-  number_of_dialysis_sessions,
-  rejection_periods,
-  graft_complications,
-  created_by_id,
-  organ_id,
-  quality_of_life_id
+id,
+record_locked,
+live,
+start_date,
+notes,
+graft_failure,
+graft_failure_date,
+graft_failure_type,
+graft_failure_type_other,
+graft_removal,
+graft_removal_date,
+dialysis_type,
+immunosuppression_1,
+immunosuppression_2,
+immunosuppression_3,
+immunosuppression_4,
+immunosuppression_5,
+immunosuppression_6,
+immunosuppression_7,
+immunosuppression_other,
+rejection,
+rejection_prednisolone,
+rejection_drug,
+rejection_drug_other,
+rejection_biopsy,
+calcineurin,
+serum_creatinine_unit,
+serum_creatinine,
+creatinine_clearance,
+currently_on_dialysis,
+dialysis_date,
+number_of_dialysis_sessions,
+rejection_periods,
+graft_complications,
+organ_id,
+quality_of_life_id
 )
   SELECT
     followups_followup1y.id,
-    followups_followup1y.created_on,
-    followups_followup1y.version,
     followups_followup1y.record_locked,
     1,
     followups_followup1y.start_date,
@@ -860,7 +801,6 @@ INSERT INTO new.followups_followup1y (
     followups_followup1y.number_of_dialysis_sessions,
     followups_followup1y.rejection_periods,
     followups_followup1y.graft_complications,
-    followups_followup1y.created_by_id,
     followups_followup1y.organ_id,
     followups_followup1y.quality_of_life_id
   FROM old.followups_followup1y AS followups_followup1y;
@@ -871,50 +811,45 @@ INSERT INTO new.followups_followup1y (
  - live - added as part of AuditControlModelBase, defaults to 1
  */
 INSERT INTO new.followups_followup3m (
-  id
-  , created_on
-  , version
-  , record_locked
-  , live
-  , start_date
-  , notes
-  , graft_failure
-  , graft_failure_date
-  , graft_failure_type
-  , graft_failure_type_other
-  , graft_removal
-  , graft_removal_date
-  , dialysis_type
-  , immunosuppression_1
-  , immunosuppression_2
-  , immunosuppression_3
-  , immunosuppression_4
-  , immunosuppression_5
-  , immunosuppression_6
-  , immunosuppression_7
-  , immunosuppression_other
-  , rejection
-  , rejection_prednisolone
-  , rejection_drug
-  , rejection_drug_other
-  , rejection_biopsy
-  , calcineurin
-  , serum_creatinine_unit
-  , serum_creatinine
-  , creatinine_clearance
-  , currently_on_dialysis
-  , dialysis_date
-  , number_of_dialysis_sessions
-  , rejection_periods
-  , graft_complications
-  , created_by_id
-  , organ_id
-  , quality_of_life_id
+id,
+record_locked,
+live,
+start_date,
+notes,
+graft_failure,
+graft_failure_date,
+graft_failure_type,
+graft_failure_type_other,
+graft_removal,
+graft_removal_date,
+dialysis_type,
+immunosuppression_1,
+immunosuppression_2,
+immunosuppression_3,
+immunosuppression_4,
+immunosuppression_5,
+immunosuppression_6,
+immunosuppression_7,
+immunosuppression_other,
+rejection,
+rejection_prednisolone,
+rejection_drug,
+rejection_drug_other,
+rejection_biopsy,
+calcineurin,
+serum_creatinine_unit,
+serum_creatinine,
+creatinine_clearance,
+currently_on_dialysis,
+dialysis_date,
+number_of_dialysis_sessions,
+rejection_periods,
+graft_complications,
+organ_id,
+quality_of_life_id
 )
   SELECT
     followups_followup3m.id,
-    followups_followup3m.created_on,
-    followups_followup3m.version,
     followups_followup3m.record_locked,
     1,
     followups_followup3m.start_date,
@@ -948,7 +883,6 @@ INSERT INTO new.followups_followup3m (
     followups_followup3m.number_of_dialysis_sessions,
     followups_followup3m.rejection_periods,
     followups_followup3m.graft_complications,
-    followups_followup3m.created_by_id,
     followups_followup3m.organ_id,
     followups_followup3m.quality_of_life_id
   FROM old.followups_followup3m AS followups_followup3m;
@@ -958,51 +892,45 @@ INSERT INTO new.followups_followup3m (
  Changes to account for:
  - live - added as part of AuditControlModelBase, defaults to 1
  */
-INSERT INTO new.followups_followup6m
-(
-  id,
-  created_on,
-  version,
-  record_locked,
-  live,
-  start_date,
-  notes,
-  graft_failure,
-  graft_failure_date,
-  graft_failure_type,
-  graft_failure_type_other,
-  graft_removal,
-  graft_removal_date,
-  dialysis_type,
-  immunosuppression_1,
-  immunosuppression_2,
-  immunosuppression_3,
-  immunosuppression_4,
-  immunosuppression_5,
-  immunosuppression_6,
-  immunosuppression_7,
-  immunosuppression_other,
-  rejection,
-  rejection_prednisolone,
-  rejection_drug,
-  rejection_drug_other,
-  rejection_biopsy,
-  calcineurin,
-  serum_creatinine_unit,
-  serum_creatinine,
-  creatinine_clearance,
-  currently_on_dialysis,
-  dialysis_date,
-  number_of_dialysis_sessions,
-  rejection_periods,
-  graft_complications,
-  created_by_id,
-  organ_id
+INSERT INTO new.followups_followup6m (
+id,
+record_locked,
+live,
+start_date,
+notes,
+graft_failure,
+graft_failure_date,
+graft_failure_type,
+graft_failure_type_other,
+graft_removal,
+graft_removal_date,
+dialysis_type,
+immunosuppression_1,
+immunosuppression_2,
+immunosuppression_3,
+immunosuppression_4,
+immunosuppression_5,
+immunosuppression_6,
+immunosuppression_7,
+immunosuppression_other,
+rejection,
+rejection_prednisolone,
+rejection_drug,
+rejection_drug_other,
+rejection_biopsy,
+calcineurin,
+serum_creatinine_unit,
+serum_creatinine,
+creatinine_clearance,
+currently_on_dialysis,
+dialysis_date,
+number_of_dialysis_sessions,
+rejection_periods,
+graft_complications,
+organ_id
 )
   SELECT
     followups_followup6m.id,
-    followups_followup6m.created_on,
-    followups_followup6m.version,
     followups_followup6m.record_locked,
     1,
     followups_followup6m.start_date,
@@ -1036,7 +964,6 @@ INSERT INTO new.followups_followup6m
     followups_followup6m.number_of_dialysis_sessions,
     followups_followup6m.rejection_periods,
     followups_followup6m.graft_complications,
-    followups_followup6m.created_by_id,
     followups_followup6m.organ_id
   FROM old.followups_followup6m AS followups_followup6m;
 
@@ -1045,65 +972,59 @@ INSERT INTO new.followups_followup6m
  Changes to account for:
  - live - added as part of AuditControlModelBase, defaults to 1
  */
-INSERT INTO new.followups_followupinitial
-(
-  id,
-  created_on,
-  version,
-  record_locked,
-  live,
-  start_date,
-  notes,
-  graft_failure,
-  graft_failure_date,
-  graft_failure_type,
-  graft_failure_type_other,
-  graft_removal,
-  graft_removal_date,
-  dialysis_type,
-  immunosuppression_1,
-  immunosuppression_2,
-  immunosuppression_3,
-  immunosuppression_4,
-  immunosuppression_5,
-  immunosuppression_6,
-  immunosuppression_7,
-  immunosuppression_other,
-  rejection,
-  rejection_prednisolone,
-  rejection_drug,
-  rejection_drug_other,
-  rejection_biopsy,
-  calcineurin,
-  serum_creatinine_unit,
-  serum_creatinine_1,
-  serum_creatinine_2,
-  serum_creatinine_3,
-  serum_creatinine_4,
-  serum_creatinine_5,
-  serum_creatinine_6,
-  serum_creatinine_7,
-  dialysis_requirement_1,
-  dialysis_requirement_2,
-  dialysis_requirement_3,
-  dialysis_requirement_4,
-  dialysis_requirement_5,
-  dialysis_requirement_6,
-  dialysis_requirement_7,
-  dialysis_cause,
-  dialysis_cause_other,
-  hla_mismatch_a,
-  hla_mismatch_b,
-  hla_mismatch_dr,
-  induction_therapy,
-  discharge_date,
-  created_by_id,
-  organ_id
+INSERT INTO new.followups_followupinitial (
+id,
+record_locked,
+live,
+start_date,
+notes,
+graft_failure,
+graft_failure_date,
+graft_failure_type,
+graft_failure_type_other,
+graft_removal,
+graft_removal_date,
+dialysis_type,
+immunosuppression_1,
+immunosuppression_2,
+immunosuppression_3,
+immunosuppression_4,
+immunosuppression_5,
+immunosuppression_6,
+immunosuppression_7,
+immunosuppression_other,
+rejection,
+rejection_prednisolone,
+rejection_drug,
+rejection_drug_other,
+rejection_biopsy,
+calcineurin,
+serum_creatinine_unit,
+serum_creatinine_1,
+serum_creatinine_2,
+serum_creatinine_3,
+serum_creatinine_4,
+serum_creatinine_5,
+serum_creatinine_6,
+serum_creatinine_7,
+dialysis_requirement_1,
+dialysis_requirement_2,
+dialysis_requirement_3,
+dialysis_requirement_4,
+dialysis_requirement_5,
+dialysis_requirement_6,
+dialysis_requirement_7,
+dialysis_cause,
+dialysis_cause_other,
+hla_mismatch_a,
+hla_mismatch_b,
+hla_mismatch_dr,
+induction_therapy,
+discharge_date,
+organ_id
 )
   SELECT
     followups_followupinitial.id,
-    followups_followupinitial.created_on,
-    followups_followupinitial.version,
     followups_followupinitial.record_locked,
     1,
     followups_followupinitial.start_date,
@@ -1151,100 +1072,8 @@ INSERT INTO new.followups_followupinitial
     followups_followupinitial.hla_mismatch_dr,
     followups_followupinitial.induction_therapy,
     followups_followupinitial.discharge_date,
-    followups_followupinitial.created_by_id,
     followups_followupinitial.organ_id
   FROM old.followups_followupinitial AS followups_followupinitial;
-
-/*
-The following tables appear to be empty in the original data, but copy them verbatim anyhow
- */
-INSERT INTO new.health_economics_resourcehospitaladmission (
-  id,
-  created_on,
-  reason,
-  had_surgery,
-  days_in_itu,
-  days_in_hospital,
-  created_by_id,
-  log_id
-)
-  SELECT
-    id,
-    created_on,
-    reason,
-    had_surgery,
-    days_in_itu,
-    days_in_hospital,
-    created_by_id,
-    log_id
-  FROM old.health_economics_resourcehospitaladmission;
-INSERT INTO new.health_economics_resourcerehabilitation
-(id,
- created_on,
- reason,
- days_in_hospital,
- created_by_id,
- log_id)
-  SELECT
-    id,
-    created_on,
-    reason,
-    days_in_hospital,
-    created_by_id,
-    log_id
-  FROM old.health_economics_resourcerehabilitation;
-INSERT INTO new.health_economics_resourcevisit (
-  id,
-  created_on,
-  type,
-  created_by_id,
-  log_id
-)
-  SELECT
-    id,
-    created_on,
-    type,
-    created_by_id,
-    log_id
-  FROM old.health_economics_resourcevisit;
-
-/*
- TABLE: health_economics_qualityoflife
- Changes to account for:
- - live - added as part of AuditControlModelBase, defaults to 1
- */
-INSERT INTO new.health_economics_qualityoflife (
-  id,
-  created_on,
-  version,
-  record_locked,
-  live,
-  date_recorded,
-  qol_mobility,
-  qol_selfcare,
-  qol_usual_activities,
-  qol_pain,
-  qol_anxiety,
-  vas_score,
-  created_by_id,
-  recipient_id
-)
-  SELECT
-    health_economics_qualityoflife.id,
-    health_economics_qualityoflife.created_on,
-    health_economics_qualityoflife.version,
-    health_economics_qualityoflife.record_locked,
-    1,
-    health_economics_qualityoflife.date_recorded,
-    health_economics_qualityoflife.qol_mobility,
-    health_economics_qualityoflife.qol_selfcare,
-    health_economics_qualityoflife.qol_usual_activities,
-    health_economics_qualityoflife.qol_pain,
-    health_economics_qualityoflife.qol_anxiety,
-    health_economics_qualityoflife.vas_score,
-    health_economics_qualityoflife.created_by_id,
-    health_economics_qualityoflife.recipient_id
-  FROM old.health_economics_qualityoflife AS health_economics_qualityoflife;
 
 /*
  TABLE: health_economics_resourcelog
@@ -1255,30 +1084,111 @@ INSERT INTO new.health_economics_qualityoflife (
 
 INSERT INTO new.health_economics_resourcelog
 (
-  id,
-  created_on,
-  version,
-  record_locked,
-  live,
-  date_given,
-  date_returned,
-  notes,
-  created_by_id,
-  recipient_id
+id,
+record_locked,
+live,
+date_given,
+date_returned,
+notes,
+recipient_id
 )
   SELECT
     id,
-    created_on,
-    version,
     record_locked,
     1,
     date_given,
     date_returned,
     notes,
-    created_by_id,
     recipient_id
   FROM old.health_economics_resourcelog;
 
+-- HE - Admissions
+INSERT INTO new.health_economics_resourcehospitaladmission (
+id,
+record_locked,
+live,
+reason,
+had_surgery,
+days_in_itu,
+days_in_hospital,
+log_id
+)
+  SELECT
+    id,
+    0,
+    1,
+    reason,
+    had_surgery,
+    days_in_itu,
+    days_in_hospital,
+    log_id
+  FROM old.health_economics_resourcehospitaladmission;
+
+-- HE - Rehabilitation
+INSERT INTO new.health_economics_resourcerehabilitation (
+id,
+record_locked,
+live,
+reason,
+days_in_hospital,
+log_id
+)
+  SELECT
+    id,
+    0,
+    1,
+    reason,
+    days_in_hospital,
+    log_id
+  FROM old.health_economics_resourcerehabilitation;
+
+-- HE - Visits
+INSERT INTO new.health_economics_resourcevisit (
+id,
+record_locked,
+live,
+type,
+log_id
+)
+  SELECT
+    id,
+    0,
+    1,
+    type,
+    log_id
+  FROM old.health_economics_resourcevisit;
+
+/*
+ TABLE: health_economics_qualityoflife
+ Changes to account for:
+ - live - added as part of AuditControlModelBase, defaults to 1
+ */
+INSERT INTO new.health_economics_qualityoflife (
+id,
+record_locked,
+live,
+date_recorded,
+qol_mobility,
+qol_selfcare,
+qol_usual_activities,
+qol_pain,
+qol_anxiety,
+vas_score,
+recipient_id
+)
+  SELECT
+    health_economics_qualityoflife.id,
+    health_economics_qualityoflife.record_locked,
+    1,
+    health_economics_qualityoflife.date_recorded,
+    health_economics_qualityoflife.qol_mobility,
+    health_economics_qualityoflife.qol_selfcare,
+    health_economics_qualityoflife.qol_usual_activities,
+    health_economics_qualityoflife.qol_pain,
+    health_economics_qualityoflife.qol_anxiety,
+    health_economics_qualityoflife.vas_score,
+    health_economics_qualityoflife.recipient_id
+  FROM old.health_economics_qualityoflife AS health_economics_qualityoflife;
 
 /*
  TABLE: samples_event
@@ -1287,26 +1197,20 @@ INSERT INTO new.health_economics_resourcelog
  - worksheet - removed from old model, not in new model
  */
 INSERT INTO new.samples_event (
-  id,
-  created_on,
-  version,
-  record_locked,
-  live,
-  type,
-  name,
-  taken_at,
-  created_by_id
+id,
+record_locked,
+live,
+type,
+name,
+taken_at
 )
   SELECT
     id,
-    created_on,
-    version,
     record_locked,
     1,
     type,
     name,
-    taken_at,
-    created_by_id
+    taken_at
   FROM old.samples_event;
 
 /*
@@ -1316,24 +1220,19 @@ INSERT INTO new.samples_event (
  */
 INSERT INTO new.samples_bloodsample
 (
-  id,
-  created_on,
-  version,
-  record_locked,
-  live,
-  barcode,
-  collected,
-  notes,
-  blood_type,
-  centrifuged_at,
-  created_by_id,
-  event_id,
-  person_id
+id,
+record_locked,
+live,
+barcode,
+collected,
+notes,
+blood_type,
+centrifuged_at,
+event_id,
+person_id
 )
   SELECT
     id,
-    created_on,
-    version,
     record_locked,
     1,
     barcode,
@@ -1341,7 +1240,6 @@ INSERT INTO new.samples_bloodsample
     notes,
     blood_type,
     centrifuged_at,
-    created_by_id,
     event_id,
     person_id
   FROM old.samples_bloodsample;
@@ -1352,65 +1250,76 @@ INSERT INTO new.samples_bloodsample
  - live - added as part of AuditControlModelBase, defaults to 1
  */
 INSERT INTO new.samples_perfusatesample (
-  id,
-  created_on,
-  version,
-  record_locked,
-  live,
-  barcode,
-  collected,
-  notes,
-  centrifuged_at,
-  created_by_id,
-  event_id,
-  organ_id
+id,
+record_locked,
+live,
+barcode,
+collected,
+notes,
+centrifuged_at,
+event_id,
+organ_id
 )
   SELECT
     id,
-    created_on,
-    version,
     record_locked,
     1,
     barcode,
     collected,
     notes,
     centrifuged_at,
-    created_by_id,
     event_id,
     organ_id
   FROM old.samples_perfusatesample;
-
 
 /*
  TABLE: samples_tissuesample
  Changes to account for:
  - live - added as part of AuditControlModelBase, defaults to 1
  */
-INSERT INTO new.samples_urinesample (
-  id,
-  created_on,
-  version,
-  record_locked,
-  live,
-  barcode,
-  collected,
-  notes,
-  centrifuged_at,
-  created_by_id,
-  event_id,
-  person_id
+INSERT INTO new.samples_tissuesample (
+id,
+record_locked,
+live,
+barcode,
+collected,
+notes,
+tissue_type,
+event_id,
+organ_id
 )
   SELECT
     id,
-    created_on,
-    version,
+    record_locked,
+    1,
+    barcode,
+    collected,
+    notes,
+    tissue_type,
+    event_id,
+    organ_id
+  FROM old.samples_tissuesample;
+
+-- And urine samples
+INSERT INTO new.samples_urinesample (
+id,
+record_locked,
+live,
+barcode,
+collected,
+notes,
+centrifuged_at,
+event_id,
+person_id
+)
+  SELECT
+    id,
     record_locked,
     1,
     barcode,
     collected,
     notes,
     centrifuged_at,
-    created_by_id,
     event_id,
     person_id
   FROM old.samples_urinesample;
@@ -1459,6 +1368,7 @@ INSERT INTO new.reversion_version (
 
 
 
+
 /*
  #######################################################################################################################
  #######################################################################################################################
@@ -1494,68 +1404,29 @@ GROUP BY lh.id;
  NB: Be explicit in naming the fields and ordering for all inserts and selects, otherwise some fields are out of order.
 
  Do not copy:
- * auth_group_permissions  -- populated from fixture 03_groups.json
- * auth_permission         -- populated from fixture 02_permissions.json
- * auth_group              -- populated from fixture 03_groups.json
+ * auth_group_permissions  -- populated from migrations
+ * auth_permission         -- populated from migrations
+ * auth_group              -- populated from migrations
  * django_sessions         -- data temp table for django
  * django_migrations       -- populated by migrations
  * staffperson_staffjob    -- redundant, replaced by groups
  * samples_worksheet       -- redundant, no replacement for data
- * locations_hospital      -- populated from fixture 03_hospitals.json (Issue #210)
- * compare_retrievalteam   -- populated from fixture 03_hospitals.json (Issue #210)
- * perfusion_machine_perfusionfile -- nothing in the old data
+ * locations_hospital      -- populated from fixture 05_hospitals.json (Issue #210)
+ * compare_retrievalteam   -- populated from fixture 05_hospitals.json (Issue #210)
+ * perfusion_machine_perfusionfile -- redundant, no replacement for data (was empty)
  * sqlite_sequence
 
  New Tables
- * adverse_event_category   -- new table; populate from fixture 11_adverseevent_categories.json after staff_person is filled
+ * adverse_event_category   -- new table; populate from fixture 06_adverseevent_categories.json after staff_person is filled
  * staff_person_groups      -- Do nothing
  * staff_person_user_permissions -- Do nothing
 
  Overwrite data in:
  * django_site
- * django_content_type     -- populated now by 01_contenttypes.json
-   * Amend records in here as changes are made elsewhere in the migration process.
-     * e.g. Amend adverse_event.adverseevent to event
-   * Remove redundant types (e.g. samples.worksheet)
-   * Add adverse_event.category
- * compare_randomisation - no need to bother with fixture, but does need staff_person to be filled first
+ * django_content_type      -- populated from migrations. NB: Need to fix reversion references!
+ * compare_randomisation    -- no need to bother with fixture, but does need staff_person to be filled first
 
  For Issue #211 - Remove link to Hospital from Donor
  * Map locations.hospital.name to donor.retrieval_hospital on copy
 
- Map StaffJobs to AuthGroups:
-
-StaffJobs
-1,Perfusion Technician
-2,Transplant Co-ordinator
-3,Research Nurse / Follow-up
-4,National Co-ordinator
-5,Central Co-ordinator
-6,Statistician
-7,Sys-admin
-8,Local Investigator
-9,Other Project Member
-10,Biobank Coordinator
-11,Chief Investigator
-12,Principle Investigator
-13,Central Investigator
-14,National Investigator
-15,Transplant Theatre Contact
-
-Groups
-1,Perfusion Technicians
-2,Transplant Co-ordinators
-3,Research Nurse / Follow-up
-4,National Co-ordinator
-5,Central Co-ordinator
-6,Statistician
-7,Sys-admin
-8,Local Investigator
-9,Other Project Member
-10,Biobank Coordinator
-11,Chief Investigator
-12,Principle Investigator
-13,Central Investigator
-14,National Investigator
-15,Transplant Theatre Contact
 */
