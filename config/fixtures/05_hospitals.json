@@ -6,8 +6,7 @@
       "name": "Churchill Hospital, Oxford",
       "country": 1,
       "is_active": true,
-      "is_project_site": true,
-      "created_by": 1
+      "is_project_site": true
     }
   },
   {
@@ -15,8 +14,7 @@
     "pk": 1,
     "fields": {
       "centre_code": 15,
-      "based_at": 1,
-      "created_by": 1
+      "based_at": 1
     }
   },
   {
@@ -26,8 +24,7 @@
       "name": "Addenbrook's Hospital, Cambridge",
       "country": 1,
       "is_active": true,
-      "is_project_site": true,
-      "created_by": 1
+      "is_project_site": true
     }
   },
   {
@@ -35,8 +32,7 @@
     "pk": 2,
     "fields": {
       "centre_code": 16,
-      "based_at": 2,
-      "created_by": 1
+      "based_at": 2
     }
   },
   {
@@ -46,8 +42,7 @@
       "name": "Cardiff and Vale University Health Board, Cardiff",
       "country": 1,
       "is_active": true,
-      "is_project_site": true,
-      "created_by": 1
+      "is_project_site": true
     }
   },
   {
@@ -55,8 +50,7 @@
     "pk": 3,
     "fields": {
       "centre_code": 17,
-      "based_at": 3,
-      "created_by": 1
+      "based_at": 3
     }
   },
   {
@@ -66,8 +60,7 @@
       "name": "University Hospital Coventry and Warwickshire, Coventry",
       "country": 1,
       "is_active": true,
-      "is_project_site": true,
-      "created_by": 1
+      "is_project_site": true
     }
   },
   {
@@ -75,8 +68,7 @@
     "pk": 4,
     "fields": {
       "centre_code": 19,
-      "based_at": 4,
-      "created_by": 1
+      "based_at": 4
     }
   },
   {
@@ -86,8 +78,7 @@
       "name": "City Hospital, Nottingham University Hospitals, Nottingham",
       "country": 1,
       "is_active": true,
-      "is_project_site": true,
-      "created_by": 1
+      "is_project_site": true
     }
   },
   {
@@ -95,8 +86,7 @@
     "pk": 5,
     "fields": {
       "centre_code": 19,
-      "based_at": 5,
-      "created_by": 1
+      "based_at": 5
     }
   },
   {
@@ -106,8 +96,7 @@
       "name": "Royal Free Hospital, London",
       "country": 1,
       "is_active": true,
-      "is_project_site": true,
-      "created_by": 1
+      "is_project_site": true
     }
   },
   {
@@ -115,8 +104,7 @@
     "pk": 6,
     "fields": {
       "centre_code": 20,
-      "based_at": 6,
-      "created_by": 1
+      "based_at": 6
     }
   },
   {
@@ -126,8 +114,7 @@
       "name": "Royal London Hospital",
       "country": 1,
       "is_active": true,
-      "is_project_site": true,
-      "created_by": 1
+      "is_project_site": true
     }
   },
   {
@@ -135,8 +122,7 @@
     "pk": 7,
     "fields": {
       "centre_code": 21,
-      "based_at": 7,
-      "created_by": 1
+      "based_at": 7
     }
   },
   {
@@ -146,8 +132,7 @@
       "name": "London WLRTC (Hammersmith)",
       "country": 1,
       "is_active": true,
-      "is_project_site": true,
-      "created_by": 1
+      "is_project_site": true
     }
   },
   {
@@ -155,8 +140,7 @@
     "pk": 8,
     "fields": {
       "centre_code": 22,
-      "based_at": 8,
-      "created_by": 1
+      "based_at": 8
     }
   },
   {
@@ -166,8 +150,7 @@
       "name": "Queen Alexandra Hospital, Portsmouth",
       "country": 1,
       "is_active": true,
-      "is_project_site": true,
-      "created_by": 1
+      "is_project_site": true
     }
   },
   {
@@ -175,8 +158,7 @@
     "pk": 9,
     "fields": {
       "centre_code": 23,
-      "based_at": 9,
-      "created_by": 1
+      "based_at": 9
     }
   },
   {
@@ -186,8 +168,7 @@
       "name": "Universitaire Ziekenhuizen Leuven",
       "country": 4,
       "is_active": true,
-      "is_project_site": true,
-      "created_by": 1
+      "is_project_site": true
     }
   },
   {
@@ -195,8 +176,7 @@
     "pk": 10,
     "fields": {
       "centre_code": 41,
-      "based_at": 10,
-      "created_by": 1
+      "based_at": 10
     }
   },
   {
@@ -206,8 +186,7 @@
       "name": "Universitair Ziekenhuis Antwerpen",
       "country": 4,
       "is_active": true,
-      "is_project_site": true,
-      "created_by": 1
+      "is_project_site": true
     }
   },
   {
@@ -215,8 +194,7 @@
     "pk": 11,
     "fields": {
       "centre_code": 42,
-      "based_at": 11,
-      "created_by": 1
+      "based_at": 11
     }
   },
   {
@@ -226,8 +204,7 @@
       "name": "Universitair Ziekenhuis Brussel",
       "country": 4,
       "is_active": true,
-      "is_project_site": true,
-      "created_by": 1
+      "is_project_site": true
     }
   },
   {
@@ -235,8 +212,7 @@
     "pk": 12,
     "fields": {
       "centre_code": 43,
-      "based_at": 12,
-      "created_by": 1
+      "based_at": 12
     }
   },
   {
@@ -246,8 +222,7 @@
       "name": "Université Catholique de Louvain",
       "country": 4,
       "is_active": true,
-      "is_project_site": true,
-      "created_by": 1
+      "is_project_site": true
     }
   },
   {
@@ -255,8 +230,7 @@
     "pk": 13,
     "fields": {
       "centre_code": 44,
-      "based_at": 13,
-      "created_by": 1
+      "based_at": 13
     }
   },
   {
@@ -266,8 +240,7 @@
       "name": "Université Libre de Bruxelles",
       "country": 4,
       "is_active": true,
-      "is_project_site": true,
-      "created_by": 1
+      "is_project_site": true
     }
   },
   {
@@ -275,8 +248,7 @@
     "pk": 14,
     "fields": {
       "centre_code": 45,
-      "based_at": 14,
-      "created_by": 1
+      "based_at": 14
     }
   },
   {
@@ -286,8 +258,7 @@
       "name": "Centre Hospitalier de Liège",
       "country": 4,
       "is_active": true,
-      "is_project_site": true,
-      "created_by": 1
+      "is_project_site": true
     }
   },
   {
@@ -295,8 +266,7 @@
     "pk": 15,
     "fields": {
       "centre_code": 46,
-      "based_at": 15,
-      "created_by": 1
+      "based_at": 15
     }
   },
   {
@@ -306,8 +276,7 @@
       "name": "Universitair Ziekenhuis Gent",
       "country": 4,
       "is_active": true,
-      "is_project_site": true,
-      "created_by": 1
+      "is_project_site": true
     }
   },
   {
@@ -315,8 +284,7 @@
     "pk": 16,
     "fields": {
       "centre_code": 47,
-      "based_at": 16,
-      "created_by": 1
+      "based_at": 16
     }
   },
   {
@@ -326,8 +294,7 @@
       "name": "Universitair Medisch Centrum Groningen",
       "country": 5,
       "is_active": true,
-      "is_project_site": true,
-      "created_by": 1
+      "is_project_site": true
     }
   },
   {
@@ -335,8 +302,7 @@
     "pk": 18,
     "fields": {
       "centre_code": 51,
-      "based_at": 18,
-      "created_by": 1
+      "based_at": 18
     }
   },
   {
@@ -346,8 +312,7 @@
       "name": "Maastricht Universitair Centrum",
       "country": 5,
       "is_active": true,
-      "is_project_site": true,
-      "created_by": 1
+      "is_project_site": true
     }
   },
   {
@@ -355,8 +320,7 @@
     "pk": 19,
     "fields": {
       "centre_code": 52,
-      "based_at": 19,
-      "created_by": 1
+      "based_at": 19
     }
   },
   {
@@ -366,8 +330,7 @@
       "name": "Leids Universitair Centrum",
       "country": 5,
       "is_active": true,
-      "is_project_site": true,
-      "created_by": 1
+      "is_project_site": true
     }
   },
   {
@@ -375,8 +338,7 @@
     "pk": 20,
     "fields": {
       "centre_code": 53,
-      "based_at": 20,
-      "created_by": 1
+      "based_at": 20
     }
   },
   {
@@ -386,8 +348,7 @@
       "name": "Universitair Medisch Centrum Utrecht",
       "country": 5,
       "is_active": true,
-      "is_project_site": true,
-      "created_by": 1
+      "is_project_site": true
     }
   },
   {
@@ -395,8 +356,7 @@
     "pk": 21,
     "fields": {
       "centre_code": 54,
-      "based_at": 21,
-      "created_by": 1
+      "based_at": 21
     }
   },
   {
@@ -406,8 +366,7 @@
       "name": "Amsterdams Medisch Centrum",
       "country": 5,
       "is_active": true,
-      "is_project_site": true,
-      "created_by": 1
+      "is_project_site": true
     }
   },
   {
@@ -415,8 +374,7 @@
     "pk": 22,
     "fields": {
       "centre_code": 55,
-      "based_at": 22,
-      "created_by": 1
+      "based_at": 22
     }
   },
   {
@@ -426,8 +384,7 @@
       "name": "Universitair Medisch Centrum Nijmegen",
       "country": 5,
       "is_active": true,
-      "is_project_site": true,
-      "created_by": 1
+      "is_project_site": true
     }
   },
   {
@@ -435,8 +392,7 @@
     "pk": 23,
     "fields": {
       "centre_code": 56,
-      "based_at": 23,
-      "created_by": 1
+      "based_at": 23
     }
   },
   {
@@ -446,8 +402,7 @@
       "name": "Erasmus Medisch Centrum",
       "country": 5,
       "is_active": true,
-      "is_project_site": true,
-      "created_by": 1
+      "is_project_site": true
     }
   },
   {
@@ -455,8 +410,7 @@
     "pk": 24,
     "fields": {
       "centre_code": 57,
-      "based_at": 24,
-      "created_by": 1
+      "based_at": 24
     }
   },
   {
@@ -466,8 +420,7 @@
       "name": "VU Medisch Centrum",
       "country": 5,
       "is_active": true,
-      "is_project_site": true,
-      "created_by": 1
+      "is_project_site": true
     }
   },
   {
@@ -475,8 +428,7 @@
     "pk": 25,
     "fields": {
       "centre_code": 58,
-      "based_at": 25,
-      "created_by": 1
+      "based_at": 25
     }
   },
   {
@@ -486,8 +438,7 @@
       "name": "Other / Austria",
       "country": 13,
       "is_active": true,
-      "is_project_site": false,
-      "created_by": 1
+      "is_project_site": false
     }
   },
   {
@@ -497,8 +448,7 @@
       "name": "Other / Netherlands",
       "country": 5,
       "is_active": true,
-      "is_project_site": false,
-      "created_by": 1
+      "is_project_site": false
     }
   },
   {
@@ -508,8 +458,7 @@
       "name": "Other / Belgium",
       "country": 4,
       "is_active": true,
-      "is_project_site": false,
-      "created_by": 1
+      "is_project_site": false
     }
   },
   {
@@ -519,8 +468,7 @@
       "name": "Other / UK",
       "country": 1,
       "is_active": true,
-      "is_project_site": false,
-      "created_by": 1
+      "is_project_site": false
     }
   }
 ]

@@ -4,20 +4,18 @@ from __future__ import absolute_import, unicode_literals
 
 from livefield.managers import LiveManager
 
-from django.db import models
-
 from wp4.compare.managers.core import ModelForUserManagerMixin
 
 
-class FollowupModelForUserManager(LiveManager, ModelForUserManagerMixin):
+class EventModelForUserManager(LiveManager, ModelForUserManagerMixin):
     """
-    Followups have their location based on the organ recipient's location
+    Events have their location based on the organ recipient's location
     """
     def get_queryset(self):
         """
         :return: Queryset
         """
-        qs = super(FollowupModelForUserManager, self).get_queryset().\
+        qs = super(EventModelForUserManager, self).get_queryset().\
             select_related('organ', 'organ__recipient', 'organ__recipient__allocation')
 
         if self.current_user is not None:

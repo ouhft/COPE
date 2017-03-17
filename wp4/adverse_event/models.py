@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # coding: utf-8
 from __future__ import unicode_literals
+from livefield.managers import LiveManager
 
 from django.core.urlresolvers import reverse
 from django.db import models
@@ -8,6 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from wp4.compare.models import AuditControlModelBase, YES_NO_UNKNOWN_CHOICES, Organ
 from wp4.staff.models import Person
+from .managers import EventModelForUserManager
 
 
 class Category(AuditControlModelBase):
@@ -16,9 +18,14 @@ class Category(AuditControlModelBase):
     """
     description = models.CharField(verbose_name=_("AC01 category description"), max_length=50)
 
+    objects = LiveManager()
+
     class Meta:
         verbose_name = _('AECm1 adverse event category')
         verbose_name_plural = _('AECm2 adverse event categories')
+        permissions = (
+            ("view_event", "Can only view the data"),
+        )
 
     def __str__(self):
         return "{0}".format(self.description)
@@ -99,6 +106,33 @@ class Event(AuditControlModelBase):
         related_name='adverse_event_contact'
     )
 
+    objects = EventModelForUserManager()
+
+    class Meta:
+        order_with_respect_to = 'organ'
+        # ordering = ['sequence_number']
+        verbose_name = _('AEm1 adverse event')
+        verbose_name_plural = _('AEm2 adverse events')
+        permissions = (
+            ("view_event", "Can only view the data"),
+            ("restrict_to_national", "Can only use data from the same location country"),
+            ("restrict_to_local", "Can only use data from a specific location"),
+        )
+
+    def country_for_restriction(self):
+        """
+        Get the country to be used for geographic restriction of this data
+        :return: Int: Value from list in Locations.Models. Should be in range [1,4,5]
+        """
+        return self.organ.country_for_restriction
+
+    def location_for_restriction(self):
+        """
+        Get the location to be used for geographic restriction of this data
+        :return: Int: Hospital object id
+        """
+        return self.organ.location_for_restriction
+
     @property
     def is_serious(self):
         """
@@ -120,12 +154,6 @@ class Event(AuditControlModelBase):
         if self.serious_eligible_6:
             return True
         return False
-
-    class Meta:
-        order_with_respect_to = 'organ'
-        # ordering = ['sequence_number']
-        verbose_name = _('AEm1 adverse event')
-        verbose_name_plural = _('AEm2 adverse events')
 
     def get_absolute_url(self):
         return reverse("wp4:adverse_event:update", kwargs={"pk": self.pk})

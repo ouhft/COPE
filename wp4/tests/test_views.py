@@ -19,8 +19,7 @@ class CompareViewsTestCase(CoreDataMixin, TestCase):
     def setUp(self):
         self.factory = RequestFactory()
         self.client = Client()
-        self.user = Person.objects.get_by_natural_key("tech")
-        # print("DEBUG: Randomisations loaded = {0}".format(Randomisation.objects.count()))
+        self.user = Person.objects.get(pk=3)  # Tech user
 
     def test_login(self):
         """

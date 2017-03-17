@@ -3,224 +3,196 @@
     "model": "adverse_event.category",
     "pk": 1,
     "fields": {
-      "description": "Kidney dysfunction",
-      "created_by": 1
+      "description": "Kidney dysfunction"
     }
   },
   {
     "model": "adverse_event.category",
     "pk": 2,
     "fields": {
-      "description": "Surgical revision",
-      "created_by": 1
+      "description": "Surgical revision"
     }
   },
   {
     "model": "adverse_event.category",
     "pk": 3,
     "fields": {
-      "description": "Arterial thrombosis",
-      "created_by": 1
+      "description": "Arterial thrombosis"
     }
   },
   {
     "model": "adverse_event.category",
     "pk": 4,
     "fields": {
-      "description": "Venous thrombosis",
-      "created_by": 1
+      "description": "Venous thrombosis"
     }
   },
   {
     "model": "adverse_event.category",
     "pk": 5,
     "fields": {
-      "description": "Arterial stenosis",
-      "created_by": 1
+      "description": "Arterial stenosis"
     }
   },
   {
     "model": "adverse_event.category",
     "pk": 6,
     "fields": {
-      "description": "Ureteral stenosis",
-      "created_by": 1
+      "description": "Ureteral stenosis"
     }
   },
   {
     "model": "adverse_event.category",
     "pk": 7,
     "fields": {
-      "description": "Ureteral necrosis",
-      "created_by": 1
+      "description": "Ureteral necrosis"
     }
   },
   {
     "model": "adverse_event.category",
     "pk": 8,
     "fields": {
-      "description": "Permanent graft failure",
-      "created_by": 1
+      "description": "Permanent graft failure"
     }
   },
   {
     "model": "adverse_event.category",
     "pk": 9,
     "fields": {
-      "description": "Lymphocoele",
-      "created_by": 1
+      "description": "Lymphocoele"
     }
   },
   {
     "model": "adverse_event.category",
     "pk": 10,
     "fields": {
-      "description": "Seroma",
-      "created_by": 1
+      "description": "Seroma"
     }
   },
   {
     "model": "adverse_event.category",
     "pk": 11,
     "fields": {
-      "description": "Bleeding",
-      "created_by": 1
+      "description": "Bleeding"
     }
   },
   {
     "model": "adverse_event.category",
     "pk": 12,
     "fields": {
-      "description": "Suspicion of rejection",
-      "created_by": 1
+      "description": "Suspicion of rejection"
     }
   },
   {
     "model": "adverse_event.category",
     "pk": 13,
     "fields": {
-      "description": "Infection Chest",
-      "created_by": 1
+      "description": "Infection Chest"
     }
   },
   {
     "model": "adverse_event.category",
     "pk": 14,
     "fields": {
-      "description": "Infection Urine",
-      "created_by": 1
+      "description": "Infection Urine"
     }
   },
   {
     "model": "adverse_event.category",
     "pk": 15,
     "fields": {
-      "description": "Infection Sepsis",
-      "created_by": 1
+      "description": "Infection Sepsis"
     }
   },
   {
     "model": "adverse_event.category",
     "pk": 16,
     "fields": {
-      "description": "Infection Wound",
-      "created_by": 1
+      "description": "Infection Wound"
     }
   },
   {
     "model": "adverse_event.category",
     "pk": 17,
     "fields": {
-      "description": "Infection Abdominal",
-      "created_by": 1
+      "description": "Infection Abdominal"
     }
   },
   {
     "model": "adverse_event.category",
     "pk": 18,
     "fields": {
-      "description": "Cardiac failure",
-      "created_by": 1
+      "description": "Cardiac failure"
     }
   },
   {
     "model": "adverse_event.category",
     "pk": 19,
     "fields": {
-      "description": "Myocardial infarction",
-      "created_by": 1
+      "description": "Myocardial infarction"
     }
   },
   {
     "model": "adverse_event.category",
     "pk": 20,
     "fields": {
-      "description": "Respiratory failure",
-      "created_by": 1
+      "description": "Respiratory failure"
     }
   },
   {
     "model": "adverse_event.category",
     "pk": 21,
     "fields": {
-      "description": "CMV infection or reactivation",
-      "created_by": 1
+      "description": "CMV infection or reactivation"
     }
   },
   {
     "model": "adverse_event.category",
     "pk": 22,
     "fields": {
-      "description": "Transfusion",
-      "created_by": 1
+      "description": "Transfusion"
     }
   },
   {
     "model": "adverse_event.category",
     "pk": 23,
     "fields": {
-      "description": "Diarrhoea and/or vomiting",
-      "created_by": 1
+      "description": "Diarrhoea and/or vomiting"
     }
   },
   {
     "model": "adverse_event.category",
     "pk": 24,
     "fields": {
-      "description": "Malaise",
-      "created_by": 1
+      "description": "Malaise"
     }
   },
   {
     "model": "adverse_event.category",
     "pk": 25,
     "fields": {
-      "description": "Electrolyte disturbances",
-      "created_by": 1
+      "description": "Electrolyte disturbances"
     }
   },
   {
     "model": "adverse_event.category",
     "pk": 26,
     "fields": {
-      "description": "Device error",
-      "created_by": 1
+      "description": "Device error"
     }
   },
   {
     "model": "adverse_event.category",
     "pk": 27,
     "fields": {
-      "description": "Device user error",
-      "created_by": 1
+      "description": "Device user error"
     }
   },
   {
     "model": "adverse_event.category",
     "pk": 28,
     "fields": {
-      "description": "Other",
-      "created_by": 1
+      "description": "Other"
     }
   }
 ]

@@ -12,23 +12,29 @@ from wp4.compare.models import Patient, Organ
 from .managers import EventModelForUserManager, SampleModelForUserManager
 
 
-class BarCodeMixin(object):
+class BarCodeMixin(models.Model):
     """
     Extends with a barcode field
     """
     barcode = models.CharField(verbose_name=_("BC01 barcode number"), max_length=20, blank=True)
 
+    class Meta:
+        abstract = True
+
     def __str__(self):
         return "%s" % self.barcode
 
 
-class DeviationMixin(object):
+class DeviationMixin(models.Model):
     """
     In place of Deviation records on a worksheet, we have a way of tracking them per sample.
     Also holds the meta question of whether this specific sample was actually taken or not.
     """
     collected = models.NullBooleanField(verbose_name=_("DM01 sample collected?"), blank=True)
     notes = models.TextField(verbose_name=_("DM02 notes"), blank=True, help_text="Deviation record")
+
+    class Meta:
+        abstract = True
 
 
 class Event(AuditControlModelBase):
@@ -131,7 +137,7 @@ class Event(AuditControlModelBase):
         return "%s (%s)" % (self.get_type_display(), self.taken_at)
 
 
-class BloodSample(BarCodeMixin, DeviationMixin, AuditControlModelBase):
+class BloodSample(AuditControlModelBase, BarCodeMixin, DeviationMixin):
     """
     Sample class type for Blood samples.
 
@@ -184,7 +190,7 @@ class BloodSample(BarCodeMixin, DeviationMixin, AuditControlModelBase):
                     raise ValidationError(_("BSv03 Body in spin dryer! Sample was centrifuged before it was taken?"))
 
 
-class UrineSample(BarCodeMixin, DeviationMixin, AuditControlModelBase):
+class UrineSample(AuditControlModelBase, BarCodeMixin, DeviationMixin):
     """
     Sample class type for Urine samples.
 
@@ -201,7 +207,7 @@ class UrineSample(BarCodeMixin, DeviationMixin, AuditControlModelBase):
 
     objects = SampleModelForUserManager()
 
-    class Meta(BarCodeMixin.Meta):
+    class Meta:
         ordering = ['person', 'event__taken_at']
         verbose_name = _('USm1 urine sample')
         verbose_name_plural = _('USm2 urine samples')
@@ -229,7 +235,7 @@ class UrineSample(BarCodeMixin, DeviationMixin, AuditControlModelBase):
                     raise ValidationError(_("USv03 Body in spin dryer! Sample was centrifuged before it was taken?"))
 
 
-class PerfusateSample(BarCodeMixin, DeviationMixin, AuditControlModelBase):
+class PerfusateSample(AuditControlModelBase, BarCodeMixin, DeviationMixin):
     """
     Sample class type for Perfusate samples.
 
@@ -246,7 +252,7 @@ class PerfusateSample(BarCodeMixin, DeviationMixin, AuditControlModelBase):
 
     objects = SampleModelForUserManager()
 
-    class Meta(BarCodeMixin.Meta):
+    class Meta:
         ordering = ['organ', 'event__taken_at']
         verbose_name = _('PSm1 perfusate sample')
         verbose_name_plural = _('PSm2 perfusate samples')
@@ -274,7 +280,7 @@ class PerfusateSample(BarCodeMixin, DeviationMixin, AuditControlModelBase):
                     raise ValidationError(_("PSv03 Body in spin dryer! Sample was centrifuged before it was taken?"))
 
 
-class TissueSample(BarCodeMixin, DeviationMixin, AuditControlModelBase):
+class TissueSample(AuditControlModelBase, BarCodeMixin, DeviationMixin):
     """
     Sample class type for Perfusate samples.
 
@@ -298,7 +304,7 @@ class TissueSample(BarCodeMixin, DeviationMixin, AuditControlModelBase):
 
     objects = SampleModelForUserManager()
 
-    class Meta(BarCodeMixin.Meta):
+    class Meta:
         ordering = ['organ', 'event__taken_at']
         verbose_name = _('TSm1 tissue sample')
         verbose_name_plural = _('TSm2 tissue samples')

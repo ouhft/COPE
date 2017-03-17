@@ -2,6 +2,8 @@
 # coding: utf-8
 from __future__ import absolute_import, unicode_literals
 
+from django.contrib.auth.models import Group, Permission
+from django.contrib.contenttypes.models import ContentType
 from django.test import LiveServerTestCase
 from django.core.urlresolvers import reverse
 
@@ -12,24 +14,55 @@ from wp4.staff.models import Person
 # from wp4.locations.models import Hospital, UNITED_KINGDOM, BELGIUM, NETHERLANDS
 # from wp4.staff_person.models import StaffJob, StaffPerson
 # from ..models import RetrievalTeam, Randomisation
+from .utils.setup import get_permission_dictionary
 
 class CoreDataMixin(object):
     fixtures = [
-        'config/fixtures/00_testdata.json',
-        'config/fixtures/01_permissions.json',
-        'config/fixtures/02_randomisation.json',
-        'config/fixtures/10_hospitals.json',
-        'config/fixtures/11_adverseevent_categories.json',
+        'config/fixtures/00_test_users.json',
+        'config/fixtures/04_randomisation.json',
+        'config/fixtures/05_hospitals.json',
+        'config/fixtures/06_adverseevent_categories.json',
     ]
 
     @classmethod
     def setUpClass(cls):
         super(CoreDataMixin, cls).setUpClass()
-        # Create the core user accounts
+
+        # configure the groups and permissions
+        group_admin = Group.objects.get(pk=Person.SYSTEMS_ADMINISTRATOR)
+        group_ccoord = Group.objects.get(pk=Person.CENTRAL_COORDINATOR)
+        group_ncoord = Group.objects.get(pk=Person.NATIONAL_COORDINATOR)
+        group_tech = Group.objects.get(pk=Person.PERFUSION_TECHNICIAN)
+        group_local = Group.objects.get(pk=Person.LOCAL_INVESTIGATOR)
+
+        # modify the core user accounts
         cls.user_admin = Person.objects.get(pk=1)
         cls.user_admin.set_password('adminpass')  # Replace password from fixture
-        cls.user_coordinator = Person.objects.create_user('coord', 'coord@test.com', 'coordpass')
-        cls.user_technician = Person.objects.create_user('tech', 'tech@test.com', 'techpass')
+        cls.user_admin.groups.add(group_admin)
+        cls.user_admin.save()
+
+        cls.user_ccoordinator = Person.objects.get(pk=2)
+        cls.user_ccoordinator.set_password('ccoordpass')  # Replace password from fixture
+        cls.user_ccoordinator.groups.add(group_ccoord)
+        cls.user_ccoordinator.save()
+
+        cls.user_technician = Person.objects.get(pk=3)
+        cls.user_technician.set_password('techpass')  # Replace password from fixture
+        cls.user_technician.groups.add(group_tech)
+        cls.user_technician.save()
+
+        cls.user_ncoordinator = Person.objects.get(pk=4)
+        cls.user_ncoordinator.set_password('ncoordpass')  # Replace password from fixture
+        cls.user_ncoordinator.groups.add(group_ncoord)
+        cls.user_ncoordinator.save()
+
+        cls.user_local = Person.objects.get(pk=5)
+        cls.user_local.set_password('localpass')  # Replace password from fixture
+        cls.user_local.groups.add(group_local)
+        cls.user_local.save()
+
+        # print("CoreDataMixin.setUpClass completed")
+
 
 
 # class ProcurementTestCase(CoreDataMixin, LiveServerTestCase):

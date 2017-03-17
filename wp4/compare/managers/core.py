@@ -276,7 +276,7 @@ class ProcurementResourceModelForUserManager(models.Manager, ModelForUserManager
     Test for permissions to view and restrict based on rules. Relies on for_user() having been called prior
     """
     def get_queryset(self):
-        qs = super(RetrievalTeamModelForUserManager, self).get_queryset().select_related('organ')
+        qs = super(ProcurementResourceModelForUserManager, self).get_queryset().select_related('organ')
 
         return qs
 

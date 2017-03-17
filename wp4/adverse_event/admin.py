@@ -40,7 +40,6 @@ class AdverseEventAdmin(VersionControlAdmin):
         'surgery_required',
         'rehospitalisation_comments',
         'death',
-        'date_of_death',
         'treatment_related',
         'cause_of_death_1',
         'cause_of_death_2',

@@ -16,8 +16,7 @@ class HealthEconomicsModelForUserManager(LiveManager, ModelForUserManagerMixin):
         :return: Queryset
         """
         qs = super(HealthEconomicsModelForUserManager, self).get_queryset().\
-            select_related('recipient', 'recipient__allocation').\
-            select_related('recipient__allocation__transplant_hospital__based_at')
+            select_related('recipient', 'recipient__allocation')
 
         if self.current_user is not None:
             if self.current_user.is_superuser:
@@ -42,8 +41,7 @@ class ResourceLogModelForUserManager(LiveManager, ModelForUserManagerMixin):
         :return: Queryset
         """
         qs = super(ResourceLogModelForUserManager, self).get_queryset().\
-            select_related('log', 'log__recipient', 'log__recipient__allocation').\
-            select_related('log__recipient__allocation__transplant_hospital__based_at')
+            select_related('log', 'log__recipient', 'log__recipient__allocation')
 
         if self.current_user is not None:
             if self.current_user.is_superuser:
