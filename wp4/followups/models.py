@@ -25,8 +25,8 @@ class FollowUpBase(AuditControlModelBase):
     )
 
     # Form metadata
-    start_date = models.DateField(verbose_name=_("FB01 start date"), default=timezone.now)
-    # completed = models.BooleanField(verbose_name=_("FB02 form completed"), default=False)
+    start_date = models.DateField(verbose_name=_("FB01 start date"), null=True)  # Note, not blank!
+    # form_completed = models.BooleanField(verbose_name=_("FB02 form completed"), default=False)
     notes = models.TextField(verbose_name=_("FB03 general notes"), blank=True)
 
     FAILURE_OTHER = 10
