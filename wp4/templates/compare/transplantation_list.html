@@ -149,10 +149,15 @@
                         <tr>
                             <td>
                                 {% if request.user.is_staff %}
-                                    <a href="{% url 'admin:compare_organ_change' case.id %}"><i
-                                            class="glyphicon glyphicon-briefcase"></i></a>
+                                    <a href="{% url 'admin:compare_organ_change' case.id %}"><i class="glyphicon glyphicon-briefcase"></i></a>
                                 {% endif %}
+                            {% if request.user.is_administrator %}
+                                <a href="{% url 'wp4:compare:transplantation_detail' case.id %}" class="btn btn-xs btn-primary">
+                                    <i class="glyphicon glyphicon-edit"></i> {{ case.trial_id }}
+                                </a>
+                            {% else %}
                                 {{ case.trial_id }}
+                            {% endif %}
                             </td>
 {#                            <td>{{ case.created_on }}</td>#}
                             <td

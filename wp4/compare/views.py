@@ -170,11 +170,12 @@ def procurement_form(request, pk):
     """
     all_valid = 0
     donor = get_object_or_404(Donor, pk=int(pk))
-    if donor.procurement_form_completed:
+    current_person = request.user
+
+    if donor.procurement_form_completed and not current_person.is_administrator:
         messages.error(request, 'That case has been <strong>closed</strong>.')
         return redirect(reverse('wp4:compare:procurement_list'))
 
-    current_person = request.user
 
 
     # ================================================ DONOR
@@ -391,11 +392,12 @@ def transplantation_form(request, pk=None):
     """
     # print("DEBUG: Got an organ pk of %s" % pk)
     organ = get_object_or_404(Organ, pk=int(pk))
-    if organ.transplantation_form_completed:
+    current_person = request.user
+
+    if organ.transplantation_form_completed and not current_person.is_administrator:
         messages.error(request, 'That case has been <strong>closed</strong>.')
         return redirect(reverse('wp4:compare:transplantation_list'))
 
-    current_person = request.user
     organ_form = None
     person_form = None
     recipient_form = None
