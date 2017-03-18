@@ -1,8 +1,26 @@
 {% load crispy_forms_field crispy_forms_filters %}
 {% load l10n i18n %}
+{% load theme_tags %}
 
 <!-- START: wp4/templates/bootstrap3/foreign-key-modal.html -->
-<!-- field.attrs={{ field.attrs }} -->
+{#{% autoescape off %}#}
+{#<!-- field.css_class={{ field.css_class }} -->#}
+{#<!-- field.label_tag={{ field.label_tag }} -->#}
+{#<!-- field.html_name={{ field.html_name }} -->#}
+{#<!-- field.value={{ field.value }} -->#}
+{#<!-- field.id_for_label={{ field.id_for_label }} -->#}
+{#<!-- field.errors={{ field.errors }} -->#}
+{#<!-- field.help_text={{ field.help_text }} -->#}
+{#<!-- field.auto_id={{ field.auto_id }} -->#}
+{#<!-- field.attr={{ field.attr|safe }} -->#}
+{#<!-- field.attrs={{ field.attrs|safe }} -->#}
+{#<!-- field.kwargs={{ field.kwargs|safe }} -->#}
+{#<!-- flat_attrs={{ flat_attrs|safe }} -->#}
+{#<!-- field.field={{ field.field|safe }} -->#}
+{% unflatten_attr flat_attrs as attr_dict %}
+{#<!-- {{ attr_dict }} -->#}
+{#{% endautoescape %}#}
+
 <div class="form-group {{ field.css_class|default:"" }}{% if field.errors %}has-error{% endif %}">
     <label class="control-label" for="">{{ field.label_tag|striptags }}</label>
 
@@ -12,7 +30,7 @@
                     class="glyphicon glyphicon-edit"></i></a>
         </span>
         <input class="form-control" type="text" id="{{ field.id_for_label }}-display" readonly value="Name here">
-        {% if field.attrs.no_search == True%} {# TODO: Make this conditional #}
+        {% if attr_dict.no_search == True %} {# TODO: Make this conditional #}
             <!-- Search disabled -->
         {% else %}
         <span class="input-group-addon">
@@ -30,7 +48,6 @@
         // Initialise display
         document.addEventListener("DOMContentLoaded", function (event) {
             $("#{{ field.id_for_label }}-display").val($("#{{ field.id_for_label }} :selected").text());
-            // TODO: Add a calendar widget reload here!
         });
     </script>
 

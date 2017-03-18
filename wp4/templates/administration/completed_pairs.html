@@ -24,116 +24,6 @@
             }
         }
     </style>
-    <p>Reporting at {{ summary.dates.today|date }} on the overall status of all
-        Organs. Last P-Form updated on {{ summary.dates.latest_p_form|date }}, and latest T-Form updated on
-        {{ summary.dates.latest_t_form|date }}.</p>
-    <h2>Summary</h2>
-
-{#    <div class="row">#}
-{#        <div class="col-md-4">#}
-{#            <h3>Donors</h3>#}
-{#            <ul class="list-group">#}
-{#                <li class="list-group-item list-group-item-info">#}
-{#                    Total number of donors#}
-{#                    <span class="badge">{{ summary.donors.total }}</span>#}
-{#                </li>#}
-{#                <li class="list-group-item">#}
-{#                    Completed P-Forms#}
-{#                    <span class="badge">{{ summary.donors.p_forms_completed }}</span>#}
-{#                </li>#}
-{#            </ul>#}
-{##}
-{#            <ul class="list-group">#}
-{#                <li class="list-group-item">#}
-{#                    0 Kidneys#}
-{#                    <span class="badge">{{ summary.donors.eligibility.0 }}</span>#}
-{#                </li>#}
-{#                <li class="list-group-item">#}
-{#                    1 Kidney#}
-{#                    <span class="badge">{{ summary.donors.eligibility.1 }}</span>#}
-{#                </li>#}
-{#                <li class="list-group-item">#}
-{#                    2 Kidneys#}
-{#                    <span class="badge">{{ summary.donors.eligibility.2 }}</span>#}
-{#                </li>#}
-{#                <li class="list-group-item">#}
-{#                    Not Randomised#}
-{#                    <span class="badge">{{ summary.donors.eligibility.not_randomised }}</span>#}
-{#                </li>#}
-{#            </ul>#}
-{##}
-{#        </div>#}
-{#        <div class="col-md-4">#}
-{#            <h3>Kidneys</h3>#}
-{#            <ul class="list-group">#}
-{#                <li class="list-group-item list-group-item-info">#}
-{#                    Randomised Total#}
-{#                    <span class="badge">{{ summary.kidneys.total }}</span>#}
-{#                </li>#}
-{#            </ul>#}
-{#            <ul class="list-group">#}
-{#                <li class="list-group-item">#}
-{#                    Transplantable Total#}
-{#                    <span class="badge">{{ summary.kidneys.transplantable.total }}</span>#}
-{#                </li>#}
-{#                <li class="list-group-item">#}
-{#                    Transplantable Left#}
-{#                    <span class="badge">{{ summary.kidneys.transplantable.left }}</span>#}
-{#                </li>#}
-{#                <li class="list-group-item">#}
-{#                    Transplantable Right#}
-{#                    <span class="badge">{{ summary.kidneys.transplantable.right }}</span>#}
-{#                </li>#}
-{#            </ul>#}
-{#            <ul class="list-group">#}
-{#                <li class="list-group-item">#}
-{#                    Allocated Total#}
-{#                    <span class="badge">{{ summary.kidneys.allocated.total }}</span>#}
-{#                </li>#}
-{#                <li class="list-group-item">#}
-{#                    Allocated Left#}
-{#                    <span class="badge">{{ summary.kidneys.allocated.left }}</span>#}
-{#                </li>#}
-{#                <li class="list-group-item">#}
-{#                    Allocated Right#}
-{#                    <span class="badge">{{ summary.kidneys.allocated.right }}</span>#}
-{#                </li>#}
-{#            </ul>#}
-{#        </div>#}
-{#        <div class="col-md-4">#}
-{#            <h3>Recipients</h3>#}
-{#            <ul class="list-group">#}
-{#                <li class="list-group-item list-group-item-info">#}
-{#                    Total#}
-{#                    <span class="badge">{{ summary.recipients.total }}</span>#}
-{#                </li>#}
-{#                <li class="list-group-item">#}
-{#                    Left#}
-{#                    <span class="badge">{{ summary.recipients.left }}</span>#}
-{#                </li>#}
-{#                <li class="list-group-item">#}
-{#                    Right#}
-{#                    <span class="badge">{{ summary.recipients.right }}</span>#}
-{#                </li>#}
-{#            </ul>#}
-{##}
-{#            <ul class="list-group">#}
-{#                <li class="list-group-item">#}
-{#                    T-Forms Theoretical Total#}
-{#                    <span class="badge">{{ summary.recipients.t_forms_theoretical }}</span>#}
-{#                </li>#}
-{#                <li class="list-group-item">#}
-{#                    T-Forms Started#}
-{#                    <span class="badge">{{ summary.recipients.t_forms_started }}</span>#}
-{#                </li>#}
-{#                <li class="list-group-item">#}
-{#                    T-Forms Completed#}
-{#                    <span class="badge">{{ summary.recipients.t_forms_completed }}</span>#}
-{#                </li>#}
-{#            </ul>#}
-{#        </div>#}
-{#    </div>#}
-
     <h2>Data Breakdown</h2>
 {#    <h4>Key</h4>#}
 {#    <div class="row">#}
@@ -191,8 +81,9 @@
                 Total Eligible: {{ summary.recipients.operated_on.eligible }}
             </th>
             <th>
-                Pairs<br>
-                Eligible: {{ summary.eligible_pairs.total }}<br>
+                Eligible<br>
+                - Pairs: {{ summary.eligible_pairs.total }}<br>
+                - Singles: {{ summary.eligible_pairs.singles }}
             </th>
             <th>
                 12 Month Followup<br>
@@ -212,7 +103,8 @@
                     <small>Not Randomised</small>
                 {% else %}
                     <small>{{ row.count_of_eligible_organs }} Eligible Kidneys</small>
-                {% endif %}
+                {% endif %}<br>
+                {% if row.randomisation.allocated_on %}<small><i class="glyphicon glyphicon-calendar" title="Date of randomisation"></i> {{ row.randomisation.allocated_on|date:"Y-m-d" }}</small>{% endif %}
             </td>
             <td>
                 LEFT <sup>#{{ row.left_kidney.id }}</sup><br>
@@ -263,18 +155,24 @@
                 {% if row.multiple_recipients and row.left_kidney.preservation != 9 and row.left_kidney.transplantable %}{% if row.left_kidney.final_allocation.transplant_hospital.is_project_site %}{% with row.left_kidney.safe_recipient as left_recipient %}{% if left_recipient.signed_consent and left_recipient.single_kidney_transplant %}{% if left_recipient.knife_to_skin or left_recipient.anastomosis_started_at or left_recipient.reperfusion_started_at or left_recipient.operation_concluded_at %}
 
                     {% now "Y-m-d" as today %}
-                    {% if row.left_kidney.followup_done_within_followup_final_window %}
-                        <i class="glyphicon glyphicon-ok text-success" title="Follow Up Done within window"></i>
-                    {% elif row.left_kidney.followup_1y.start_date < row.left_kidney.followup_final_begin_by %}
-                        <i class="glyphicon glyphicon-warning-sign text-warning" title="Follow Up Done EARLY"></i>
-                    {% elif row.left_kidney.followup_1y.start_date > row.left_kidney.followup_final_completed_by %}
-                        <i class="glyphicon glyphicon-warning-sign text-warning" title="Follow Up Done LATE"></i>
-                    {% elif today > row.left_kidney.followup_final_completed_by|date:"Y-m-d" %}
-                        <i class="glyphicon glyphicon-remove text-danger" title="Follow Up Missed Window"></i>
-                    {% elif today < row.left_kidney.followup_final_begin_by|date:"Y-m-d" %}
-                        <i class="glyphicon glyphicon-time text-success" title="Not yet due ({{ row.left_kidney.followup_final_begin_by }})"></i>
+                    {% if row.left_kidney.followup_1y.start_date is not None %}
+                        <!-- {{ row.left_kidney.followup_final_begin_by }} < {{ row.left_kidney.followup_1y.start_date }} < {{ row.left_kidney.followup_final_completed_by }}-->
+                        {% if row.left_kidney.followup_1y.start_date < row.left_kidney.followup_final_begin_by %}
+                            <i class="glyphicon glyphicon-ok-sign text-warning" title="Follow Up Done EARLY"></i>
+                        {% elif row.left_kidney.followup_1y.start_date > row.left_kidney.followup_final_completed_by %}
+                            <i class="glyphicon glyphicon-remove-circle text-warning" title="Follow Up Done LATE"></i>
+                        {% else %}
+                            <i class="glyphicon glyphicon-ok text-success" title="Follow Up Done within window"></i>
+                        {% endif %}
                     {% else %}
-                        <i class="glyphicon glyphicon-time text-info" title="Due by ({{ row.left_kidney.followup_final_begin_by }})"></i>
+                        <!-- {{ row.left_kidney.followup_final_begin_by|date:"Y-m-d" }} < {{ today }} < {{ row.left_kidney.followup_final_completed_by|date:"Y-m-d" }}-->
+                        {% if today > row.left_kidney.followup_final_completed_by|date:"Y-m-d" %}
+                            <i class="glyphicon glyphicon-remove text-danger" title="Follow Up Missed Window"></i>
+                        {% elif today < row.left_kidney.followup_final_begin_by|date:"Y-m-d" %}
+                            <i class="glyphicon glyphicon-calendar text-success" title="Not yet due ({{ row.left_kidney.followup_final_begin_by }})"></i>
+                        {% else %}
+                            <i class="glyphicon glyphicon-time text-info" title="Due by ({{ row.left_kidney.followup_final_completed_by }})"></i>
+                        {% endif %}
                     {% endif %}
                     {% if row.left_kidney.followup_1y.creatinine_clearance > 0 %}<i class="glyphicon glyphicon-ok text-success" title="Creatinine Clearance Recorded"></i>{% else %}<i class="glyphicon glyphicon-remove text-danger" title="No CC"></i>{% endif %}
                     {% if row.left_kidney.followup_1y %}<sup title="{{ row.left_kidney.followup_1y.start_date }}">#{{ row.left_kidney.followup_1y.id }}</sup>{% endif %}
@@ -316,18 +214,24 @@
                 {% if row.multiple_recipients and row.right_kidney.preservation != 9 and row.right_kidney.transplantable %}{% if row.right_kidney.final_allocation.transplant_hospital.is_project_site %}{% with row.right_kidney.safe_recipient as right_recipient %}{% if right_recipient.signed_consent and right_recipient.single_kidney_transplant %}{% if right_recipient.knife_to_skin or right_recipient.anastomosis_started_at or right_recipient.reperfusion_started_at or right_recipient.operation_concluded_at %}
 
                     {% now "Y-m-d" as today %}
-                    {% if row.right_kidney.followup_done_within_followup_final_window %}
-                        <i class="glyphicon glyphicon-ok text-success" title="Follow Up Done within window"></i>
-                    {% elif row.right_kidney.followup_1y.start_date < row.right_kidney.followup_final_begin_by %}
-                        <i class="glyphicon glyphicon-warning-sign text-warning" title="Follow Up Done EARLY"></i>
-                    {% elif row.right_kidney.followup_1y.start_date > row.right_kidney.followup_final_completed_by %}
-                        <i class="glyphicon glyphicon-warning-sign text-warning" title="Follow Up Done LATE"></i>
-                    {% elif today > row.right_kidney.followup_final_completed_by|date:"Y-m-d" %}
-                        <i class="glyphicon glyphicon-remove text-danger" title="Follow Up Missed Window"></i>
-                    {% elif today < row.right_kidney.followup_final_begin_by|date:"Y-m-d" %}
-                        <i class="glyphicon glyphicon-time text-success" title="Not yet due ({{ row.right_kidney.followup_final_begin_by }})"></i>
+                    {% if row.right_kidney.followup_1y.start_date is not None %}
+                        <!-- {{ row.right_kidney.followup_final_begin_by }} < {{ row.right_kidney.followup_1y.start_date }} < {{ row.right_kidney.followup_final_completed_by }}-->
+                        {% if row.right_kidney.followup_1y.start_date < row.right_kidney.followup_final_begin_by %}
+                            <i class="glyphicon glyphicon-ok-sign text-warning" title="Follow Up Done EARLY"></i>
+                        {% elif row.right_kidney.followup_1y.start_date > row.right_kidney.followup_final_completed_by %}
+                            <i class="glyphicon glyphicon-remove-circle text-warning" title="Follow Up Done LATE"></i>
+                        {% else %}
+                            <i class="glyphicon glyphicon-ok text-success" title="Follow Up Done within window"></i>
+                        {% endif %}
                     {% else %}
-                        <i class="glyphicon glyphicon-time text-info" title="Due by ({{ row.right_kidney.followup_final_begin_by }})"></i>
+                        <!-- {{ row.right_kidney.followup_final_begin_by|date:"Y-m-d" }} < {{ today }} < {{ row.right_kidney.followup_final_completed_by|date:"Y-m-d" }}-->
+                        {% if today > row.right_kidney.followup_final_completed_by|date:"Y-m-d" %}
+                            <i class="glyphicon glyphicon-remove text-danger" title="Follow Up Missed Window"></i>
+                        {% elif today < row.right_kidney.followup_final_begin_by|date:"Y-m-d" %}
+                            <i class="glyphicon glyphicon-calendar text-success" title="Not yet due ({{ row.right_kidney.followup_final_begin_by }})"></i>
+                        {% else %}
+                            <i class="glyphicon glyphicon-time text-info" title="Due by ({{ row.right_kidney.followup_final_completed_by }})"></i>
+                        {% endif %}
                     {% endif %}
                     {% if row.right_kidney.followup_1y.creatinine_clearance > 0 %}<i class="glyphicon glyphicon-ok text-success" title="Creatinine Clearance Recorded"></i>{% else %}<i class="glyphicon glyphicon-remove text-danger" title="No CC"></i>{% endif %}
                     {% if row.right_kidney.followup_1y %}<sup title="{{ row.right_kidney.followup_1y.start_date }}">#{{ row.right_kidney.followup_1y.id }}</sup>{% endif %}

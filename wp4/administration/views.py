@@ -737,6 +737,7 @@ def completed_pairs(request):
 
                                     # Pair analysis
                                     summary["eligible_pairs"]["total"] += 1 if previous_organ_eligible else 0
+                                    summary["eligible_pairs"]["singles"] += 1 if previous_organ_eligible else -1  # Will result in a negative number of singles
                                     previous_organ_eligible = True if not previous_organ_eligible else False
                                     try:
                                         if organ.followup_1y.started_within_window:
@@ -750,10 +751,13 @@ def completed_pairs(request):
                                     #     summary["finals"]["outside_window"]["early"] += 1
                                     # else:
                                     #     summary["finals"]["outside_window"]["overdue"] += 1
+
                     else:
                         summary["allocations"]["total_to_non_project_sites"] += 1
                 else:
                     summary["allocations"]["total_to_unknown_hospital"] += 1
+
+    summary["eligible_pairs"]["singles"] *= -1  # Reverse the sign for this value
 
     return render(
         request,

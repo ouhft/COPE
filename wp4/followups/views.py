@@ -34,11 +34,15 @@ class UserBasedQuerysetMixin(object):
     def get_queryset(self):
         queryset = self.model.objects.for_user(self.request.user).all()
 
-        ordering = self.get_ordering()
-        if ordering:
-            if isinstance(ordering, six.string_types):
-                ordering = (ordering,)
-            queryset = queryset.order_by(*ordering)
+        try:
+            ordering = self.get_ordering()
+            if ordering:
+                if isinstance(ordering, six.string_types):
+                    ordering = (ordering,)
+                queryset = queryset.order_by(*ordering)
+        except AttributeError:
+            # get_ordering doesn't apply to nonlists, but this queryset does
+            pass
 
         return queryset
 

@@ -23,7 +23,13 @@ def generate_followups_from_recipient(recipient):
         f1 = FollowUpInitial.objects.create(organ=recipient.organ)
 
     try:
-        f2 = recipient.organ.followup_3m.id
+        f2 = recipient.organ.followup_3m
+        print(f2.id)
+        # Check for an existing QoL record linked to this
+        try:
+            q1 = f2.quality_of_life.id
+        except QualityOfLife.DoesNotExist:
+            q1 = QualityOfLife.objects.create(recipient=recipient, live=f2.live)
     except FollowUp3M.DoesNotExist:
         q1 = QualityOfLife.objects.create(recipient=recipient, live=False)
         f2 = FollowUp3M.objects.create(organ=recipient.organ, quality_of_life=q1, live=False)
@@ -34,7 +40,13 @@ def generate_followups_from_recipient(recipient):
         f3 = FollowUp6M.objects.create(organ=recipient.organ, live=False)
 
     try:
-        f4 = recipient.organ.followup_1y.id
+        f4 = recipient.organ.followup_1y
+        print(f4.id)
+        # Check for an existing QoL record linked to this
+        try:
+            q2 = f4.quality_of_life.id
+        except QualityOfLife.DoesNotExist:
+            q2 = QualityOfLife.objects.create(recipient=recipient, live=f4.live)
     except FollowUp1Y.DoesNotExist:
         q2 = QualityOfLife.objects.create(recipient=recipient, live=False)
         f4 = FollowUp1Y.objects.create(organ=recipient.organ, quality_of_life=q2, live=False)
@@ -47,14 +59,16 @@ def activate_followups_in_window():
     :return:
     """
     date_now = datetime.datetime.now().date()
-    for organ in Organ.objects.prefetch_related('followup_3m').filter(followup_3m__isnull=False):
+    for organ in Organ.all_objects.prefetch_related('followup_3m').filter(followup_3m__isnull=False):
         if organ.followup_3m_begin_by >= date_now:
             organ.followup_3m.undelete()
+            organ.followup_3m.quality_of_life.undelete()
 
-    for organ in Organ.objects.prefetch_related('followup_6m').filter(followup_6m__isnull=False):
+    for organ in Organ.all_objects.prefetch_related('followup_6m').filter(followup_6m__isnull=False):
         if organ.followup_6m_begin_by >= date_now:
             organ.followup_6m.undelete()
 
-    for organ in Organ.objects.prefetch_related('followup_1y').filter(followup_1y__isnull=False):
+    for organ in Organ.all_objects.prefetch_related('followup_1y').filter(followup_1y__isnull=False):
         if organ.followup_final_begin_by >= date_now:
             organ.followup_1y.undelete()
+            organ.followup_1y.quality_of_life.undelete()

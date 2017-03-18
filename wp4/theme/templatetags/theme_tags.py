@@ -3,6 +3,7 @@ __author__ = 'carl'
 import time
 import os
 import markdown
+import re
 
 from django import template
 from django.conf import settings
@@ -92,3 +93,31 @@ def selected_choice_text(field):
         if key == field.value():
             return value
     return ""
+
+@register.simple_tag
+def unflatten_attr(text):
+    """
+    For crispy forms, take the flat_attr contents (text) and convert it into a dictionary
+
+    e.g.: In Code:
+        `ForeignKeyModal('quality_of_life', no_search=True, false_attr="Flibble \"text\" with space", final_at=456)`
+    Becomes flat_attr with value of in the raw template output:
+        ` no-search="True" false-attr="Flibble &quot;text&quot; with space" final-at="456"`
+
+    Note: hyphens need to become underscores again for key names
+
+    :param text: the flat_attr contents
+    :return dict: attributes in a dict
+    """
+    dict_re = re.compile(r'([\w\-]+)="([\w\s&;]+)"')
+    raw_list = re.findall(dict_re, text)
+    output_dict = {}
+    for k, v in raw_list:
+        value = v.replace('&quot;', '"')
+        if value == "True":
+            value = True
+        elif value == "False":
+            value = False
+
+        output_dict[k.replace('-','_')] = value
+    return output_dict

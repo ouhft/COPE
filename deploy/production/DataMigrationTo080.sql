@@ -429,24 +429,24 @@ perfusion_machine_id
   FROM old.compare_organ AS oco;
 
 -- As per Issue #236 - Repairing 6 randomisations that didn't link up
-UPDATE compare_donor SET sequence_number = 7 WHERE id = 127;
-UPDATE compare_organ SET preservation = 1 WHERE id = 253;
-UPDATE compare_organ SET preservation = 0 WHERE id = 254;
-UPDATE compare_donor SET sequence_number = 19 WHERE id = 133;
-UPDATE compare_organ SET preservation = 1 WHERE id = 265;
-UPDATE compare_organ SET preservation = 0 WHERE id = 266;
-UPDATE compare_donor SET sequence_number = 23 WHERE id = 137;
-UPDATE compare_organ SET preservation = 1 WHERE id = 273;
-UPDATE compare_organ SET preservation = 0 WHERE id = 274;
-UPDATE compare_donor SET sequence_number = 20 WHERE id = 162;
-UPDATE compare_organ SET preservation = 0 WHERE id = 323;
-UPDATE compare_organ SET preservation = 1 WHERE id = 324;
-UPDATE compare_donor SET sequence_number = 12 WHERE id = 205;
-UPDATE compare_organ SET preservation = 0 WHERE id = 409;
-UPDATE compare_organ SET preservation = 1 WHERE id = 410;
-UPDATE compare_donor SET sequence_number = 21 WHERE id = 224;
-UPDATE compare_organ SET preservation = 1 WHERE id = 447;
-UPDATE compare_organ SET preservation = 0 WHERE id = 448;
+UPDATE new.compare_donor SET sequence_number = 7 WHERE id = 127;
+UPDATE new.compare_organ SET preservation = 1 WHERE id = 253;
+UPDATE new.compare_organ SET preservation = 0 WHERE id = 254;
+UPDATE new.compare_donor SET sequence_number = 19 WHERE id = 133;
+UPDATE new.compare_organ SET preservation = 1 WHERE id = 265;
+UPDATE new.compare_organ SET preservation = 0 WHERE id = 266;
+UPDATE new.compare_donor SET sequence_number = 23 WHERE id = 137;
+UPDATE new.compare_organ SET preservation = 1 WHERE id = 273;
+UPDATE new.compare_organ SET preservation = 0 WHERE id = 274;
+UPDATE new.compare_donor SET sequence_number = 20 WHERE id = 162;
+UPDATE new.compare_organ SET preservation = 0 WHERE id = 323;
+UPDATE new.compare_organ SET preservation = 1 WHERE id = 324;
+UPDATE new.compare_donor SET sequence_number = 12 WHERE id = 205;
+UPDATE new.compare_organ SET preservation = 0 WHERE id = 409;
+UPDATE new.compare_organ SET preservation = 1 WHERE id = 410;
+UPDATE new.compare_donor SET sequence_number = 21 WHERE id = 224;
+UPDATE new.compare_organ SET preservation = 1 WHERE id = 447;
+UPDATE new.compare_organ SET preservation = 0 WHERE id = 448;
 
 -- Copy procurement resource
 INSERT INTO new.compare_procurementresource (

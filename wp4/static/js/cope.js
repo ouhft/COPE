@@ -36,6 +36,8 @@ function toggleModalContent(display, htmlContent) {
         $('#modal-content').html(htmlContent);
         $('#modal-progressbar').delay(1000).slideUp('slow');
         $('#modal-content').delay(1000).slideDown('slow');
+        // Reload the Datetime Picker for forms that use it - from inline code in wp4/templates/bootstrap3/layout/datetimefield.html
+        load_datetime_for_id_date_recorded();
     } else {
         $('#modal-content').hide();
         $('#modal-action-button').text("Unset").toggleClass("hidden", true);
@@ -69,6 +71,7 @@ function openForeignKeyModal(keyName, dbValue) {
     var ajaxURL = getBaseURL();
     var ajaxDATA = {}
     var keyNameSplit = keyName.split("-");
+    console.log("DEBUG: openForeignKeyModal(): keyName="+keyName+". dbValue="+dbValue);
     if (keyName == "id_donor-transplant_coordinator") {
         //console.log("DEBUG: loading modal for transplant co-ord");
         ajaxURL += (dbValue < 1 ? "wp4/staff/" : "wp4/staff/" + dbValue + "/");
@@ -82,7 +85,7 @@ function openForeignKeyModal(keyName, dbValue) {
         ajaxURL += (dbValue < 1 ? "wp4/staff/" : "wp4/staff/" + dbValue + "/");
         ajaxDATA = {"pk": dbValue, "q": 8, "return_id": keyName}  // LOCAL_INVESTIGATOR
     } else if (keyName == "id_quality_of_life") {
-        //console.log("DEBUG: loading modal for follow up qol record");
+        // console.log("DEBUG: loading modal for follow up qol record");
         ajaxURL += (dbValue < 1 ? "wp4/health-economics/add" : "wp4/health-economics/" + dbValue + "/");
         ajaxDATA = {"pk": dbValue, "return_id": keyName}
     } else {

@@ -375,7 +375,8 @@ class FollowUp3M(FollowUpBase):
 
     @property
     def started_within_window(self):
-        if self.organ.followup_3m_completed_by >= self.start_date >= self.organ.followup_3m_begin_by:
+        if self.start_date \
+                and self.organ.followup_3m_completed_by >= self.start_date >= self.organ.followup_3m_begin_by:
             return True
         return False
 
@@ -463,7 +464,8 @@ class FollowUp6M(FollowUpBase):
 
     @property
     def started_within_window(self):
-        if self.organ.followup_6m_completed_by >= self.start_date >= self.organ.followup_6m_begin_by:
+        if self.start_date \
+                and self.organ.followup_6m_completed_by >= self.start_date >= self.organ.followup_6m_begin_by:
             return True
         return False
 
@@ -559,7 +561,8 @@ class FollowUp1Y(FollowUpBase):
 
     @property
     def started_within_window(self):
-        if self.organ.followup_final_completed_by >= self.start_date >= self.organ.followup_final_begin_by:
+        if self.start_date \
+                and self.organ.followup_final_completed_by >= self.start_date >= self.organ.followup_final_begin_by:
             return True
         return False
 

@@ -25,7 +25,7 @@
     </div>
 {% endif %}
 <script type="text/javascript">
-    document.addEventListener("DOMContentLoaded", function (event) {
+    function load_datetime_for_{{ field.id_for_label }}() {
         {# Dynamically change the placeholder and data-date-format text based on present locale #}
         if ('{{ LANGUAGE_CODE }}' == 'en-gb' && $('#{{ field.id_for_label }}').attr('data-date-format') == 'DD-MM-YYYY HH:mm') {
             $('#{{ field.id_for_label }}').attr('data-date-format', 'YYYY-MM-DD HH:mm');
@@ -35,7 +35,13 @@
             locale: '{{ LANGUAGE_CODE }}',
             {# maxDate: moment()    --- TODO: Modify this to stop future dates from being selected #}
         });
-        {# console.log("DEBUG: moment.locale() =" + moment.locale() );#}
+        console.log("DEBUG: called load_datetime_for_{{ field.id_for_label }}()");
+    }
+
+    document.addEventListener("DOMContentLoaded", function (event) {
+        // This loads the DateTime picker for this field on a page load. However, modal loads are different and don't trigger this
+        load_datetime_for_{{ field.id_for_label }}();
+        console.log("DEBUG: addEventListener DOMContentLoaded {{ field.id_for_label }}=datetimepicker()");
     });
 </script>
 <!-- END: wp4/templates/bootstrap3/layout/datetimefield.html -->
