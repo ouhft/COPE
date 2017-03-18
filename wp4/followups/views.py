@@ -25,7 +25,6 @@ def index(request):
     return render(request, 'followups/index.html', {})
 
 
-# ============================================  CBVs
 class UserBasedQuerysetMixin(object):
     """
     Ensure that the queries we run include the current user to allow for the filtering and permissions to take hold
@@ -67,6 +66,7 @@ class FormSaveMixin(object):
         return super(FormSaveMixin, self).form_invalid(form)
 
 
+# ============================================  CBVs
 # Initial
 class FollowUpInitialListView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, OrderableListMixin,
                               UserBasedQuerysetMixin, ListView):

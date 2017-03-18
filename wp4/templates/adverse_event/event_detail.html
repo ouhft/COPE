@@ -1,0 +1,237 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+{% load theme_tags %}
+
+{% block page_title %}Adverse Event{% endblock %}
+{% block page_header %}{{ event.is_serious|yesno:"Serious ," }}Adverse Event
+    <small>Event ID #{{ event.id }} -- Trial ID: {{ event.organ.trial_id }}</small>{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:adverse_event:list' %}">Adverse Events</a></li>
+    <li class="active">View Event #{{ event.id }}</li>
+{% endblock %}
+
+
+{% block content %}
+    <h2>Summary</h2>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-primary }}">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Trial ID: {{ event.organ.trial_id }}</h3>
+                </div>
+                {#                <div class="panel-body">#}
+                {#                    Panel content#}
+                {#                </div>#}
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <strong>Hospital:</strong> {{ event.organ.final_allocation.transplant_hospital }}</li>
+                    <li class="list-group-item"><strong>Contact:</strong> {{ event.contact.get_full_name }}</li>
+                    <li class="list-group-item">
+                        <strong>{% get_verbose_field_name event 'onset_at_date' %}:</strong> {{ event.onset_at_date }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>{% get_verbose_field_name event 'event_ongoing' %}</strong>
+                        <span class="badge">{{ event.event_ongoing|yesno }}</span>
+                    </li>
+
+                </ul>
+                {% if user.is_administrator %}
+                <div class="panel-body">
+                    <strong>Categories:</strong>
+                    {% for cat in event.categories.all %}
+                    <span class="label label-default">{{ cat.description }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+
+        </div>
+        <div class="col-md-4">
+            <div class="panel {{ event.is_serious|yesno:"panel-danger,panel-default" }}">
+                {#                <div class="panel-heading">#}
+                {#                    <h3 class="panel-title">Part 1 - Seriousness</h3>#}
+                {#                </div>#}
+                <ul class="list-group">
+                    <li class="list-group-item {{ event.serious_eligible_1|yesno:"list-group-item-danger," }}">
+                        <strong>{% get_verbose_field_name event 'serious_eligible_1' %}</strong><br>&nbsp;
+                        <span class="badge">{{ event.serious_eligible_1|yesno }}</span>
+                    </li>
+                    <li class="list-group-item {{ event.serious_eligible_2|yesno:"list-group-item-danger," }}">
+                        <strong>{% get_verbose_field_name event 'serious_eligible_2' %}</strong><br>&nbsp;
+                        <span class="badge">{{ event.serious_eligible_2|yesno }}</span>
+                    </li>
+                    <li class="list-group-item {{ event.serious_eligible_3|yesno:"list-group-item-danger," }}">
+                        <strong>{% get_verbose_field_name event 'serious_eligible_3' %}</strong><br>&nbsp;
+                        <span class="badge">{{ event.serious_eligible_3|yesno }}</span>
+                    </li>
+                </ul>
+            </div>
+
+
+        </div>
+        <div class="col-md-4">
+            <div class="panel {{ event.is_serious|yesno:"panel-danger,panel-default" }}">
+                {#                <div class="panel-heading">#}
+                {#                    <h3 class="panel-title">Part 1 - cont.</h3>#}
+                {#                </div>#}
+                <ul class="list-group">
+                    <li class="list-group-item {{ event.serious_eligible_4|yesno:"list-group-item-danger," }}">
+                        <strong>{% get_verbose_field_name event 'serious_eligible_4' %}</strong><br>&nbsp;
+                        <span class="badge">{{ event.serious_eligible_4|yesno }}</span>
+                    </li>
+                    <li class="list-group-item {{ event.serious_eligible_5|yesno:"list-group-item-danger," }}">
+                        <strong>{% get_verbose_field_name event 'serious_eligible_5' %}</strong><br>&nbsp;
+                        <span class="badge">{{ event.serious_eligible_5|yesno }}</span>
+                    </li>
+                    <li class="list-group-item {{ event.serious_eligible_6|yesno:"list-group-item-danger," }}">
+                        <strong>{% get_verbose_field_name event 'serious_eligible_6' %}</strong><br>&nbsp;
+                        <span class="badge">{{ event.serious_eligible_6|yesno }}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <h2>Details</h2>
+    <div class="row">
+        <div class="col-md-6">
+
+            <div class="panel panel-default }}">
+                {#                <div class="panel-heading">#}
+                {#                    <h3 class="panel-title">Part 2</h3>#}
+                {#                </div>#}
+                <div class="panel-body">
+                    <h4>{% get_verbose_field_name event 'description' %}</h4>
+                    <div>{{ event.description }}</div>
+                </div>
+                <div class="panel-body">
+                    <h4>{% get_verbose_field_name event 'action' %}</h4>
+                    <div>{{ event.action }}</div>
+                </div>
+                <div class="panel-body">
+                    <h4>{% get_verbose_field_name event 'outcome' %}</h4>
+                    <div>{{ event.outcome }}</div>
+                </div>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <strong>{% get_verbose_field_name event 'alive_query_1' %}</strong>
+                        <span class="badge">{{ event.alive_query_1|yesno }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>{% get_verbose_field_name event 'alive_query_2' %}</strong>
+                        <span class="badge">{{ event.alive_query_2|yesno }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>{% get_verbose_field_name event 'alive_query_3' %}</strong>
+                        <span class="badge">{{ event.alive_query_3|yesno }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>{% get_verbose_field_name event 'alive_query_4' %}</strong>
+                        <span class="badge">{{ event.alive_query_4|yesno }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>{% get_verbose_field_name event 'alive_query_5' %}</strong>
+                        <span class="badge">{{ event.alive_query_5|yesno }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>{% get_verbose_field_name event 'alive_query_6' %}</strong>
+                        <span class="badge">{{ event.alive_query_6|yesno }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>{% get_verbose_field_name event 'alive_query_7' %}</strong>
+                        <span class="badge">{{ event.alive_query_7|yesno }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>{% get_verbose_field_name event 'alive_query_8' %}</strong>
+                        <span class="badge">{{ event.alive_query_8|yesno }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>{% get_verbose_field_name event 'alive_query_9' %}</strong>
+                        <span class="badge">{{ event.alive_query_9|yesno }}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <strong>{% get_verbose_field_name event 'rehospitalisation' %}</strong>
+                        <span class="badge">{{ event.rehospitalisation|yesno }}</span>
+                    </li>
+                    {% if event.rehospitalisation %}
+                    <li class="list-group-item">
+                        <strong>{% get_verbose_field_name event 'date_of_admission' %}</strong><br>
+                        {{ event.date_of_admission }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>{% get_verbose_field_name event 'date_of_discharge' %}</strong><br>
+                        {{ event.date_of_discharge }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>{% get_verbose_field_name event 'admitted_to_itu' %}</strong>
+                        <span class="badge">{{ event.admitted_to_itu|yesno }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>{% get_verbose_field_name event 'dialysis_needed' %}</strong>
+                        <span class="badge">{{ event.dialysis_needed|yesno }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>{% get_verbose_field_name event 'biopsy_taken' %}</strong>
+                        <span class="badge">{{ event.biopsy_taken|yesno }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>{% get_verbose_field_name event 'surgery_required' %}</strong>
+                        <span class="badge">{{ event.surgery_required|yesno }}</span>
+                    </li>
+                </ul>
+                <div class="panel-body">
+                    <h4>{% get_verbose_field_name event 'rehospitalisation_comments' %}</h4>
+                    <div>{{ event.rehospitalisation_comments }}</div>
+                </div>
+                    {% else %}
+                </ul>
+                    {% endif %}
+            </div>
+
+            <div class="panel panel-default">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <strong>{% get_verbose_field_name event 'death' %}</strong>
+                        <span class="badge">{{ event.death|yesno }}</span>
+                    </li>
+                    {% if event.death %}
+                    <li class="list-group-item">
+                        <strong>Date of Death</strong><br>
+                        {{ event.organ.safe_recipient.person.date_of_death }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>{% get_verbose_field_name event 'treatment_related' %}</strong>
+                        <span class="badge">{{ event.treatment_related|yesno }}</span>
+                    </li>
+                </ul>
+                <div class="panel-body">
+                    <h4>Cause of death</h4>
+                    <ul>
+                        {% if event.cause_of_death_1 %}<li>{% get_verbose_field_name event 'cause_of_death_1' %}</li>{% endif %}
+                        {% if event.cause_of_death_2 %}<li>{% get_verbose_field_name event 'cause_of_death_2' %}</li>{% endif %}
+                        {% if event.cause_of_death_3 %}<li>{% get_verbose_field_name event 'cause_of_death_3' %}</li>{% endif %}
+                        {% if event.cause_of_death_4 %}<li>{% get_verbose_field_name event 'cause_of_death_4' %}</li>{% endif %}
+                        {% if event.cause_of_death_5 %}<li>{% get_verbose_field_name event 'cause_of_death_5' %}</li>{% endif %}
+                        {% if event.cause_of_death_6 %}<li>{% get_verbose_field_name event 'cause_of_death_6' %}</li>{% endif %}
+                    </ul>
+                    {% if event.cause_of_death_6 %}
+                    <h4>{% get_verbose_field_name event 'cause_of_death_comment' %}</h4>
+                    <div>{{ event.cause_of_death_comment }}</div>
+                    {% endif %}
+                </div>
+                    {% else %}
+                </ul>
+                    {% endif %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

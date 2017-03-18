@@ -24,9 +24,9 @@ class HealthEconomicsModelForUserManager(LiveManager, ModelForUserManagerMixin):
                 # Superusers get *all* permissions :-/
                 return qs
 
-            if self.current_user.has_perm('restrict_to_local'):
+            if self.current_user.has_perm('health_economics.restrict_to_local'):
                 return qs.filter(recipient__allocation__transplant_hospital_id=self.hospital_id)
-            elif self.current_user.has_perm('restrict_to_national'):
+            elif self.current_user.has_perm('health_economics.restrict_to_national'):
                 return qs.filter(recipient__allocation__transplant_hospital__country=self.country_id)
 
         return qs
@@ -49,9 +49,9 @@ class ResourceLogModelForUserManager(LiveManager, ModelForUserManagerMixin):
                 # Superusers get *all* permissions :-/
                 return qs
 
-            if self.current_user.has_perm('restrict_to_local'):
+            if self.current_user.has_perm('health_economics.restrict_to_local'):
                 return qs.filter(log__recipient__allocation__transplant_hospital_id=self.hospital_id)
-            elif self.current_user.has_perm('restrict_to_national'):
+            elif self.current_user.has_perm('health_economics.restrict_to_national'):
                 return qs.filter(log__recipient__allocation__transplant_hospital__country=self.country_id)
 
         return qs

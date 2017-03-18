@@ -89,11 +89,12 @@
                         </a>
                         <ul class="dropdown-menu" role="menu">
                             <li class="dropdown-header">About me</li>
-                            <li><a href="#">Name: {{ user.get_full_name }}</a></li>
+                            <li>Name: {{ user.get_full_name }}</li>
                             <li><a href="#">Job{{ user.groups.all|pluralize }}:
                                 {% for group in user.groups.all %}
                                     {{ group.name }}, {% endfor %}</a></li>
                             <li><a href="#">Username: {{ user.username }}</a></li>
+                            <li><a href="#">Based at: {{ user.based_at }}</a></li>
                             {% get_current_timezone as TIME_ZONE %}
                             <li><a href="#">Timezone: {{ TIME_ZONE }}</a></li>
                             <li class="dropdown-header">Actions</li>

@@ -7,11 +7,13 @@ from django.conf import settings
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Div, HTML, Field
+from crispy_forms.bootstrap import InlineCheckboxes
 
 from wp4.compare.models import YES_NO_UNKNOWN_CHOICES
 from wp4.compare.forms.core import NO_YES_CHOICES
 from wp4.theme.layout import DateField, FormPanel, ForeignKeyModal, FieldWithFollowup
 
+from wp4.compare.models.donor import Organ
 from .models import Event
 
 
@@ -20,6 +22,7 @@ class EventForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(EventForm, self).__init__(*args, **kwargs)
+        self.fields['organ'].widget = forms.HiddenInput()
         self.fields['serious_eligible_1'].choices = NO_YES_CHOICES
         self.fields['serious_eligible_2'].choices = NO_YES_CHOICES
         self.fields['serious_eligible_3'].choices = NO_YES_CHOICES
@@ -51,12 +54,17 @@ class EventForm(forms.ModelForm):
         self.fields['date_of_death'].input_formats = settings.DATE_INPUT_FORMATS
         self.fields['treatment_related'].choices = YES_NO_UNKNOWN_CHOICES
 
+        try:
+            self.fields['date_of_death'].initial = self.instance.organ.safe_recipient.person.date_of_death
+        except Organ.DoesNotExist:
+            pass
+
         self.helper = FormHelper(self)
         self.helper.form_tag = False
         self.helper.html5_required = True
         self.helper.layout = Layout(
             FormPanel("Part 1", Layout(
-                'organ',
+                Field('organ', template="bootstrap3/layout/read-only.html"),
                 Div(
                     Div(
                         Field('serious_eligible_1', template="bootstrap3/layout/radioselect-buttons.html"),
@@ -188,7 +196,6 @@ class EventForm(forms.ModelForm):
             'surgery_required',
             'rehospitalisation_comments',
             'death',
-            # 'date_of_death',  # No longer in AE model
             'treatment_related',
             'cause_of_death_1',
             'cause_of_death_2',
@@ -200,3 +207,16 @@ class EventForm(forms.ModelForm):
             'contact'
         ]
         localized_fields = "__all__"
+
+
+class AdminEventForm(EventForm):
+    def __init__(self, *args, **kwargs):
+        super(AdminEventForm, self).__init__(*args, **kwargs)
+        self.helper.layout.append(Layout(
+            InlineCheckboxes('categories')
+        ))
+
+    class Meta(EventForm.Meta):
+        fields = EventForm.Meta.fields + [
+            'categories'
+        ]

@@ -58,39 +58,6 @@ class ModelForUserManagerMixin(object):
         return self.get_queryset()
 
 
-class PatientModelForUserManager(LiveManager, ModelForUserManagerMixin):
-    def get_queryset(self):
-        """
-        Test for permissions to view and restrict based on rules
-
-        :param request:
-        :return:
-        """
-        qs = super(PatientModelForUserManager, self).get_queryset().\
-            prefetch_related('donor').\
-            prefetch_related('recipient')
-
-        if self.current_user is not None:
-            if self.current_user.is_superuser:
-                # http://stackoverflow.com/questions/2507086/django-auth-has-perm-returns-true-while-list-of-permissions-is-empty/2508576
-                # Superusers get *all* permissions :-/
-                return qs
-
-            if self.current_user.has_perm('restrict_to_local'):
-                return qs.filter(
-                    models.Q(donor__retrieval_team__based_at_id=self.hospital_id) |
-                    models.Q(recipient__allocation__transplant_hospital_id=self.hospital_id)
-                )
-
-            if self.current_user.has_perm('restrict_to_national'):
-                return qs.filter(
-                    models.Q(donor__retrieval_team__based_at__country=self.country_id) |
-                    models.Q(recipient__allocation__transplant_hospital__country=self.country_id)
-                )
-
-        return qs
-
-
 class RetrievalTeamModelForUserManager(models.Manager, ModelForUserManagerMixin):
     """
     Test for permissions to view and restrict based on rules. Relies on for_user() having been called prior
@@ -104,9 +71,9 @@ class RetrievalTeamModelForUserManager(models.Manager, ModelForUserManagerMixin)
                 # Superusers get *all* permissions :-/
                 return qs
 
-            if self.current_user.has_perm('restrict_to_local'):
+            if self.current_user.has_perm('compare.restrict_to_local'):
                 return qs.filter(based_at__id=self.hospital_id)
-            elif self.current_user.has_perm('restrict_to_national'):
+            elif self.current_user.has_perm('compare.restrict_to_national'):
                 return qs.filter(based_at__country=self.country_id)
 
         return qs
@@ -128,9 +95,9 @@ class DonorModelForUserManager(LiveManager, ModelForUserManagerMixin):
                 # Superusers get *all* permissions :-/
                 return qs
 
-            if self.current_user.has_perm('restrict_to_local'):
+            if self.current_user.has_perm('compare.restrict_to_local'):
                 return qs.filter(retrieval_team__based_at__id=self.hospital_id)
-            elif self.current_user.has_perm('restrict_to_national'):
+            elif self.current_user.has_perm('compare.restrict_to_national'):
                 return qs.filter(retrieval_team__based_at__country=self.country_id)
 
         return qs
@@ -153,12 +120,12 @@ class OrganModelForUserManager(LiveManager, ModelForUserManagerMixin):
 
         if self.current_user is not None:
             if not self.current_user.is_superuser:
-                if self.current_user.has_perm('restrict_to_local'):
+                if self.current_user.has_perm('compare.restrict_to_local'):
                     qs = qs.filter(
                         models.Q(donor__retrieval_team__based_at_id=self.hospital_id) |
                         models.Q(organallocation__transplant_hospital_id=self.hospital_id)
                     )
-                elif self.current_user.has_perm('restrict_to_national'):
+                elif self.current_user.has_perm('compare.restrict_to_national'):
                     qs = qs.filter(
                         models.Q(donor__retrieval_team__based_at__country=self.country_id) |
                         models.Q(organallocation__transplant_hospital__country=self.country_id)
@@ -191,12 +158,12 @@ class ClosedOrganModelForUserManager(LiveManager, ModelForUserManagerMixin):
 
         if self.current_user is not None:
             if not self.current_user.is_superuser:
-                if self.current_user.has_perm('restrict_to_local'):
+                if self.current_user.has_perm('compare.restrict_to_local'):
                     qs = qs.filter(
                         models.Q(donor__retrieval_team__based_at_id=self.hospital_id) |
-                        models.Q(organallocation__transplant_hospital_id=self.hospital_id)
+                        models.Q(organallocation__transplant_hospital__id=self.hospital_id)
                     )
-                elif self.current_user.has_perm('restrict_to_national'):
+                elif self.current_user.has_perm('compare.restrict_to_national'):
                     qs = qs.filter(
                         models.Q(donor__retrieval_team__based_at__country=self.country_id) |
                         models.Q(organallocation__transplant_hospital__country=self.country_id)
@@ -224,9 +191,9 @@ class AllocatableModelForUserManager(LiveManager, ModelForUserManagerMixin):
 
         if self.current_user is not None:
             if not self.current_user.is_superuser:
-                if self.current_user.has_perm('restrict_to_local'):
+                if self.current_user.has_perm('compare.restrict_to_local'):
                     qs = qs.filter(donor__retrieval_team__based_at_id=self.hospital_id)
-                elif self.current_user.has_perm('restrict_to_national'):
+                elif self.current_user.has_perm('compare.restrict_to_national'):
                     qs = qs.filter(donor__retrieval_team__based_at__country=self.country_id)
 
         return qs.filter(organallocation__isnull=True, transplantable=True).\
@@ -254,12 +221,12 @@ class OpenOrganModelForUserManager(LiveManager, ModelForUserManagerMixin):
 
         if self.current_user is not None:
             if not self.current_user.is_superuser:
-                if self.current_user.has_perm('restrict_to_local'):
+                if self.current_user.has_perm('compare.restrict_to_local'):
                     qs = qs.filter(
                         models.Q(donor__retrieval_team__based_at_id=self.hospital_id) |
                         models.Q(organallocation__transplant_hospital_id=self.hospital_id)
                     )
-                elif self.current_user.has_perm('restrict_to_national'):
+                elif self.current_user.has_perm('compare.restrict_to_national'):
                     qs = qs.filter(
                         models.Q(donor__retrieval_team__based_at__country=self.country_id) |
                         models.Q(organallocation__transplant_hospital__country=self.country_id)
@@ -295,10 +262,10 @@ class OrganAllocationModelForUserManager(LiveManager, ModelForUserManagerMixin):
                 # Superusers get *all* permissions :-/
                 return qs
 
-            if self.current_user.has_perm('restrict_to_local'):
+            if self.current_user.has_perm('compare.restrict_to_local'):
                 return qs.filter(transplant_hospital_id=self.hospital_id)
 
-            if self.current_user.has_perm('restrict_to_national'):
+            if self.current_user.has_perm('compare.restrict_to_national'):
                 return qs.filter(transplant_hospital__country=self.country_id)
 
         return qs
@@ -318,9 +285,9 @@ class RecipientModelForUserManager(LiveManager, ModelForUserManagerMixin):
                 # Superusers get *all* permissions :-/
                 return qs
 
-            if self.current_user.has_perm('restrict_to_local'):
+            if self.current_user.has_perm('compare.restrict_to_local'):
                 return qs.filter(allocation__transplant_hospital_id=self.hospital_id)
-            elif self.current_user.has_perm('restrict_to_national'):
+            elif self.current_user.has_perm('compare.restrict_to_national'):
                 return qs.filter(allocation__transplant_hospital__country=self.country_id)
 
         return qs

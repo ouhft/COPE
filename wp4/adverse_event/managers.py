@@ -16,17 +16,19 @@ class EventModelForUserManager(LiveManager, ModelForUserManagerMixin):
         :return: Queryset
         """
         qs = super(EventModelForUserManager, self).get_queryset().\
-            select_related('organ', 'organ__recipient', 'organ__recipient__allocation')
+            select_related('organ', 'organ__recipient', 'organ__recipient__allocation').\
+            prefetch_related('organ__organallocation_set')
 
+        # print("DEBUG: EventModelForUserManager.get_queryset(): self.current_user={0}".format(self.current_user))
         if self.current_user is not None:
             if self.current_user.is_superuser:
                 # http://stackoverflow.com/questions/2507086/django-auth-has-perm-returns-true-while-list-of-permissions-is-empty/2508576
                 # Superusers get *all* permissions :-/
                 return qs
 
-            if self.current_user.has_perm('restrict_to_local'):
+            if self.current_user.has_perm('adverse_event.restrict_to_local'):
                 return qs.filter(organ__recipient__allocation__transplant_hospital_id=self.hospital_id)
-            elif self.current_user.has_perm('restrict_to_national'):
+            elif self.current_user.has_perm('adverse_event.restrict_to_national'):
                 return qs.filter(organ__recipient__allocation__transplant_hospital__country=self.country_id)
 
         return qs

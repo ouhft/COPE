@@ -6,13 +6,14 @@ from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.http import HttpResponseRedirect
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
+from django.utils import six
 
-from braces.views import LoginRequiredMixin, PermissionRequiredMixin, OrderableListMixin
+from braces.views import LoginRequiredMixin, MultiplePermissionsRequiredMixin, OrderableListMixin
 
 from wp4.staff.utils import get_emails_from_ids
 from wp4.staff.utils import JACQUES_PIREENE, INA_JOCHMANS, SARAH_MERTENS, ALLY_BRADLEY
 from .models import Event
-from .forms import EventForm
+from .forms import EventForm, AdminEventForm
 
 
 # ============================================  MIXINS
@@ -34,14 +35,14 @@ class EmailOnSaveMixin(object):
                 "emailed at [{3}].".format(
                     self.request.get_host(),
                     self.object.get_absolute_url(),
-                    self.object.contact.full_name,
+                    self.object.contact.get_full_name(),
                     self.object.contact.email if self.object.contact.email is not None else "Address Unknown"
                 )
             send_to = [
                 JACQUES_PIREENE,
                 INA_JOCHMANS,
                 SARAH_MERTENS,
-                self.object.contact.email if self.object.contact else 0
+                self.object.contact.id if self.object.contact else 0
             ]
             cc_to = [ALLY_BRADLEY, ]
             subject_text = "Serious Adverse Event Updated - {0}".format(self.object.organ.trial_id)
@@ -80,29 +81,76 @@ class AjaxFormMixin(object):
         )
         return super(AjaxFormMixin, self).form_invalid(form)
 
+    def get_form(self, form_class=None):
+        if self.request.user.is_administrator:
+            form_class = AdminEventForm
+        form = super(AjaxFormMixin, self).get_form(form_class)
+
+        return form
+
+
+class UserBasedQuerysetMixin(object):
+    """
+    Ensure that the queries we run include the current user to allow for the filtering and permissions to take hold
+    """
+
+    def get_queryset(self):
+        queryset = self.model.objects.for_user(self.request.user).all()
+
+        try:
+            ordering = self.get_ordering()
+            if ordering:
+                if isinstance(ordering, six.string_types):
+                    ordering = (ordering, )
+                queryset = queryset.order_by(*ordering)
+        except AttributeError:
+            # get_ordering doesn't apply to nonlists, but this queryset does
+            pass
+
+        return queryset
+
 
 # ============================================  CBVs
-class AdverseEventListView(LoginRequiredMixin, PermissionRequiredMixin, OrderableListMixin, ListView):
+class AdverseEventListView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, OrderableListMixin,
+                           UserBasedQuerysetMixin,
+                           ListView):
     model = Event
-    permission_required = "adverse_event.add_event"
-    ordering = ['onset_at_date']
+    permissions = {
+        "all": (),
+        "any": ("adverse_event.change_event", "adverse_event.view_event"),
+    }
     paginate_by = 50
     paginate_orphans = 5
-    orderable_columns = ("id", "onset_at_date", "death", "event_ongoing")
+    orderable_columns = ("id", "organ__trial_id", "onset_at_date", "death", "event_ongoing", "treatment_related", "contact")
     orderable_columns_default = "onset_at_date"
 
 
-class AdverseEventDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
+class AdverseEventDetailView(LoginRequiredMixin, MultiplePermissionsRequiredMixin,
+                             UserBasedQuerysetMixin,
+                             DetailView):
     model = Event
-    permission_required = "adverse_event.add_event"
+    permissions = {
+        "all": (),
+        "any": ("adverse_event.change_event", "adverse_event.view_event"),
+    }
 
 
-class AdverseEventCreateView(LoginRequiredMixin, PermissionRequiredMixin, AjaxFormMixin, EmailOnSaveMixin, CreateView):
+class AdverseEventCreateView(LoginRequiredMixin, MultiplePermissionsRequiredMixin,
+                             AjaxFormMixin, EmailOnSaveMixin,
+                             CreateView):
     model = Event
-    permission_required = "adverse_event.add_event"
+    permissions = {
+        "all": ("adverse_event.add_event", ),
+        "any": (),
+    }
 
 
-class AdverseEventUpdateView(LoginRequiredMixin, PermissionRequiredMixin, AjaxFormMixin, EmailOnSaveMixin, UpdateView):
+class AdverseEventUpdateView(LoginRequiredMixin, MultiplePermissionsRequiredMixin,
+                             AjaxFormMixin, EmailOnSaveMixin, UserBasedQuerysetMixin,
+                             UpdateView):
     model = Event
-    permission_required = "adverse_event.add_event"
+    permissions = {
+        "all": ("adverse_event.change_event", ),
+        "any": (),
+    }
 

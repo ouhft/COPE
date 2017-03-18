@@ -4,6 +4,7 @@ from __future__ import absolute_import, unicode_literals
 
 from bdateutil import relativedelta
 from random import random
+from livefield.managers import LiveManager
 
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
@@ -16,7 +17,7 @@ from django.utils.translation import ugettext_lazy as _
 from wp4.staff.models import Person
 from . import AuditControlModelBase
 from ..validators import validate_not_in_future
-from ..managers.core import PatientModelForUserManager, RetrievalTeamModelForUserManager
+from ..managers.core import RetrievalTeamModelForUserManager
 
 
 class Patient(AuditControlModelBase):
@@ -94,7 +95,7 @@ class Patient(AuditControlModelBase):
         blank=True, null=True
     )
 
-    objects = PatientModelForUserManager()
+    objects = LiveManager()
 
     class Meta:
         ordering = ['number']

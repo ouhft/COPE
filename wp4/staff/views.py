@@ -62,7 +62,7 @@ class AjaxFormMixin(object):
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
-        self.object.username = generate_username(self.object.first_name, self.object.last_name)
+        self.object.username = generate_username(self.object)
         self.object.save()
         form.save_m2m()
 

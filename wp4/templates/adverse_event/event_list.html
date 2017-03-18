@@ -18,63 +18,90 @@
         <tr>
             <th>ID
                 {% if request.GET.order_by == "id" and request.GET.ordering == "asc" %}
-                    <i class="text-info glyphicon glyphicon glyphicon-sort-by-attributes"></i>
+                    <a href="?order_by=id&ordering=desc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes"></i></a>
+                {% elif request.GET.order_by == "id" and request.GET.ordering == "desc" %}
+                    <a href="?page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i></a>
                 {% else %}
-                    <a href="?order_by=id&ordering=asc&page={{ request.GET.page }}"><i class="glyphicon glyphicon glyphicon-sort-by-attributes"></i></a>
-                {% endif %}
-                {% if request.GET.order_by == "id" and request.GET.ordering == "desc" %}
-                    <i class="text-info glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i>
-                {% else %}
-                    <a href="?order_by=id&ordering=desc&page={{ request.GET.page }}"><i class="glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i></a>
+                    <a href="?order_by=id&ordering=asc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="glyphicon glyphicon glyphicon-sort"></i></a>
                 {% endif %}
             </th>
-            <th>Trial ID</th>
-            <th>Onset Date
-                {% if request.GET.order_by == "onset_at_date" and request.GET.ordering == "asc" %}
-                    <i class="text-info glyphicon glyphicon glyphicon-sort-by-attributes"></i>
+            <th>
+                Trial ID
+                {% if request.GET.order_by == "organ__trial_id" and request.GET.ordering == "asc" %}
+                    <a href="?order_by=organ__trial_id&ordering=desc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes"></i></a>
+                {% elif request.GET.order_by == "organ__trial_id" and request.GET.ordering == "desc" %}
+                    <a href="?page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i></a>
                 {% else %}
-                    <a href="?order_by=onset_at_date&ordering=asc&page={{ request.GET.page }}"><i class="glyphicon glyphicon glyphicon-sort-by-attributes"></i></a>
+                    <a href="?order_by=organ__trial_id&ordering=asc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="glyphicon glyphicon glyphicon-sort"></i></a>
                 {% endif %}
-                {% if request.GET.order_by == "onset_at_date" and request.GET.ordering == "desc" %}
-                    <i class="text-info glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i>
+            </th>
+            <th>Onset Date
+                {% if request.GET.order_by == "onset_at_date" and request.GET.ordering == "asc" or request.GET.order_by == none %}
+                    <a href="?order_by=onset_at_date&ordering=desc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes"></i></a>
+                {% elif request.GET.order_by == "onset_at_date" and request.GET.ordering == "desc" %}
+                    <a href="?page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i></a>
                 {% else %}
-                    <a href="?order_by=onset_at_date&ordering=desc&page={{ request.GET.page }}"><i class="glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i></a>
+                    <a href="?order_by=onset_at_date&ordering=asc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="glyphicon glyphicon glyphicon-sort"></i></a>
                 {% endif %}
             </th>
             <th title="Is Ongoing?">O?
                 {% if request.GET.order_by == "event_ongoing" and request.GET.ordering == "asc" %}
-                    <i class="text-info glyphicon glyphicon glyphicon-sort-by-attributes"></i>
+                    <a href="?order_by=event_ongoing&ordering=desc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes"></i></a>
+                {% elif request.GET.order_by == "event_ongoing" and request.GET.ordering == "desc" %}
+                    <a href="?page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i></a>
                 {% else %}
-                    <a href="?order_by=event_ongoing&ordering=asc&page={{ request.GET.page }}"><i class="glyphicon glyphicon glyphicon-sort-by-attributes"></i></a>
-                {% endif %}
-                {% if request.GET.order_by == "event_ongoing" and request.GET.ordering == "desc" %}
-                    <i class="text-info glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i>
-                {% else %}
-                    <a href="?order_by=event_ongoing&ordering=desc&page={{ request.GET.page }}"><i class="glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i></a>
+                    <a href="?order_by=event_ongoing&ordering=asc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="glyphicon glyphicon glyphicon-sort"></i></a>
                 {% endif %}
             </th>
             <th title="Led to Death?">D?
                 {% if request.GET.order_by == "death" and request.GET.ordering == "asc" %}
-                    <i class="text-info glyphicon glyphicon glyphicon-sort-by-attributes"></i>
+                    <a href="?order_by=death&ordering=desc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes"></i></a>
+                {% elif request.GET.order_by == "death" and request.GET.ordering == "desc" %}
+                    <a href="?page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i></a>
                 {% else %}
-                    <a href="?order_by=death&ordering=asc&page={{ request.GET.page }}"><i class="glyphicon glyphicon glyphicon-sort-by-attributes"></i></a>
-                {% endif %}
-                {% if request.GET.order_by == "death" and request.GET.ordering == "desc" %}
-                    <i class="text-info glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i>
-                {% else %}
-                    <a href="?order_by=death&ordering=desc&page={{ request.GET.page }}"><i class="glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i></a>
+                    <a href="?order_by=death&ordering=asc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="glyphicon glyphicon glyphicon-sort"></i></a>
                 {% endif %}
             </th>
             <th title="Is Serious?">S?</th>
-            <th title="Treatment related?">TR?</th>
+            <th title="Treatment related?">
+                TR?
+                {% if request.GET.order_by == "treatment_related" and request.GET.ordering == "asc" %}
+                    <a href="?order_by=treatment_related&ordering=desc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes"></i></a>
+                {% elif request.GET.order_by == "treatment_related" and request.GET.ordering == "desc" %}
+                    <a href="?page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i></a>
+                {% else %}
+                    <a href="?order_by=treatment_related&ordering=asc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="glyphicon glyphicon glyphicon-sort"></i></a>
+                {% endif %}
+            </th>
             <th>Organ Location</th>
-            <th>Local Contact</th>
+            <th>
+                Local Contact
+                {% if request.GET.order_by == "contact" and request.GET.ordering == "asc" %}
+                    <a href="?order_by=contact&ordering=desc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes"></i></a>
+                {% elif request.GET.order_by == "contact" and request.GET.ordering == "desc" %}
+                    <a href="?page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i></a>
+                {% else %}
+                    <a href="?order_by=contact&ordering=asc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="glyphicon glyphicon glyphicon-sort"></i></a>
+                {% endif %}
+            </th>
         </tr>
         </thead>
         <tbody>
         {% for event in event_list %}
         <tr class="{% if event.is_serious %}text-danger{% endif %} {% if event.death %}bg-danger{% endif %}">
-            <td><a href="{% url 'wp4:adverse_event:update' pk=event.id %}" class="btn btn-sm btn-default"><i title="edit" class="glyphicon glyphicon-edit"></i> {{ event.id}}</a></td>
+            <td>
+                {% if perms.adverse_event.change_event %}
+                <a href="{% url 'wp4:adverse_event:detail' pk=event.pk %}" class="btn btn-default btn-xs"><i
+                    title="edit" class="glyphicon glyphicon-eye-open"></i></a>
+                <a href="{% url 'wp4:adverse_event:update' pk=event.pk %}" class="btn btn-primary btn-xs"><i
+                    title="edit" class="glyphicon glyphicon-edit"></i> {{ event.id }}</a>
+                {% elif perms.adverse_event.view_event %}
+                <a href="{% url 'wp4:adverse_event:detail' pk=event.pk %}" class="btn btn-default btn-xs"><i
+                    title="edit" class="glyphicon glyphicon-eye-open"></i> {{ event.id }}</a>
+                {% else %}
+                    {{ event.id }}
+                {% endif %}
+            </td>
             <td>{{ event.organ.trial_id }}</td>
             <td>{{ event.onset_at_date }}</td>
             <td class="{% if event.event_ongoing %}text-info{% endif %}">{{ event.event_ongoing|yesno|capfirst }}</td>
