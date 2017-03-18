@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # coding: utf-8
 from __future__ import unicode_literals
+import datetime
 
 from django import forms
 from django.conf import settings
@@ -8,6 +9,7 @@ from django.conf import settings
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Div, HTML, Field
 from crispy_forms.bootstrap import InlineCheckboxes
+from dal import autocomplete
 
 from wp4.compare.models import YES_NO_UNKNOWN_CHOICES
 from wp4.compare.forms.core import NO_YES_CHOICES
@@ -20,9 +22,11 @@ from .models import Event
 class EventForm(forms.ModelForm):
     date_of_death = forms.DateField()  # This is to allow DoD to be captured and sent to the linked recipient
 
+    organ_field = Field('organ', template="bootstrap3/layout/read-only.html")
+
     def __init__(self, *args, **kwargs):
         super(EventForm, self).__init__(*args, **kwargs)
-        self.fields['organ'].widget = forms.HiddenInput()
+        # self.fields['organ'].widget = forms.HiddenInput()
         self.fields['serious_eligible_1'].choices = NO_YES_CHOICES
         self.fields['serious_eligible_2'].choices = NO_YES_CHOICES
         self.fields['serious_eligible_3'].choices = NO_YES_CHOICES
@@ -52,6 +56,7 @@ class EventForm(forms.ModelForm):
         self.fields['surgery_required'].choices = NO_YES_CHOICES
         self.fields['death'].choices = NO_YES_CHOICES
         self.fields['date_of_death'].input_formats = settings.DATE_INPUT_FORMATS
+        self.fields['date_of_death'].required = False
         self.fields['treatment_related'].choices = YES_NO_UNKNOWN_CHOICES
 
         try:
@@ -64,7 +69,7 @@ class EventForm(forms.ModelForm):
         self.helper.html5_required = True
         self.helper.layout = Layout(
             FormPanel("Part 1", Layout(
-                Field('organ', template="bootstrap3/layout/read-only.html"),
+                self.organ_field,
                 Div(
                     Div(
                         Field('serious_eligible_1', template="bootstrap3/layout/radioselect-buttons.html"),
@@ -206,12 +211,28 @@ class EventForm(forms.ModelForm):
             'cause_of_death_comment',
             'contact'
         ]
+        widgets = {
+            'organ': forms.HiddenInput()
+        }
         localized_fields = "__all__"
 
 
+class EventStartForm(EventForm):
+    organ_field = 'organ'
+
+    class Meta(EventForm.Meta):
+        widgets = {
+            'organ': autocomplete.ModelSelect2(url='wp4:compare:adverse-organ-autocomplete')
+        }
+
+
 class AdminEventForm(EventForm):
+    organ_field = 'organ'
+
     def __init__(self, *args, **kwargs):
         super(AdminEventForm, self).__init__(*args, **kwargs)
+        self.fields['categories'].required = False
+
         self.helper.layout.append(Layout(
             InlineCheckboxes('categories')
         ))
@@ -220,3 +241,7 @@ class AdminEventForm(EventForm):
         fields = EventForm.Meta.fields + [
             'categories'
         ]
+        widgets = {
+            'organ': autocomplete.ModelSelect2(url='wp4:compare:adverse-organ-autocomplete')
+        }
+

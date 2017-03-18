@@ -39,6 +39,12 @@
 
 
 {% block footer_extra_scripts %}
+    {{ form.media }}
+    <style>
+        .select2-container {
+            min-width: 6em;
+        }
+    </style>
     <script type="text/javascript">
         document.addEventListener("DOMContentLoaded", function (event) {
             // Navbar bottom actions

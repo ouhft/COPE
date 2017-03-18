@@ -89,7 +89,7 @@
                         </a>
                         <ul class="dropdown-menu" role="menu">
                             <li class="dropdown-header">About me</li>
-                            <li>Name: {{ user.get_full_name }}</li>
+                            <li><a href="#">Name: {{ user.get_full_name }}</a></li>
                             <li><a href="#">Job{{ user.groups.all|pluralize }}:
                                 {% for group in user.groups.all %}
                                     {{ group.name }}, {% endfor %}</a></li>

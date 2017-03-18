@@ -45,6 +45,22 @@ class RetrievalTeamAutoComplete(autocomplete.Select2QuerySetView):
         return qs
 
 
+class AdverseEventOrganAutoComplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        if not self.request.user.is_authenticated():
+            return Organ.objects.none()
+
+        qs = Organ.objects.for_user(self.request.user).all()
+
+        if self.q:
+            qs = qs.filter(
+                # Q(centre_code__icontains=self.q) | Q(based_at__name__icontains=self.q)
+                Q(trial_id__icontains=self.q)
+            )
+
+        return qs
+
+
 @permission_required('compare.add_donor')
 @login_required
 def procurement_list(request):

@@ -12,6 +12,11 @@ urlpatterns = [
         view=views.RetrievalTeamAutoComplete.as_view(),
         name='retrieval-team-autocomplete'
     ),
+    url(
+        regex=r'^adverse-organ-autocomplete/$',
+        view=views.AdverseEventOrganAutoComplete.as_view(),
+        name='adverse-organ-autocomplete'
+    ),
 
     url(
         regex=r'^procurement/$',

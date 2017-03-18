@@ -4,8 +4,10 @@
 from django.conf import settings
 from django.contrib import messages
 from django.core.mail import EmailMessage
+from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
+from django.views.generic.edit import FormMixin
 from django.utils import six
 
 from braces.views import LoginRequiredMixin, MultiplePermissionsRequiredMixin, OrderableListMixin
@@ -13,7 +15,7 @@ from braces.views import LoginRequiredMixin, MultiplePermissionsRequiredMixin, O
 from wp4.staff.utils import get_emails_from_ids
 from wp4.staff.utils import JACQUES_PIREENE, INA_JOCHMANS, SARAH_MERTENS, ALLY_BRADLEY
 from .models import Event
-from .forms import EventForm, AdminEventForm
+from .forms import EventForm, AdminEventForm, EventStartForm
 
 
 # ============================================  MIXINS
@@ -68,6 +70,10 @@ class AjaxFormMixin(object):
             self.object = form.save()
             return self.render_to_response(self.get_context_data(form=form))
         else:
+            messages.success(
+                self.request,
+                'Form was <strong>saved SUCCESSFULLY</strong>, please review it below'
+            )
             return super(AjaxFormMixin, self).form_valid(form)
 
     def form_invalid(self, form):
@@ -111,8 +117,8 @@ class UserBasedQuerysetMixin(object):
 
 
 # ============================================  CBVs
-class AdverseEventListView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, OrderableListMixin,
-                           UserBasedQuerysetMixin,
+class AdverseEventListView(LoginRequiredMixin, MultiplePermissionsRequiredMixin,
+                           OrderableListMixin, UserBasedQuerysetMixin,
                            ListView):
     model = Event
     permissions = {
@@ -143,6 +149,7 @@ class AdverseEventCreateView(LoginRequiredMixin, MultiplePermissionsRequiredMixi
         "all": ("adverse_event.add_event", ),
         "any": (),
     }
+    form_class = EventStartForm
 
 
 class AdverseEventUpdateView(LoginRequiredMixin, MultiplePermissionsRequiredMixin,
