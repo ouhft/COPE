@@ -107,8 +107,9 @@
         </div>
 
         <div class="col-md-3">
-            <h2>New Case</h2>
 
+            <h2>New Case</h2>
+{% if perms.compare.add_donor %}
             <form method="post" action="{% url 'wp4:compare:procurement_list' %}" class="form" id="new-case-form">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -129,6 +130,9 @@
                     </div>
                 </div>
             </form>
+        {% else %}
+            <p>You don't have permissions to start a Procurement Form</p>
+        {% endif %}
         </div>
     </div>
     <div class="row">

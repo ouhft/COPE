@@ -96,6 +96,7 @@
             {% endif %}
         </div>
         <div class="col-md-3">
+        {% if perms.compare.add_recipient %}
             <h2>
                 Available Organs<br>
                 <small>{{ organs_available_count }} Kidney{{ organs_available_count|pluralize }}</small>
@@ -120,6 +121,7 @@
                     </div>
                 </div>
             </form>
+        {% endif %}
         </div>
     </div>
     <div class="row">

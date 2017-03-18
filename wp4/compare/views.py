@@ -8,6 +8,7 @@ from django.contrib.auth.models import Group
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required, permission_required
+from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect
 from django.utils import timezone
@@ -60,13 +61,15 @@ class AdverseEventOrganAutoComplete(autocomplete.Select2QuerySetView):
 
         return qs
 
-
-@permission_required('compare.add_donor')
 @login_required
 def procurement_list(request):
     new_donor = Donor()
     current_person = request.user
     # print("DEBUG: current_person={0}".format(current_person))
+
+    if not current_person.has_perm('compare.change_donor') and not current_person.has_perm('compare.view_donor'):
+        raise PermissionDenied
+
     if current_person.has_group(Person.PERFUSION_TECHNICIAN):
         new_donor.perfusion_technician = current_person
 
@@ -320,10 +323,12 @@ def procurement_form(request, pk):
     )
 
 
-@permission_required('compare.add_recipient')
 @login_required
 def transplantation_list(request):
     current_person = request.user
+
+    if not current_person.has_perm('compare.change_recipient') and not current_person.has_perm('compare.view_recipient'):
+        raise PermissionDenied
 
     # Process the new case form
     allocation_form = AllocationStartForm(request.POST or None, request.FILES or None, prefix="allocation")
