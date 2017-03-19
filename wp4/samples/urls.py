@@ -8,10 +8,29 @@ from . import views
 
 
 urlpatterns = [
-    url(r'^(?P<pk>[0-9]+)/$', views.sample_form, name='update'),
     url(
         regex=r'^$',
-        view=views.EventListView.as_view(),
-        name='home'
+        view=views.index,
+        name='index'
     ),
+
+    # ======================  Events
+    url(
+        regex=r'^event/(?P<pk>[0-9]+)/details/$$',
+        view=views.EventDetailView.as_view(),
+        name='event_detail'
+    ),
+    url(
+        regex=r'^event/(?P<pk>[0-9]+)/$$',
+        view=views.EventUpdateView.as_view(),
+        name='event_update'
+    ),
+    url(
+        regex=r'^event/$',
+        view=views.EventListView.as_view(),
+        name='event_list'
+    ),
+
+    # ======================  Donors
+
 ]

@@ -2,7 +2,7 @@
 {% load l10n i18n %}
 
 {% block page_title %}Samples{% endblock %}
-{% block page_header %}Samples - Listing{% endblock %}
+{% block page_header %}Samples - Home{% endblock %}
 {% block page_trail %}
     <li><a href="{% url 'home' %}">Home</a></li>
     <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
@@ -10,38 +10,122 @@
 {% endblock %}
 
 {% block content %}
-    {% include 'includes/paginator.html' %}
-
-    <table class="table table-responsive">
-        <thead>
-        <tr>
-            <th>System ID <a href="?order_by=id&ordering=asc&page={{ request.GET.page }}">A</a> <a href="?order_by=id&ordering=desc&page={{ request.GET.page }}">D</a></th>
-            <th>Barcode <a href="?order_by=barcode&ordering=asc&page={{ request.GET.page }}">A</a> <a href="?order_by=barcode&ordering=desc&page={{ request.GET.page }}">D</a></th>
-            <th>Trial ID</th>
-            <th>Person Number <a href="?order_by=person__number&ordering=asc&page={{ request.GET.page }}">A</a> <a href="?order_by=person__number&ordering=desc&page={{ request.GET.page }}">D</a></th>
-            <th>Person Age <a href="?order_by=person__date_of_birth&ordering=desc&page={{ request.GET.page }}">A</a> <a href="?order_by=person__date_of_birth&ordering=asc&page={{ request.GET.page }}">D</a></th>
-            <th>Person Gender <a href="?order_by=person__gender&ordering=asc&page={{ request.GET.page }}">A</a> <a href="?order_by=person__gender&ordering=desc&page={{ request.GET.page }}">D</a></th>
-            <th>Is Donor</th>
-            <th>Is Recipient</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for worksheet in worksheet_list %}
+    {% if event_list %}
+        {% include 'includes/paginator.html' %}
+        <table class="table table-responsive table-condensed">
+            <thead>
             <tr>
-                {% with worksheet.id|stringformat:"03d" as internal_id %}
-                    <td><a href="{% url "wp4:samples:update" pk=worksheet.id %}" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> {{ "WS"|add:internal_id }}</a></td>
-                {% endwith %}
-                <td>{{ worksheet.barcode|default:"Not Set" }}</td>
-                <td>{{ worksheet.person.donor.trial_id }}{{ worksheet.person.recipient.trial_id }}</td>
-                <td>{{ worksheet.person.number }}</td>
-                <td>{{ worksheet.person.age_from_dob }}</td>
-                <td>{{ worksheet.person.get_gender_display }}</td>
-                <td>{{ worksheet.person.is_donor }}</td>
-                <td>{{ worksheet.person.is_recipient }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                <th>
+                    ID
+                    {% if request.GET.order_by == "id" and request.GET.ordering == "asc" %}
+                        <a href="?order_by=id&ordering=desc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i
+                                class="text-success glyphicon glyphicon glyphicon-sort-by-attributes"></i></a>
+                    {% elif request.GET.order_by == "id" and request.GET.ordering == "desc" %}
+                        <a href="?page={{ request.GET.page }}&q={{ request.GET.q }}"><i
+                                class="text-success glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i></a>
+                    {% else %}
+                        <a href="?order_by=id&ordering=asc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i
+                                class="glyphicon glyphicon glyphicon-sort"></i></a>
+                    {% endif %}
+                </th>
+                <th>Type
+                    {% if request.GET.order_by == "type" and request.GET.ordering == "asc" %}
+                        <a href="?order_by=type&ordering=desc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i
+                                class="text-success glyphicon glyphicon glyphicon-sort-by-attributes"></i></a>
+                    {% elif request.GET.order_by == "type" and request.GET.ordering == "desc" %}
+                        <a href="?page={{ request.GET.page }}&q={{ request.GET.q }}"><i
+                                class="text-success glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i></a>
+                    {% else %}
+                        <a href="?order_by=type&ordering=asc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i
+                                class="glyphicon glyphicon glyphicon-sort"></i></a>
+                    {% endif %}
+                </th>
+                <th>Name
+                    {% if request.GET.order_by == "name" and request.GET.ordering == "asc" %}
+                        <a href="?order_by=name&ordering=desc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i
+                                class="text-success glyphicon glyphicon glyphicon-sort-by-attributes"></i></a>
+                    {% elif request.GET.order_by == "name" and request.GET.ordering == "desc" %}
+                        <a href="?page={{ request.GET.page }}&q={{ request.GET.q }}"><i
+                                class="text-success glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i></a>
+                    {% else %}
+                        <a href="?order_by=name&ordering=asc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i
+                                class="glyphicon glyphicon glyphicon-sort"></i></a>
+                    {% endif %}
+                </th>
+                <th>Taken at</th>
 
-    {% include 'includes/paginator.html' %}
+                <th>Barcode</th>
+                <th>Collected</th>
+                <th>Trial ID</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for event in event_list %}
+                <tr>
+                    <td>
+                        {% if perms.samples.change_event %}
+                            <a href="{% url 'wp4:samples:event_detail' pk=event.pk %}" class="btn btn-default btn-xs"><i
+                                    title="edit" class="glyphicon glyphicon-eye-open"></i></a>
+                            <a href="{% url 'wp4:samples:event_update' pk=event.pk %}" class="btn btn-primary btn-xs"><i
+                                    title="edit" class="glyphicon glyphicon-edit"></i> {{ event.id }}</a>
+                        {% elif perms.samples.view_event %}
+                            <a href="{% url 'wp4:samples:event_detail' pk=event.pk %}" class="btn btn-default btn-xs"><i
+                                    title="edit" class="glyphicon glyphicon-eye-open"></i> {{ event.id }}</a>
+                        {% else %}
+                            {{ event.id }}
+                        {% endif %}
+                    </td>
+                    <td>{{ event.get_type_display }}</td>
+                    <td>{{ event.get_name_display }}</td>
+                    <td>{{ event.taken_at }}</td>
+
+                    {% if event.type == 1 %}{# Blood #}
+                        {% with event.bloodsample_set.all.0 as sample %}
+                            <td>{{ sample.barcode|default:"Not recorded" }}</td>
+                            <td class="{{ sample.collected|yesno:"bg-success,bg-danger,bg-warning" }}">
+                                {{ sample.collected|yesno|capfirst }}
+                            </td>
+                            <td>{{ sample.person.trial_id }}</td>
+                        {% endwith %}
+
+
+                        {% elif event.type == 2 %}{# Urine #}
+                        {% with event.urinesample_set.all.0 as sample %}
+                            <td>{{ sample.barcode|default:"Not recorded" }}</td>
+                            <td class="{{ sample.collected|yesno:"bg-success,bg-danger,bg-warning" }}">
+                                {{ sample.collected|yesno|capfirst }}
+                            </td>
+                            <td>{{ sample.person.trial_id }}</td>
+                        {% endwith %}
+
+
+                        {% elif event.type == 3 %}{# Perfusate #}
+                        {% with event.perfusatesample_set.all.0 as sample %}
+                            <td>{{ sample.barcode|default:"Not recorded" }}</td>
+                            <td class="{{ sample.collected|yesno:"bg-success,bg-danger,bg-warning" }}">
+                                {{ sample.collected|yesno|capfirst }}
+                            </td>
+                            <td>{{ sample.organ.trial_id }}</td>
+                        {% endwith %}
+
+
+                        {% elif event.type == 4 %}{# Tissue #}
+                        {% with event.tissuesample_set.all.0 as sample %}
+                            <td>{{ sample.barcode|default:"Not recorded" }}</td>
+                            <td class="{{ sample.collected|yesno:"bg-success,bg-danger,bg-warning" }}">
+                                {{ sample.collected|yesno|capfirst }}
+                            </td>
+                            <td>{{ sample.organ.trial_id }}</td>
+                        {% endwith %}
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        {% include 'includes/paginator.html' %}
+
+    {% else %}
+        <p>No events are available.</p>
+    {% endif %}
 {% endblock %}

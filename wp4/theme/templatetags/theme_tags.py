@@ -121,3 +121,12 @@ def unflatten_attr(text):
 
         output_dict[k.replace('-','_')] = value
     return output_dict
+
+
+@register.filter
+def make_js_safe(text):
+    """
+    Take a string like `load_datetime_for_id_bloodsamples-0-centrifuged_at` and replace the characters that make JS
+    upset
+    """
+    return text.replace("-","_")

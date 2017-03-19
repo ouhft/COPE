@@ -1,4 +1,4 @@
-{% load crispy_forms_field crispy_forms_filters %}
+{% load crispy_forms_field crispy_forms_filters theme_tags %}
 {% load l10n i18n %}
 {% get_current_language as LANGUAGE_CODE %}
 <!-- START: wp4/templates/bootstrap3/layout/datetimefield.html -->
@@ -25,7 +25,7 @@
     </div>
 {% endif %}
 <script type="text/javascript">
-    function load_datetime_for_{{ field.id_for_label }}() {
+    function load_datetime_for_{{ field.id_for_label|make_js_safe }}() {
         {# Dynamically change the placeholder and data-date-format text based on present locale #}
         if ('{{ LANGUAGE_CODE }}' == 'en-gb' && $('#{{ field.id_for_label }}').attr('data-date-format') == 'DD-MM-YYYY HH:mm') {
             $('#{{ field.id_for_label }}').attr('data-date-format', 'YYYY-MM-DD HH:mm');
@@ -35,13 +35,13 @@
             locale: '{{ LANGUAGE_CODE }}',
             {# maxDate: moment()    --- TODO: Modify this to stop future dates from being selected #}
         });
-        console.log("DEBUG: called load_datetime_for_{{ field.id_for_label }}()");
+        console.log("DEBUG: called load_datetime_for_{{ field.id_for_label|make_js_safe }}()");
     }
 
     document.addEventListener("DOMContentLoaded", function (event) {
         // This loads the DateTime picker for this field on a page load. However, modal loads are different and don't trigger this
-        load_datetime_for_{{ field.id_for_label }}();
-        console.log("DEBUG: addEventListener DOMContentLoaded {{ field.id_for_label }}=datetimepicker()");
+        load_datetime_for_{{ field.id_for_label|make_js_safe }}();
+        console.log("DEBUG: addEventListener DOMContentLoaded {{ field.id_for_label|make_js_safe }}=datetimepicker()");
     });
 </script>
 <!-- END: wp4/templates/bootstrap3/layout/datetimefield.html -->

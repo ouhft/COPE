@@ -24,26 +24,6 @@ YES_NO_CHOICES = (
     (False, _("FF01 No")))
 
 
-# class WorksheetForm(forms.ModelForm):
-#     def __init__(self, *args, **kwargs):
-#         super(WorksheetForm, self).__init__(*args, **kwargs)
-#         self.fields['person'].widget = forms.HiddenInput()
-#
-#         self.helper = FormHelper(self)
-#         self.helper.form_tag = False
-#         self.helper.html5_required = True
-#         self.helper.layout = Layout(
-#             'person',
-#             # Div(HTML(self.instance.person.__str__()), css_class="col-md-6"),
-#             # Div(Field('person', template="bootstrap3/layout/read-only.html"), css_class="col-md-6"),
-#             Div('barcode', css_class="col-md-6"),
-#         )
-#
-#     class Meta:
-#         model = Worksheet
-#         fields = ('barcode', 'person')
-
-
 class EventForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(EventForm, self).__init__(*args, **kwargs)
@@ -58,17 +38,12 @@ class EventForm(forms.ModelForm):
         self.helper.layout = Layout(
             Div(Field('name', template="bootstrap3/layout/read-only.html"), css_class="col-md-6"),
             Div(DateTimeField('taken_at'), css_class="col-md-6"),
-            # 'worksheet',
             'type',
         )
 
     class Meta:
         model = Event
         fields = ('type', 'name', 'taken_at')
-
-
-# EventFormSet = inlineformset_factory(
-#     Worksheet, Event, form=EventForm, extra=0, can_delete=False)
 
 
 class BloodSampleForm(forms.ModelForm):
@@ -114,9 +89,9 @@ class BloodSampleForm(forms.ModelForm):
         fields = ('event', 'collected', 'barcode', 'person', 'blood_type', 'centrifuged_at', 'notes')
         localized_fields = "__all__"
 
-
 BloodSampleFormSet = inlineformset_factory(
-    Event, BloodSample, form=BloodSampleForm, extra=0, can_delete=False)
+    Event, BloodSample, form=BloodSampleForm, extra=0, can_delete=False
+)
 
 
 class UrineSampleForm(forms.ModelForm):

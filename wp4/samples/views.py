@@ -2,54 +2,123 @@
 # coding: utf-8
 from __future__ import absolute_import, unicode_literals
 
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from django.db.models import Q
+from django.db import transaction
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, UpdateView, DetailView
 
-from braces.views import LoginRequiredMixin, OrderableListMixin
+from braces.views import LoginRequiredMixin, MultiplePermissionsRequiredMixin, OrderableListMixin
 
 from wp4.staff.models import Person
 
 from .models import Event
-# from .forms import EventForm, BloodSampleFormSet, UrineSampleFormSet, PerfusateSampleFormSet, TissueSampleFormSet
+from .forms import EventForm, BloodSampleFormSet, UrineSampleFormSet, PerfusateSampleFormSet, TissueSampleFormSet
+
+
+# ============================================  Mixins
+class FormSaveMixin(object):
+    def form_valid(self, form):
+        messages.success(
+            self.request,
+            'Form was <strong>saved SUCCESSFULLY</strong>, please review it below'
+        )
+        return super(FormSaveMixin, self).form_valid(form)
+
+    def form_invalid(self, form):
+        # print("DEBUG: form_invalid() errors: %s" % form.errors)
+        error_count = len(form.errors)
+        error_pluralise = "" if error_count == 1 else "s"
+        if error_count > 0:
+            messages.error(
+                self.request,
+                '<strong>Form was NOT saved</strong>, please correct the %d error%s below' %
+                (error_count, error_pluralise)
+            )
+        return super(FormSaveMixin, self).form_invalid(form)
 
 
 # ============================================  CBVs
-class EventListView(LoginRequiredMixin, OrderableListMixin, ListView):
+class EventListView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, OrderableListMixin, ListView):
     # pass
     model = Event
-    current_person = None
-    paginate_by = 20
+    permissions = {
+        "all": (),
+        "any": ("samples.change_event", "samples.view_event"),
+    }
+
+    paginate_by = 100
     paginate_orphans = 5
     orderable_columns = ("id", "type", "name",)
     orderable_columns_default = "id"
 
-    # def get(self, request, *args, **kwargs):
-    #     self.current_person = request.user
-    #     return super(WorksheetListView, self).get(request, *args, **kwargs)
-    #
-    # def get_queryset(self):
-    #     if self.current_person.has_job(
-    #         (Person.SYSTEMS_ADMINISTRATOR, Person.CENTRAL_COORDINATOR, Person.NATIONAL_COORDINATOR)
-    #     ):
-    #         self.queryset = Worksheet.objects.all().\
-    #             select_related('person').\
-    #             select_related('person__donor').\
-    #             select_related('person__donor__retrieval_team__based_at').\
-    #             select_related('person__donor__randomisation').\
-    #             select_related('person__recipient')
-    #
-    #     elif self.current_person.has_group(Person.PERFUSION_TECHNICIAN):  # TODO: This is a likely hack that'll fail!
-    #         self.queryset = Worksheet.objects.filter(
-    #             Q(person__donor__perfusion_technician=self.current_person) |
-    #             Q(person__recipient__allocation__perfusion_technician=self.current_person)
-    #         )
-    #
-    #     return super(WorksheetListView, self).get_queryset()
 
+class EventDetailView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, DetailView):
+    model = Event
+    permissions = {
+        "all": (),
+        "any": ("samples.change_event", "samples.view_event"),
+    }
+
+
+class EventUpdateView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, FormSaveMixin, UpdateView):
+    model = Event
+    form_class = EventForm
+    permissions = {
+        "all": ("samples.change_event", ),
+        "any": (),
+    }
+
+    def get_formsets(self):
+        return {
+            'bloodsamples': BloodSampleFormSet(self.request.POST or None, prefix='bloodsamples', instance=self.object),
+            'urinesamples': UrineSampleFormSet(self.request.POST or None, prefix='urinesamples', instance=self.object),
+            'perfusatesamples': PerfusateSampleFormSet(self.request.POST or None, prefix='perfusatesamples', instance=self.object),
+            'tissuesamples': TissueSampleFormSet(self.request.POST or None, prefix='tissuesamples', instance=self.object),
+        }
+
+    def get_context_data(self, **kwargs):
+        context = super(EventUpdateView, self).get_context_data(**kwargs)
+        context['formsets'] = self.get_formsets()
+        return context
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        formsets = context['formsets']
+
+        with transaction.atomic():
+            self.object = form.save()
+
+            for key, formset in formsets.items():
+                if formset.is_valid():
+                    formset.instance = self.object
+                    formset.save()
+                else:
+                    print("DEBUG: Formset invalid. errors={0}".format(formset.errors))
+                    error_count = len(formset.errors)
+                    error_pluralise = "" if error_count == 1 else "s"
+                    messages.error(
+                        self.request,
+                        '<strong>Formset was NOT saved</strong>, please correct the %d error%s below' %
+                        (error_count, error_pluralise)
+                    )
+                    return super(EventUpdateView, self).form_invalid(form)
+        return super(EventUpdateView, self).form_valid(form)
 
 # ============================================  FBVs
+
+@login_required
+def index(request):
+    current_person = request.user
+
+    if not current_person.has_perm('samples.change_event') and not current_person.has_perm('samples.view_event'):
+        raise PermissionDenied
+
+    return render(request, 'samples/index.html', {})
+
+
 @login_required
 def sample_form(request, pk=None):
     pass

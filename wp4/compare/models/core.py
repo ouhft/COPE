@@ -191,6 +191,15 @@ class Patient(AuditControlModelBase):
         """
         return True if self.date_of_death is None else False
 
+    def trial_id(self):
+        """
+        Determine if donor or recipient, and then pass back their trial id
+        :return:
+        """
+        if self.is_donor:
+            return self.donor.trial_id
+        return self.recipient.trial_id
+
     def __str__(self):
         if settings.DEBUG:
             return '%s : (%s, %s) %s' % (

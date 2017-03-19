@@ -1,0 +1,114 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_field %}
+{% load theme_tags %}
+
+{% block page_title %}Samples{% endblock %}
+{% block page_header %}Samples - Events
+    <small>Event ID #{{ event.id }}</small>{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:samples:index' %}">Samples</a></li>
+    <li><a href="{% url 'wp4:samples:event_list' %}">Events</a></li>
+    <li class="active">View Event #{{ event.id }}</li>
+{% endblock %}
+
+{% block content %}
+{#            <div class="panel panel-primary }}">#}
+{#                <div class="panel-heading">#}
+{#                    <h3 class="panel-title">Event ID: {{ event.id }}</h3>#}
+{#                </div>#}
+{#                <ul class="list-group">#}
+{#                    <li class="list-group-item">#}
+{#                        <strong>{% get_verbose_field_name event 'type' %}:</strong> {{ event.get_type_display }}#}
+{#                    </li>#}
+{#                    <li class="list-group-item">#}
+{#                        <strong>{% get_verbose_field_name event 'name' %}:</strong> {{ event.get_name_display }}#}
+{#                    </li>#}
+{#                    <li class="list-group-item">#}
+{#                        <strong>{% get_verbose_field_name event 'taken_at' %}:</strong> {{ event.taken_at }}#}
+{#                    </li>#}
+{##}
+{#                </ul>#}
+{#            </div>#}
+
+    <form method="post" class="" id="adverse_event_form">
+        {% if form.non_field_errors %}
+            <div class="col-md-12" style="margin-top: 10px;">
+                {% for error in form.non_field_errors %}
+                    <p class="alert alert-danger">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% crispy form %}
+
+        {{ formsets.bloodsamples.management_form }}
+        {% for inline_form in formsets.bloodsamples %}
+            <div class="row">
+            {{ inline_form.id }}
+            {% crispy inline_form inline_form.helper %}
+            </div>
+        {% endfor %}
+
+        {{ formsets.urinesamples.management_form }}
+        {% for inline_form in formsets.urinesamples %}
+            <div class="row">
+            {{ inline_form.id }}
+            {% crispy inline_form inline_form.helper %}
+            </div>
+        {% endfor %}
+
+        {{ formsets.perfusatesamples.management_form }}
+        {% for inline_form in formsets.perfusatesamples %}
+            <div class="row">
+            {{ inline_form.id }}
+            {% crispy inline_form inline_form.helper %}
+            </div>
+        {% endfor %}
+
+        {{ formsets.tissuesamples.management_form }}
+        {% for inline_form in formsets.tissuesamples %}
+            <div class="row">
+            {{ inline_form.id }}
+            {% crispy inline_form inline_form.helper %}
+            </div>
+        {% endfor %}
+    </form>
+
+{% endblock %}
+
+
+{% block footer_nav %}
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container">
+            <div class="navbar-right">
+                <input type="button" class="btn btn-primary navbar-btn" value="Save" id="nav_button_save"/>
+            </div>
+        </div>
+    </nav>
+{% endblock %}
+
+
+{% block footer_extra_scripts %}
+    {{ form.media }}
+{#    {{ formsets.bloodsamples.0.media }}#}
+{#    {{ formsets.urinesamples.0.media }}#}
+{#    {{ formsets.perfusatesamples.0.media }}#}
+{#    {{ formsets.tissuesamples.0.media }}#}
+    <style>
+        .select2-container {
+            min-width: 6em;
+        }
+    </style>
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function (event) {
+            // Navbar bottom actions
+            $('footer').addClass('navbar_spacing');
+            $('#nav_button_save').on('click', function () {
+                $('#adverse_event_form').submit();
+            });
+        });
+    </script>
+{% endblock %}

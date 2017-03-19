@@ -40,7 +40,7 @@
                             {% endif %}
 
                             {% if perms.samples.change_event or perms.samples.view_event %}
-                                {% url 'wp4:samples:home' as url_samples %}
+                                {% url 'wp4:samples:index' as url_samples %}
                                 <li class="{% active request url_samples %}"><a href="{{ url_samples }}">Samples</a></li>
                             {% endif %}
 

@@ -3,6 +3,7 @@
 from __future__ import absolute_import, unicode_literals
 
 from django.core.validators import ValidationError
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
@@ -135,6 +136,9 @@ class Event(AuditControlModelBase):
 
     def __str__(self):
         return "%s (%s)" % (self.get_type_display(), self.taken_at)
+
+    def get_absolute_url(self):
+        return reverse("wp4:samples:event_detail", kwargs={"pk": self.pk})
 
 
 class BloodSample(AuditControlModelBase, BarCodeMixin, DeviationMixin):

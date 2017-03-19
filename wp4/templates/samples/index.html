@@ -1,0 +1,30 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+
+{% block page_title %}Samples{% endblock %}
+{% block page_header %}Samples{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li class="active">Samples</li>
+{% endblock %}
+
+{% block content %}
+    <h3>Actions available</h3>
+    <ul class="list-group">
+        <li class="list-group-item list-group-item-info">Samples: Home</li>
+
+        {% if perms.samples.change_event or perms.samples.view_events %}
+        <a href="{% url 'wp4:samples:event_list' %}" class="list-group-item">Events</a>
+        {% endif %}
+{#        {% if perms.followups.change_followup3m or perms.followups.view_followup3m %}#}
+{#            <a href="{% url 'wp4:followup:month3_list' %}" class="list-group-item">Month 3</a>#}
+{#        {% endif %}#}
+{#        {% if perms.followups.change_followup6m or perms.followups.view_followup6m %}#}
+{#            <a href="{% url 'wp4:followup:month6_list' %}" class="list-group-item">Month 6</a>#}
+{#        {% endif %}#}
+{#        {% if perms.followups.change_followup1y or perms.followups.view_followup1y %}#}
+{#            <a href="{% url 'wp4:followup:final_list' %}" class="list-group-item">Final</a>#}
+{#        {% endif %}#}
+    </ul>
+{% endblock %}

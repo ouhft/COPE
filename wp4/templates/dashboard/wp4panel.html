@@ -13,7 +13,7 @@
             <a href="{% url 'wp4:compare:transplantation_list' %}" class="list-group-item">Transplantation Forms</a>
         {% endif %}
         {% if perms.samples.change_event or perms.samples.view_event %}
-            <a href="{% url 'wp4:samples:home' %}" class="list-group-item">Sample Collection</a>
+            <a href="{% url 'wp4:samples:index' %}" class="list-group-item">Sample Collection</a>
         {% endif %}
         {% if perms.followups.change_followupinitial or perms.followups.view_followupinitial %}
             <a href="{% url 'wp4:followup:index' %}" class="list-group-item">Follow Up Forms</a>
