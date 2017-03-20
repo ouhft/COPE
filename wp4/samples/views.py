@@ -12,13 +12,35 @@ from django.views.generic import ListView, UpdateView, DetailView
 
 from braces.views import LoginRequiredMixin, MultiplePermissionsRequiredMixin, OrderableListMixin
 
-from wp4.staff.models import Person
+from wp4.compare.models.donor import Donor, Organ
+from wp4.compare.models.transplantation import Recipient
 
 from .models import Event
 from .forms import EventForm, BloodSampleFormSet, UrineSampleFormSet, PerfusateSampleFormSet, TissueSampleFormSet
 
 
 # ============================================  Mixins
+
+class UserBasedQuerysetMixin(object):
+    """
+    Ensure that the queries we run include the current user to allow for the filtering and permissions to take hold
+    """
+
+    def get_queryset(self):
+        queryset = self.model.objects.for_user(self.request.user).all()
+
+        try:
+            ordering = self.get_ordering()
+            if ordering:
+                if isinstance(ordering, six.string_types):
+                    ordering = (ordering,)
+                queryset = queryset.order_by(*ordering)
+        except AttributeError:
+            # get_ordering doesn't apply to nonlists, but this queryset does
+            pass
+
+        return queryset
+
 class FormSaveMixin(object):
     def form_valid(self, form):
         messages.success(
@@ -42,7 +64,6 @@ class FormSaveMixin(object):
 
 # ============================================  CBVs
 class EventListView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, OrderableListMixin, ListView):
-    # pass
     model = Event
     permissions = {
         "all": (),
@@ -106,6 +127,85 @@ class EventUpdateView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, Form
                     )
                     return super(EventUpdateView, self).form_invalid(form)
         return super(EventUpdateView, self).form_valid(form)
+
+
+# ------------------------------------------------
+class DonorSamplesListView(LoginRequiredMixin, MultiplePermissionsRequiredMixin,
+                           UserBasedQuerysetMixin, OrderableListMixin, ListView):
+    model = Donor
+    template_name = 'samples/donor_list.html'  # Rather than compare/donor_list
+    permissions = {
+        "all": (),
+        "any": ("samples.change_event", "samples.view_event"),
+    }
+
+    paginate_by = 25
+    paginate_orphans = 5
+    orderable_columns = ("id", "trial_id", )
+    orderable_columns_default = "id"
+
+
+class DonorSamplesDetailView(LoginRequiredMixin, MultiplePermissionsRequiredMixin,
+                             UserBasedQuerysetMixin, DetailView):
+    model = Donor
+    template_name = 'samples/donor_detail.html'  # Rather than compare/donor_detail
+    permissions = {
+        "all": (),
+        "any": ("samples.change_event", "samples.view_event"),
+    }
+
+
+# ------------------------------------------------
+class OrganSamplesListView(LoginRequiredMixin, MultiplePermissionsRequiredMixin,
+                           UserBasedQuerysetMixin, OrderableListMixin, ListView):
+    model = Organ
+    template_name = 'samples/organ_list.html'  # Rather than compare/organ_list
+    permissions = {
+        "all": (),
+        "any": ("samples.change_event", "samples.view_event"),
+    }
+
+    paginate_by = 25
+    paginate_orphans = 5
+    orderable_columns = ("id", "trial_id", )
+    orderable_columns_default = "id"
+
+
+class OrganSamplesDetailView(LoginRequiredMixin, MultiplePermissionsRequiredMixin,
+                             UserBasedQuerysetMixin, DetailView):
+    model = Organ
+    template_name = 'samples/organ_detail.html'  # Rather than compare/organ_detail
+    permissions = {
+        "all": (),
+        "any": ("samples.change_event", "samples.view_event"),
+    }
+
+
+# ------------------------------------------------
+class RecipientSamplesListView(LoginRequiredMixin, MultiplePermissionsRequiredMixin,
+                           UserBasedQuerysetMixin, OrderableListMixin, ListView):
+    model = Recipient
+    template_name = 'samples/recipient_list.html'  # Rather than compare/recipient_list
+    permissions = {
+        "all": (),
+        "any": ("samples.change_event", "samples.view_event"),
+    }
+
+    paginate_by = 25
+    paginate_orphans = 5
+    orderable_columns = ("id", "trial_id", )
+    orderable_columns_default = "id"
+
+
+class RecipientSamplesDetailView(LoginRequiredMixin, MultiplePermissionsRequiredMixin,
+                             UserBasedQuerysetMixin, DetailView):
+    model = Recipient
+    template_name = 'samples/recipient_detail.html'  # Rather than compare/recipient_detail
+    permissions = {
+        "all": (),
+        "any": ("samples.change_event", "samples.view_event"),
+    }
+
 
 # ============================================  FBVs
 

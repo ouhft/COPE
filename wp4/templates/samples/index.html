@@ -15,16 +15,12 @@
         <li class="list-group-item list-group-item-info">Samples: Home</li>
 
         {% if perms.samples.change_event or perms.samples.view_events %}
-        <a href="{% url 'wp4:samples:event_list' %}" class="list-group-item">Events</a>
+            <a href="{% url 'wp4:samples:event_list' %}" class="list-group-item">Events</a>
+            <a href="{% url 'wp4:samples:donor_list' %}" class="list-group-item">Donor Samples</a>
+            <a href="{% url 'wp4:samples:organ_list' %}" class="list-group-item">Organ Samples</a>
+            <a href="{% url 'wp4:samples:recipient_list' %}" class="list-group-item">Recipient Samples</a>
+        {% else %}
+            <li class="list-group-item list-group-item-warning">You have no permission to go further</li>
         {% endif %}
-{#        {% if perms.followups.change_followup3m or perms.followups.view_followup3m %}#}
-{#            <a href="{% url 'wp4:followup:month3_list' %}" class="list-group-item">Month 3</a>#}
-{#        {% endif %}#}
-{#        {% if perms.followups.change_followup6m or perms.followups.view_followup6m %}#}
-{#            <a href="{% url 'wp4:followup:month6_list' %}" class="list-group-item">Month 6</a>#}
-{#        {% endif %}#}
-{#        {% if perms.followups.change_followup1y or perms.followups.view_followup1y %}#}
-{#            <a href="{% url 'wp4:followup:final_list' %}" class="list-group-item">Final</a>#}
-{#        {% endif %}#}
     </ul>
 {% endblock %}

@@ -2,11 +2,12 @@
 {% load l10n i18n %}
 
 {% block page_title %}Samples{% endblock %}
-{% block page_header %}Samples - Home{% endblock %}
+{% block page_header %}Samples - Events{% endblock %}
 {% block page_trail %}
     <li><a href="{% url 'home' %}">Home</a></li>
     <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
-    <li class="active">Samples</li>
+    <li><a href="{% url 'wp4:samples:index' %}">Samples</a></li>
+    <li class="active">Events</li>
 {% endblock %}
 
 {% block content %}

@@ -1,0 +1,90 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+
+{% block page_title %}Samples{% endblock %}
+{% block page_header %}Samples - Organs{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:samples:index' %}">Samples</a></li>
+    <li class="active">Organ Samples</li>
+{% endblock %}
+
+{% block content %}
+    {% if organ_list %}
+        {% include 'includes/paginator.html' %}
+        <table class="table table-responsive table-condensed">
+            <thead>
+            <tr>
+                <th>Trial ID
+                    {% if request.GET.order_by == "trial_id" and request.GET.ordering == "asc" %}
+                        <a href="?order_by=trial_id&ordering=desc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i
+                                class="text-success glyphicon glyphicon glyphicon-sort-by-attributes"></i></a>
+                    {% elif request.GET.order_by == "trial_id" and request.GET.ordering == "desc" %}
+                        <a href="?page={{ request.GET.page }}&q={{ request.GET.q }}"><i
+                                class="text-success glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i></a>
+                    {% else %}
+                        <a href="?order_by=trial_id&ordering=asc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i
+                                class="glyphicon glyphicon glyphicon-sort"></i></a>
+                    {% endif %}
+                </th>
+                <th>Name</th>
+                <th>Taken at</th>
+                <th>Barcode</th>
+                <th>Collected</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for organ in organ_list %}
+                <tr>
+                {% with perfusate_count=organ.perfusatesample_set.all.count tissue_count=organ.tissuesample_set.all.count %}
+                    <td rowspan="{{ perfusate_count|add:tissue_count }}">
+
+                        <strong>{{ organ.trial_id }}</strong><br>
+                        {% if perms.samples.change_event %}
+                            <a href="{% url 'wp4:samples:organ_detail' pk=organ.pk %}" class="btn btn-default btn-xs"><i
+                                    title="edit" class="glyphicon glyphicon-eye-open"></i></a>
+{#                            <a href="{% url 'wp4:samples:organ_update' pk=organ.pk %}" class="btn btn-primary btn-xs"><i#}
+{#                                    title="edit" class="glyphicon glyphicon-edit"></i> {{ organ.id }}</a>#}
+                        {% elif perms.samples.view_event %}
+                            <a href="{% url 'wp4:samples:organ_detail' pk=organ.pk %}" class="btn btn-default btn-xs"><i
+                                    title="edit" class="glyphicon glyphicon-eye-open"></i> {{ organ.id }}</a>
+                        {% endif %}
+                    </td>
+                {% if perfusate_count == 0 and tissue_count == 0 %}
+                    <td colspan="5">No samples collected</td>
+                {% else %}
+                    {% for sample in organ.perfusatesample_set.all %}
+                {% if not forloop.first %}<tr>{% endif %}
+                    <td>{{ sample.event.get_name_display }}</td>
+                    <td>{{ sample.event.taken_at }}</td>
+
+                    <td>{{ sample.barcode|default:"Not recorded" }}</td>
+                    <td class="{{ sample.collected|yesno:"bg-success,bg-danger,bg-warning" }}">
+                        {{ sample.collected|yesno:"yes,no,not recorded"|capfirst }}
+                    </td>
+                </tr>
+                    {% endfor %}
+                    {% for sample in organ.tissuesample_set.all %}
+                <tr>
+                    <td>{{ sample.event.get_name_display }} ({{ sample.get_tissue_type_display }})</td>
+                    <td>{{ sample.event.taken_at }}</td>
+
+                    <td>{{ sample.barcode|default:"Not recorded" }}</td>
+                    <td class="{{ sample.collected|yesno:"bg-success,bg-danger,bg-warning" }}">
+                        {{ sample.collected|yesno:"yes,no,not recorded"|capfirst }}
+                    </td>
+                {% if not forloop.last %}</tr>{% endif %}
+                    {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            {% endfor %}
+            </tbody>
+        </table>
+
+        {% include 'includes/paginator.html' %}
+
+    {% else %}
+        <p>No Organs are available.</p>
+    {% endif %}
+{% endblock %}

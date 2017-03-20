@@ -434,6 +434,8 @@ Periodically there are maintainence tasks to do, such as:
  * Check things are working so far ``python manage.py check``
  * Apply any necessary migrations ``python manage.py migrate``
  * Gather the staticfiles up ``python manage.py collectstatic``
+ * Apply the locale updates `python manage.py compilemessages`
+ * Check things are working so far II ``python manage.py check``
  * Start the supervisor console to reload the changes ``sudo supervisorctl``...
  * and then ``restart cope-django``
  * ...and all should be fine.

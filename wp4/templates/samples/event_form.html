@@ -16,24 +16,6 @@
 {% endblock %}
 
 {% block content %}
-{#            <div class="panel panel-primary }}">#}
-{#                <div class="panel-heading">#}
-{#                    <h3 class="panel-title">Event ID: {{ event.id }}</h3>#}
-{#                </div>#}
-{#                <ul class="list-group">#}
-{#                    <li class="list-group-item">#}
-{#                        <strong>{% get_verbose_field_name event 'type' %}:</strong> {{ event.get_type_display }}#}
-{#                    </li>#}
-{#                    <li class="list-group-item">#}
-{#                        <strong>{% get_verbose_field_name event 'name' %}:</strong> {{ event.get_name_display }}#}
-{#                    </li>#}
-{#                    <li class="list-group-item">#}
-{#                        <strong>{% get_verbose_field_name event 'taken_at' %}:</strong> {{ event.taken_at }}#}
-{#                    </li>#}
-{##}
-{#                </ul>#}
-{#            </div>#}
-
     <form method="post" class="" id="adverse_event_form">
         {% if form.non_field_errors %}
             <div class="col-md-12" style="margin-top: 10px;">

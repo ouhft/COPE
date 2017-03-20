@@ -1,0 +1,173 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+{% load theme_tags %}
+
+{% block page_title %}Samples{% endblock %}
+{% block page_header %}Samples - Recipient
+    <small>Trial ID #{{ recipient.trial_id }}</small>{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:samples:index' %}">Samples</a></li>
+    <li><a href="{% url 'wp4:samples:recipient_list' %}">Recipient Samples</a></li>
+    <li class="active">View Samples for #{{ recipient.trial_id }}</li>
+{% endblock %}
+
+
+{% block content %}
+
+    {% for sample in recipient.person.bloodsample_set.all %}
+        {% if forloop.counter0|divisibleby:"2" %}
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-primary }}">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Event #{{ sample.event.id }}</h3>
+                </div>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <strong>{% get_verbose_field_name sample.event 'type' %}:</strong> {{ sample.event.get_type_display }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>{% get_verbose_field_name sample.event 'name' %}:</strong> {{ sample.event.get_name_display }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>{% get_verbose_field_name sample.event 'taken_at' %}:</strong> {{ sample.event.taken_at }}
+                    </li>
+                </ul>
+            </div>
+            {% if perms.samples.change_event %}
+{#                <p><a href="{% url 'wp4:samples:event_update' pk=event.pk %}" class="btn btn-primary btn-lg"><i#}
+{#                        title="edit" class="glyphicon glyphicon-edit"></i> Edit Event</a></p>#}
+            {% endif %}
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default }}">
+                {% if user.is_administrator %}
+                <div class="panel-heading">
+                    <h3 class="panel-title">Sample #{{ sample.id }}</h3>
+                </div>
+                {% endif %}
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <strong>{% get_verbose_field_name sample 'blood_type' %}:</strong> {{ sample.get_blood_type_display }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>{% get_verbose_field_name sample 'barcode' %}:</strong>
+                        {{ sample.barcode|default:"Not recorded" }}
+                    </li>
+                    <li class="list-group-item
+                            {{ sample.collected|yesno:"list-group-item-success,list-group-item-danger,list-group-item-warning" }}">
+                        <strong>{% get_verbose_field_name sample 'collected' %}</strong><br>&nbsp;
+                        <span class="badge">{{ sample.collected|yesno }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>{% get_verbose_field_name sample 'centrifuged_at' %}:</strong>
+                        {{ sample.centrifuged_at|default:"Not recorded" }}
+                    </li>
+                </ul>
+                <div class="panel-body">
+                    <h4>{% get_verbose_field_name sample 'notes' %}</h4>
+                    <div>{{ sample.notes }}</div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+
+        <div class="col-md-4">
+            <div class="panel panel-default }}">
+                {% if user.is_administrator %}
+                <div class="panel-heading">
+                    <h3 class="panel-title">Sample #{{ sample.id }}</h3>
+                </div>
+                {% endif %}
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <strong>{% get_verbose_field_name sample 'blood_type' %}:</strong> {{ sample.get_blood_type_display }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>{% get_verbose_field_name sample 'barcode' %}:</strong>
+                        {{ sample.barcode|default:"Not recorded" }}
+                    </li>
+                    <li class="list-group-item
+                            {{ sample.collected|yesno:"list-group-item-success,list-group-item-danger,list-group-item-warning" }}">
+                        <strong>{% get_verbose_field_name sample 'collected' %}</strong><br>&nbsp;
+                        <span class="badge">{{ sample.collected|yesno }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>{% get_verbose_field_name sample 'centrifuged_at' %}:</strong>
+                        {{ sample.centrifuged_at|default:"Not recorded" }}
+                    </li>
+                </ul>
+                <div class="panel-body">
+                    <h4>{% get_verbose_field_name sample 'notes' %}</h4>
+                    <div>{{ sample.notes }}</div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% if not forloop.counter0|divisibleby:"2" %}
+    </div>
+        {% endif %}
+    {% empty %}
+        <p>No Blood Samples recorded for this Recipient</p>
+    {% endfor %}
+
+    {% for sample in recipient.person.urinesample_set.all %}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-primary }}">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Event #{{ sample.event.id }}</h3>
+                </div>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <strong>{% get_verbose_field_name sample.event 'type' %}:</strong> {{ sample.event.get_type_display }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>{% get_verbose_field_name sample.event 'name' %}:</strong> {{ sample.event.get_name_display }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>{% get_verbose_field_name sample.event 'taken_at' %}:</strong> {{ sample.event.taken_at }}
+                    </li>
+                </ul>
+            </div>
+            {% if perms.samples.change_event %}
+{#                <p><a href="{% url 'wp4:samples:event_update' pk=event.pk %}" class="btn btn-primary btn-lg"><i#}
+{#                        title="edit" class="glyphicon glyphicon-edit"></i> Edit Event</a></p>#}
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default }}">
+                {% if user.is_administrator %}
+                <div class="panel-heading">
+                    <h3 class="panel-title">Sample #{{ sample.id }}</h3>
+                </div>
+                {% endif %}
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <strong>{% get_verbose_field_name sample 'barcode' %}:</strong>
+                        {{ sample.barcode|default:"Not recorded" }}
+                    </li>
+                    <li class="list-group-item
+                            {{ sample.collected|yesno:"list-group-item-success,list-group-item-danger,list-group-item-warning" }}">
+                        <strong>{% get_verbose_field_name sample 'collected' %}</strong><br>&nbsp;
+                        <span class="badge">{{ sample.collected|yesno }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>{% get_verbose_field_name sample 'centrifuged_at' %}:</strong>
+                        {{ sample.centrifuged_at|default:"Not recorded" }}
+                    </li>
+                </ul>
+                <div class="panel-body">
+                    <h4>{% get_verbose_field_name sample 'notes' %}</h4>
+                    <div>{{ sample.notes }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+        <p>No Urine Samples recorded for this Recipient</p>
+    {% endfor %}
+
+{% endblock %}

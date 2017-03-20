@@ -4,7 +4,7 @@
 
 {% block page_title %}Samples{% endblock %}
 {% block page_header %}Samples - Events
-    <small>Event ID #{{ event.id }}</small>{% endblock %}
+    <small>Event #{{ event.id }}</small>{% endblock %}
 {% block page_trail %}
     <li><a href="{% url 'home' %}">Home</a></li>
     <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
@@ -20,7 +20,7 @@
         <div class="col-md-4">
             <div class="panel panel-primary }}">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Event ID: {{ event.id }}</h3>
+                    <h3 class="panel-title">Event #{{ event.id }}</h3>
                 </div>
                 <ul class="list-group">
                     <li class="list-group-item">
@@ -45,8 +45,13 @@
             {% if event.type == 1 %}{# Blood #}
                 {% with event.bloodsample_set.all.0 as sample %}
                     <div class="panel panel-default }}">
+                        {% if user.is_administrator %}
                         <div class="panel-heading">
-                            <h3 class="panel-title">From: {{ sample.person.trial_id }}</h3>
+                            <h3 class="panel-title">Sample #{{ sample.id }}</h3>
+                        </div>
+                        {% endif %}
+                        <div class="panel-body">
+                            <strong>Trial ID:</strong> {{ sample.person.trial_id }}
                         </div>
                         <ul class="list-group">
                             <li class="list-group-item">
@@ -76,8 +81,13 @@
                 {% elif event.type == 2 %}{# Urine #}
                 {% with event.urinesample_set.all.0 as sample %}
                     <div class="panel panel-default }}">
+                        {% if user.is_administrator %}
                         <div class="panel-heading">
-                            <h3 class="panel-title">From: {{ sample.person.trial_id }}</h3>
+                            <h3 class="panel-title">Sample #{{ sample.id }}</h3>
+                        </div>
+                        {% endif %}
+                        <div class="panel-body">
+                            <strong>Trial ID:</strong> {{ sample.person.trial_id }}
                         </div>
                         <ul class="list-group">
                             <li class="list-group-item">
@@ -104,8 +114,13 @@
                 {% elif event.type == 3 %}{# Perfusate #}
                 {% with event.perfusatesample_set.all.0 as sample %}
                     <div class="panel panel-default }}">
+                        {% if user.is_administrator %}
                         <div class="panel-heading">
-                            <h3 class="panel-title">From: {{ sample.organ.trial_id }}</h3>
+                            <h3 class="panel-title">Sample #{{ sample.id }}</h3>
+                        </div>
+                        {% endif %}
+                        <div class="panel-body">
+                            <strong>Trial ID:</strong> {{ sample.organ.trial_id }}
                         </div>
                         <ul class="list-group">
                             <li class="list-group-item">
@@ -132,8 +147,13 @@
                 {% elif event.type == 4 %}{# Tissue #}
                 {% with event.tissuesample_set.all.0 as sample %}
                     <div class="panel panel-default }}">
+                        {% if user.is_administrator %}
                         <div class="panel-heading">
-                            <h3 class="panel-title">From: {{ sample.organ.trial_id }}</h3>
+                            <h3 class="panel-title">Sample #{{ sample.id }}</h3>
+                        </div>
+                        {% endif %}
+                        <div class="panel-body">
+                            <strong>Trial ID:</strong> {{ sample.organ.trial_id }}
                         </div>
                         <ul class="list-group">
                             <li class="list-group-item">
@@ -162,8 +182,13 @@
             {% if event.type == 1 %}{# Blood #}
                 {% with event.bloodsample_set.all.1 as sample %}
                     <div class="panel panel-default }}">
+                        {% if user.is_administrator %}
                         <div class="panel-heading">
-                            <h3 class="panel-title">From {{ sample.person.trial_id }}</h3>
+                            <h3 class="panel-title">Sample #{{ sample.id }}</h3>
+                        </div>
+                        {% endif %}
+                        <div class="panel-body">
+                            <strong>Trial ID:</strong> {{ sample.person.trial_id }}
                         </div>
                         <ul class="list-group">
                             <li class="list-group-item">
@@ -193,8 +218,13 @@
                 {% elif event.type == 4 %}{# Tissue #}
                 {% with event.tissuesample_set.all.1 as sample %}
                     <div class="panel panel-default }}">
+                        {% if user.is_administrator %}
                         <div class="panel-heading">
-                            <h3 class="panel-title">From: {{ sample.organ.trial_id }}</h3>
+                            <h3 class="panel-title">Sample #{{ sample.id }}</h3>
+                        </div>
+                        {% endif %}
+                        <div class="panel-body">
+                            <strong>Trial ID:</strong> {{ sample.organ.trial_id }}
                         </div>
                         <ul class="list-group">
                             <li class="list-group-item">
