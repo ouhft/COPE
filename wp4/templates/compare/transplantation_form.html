@@ -102,20 +102,23 @@
                 {% crispy person_form %}
                 {% crispy recipient_form %}
             </div>
-            {% if worksheet %}
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Samples</h3>
-                    </div>
-                    <div class="panel-body">
-                        <p class="alert alert-warning">Please ensure you have successfully saved before clicking on the
-                            link below</p>
 
-                        <p><a href="{% url 'wp4:samples:update' pk=worksheet.id %}" class="btn btn-default">Goto Samples
-                            Worksheet ({{ worksheet }})</a></p>
-                    </div>
-                </div>
-            {% endif %}
+            <h2>Samples</h2>
+            <p class="alert alert-warning">Please ensure you have successfully saved before clicking on any links below</p>
+
+            <h3>Kidney Samples</h3>
+            {% for event in organ_sample_events %}
+                {% include "samples/event_detail_panel.html" with event=event %}
+            {% empty %}
+                <p class="text-danger" style="margin-top: 1em;">No samples have been created for this Kidney. Please report to Sys-Admin.</p>
+            {% endfor %}
+
+            <h3>Recipient Samples</h3>
+            {% for event in recipient_sample_events %}
+                {% include "samples/event_detail_panel.html" with event=event %}
+            {% empty %}
+                <p class="text-danger" style="margin-top: 1em;">No samples have been created for this Donor. Please report to Sys-Admin.</p>
+            {% endfor %}
 
             {% crispy organ_form %}
         {% else %}

@@ -17,6 +17,7 @@ from dal import autocomplete
 
 from wp4.staff.models import Person
 from wp4.samples.utils import create_donor_samples, create_recipient_samples
+from wp4.samples.models import Event
 from wp4.followups.utils import generate_followups_from_recipient
 
 from .models import Patient, Donor, Organ, Recipient, ProcurementResource, OrganAllocation, RetrievalTeam
@@ -299,11 +300,18 @@ def procurement_form(request, pk):
     # messages.warning(request, 'Your account expires in three days.')
     # messages.error(request, '<strong>Document</strong> deleted.')
 
-    # Load the relevant samples worksheet
-    # if len(donor.person.worksheet_set.all()) > 0:
-    #     worksheet = donor.person.worksheet_set.all()[0]
-    # else:
-    worksheet = None
+    donor_sample_events = Event.objects.filter(
+        Q(bloodsample__person__id=donor.person.id) |
+        Q(urinesample__person__id=donor.person.id)
+    )
+    left_organ_sample_events = Event.objects.filter(
+        Q(perfusatesample__organ__id=donor.left_kidney.id) |
+        Q(tissuesample__organ__id=donor.left_kidney.id)
+    )
+    right_organ_sample_events = Event.objects.filter(
+        Q(perfusatesample__organ__id=donor.right_kidney.id) |
+        Q(tissuesample__organ__id=donor.right_kidney.id)
+    )
 
     return render(
         request=request,
@@ -318,7 +326,9 @@ def procurement_form(request, pk):
             "right_organ_procurement_forms": right_organ_procurement_forms,
             "right_organ_error_count": right_organ_error_count,
             "donor": donor,
-            "worksheet": worksheet,
+            "donor_sample_events": donor_sample_events,
+            "left_organ_sample_events": left_organ_sample_events,
+            "right_organ_sample_events": right_organ_sample_events,
         }
     )
 
@@ -582,10 +592,14 @@ def transplantation_form(request, pk=None):
     # TODO: FIX THIS - disabling the radiobuttons causes the fields to not be submitted, and thus the value is reset to None
 
     # Load the relevant samples worksheet
-    # if recipient_form_loaded and len(organ.recipient.person.worksheet_set.all()):
-    #     worksheet = organ.recipient.person.worksheet_set.all()[0]
-    # else:
-    worksheet = None
+    recipient_sample_events = Event.objects.filter(
+        Q(bloodsample__person__id=organ.safe_recipient.person.id) |
+        Q(urinesample__person__id=organ.safe_recipient.person.id)
+    )
+    organ_sample_events = Event.objects.filter(
+        Q(perfusatesample__organ__id=organ.id) |
+        Q(tissuesample__organ__id=organ.id)
+    )
 
     # print("DEBUG: Second Error Message Update")
     if errors_found > 0:
@@ -605,6 +619,7 @@ def transplantation_form(request, pk=None):
             "organ_form": organ_form,
             "organ": organ,
             "recipient_form_loaded": recipient_form_loaded,
-            "worksheet": worksheet
+            "organ_sample_events": organ_sample_events,
+            "recipient_sample_events": recipient_sample_events
         }
     )

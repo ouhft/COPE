@@ -37,8 +37,8 @@
                 </ul>
             </div>
             {% if perms.samples.change_event %}
-{#                <p><a href="{% url 'wp4:samples:event_update' pk=event.pk %}" class="btn btn-primary btn-lg"><i#}
-{#                        title="edit" class="glyphicon glyphicon-edit"></i> Edit Event</a></p>#}
+                <p><a href="{% url 'wp4:samples:event_update' pk=sample.event.pk %}" class="btn btn-primary btn-lg"><i
+                        title="edit" class="glyphicon glyphicon-edit"></i> Edit Event #{{ sample.event.pk }}</a></p>
             {% endif %}
         </div>
         <div class="col-md-4">
@@ -133,8 +133,8 @@
                 </ul>
             </div>
             {% if perms.samples.change_event %}
-{#                <p><a href="{% url 'wp4:samples:event_update' pk=event.pk %}" class="btn btn-primary btn-lg"><i#}
-{#                        title="edit" class="glyphicon glyphicon-edit"></i> Edit Event</a></p>#}
+                <p><a href="{% url 'wp4:samples:event_update' pk=sample.event.pk %}" class="btn btn-primary btn-lg"><i
+                        title="edit" class="glyphicon glyphicon-edit"></i> Edit Event #{{ sample.event.pk }}</a></p>
             {% endif %}
         </div>
         <div class="col-md-6">

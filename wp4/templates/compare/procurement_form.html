@@ -147,14 +147,29 @@
             </div>
             <div role="tabpanel" class="tab-pane fade" id="samples">
                 <h2 class="sr-only visible-print">Samples</h2>
-                {% if worksheet %}
-                    <p class="alert alert-warning">Please ensure you have successfully saved before clicking on the link
-                        below</p>
-                    <p><a href="{% url 'wp4:samples:update' pk=worksheet.id %}" class="btn btn-default">Goto Samples
-                        Worksheet ({{ worksheet }})</a></p>
-                {% else %}
-                    <p class="text-danger" style="margin-top: 1em;">No worksheet has been created for this case. Please report to Sys-Admin.</p>
-                {% endif %}
+
+                <p class="alert alert-warning">Please ensure you have successfully saved before clicking on any links below</p>
+
+                <h3>Donor Samples</h3>
+                {% for event in donor_sample_events %}
+                    {% include "samples/event_detail_panel.html" with event=event %}
+                {% empty %}
+                    <p class="text-danger" style="margin-top: 1em;">No samples have been created for this Donor. Please report to Sys-Admin.</p>
+                {% endfor %}
+
+                <h3>Left Kidney Samples</h3>
+                {% for event in left_organ_sample_events %}
+                    {% include "samples/event_detail_panel.html" with event=event %}
+                {% empty %}
+                    <p class="text-danger" style="margin-top: 1em;">No samples have been created for this Kidney. Please report to Sys-Admin.</p>
+                {% endfor %}
+
+                <h3>Right Kidney Samples</h3>
+                {% for event in right_organ_sample_events %}
+                    {% include "samples/event_detail_panel.html" with event=event %}
+                {% empty %}
+                    <p class="text-danger" style="margin-top: 1em;">No samples have been created for this Kidney. Please report to Sys-Admin.</p>
+                {% endfor %}
             </div>
             {% csrf_token %}
         </div>
