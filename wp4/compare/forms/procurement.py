@@ -243,22 +243,22 @@ class DonorForm(forms.ModelForm):
         form_completed = cleaned_data.get("procurement_form_completed")
         if form_completed:
             not_randomised_because = cleaned_data.get("not_randomised_because")
-            if not_randomised_because == 0 and not self.instance.is_randomised:
-                self.add_error(
-                    'not_randomised_because',
-                    forms.ValidationError(_("DFv01 Please enter a valid reason for this case to not be randomised"))
-                )
+            if self.instance.is_randomised:
+                # Reset this field in case it has been saved otherwise
+                cleaned_data["not_randomised_because"] = 0
+            else:
+                if not_randomised_because == 0:
+                    self.add_error(
+                        'not_randomised_because',
+                        forms.ValidationError(_("DFv01 Please enter a valid reason for this case to not be randomised"))
+                    )
 
-            not_randomised_because_other = cleaned_data.get("not_randomised_because_other")
-            if (not_randomised_because == 2 or not_randomised_because == 5) and not_randomised_because_other == '':
-                self.add_error(
-                    'not_randomised_because_other',
-                    forms.ValidationError(_("DFv02 Please add additional information"))
-                )
-
-            # retrieval_hospital = cleaned_data.get("retrieval_hospital")
-            # if not retrieval_hospital:
-            #     self.add_error('retrieval_hospital', forms.ValidationError(_("DFv03 Missing retrieval hospital")))
+                not_randomised_because_other = cleaned_data.get("not_randomised_because_other")
+                if (not_randomised_because == 2 or not_randomised_because == 5) and not_randomised_because_other == '':
+                    self.add_error(
+                        'not_randomised_because_other',
+                        forms.ValidationError(_("DFv02 Please add additional information"))
+                    )
 
         if self.errors:
             cleaned_data["procurement_form_completed"] = False
