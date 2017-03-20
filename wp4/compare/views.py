@@ -3,8 +3,10 @@
 from __future__ import absolute_import, unicode_literals
 
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.models import Group
+from django.core.mail import EmailMessage
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required, permission_required
@@ -18,6 +20,8 @@ from dal import autocomplete
 from wp4.staff.models import Person
 from wp4.samples.utils import create_donor_samples, create_recipient_samples
 from wp4.samples.models import Event
+from wp4.staff.utils import get_emails_from_ids
+from wp4.staff.utils import INA_JOCHMANS, SARAH_MERTENS, ALLY_BRADLEY, BHUMIKA_PATEL, AUKJE_BRAT
 from wp4.followups.utils import generate_followups_from_recipient
 
 from .models import Patient, Donor, Organ, Recipient, ProcurementResource, OrganAllocation, RetrievalTeam
@@ -271,6 +275,30 @@ def procurement_form(request, pk):
                 '<strong>This case has now been randomised!</strong> Preservation results: Left=%s and Right=%s'
                 % (donor.left_kidney.get_preservation_display(), donor.right_kidney.get_preservation_display())
             )
+
+            message_text = "Visit https://{0}{1} for more details. The Trial ID was allocated on {2} following " \
+                           "randomisation by {3}".format(
+                                request.get_host(),
+                                reverse('wp4:compare:procurement_list'),
+                                donor.randomisation.allocated_on,
+                                donor.randomisation.allocated_by
+                            )
+            send_to = [
+                SARAH_MERTENS,
+                AUKJE_BRAT,
+                BHUMIKA_PATEL,
+            ]
+            cc_to = [ALLY_BRADLEY, INA_JOCHMANS, ]
+            subject_text = "Donor Randomised - {0}".format(donor.trial_id)
+            from_email = settings.DEFAULT_FROM_EMAIL
+            email = EmailMessage(
+                subject=subject_text,
+                body=message_text,
+                from_email=from_email,
+                to=get_emails_from_ids(send_to),
+                cc=get_emails_from_ids(cc_to)
+            )
+            email.send()
 
         messages.success(request, 'Form has been <strong>successfully saved</strong>')
         if donor.procurement_form_completed:

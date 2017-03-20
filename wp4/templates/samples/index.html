@@ -15,7 +15,7 @@
         <li class="list-group-item list-group-item-info">Samples: Home</li>
 
         {% if perms.samples.change_event or perms.samples.view_events %}
-            <a href="{% url 'wp4:samples:event_list' %}" class="list-group-item">Events</a>
+            <a href="{% url 'wp4:samples:event_list' %}" class="list-group-item">All Samples</a>
             <a href="{% url 'wp4:samples:donor_list' %}" class="list-group-item">Donor Samples</a>
             <a href="{% url 'wp4:samples:organ_list' %}" class="list-group-item">Organ Samples</a>
             <a href="{% url 'wp4:samples:recipient_list' %}" class="list-group-item">Recipient Samples</a>

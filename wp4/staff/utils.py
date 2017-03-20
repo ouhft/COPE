@@ -8,6 +8,8 @@ JACQUES_PIREENE = 109  # Staff.Person at v0.8.0
 INA_JOCHMANS = 108  # Staff.Person at v0.8.0
 SARAH_MERTENS = 6  # Staff.Person at v0.8.0
 ALLY_BRADLEY = 3  # Staff.Person at v0.8.0
+AUKJE_BRAT = 78  # Staff.Person at v0.8.0
+BHUMIKA_PATEL = 97  # Staff.Person at v0.8.0
 
 
 def get_emails_from_ids(list_of_ids=[]):

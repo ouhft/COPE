@@ -32,6 +32,7 @@
                 <th>Taken at</th>
                 <th>Barcode</th>
                 <th>Collected</th>
+                <th>Edit</th>
             </tr>
             </thead>
             <tbody>
@@ -64,6 +65,8 @@
                     <td class="{{ sample.collected|yesno:"bg-success,bg-danger,bg-warning" }}">
                         {{ sample.collected|yesno:"yes,no,not recorded"|capfirst }}
                     </td>
+                    <td><a href="{% url 'wp4:samples:event_update' pk=sample.event.pk %}" class="btn btn-primary btn-xs"><i
+                                title="edit" class="glyphicon glyphicon-edit"></i> {{ sample.event.id }}</a></td>
                 </tr>
                     {% endfor %}
                     {% for sample in donor.person.urinesample_set.all %}
@@ -75,6 +78,8 @@
                     <td class="{{ sample.collected|yesno:"bg-success,bg-danger,bg-warning" }}">
                         {{ sample.collected|yesno:"yes,no,not recorded"|capfirst }}
                     </td>
+                    <td><a href="{% url 'wp4:samples:event_update' pk=sample.event.pk %}" class="btn btn-primary btn-xs"><i
+                                title="edit" class="glyphicon glyphicon-edit"></i> {{ sample.event.id }}</a></td>
                 {% if not forloop.last %}</tr>{% endif %}
                     {% endfor %}
                     {% endif %}
