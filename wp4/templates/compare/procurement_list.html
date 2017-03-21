@@ -22,17 +22,12 @@
                     <thead>
                     <tr>
                         <th>Trial ID</th>
-{#                        <th>Last updated on</th>#}
                         <th>Country</th>
                         <th>Number</th>
                         <th>Age</th>
                         <th>Gender</th>
                         <th>Eligible</th>
-                        {% if request.user.is_staff %}
-                            <th>Admin</th>
-                        {% endif %}
-                        <th>Samples</th>
-                        {% if request.user|has_group:5 or request.user|has_group:7 %}
+                        {% if request.user.is_administrator %}
                             <th>Technician</th>
                         {% endif %}
                     </tr>
@@ -42,56 +37,35 @@
                         <tr>
                             <td>
                                 {% if request.user.is_staff %}
-                                    <a href="{% url 'admin:compare_donor_change' donor.id %}"><i
-                                            class="glyphicon glyphicon-briefcase"></i></a>
+                                    <a href="{% url 'admin:compare_donor_change' donor.id %}"><i class="glyphicon glyphicon-briefcase"></i></a>
                                 {% endif %}
-                                <a href="{% url 'wp4:compare:procurement_detail' donor.id %}"
-                                   class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i>
-                                {{ donor.trial_id }}
-                            </a>
+                                <a href="{% url 'wp4:compare:procurement_detail' donor.id %}" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i>
+                                    {{ donor.trial_id }}
+                                </a>
                             </td>
-{#                            <td>{{ donor.created_on }}</td>#}
                             {#                        TODO: Replace this text with a flag image #}
                             <td>{{ donor.retrieval_team.based_in_country }}</td>
-                            <td>{{ donor.person.number|default:"Unknown number" }}</td>
+                            <td>{{ donor.person.number|default:"Not recorded" }}</td>
                             <td>{{ donor.age }}</td>
                             <td>{{ donor.person.get_gender_display }}</td>
                             {% if donor.count_of_eligible_organs == -1 %}
-                                <td class="info">
-                                    <i class="glyphicon glyphicon-info-sign"></i> Not randomised
-                                </td>
+                                <td class="info"><i class="glyphicon glyphicon-info-sign"></i> Not randomised
                             {% elif donor.count_of_eligible_organs == 0 %}
-                                <td class="danger">
-                                    <i class="glyphicon glyphicon-ban-circle"></i> No kidneys
-                                </td>
+                                <td class="danger"><i class="glyphicon glyphicon-ban-circle"></i> No kidneys
                             {% elif donor.count_of_eligible_organs == 1 %}
-                                <td class="warning">
-                                    <i class="glyphicon glyphicon-warning-sign"></i> 1 kidney
-                                </td>
+                                <td class="warning"><i class="glyphicon glyphicon-warning-sign"></i> 1 kidney
                             {% elif donor.count_of_eligible_organs == 2 %}
-                                <td class="success">
-                                    <i class="glyphicon glyphicon-ok"></i> 2 kidneys
-                                </td>
+                                <td class="success"><i class="glyphicon glyphicon-ok"></i> 2 kidneys
                             {% else %}
-                                <td>ERROR</td>
+                                <td>ERROR
                             {% endif %}
                             {% if request.user.is_staff %}
-                                <td>
-                                <a href="{% url 'admin:compare_organ_change' donor.left_kidney.id %}"><i
-                                        class="glyphicon glyphicon-briefcase"></i>L</a>
-                                <a href="{% url 'admin:compare_organ_change' donor.right_kidney.id %}"><i
-                                        class="glyphicon glyphicon-briefcase"></i>R</a>
-                                </td>
+                                <br>
+                                <a href="{% url 'admin:compare_organ_change' donor.left_kidney.id %}"><i class="glyphicon glyphicon-briefcase"></i>L</a>
+                                <a href="{% url 'admin:compare_organ_change' donor.right_kidney.id %}"><i class="glyphicon glyphicon-briefcase"></i>R</a>
                             {% endif %}
-
-                            <td>
-{#                            {% if donor.person.worksheet %}#}
-{#                                <a href="{% url 'wp4:samples:update' pk=donor.person.worksheet.id %}" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-share"></i> {{ donor.person.worksheet }}</a>#}
-{#                            {% else %}#}
-                                No Worksheet
-{#                            {% endif %}#}
                             </td>
-                            {% if request.user|has_group:5 or request.user|has_group:7 %}
+                            {% if request.user.is_administrator %}
                                 <td>
                                     {{ donor.perfusion_technician.get_full_name }}
                                 </td>
@@ -109,34 +83,34 @@
         <div class="col-md-3">
 
             <h2>New Case</h2>
-{% if perms.compare.add_donor %}
-            <form method="post" action="{% url 'wp4:compare:procurement_list' %}" class="form" id="new-case-form">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Start a new donor case</h3>
+            {% if perms.compare.add_donor %}
+                <form method="post" action="{% url 'wp4:compare:procurement_list' %}" class="form" id="new-case-form">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Start a new donor case</h3>
+                        </div>
+                        <div class="panel-body">
+                            {% if donor_form.non_field_errors %}
+                                <ul class="list-group">
+                                    {% for error in donor_form.non_field_errors %}
+                                        <li class="list-group-item list-group-item-danger">{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                            {% crispy donor_form %}
+                        </div>
+                        <div class="panel-footer">
+                            <input type="submit" class="btn btn-success" value="Start new case"/>
+                        </div>
                     </div>
-                    <div class="panel-body">
-                        {% if donor_form.non_field_errors %}
-                            <ul class="list-group">
-                                {% for error in donor_form.non_field_errors %}
-                                    <li class="list-group-item list-group-item-danger">{{ error }}</li>
-                                {% endfor %}
-                            </ul>
-                        {% endif %}
-                        {% crispy donor_form %}
-                    </div>
-                    <div class="panel-footer">
-                        <input type="submit" class="btn btn-success" value="Start new case"/>
-                    </div>
-                </div>
-            </form>
-        {% else %}
-            <p>You don't have permissions to start a Procurement Form</p>
-        {% endif %}
+                </form>
+            {% else %}
+                <p>You don't have permissions to start a Procurement Form</p>
+            {% endif %}
+            </div>
         </div>
-    </div>
     <div class="row">
-    <div class="col-md-12">
+        <div class="col-md-12">
 
             {% if closed_donors|length > 0 %}
             <h2>Closed Cases
@@ -146,17 +120,12 @@
                     <thead>
                     <tr>
                         <th>Trial ID</th>
-{#                        <th>Last updated on</th>#}
                         <th>Country</th>
                         <th>Number</th>
                         <th>Age</th>
                         <th>Gender</th>
                         <th>Eligible</th>
-                        {% if request.user.is_staff %}
-                            <th>Admin</th>
-                        {% endif %}
-                        <th>Samples</th>
-                        {% if request.user|has_group:5 or request.user|has_group:7 %}
+                        {% if request.user.is_administrator %}
                             <th>Technician</th>
                         {% endif %}
                     </tr>
@@ -166,63 +135,41 @@
                         <tr>
                             <td>
                                 {% if request.user.is_staff %}
-                                    <a href="{% url 'admin:compare_donor_change' donor.id %}"><i
-                                            class="glyphicon glyphicon-briefcase"></i></a>
+                                    <a href="{% url 'admin:compare_donor_change' donor.id %}"><i class="glyphicon glyphicon-briefcase"></i></a>
                                 {% endif %}
                             {% if request.user.is_administrator %}
-                                <a href="{% url 'wp4:compare:procurement_detail' donor.id %}"
-                                   class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i>
-                                {{ donor.trial_id }}
-                            </a>
+                                <a href="{% url 'wp4:compare:procurement_detail' donor.id %}" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i>
+                                    {{ donor.trial_id }}
+                                </a>
                             {% else %}
                                 <strong>{{ donor.trial_id }}</strong>
                             {% endif %}
                             </td>
-{#                            <td>{{ donor.created_on }}</td>#}
                             {#                        TODO: Replace this text with a flag image #}
                             <td>{{ donor.retrieval_team.based_in_country }}</td>
-                            <td>{{ donor.person.number|default:"Unknown number" }}</td>
+                            <td>{{ donor.person.number|default:"Not recorded" }}</td>
                             <td>{{ donor.age }}</td>
                             <td>{{ donor.person.get_gender_display }}</td>
                             {% if donor.count_of_eligible_organs == -1 %}
-                                <td class="info">
-                                    <i class="glyphicon glyphicon-info-sign"></i> Not randomised
-                                </td>
+                                <td class="info"><i class="glyphicon glyphicon-info-sign"></i> Not randomised
                             {% elif donor.count_of_eligible_organs == 0 %}
-                                <td class="danger">
-                                    <i class="glyphicon glyphicon-ban-circle"></i> No kidneys
-                                </td>
+                                <td class="danger"><i class="glyphicon glyphicon-ban-circle"></i> No kidneys
                             {% elif donor.count_of_eligible_organs == 1 %}
-                                <td class="warning">
-                                    <i class="glyphicon glyphicon-warning-sign"></i> 1 kidney
-                                </td>
+                                <td class="warning"><i class="glyphicon glyphicon-warning-sign"></i> 1 kidney
                             {% elif donor.count_of_eligible_organs == 2 %}
-                                <td class="success">
-                                    <i class="glyphicon glyphicon-ok"></i> 2 kidneys
-                                </td>
+                                <td class="success"><i class="glyphicon glyphicon-ok"></i> 2 kidneys
                             {% else %}
                                 <td>ERROR</td>
                             {% endif %}
                             {% if request.user.is_staff %}
-                                <td>
-                                <a href="{% url 'admin:compare_organ_change' donor.left_kidney.id %}"><i
-                                        class="glyphicon glyphicon-briefcase"></i>L</a>
-                                <a href="{% url 'admin:compare_organ_change' donor.right_kidney.id %}"><i
-                                        class="glyphicon glyphicon-briefcase"></i>R</a>
-                                </td>
+                                <br>
+                                <a href="{% url 'admin:compare_organ_change' donor.left_kidney.id %}"><i class="glyphicon glyphicon-briefcase"></i>L</a>
+                                <a href="{% url 'admin:compare_organ_change' donor.right_kidney.id %}"><i class="glyphicon glyphicon-briefcase"></i>R</a>
                             {% endif %}
-
-                            <td>
-{#                            {% if donor.person.worksheet %}#}
-{#                                <a href="{% url 'wp4:samples:update' pk=donor.person.worksheet.id %}" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-share"></i> {{ donor.person.worksheet }}</a>#}
-{#                            {% else %}#}
-                                No Worksheet
-{#                            {% endif %}#}
                             </td>
-                            {% if request.user|has_group:5 or request.user|has_group:7 %}
-                                <td>
-                                    {{ donor.perfusion_technician.get_full_name }}
-                                </td>
+
+                            {% if request.user.is_administrator %}
+                                <td>{{ donor.perfusion_technician.get_full_name }}</td>
                             {% endif %}
                         </tr>
                     {% endfor %}
@@ -231,7 +178,7 @@
             {% else %}
                 <p>No Closed Cases to display</p>
             {% endif %}
-    </div>
+        </div>
     </div>
 {% endblock %}
 

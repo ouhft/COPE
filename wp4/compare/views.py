@@ -620,14 +620,14 @@ def transplantation_form(request, pk=None):
     # TODO: FIX THIS - disabling the radiobuttons causes the fields to not be submitted, and thus the value is reset to None
 
     # Load the relevant samples worksheet
-    recipient_sample_events = Event.objects.filter(
-        Q(bloodsample__person__id=organ.safe_recipient.person.id) |
-        Q(urinesample__person__id=organ.safe_recipient.person.id)
-    )
     organ_sample_events = Event.objects.filter(
         Q(perfusatesample__organ__id=organ.id) |
         Q(tissuesample__organ__id=organ.id)
     )
+    recipient_sample_events = Event.objects.filter(
+        Q(bloodsample__person__id=organ.safe_recipient.person.id) |
+        Q(urinesample__person__id=organ.safe_recipient.person.id)
+    ) if organ.safe_recipient is not None else []
 
     # print("DEBUG: Second Error Message Update")
     if errors_found > 0:

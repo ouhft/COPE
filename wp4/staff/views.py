@@ -25,7 +25,7 @@ class TechnicianAutoComplete(autocomplete.Select2QuerySetView):
         qs = Person.objects.filter(groups__in=[Person.PERFUSION_TECHNICIAN])
 
         if self.q:
-            qs = qs.filter(Q(first_names__icontains=self.q) | Q(last_names__icontains=self.q))
+            qs = qs.filter(Q(first_name__icontains=self.q) | Q(last_name__icontains=self.q))
 
         return qs
 
