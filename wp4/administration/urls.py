@@ -7,7 +7,7 @@ from django.conf.urls import include, url
 from .views import report_procurement, report_organ, report_allocations, report_adverse_events
 from .views import administrator_index, administrator_uk_list, administrator_europe_list
 from .views import administrator_procurement_pairs, administrator_transplantation_sites, administrator_sae_sites
-from .views import flowchart, completed_pairs
+from .views import flowchart, completed_pairs, followups
 from .views import dmc_secondary_outcomes, dmc_death_summaries
 
 urlpatterns = [
@@ -69,6 +69,11 @@ urlpatterns = [
         regex=r'^completed-pairs',
         view=completed_pairs,
         name='completed_pairs'
+    ),
+    url(
+        regex=r'^followups',
+        view=followups,
+        name='followups'
     ),
 
     # DMC Reports

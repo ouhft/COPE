@@ -768,6 +768,21 @@ def completed_pairs(request):
         }
     )
 
+
+@group_required(Person.CENTRAL_COORDINATOR)
+def followups(request):
+    listing = Organ.objects.all().order_by('trial_id')
+    summary = {}
+
+    return render(
+        request,
+        'administration/followups.html',
+        {
+            'listing': listing,
+            'summary': summary
+        }
+    )
+
 @group_required(Person.CENTRAL_COORDINATOR)
 def dmc_secondary_outcomes(request):
     """

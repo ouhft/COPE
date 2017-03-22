@@ -60,15 +60,15 @@ def activate_followups_in_window():
     """
     date_now = datetime.datetime.now().date()
     for organ in Organ.all_objects.prefetch_related('followup_3m').filter(followup_3m__isnull=False):
-        if organ.followup_3m_begin_by >= date_now:
+        if organ.followup_3m_begin_by <= date_now:
             organ.followup_3m.undelete()
             organ.followup_3m.quality_of_life.undelete()
 
     for organ in Organ.all_objects.prefetch_related('followup_6m').filter(followup_6m__isnull=False):
-        if organ.followup_6m_begin_by >= date_now:
+        if organ.followup_6m_begin_by <= date_now:
             organ.followup_6m.undelete()
 
     for organ in Organ.all_objects.prefetch_related('followup_1y').filter(followup_1y__isnull=False):
-        if organ.followup_final_begin_by >= date_now:
+        if organ.followup_final_begin_by <= date_now:
             organ.followup_1y.undelete()
             organ.followup_1y.quality_of_life.undelete()
