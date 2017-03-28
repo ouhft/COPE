@@ -4,12 +4,22 @@ from __future__ import unicode_literals
 
 from django.contrib import admin
 
-from wp4.compare.admin import VersionControlAdmin
-from .models import Event
+from wp4.compare.admin import AuditedModelAdmin
+from .models import Event, Category
 
 
-class AdverseEventAdmin(VersionControlAdmin):
-    fields = (
+@admin.register(Event)
+class AdverseEventAdmin(AuditedModelAdmin):
+    list_select_related = True
+    list_display = (
+        'id',
+        'organ',
+        'onset_at_date',
+        'event_ongoing',
+        'is_serious',
+        'contact',
+    )
+    fields = AuditedModelAdmin.fields + (
         'organ',
         'serious_eligible_1',
         'serious_eligible_2',
@@ -46,9 +56,8 @@ class AdverseEventAdmin(VersionControlAdmin):
         'cause_of_death_3',
         'cause_of_death_4',
         'cause_of_death_5',
-        'cause_of_death_6',
-        'cause_of_death_comment',
+        ('cause_of_death_6', 'cause_of_death_comment'),
         'contact',
     )
 
-admin.site.register(Event, AdverseEventAdmin)
+admin.site.register(Category)

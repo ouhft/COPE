@@ -23,7 +23,7 @@ class BarCodeMixin(models.Model):
         abstract = True
 
     def __str__(self):
-        return "%s" % self.barcode
+        return "{0}: {1}".format(self.id, self.barcode)
 
 
 class DeviationMixin(models.Model):

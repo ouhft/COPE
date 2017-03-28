@@ -65,10 +65,8 @@ class QualityOfLife(AuditControlModelBase):
     )
 
     # FK related name links
-    # followupinitial
-    # followup3m
-    # followup6m
-    # followup1y
+    # followup_3m
+    # followup_1y
 
     objects = HealthEconomicsModelForUserManager()
 

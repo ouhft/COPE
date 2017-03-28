@@ -4,12 +4,13 @@ from __future__ import absolute_import, unicode_literals
 
 from django.contrib import admin
 
-from wp4.compare.admin import VersionControlAdmin
+from wp4.compare.admin import AuditedModelAdmin
 from .models import QualityOfLife, ResourceLog, ResourceVisit, ResourceHospitalAdmission, ResourceRehabilitation
 
 
-class QualityOfLifeAdmin(VersionControlAdmin):
-    fields = (
+class QualityOfLifeAdmin(AuditedModelAdmin):
+    list_display = ('id', 'recipient', 'date_recorded', )
+    fields = AuditedModelAdmin.fields + (
         'recipient',
         'date_recorded',
         'qol_mobility',
@@ -44,8 +45,8 @@ class ResourceRehabilitationInline(admin.TabularInline):
     extra = 1
 
 
-class ResourceLogAdmin(VersionControlAdmin):
-    fields = (
+class ResourceLogAdmin(AuditedModelAdmin):
+    fields = AuditedModelAdmin.fields + (
         'recipient',
         'date_given',
         'date_returned',

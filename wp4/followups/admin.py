@@ -5,7 +5,7 @@ from __future__ import absolute_import, unicode_literals
 
 from django.contrib import admin
 
-from wp4.compare.admin import VersionControlAdmin
+from wp4.compare.admin import AuditedModelAdmin
 from wp4.health_economics.models import QualityOfLife
 from .models import FollowUpInitial, FollowUp3M, FollowUp6M, FollowUp1Y
 
@@ -26,8 +26,14 @@ class QualityOfLifeInline(admin.TabularInline):
     extra = 1
 
 
-class FollowUpInitialAdmin(VersionControlAdmin):
-    fields = (
+@admin.register(FollowUpInitial)
+class FollowUpInitialAdmin(AuditedModelAdmin):
+    list_display = (
+        'id',
+        'trial_id',
+        'start_date',
+    )
+    fields = AuditedModelAdmin.fields + (
         'organ',  #FI01
         'start_date',  # FB01
         'graft_failure',  # FB10
@@ -76,11 +82,15 @@ class FollowUpInitialAdmin(VersionControlAdmin):
         'notes',  # FB03
     )
 
-admin.site.register(FollowUpInitial, FollowUpInitialAdmin)
 
-
-class FollowUp3MAdmin(VersionControlAdmin):
-    fields = (
+@admin.register(FollowUp3M)
+class FollowUp3MAdmin(AuditedModelAdmin):
+    list_display = (
+        'id',
+        'trial_id',
+        'start_date',
+    )
+    fields = AuditedModelAdmin.fields + (
         'organ',  # F301
         'start_date',  # FB01
         'graft_failure',  # FB10
@@ -119,11 +129,15 @@ class FollowUp3MAdmin(VersionControlAdmin):
     # Causes <class 'wp4.followups.admin.QualityOfLifeInline'>: (admin.E202) 'health_economics.QualityOfLife' has no ForeignKey to 'followups.FollowUp3M'. Error
     # However, can add 'quality_of_life' to field list and use pop up in admin
 
-admin.site.register(FollowUp3M, FollowUp3MAdmin)
 
-
-class FollowUp6MAdmin(VersionControlAdmin):
-    fields = (
+@admin.register(FollowUp6M)
+class FollowUp6MAdmin(AuditedModelAdmin):
+    list_display = (
+        'id',
+        'trial_id',
+        'start_date',
+    )
+    fields = AuditedModelAdmin.fields + (
         'organ',  # F601
         'start_date',  # FB01
         'graft_failure',  # FB10
@@ -158,11 +172,15 @@ class FollowUp6MAdmin(VersionControlAdmin):
         'notes',  # FB03
     )
 
-admin.site.register(FollowUp6M, FollowUp6MAdmin)
 
-
-class FollowUp1YAdmin(VersionControlAdmin):
-    fields = (
+@admin.register(FollowUp1Y)
+class FollowUp1YAdmin(AuditedModelAdmin):
+    list_display = (
+        'id',
+        'trial_id',
+        'start_date',
+    )
+    fields = AuditedModelAdmin.fields + (
         'organ',  # FY01
         'start_date',  # FB01
         'graft_failure',  # FB10
@@ -200,6 +218,4 @@ class FollowUp1YAdmin(VersionControlAdmin):
     # inlines = [QualityOfLifeInline]
     # Causes <class 'wp4.followups.admin.QualityOfLifeInline'>: (admin.E202) 'health_economics.QualityOfLife' has no ForeignKey to 'followups.FollowUp1Y'. Error
     # However, can add 'quality_of_life' to field list and use pop up in admin
-
-admin.site.register(FollowUp1Y, FollowUp1YAdmin)
 

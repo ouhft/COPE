@@ -4,11 +4,16 @@ from __future__ import absolute_import, unicode_literals
 
 from django.contrib import admin
 
-from wp4.compare.admin import VersionControlAdmin
+from wp4.compare.admin import AuditedModelAdmin
 from .models import Hospital
 
 
-class HospitalAdmin(VersionControlAdmin):
+@admin.register(Hospital)
+class HospitalAdmin(AuditedModelAdmin):
     list_display = ('name', 'country', 'is_active', 'is_project_site')
-
-admin.site.register(Hospital, HospitalAdmin)
+    fields = AuditedModelAdmin.fields + (
+        'name',
+        'country',
+        'is_active',
+        'is_project_site'
+    )

@@ -696,7 +696,7 @@ class Organ(AuditControlModelBase):
 
     # Transplantation Form metadata
     not_allocated_reason = models.CharField(
-        verbose_name=_('OR31 not transplantable because'),
+        verbose_name=_('OR31 not allocated because'),
         max_length=250,
         blank=True
     )
@@ -956,6 +956,8 @@ class Organ(AuditControlModelBase):
     def _final_allocation(self):
         """
         Work out if there are any OrganAllocations, and then return the latest one
+        
+        TODO: Rename this as "latest allocation". The `allocation` property links to the final allocation
 
         :return: OrganAllocation, or None
         :rtype: wp4.compare.models.transplantation.OrganAllocation

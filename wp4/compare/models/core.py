@@ -101,6 +101,7 @@ class Patient(AuditControlModelBase):
         ordering = ['number']
         verbose_name = _('OPm1 trial person')
         verbose_name_plural = _('OPm2 organ people')
+        # db_table = 'compare_patient'
 
     def clean(self):
         """
