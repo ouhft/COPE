@@ -1,4 +1,5 @@
 {% extends "base_site.html" %}
+{% load theme_tags %}
 
 {% block page_title %}Staff{% endblock %}
 {% block page_header %}Staff {% endblock %}
@@ -17,54 +18,19 @@
             <tr>
                 <th class="col-md-1">&nbsp;</th>
                 <th title="First Name">
-                    First
-                    {% if request.GET.order_by == "first_name" and request.GET.ordering == "asc" or request.GET.order_by == none %}
-                        <a href="?order_by=first_name&ordering=desc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes"></i></a>
-                    {% elif request.GET.order_by == "first_name" and request.GET.ordering == "desc" %}
-                        <a href="?page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i></a>
-                    {% else %}
-                        <a href="?order_by=first_name&ordering=asc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="glyphicon glyphicon glyphicon-sort"></i></a>
-                    {% endif %}
+                    First {% include 'includes/sort_column.html' with sort_by_field='first_name' default_sort=True %}
                 </th>
                 <th title="Last Name">
-                    Last
-                    {% if request.GET.order_by == "last_name" and request.GET.ordering == "asc" %}
-                        <a href="?order_by=last_name&ordering=desc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes"></i></a>
-                    {% elif request.GET.order_by == "last_name" and request.GET.ordering == "desc" %}
-                        <a href="?page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i></a>
-                    {% else %}
-                        <a href="?order_by=last_name&ordering=asc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="glyphicon glyphicon glyphicon-sort"></i></a>
-                    {% endif %}
+                    Last {% include 'includes/sort_column.html' with sort_by_field='last_name' %}
                 </th>
                 <th title="Telephone">
-                    Tel
-                    {% if request.GET.order_by == "telephone" and request.GET.ordering == "asc" %}
-                        <a href="?order_by=telephone&ordering=desc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes"></i></a>
-                    {% elif request.GET.order_by == "telephone" and request.GET.ordering == "desc" %}
-                        <a href="?page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i></a>
-                    {% else %}
-                        <a href="?order_by=telephone&ordering=asc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="glyphicon glyphicon glyphicon-sort"></i></a>
-                    {% endif %}
+                    Tel {% include 'includes/sort_column.html' with sort_by_field='telephone' %}
                 </th>
                 <th title="Email">
-                    Email
-                    {% if request.GET.order_by == "email" and request.GET.ordering == "asc" %}
-                        <a href="?order_by=email&ordering=desc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes"></i></a>
-                    {% elif request.GET.order_by == "email" and request.GET.ordering == "desc" %}
-                        <a href="?page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i></a>
-                    {% else %}
-                        <a href="?order_by=email&ordering=asc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="glyphicon glyphicon glyphicon-sort"></i></a>
-                    {% endif %}
+                    Email {% include 'includes/sort_column.html' with sort_by_field='email' %}
                 </th>
                 <th title="Based at Hospital">
-                    Base
-                    {% if request.GET.order_by == "based_at" and request.GET.ordering == "asc" %}
-                        <a href="?order_by=based_at&ordering=desc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes"></i></a>
-                    {% elif request.GET.order_by == "based_at" and request.GET.ordering == "desc" %}
-                        <a href="?page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i></a>
-                    {% else %}
-                        <a href="?order_by=based_at&ordering=asc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="glyphicon glyphicon glyphicon-sort"></i></a>
-                    {% endif %}
+                    Base {% include 'includes/sort_column.html' with sort_by_field='based_at' %}
                 </th>
             </tr>
             </thead>
@@ -104,10 +70,10 @@
                 <h4 class="list-group-item-heading">Roles</h4>
             </li>
             <a class="list-group-item {% if request.GET.q == none %}active{% endif %}"
-               href="?order_by={{ request.GET.order_by }}&ordering={{ request.GET.ordering }}&page={{ request.GET.page }}">All</a>
+               href="?{% query_transform request page=1 q=None %}">All</a>
             {% for role in  group_list %}
                 <a class="list-group-item {% if request.GET.q == role.id|lower %}active{% endif %}"
-                   href="?order_by={{ request.GET.order_by }}&ordering={{ request.GET.ordering }}&page={{ request.GET.page }}&q={{ role.id }}">
+                   href="?{% query_transform request page=1 q=role.id %}">
                     {{ role.name }}
                     <span class="badge">{{ role.user_set.count }}</span>
                 </a>

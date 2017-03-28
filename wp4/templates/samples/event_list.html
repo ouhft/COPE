@@ -1,5 +1,5 @@
 {% extends "base_site.html" %}
-{% load l10n i18n %}
+{% load l10n i18n theme_tags %}
 
 {% block page_title %}Samples{% endblock %}
 {% block page_header %}Samples - Events{% endblock %}
@@ -16,43 +16,9 @@
         <table class="table table-responsive table-condensed">
             <thead>
             <tr>
-                <th>
-                    ID
-                    {% if request.GET.order_by == "id" and request.GET.ordering == "asc" %}
-                        <a href="?order_by=id&ordering=desc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i
-                                class="text-success glyphicon glyphicon glyphicon-sort-by-attributes"></i></a>
-                    {% elif request.GET.order_by == "id" and request.GET.ordering == "desc" %}
-                        <a href="?page={{ request.GET.page }}&q={{ request.GET.q }}"><i
-                                class="text-success glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i></a>
-                    {% else %}
-                        <a href="?order_by=id&ordering=asc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i
-                                class="glyphicon glyphicon glyphicon-sort"></i></a>
-                    {% endif %}
-                </th>
-                <th>Type
-                    {% if request.GET.order_by == "type" and request.GET.ordering == "asc" %}
-                        <a href="?order_by=type&ordering=desc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i
-                                class="text-success glyphicon glyphicon glyphicon-sort-by-attributes"></i></a>
-                    {% elif request.GET.order_by == "type" and request.GET.ordering == "desc" %}
-                        <a href="?page={{ request.GET.page }}&q={{ request.GET.q }}"><i
-                                class="text-success glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i></a>
-                    {% else %}
-                        <a href="?order_by=type&ordering=asc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i
-                                class="glyphicon glyphicon glyphicon-sort"></i></a>
-                    {% endif %}
-                </th>
-                <th>Name
-                    {% if request.GET.order_by == "name" and request.GET.ordering == "asc" %}
-                        <a href="?order_by=name&ordering=desc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i
-                                class="text-success glyphicon glyphicon glyphicon-sort-by-attributes"></i></a>
-                    {% elif request.GET.order_by == "name" and request.GET.ordering == "desc" %}
-                        <a href="?page={{ request.GET.page }}&q={{ request.GET.q }}"><i
-                                class="text-success glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i></a>
-                    {% else %}
-                        <a href="?order_by=name&ordering=asc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i
-                                class="glyphicon glyphicon glyphicon-sort"></i></a>
-                    {% endif %}
-                </th>
+                <th>ID {% include 'includes/sort_column.html' with sort_by_field='id' default_sort=True %}</th>
+                <th>Type {% include 'includes/sort_column.html' with sort_by_field='type' %}</th>
+                <th>Name {% include 'includes/sort_column.html' with sort_by_field='name' %}</th>
                 <th>Taken at</th>
 
                 <th>Barcode</th>

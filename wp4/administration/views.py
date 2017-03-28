@@ -305,6 +305,14 @@ def report_adverse_events(request):
     writer.writerow([
         "adverseevent.id",
         "adverseevent.organ.trial_id",
+        "adverseevent.organ.preservation",
+        "adverseevent.organ.get_preservation_display",
+        "adverseevent.serious_eligible_1",
+        "adverseevent.serious_eligible_2",
+        "adverseevent.serious_eligible_3",
+        "adverseevent.serious_eligible_4",
+        "adverseevent.serious_eligible_5",
+        "adverseevent.serious_eligible_6",
         "adverseevent.onset_at_date",
         "adverseevent.event_ongoing",
         "adverseevent.description",
@@ -336,14 +344,22 @@ def report_adverse_events(request):
         "adverseevent.cause_of_death_5",
         "adverseevent.cause_of_death_6",
         "adverseevent.cause_of_death_comment",
+        "adverseevent.organ.final_allocation.transplant_hospital.name"
     ])
 
     events = Event.objects.all()
     for event in events:
         result_row = []
-
         result_row.append(event.id)
         result_row.append(event.organ.trial_id)
+        result_row.append(event.organ.preservation)
+        result_row.append(event.organ.get_preservation_display())
+        result_row.append(event.serious_eligible_1)
+        result_row.append(event.serious_eligible_2)
+        result_row.append(event.serious_eligible_3)
+        result_row.append(event.serious_eligible_4)
+        result_row.append(event.serious_eligible_5)
+        result_row.append(event.serious_eligible_6)
         try:
             result_row.append(event.onset_at_date.strftime("%d-%m-%Y"))
         except AttributeError:
@@ -387,6 +403,10 @@ def report_adverse_events(request):
         result_row.append(event.cause_of_death_5)
         result_row.append(event.cause_of_death_6)
         result_row.append(event.cause_of_death_comment)
+        try:
+            result_row.append(event.organ.final_allocation.transplant_hospital.name)
+        except AttributeError:
+            result_row.append("")
 
         writer.writerow(result_row)
 

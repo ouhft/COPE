@@ -27,24 +27,9 @@
         <tr>
             <th>ID</th>
             <th>
-                Trial ID
-                {% if request.GET.order_by == "organ__trial_id" and request.GET.ordering == "asc" or request.GET.order_by == none %}
-                    <a href="?order_by=organ__trial_id&ordering=desc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes"></i></a>
-                {% elif request.GET.order_by == "organ__trial_id" and request.GET.ordering == "desc" %}
-                    <a href="?page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i></a>
-                {% else %}
-                    <a href="?order_by=organ__trial_id&ordering=asc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="glyphicon glyphicon glyphicon-sort"></i></a>
-                {% endif %}
+                Trial ID {% include 'includes/sort_column.html' with sort_by_field='organ__trial_id' default_sort=True %}
             </th>
-            <th>
-                Visit Date
-                {% if request.GET.order_by == "start_date" and request.GET.ordering == "asc" %}
-                    <a href="?order_by=start_date&ordering=desc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes"></i></a>
-                {% elif request.GET.order_by == "start_date" and request.GET.ordering == "desc" %}
-                    <a href="?page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i></a>
-                {% else %}
-                    <a href="?order_by=start_date&ordering=asc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i class="glyphicon glyphicon glyphicon-sort"></i></a>
-                {% endif %}
+            <th>Visit Date {% include 'includes/sort_column.html' with sort_by_field='start_date' %}</th>
             <th title="Started in Window?"></th>
             <th>Start by</th>
             <th>Complete by</th>

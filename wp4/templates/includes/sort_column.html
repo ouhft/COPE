@@ -1,0 +1,16 @@
+{% load theme_tags %}
+<!-- Start wp4/templates/includes/sort_column.html -->
+{% if request.GET.order_by == sort_by_field and request.GET.ordering == "asc" or request.GET.order_by == none and default_sort|default:False %}
+    <a href="?{% query_transform request order_by=sort_by_field ordering='desc' %}">
+        <i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes"></i>
+    </a>
+{% elif request.GET.order_by == sort_by_field and request.GET.ordering == "desc" %}
+    <a href="?{% query_transform request order_by=None ordering=None %}">
+        <i class="text-success glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i>
+    </a>
+{% else %}
+    <a href="?{% query_transform request order_by=sort_by_field ordering='asc' %}">
+        <i class="glyphicon glyphicon glyphicon-sort"></i>
+    </a>
+{% endif %}
+<!-- End wp4/templates/includes/sort_column.html -->

@@ -1,5 +1,5 @@
 {% extends "base_site.html" %}
-{% load l10n i18n %}
+{% load l10n i18n theme_tags %}
 
 {% block page_title %}Samples{% endblock %}
 {% block page_header %}Samples - Donors{% endblock %}
@@ -16,18 +16,7 @@
         <table class="table table-responsive table-condensed">
             <thead>
             <tr>
-                <th>Trial ID
-                    {% if request.GET.order_by == "trial_id" and request.GET.ordering == "asc" %}
-                        <a href="?order_by=trial_id&ordering=desc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i
-                                class="text-success glyphicon glyphicon glyphicon-sort-by-attributes"></i></a>
-                    {% elif request.GET.order_by == "trial_id" and request.GET.ordering == "desc" %}
-                        <a href="?page={{ request.GET.page }}&q={{ request.GET.q }}"><i
-                                class="text-success glyphicon glyphicon glyphicon-sort-by-attributes-alt"></i></a>
-                    {% else %}
-                        <a href="?order_by=trial_id&ordering=asc&page={{ request.GET.page }}&q={{ request.GET.q }}"><i
-                                class="glyphicon glyphicon glyphicon-sort"></i></a>
-                    {% endif %}
-                </th>
+                <th>Trial ID {% include 'includes/sort_column.html' with sort_by_field='trial_id' %}</th>
                 <th>Name</th>
                 <th>Taken at</th>
                 <th>Barcode</th>
@@ -41,6 +30,7 @@
                 {% with blood_count=donor.person.bloodsample_set.all.count urine_count=donor.person.urinesample_set.all.count %}
                     <td rowspan="{{ blood_count|add:urine_count }}">
 
+                        <strong>{{ donor.trial_id }}</strong><br>
                         {% if perms.samples.change_event %}
                             <a href="{% url 'wp4:samples:donor_detail' pk=donor.pk %}" class="btn btn-default btn-xs"><i
                                     title="edit" class="glyphicon glyphicon-eye-open"></i></a>
@@ -49,8 +39,6 @@
                         {% elif perms.samples.view_event %}
                             <a href="{% url 'wp4:samples:donor_detail' pk=donor.pk %}" class="btn btn-default btn-xs"><i
                                     title="edit" class="glyphicon glyphicon-eye-open"></i> {{ donor.id }}</a>
-                        {% else %}
-                            {{ donor.trial_id }}
                         {% endif %}
                     </td>
                 {% if blood_count == 0 and urine_count == 0 %}
