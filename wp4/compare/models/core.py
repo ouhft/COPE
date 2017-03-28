@@ -228,6 +228,8 @@ class Randomisation(models.Model):
 
     Randomisations are system defined and controlled, so whilst users shouldn't be troubled with permissions, we do
     want to use the hide permission here on users that are to be "blinded" to the effects of randomisation
+    
+    Allocation information should not be set until the record has been linked to a donor
     """
     LIVE_UNITED_KINGDOM = 1  #: CONSTANT for LIST_CHOICES
     LIVE_EUROPE = 2  #: CONSTANT for LIST_CHOICES
@@ -251,7 +253,7 @@ class Randomisation(models.Model):
         choices=LIST_CHOICES
     )  #: Choices limited to LIST_CHOICES
     result = models.BooleanField(verbose_name=_("RA02 result"), default=random_5050)
-    allocated_on = models.DateTimeField(verbose_name=_("RA03 allocated on"), default=timezone.now)
+    allocated_on = models.DateTimeField(verbose_name=_("RA03 allocated on"), null=True, blank=True)
     allocated_by = models.ForeignKey(Person, verbose_name=_("RA04 allocated by"), default=None, null=True)
 
     class Meta:
