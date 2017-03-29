@@ -1,5 +1,5 @@
 {% extends "base_site.html" %}
-{% load l10n i18n %}
+{% load l10n i18n theme_tags %}
 
 {% block page_title %}WP4: Administration{% endblock %}
 {% block page_header %}WP4: Administration{% endblock %}
@@ -10,38 +10,54 @@
 {% endblock %}
 
 {% block content %}
-    <p>This section supports activities on Work Package 4: Compare (WP4) which is a Kidney preservation trial.
+    <p>This section supports administration activities on Work Package 4: Compare (WP4) which is a Kidney preservation trial.
+    <div class="row">
+        {% if request.user|has_group:5 %}{# Person.CENTRAL_COORDINATOR #}
+        <div class="col-md-4">
+            <h3>Offline Randomisation Lists</h3>
+            <ul>
+                <li><a href="{% url 'wp4:administration:europe_list' %}">Europe list</a></li>
+                <li><a href="{% url 'wp4:administration:uk_list' %}">United Kingdom list</a></li>
+            </ul>
+        </div>
+        {% endif %}
+        <div class="col-md-4">
+            <h3>Reports</h3>
+            <ul>
+                <li><a href="{% url 'wp4:administration:procurement_pairs' %}">Procurement Pairs</a></li>
+                {% if not perms.compare.hide_randomisation or request.user.is_superuser %}
+                <li><a href="{% url 'wp4:administration:transplantation_sites' %}">Transplantation Sites</a></li>
+                <li><a href="{% url 'wp4:administration:sae_sites' %}">(S)AE Sites</a></li>
+                {% endif %}
+                <li><a href="{% url 'wp4:administration:flowchart' %}">Donor Flowchart</a></li>
+                <li><a href="{% url 'wp4:administration:completed_pairs' %}">Completed Pairs</a></li>
+                <li><a href="{% url 'wp4:administration:followups' %}">Follow Ups</a></li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <h3>DMC Reports</h3>
+            <ul>
+                <li><a href="{% url 'wp4:administration:dmc_secondary_outcomes' %}">Secondary Outcomes</a></li>
+                <li><a href="{% url 'wp4:administration:dmc_death_summaries' %}">Death Summaries</a></li>
+            </ul>
+        </div>
+    </div>
 
-    <h3>Administrator Functions</h3>
-
-    <h4>Reports</h4>
-    <ul>
-        <li><a href="{% url 'wp4:administration:europe_list' %}">Europe OFFLINE list</a></li>
-        <li><a href="{% url 'wp4:administration:uk_list' %}">United Kingdom OFFLINE list</a></li>
-        <li><a href="{% url 'wp4:administration:procurement_pairs' %}">Procurement Pairs</a></li>
-        <li><a href="{% url 'wp4:administration:transplantation_sites' %}">Transplantation Sites</a></li>
-        <li><a href="{% url 'wp4:administration:sae_sites' %}">(S)AE Sites</a></li>
-        <li><a href="{% url 'wp4:administration:flowchart' %}">Donor Flowchart</a></li>
-        <li><a href="{% url 'wp4:administration:completed_pairs' %}">Completed Pairs</a></li>
-        <li><a href="{% url 'wp4:administration:followups' %}">Follow Ups</a></li>
+    {% if request.user|has_group:5 or request.user|has_group:6 %}{# Person.CENTRAL_COORDINATOR or Person.STATISTICIAN #}
+    <h2>Statistician Data</h2>
+    <ul class="list-inline">
+        <li><a href="{% url 'wp4:administration:stats_p' %}" class="btn btn-default">
+            <i class="glyphicon glyphicon-export"></i> Procurement Report
+        </a></li>
+        <li><a href="{% url 'wp4:administration:stats_o' %}" class="btn btn-default">
+            <i class="glyphicon glyphicon-export"></i> Organ Report
+        </a></li>
+        <li><a href="{% url 'wp4:administration:stats_a' %}" class="btn btn-default">
+            <i class="glyphicon glyphicon-export"></i> Allocation Report
+        </a></li>
+        <li><a href="{% url 'wp4:administration:stats_ae' %}" class="btn btn-default">
+            <i class="glyphicon glyphicon-export"></i> Adverse Events Report
+        </a></li>
     </ul>
-
-    <h4>DMC Reports</h4>
-    <ul>
-        <li><a href="{% url 'wp4:administration:dmc_secondary_outcomes' %}">Secondary Outcomes</a></li>
-        <li><a href="{% url 'wp4:administration:dmc_death_summaries' %}">Death Summaries</a></li>
-    </ul>
-
-    <h4>Admin Data Tools</h4>
-    <ul>
-{#        <li><a href="">Merge Staff Person</a></li>#}
-    </ul>
-
-    <h3>Statistician Functions</h3>
-    <ul>
-        <li><a href="{% url 'wp4:administration:stats_p' %}" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-export"></i> Procurement Report</a></li>
-        <li><a href="{% url 'wp4:administration:stats_o' %}" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-export"></i> Organ Report</a></li>
-        <li><a href="{% url 'wp4:administration:stats_a' %}" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-export"></i> Allocation Report</a></li>
-        <li><a href="{% url 'wp4:administration:stats_ae' %}" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-export"></i> Adverse Events Report</a></li>
-    </ul>
+    {% endif %}
 {% endblock %}

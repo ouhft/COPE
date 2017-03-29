@@ -21,15 +21,24 @@
         <th>Allocation Left</th>
         <th>Allocation Right</th>
         <th>Assigned To</th>
+        <th>Allocated On</th>
+        <th>Allocated By</th>
     </tr>
     </thead>
     <tbody>
     {% for row in listing %}
         <tr>
-            <td>{{ row.id }}</td>
-            <td>{% if row.result %}HMP O2{% else %}HMP{% endif %}</td>
-            <td>{% if row.result %}HMP{% else %}HMP O2{% endif %}</td>
+            <td>
+                {{ row.id }}
+                {% if request.user.is_staff %}
+                <a href="{% url 'admin:compare_randomisation_change' row.id %}"><i class="glyphicon glyphicon-briefcase"></i></a>
+                {% endif %}
+            </td>
+            <td>{{ row.result|yesno:"HMP 02, HMP" }}</td> {# {% if row.result %}HMP O2{% else %}HMP{% endif %}  #}
+            <td>{{ row.result|yesno:"HMP, HMP 02" }}</td> {# {% if row.result %}HMP{% else %}HMP O2{% endif %} #}
             <td>{{ row.donor.trial_id|default:"Available" }}</td>
+            <td>{{ row.allocated_on }}</td>
+            <td>{{ row.allocated_by }}</td>
         </tr>
     {% endfor %}
     </tbody>

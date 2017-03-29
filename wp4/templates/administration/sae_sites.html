@@ -84,6 +84,7 @@
     <table class="table table-condensed">
     <thead>
     <tr>
+        <th>S/AE ID</th>
         <th>Organ ID</th>
         <th>Transplant Hospital</th>
         <th>Preservation</th>
@@ -99,29 +100,32 @@
     {% for row in listing %}
         <tr>
             <td>
-                <a href="{% url 'admin:adverse_event_adverseevent_change' row.id %}"><i
+                {% if request.user.is_staff %}
+                <a href="{% url 'admin:adverse_event_event_change' row.id %}"><i
                         class="glyphicon glyphicon-briefcase"></i></a>
-                <a href="{% url 'wp4:adverse_event:update' row.id %}">{{ row.organ.trial_id }}</a>
+                {% endif %}
+                <a href="{% url 'wp4:adverse_event:update' row.id %}">{{ row.id }}</a>
             </td>
+            <td>{{ row.organ.trial_id }}</td>
             <td>{{ row.organ.recipient.allocation.transplant_hospital }}</td>
             <td>{{ row.organ.get_preservation_display }}</td>
             <td class="{% if row.serious_eligible_1 %}danger{% endif %}">
-                {{ row.serious_eligible_1|yesno }}
+                {{ row.serious_eligible_1|yesno|capfirst }}
             </td>
             <td class="{% if row.serious_eligible_2 %}danger{% endif %}">
-                {{ row.serious_eligible_2|yesno }}
+                {{ row.serious_eligible_2|yesno|capfirst }}
             </td>
             <td class="{% if row.serious_eligible_3 %}danger{% endif %}">
-                {{ row.serious_eligible_3|yesno }}
+                {{ row.serious_eligible_3|yesno|capfirst }}
             </td>
             <td class="{% if row.serious_eligible_4 %}danger{% endif %}">
-                {{ row.serious_eligible_4|yesno }}
+                {{ row.serious_eligible_4|yesno|capfirst }}
             </td>
             <td class="{% if row.serious_eligible_5 %}danger{% endif %}">
-                {{ row.serious_eligible_5|yesno }}
+                {{ row.serious_eligible_5|yesno|capfirst }}
             </td>
             <td class="{% if row.serious_eligible_6 %}danger{% endif %}">
-                {{ row.serious_eligible_6|yesno }}
+                {{ row.serious_eligible_6|yesno|capfirst }}
             </td>
         </tr>
     {% endfor %}
