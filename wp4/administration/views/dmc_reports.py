@@ -10,72 +10,72 @@ from wp4.compare.models import PRESERVATION_HMP, PRESERVATION_HMPO2
 from wp4.adverse_event.models import Event
 
 
-def secondary_outcomes(request):
-    """
-    Produce a series of matrix tables that list Graft Failure against Death for each of the Follow Up periods
-
-    Notes:
-    - Wait until Date of Death is recorded against Recipient correctly, and not only on the S/AE records
-    - Provide some context about how many followups have occurred?
-
-    :param request:
-    :return:
-    """
-    current_person = request.user
-    if not current_person.is_administrator:
-        raise PermissionDenied
-
-    listing = Event.objects.filter(Q('') | Q()).select_related().order_by('organ__id')
-
-    report_period = {
-        "graft_failure": {
-            "death": {
-                PRESERVATION_HMP: 0,
-                PRESERVATION_HMPO2: 0
-            },
-            "alive": {
-                PRESERVATION_HMP: 0,
-                PRESERVATION_HMPO2: 0
-            }
-        },
-        "graft_ok": {
-            "death": {
-                PRESERVATION_HMP: 0,
-                PRESERVATION_HMPO2: 0
-            },
-            "alive": {
-                PRESERVATION_HMP: 0,
-                PRESERVATION_HMPO2: 0
-            }
-        },
-    }
-    report_initial = {
-        "full_count": 0,
-        "breakdown": {}
-    }
-    report_3m = {
-        "full_count": 0,
-        "breakdown": {}
-    }
-    report_6m = {
-        "full_count": 0,
-        "breakdown": {}
-    }
-    report_1y = {
-        "full_count": 0,
-        "breakdown": {}
-    }
-
-    for event in listing:
-        continue
-
-    return render(
-        request,
-        'administration/dmc_secondary_outcomes.html',
-        {
-            'listing': listing,
-        }
-    )
+# def secondary_outcomes(request):
+#     """
+#     Produce a series of matrix tables that list Graft Failure against Death for each of the Follow Up periods
+#
+#     Notes:
+#     - Wait until Date of Death is recorded against Recipient correctly, and not only on the S/AE records
+#     - Provide some context about how many followups have occurred?
+#
+#     :param request:
+#     :return:
+#     """
+#     current_person = request.user
+#     if not current_person.is_administrator:
+#         raise PermissionDenied
+#
+#     listing = Event.objects.filter(Q('') | Q()).select_related().order_by('organ__id')
+#
+#     report_period = {
+#         "graft_failure": {
+#             "death": {
+#                 PRESERVATION_HMP: 0,
+#                 PRESERVATION_HMPO2: 0
+#             },
+#             "alive": {
+#                 PRESERVATION_HMP: 0,
+#                 PRESERVATION_HMPO2: 0
+#             }
+#         },
+#         "graft_ok": {
+#             "death": {
+#                 PRESERVATION_HMP: 0,
+#                 PRESERVATION_HMPO2: 0
+#             },
+#             "alive": {
+#                 PRESERVATION_HMP: 0,
+#                 PRESERVATION_HMPO2: 0
+#             }
+#         },
+#     }
+#     report_initial = {
+#         "full_count": 0,
+#         "breakdown": {}
+#     }
+#     report_3m = {
+#         "full_count": 0,
+#         "breakdown": {}
+#     }
+#     report_6m = {
+#         "full_count": 0,
+#         "breakdown": {}
+#     }
+#     report_1y = {
+#         "full_count": 0,
+#         "breakdown": {}
+#     }
+#
+#     for event in listing:
+#         continue
+#
+#     return render(
+#         request,
+#         'administration/dmc_secondary_outcomes.html',
+#         {
+#             'listing': listing,
+#         }
+#     )
 
 
 def death_summaries(request):
@@ -92,7 +92,7 @@ def death_summaries(request):
     if not current_person.is_administrator:
         raise PermissionDenied
 
-    listing = Event.objects.filter(date_of_death__isnull=False).select_related('organ__recipient').\
+    listing = Event.objects.filter(organ__recipient__person__date_of_death__isnull=False).select_related('organ__recipient').\
         order_by('organ__id')
 
     data = {

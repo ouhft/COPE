@@ -46,7 +46,7 @@
         {% for event in organ.events %}
             <tr>
                 <td class="col-md-1"><a href="{% url 'wp4:adverse_event:update' event.id %}">{{ event.id }}</a></td>
-                <td class="col-md-2">{{ event.date_of_death|date }}</td>
+                <td class="col-md-2">{{ event.organ.recipient.person.date_of_death|date }}</td>
                 <td class="col-md-5">
                     {{ event.cause_of_death_1|yesno:"Cerebrovascular," }}
                     {{ event.cause_of_death_2|yesno:"Multi Organ," }}
