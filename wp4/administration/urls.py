@@ -84,6 +84,21 @@ urlpatterns = [
         view=dmc_reports.death_summaries,
         name='dmc_death_summaries'
     ),
+    url(
+        regex=r'^dmc/graft-failures',
+        view=dmc_reports.graft_failures,
+        name='dmc_graft_failures'
+    ),
+    url(
+        regex=r'^dmc/adverse-events',
+        view=dmc_reports.adverse_events,
+        name='dmc_adverse_events'
+    ),
+    url(
+        regex=r'^dmc/serious-events',
+        view=dmc_reports.serious_events,
+        name='dmc_serious_events'
+    ),
 
     # Admin tools
 

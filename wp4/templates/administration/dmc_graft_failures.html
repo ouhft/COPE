@@ -1,0 +1,214 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+
+{% block page_title %}{{ location }} Report: DMC Graft Failures - Administration{% endblock %}
+{% block page_header %}
+    DMC Graft Failures
+    <small>REPORT</small>
+{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:administration:index' %}">Administration</a></li>
+    <li class="active">Report: DMC Graft Failures</li>
+{% endblock %}
+
+{% block content %}
+{#    CSS Hack here because Bootstrap hides the badges on print view #}
+    <style>
+        @media print {
+            .badge {
+                padding: 2px 6px;
+                border: 1px solid #000;
+                margin-right: 3em;
+            }
+        }
+    </style>
+
+    <h2>Summary</h2>
+    <p>Report on Graft Failures for each Organ recorded with a Follow Up visit.</p>
+    <table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Time Point</th>
+        <th>HMP -02</th>
+        <th>HMP +02</th>
+        <th>Totals</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td class="lead">Day 1-7</td>
+        {% with summary.initial as row_dict %}
+        <td>
+            <span class="lead">{{ row_dict.hmp.Y }} Failures</span><br>
+            <small>{{ row_dict.hmp.N }} OK & {{ row_dict.hmp.U }} unknown</small>
+        </td>
+        <td>
+            <span class="lead">{{ row_dict.hmp_02.Y }} Failures</span><br>
+            <small>{{ row_dict.hmp_02.N }} OK & {{ row_dict.hmp_02.U }} unknown</small>
+        </td>
+        <td>
+            <span class="lead">{{ row_dict.hmp.Y|add:row_dict.hmp_02.Y }} Failures</span><br>
+            <small>{{ row_dict.hmp.N|add:row_dict.hmp_02.N }} OK & {{ row_dict.hmp.U|add:row_dict.hmp_02.U }} unknown</small>
+        </td>
+        {% endwith %}
+    </tr>
+    <tr>
+        <td class="lead">Month 3</td>
+        {% with summary.month3 as row_dict %}
+        <td>
+            <span class="lead">{{ row_dict.hmp.Y }} Failures</span><br>
+            <small>{{ row_dict.hmp.N }} OK & {{ row_dict.hmp.U }} unknown</small>
+        </td>
+        <td>
+            <span class="lead">{{ row_dict.hmp_02.Y }} Failures</span><br>
+            <small>{{ row_dict.hmp_02.N }} OK & {{ row_dict.hmp_02.U }} unknown</small>
+        </td>
+        <td>
+            <span class="lead">{{ row_dict.hmp.Y|add:row_dict.hmp_02.Y }} Failures</span><br>
+            <small>{{ row_dict.hmp.N|add:row_dict.hmp_02.N }} OK & {{ row_dict.hmp.U|add:row_dict.hmp_02.U }} unknown</small>
+        </td>
+        {% endwith %}
+    </tr>
+    <tr>
+        <td class="lead">Month 6</td>
+        {% with summary.month6 as row_dict %}
+        <td>
+            <span class="lead">{{ row_dict.hmp.Y }} Failures</span><br>
+            <small>{{ row_dict.hmp.N }} OK & {{ row_dict.hmp.U }} unknown</small>
+        </td>
+        <td>
+            <span class="lead">{{ row_dict.hmp_02.Y }} Failures</span><br>
+            <small>{{ row_dict.hmp_02.N }} OK & {{ row_dict.hmp_02.U }} unknown</small>
+        </td>
+        <td>
+            <span class="lead">{{ row_dict.hmp.Y|add:row_dict.hmp_02.Y }} Failures</span><br>
+            <small>{{ row_dict.hmp.N|add:row_dict.hmp_02.N }} OK & {{ row_dict.hmp.U|add:row_dict.hmp_02.U }} unknown</small>
+        </td>
+        {% endwith %}
+    </tr>
+    <tr>
+        <td class="lead">1 Year</td>
+        {% with summary.year1 as row_dict %}
+        <td>
+            <span class="lead">{{ row_dict.hmp.Y }} Failures</span><br>
+            <small>{{ row_dict.hmp.N }} OK & {{ row_dict.hmp.U }} unknown</small>
+        </td>
+        <td>
+            <span class="lead">{{ row_dict.hmp_02.Y }} Failures</span><br>
+            <small>{{ row_dict.hmp_02.N }} OK & {{ row_dict.hmp_02.U }} unknown</small>
+        </td>
+        <td>
+            <span class="lead">{{ row_dict.hmp.Y|add:row_dict.hmp_02.Y }} Failures</span><br>
+            <small>{{ row_dict.hmp.N|add:row_dict.hmp_02.N }} OK & {{ row_dict.hmp.U|add:row_dict.hmp_02.U }} unknown</small>
+        </td>
+        {% endwith %}
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr>
+        <th>Totals</th>
+        <td>
+            <span class="lead">{{ summary.initial.hmp.Y|add:summary.month3.hmp.Y|add:summary.month6.hmp.Y|add:summary.year1.hmp.Y }} Failures</span><br>
+            <small>{{ summary.initial.hmp.N|add:summary.month3.hmp.N|add:summary.month6.hmp.N|add:summary.year1.hmp.N }} OK & 
+                {{ summary.initial.hmp.U|add:summary.month3.hmp.U|add:summary.month6.hmp.U|add:summary.year1.hmp.U }} unknown</small>
+        </td>
+        <td>
+            <span class="lead">{{ summary.initial.hmp_02.Y|add:summary.month3.hmp_02.Y|add:summary.month6.hmp_02.Y|add:summary.year1.hmp_02.Y }} Failures</span><br>
+            <small>{{ summary.initial.hmp_02.N|add:summary.month3.hmp_02.N|add:summary.month6.hmp_02.N|add:summary.year1.hmp_02.N }} OK & 
+                {{ summary.initial.hmp_02.U|add:summary.month3.hmp_02.U|add:summary.month6.hmp_02.U|add:summary.year1.hmp_02.U }} unknown</small>
+        </td>
+        <td></td>
+    </tr>
+    </tfoot>
+    </table>
+
+
+{#    <h2>Listing</h2>#}
+{#    <h3>Initial</h3>#}
+{#    {% for record in listing_initial %}#}
+{#        <div class="row">#}
+{#            <div class="col-md-3"><strong></strong></div>#}
+{#            <div class="col-md-6"></div>#}
+{#            <div class="col-md-3"></div>#}
+{#        </div>#}
+{##}
+{#        <h4>{{ organ.trial_id }} <small>{{ organ.date_of_transplant }} @ {{ organ.centre_name }}</small></h4>#}
+{#        <table class="table table-bordered table-condensed">#}
+{#        <tr>#}
+{#            <th>ID</th>#}
+{#            <th>Date</th>#}
+{#            <th>Causes of Death</th>#}
+{#            <th>Device Deficiency?</th>#}
+{#            <th>Device User Error?</th>#}
+{#        </tr>#}
+{#        {% for event in organ.events %}#}
+{#            <tr>#}
+{#                <td class="col-md-1"><a href="{% url 'wp4:adverse_event:update' event.id %}">{{ event.id }}</a></td>#}
+{#                <td class="col-md-2">{{ event.organ.recipient.person.date_of_death|date }}</td>#}
+{#                <td class="col-md-5">#}
+{#                    {{ event.cause_of_death_1|yesno:"Cerebrovascular," }}#}
+{#                    {{ event.cause_of_death_2|yesno:"Multi Organ," }}#}
+{#                    {{ event.cause_of_death_3|yesno:"Pneumonia," }}#}
+{#                    {{ event.cause_of_death_4|yesno:"Sepsis," }}#}
+{#                    {{ event.cause_of_death_5|yesno:"Transplant Related," }}#}
+{#                    {% if event.cause_of_death_6 is not False %}#}
+{#                        Other: &quot;{{ event.cause_of_death_comment }}&quot;#}
+{#                    {% endif %}#}
+{##}
+{#                </td>#}
+{#                <td class="col-md-2">#}
+{#                    {{ event.alive_query_4|yesno }}#}
+{#                </td>#}
+{#                <td class="col-md-2">#}
+{#                    {{ event.alive_query_5|yesno }}#}
+{#                </td>#}
+{#            </tr>#}
+{#        {% endfor %}#}
+{#        </table>#}
+{#    {% endfor %}#}
+{##}
+{#    <h3>HMP-O2</h3>#}
+{#    {% for organ in listing.1 %}#}
+{#        <div class="row">#}
+{#            <div class="col-md-3"><strong></strong></div>#}
+{#            <div class="col-md-6"></div>#}
+{#            <div class="col-md-3"></div>#}
+{#        </div>#}
+{##}
+{#        <h4>{{ organ.trial_id }} <small>{{ organ.date_of_transplant|date }} @ {{ organ.centre_name }}</small></h4>#}
+{#        <table class="table table-bordered table-condensed">#}
+{#        <tr>#}
+{#            <th>ID</th>#}
+{#            <th>Date</th>#}
+{#            <th>Causes of Death</th>#}
+{#            <th>Device Deficiency?</th>#}
+{#            <th>Device User Error?</th>#}
+{#        </tr>#}
+{#        {% for event in organ.events %}#}
+{#            <tr>#}
+{#                <td class="col-md-1"><a href="{% url 'wp4:adverse_event:update' event.id %}">{{ event.id }}</a></td>#}
+{#                <td class="col-md-2">{{ event.date_of_death|date }}</td>#}
+{#                <td class="col-md-5">#}
+{#                    {{ event.cause_of_death_1|yesno:"Cerebrovascular," }}#}
+{#                    {{ event.cause_of_death_2|yesno:"Multi Organ," }}#}
+{#                    {{ event.cause_of_death_3|yesno:"Pneumonia," }}#}
+{#                    {{ event.cause_of_death_4|yesno:"Sepsis," }}#}
+{#                    {{ event.cause_of_death_5|yesno:"Transplant Related," }}#}
+{#                    {% if event.cause_of_death_6 is not False %}#}
+{#                        Other: &quot;{{ event.cause_of_death_comment }}&quot;#}
+{#                    {% endif %}#}
+{##}
+{#                </td>#}
+{#                <td class="col-md-2">#}
+{#                    {{ event.alive_query_4|yesno }}#}
+{#                </td>#}
+{#                <td class="col-md-2">#}
+{#                    {{ event.alive_query_5|yesno }}#}
+{#                </td>#}
+{#            </tr>#}
+{#        {% endfor %}#}
+{#        </table>#}
+{#    {% endfor %}#}
+{% endblock %}

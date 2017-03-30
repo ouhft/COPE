@@ -966,6 +966,20 @@ class Organ(AuditControlModelBase):
 
     final_allocation = cached_property(_final_allocation, name='final_allocation')
 
+    def serious_events_only(self):
+        results = []
+        for event in self.event_set.all():
+            if event.is_serious:
+                results.append(event)
+        return results
+
+    def non_serious_events_only(self):
+        results = []
+        for event in self.event_set.all():
+            if not event.is_serious:
+                results.append(event)
+        return results
+
     def make_trial_id(self):
         """
         Returns the Donor Trial ID combined with the Location (L or R) for the Organ

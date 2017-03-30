@@ -25,30 +25,59 @@
         }
     </style>
     <h2>Data Breakdown</h2>
-{#    <h4>Key</h4>#}
-{#    <div class="row">#}
-{#        <div class="col-md-5">#}
-{#            <dl class="dl-horizontal">#}
-{#                <dt>#</dt>#}
-{#                <dd>Denotes a system ID number</dd>#}
-{#                <dt>T?</dt>#}
-{#                <dd>Organ Transplantable?</dd>#}
-{#                <dt>PP?</dt>#}
-{#                <dd>Organ Was Perfusion Possible?</dd>#}
-{#                <dt>A?</dt>#}
-{#                <dd>Organ Is Allocated?</dd>#}
-{#            </dl>#}
-{#        </div>#}
-{#        <div class="col-md-7">#}
-{#            <dl class="dl-horizontal">#}
-{#                <dt>P-Form</dt>#}
-{#                <dd>Procurment Form Completed + Last Person to edit the donor record</dd>#}
-{#                <dt>T-Form</dt>#}
-{#                <dd>Transplant Form Completed + Last Person to edit the recipient record</dd>#}
-{#            </dl>#}
-{##}
-{#        </div>#}
-{#    </div>#}
+    <h3>Key</h3>
+    <div class="row">
+        <div class="col-md-4">
+            <h4>Organ Criteria</h4>
+            <dl>
+                <dt>Is Randomised?</dt>
+                <dd>
+                    <i class="glyphicon glyphicon-remove text-danger" title="Randomised? No"></i> No or
+                    <i class="glyphicon glyphicon-ok text-success" title="Randomised? Yes"></i> Yes
+                </dd>
+                <dt>Donor has multiple recipients?</dt>
+                <dd>
+                    <i class="glyphicon glyphicon-remove text-danger" title="multiple_recipients? No"></i> No or
+                    <i class="glyphicon glyphicon-ok text-success" title="multiple_recipients? Yes"></i> Yes
+                </dd>
+                <dt>Is Transplantable?</dt>
+                <dd>
+                    <i class="glyphicon glyphicon-remove text-danger" title="transplantable? No"></i> No or
+                    <i class="glyphicon glyphicon-ok text-success" title="transplantable? Yes"></i> Yes
+                </dd>
+            </dl>
+        </div>
+        <div class="col-md-4">
+            <h4>Allocation Criteria</h4>
+            <dl>
+                <dt>Allocated to a project site?</dt>
+                <dd>
+                    <i class="glyphicon glyphicon-remove text-danger" title="is_project_site? No"></i> No or
+                    <i class="glyphicon glyphicon-ok text-success" title="is_project_site? Yes"></i> Yes
+                </dd>
+                <dt>Has not been been marked for reallocation</dt>
+                <dd>
+                    <i class="glyphicon glyphicon-remove text-danger" title="reallocated? False"></i> False or
+                    <i class="glyphicon glyphicon-ok text-success" title="reallocated? True"></i> True
+                </dd>
+            </dl>
+        </div>
+        <div class="col-md-4">
+            <h4>Recipient Criteria</h4>
+            <dl>
+                <dt>Recipient has consented?</dt>
+                <dd>
+                    <i class="glyphicon glyphicon-remove text-danger" title="Consented? No"></i> No or
+                    <i class="glyphicon glyphicon-ok text-success" title="Consented? Yes"></i> Yes
+                </dd>
+                <dt>Only receieved a single kidney in this transplant</dt>
+                <dd>
+                    <i class="glyphicon glyphicon-remove text-danger" title="single_kidney_transplant? No"></i> No or
+                    <i class="glyphicon glyphicon-ok text-success" title="single_kidney_transplant? Yes"></i> Yes
+                </dd>
+            </dl>
+        </div>
+    </div>
 
     <table class="table table-condensed">
     <thead>

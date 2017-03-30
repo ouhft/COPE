@@ -1,0 +1,72 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+
+{% block page_title %}{{ location }} Report: DMC Adverse Events - Administration{% endblock %}
+{% block page_header %}
+    DMC Adverse Events
+    <small>REPORT</small>
+{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:administration:index' %}">Administration</a></li>
+    <li class="active">Report: DMC Adverse Events</li>
+{% endblock %}
+
+{% block content %}
+{#    CSS Hack here because Bootstrap hides the badges on print view #}
+    <style>
+        @media print {
+            .badge {
+                padding: 2px 6px;
+                border: 1px solid #000;
+                margin-right: 3em;
+            }
+        }
+    </style>
+
+    <h2>Summary</h2>
+    <p>Report on Adverse (not serious) Events per Organ per Preservation arm.</p>
+    <table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Frequency</th>
+        <th>HMP -02</th>
+        <th>HMP +02</th>
+        <th>Totals</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for key, value in summary.items %}
+    <tr>
+        <td>{{ key }}</td>
+        <td>{{ value.hmp }}</td>
+        <td>{{ value.hmp_02 }}</td>
+        <td>{{ value.hmp|add:value.hmp_02 }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+
+
+    <h2>Data Listing</h2>
+    {% for organ in listing %}
+    <h4>{{ organ.trial_id }}</h4>
+    <table class="table table-bordered table-condensed">
+    <tr>
+        <th>S/AE ID</th>
+        <th>Date of S/AE</th>
+    </tr>
+        {% for event in organ.event_set.all %}
+            <tr>
+                <td>{{ event.id }}</td>
+                <td>{{ event.onset_at_date }}</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="2">No events</td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% endfor %}
+{% endblock %}
