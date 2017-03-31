@@ -46,8 +46,7 @@ def adverse_events(request):
             5: {'hmp_02': 0, 'hmp': 0},
             'more': {'hmp_02': 0, 'hmp': 0},
         },
-        'category': {
-        },
+        'category': {},
         'totals': {
             'category': {'hmp_02': 0, 'hmp': 0, 'overall': 0},
             'organ': {'hmp_02': 0, 'hmp': 0, 'overall': 0},
@@ -104,8 +103,14 @@ def serious_events(request):
             (current_person.has_perm('compare.hide_randomisation') and not current_person.is_superuser):
         raise PermissionDenied
 
-    listing_hmp = Organ.objects.prefetch_related("event_set").filter(preservation=False).order_by('trial_id')
-    listing_hmp02 = Organ.objects.prefetch_related("event_set").filter(preservation=True).order_by('trial_id')
+    listing_hmp = Organ.objects.\
+        prefetch_related("event_set", "event_set__categories").\
+        filter(preservation=False).\
+        order_by('trial_id')
+    listing_hmp02 = Organ.objects.\
+        prefetch_related("event_set", "event_set__categories").\
+        filter(preservation=True).\
+        order_by('trial_id')
 
     summary = {
         'organ': {
@@ -117,11 +122,19 @@ def serious_events(request):
             5: {'hmp_02': 0, 'hmp': 0},
             'more': {'hmp_02': 0, 'hmp': 0},
         },
+        'category': {},
         'totals': {
+            'category': {'hmp_02': 0, 'hmp': 0, 'overall': 0},
             'organ': {'hmp_02': 0, 'hmp': 0, 'overall': 0},
             'events': {'hmp_02': 0, 'hmp': 0, 'overall': 0},
         }
     }
+    for category in Category.objects.all():
+        summary['category'][category.id] = {
+            'description': category.description,
+            'hmp_02': 0,
+            'hmp': 0
+        }
 
     # This will be an inefficient way of doing a group by and count, but that's because of the categories and later
     # processing
@@ -130,6 +143,13 @@ def serious_events(request):
         count = len(organ_events)
         if len(organ_events) > 0:
             summary['totals']['organ']['hmp_02' if organ.preservation else 'hmp'] += 1
+
+            for event in organ_events:
+                for category in event.categories.all():
+                    summary['category'][category.id]['hmp_02' if organ.preservation else 'hmp'] += 1
+                    summary['totals']['category']['hmp_02' if organ.preservation else 'hmp'] += 1
+                    summary['totals']['category']['overall'] += 1
+
         summary['totals']['events']['hmp_02' if organ.preservation else 'hmp'] += count
         summary['organ'][count if count < 5 else 'more']['hmp_02' if organ.preservation else 'hmp'] += 1
 

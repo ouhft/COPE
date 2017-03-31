@@ -26,6 +26,27 @@
     </style>
 
     <h2>Summary</h2>
+    <h3>Events per Preservation arm</h3>
+    <p>Report on Serious Adverse Events per Preservation arm.</p>
+    <table class="table table-striped">
+    <thead>
+    <tr>
+        <th></th>
+        <th>HMP -O<sub>2</sub></th>
+        <th>HMP +O<sub>2</sub></th>
+        <th>Totals</th>
+    </tr>
+    </thead>
+    <tbody>
+        <th>Total number of Serious Events</th>
+        <td>{{ summary.totals.events.hmp }}</td>
+        <td>{{ summary.totals.events.hmp_02 }}</td>
+        <td>{{ summary.totals.events.hmp|add:summary.totals.events.hmp_02 }}</td>
+    </tbody>
+    </table>
+
+
+    <h3>Events per Organ</h3>
     <p>Report on Serious Adverse Events per Organ per Preservation arm.</p>
     <table class="table table-striped">
     <thead>
@@ -39,7 +60,7 @@
     <tbody>
         {% for key, value in summary.organ.items %}
         <tr>
-            <td>{{ key }}</td>
+            <td>{{ key|capfirst }}</td>
             <td>{{ value.hmp }}</td>
             <td>{{ value.hmp_02 }}</td>
             <td>{{ value.hmp|add:value.hmp_02 }}</td>
@@ -48,16 +69,41 @@
     </tbody>
     <tfoot>
         <tr class="info">
-            <th>Total Organs</th>
+            <th>Total number of affected Organs</th>
             <td>{{ summary.totals.organ.hmp }}</td>
             <td>{{ summary.totals.organ.hmp_02 }}</td>
             <td>{{ summary.totals.organ.hmp|add:summary.totals.organ.hmp_02 }}</td>
         </tr>
+    </tfoot>
+    </table>
+
+    <h3>Events per Category</h3>
+    <p>Report on Serious Adverse Events per Category per Preservation arm. Please note that each event may have 0 or more categories assocated with it.</p>
+    <table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Category</th>
+        <th>HMP -O<sub>2</sub></th>
+        <th>HMP +O<sub>2</sub></th>
+        <th>Totals</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for key, value in summary.category.items %}
+        <tr>
+            <td>{{ value.description|capfirst }}</td>
+            <td>{{ value.hmp }}</td>
+            <td>{{ value.hmp_02 }}</td>
+            <td>{{ value.hmp|add:value.hmp_02 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
         <tr class="info">
-            <th>Total Events</th>
-            <td>{{ summary.totals.events.hmp }}</td>
-            <td>{{ summary.totals.events.hmp_02 }}</td>
-            <td>{{ summary.totals.events.hmp|add:summary.totals.events.hmp_02 }}</td>
+            <th>Total number of Categorisations</th>
+            <td>{{ summary.totals.category.hmp }}</td>
+            <td>{{ summary.totals.category.hmp_02 }}</td>
+            <td>{{ summary.totals.category.overall }}</td>
         </tr>
     </tfoot>
     </table>
@@ -65,21 +111,22 @@
     <h2>Data Listing</h2>
     <p>List all Serious Adverse Events grouped by Preservation arm.</p>
 
-    <div class="bg-primary" style="padding: 1px 0;">
+    <div class="bg-primary" style="padding: 1px 10px;">
         <h3>HMP -0<sub>2</sub> Serious Adverse Events</h3>
     </div>
     <table class="table table-condensed">
     {% for organ in listing_hmp %}
         {% if organ.serious_events_only|length > 0 %}
             <tr class="info">
-                <td colspan="5"><h4>{{ organ.trial_id }}</h4></td>
+                <td colspan="6"><h4>{{ organ.trial_id }}</h4></td>
             </tr>
             <tr>
                 <th class="col-md-1">S/AE ID</th>
                 <th class="col-md-2">Date of S/AE</th>
                 <th class="col-md-1">Ongoing?</th>
                 <th class="col-md-1">Led to Death?</th>
-                <th class="col-md-7">Description</th>
+                <th class="col-md-5">Description</th>
+                <th class="col-md-2">Categories</th>
             </tr>
             {% for event in organ.serious_events_only|dictsort:"onset_at_date" %}
                 <tr class="{{ event.death|yesno:"bg-danger," }}">
@@ -88,6 +135,11 @@
                     <td>{{ event.event_ongoing|yesno|capfirst }}</td>
                     <td>{{ event.death|yesno|capfirst }}</td>
                     <td>{{ event.description }}</td>
+                    <td>
+                        {% for category in event.categories.all %}
+                            {{ category.description }} {% if not loop.last %}<br>{% endif %}
+                        {% endfor %}
+                    </td>
                 </tr>
             {% endfor %}
         {% endif %}
@@ -95,21 +147,22 @@
     </table>
 
 
-    <div class="bg-primary" style="padding: 1px 0;">
+    <div class="bg-primary" style="padding: 1px 10px;">
         <h3>HMP +0<sub>2</sub> Serious Adverse Events</h3>
     </div>
     <table class="table table-condensed">
     {% for organ in listing_hmp02 %}
         {% if organ.serious_events_only|length > 0 %}
             <tr class="info">
-                <td colspan="5"><h4>{{ organ.trial_id }}</h4></td>
+                <td colspan="6"><h4>{{ organ.trial_id }}</h4></td>
             </tr>
             <tr>
                 <th class="col-md-1">S/AE ID</th>
                 <th class="col-md-2">Date of S/AE</th>
                 <th class="col-md-1">Ongoing?</th>
                 <th class="col-md-1">Led to Death?</th>
-                <th class="col-md-7">Description</th>
+                <th class="col-md-5">Description</th>
+                <th class="col-md-2">Categories</th>
             </tr>
             {% for event in organ.serious_events_only|dictsort:"onset_at_date" %}
                 <tr class="{{ event.death|yesno:"bg-danger," }}">
@@ -118,6 +171,11 @@
                     <td>{{ event.event_ongoing|yesno|capfirst }}</td>
                     <td>{{ event.death|yesno|capfirst }}</td>
                     <td>{{ event.description }}</td>
+                    <td>
+                        {% for category in event.categories.all %}
+                            {{ category.description }} {% if not loop.last %}<br>{% endif %}
+                        {% endfor %}
+                    </td>
                 </tr>
             {% endfor %}
         {% endif %}
