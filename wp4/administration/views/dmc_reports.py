@@ -12,7 +12,7 @@ from wp4.adverse_event.models import Event, Category
 from wp4.followups.models import FollowUpInitial, FollowUp3M, FollowUp6M, FollowUp1Y
 
 
-def adverse_events(request):
+def adverse_events(request, open_report=False):
     """
     Produce a count of non-serious adverse events per recipient, per preservation arm, grouped by count of events per 
     recipient
@@ -20,11 +20,17 @@ def adverse_events(request):
     Secondly, produce a summary of number of events, per category, per preservation arm
     
     :param request: 
+    :param open_report: If true, then use the alternative display template that will hide preservation details in the 
+    listing 
     :return: 
     """
+    print("DEBUG: adverse_events(): open_report={0}".format(open_report))
     current_person = request.user
-    if not current_person.is_administrator or \
-            (current_person.has_perm('compare.hide_randomisation') and not current_person.is_superuser):
+    if not current_person.is_administrator or (
+            current_person.has_perm('compare.hide_randomisation') and
+            not current_person.is_superuser and
+            not open_report
+    ):
         raise PermissionDenied
 
     listing_hmp = Organ.objects.\
@@ -79,28 +85,43 @@ def adverse_events(request):
         summary['organ'][count if count < 5 else 'more']['hmp_02' if organ.preservation else 'hmp'] += 1
 
     print("DEBUG: adverse_events(): Summary={0}".format(summary))
-    return render(
-        request,
-        'administration/dmc_adverse_events.html',
-        {
-            'listing_hmp': listing_hmp,
-            'listing_hmp02': listing_hmp02,
-            'summary': summary
-        }
-    )
+    if open_report:
+        return render(
+            request,
+            'administration/dmc_adverse_events_open.html',
+            {
+                'listing': list(chain(listing_hmp, listing_hmp02)),
+                'summary': summary
+            }
+        )
+    else:
+        return render(
+            request,
+            'administration/dmc_adverse_events.html',
+            {
+                'listing_hmp': listing_hmp,
+                'listing_hmp02': listing_hmp02,
+                'summary': summary
+            }
+        )
 
 
-def serious_events(request):
+def serious_events(request, open_report=False):
     """
     Produce a count of serious adverse events per recipient, per preservation arm, grouped by count of events per 
     recipient
     
     :param request: 
+    :param open_report: If true, then use the alternative display template that will hide preservation details in the 
+    listing 
     :return: 
     """
     current_person = request.user
-    if not current_person.is_administrator or \
-            (current_person.has_perm('compare.hide_randomisation') and not current_person.is_superuser):
+    if not current_person.is_administrator or (
+            current_person.has_perm('compare.hide_randomisation') and
+            not current_person.is_superuser and
+            not open_report
+    ):
         raise PermissionDenied
 
     listing_hmp = Organ.objects.\
@@ -154,27 +175,42 @@ def serious_events(request):
         summary['organ'][count if count < 5 else 'more']['hmp_02' if organ.preservation else 'hmp'] += 1
 
     print("DEBUG: serious_events(): Summary={0}".format(summary))
-    return render(
-        request,
-        'administration/dmc_serious_events.html',
-        {
-            'listing_hmp': listing_hmp,
-            'listing_hmp02': listing_hmp02,
-            'summary': summary
-        }
-    )
+    if open_report:
+        return render(
+            request,
+            'administration/dmc_serious_events_open.html',
+            {
+                'listing': list(chain(listing_hmp, listing_hmp02)),
+                'summary': summary
+            }
+        )
+    else:
+        return render(
+            request,
+            'administration/dmc_serious_events.html',
+            {
+                'listing_hmp': listing_hmp,
+                'listing_hmp02': listing_hmp02,
+                'summary': summary
+            }
+        )
 
 
-def graft_failures(request):
+def graft_failures(request, open_report=False):
     """
     Produces a table of graft failures per time point and preservation
     
     :param request: 
+    :param open_report: If true, then use the alternative display template that will hide preservation details in the 
+    listing 
     :return: 
     """
     current_person = request.user
-    if not current_person.is_administrator or \
-            (current_person.has_perm('compare.hide_randomisation') and not current_person.is_superuser):
+    if not current_person.is_administrator or (
+            current_person.has_perm('compare.hide_randomisation') and
+            not current_person.is_superuser and
+            not open_report
+    ):
         raise PermissionDenied
 
     listing_initial = FollowUpInitial.objects.filter(start_date__isnull=False)
@@ -185,59 +221,23 @@ def graft_failures(request):
     summary = {
         'initial': {
             'total': 0,
-            'hmp_02': {
-                'Y': 0,
-                'N': 0,
-                'U': 0
-            },
-            'hmp': {
-                'Y': 0,
-                'N': 0,
-                'U': 0
-            },
-
+            'hmp_02': {'Y': 0, 'N': 0, 'U': 0},
+            'hmp': {'Y': 0, 'N': 0, 'U': 0},
         },
         'month3': {
             'total': 0,
-            'hmp_02': {
-                'Y': 0,
-                'N': 0,
-                'U': 0
-            },
-            'hmp': {
-                'Y': 0,
-                'N': 0,
-                'U': 0
-            },
-
+            'hmp_02': {'Y': 0, 'N': 0, 'U': 0},
+            'hmp': {'Y': 0, 'N': 0, 'U': 0},
         },
         'month6': {
             'total': 0,
-            'hmp_02': {
-                'Y': 0,
-                'N': 0,
-                'U': 0
-            },
-            'hmp': {
-                'Y': 0,
-                'N': 0,
-                'U': 0
-            },
-
+            'hmp_02': {'Y': 0, 'N': 0, 'U': 0},
+            'hmp': {'Y': 0, 'N': 0, 'U': 0},
         },
         'year1': {
             'total': 0,
-            'hmp_02': {
-                'Y': 0,
-                'N': 0,
-                'U': 0
-            },
-            'hmp': {
-                'Y': 0,
-                'N': 0,
-                'U': 0
-            },
-
+            'hmp_02': {'Y': 0, 'N': 0, 'U': 0},
+            'hmp': {'Y': 0, 'N': 0, 'U': 0},
         },
     }
 
@@ -311,7 +311,7 @@ def graft_failures(request):
 
     return render(
         request,
-        'administration/dmc_graft_failures.html',
+        'administration/dmc_graft_failures_open.html' if open_report else 'administration/dmc_graft_failures.html',
         {
             'listing_initial': listing_initial.filter(graft_failure=True),
             'listing_month3': listing_month3.filter(graft_failure=True),
@@ -322,7 +322,7 @@ def graft_failures(request):
     )
 
 
-def death_summaries(request):
+def death_summaries(request, open_report=False):
     """
     Produce a list of S/AE records where death is recorded, separated into preservation groups. 
     Additionally, count the number of Recipients with a DoD (including unknowns) and display them per preservation
@@ -334,8 +334,11 @@ def death_summaries(request):
     :return:
     """
     current_person = request.user
-    if not current_person.is_administrator or \
-            (current_person.has_perm('compare.hide_randomisation') and not current_person.is_superuser):
+    if not current_person.is_administrator or (
+            current_person.has_perm('compare.hide_randomisation') and
+            not current_person.is_superuser and
+            not open_report
+    ):
         raise PermissionDenied
 
     listing_recipient = Recipient.objects.filter(
@@ -375,7 +378,7 @@ def death_summaries(request):
     )
 
 
-def permanent_impairment(request):
+def permanent_impairment(request, open_report=False):
     """
     Produce a list of S/AE records where permanent impairment is recorded, separated into preservation groups. 
     Additionally, count the number of Recipients with one or more S/AEs and display them per preservation
@@ -387,8 +390,11 @@ def permanent_impairment(request):
     :return:
     """
     current_person = request.user
-    if not current_person.is_administrator or \
-            (current_person.has_perm('compare.hide_randomisation') and not current_person.is_superuser):
+    if not current_person.is_administrator or (
+            current_person.has_perm('compare.hide_randomisation') and
+            not current_person.is_superuser and
+            not open_report
+    ):
         raise PermissionDenied
 
     listing_hmp_organs = Organ.objects.\

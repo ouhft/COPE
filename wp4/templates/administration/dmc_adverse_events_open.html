@@ -1,0 +1,131 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+
+{% block page_title %}{{ location }} Report: DMC Adverse Events [Open] - Administration{% endblock %}
+{% block page_header %}
+    DMC Adverse Events
+    <small xmlns="http://www.w3.org/1999/html">OPEN REPORT</small>
+{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:administration:index' %}">Administration</a></li>
+    <li class="active">Report: DMC Adverse Events [Open]</li>
+{% endblock %}
+
+{% block content %}
+{#    CSS Hack here because Bootstrap hides the badges on print view #}
+    <style>
+        @media print {
+            .badge {
+                padding: 2px 6px;
+                border: 1px solid #000;
+                margin-right: 3em;
+            }
+        }
+    </style>
+
+    <h2>Summary</h2>
+    <h3>Events per Preservation arm</h3>
+    <p>Report on Non-serious Adverse Events per Preservation arm.</p>
+    <table class="table table-striped">
+    <thead>
+    <tr>
+        <th></th>
+        <th>Totals</th>
+    </tr>
+    </thead>
+    <tbody>
+        <th>Total number of Non-serious Events</th>
+        <td>{{ summary.totals.events.hmp|add:summary.totals.events.hmp_02 }}</td>
+    </tbody>
+    </table>
+
+
+    <h3>Events per Organ</h3>
+    <p>Report on Non-serious Adverse Events per Organ per Preservation arm.</p>
+    <table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Frequency</th>
+        <th>Totals</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for key, value in summary.organ.items %}
+        <tr>
+            <td>{{ key|capfirst }}</td>
+            <td>{{ value.hmp|add:value.hmp_02 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr class="info">
+            <th>Total number of affected Organs</th>
+            <td>{{ summary.totals.organ.hmp|add:summary.totals.organ.hmp_02 }}</td>
+        </tr>
+    </tfoot>
+    </table>
+
+    <h3>Events per Category</h3>
+    <p>Report on Non-serious Adverse Events per Category per Preservation arm. Please note that each event may have 0 or more categories assocated with it.</p>
+    <table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Category</th>
+        <th>Totals</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for key, value in summary.category.items %}
+        <tr>
+            <td>{{ value.description|capfirst }}</td>
+            <td>{{ value.hmp|add:value.hmp_02 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr class="info">
+            <th>Total number of Categorisations</th>
+            <td>{{ summary.totals.category.overall }}</td>
+        </tr>
+    </tfoot>
+    </table>
+
+
+    <h2>Data Listing</h2>
+    <p>List all Non-serious Adverse Events</p>
+
+    <table class="table table-condensed table-responsive">
+    {% for organ in listing|dictsort:"trial_id" %}
+        {% if organ.non_serious_events_only|length > 0 %}
+        <tr class="info">
+            <td colspan="4"><h4>{{ organ.trial_id }}</h4></td>
+        </tr>
+        <tr>
+            <th class="col-md-1">S/AE ID</th>
+            <th class="col-md-2">Date of S/AE</th>
+            <th class="col-md-6">Description</th>
+            <th class="col-md-3">Categories</th>
+        </tr>
+        {% for event in organ.non_serious_events_only|dictsort:"onset_at_date" %}
+            <tr>
+                <td>{{ event.id }}</td>
+                <td>{{ event.onset_at_date }}</td>
+                <td>{{ event.description }}</td>
+                <td>
+                    {% for category in event.categories.all %}
+                        {{ category.description }} {% if not loop.last %}<br>{% endif %}
+                    {% endfor %}
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="4">No events</td>
+            </tr>
+        {% endfor %}
+        {% endif %}
+    {% endfor %}
+    </table>
+
+{% endblock %}

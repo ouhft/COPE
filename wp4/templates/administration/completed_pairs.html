@@ -58,7 +58,8 @@
                 <dt>Has not been been marked for reallocation</dt>
                 <dd>
                     <i class="glyphicon glyphicon-remove text-danger" title="reallocated? False"></i> False or
-                    <i class="glyphicon glyphicon-ok text-success" title="reallocated? True"></i> True
+                    <i class="glyphicon glyphicon-ok text-success" title="reallocated? True"></i> True or
+                    <i class="glyphicon glyphicon-question-sign text-warning" title="reallocated? Unknown"></i> Unknown
                 </dd>
             </dl>
         </div>
@@ -99,7 +100,20 @@
                 Total: {{ summary.allocations.total }}<br>
                 - To Project Sites: {{ summary.allocations.total_to_project_sites }}<br>
                 - To Non-Project Sites: {{ summary.allocations.total_to_non_project_sites }}<br>
-                - To Unknown Hospitals: {{ summary.allocations.total_to_unknown_hospital }}
+                - To Unknown Hospitals: {{ summary.allocations.total_to_unknown_hospital }}<br>
+
+                <div class="dropdown">
+                    Eligible organs not yet allocated: {{ summary.allocations.not_allocated.total }}
+                    <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-xs btn-info">
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dLabel">
+                        {% for item in summary.allocations.not_allocated.listing %}
+                        <li><a href="{% url 'wp4:compare:transplantation_detail' item.id %}">{{ item.trial_id }} ({{ item.not_allocated_reason }})</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
             </th>
             <th>
                 Recipient<br>
@@ -146,8 +160,18 @@
                 {% with row.left_kidney.final_allocation as allocation %}
                     {{ allocation.transplant_hospital }}<br>
 
-                    {% if not allocation.transplant_hospital.is_project_site %}<i class="glyphicon glyphicon-remove text-danger" title="is_project_site? No"></i>{% else %}<i class="glyphicon glyphicon-ok text-success" title="is_project_site? Yes"></i>{% endif %}
-                    {% if allocation.reallocated %}<i class="glyphicon glyphicon-remove text-danger" title="reallocated? Yes"></i>{% else %}<i class="glyphicon glyphicon-ok text-success" title="reallocated? No"></i>{% endif %}
+                    {% if allocation.transplant_hospital.is_project_site != True %}
+                        <i class="glyphicon glyphicon-remove text-danger" title="is_project_site? No"></i>
+                    {% else %}
+                        <i class="glyphicon glyphicon-ok text-success" title="is_project_site? Yes"></i>
+                    {% endif %}
+                    {% if allocation.reallocated == True %}
+                        <i class="glyphicon glyphicon-remove text-danger" title="reallocated? Yes"></i>
+                    {% elif allocation.reallocated == False %}
+                        <i class="glyphicon glyphicon-ok text-success" title="reallocated? No"></i>
+                    {% else %}
+                        <i class="glyphicon glyphicon-question-sign text-warning" title="reallocated? Unknown"></i>
+                    {% endif %}
                 {% endwith %}
             </td>
             <td>
@@ -220,7 +244,13 @@
                     {{ allocation.transplant_hospital }}<br>
 
                     {% if not allocation.transplant_hospital.is_project_site %}<i class="glyphicon glyphicon-remove text-danger" title="is_project_site? No"></i>{% else %}<i class="glyphicon glyphicon-ok text-success" title="is_project_site? Yes"></i>{% endif %}
-                    {% if allocation.reallocated %}<i class="glyphicon glyphicon-remove text-danger" title="reallocated? Yes"></i>{% else %}<i class="glyphicon glyphicon-ok text-success" title="reallocated? No"></i>{% endif %}
+                    {% if allocation.reallocated == True %}
+                        <i class="glyphicon glyphicon-remove text-danger" title="reallocated? Yes"></i>
+                    {% elif allocation.reallocated == False %}
+                        <i class="glyphicon glyphicon-ok text-success" title="reallocated? No"></i>
+                    {% else %}
+                        <i class="glyphicon glyphicon-question-sign text-warning" title="reallocated? Unknown"></i>
+                    {% endif %}
                 {% endwith %}
             </td>
             <td>

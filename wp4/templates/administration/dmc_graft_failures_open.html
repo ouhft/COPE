@@ -1,0 +1,205 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+
+{% block page_title %}{{ location }} Report: DMC Graft Failures [Open] - Administration{% endblock %}
+{% block page_header %}
+    DMC Graft Failures
+    <small>OPEN REPORT</small>
+{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:administration:index' %}">Administration</a></li>
+    <li class="active">Report: DMC Graft Failures [Open]</li>
+{% endblock %}
+
+{% block content %}
+{#    CSS Hack here because Bootstrap hides the badges on print view #}
+    <style>
+        @media print {
+            .badge {
+                padding: 2px 6px;
+                border: 1px solid #000;
+                margin-right: 3em;
+            }
+        }
+    </style>
+
+    <h2>Summary</h2>
+    <p>Report on Graft Failures for each Organ recorded with a Follow Up visit.</p>
+    <table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Time Point</th>
+        <th>Totals</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td class="lead">Day 1-7</td>
+        {% with summary.initial as row_dict %}
+        <td>
+            <span class="lead">{{ row_dict.hmp.Y|add:row_dict.hmp_02.Y }} Failures</span><br>
+            <small>{{ row_dict.hmp.N|add:row_dict.hmp_02.N }} OK & {{ row_dict.hmp.U|add:row_dict.hmp_02.U }} unknown</small>
+        </td>
+        {% endwith %}
+    </tr>
+    <tr>
+        <td class="lead">Month 3</td>
+        {% with summary.month3 as row_dict %}
+        <td>
+            <span class="lead">{{ row_dict.hmp.Y|add:row_dict.hmp_02.Y }} Failures</span><br>
+            <small>{{ row_dict.hmp.N|add:row_dict.hmp_02.N }} OK & {{ row_dict.hmp.U|add:row_dict.hmp_02.U }} unknown</small>
+        </td>
+        {% endwith %}
+    </tr>
+    <tr>
+        <td class="lead">Month 6</td>
+        {% with summary.month6 as row_dict %}
+        <td>
+            <span class="lead">{{ row_dict.hmp.Y|add:row_dict.hmp_02.Y }} Failures</span><br>
+            <small>{{ row_dict.hmp.N|add:row_dict.hmp_02.N }} OK & {{ row_dict.hmp.U|add:row_dict.hmp_02.U }} unknown</small>
+        </td>
+        {% endwith %}
+    </tr>
+    <tr>
+        <td class="lead">1 Year</td>
+        {% with summary.year1 as row_dict %}
+        <td>
+            <span class="lead">{{ row_dict.hmp.Y|add:row_dict.hmp_02.Y }} Failures</span><br>
+            <small>{{ row_dict.hmp.N|add:row_dict.hmp_02.N }} OK & {{ row_dict.hmp.U|add:row_dict.hmp_02.U }} unknown</small>
+        </td>
+        {% endwith %}
+    </tr>
+    </tbody>
+    </table>
+
+
+    <h2>Data Listing</h2>
+    <p>Listing all Follow Ups where Graft Failure has been indicated.</p>
+
+    <div class="bg-primary" style="padding: 1px 10px;">
+        <h3>Initial <small>{{ listing_initial|length }} Follow Ups</small></h3>
+    </div>
+    <table class="table table-condensed">
+        <thead>
+        <tr>
+            <th class="col-md-2">Trial ID</th>
+            <th class="col-md-2">Date of Failure</th>
+            <th class="col-md-2">Failure Type</th>
+            <th class="col-md-4">Failure Notes</th>
+            <th class="col-md-2">Graft Removed?</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for record in listing_initial %}
+            <tr>
+                <td><strong>{{ record.organ.trial_id }}</strong> <small>#{{ record.id }}</small></td>
+                <td>{{ record.graft_failure_date|default:"Not Recorded" }}</td>
+                <td>{{ record.get_graft_failure_type_display }}</td>
+                <td>{{ record.graft_failure_type_other }}</td>
+                <td>
+                    {{ record.graft_removal|yesno|capfirst }}
+                    {% if record.graft_removal_date %}
+                        on {{ record.graft_removal_date|default:"an unknown date" }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="bg-primary" style="padding: 1px 10px;">
+        <h3>Month 3 <small>{{ listing_month3|length }} Follow Ups</small></h3>
+    </div>
+    <table class="table table-condensed">
+        <thead>
+        <tr>
+            <th class="col-md-2">Trial ID</th>
+            <th class="col-md-2">Date of Failure</th>
+            <th class="col-md-2">Failure Type</th>
+            <th class="col-md-4">Failure Notes</th>
+            <th class="col-md-2">Graft Removed?</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for record in listing_month3 %}
+            <tr>
+                <td><strong>{{ record.organ.trial_id }}</strong> <small>#{{ record.id }}</small></td>
+                <td>{{ record.graft_failure_date|default:"Not Recorded" }}</td>
+                <td>{{ record.get_graft_failure_type_display }}</td>
+                <td>{{ record.graft_failure_type_other }}</td>
+                <td>
+                    {{ record.graft_removal|yesno|capfirst }}
+                    {% if record.graft_removal_date %}
+                        on {{ record.graft_removal_date|default:"an unknown date" }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="bg-primary" style="padding: 1px 10px;">
+        <h3>Month 6 <small>{{ listing_month6|length }} Follow Ups</small></h3>
+    </div>
+    <table class="table table-condensed">
+        <thead>
+        <tr>
+            <th class="col-md-2">Trial ID</th>
+            <th class="col-md-2">Date of Failure</th>
+            <th class="col-md-2">Failure Type</th>
+            <th class="col-md-4">Failure Notes</th>
+            <th class="col-md-2">Graft Removed?</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for record in listing_month6 %}
+            <tr>
+                <td><strong>{{ record.organ.trial_id }}</strong> <small>#{{ record.id }}</small></td>
+                <td>{{ record.graft_failure_date|default:"Not Recorded" }}</td>
+                <td>{{ record.get_graft_failure_type_display }}</td>
+                <td>{{ record.graft_failure_type_other }}</td>
+                <td>
+                    {{ record.graft_removal|yesno|capfirst }}
+                    {% if record.graft_removal_date %}
+                        on {{ record.graft_removal_date|default:"an unknown date" }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="bg-primary" style="padding: 1px 10px;">
+        <h3>Year 1 <small>{{ listing_year1|length }} Follow Ups</small></h3>
+    </div>
+    <table class="table table-condensed">
+        <thead>
+        <tr>
+            <th class="col-md-2">Trial ID</th>
+            <th class="col-md-2">Date of Failure</th>
+            <th class="col-md-2">Failure Type</th>
+            <th class="col-md-4">Failure Notes</th>
+            <th class="col-md-2">Graft Removed?</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for record in listing_year1 %}
+            <tr>
+                <td><strong>{{ record.organ.trial_id }}</strong> <small>#{{ record.id }}</small></td>
+                <td>{{ record.graft_failure_date|default:"Not Recorded" }}</td>
+                <td>{{ record.get_graft_failure_type_display }}</td>
+                <td>{{ record.graft_failure_type_other }}</td>
+                <td>
+                    {{ record.graft_removal|yesno|capfirst }}
+                    {% if record.graft_removal_date %}
+                        on {{ record.graft_removal_date|default:"an unknown date" }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

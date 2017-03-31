@@ -329,7 +329,11 @@ def completed_pairs(request):
             "total": 0,
             "total_to_unknown_hospital": 0,
             "total_to_project_sites": 0,
-            "total_to_non_project_sites": 0
+            "total_to_non_project_sites": 0,
+            "not_allocated": {
+                'total': 0,
+                'listing': []
+            }
         },
         "recipients": {
             "total": 0,
@@ -361,15 +365,16 @@ def completed_pairs(request):
         previous_organ_eligible = False
 
         for organ in (donor.left_kidney, donor.right_kidney):
+            organ_eligible = organ.preservation != PRESERVATION_NOT_SET and donor.multiple_recipients and organ.transplantable
             summary["organs"]["total"] += 1
-            summary["organs"]["total_eligible"] += 1 if organ.preservation != 9 and donor.multiple_recipients and organ.transplantable else 0
-            summary["organs"]["total_randomised"] += 1 if organ.preservation != 9 else 0
+            summary["organs"]["total_eligible"] += 1 if organ_eligible else 0
+            summary["organs"]["total_randomised"] += 1 if organ.preservation != PRESERVATION_NOT_SET else 0
             summary["organs"]["total_singleorgan"] += 1 if donor.multiple_recipients else 0
             summary["organs"]["total_transplantable"] += 1 if organ.transplantable else 0
 
-            if organ.final_allocation and organ.preservation != 9 and donor.multiple_recipients and organ.transplantable:
+            if organ.final_allocation and organ_eligible:
                 summary["allocations"]["total"] += 1
-                if organ.final_allocation.transplant_hospital:
+                if organ.final_allocation.transplant_hospital and organ.final_allocation.reallocated is False:
                     if organ.final_allocation.transplant_hospital.is_project_site:
                         summary["allocations"]["total_to_project_sites"] += 1
 
@@ -406,6 +411,9 @@ def completed_pairs(request):
                         summary["allocations"]["total_to_non_project_sites"] += 1
                 else:
                     summary["allocations"]["total_to_unknown_hospital"] += 1
+            elif organ_eligible:
+                summary["allocations"]["not_allocated"]["total"] += 1
+                summary["allocations"]["not_allocated"]["listing"].append(organ)
 
     summary["eligible_pairs"]["singles"] *= -1  # Reverse the sign for this value
 

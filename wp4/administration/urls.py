@@ -85,14 +85,32 @@ urlpatterns = [
         name='dmc_permanent_impairment'
     ),
     url(
+        regex=r'^dmc/graft-failures/open',
+        view=dmc_reports.graft_failures,
+        name='dmc_graft_failures_open',
+        kwargs=dict(open_report=True),
+    ),
+    url(
         regex=r'^dmc/graft-failures',
         view=dmc_reports.graft_failures,
         name='dmc_graft_failures'
     ),
     url(
+        regex=r'^dmc/adverse-events/open',
+        view=dmc_reports.adverse_events,
+        name='dmc_adverse_events_open',
+        kwargs=dict(open_report=True),
+    ),
+    url(
         regex=r'^dmc/adverse-events',
         view=dmc_reports.adverse_events,
         name='dmc_adverse_events'
+    ),
+    url(
+        regex=r'^dmc/serious-events/open',
+        view=dmc_reports.serious_events,
+        name='dmc_serious_events_open',
+        kwargs=dict(open_report=True),
     ),
     url(
         regex=r'^dmc/serious-events',

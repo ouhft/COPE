@@ -34,18 +34,41 @@
                 <li><a href="{% url 'wp4:administration:followups' %}">Follow Ups</a></li>
             </ul>
         </div>
-        {% if not perms.compare.hide_randomisation or request.user.is_superuser %}
+
         <div class="col-md-4">
             <h3>DMC Reports</h3>
             <ul>
-                <li><a href="{% url 'wp4:administration:dmc_death_summaries' %}">Death Summaries</a></li>
-                <li><a href="{% url 'wp4:administration:dmc_permanent_impairment' %}">Permanent Impairment</a></li>
-                <li><a href="{% url 'wp4:administration:dmc_graft_failures' %}">Graft Failures</a></li>
-                <li><a href="{% url 'wp4:administration:dmc_adverse_events' %}">Adverse Events</a></li>
-                <li><a href="{% url 'wp4:administration:dmc_serious_events' %}">Serious Adverse Events</a></li>
+                <li>
+                    {% if not perms.compare.hide_randomisation or request.user.is_superuser %}
+                    <a href="{% url 'wp4:administration:dmc_death_summaries' %}">Death Summaries</a><br>
+                    {% endif %}
+                </li>
+                <li>
+                    {% if not perms.compare.hide_randomisation or request.user.is_superuser %}
+                    <a href="{% url 'wp4:administration:dmc_permanent_impairment' %}">Permanent Impairment</a>
+                    {% endif %}
+                </li>
+                <li>
+                    {% if not perms.compare.hide_randomisation or request.user.is_superuser %}
+                    <a href="{% url 'wp4:administration:dmc_graft_failures' %}">Graft Failures</a><br>
+                    {% endif %}
+                    <a href="{% url 'wp4:administration:dmc_graft_failures_open' %}">Graft Failures [OPEN]</a>
+                </li>
+                <li>
+                    {% if not perms.compare.hide_randomisation or request.user.is_superuser %}
+                    <a href="{% url 'wp4:administration:dmc_adverse_events' %}">Adverse Events</a><br>
+                    {% endif %}
+                    <a href="{% url 'wp4:administration:dmc_adverse_events_open' %}">Adverse Events [OPEN]</a>
+                </li>
+                <li>
+                    {% if not perms.compare.hide_randomisation or request.user.is_superuser %}
+                    <a href="{% url 'wp4:administration:dmc_serious_events' %}">Serious Adverse Events</a><br>
+                    {% endif %}
+                    <a href="{% url 'wp4:administration:dmc_serious_events_open' %}">Serious Adverse Events [OPEN]</a>
+                </li>
             </ul>
         </div>
-        {% endif %}
+
     </div>
 
     {% if request.user|has_group:5 or request.user|has_group:6 %}{# Person.CENTRAL_COORDINATOR or Person.STATISTICIAN #}
