@@ -37,15 +37,29 @@
     </tr>
     </thead>
     <tbody>
-    {% for key, value in summary.items %}
+    {% for key, value in summary.organ.items %}
     <tr>
-        <td>{{ key }}</td>
+        <td>{{ key|capfirst }}</td>
         <td>{{ value.hmp }}</td>
         <td>{{ value.hmp_02 }}</td>
         <td>{{ value.hmp|add:value.hmp_02 }}</td>
     </tr>
     {% endfor %}
     </tbody>
+    <tfoot>
+        <tr class="info">
+            <th>Total Organs</th>
+            <td>{{ summary.totals.organ.hmp }}</td>
+            <td>{{ summary.totals.organ.hmp_02 }}</td>
+            <td>{{ summary.totals.organ.hmp|add:summary.totals.organ.hmp_02 }}</td>
+        </tr>
+        <tr class="info">
+            <th>Total Events</th>
+            <td>{{ summary.totals.events.hmp }}</td>
+            <td>{{ summary.totals.events.hmp_02 }}</td>
+            <td>{{ summary.totals.events.hmp|add:summary.totals.events.hmp_02 }}</td>
+        </tr>
+    </tfoot>
     </table>
 
 
