@@ -1,5 +1,5 @@
 {% extends "base_site.html" %}
-{% load l10n i18n %}
+{% load l10n i18n theme_tags %}
 
 {% block page_title %}{{ location }} Report: Completed Pairs - Administration{% endblock %}
 {% block page_header %}
@@ -145,6 +145,7 @@
     </thead>
     <tbody>
     {% for row in listing %}
+        {% with eligible_left=summary.donors.listing|keyvalue:row.id|keyvalue:'eligible_left' eligible_right=summary.donors.listing|keyvalue:row.id|keyvalue:'eligible_right' complete_left=summary.donors.listing|keyvalue:row.id|keyvalue:'complete_left' complete_right=summary.donors.listing|keyvalue:row.id|keyvalue:'complete_right' %}
         <tr>
             <td rowspan="2">
                 <strong>{{ row.trial_id }}</strong> <sup>#{{ row.id }}</sup><br>
@@ -198,21 +199,16 @@
                 {% endif %}
             </td>
             <td rowspan="2">
-                {% if row.multiple_recipients and row.left_kidney.preservation != 9 and row.left_kidney.transplantable and row.right_kidney.transplantable %}
-                    {% if row.left_kidney.final_allocation.transplant_hospital.is_project_site and row.right_kidney.final_allocation.transplant_hospital.is_project_site %}
-                        {% with row.left_kidney.safe_recipient as left_recipient %}{% with row.right_kidney.safe_recipient as right_recipient %}
-                            {% if left_recipient.signed_consent and left_recipient.single_kidney_transplant and right_recipient.signed_consent and right_recipient.single_kidney_transplant %}
-                                {% if left_recipient.knife_to_skin or left_recipient.anastomosis_started_at or left_recipient.reperfusion_started_at or left_recipient.operation_concluded_at %} {% if right_recipient.knife_to_skin or right_recipient.anastomosis_started_at or right_recipient.reperfusion_started_at or right_recipient.operation_concluded_at %}
-                                    <i class="glyphicon glyphicon-thumbs-up text-success" title="PAIR" style="font-size: 400%;"></i>
-                                {% endif %}{% endif %}
-                            {% endif %}
-                        {% endwith %}{% endwith %}
-                    {% endif %}
+                {% if eligible_left and eligible_right %}
+                    <i class="glyphicon glyphicon-thumbs-up text-{% if complete_left and complete_right %}success{% else %}warning{% endif %}" title="PAIR" style="font-size: 400%;"></i>
+                {% elif eligible_left %}
+                    <i class="glyphicon glyphicon-hand-left text-{{ complete_left|yesno:"success,warning" }}" title="Left" style="font-size: 200%;"></i>
+                {% elif eligible_right %}
+                    <i class="glyphicon glyphicon-hand-right text-{{ complete_right|yesno:"success,warning" }}" title="Right" style="font-size: 200%;"></i>
                 {% endif %}
             </td>
             <td>
-                {% if row.multiple_recipients and row.left_kidney.preservation != 9 and row.left_kidney.transplantable %}{% if row.left_kidney.final_allocation.transplant_hospital.is_project_site %}{% with row.left_kidney.safe_recipient as left_recipient %}{% if left_recipient.signed_consent and left_recipient.single_kidney_transplant %}{% if left_recipient.knife_to_skin or left_recipient.anastomosis_started_at or left_recipient.reperfusion_started_at or left_recipient.operation_concluded_at %}
-
+                {% if eligible_left %}
                     {% now "Y-m-d" as today %}
                     {% if row.left_kidney.followup_1y.start_date is not None %}
                         <!-- {{ row.left_kidney.followup_final_begin_by }} < {{ row.left_kidney.followup_1y.start_date }} < {{ row.left_kidney.followup_final_completed_by }}-->
@@ -235,7 +231,7 @@
                     {% endif %}
                     {% if row.left_kidney.followup_1y.creatinine_clearance > 0 %}<i class="glyphicon glyphicon-ok text-success" title="Creatinine Clearance Recorded"></i>{% else %}<i class="glyphicon glyphicon-remove text-danger" title="No CC"></i>{% endif %}
                     {% if row.left_kidney.followup_1y %}<sup title="{{ row.left_kidney.followup_1y.start_date }}">#{{ row.left_kidney.followup_1y.id }}</sup>{% endif %}
-                 {% endif %}{% endif %}{% endwith %}{% endif %}{% endif %}
+                {% endif %}
             </td>
         </tr>
         <tr>
@@ -276,8 +272,7 @@
                 {% endif %}
             </td>
             <td>
-                {% if row.multiple_recipients and row.right_kidney.preservation != 9 and row.right_kidney.transplantable %}{% if row.right_kidney.final_allocation.transplant_hospital.is_project_site %}{% with row.right_kidney.safe_recipient as right_recipient %}{% if right_recipient.signed_consent and right_recipient.single_kidney_transplant %}{% if right_recipient.knife_to_skin or right_recipient.anastomosis_started_at or right_recipient.reperfusion_started_at or right_recipient.operation_concluded_at %}
-
+                {% if eligible_right %}
                     {% now "Y-m-d" as today %}
                     {% if row.right_kidney.followup_1y.start_date is not None %}
                         <!-- {{ row.right_kidney.followup_final_begin_by }} < {{ row.right_kidney.followup_1y.start_date }} < {{ row.right_kidney.followup_final_completed_by }}-->
@@ -300,9 +295,10 @@
                     {% endif %}
                     {% if row.right_kidney.followup_1y.creatinine_clearance > 0 %}<i class="glyphicon glyphicon-ok text-success" title="Creatinine Clearance Recorded"></i>{% else %}<i class="glyphicon glyphicon-remove text-danger" title="No CC"></i>{% endif %}
                     {% if row.right_kidney.followup_1y %}<sup title="{{ row.right_kidney.followup_1y.start_date }}">#{{ row.right_kidney.followup_1y.id }}</sup>{% endif %}
-                 {% endif %}{% endif %}{% endwith %}{% endif %}{% endif %}
+                {% endif %}
             </td>
         </tr>
+        {% endwith %}
     {% endfor %}
     </tbody>
     </table>

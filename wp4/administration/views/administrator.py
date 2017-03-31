@@ -11,7 +11,7 @@ from django.utils import timezone
 from wp4.compare.models import Randomisation
 from wp4.compare.models import Donor, Organ
 from wp4.compare.models import RetrievalTeam
-from wp4.compare.models import PRESERVATION_HMP, PRESERVATION_HMPO2, PRESERVATION_NOT_SET
+from wp4.compare.models import PRESERVATION_HMP, PRESERVATION_HMPO2, PRESERVATION_NOT_SET, LEFT, RIGHT
 from wp4.locations.models import Hospital
 from wp4.staff.models import Person
 from wp4.adverse_event.models import Event
@@ -315,8 +315,9 @@ def completed_pairs(request):
     # Looking for 12month follow up: check for completed as: creatinine clearance entered
 
     summary = {
-        "donors" : {
-            "total": 0
+        "donors": {
+            "total": 0,
+            "listing": {}
         },
         "organs": {
             "total": 0,
@@ -368,6 +369,12 @@ def completed_pairs(request):
     today = timezone.now().date()
     for donor in listing:
         summary["donors"]["total"] += 1
+        summary["donors"]["listing"][donor.id] = {
+            'eligible_left': False,
+            'eligible_right': False,
+            'complete_left': False,
+            'complete_right': False,
+        }
         previous_organ_eligible = False
 
         for organ in (donor.left_kidney, donor.right_kidney):
@@ -398,6 +405,12 @@ def completed_pairs(request):
 
                                     # Pair analysis
                                     summary["eligible_pairs"]["total"] += 1 if previous_organ_eligible else 0
+
+                                    if organ.location == LEFT:
+                                        summary["donors"]["listing"][donor.id]['eligible_left'] = True
+                                    if organ.location == RIGHT:
+                                        summary["donors"]["listing"][donor.id]['eligible_right'] = True
+
                                     summary["eligible_pairs"]["singles"] += 1 if previous_organ_eligible else -1  # Will result in a negative number of singles
                                     previous_organ_eligible = True if not previous_organ_eligible else False
                                     try:
@@ -419,6 +432,11 @@ def completed_pairs(request):
                                                 else:
                                                     if organ.followup_1y.creatinine_clearance:
                                                         summary["finals"]["on_time"]["with_cc"] += 1
+
+                                                        if organ.location == LEFT:
+                                                            summary["donors"]["listing"][donor.id]['complete_left'] = True
+                                                        if organ.location == RIGHT:
+                                                            summary["donors"]["listing"][donor.id]['complete_right'] = True
                                                     else:
                                                         summary["finals"]["on_time"]["without_cc"] += 1
 
@@ -426,18 +444,21 @@ def completed_pairs(request):
                                                 if today < organ.followup_final_begin_by:
                                                     if organ.followup_1y.creatinine_clearance:
                                                         summary["finals"]["early"]["with_cc"] += 1
+                                                        print("DEBUG: completed_pairs - no start date, but early with cc")
                                                     else:
                                                         summary["finals"]["early"]["without_cc"] += 1
 
                                                 elif today > organ.followup_final_completed_by:
                                                     if organ.followup_1y.creatinine_clearance:
                                                         summary["finals"]["late"]["with_cc"] += 1
+                                                        print("DEBUG: completed_pairs - no start date, but late with cc")
                                                     else:
                                                         summary["finals"]["late"]["without_cc"] += 1
 
                                                 else:
                                                     if organ.followup_1y.creatinine_clearance:
                                                         summary["finals"]["on_time"]["with_cc"] += 1
+                                                        print("DEBUG: completed_pairs - no start date, but on time with cc")
                                                     else:
                                                         summary["finals"]["on_time"]["without_cc"] += 1
                                     except FollowUp1Y.DoesNotExist:
