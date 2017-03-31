@@ -349,17 +349,23 @@ def completed_pairs(request):
             "singles": 0,
         },
         "finals": {
+            "early": {
+                "without_cc": 0,
+                "with_cc": 0
+            },
             "on_time": {
                 "without_cc": 0,
                 "with_cc": 0
             },
-            "outside_window": {
-                "early": 0,
-                "overdue": 0
-            }
+            "late": {
+                "without_cc": 0,
+                "with_cc": 0
+            },
+            'total': 0
         }
     }
 
+    today = timezone.now().date()
     for donor in listing:
         summary["donors"]["total"] += 1
         previous_organ_eligible = False
@@ -395,17 +401,47 @@ def completed_pairs(request):
                                     summary["eligible_pairs"]["singles"] += 1 if previous_organ_eligible else -1  # Will result in a negative number of singles
                                     previous_organ_eligible = True if not previous_organ_eligible else False
                                     try:
-                                        if organ.followup_1y.started_within_window:
-                                            if organ.followup_1y.creatinine_clearance:
-                                                summary["finals"]["on_time"]["with_cc"] += 1
+                                        if organ.followup_1y:
+                                            summary['finals']['total'] += 1
+                                            if organ.followup_1y.start_date is not None:
+                                                if organ.followup_1y.start_date < organ.followup_final_begin_by:
+                                                    if organ.followup_1y.creatinine_clearance:
+                                                        summary["finals"]["early"]["with_cc"] += 1
+                                                    else:
+                                                        summary["finals"]["early"]["without_cc"] += 1
+
+                                                elif organ.followup_1y.start_date > organ.followup_final_completed_by:
+                                                    if organ.followup_1y.creatinine_clearance:
+                                                        summary["finals"]["late"]["with_cc"] += 1
+                                                    else:
+                                                        summary["finals"]["late"]["without_cc"] += 1
+
+                                                else:
+                                                    if organ.followup_1y.creatinine_clearance:
+                                                        summary["finals"]["on_time"]["with_cc"] += 1
+                                                    else:
+                                                        summary["finals"]["on_time"]["without_cc"] += 1
+
                                             else:
-                                                summary["finals"]["on_time"]["without_cc"] += 1
+                                                if today < organ.followup_final_begin_by:
+                                                    if organ.followup_1y.creatinine_clearance:
+                                                        summary["finals"]["early"]["with_cc"] += 1
+                                                    else:
+                                                        summary["finals"]["early"]["without_cc"] += 1
+
+                                                elif today > organ.followup_final_completed_by:
+                                                    if organ.followup_1y.creatinine_clearance:
+                                                        summary["finals"]["late"]["with_cc"] += 1
+                                                    else:
+                                                        summary["finals"]["late"]["without_cc"] += 1
+
+                                                else:
+                                                    if organ.followup_1y.creatinine_clearance:
+                                                        summary["finals"]["on_time"]["with_cc"] += 1
+                                                    else:
+                                                        summary["finals"]["on_time"]["without_cc"] += 1
                                     except FollowUp1Y.DoesNotExist:
                                         pass
-                                    # elif organ.followup_1y and (organ.followup_1y.start_date > organ.followup_final_completed_by or timezone.now().date() > organ.followup_final_completed_by):
-                                    #     summary["finals"]["outside_window"]["early"] += 1
-                                    # else:
-                                    #     summary["finals"]["outside_window"]["overdue"] += 1
 
                     else:
                         summary["allocations"]["total_to_non_project_sites"] += 1

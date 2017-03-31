@@ -129,11 +129,17 @@
                 - Singles: {{ summary.eligible_pairs.singles }}
             </th>
             <th>
-                12 Month Followup<br>
-                In Window: {{ summary.finals.on_time.with_cc|add:summary.finals.on_time.without_cc }}<br>
+                12 Month Followup ({{ summary.finals.total }})<br>
+                In Window:<br>
                 - With CC: {{ summary.finals.on_time.with_cc }}<br>
                 - Without CC {{ summary.finals.on_time.without_cc }}<br>
-{#                Outside Window: {{ summary.finals.outside_window.early }} early, and {{ summary.finals.outside_window.overdue }} overdue#}
+                Early:<br>
+                - With CC: {{ summary.finals.early.with_cc }}<br>
+                - Without CC {{ summary.finals.early.without_cc }}<br>
+                Late:<br>
+                - With CC: {{ summary.finals.late.with_cc }}<br>
+                - Without CC {{ summary.finals.late.without_cc }}<br>
+
             </th>
         </tr>
     </thead>
