@@ -5,6 +5,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
+from django.core.validators import validate_email, ValidationError
 from django.http import HttpResponseRedirect
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
 from django.views.generic.edit import FormMixin
@@ -33,14 +34,26 @@ class EmailOnSaveMixin(object):
 
         # Create and send the email if this is serious (Issue #155)
         if self.object.is_serious:
+            valid_email = True
+            try:
+                validate_email(self.object.contact.email)
+            except ValidationError:
+                valid_email = False
+
             message_text = "Visit https://{0}{1} for more details. ".format(
                     self.request.get_host(),
                     self.object.get_absolute_url()
             )
-            message_text += "The Local Investigator is {0} who has been emailed at [{1}].".format(
-                self.object.contact.get_full_name(),
-                self.object.contact.email if self.object.contact.email is not None else "Address Unknown"
+            message_text += "The Local Investigator is {0} ".format(
+                self.object.contact.get_full_name()
             )
+            if valid_email:
+                message_text += "and has been emailed at {0}.".format(
+                    self.object.contact.email
+                )
+            else:
+                message_text += "but HAS NOT been notified due to a missing or invalid email address for them."
+
             send_to = [
                 JACQUES_PIREENE,
                 INA_JOCHMANS,

@@ -234,4 +234,10 @@
         </div>
     </div>
 
+
+{% if perms.adverse_event.change_event %}
+    <p><a href="{% url 'wp4:adverse_event:update' pk=event.pk %}" class="btn btn-primary btn-lg"><i
+            title="edit" class="glyphicon glyphicon-edit"></i> Edit Event</a></p>
+{% endif %}
+
 {% endblock %}

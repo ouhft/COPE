@@ -41,7 +41,7 @@ DETACH DATABASE new;
 -- ATTACH DATABASE 'file:///Users/carl/Projects/py3_cope/cope_repo/old.db.sqlite3?mode=ro' AS old;
 -- ATTACH DATABASE 'file:///Users/carl/Projects/py3_cope/cope_repo/db.sqlite3' AS new;
 ATTACH DATABASE 'file:///Volumes/ExtSSD/Users/carl/Projects/py3_cope/cope_repo/old.db.sqlite3?mode=ro' AS old;
-ATTACH DATABASE 'file:///Volumes/ExtSSD/Users/carl/Projects/py3_cope/cope_repo//db.sqlite3' AS new;
+ATTACH DATABASE 'file:///Volumes/ExtSSD/Users/carl/Projects/py3_cope/cope_repo/db.sqlite3' AS new;
 
 DELETE FROM new.django_site;
 
@@ -1399,6 +1399,62 @@ INSERT INTO new.reversion_version (
   FROM old.reversion_version;
 
 
+/*
+Belated data fix for Issue #269. Copy the limited number of date of deaths to the new Patient record
+ */
+SELECT
+  id,
+  date_of_death,
+  organ_id
+FROM old.adverse_event_adverseevent
+WHERE date_of_death not isnull;
+
+SELECT
+  p.id as Patient,
+  r.id as Recipient,
+  o.id as Organ
+FROM new.compare_patient as p,
+  new.compare_recipient as r,
+  new.compare_organ as o
+WHERE p.id = r.person_id
+  AND r.organ_id = o.id
+  AND o.id in (27, 100, 47, 162, 133, 110, 183, 278, 92)
+/*
+44,   2015-06-26, 27
+46,   2015-06-26, 27     --> Patient ID: 181
+58,   2016-02-09, 100    --> Patient ID: 103
+61,   2016-03-28, 47     --> Patient ID: 219
+62,   2016-04-16, 162    --> Patient ID: 218
+63,   2016-01-21, 133    --> Patient ID: 243
+69,   2016-03-07, 110    --> Patient ID: 116
+127,  2016-02-26, 183    --> Patient ID: 222
+195,  2016-10-25, 278    --> Patient ID: 456
+197,  2016-10-25, 278
+198,  2016-10-25, 278
+199,  2016-10-25, 278
+
+181,  88,   27
+219,  115,  47
+103,  14,   100
+116,  25,   110
+243,  137,  133
+218,  114,  162
+222,  118,  183
+456,  240,  278
+
+ */
+
+UPDATE new.compare_patient SET date_of_death = '2015-06-26' WHERE id = 181;
+UPDATE new.compare_patient SET date_of_death = '2016-02-09' WHERE id = 103;
+UPDATE new.compare_patient SET date_of_death = '2016-03-28' WHERE id = 219;
+UPDATE new.compare_patient SET date_of_death = '2016-04-16' WHERE id = 218;
+UPDATE new.compare_patient SET date_of_death = '2016-01-21' WHERE id = 243;
+UPDATE new.compare_patient SET date_of_death = '2016-03-07' WHERE id = 116;
+UPDATE new.compare_patient SET date_of_death = '2016-02-26' WHERE id = 222;
+UPDATE new.compare_patient SET date_of_death = '2016-10-25' WHERE id = 456;
+
+-- However, for Organ_ID 92, the Date of Death is unknown, so mark Patient 162 with dod_unknown
+UPDATE new.compare_patient SET date_of_death_unknown = 1 WHERE id = 162;
 
 
 /*

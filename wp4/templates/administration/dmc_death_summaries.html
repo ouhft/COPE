@@ -1,5 +1,5 @@
 {% extends "base_site.html" %}
-{% load l10n i18n %}
+{% load l10n i18n theme_tags %}
 
 {% block page_title %}{{ location }} Report: DMC Death Summaries - Administration{% endblock %}
 {% block page_header %}
@@ -24,91 +24,137 @@
             }
         }
     </style>
+    <h2>Summary</h2>
+    <p>Number of deaths per preservation arm</p>
+    <table class="table">
+    <tr>
+        <th></th>
+        <th>HMP -O<sub>2</sub></th>
+        <th>HMP +O<sub>2</sub></th>
+    </tr>
+    <tr>
+        <th>Counts</th>
+        <td class="lead">{{ summary.hmp_02 }}</td>
+        <td class="lead">{{ summary.hmp }}</td>
+    </tr>
+    </table>
 
-    <h2>Listing</h2>
-    <h3>HMP+O2</h3>
-    {% for organ in listing.0 %}
-        <div class="row">
-            <div class="col-md-3"><strong></strong></div>
-            <div class="col-md-6"></div>
-            <div class="col-md-3"></div>
-        </div>
 
-        <h4>{{ organ.trial_id }} <small>{{ organ.date_of_transplant }} @ {{ organ.centre_name }}</small></h4>
-        <table class="table table-bordered table-condensed">
-        <tr>
-            <th>ID</th>
-            <th>Date</th>
-            <th>Causes of Death</th>
-            <th>Device Deficiency?</th>
-            <th>Device User Error?</th>
-        </tr>
-        {% for event in organ.events %}
-            <tr>
-                <td class="col-md-1"><a href="{% url 'wp4:adverse_event:update' event.id %}">{{ event.id }}</a></td>
-                <td class="col-md-2">{{ event.organ.recipient.person.date_of_death|date }}</td>
-                <td class="col-md-5">
-                    {{ event.cause_of_death_1|yesno:"Cerebrovascular," }}
-                    {{ event.cause_of_death_2|yesno:"Multi Organ," }}
-                    {{ event.cause_of_death_3|yesno:"Pneumonia," }}
-                    {{ event.cause_of_death_4|yesno:"Sepsis," }}
-                    {{ event.cause_of_death_5|yesno:"Transplant Related," }}
-                    {% if event.cause_of_death_6 is not False %}
-                        Other: &quot;{{ event.cause_of_death_comment }}&quot;
+    <h2>Data Listing</h2>
+    <p>Show all Serious Adverse Events that are marked as having led to death, grouped by Preservation, and Trial ID</p>
+
+    <div class="bg-primary" style="padding: 1px 0;">
+        <h3>HMP +O<sub>2</sub> Serious Adverse Events</h3>
+    </div>
+    {# Need to output this as a table so that it can be copy and pasted in a Word document, something responsive columns doesn't support #}
+    <table class="table">
+    {% for organ in listing_hmp02_organs %}
+        <tr class="info">
+            <td colspan="2">
+                <h4>{{ organ.trial_id }}</h4>
+            </td>
+            <td colspan="2">
+                <span class="lead">Date of death:
+                {% if organ.safe_recipient.person.date_of_death_unknown %}
+                    Date Unknown
+                    {% else %}
+                        {{ organ.safe_recipient.person.date_of_death|default:"Not recorded" }}
                     {% endif %}
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <th class="col-md-2">ID, Onset date, Investigator</th>
+            <th class="col-md-4">Description</th>
+            <th class="col-md-2">Treatment Related?</th>
+            <th class="col-md-4">Causes of Death</th>
+        </tr>
 
+        {% for event in organ.event_set.all %}
+            {% if event.death %}
+            <tr class="{% cycle 'active' '' %}">
+                <td>
+                    <span class="lead">#{{ event.id }}</span><br>
+                    {{ event.onset_at_date }}<br>
+                    <small>{{ event.contact }}</small>
                 </td>
-                <td class="col-md-2">
-                    {{ event.alive_query_4|yesno }}
-                </td>
-                <td class="col-md-2">
-                    {{ event.alive_query_5|yesno }}
+                <td>{{ event.description }}</td>
+                <td>{{ event.get_treatment_related_display }}</td>
+                <td>
+                    <ul>
+                        {% if event.cause_of_death_1 %}<li>{% get_verbose_field_name event 'cause_of_death_1' %}</li>{% endif %}
+                        {% if event.cause_of_death_2 %}<li>{% get_verbose_field_name event 'cause_of_death_2' %}</li>{% endif %}
+                        {% if event.cause_of_death_3 %}<li>{% get_verbose_field_name event 'cause_of_death_3' %}</li>{% endif %}
+                        {% if event.cause_of_death_4 %}<li>{% get_verbose_field_name event 'cause_of_death_4' %}</li>{% endif %}
+                        {% if event.cause_of_death_5 %}<li>{% get_verbose_field_name event 'cause_of_death_5' %}</li>{% endif %}
+                        {% if event.cause_of_death_6 %}<li>{% get_verbose_field_name event 'cause_of_death_6' %}</li>{% endif %}
+                    </ul>
+                    {% if event.cause_of_death_6 %}
+                        <p>{{ event.cause_of_death_comment }}</p>
+                    {% endif %}
                 </td>
             </tr>
+            {% endif %}
         {% endfor %}
-        </table>
     {% endfor %}
+    </table>
+    
 
-    <h3>HMP-O2</h3>
-    {% for organ in listing.1 %}
-        <div class="row">
-            <div class="col-md-3"><strong></strong></div>
-            <div class="col-md-6"></div>
-            <div class="col-md-3"></div>
-        </div>
 
-        <h4>{{ organ.trial_id }} <small>{{ organ.date_of_transplant|date }} @ {{ organ.centre_name }}</small></h4>
-        <table class="table table-bordered table-condensed">
-        <tr>
-            <th>ID</th>
-            <th>Date</th>
-            <th>Causes of Death</th>
-            <th>Device Deficiency?</th>
-            <th>Device User Error?</th>
-        </tr>
-        {% for event in organ.events %}
-            <tr>
-                <td class="col-md-1"><a href="{% url 'wp4:adverse_event:update' event.id %}">{{ event.id }}</a></td>
-                <td class="col-md-2">{{ event.date_of_death|date }}</td>
-                <td class="col-md-5">
-                    {{ event.cause_of_death_1|yesno:"Cerebrovascular," }}
-                    {{ event.cause_of_death_2|yesno:"Multi Organ," }}
-                    {{ event.cause_of_death_3|yesno:"Pneumonia," }}
-                    {{ event.cause_of_death_4|yesno:"Sepsis," }}
-                    {{ event.cause_of_death_5|yesno:"Transplant Related," }}
-                    {% if event.cause_of_death_6 is not False %}
-                        Other: &quot;{{ event.cause_of_death_comment }}&quot;
+    <div class="bg-primary" style="padding: 1px 0;">
+        <h3>HMP -O<sub>2</sub> Serious Adverse Events</h3>
+    </div>
+    {# Need to output this as a table so that it can be copy and pasted in a Word document, something responsive columns doesn't support #}
+    <table class="table">
+    {% for organ in listing_hmp_organs %}
+        <tr class="info">
+            <td colspan="2">
+                <h4>{{ organ.trial_id }}</h4>
+            </td>
+            <td colspan="2">
+                <span class="lead">Date of death:
+                {% if organ.safe_recipient.person.date_of_death_unknown %}
+                    Date Unknown
+                    {% else %}
+                        {{ organ.safe_recipient.person.date_of_death|default:"Not recorded" }}
                     {% endif %}
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <th class="col-md-2">ID, Onset date, Investigator</th>
+            <th class="col-md-4">Description</th>
+            <th class="col-md-2">Treatment Related?</th>
+            <th class="col-md-4">Causes of Death</th>
+        </tr>
 
+        {% for event in organ.event_set.all %}
+            {% if event.death %}
+            <tr class="{% cycle 'active' '' %}">
+                <td>
+                    <span class="lead">#{{ event.id }}</span><br>
+                    {{ event.onset_at_date }}<br>
+                    <small>{{ event.contact }}</small>
                 </td>
-                <td class="col-md-2">
-                    {{ event.alive_query_4|yesno }}
-                </td>
-                <td class="col-md-2">
-                    {{ event.alive_query_5|yesno }}
+                <td>{{ event.description }}</td>
+                <td>{{ event.get_treatment_related_display }}</td>
+                <td>
+                    <ul>
+                        {% if event.cause_of_death_1 %}<li>{% get_verbose_field_name event 'cause_of_death_1' %}</li>{% endif %}
+                        {% if event.cause_of_death_2 %}<li>{% get_verbose_field_name event 'cause_of_death_2' %}</li>{% endif %}
+                        {% if event.cause_of_death_3 %}<li>{% get_verbose_field_name event 'cause_of_death_3' %}</li>{% endif %}
+                        {% if event.cause_of_death_4 %}<li>{% get_verbose_field_name event 'cause_of_death_4' %}</li>{% endif %}
+                        {% if event.cause_of_death_5 %}<li>{% get_verbose_field_name event 'cause_of_death_5' %}</li>{% endif %}
+                        {% if event.cause_of_death_6 %}<li>{% get_verbose_field_name event 'cause_of_death_6' %}</li>{% endif %}
+                    </ul>
+                    {% if event.cause_of_death_6 %}
+                        <p>{{ event.cause_of_death_comment }}</p>
+                    {% endif %}
                 </td>
             </tr>
+            {% endif %}
         {% endfor %}
-        </table>
     {% endfor %}
+    </table>
+
 {% endblock %}

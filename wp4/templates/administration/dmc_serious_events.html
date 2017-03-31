@@ -31,8 +31,8 @@
     <thead>
     <tr>
         <th>Frequency</th>
-        <th>HMP -02</th>
-        <th>HMP +02</th>
+        <th>HMP -O<sub>2</sub></th>
+        <th>HMP +O<sub>2</sub></th>
         <th>Totals</th>
     </tr>
     </thead>
@@ -49,19 +49,23 @@
     </table>
 
     <h2>Data Listing</h2>
-    <h3>HMP-02 SAEs</h3>
-    <table class="table table-bordered table-condensed">
-    <tr>
-        <th>S/AE ID</th>
-        <th>Date of S/AE</th>
-        <th>Ongoing?</th>
-        <th>Led to Death?</th>
-        <th>Description</th>
-    </tr>
+    <p>List all Serious Adverse Events grouped by Preservation arm.</p>
+
+    <div class="bg-primary" style="padding: 1px 0;">
+        <h3>HMP -0<sub>2</sub> Serious Adverse Events</h3>
+    </div>
+    <table class="table table-condensed">
     {% for organ in listing_hmp %}
         {% if organ.serious_events_only|length > 0 %}
-            <tr>
+            <tr class="info">
                 <td colspan="5"><h4>{{ organ.trial_id }}</h4></td>
+            </tr>
+            <tr>
+                <th class="col-md-1">S/AE ID</th>
+                <th class="col-md-2">Date of S/AE</th>
+                <th class="col-md-1">Ongoing?</th>
+                <th class="col-md-1">Led to Death?</th>
+                <th class="col-md-7">Description</th>
             </tr>
             {% for event in organ.serious_events_only|dictsort:"onset_at_date" %}
                 <tr class="{{ event.death|yesno:"bg-danger," }}">
@@ -77,19 +81,21 @@
     </table>
 
 
-    <h3>HMP+02 SAEs</h3>
-    <table class="table table-bordered table-condensed">
-    <tr>
-        <th>S/AE ID</th>
-        <th>Date of S/AE</th>
-        <th>Ongoing?</th>
-        <th>Led to Death?</th>
-        <th>Description</th>
-    </tr>
+    <div class="bg-primary" style="padding: 1px 0;">
+        <h3>HMP +0<sub>2</sub> Serious Adverse Events</h3>
+    </div>
+    <table class="table table-condensed">
     {% for organ in listing_hmp02 %}
         {% if organ.serious_events_only|length > 0 %}
-            <tr>
+            <tr class="info">
                 <td colspan="5"><h4>{{ organ.trial_id }}</h4></td>
+            </tr>
+            <tr>
+                <th class="col-md-1">S/AE ID</th>
+                <th class="col-md-2">Date of S/AE</th>
+                <th class="col-md-1">Ongoing?</th>
+                <th class="col-md-1">Led to Death?</th>
+                <th class="col-md-7">Description</th>
             </tr>
             {% for event in organ.serious_events_only|dictsort:"onset_at_date" %}
                 <tr class="{{ event.death|yesno:"bg-danger," }}">

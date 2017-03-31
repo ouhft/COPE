@@ -74,15 +74,15 @@ urlpatterns = [
     ),
 
     # DMC Reports
-    # url(
-    #     regex=r'^dmc/secondary-outcomes',
-    #     view=dmc_reports.secondary_outcomes,
-    #     name='dmc_secondary_outcomes'
-    # ),
     url(
         regex=r'^dmc/death-summaries',
         view=dmc_reports.death_summaries,
         name='dmc_death_summaries'
+    ),
+    url(
+        regex=r'^dmc/permanent-impairment',
+        view=dmc_reports.permanent_impairment,
+        name='dmc_permanent_impairment'
     ),
     url(
         regex=r'^dmc/graft-failures',

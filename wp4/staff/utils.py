@@ -2,6 +2,8 @@
 # coding: utf-8
 from __future__ import absolute_import, unicode_literals
 
+from django.core.validators import validate_email, ValidationError
+
 from .models import Person
 
 JACQUES_PIREENE = 109  # Staff.Person at v0.8.0
@@ -14,11 +16,15 @@ BHUMIKA_PATEL = 97  # Staff.Person at v0.8.0
 
 def get_emails_from_ids(list_of_ids=[]):
     email_list = []
+    # print("DEBUG: get_emails_from_ids called with list_of_ids={0}".format(list_of_ids))
     for sp_id in list_of_ids:
         try:
             person = Person.objects.get(pk=sp_id)
-            if person.email is not None:
-                email_list += [person.email, ]
+            try:
+                validate_email(person.email)
+                email_list.append(person.email)
+            except ValidationError as m:
+                print("DEBUG: get_emails_from_ids ValidationError={0}".format(m))
         except Person.DoesNotExist:
             continue
     return email_list
@@ -27,6 +33,9 @@ def get_emails_from_ids(list_of_ids=[]):
 def generate_username(current_person):
     """
     Take the last name, and initials of first names, remove spaces and return as lowercase
+    
+    TODO: Strip out hyphens in the last name
+    
     :param current_person: Person object requiring a new username
     :return string: username
     """

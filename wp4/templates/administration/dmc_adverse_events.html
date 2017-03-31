@@ -4,7 +4,7 @@
 {% block page_title %}{{ location }} Report: DMC Adverse Events - Administration{% endblock %}
 {% block page_header %}
     DMC Adverse Events
-    <small>REPORT</small>
+    <small xmlns="http://www.w3.org/1999/html">REPORT</small>
 {% endblock %}
 {% block page_trail %}
     <li><a href="{% url 'home' %}">Home</a></li>
@@ -31,8 +31,8 @@
     <thead>
     <tr>
         <th>Frequency</th>
-        <th>HMP -02</th>
-        <th>HMP +02</th>
+        <th>HMP -O<sub>2</sub></th>
+        <th>HMP +O<sub>2</sub></th>
         <th>Totals</th>
     </tr>
     </thead>
@@ -50,23 +50,63 @@
 
 
     <h2>Data Listing</h2>
-    {% for organ in listing %}
-    <h4>{{ organ.trial_id }}</h4>
-    <table class="table table-bordered table-condensed">
-    <tr>
-        <th>S/AE ID</th>
-        <th>Date of S/AE</th>
-    </tr>
-        {% for event in organ.event_set.all %}
+    <p>List all Non-serious Adverse Events grouped by Preservation arm.</p>
+
+    <div class="bg-primary" style="padding: 1px 0;">
+        <h3>HMP -O<sub>2</sub> Adverse Events</h3>
+    </div>
+    <table class="table table-condensed table-responsive">
+    {% for organ in listing_hmp %}
+        {% if organ.non_serious_events_only|length > 0 %}
+        <tr class="info">
+            <td colspan="3"><h4>{{ organ.trial_id }}</h4></td>
+        </tr>
+        <tr>
+            <th class="col-md-1">S/AE ID</th>
+            <th class="col-md-2">Date of S/AE</th>
+            <th class="col-md-9">Description</th>
+        </tr>
+        {% for event in organ.non_serious_events_only|dictsort:"onset_at_date" %}
             <tr>
                 <td>{{ event.id }}</td>
                 <td>{{ event.onset_at_date }}</td>
+                <td>{{ event.description }}</td>
             </tr>
         {% empty %}
             <tr>
-                <td colspan="2">No events</td>
+                <td colspan="3">No events</td>
             </tr>
         {% endfor %}
-    </table>
+        {% endif %}
     {% endfor %}
+    </table>
+
+    <div class="bg-primary" style="padding: 1px 0;">
+        <h3>HMP +O<sub>2</sub> Adverse Events</h3>
+    </div>
+    <table class="table table-condensed table-responsive">
+    {% for organ in listing_hmp02 %}
+        {% if organ.non_serious_events_only|length > 0 %}
+        <tr class="info">
+            <td colspan="3"><h4>{{ organ.trial_id }}</h4></td>
+        </tr>
+        <tr>
+            <th class="col-md-1">S/AE ID</th>
+            <th class="col-md-2">Date of S/AE</th>
+            <th class="col-md-9">Description</th>
+        </tr>
+        {% for event in organ.non_serious_events_only|dictsort:"onset_at_date" %}
+            <tr>
+                <td>{{ event.id }}</td>
+                <td>{{ event.onset_at_date }}</td>
+                <td>{{ event.description }}</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="3">No events</td>
+            </tr>
+        {% endfor %}
+        {% endif %}
+    {% endfor %}
+    </table>
 {% endblock %}

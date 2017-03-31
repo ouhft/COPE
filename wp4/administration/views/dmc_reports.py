@@ -7,57 +7,40 @@ from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.shortcuts import render
 
-from wp4.compare.models import PRESERVATION_HMP, PRESERVATION_HMPO2, Organ
+from wp4.compare.models import PRESERVATION_HMP, PRESERVATION_HMPO2, Organ, Recipient
 from wp4.adverse_event.models import Event
 from wp4.followups.models import FollowUpInitial, FollowUp3M, FollowUp6M, FollowUp1Y
 
 
 def adverse_events(request):
     """
-    Produce a count of adverse events per recipient, per preservation arm, grouped by count of events per recipient
+    Produce a count of non-serious adverse events per recipient, per preservation arm, grouped by count of events per 
+    recipient
+    
     :param request: 
     :return: 
     """
     current_person = request.user
-    if not current_person.is_administrator:
+    if not current_person.is_administrator or \
+            (current_person.has_perm('compare.hide_randomisation') and not current_person.is_superuser):
         raise PermissionDenied
 
-    listing = Organ.objects.all()
+    listing_hmp = Organ.objects.prefetch_related("event_set").filter(preservation=False).order_by('trial_id')
+    listing_hmp02 = Organ.objects.prefetch_related("event_set").filter(preservation=True).order_by('trial_id')
 
     summary = {
-        0: {
-            'hmp_02': 0,
-            'hmp': 0
-        },
-        1: {
-            'hmp_02': 0,
-            'hmp': 0
-        },
-        2: {
-            'hmp_02': 0,
-            'hmp': 0
-        },
-        3: {
-            'hmp_02': 0,
-            'hmp': 0
-        },
-        4: {
-            'hmp_02': 0,
-            'hmp': 0
-        },
-        5: {
-            'hmp_02': 0,
-            'hmp': 0
-        },
-        'more': {
-            'hmp_02': 0,
-            'hmp': 0
-        },
+        0: {'hmp_02': 0, 'hmp': 0},
+        1: {'hmp_02': 0, 'hmp': 0},
+        2: {'hmp_02': 0, 'hmp': 0},
+        3: {'hmp_02': 0, 'hmp': 0},
+        4: {'hmp_02': 0, 'hmp': 0},
+        5: {'hmp_02': 0, 'hmp': 0},
+        'more': {'hmp_02': 0, 'hmp': 0},
     }
 
     # This will be an inefficient way of doing a group by and count, but that's because of the categories and later
     # processing
-    for organ in listing:
+    for organ in list(chain(listing_hmp, listing_hmp02)):
         count = 0
         for event in organ.event_set.all():
             if not event.is_serious:
@@ -69,7 +52,8 @@ def adverse_events(request):
         request,
         'administration/dmc_adverse_events.html',
         {
-            'listing': listing,
+            'listing_hmp': listing_hmp,
+            'listing_hmp02': listing_hmp02,
             'summary': summary
         }
     )
@@ -77,46 +61,28 @@ def adverse_events(request):
 
 def serious_events(request):
     """
-    Produce a count of serious adverse events per recipient, per preservation arm, grouped by count of events per recipient
+    Produce a count of serious adverse events per recipient, per preservation arm, grouped by count of events per 
+    recipient
+    
     :param request: 
     :return: 
     """
     current_person = request.user
-    if not current_person.is_administrator:
+    if not current_person.is_administrator or \
+            (current_person.has_perm('compare.hide_randomisation') and not current_person.is_superuser):
         raise PermissionDenied
 
-    listing_hmp = Organ.objects.filter(preservation=False).order_by('trial_id')
-    listing_hmp02 = Organ.objects.filter(preservation=True).order_by('trial_id')
+    listing_hmp = Organ.objects.prefetch_related("event_set").filter(preservation=False).order_by('trial_id')
+    listing_hmp02 = Organ.objects.prefetch_related("event_set").filter(preservation=True).order_by('trial_id')
 
     summary = {
-        0: {
-            'hmp_02': 0,
-            'hmp': 0
-        },
-        1: {
-            'hmp_02': 0,
-            'hmp': 0
-        },
-        2: {
-            'hmp_02': 0,
-            'hmp': 0
-        },
-        3: {
-            'hmp_02': 0,
-            'hmp': 0
-        },
-        4: {
-            'hmp_02': 0,
-            'hmp': 0
-        },
-        5: {
-            'hmp_02': 0,
-            'hmp': 0
-        },
-        'more': {
-            'hmp_02': 0,
-            'hmp': 0
-        },
+        0: {'hmp_02': 0, 'hmp': 0},
+        1: {'hmp_02': 0, 'hmp': 0},
+        2: {'hmp_02': 0, 'hmp': 0},
+        3: {'hmp_02': 0, 'hmp': 0},
+        4: {'hmp_02': 0, 'hmp': 0},
+        5: {'hmp_02': 0, 'hmp': 0},
+        'more': {'hmp_02': 0, 'hmp': 0},
     }
 
     # This will be an inefficient way of doing a group by and count, but that's because of the categories and later
@@ -135,8 +101,8 @@ def serious_events(request):
                 ae_total += 1
         summary[count if count < 5 else 'more']['hmp_02' if organ.preservation else 'hmp'] += 1
 
-    print("DEBUG: serious_events(): Summary={0}".format(summary))
-    print("DEBUG: serious_events(): {0} Organs with {1} Serious & {2} Adverse".format(organ_total, sae_total, ae_total))
+    # print("DEBUG: serious_events(): Summary={0}".format(summary))
+    # print("DEBUG: serious_events(): {0} Organs with {1} Serious & {2} Adverse".format(organ_total, sae_total, ae_total))
     return render(
         request,
         'administration/dmc_serious_events.html',
@@ -156,7 +122,8 @@ def graft_failures(request):
     :return: 
     """
     current_person = request.user
-    if not current_person.is_administrator:
+    if not current_person.is_administrator or \
+            (current_person.has_perm('compare.hide_randomisation') and not current_person.is_superuser):
         raise PermissionDenied
 
     listing_initial = FollowUpInitial.objects.filter(start_date__isnull=False)
@@ -295,10 +262,10 @@ def graft_failures(request):
         request,
         'administration/dmc_graft_failures.html',
         {
-            'listing_initial': listing_initial,
-            'listing_month3': listing_month3,
-            'listing_month6': listing_month6,
-            'listing_year1': listing_year1,
+            'listing_initial': listing_initial.filter(graft_failure=True),
+            'listing_month3': listing_month3.filter(graft_failure=True),
+            'listing_month6': listing_month6.filter(graft_failure=True),
+            'listing_year1': listing_year1.filter(graft_failure=True),
             'summary': summary
         }
     )
@@ -306,7 +273,8 @@ def graft_failures(request):
 
 def death_summaries(request):
     """
-    Produce a list of S/AE records where death is recorded, separated into preservation groups
+    Produce a list of S/AE records where death is recorded, separated into preservation groups. 
+    Additionally, count the number of Recipients with a DoD (including unknowns) and display them per preservation
 
     Notes:
     - This will produce multiple "deaths" per trial where there are multiple S/AE events that lead to death
@@ -315,54 +283,93 @@ def death_summaries(request):
     :return:
     """
     current_person = request.user
-    if not current_person.is_administrator:
+    if not current_person.is_administrator or \
+            (current_person.has_perm('compare.hide_randomisation') and not current_person.is_superuser):
         raise PermissionDenied
 
-    listing = Event.objects.filter(organ__recipient__person__date_of_death__isnull=False).select_related('organ__recipient').\
-        order_by('organ__id')
+    listing_recipient = Recipient.objects.filter(
+        Q(person__date_of_death__isnull=False) |
+        Q(person__date_of_death_unknown=True)
+    )
 
-    data = {
-        PRESERVATION_HMP: [],
-        PRESERVATION_HMPO2: []
+    listing_hmp_organs = Organ.objects.\
+        filter(recipient__isnull=False, event__death=True, preservation=False).\
+        distinct().\
+        prefetch_related("event_set")
+
+    listing_hmp02_organs = Organ.objects.\
+        filter(recipient__isnull=False, event__death=True, preservation=True).\
+        distinct().\
+        prefetch_related("event_set")
+
+    summary = {
+        'hmp_02': 0,
+        'hmp': 0,
     }
 
-    def new_record(trial_id=None, centre_name=None, date_of_transplantation=None):
-        return {
-            "trial_id": trial_id,
-            "centre_name": centre_name,
-            "date_of_transplant": date_of_transplantation,
-            "events": []
-        }
-
-    record = None
-    previous_organ = None
-    for event in listing:
-        if previous_organ != event.organ:
-            if record is not None:
-                data[previous_organ.preservation].append(record)
-
-            try:
-                # event.organ.donor.retrieval_team.based_at.full_description,  <--- Doesn't make sense to be this
-                transplant_centre = event.organ.final_allocation.transplant_hospital
-            except AttributeError:
-                transplant_centre = "Not Allocated"
-            try:
-                knife_to_skin_date = event.organ.safe_recipient.knife_to_skin
-            except AttributeError:
-                knife_to_skin_date = "No Recipient"
-            record = new_record(
-                event.organ.trial_id,
-                transplant_centre,
-                knife_to_skin_date
-            )
-        record["events"].append(event)
-        previous_organ = event.organ
-    data[previous_organ.preservation].append(record)  # Get the last event set
+    for recipient in listing_recipient:
+        if recipient.organ.preservation:
+            summary['hmp_02'] += 1
+        else:
+            summary['hmp'] += 1
 
     return render(
         request,
         'administration/dmc_death_summaries.html',
         {
-            'listing': data,
+            'listing_hmp_organs': listing_hmp_organs,
+            'listing_hmp02_organs': listing_hmp02_organs,
+            'summary': summary
         }
     )
+
+
+def permanent_impairment(request):
+    """
+    Produce a list of S/AE records where permanent impairment is recorded, separated into preservation groups. 
+    Additionally, count the number of Recipients with one or more S/AEs and display them per preservation
+    
+    Note: There are 2 Questions on the S/AE form that we have to check that ask the same thing!??
+    They are stored as: serious_eligible_3 & alive_query_7
+
+    :param request:
+    :return:
+    """
+    current_person = request.user
+    if not current_person.is_administrator or \
+            (current_person.has_perm('compare.hide_randomisation') and not current_person.is_superuser):
+        raise PermissionDenied
+
+    listing_hmp_organs = Organ.objects.\
+        filter(recipient__isnull=False, preservation=False).\
+        filter(Q(event__serious_eligible_3=True) | Q(event__alive_query_7=True)).\
+        distinct().\
+        prefetch_related("event_set")
+
+    listing_hmp02_organs = Organ.objects.\
+        filter(recipient__isnull=False, preservation=True).\
+        filter(Q(event__serious_eligible_3=True) | Q(event__alive_query_7=True)).\
+        distinct().\
+        prefetch_related("event_set")
+
+    summary = {
+        'hmp_02': 0,
+        'hmp': 0,
+    }
+
+    for organ in list(chain(listing_hmp_organs, listing_hmp02_organs)):
+        if organ.preservation:
+            summary['hmp_02'] += 1
+        else:
+            summary['hmp'] += 1
+
+    return render(
+        request,
+        'administration/dmc_permanent_impairment.html',
+        {
+            'listing_hmp_organs': listing_hmp_organs,
+            'listing_hmp02_organs': listing_hmp02_organs,
+            'summary': summary
+        }
+    )
+

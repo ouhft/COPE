@@ -156,7 +156,7 @@ class Event(AuditControlModelBase):
         return False
 
     def get_absolute_url(self):
-        return reverse("wp4:adverse_event:update", kwargs={"pk": self.pk})
+        return reverse("wp4:adverse_event:detail", kwargs={"pk": self.pk})
 
     def __str__(self):
         return "{0} @ {1}".format(self.organ.trial_id, self.onset_at_date)

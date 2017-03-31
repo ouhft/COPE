@@ -31,8 +31,8 @@
     <thead>
     <tr>
         <th>Time Point</th>
-        <th>HMP -02</th>
-        <th>HMP +02</th>
+        <th>HMP -O<sub>2</sub></th>
+        <th>HMP +O<sub>2</sub></th>
         <th>Totals</th>
     </tr>
     </thead>
@@ -125,90 +125,139 @@
     </table>
 
 
-{#    <h2>Listing</h2>#}
-{#    <h3>Initial</h3>#}
-{#    {% for record in listing_initial %}#}
-{#        <div class="row">#}
-{#            <div class="col-md-3"><strong></strong></div>#}
-{#            <div class="col-md-6"></div>#}
-{#            <div class="col-md-3"></div>#}
-{#        </div>#}
-{##}
-{#        <h4>{{ organ.trial_id }} <small>{{ organ.date_of_transplant }} @ {{ organ.centre_name }}</small></h4>#}
-{#        <table class="table table-bordered table-condensed">#}
-{#        <tr>#}
-{#            <th>ID</th>#}
-{#            <th>Date</th>#}
-{#            <th>Causes of Death</th>#}
-{#            <th>Device Deficiency?</th>#}
-{#            <th>Device User Error?</th>#}
-{#        </tr>#}
-{#        {% for event in organ.events %}#}
-{#            <tr>#}
-{#                <td class="col-md-1"><a href="{% url 'wp4:adverse_event:update' event.id %}">{{ event.id }}</a></td>#}
-{#                <td class="col-md-2">{{ event.organ.recipient.person.date_of_death|date }}</td>#}
-{#                <td class="col-md-5">#}
-{#                    {{ event.cause_of_death_1|yesno:"Cerebrovascular," }}#}
-{#                    {{ event.cause_of_death_2|yesno:"Multi Organ," }}#}
-{#                    {{ event.cause_of_death_3|yesno:"Pneumonia," }}#}
-{#                    {{ event.cause_of_death_4|yesno:"Sepsis," }}#}
-{#                    {{ event.cause_of_death_5|yesno:"Transplant Related," }}#}
-{#                    {% if event.cause_of_death_6 is not False %}#}
-{#                        Other: &quot;{{ event.cause_of_death_comment }}&quot;#}
-{#                    {% endif %}#}
-{##}
-{#                </td>#}
-{#                <td class="col-md-2">#}
-{#                    {{ event.alive_query_4|yesno }}#}
-{#                </td>#}
-{#                <td class="col-md-2">#}
-{#                    {{ event.alive_query_5|yesno }}#}
-{#                </td>#}
-{#            </tr>#}
-{#        {% endfor %}#}
-{#        </table>#}
-{#    {% endfor %}#}
-{##}
-{#    <h3>HMP-O2</h3>#}
-{#    {% for organ in listing.1 %}#}
-{#        <div class="row">#}
-{#            <div class="col-md-3"><strong></strong></div>#}
-{#            <div class="col-md-6"></div>#}
-{#            <div class="col-md-3"></div>#}
-{#        </div>#}
-{##}
-{#        <h4>{{ organ.trial_id }} <small>{{ organ.date_of_transplant|date }} @ {{ organ.centre_name }}</small></h4>#}
-{#        <table class="table table-bordered table-condensed">#}
-{#        <tr>#}
-{#            <th>ID</th>#}
-{#            <th>Date</th>#}
-{#            <th>Causes of Death</th>#}
-{#            <th>Device Deficiency?</th>#}
-{#            <th>Device User Error?</th>#}
-{#        </tr>#}
-{#        {% for event in organ.events %}#}
-{#            <tr>#}
-{#                <td class="col-md-1"><a href="{% url 'wp4:adverse_event:update' event.id %}">{{ event.id }}</a></td>#}
-{#                <td class="col-md-2">{{ event.date_of_death|date }}</td>#}
-{#                <td class="col-md-5">#}
-{#                    {{ event.cause_of_death_1|yesno:"Cerebrovascular," }}#}
-{#                    {{ event.cause_of_death_2|yesno:"Multi Organ," }}#}
-{#                    {{ event.cause_of_death_3|yesno:"Pneumonia," }}#}
-{#                    {{ event.cause_of_death_4|yesno:"Sepsis," }}#}
-{#                    {{ event.cause_of_death_5|yesno:"Transplant Related," }}#}
-{#                    {% if event.cause_of_death_6 is not False %}#}
-{#                        Other: &quot;{{ event.cause_of_death_comment }}&quot;#}
-{#                    {% endif %}#}
-{##}
-{#                </td>#}
-{#                <td class="col-md-2">#}
-{#                    {{ event.alive_query_4|yesno }}#}
-{#                </td>#}
-{#                <td class="col-md-2">#}
-{#                    {{ event.alive_query_5|yesno }}#}
-{#                </td>#}
-{#            </tr>#}
-{#        {% endfor %}#}
-{#        </table>#}
-{#    {% endfor %}#}
+    <h2>Data Listing</h2>
+    <p>Listing all Follow Ups where Graft Failure has been indicated.</p>
+
+    <div class="bg-primary" style="padding: 1px 10px;">
+        <h3>Initial <small>{{ listing_initial|length }} Follow Ups</small></h3>
+    </div>
+    <table class="table table-condensed">
+        <thead>
+        <tr>
+            <th class="col-md-2">Trial ID</th>
+            <th class="col-md-1">Preservation</th>
+            <th class="col-md-2">Date of Failure</th>
+            <th class="col-md-2">Failure Type</th>
+            <th class="col-md-3">Failure Notes</th>
+            <th class="col-md-2">Graft Removed?</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for record in listing_initial %}
+            <tr>
+                <td><strong>{{ record.organ.trial_id }}</strong> <small>#{{ record.id }}</small></td>
+                <td>{{ record.organ.preservation|yesno:"HMP +O2,HMP" }}</td>
+                <td>{{ record.graft_failure_date|default:"Not Recorded" }}</td>
+                <td>{{ record.get_graft_failure_type_display }}</td>
+                <td>{{ record.graft_failure_type_other }}</td>
+                <td>
+                    {{ record.graft_removal|yesno|capfirst }}
+                    {% if record.graft_removal_date %}
+                        on {{ record.graft_removal_date|default:"an unknown date" }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="bg-primary" style="padding: 1px 10px;">
+        <h3>Month 3 <small>{{ listing_month3|length }} Follow Ups</small></h3>
+    </div>
+    <table class="table table-condensed">
+        <thead>
+        <tr>
+            <th class="col-md-2">Trial ID</th>
+            <th class="col-md-1">Preservation</th>
+            <th class="col-md-2">Date of Failure</th>
+            <th class="col-md-2">Failure Type</th>
+            <th class="col-md-3">Failure Notes</th>
+            <th class="col-md-2">Graft Removed?</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for record in listing_month3 %}
+            <tr>
+                <td><strong>{{ record.organ.trial_id }}</strong> <small>#{{ record.id }}</small></td>
+                <td>{{ record.organ.preservation|yesno:"HMP +O2,HMP" }}</td>
+                <td>{{ record.graft_failure_date|default:"Not Recorded" }}</td>
+                <td>{{ record.get_graft_failure_type_display }}</td>
+                <td>{{ record.graft_failure_type_other }}</td>
+                <td>
+                    {{ record.graft_removal|yesno|capfirst }}
+                    {% if record.graft_removal_date %}
+                        on {{ record.graft_removal_date|default:"an unknown date" }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="bg-primary" style="padding: 1px 10px;">
+        <h3>Month 6 <small>{{ listing_month6|length }} Follow Ups</small></h3>
+    </div>
+    <table class="table table-condensed">
+        <thead>
+        <tr>
+            <th class="col-md-2">Trial ID</th>
+            <th class="col-md-1">Preservation</th>
+            <th class="col-md-2">Date of Failure</th>
+            <th class="col-md-2">Failure Type</th>
+            <th class="col-md-3">Failure Notes</th>
+            <th class="col-md-2">Graft Removed?</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for record in listing_month6 %}
+            <tr>
+                <td><strong>{{ record.organ.trial_id }}</strong> <small>#{{ record.id }}</small></td>
+                <td>{{ record.organ.preservation|yesno:"HMP +O2,HMP" }}</td>
+                <td>{{ record.graft_failure_date|default:"Not Recorded" }}</td>
+                <td>{{ record.get_graft_failure_type_display }}</td>
+                <td>{{ record.graft_failure_type_other }}</td>
+                <td>
+                    {{ record.graft_removal|yesno|capfirst }}
+                    {% if record.graft_removal_date %}
+                        on {{ record.graft_removal_date|default:"an unknown date" }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="bg-primary" style="padding: 1px 10px;">
+        <h3>Year 1 <small>{{ listing_year1|length }} Follow Ups</small></h3>
+    </div>
+    <table class="table table-condensed">
+        <thead>
+        <tr>
+            <th class="col-md-2">Trial ID</th>
+            <th class="col-md-1">Preservation</th>
+            <th class="col-md-2">Date of Failure</th>
+            <th class="col-md-2">Failure Type</th>
+            <th class="col-md-3">Failure Notes</th>
+            <th class="col-md-2">Graft Removed?</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for record in listing_year1 %}
+            <tr>
+                <td><strong>{{ record.organ.trial_id }}</strong> <small>#{{ record.id }}</small></td>
+                <td>{{ record.organ.preservation|yesno:"HMP +O2,HMP" }}</td>
+                <td>{{ record.graft_failure_date|default:"Not Recorded" }}</td>
+                <td>{{ record.get_graft_failure_type_display }}</td>
+                <td>{{ record.graft_failure_type_other }}</td>
+                <td>
+                    {{ record.graft_removal|yesno|capfirst }}
+                    {% if record.graft_removal_date %}
+                        on {{ record.graft_removal_date|default:"an unknown date" }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
 {% endblock %}
