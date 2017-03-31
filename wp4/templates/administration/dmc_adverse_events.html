@@ -26,7 +26,28 @@
     </style>
 
     <h2>Summary</h2>
-    <p>Report on Adverse (not serious) Events per Organ per Preservation arm.</p>
+    <h3>Events per Preservation arm</h3>
+    <p>Report on Non-serious Adverse Events per Preservation arm.</p>
+    <table class="table table-striped">
+    <thead>
+    <tr>
+        <th></th>
+        <th>HMP -O<sub>2</sub></th>
+        <th>HMP +O<sub>2</sub></th>
+        <th>Totals</th>
+    </tr>
+    </thead>
+    <tbody>
+        <th>Total number of Non-serious Events</th>
+        <td>{{ summary.totals.events.hmp }}</td>
+        <td>{{ summary.totals.events.hmp_02 }}</td>
+        <td>{{ summary.totals.events.hmp|add:summary.totals.events.hmp_02 }}</td>
+    </tbody>
+    </table>
+
+
+    <h3>Events per Organ</h3>
+    <p>Report on Non-serious Adverse Events per Organ per Preservation arm.</p>
     <table class="table table-striped">
     <thead>
     <tr>
@@ -48,16 +69,41 @@
     </tbody>
     <tfoot>
         <tr class="info">
-            <th>Total Organs</th>
+            <th>Total number of affected Organs</th>
             <td>{{ summary.totals.organ.hmp }}</td>
             <td>{{ summary.totals.organ.hmp_02 }}</td>
             <td>{{ summary.totals.organ.hmp|add:summary.totals.organ.hmp_02 }}</td>
         </tr>
+    </tfoot>
+    </table>
+
+    <h3>Events per Category</h3>
+    <p>Report on Non-serious Adverse Events per Category per Preservation arm. Please note that each event may have 0 or more categories assocated with it.</p>
+    <table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Category</th>
+        <th>HMP -O<sub>2</sub></th>
+        <th>HMP +O<sub>2</sub></th>
+        <th>Totals</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for key, value in summary.category.items %}
+        <tr>
+            <td>{{ value.description|capfirst }}</td>
+            <td>{{ value.hmp }}</td>
+            <td>{{ value.hmp_02 }}</td>
+            <td>{{ value.hmp|add:value.hmp_02 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
         <tr class="info">
-            <th>Total Events</th>
-            <td>{{ summary.totals.events.hmp }}</td>
-            <td>{{ summary.totals.events.hmp_02 }}</td>
-            <td>{{ summary.totals.events.hmp|add:summary.totals.events.hmp_02 }}</td>
+            <th>Total number of Categorisations</th>
+            <td>{{ summary.totals.category.hmp }}</td>
+            <td>{{ summary.totals.category.hmp_02 }}</td>
+            <td>{{ summary.totals.category.overall }}</td>
         </tr>
     </tfoot>
     </table>
@@ -73,22 +119,28 @@
     {% for organ in listing_hmp %}
         {% if organ.non_serious_events_only|length > 0 %}
         <tr class="info">
-            <td colspan="3"><h4>{{ organ.trial_id }}</h4></td>
+            <td colspan="4"><h4>{{ organ.trial_id }}</h4></td>
         </tr>
         <tr>
             <th class="col-md-1">S/AE ID</th>
             <th class="col-md-2">Date of S/AE</th>
-            <th class="col-md-9">Description</th>
+            <th class="col-md-6">Description</th>
+            <th class="col-md-3">Categories</th>
         </tr>
         {% for event in organ.non_serious_events_only|dictsort:"onset_at_date" %}
             <tr>
                 <td>{{ event.id }}</td>
                 <td>{{ event.onset_at_date }}</td>
                 <td>{{ event.description }}</td>
+                <td>
+                    {% for category in event.categories.all %}
+                        {{ category.description }} {% if not loop.last %}<br>{% endif %}
+                    {% endfor %}
+                </td>
             </tr>
         {% empty %}
             <tr>
-                <td colspan="3">No events</td>
+                <td colspan="4">No events</td>
             </tr>
         {% endfor %}
         {% endif %}
@@ -102,22 +154,28 @@
     {% for organ in listing_hmp02 %}
         {% if organ.non_serious_events_only|length > 0 %}
         <tr class="info">
-            <td colspan="3"><h4>{{ organ.trial_id }}</h4></td>
+            <td colspan="4"><h4>{{ organ.trial_id }}</h4></td>
         </tr>
         <tr>
             <th class="col-md-1">S/AE ID</th>
             <th class="col-md-2">Date of S/AE</th>
-            <th class="col-md-9">Description</th>
+            <th class="col-md-6">Description</th>
+            <th class="col-md-3">Categories</th>
         </tr>
         {% for event in organ.non_serious_events_only|dictsort:"onset_at_date" %}
             <tr>
                 <td>{{ event.id }}</td>
                 <td>{{ event.onset_at_date }}</td>
                 <td>{{ event.description }}</td>
+                <td>
+                    {% for category in event.categories.all %}
+                        {{ category.description }} {% if not loop.last %}<br>{% endif %}
+                    {% endfor %}
+                </td>
             </tr>
         {% empty %}
             <tr>
-                <td colspan="3">No events</td>
+                <td colspan="4">No events</td>
             </tr>
         {% endfor %}
         {% endif %}
