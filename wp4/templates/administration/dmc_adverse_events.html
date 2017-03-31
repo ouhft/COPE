@@ -37,14 +37,14 @@
     </tr>
     </thead>
     <tbody>
-    {% for key, value in summary.organ.items %}
-    <tr>
-        <td>{{ key|capfirst }}</td>
-        <td>{{ value.hmp }}</td>
-        <td>{{ value.hmp_02 }}</td>
-        <td>{{ value.hmp|add:value.hmp_02 }}</td>
-    </tr>
-    {% endfor %}
+        {% for key, value in summary.organ.items %}
+        <tr>
+            <td>{{ key|capfirst }}</td>
+            <td>{{ value.hmp }}</td>
+            <td>{{ value.hmp_02 }}</td>
+            <td>{{ value.hmp|add:value.hmp_02 }}</td>
+        </tr>
+        {% endfor %}
     </tbody>
     <tfoot>
         <tr class="info">

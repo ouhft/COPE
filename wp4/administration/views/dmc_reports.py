@@ -91,27 +91,24 @@ def serious_events(request):
             4: {'hmp_02': 0, 'hmp': 0},
             5: {'hmp_02': 0, 'hmp': 0},
             'more': {'hmp_02': 0, 'hmp': 0},
+        },
+        'totals': {
+            'organ': {'hmp_02': 0, 'hmp': 0, 'overall': 0},
+            'events': {'hmp_02': 0, 'hmp': 0, 'overall': 0},
         }
     }
 
     # This will be an inefficient way of doing a group by and count, but that's because of the categories and later
     # processing
-    sae_total = 0
-    ae_total = 0
-    organ_total = 0
     for organ in list(chain(listing_hmp, listing_hmp02)):
-        organ_total += 1
-        count = 0
-        for event in organ.event_set.all():
-            if event.is_serious:
-                sae_total += 1
-                count += 1
-            else:
-                ae_total += 1
-        summary[count if count < 5 else 'more']['hmp_02' if organ.preservation else 'hmp'] += 1
+        organ_events = organ.serious_events_only()
+        count = len(organ_events)
+        if len(organ_events) > 0:
+            summary['totals']['organ']['hmp_02' if organ.preservation else 'hmp'] += 1
+        summary['totals']['events']['hmp_02' if organ.preservation else 'hmp'] += count
+        summary['organ'][count if count < 5 else 'more']['hmp_02' if organ.preservation else 'hmp'] += 1
 
-    # print("DEBUG: serious_events(): Summary={0}".format(summary))
-    print("DEBUG: serious_events(): {0} Organs with {1} Serious & {2} Adverse".format(organ_total, sae_total, ae_total))
+    print("DEBUG: serious_events(): Summary={0}".format(summary))
     return render(
         request,
         'administration/dmc_serious_events.html',
