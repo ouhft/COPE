@@ -33,13 +33,14 @@ class EmailOnSaveMixin(object):
 
         # Create and send the email if this is serious (Issue #155)
         if self.object.is_serious:
-            message_text = "Visit https://{0}{1} for more details. The Local Investigator is {2} who has been " + \
-                "emailed at [{3}].".format(
+            message_text = "Visit https://{0}{1} for more details. ".format(
                     self.request.get_host(),
-                    self.object.get_absolute_url(),
-                    self.object.contact.get_full_name(),
-                    self.object.contact.email if self.object.contact.email is not None else "Address Unknown"
-                )
+                    self.object.get_absolute_url()
+            )
+            message_text += "The Local Investigator is {0} who has been emailed at [{1}].".format(
+                self.object.contact.get_full_name(),
+                self.object.contact.email if self.object.contact.email is not None else "Address Unknown"
+            )
             send_to = [
                 JACQUES_PIREENE,
                 INA_JOCHMANS,
