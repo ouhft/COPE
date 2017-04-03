@@ -367,15 +367,25 @@ def death_summaries(request, open_report=False):
         else:
             summary['hmp'] += 1
 
-    return render(
-        request,
-        'administration/dmc_death_summaries.html',
-        {
-            'listing_hmp_organs': listing_hmp_organs,
-            'listing_hmp02_organs': listing_hmp02_organs,
-            'summary': summary
-        }
-    )
+    if open_report:
+        return render(
+            request,
+            'administration/dmc_death_summaries_open.html',
+            {
+                'listing': list(chain(listing_hmp_organs, listing_hmp02_organs)),
+                'summary': summary
+            }
+        )
+    else:
+        return render(
+            request,
+            'administration/dmc_death_summaries.html',
+            {
+                'listing_hmp_organs': listing_hmp_organs,
+                'listing_hmp02_organs': listing_hmp02_organs,
+                'summary': summary
+            }
+        )
 
 
 def permanent_impairment(request, open_report=False):

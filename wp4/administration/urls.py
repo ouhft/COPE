@@ -75,6 +75,12 @@ urlpatterns = [
 
     # DMC Reports
     url(
+        regex=r'^dmc/death-summaries/open',
+        view=dmc_reports.death_summaries,
+        name='dmc_death_summaries_open',
+        kwargs=dict(open_report=True),
+    ),
+    url(
         regex=r'^dmc/death-summaries',
         view=dmc_reports.death_summaries,
         name='dmc_death_summaries'

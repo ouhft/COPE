@@ -42,6 +42,7 @@
                     {% if not perms.compare.hide_randomisation or request.user.is_superuser %}
                     <a href="{% url 'wp4:administration:dmc_death_summaries' %}">Death Summaries</a><br>
                     {% endif %}
+                    <a href="{% url 'wp4:administration:dmc_death_summaries_open' %}">Death Summaries [OPEN]</a>
                 </li>
                 <li>
                     {% if not perms.compare.hide_randomisation or request.user.is_superuser %}
