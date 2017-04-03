@@ -4,6 +4,7 @@ from __future__ import absolute_import, unicode_literals
 from itertools import chain
 
 from django.core.exceptions import PermissionDenied
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import render
 
@@ -12,6 +13,7 @@ from wp4.adverse_event.models import Event, Category
 from wp4.followups.models import FollowUpInitial, FollowUp3M, FollowUp6M, FollowUp1Y
 
 
+@login_required
 def adverse_events(request, open_report=False):
     """
     Produce a count of non-serious adverse events per recipient, per preservation arm, grouped by count of events per 
@@ -106,6 +108,7 @@ def adverse_events(request, open_report=False):
         )
 
 
+@login_required
 def serious_events(request, open_report=False):
     """
     Produce a count of serious adverse events per recipient, per preservation arm, grouped by count of events per 
@@ -196,6 +199,7 @@ def serious_events(request, open_report=False):
         )
 
 
+@login_required
 def graft_failures(request, open_report=False):
     """
     Produces a table of graft failures per time point and preservation
@@ -322,6 +326,7 @@ def graft_failures(request, open_report=False):
     )
 
 
+@login_required
 def death_summaries(request, open_report=False):
     """
     Produce a list of S/AE records where death is recorded, separated into preservation groups. 
@@ -388,6 +393,7 @@ def death_summaries(request, open_report=False):
         )
 
 
+@login_required
 def permanent_impairment(request, open_report=False):
     """
     Produce a list of S/AE records where permanent impairment is recorded, separated into preservation groups. 

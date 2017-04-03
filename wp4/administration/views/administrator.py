@@ -5,6 +5,7 @@ from __future__ import absolute_import, unicode_literals
 import pytz
 
 from django.core.exceptions import PermissionDenied
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.utils import timezone
 
@@ -49,6 +50,7 @@ def offline_europe_list(request):
     )
 
 
+@login_required
 def procurement_pairs(request):
     current_person = request.user
     if not current_person.is_administrator:
@@ -79,6 +81,7 @@ def procurement_pairs(request):
     )
 
 
+@login_required
 def transplantation_sites(request):
     """
     Contains randomisation data, so hide from "Investigators" and similar
@@ -135,6 +138,7 @@ def transplantation_sites(request):
     )
 
 
+@login_required
 def sae_sites(request):
     """
     Contains randomisation data, so hide from "Investigators" and similar
@@ -188,6 +192,7 @@ def sae_sites(request):
     )
 
 
+@login_required
 def flowchart(request):
     current_person = request.user
     if not current_person.is_administrator:
@@ -297,6 +302,7 @@ def flowchart(request):
     )
 
 
+@login_required
 def completed_pairs(request):
     current_person = request.user
     if not current_person.is_administrator:
@@ -484,6 +490,7 @@ def completed_pairs(request):
     )
 
 
+@login_required
 def followups(request):
     current_person = request.user
     if not current_person.is_administrator:
