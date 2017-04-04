@@ -85,7 +85,8 @@
         <thead>
         <tr>
             <th class="col-md-2">Trial ID</th>
-            <th class="col-md-2">Date of Failure</th>
+            <th class="col-md-1">Date of Procurement</th>
+            <th class="col-md-1">Date of Failure</th>
             <th class="col-md-2">Failure Type</th>
             <th class="col-md-4">Failure Notes</th>
             <th class="col-md-2">Graft Removed?</th>
@@ -95,6 +96,7 @@
         {% for record in listing_initial %}
             <tr>
                 <td><strong>{{ record.organ.trial_id }}</strong> <small>#{{ record.id }}</small></td>
+                <td>{{ record.organ.donor.randomisation.allocated_on|date }}</td>
                 <td>{{ record.graft_failure_date|default:"Not Recorded" }}</td>
                 <td>{{ record.get_graft_failure_type_display }}</td>
                 <td>{{ record.graft_failure_type_other }}</td>
@@ -116,7 +118,8 @@
         <thead>
         <tr>
             <th class="col-md-2">Trial ID</th>
-            <th class="col-md-2">Date of Failure</th>
+            <th class="col-md-1">Date of Procurement</th>
+            <th class="col-md-1">Date of Failure</th>
             <th class="col-md-2">Failure Type</th>
             <th class="col-md-4">Failure Notes</th>
             <th class="col-md-2">Graft Removed?</th>
@@ -126,6 +129,7 @@
         {% for record in listing_month3 %}
             <tr>
                 <td><strong>{{ record.organ.trial_id }}</strong> <small>#{{ record.id }}</small></td>
+                <td>{{ record.organ.donor.randomisation.allocated_on|date }}</td>
                 <td>{{ record.graft_failure_date|default:"Not Recorded" }}</td>
                 <td>{{ record.get_graft_failure_type_display }}</td>
                 <td>{{ record.graft_failure_type_other }}</td>
@@ -147,7 +151,8 @@
         <thead>
         <tr>
             <th class="col-md-2">Trial ID</th>
-            <th class="col-md-2">Date of Failure</th>
+            <th class="col-md-1">Date of Procurement</th>
+            <th class="col-md-1">Date of Failure</th>
             <th class="col-md-2">Failure Type</th>
             <th class="col-md-4">Failure Notes</th>
             <th class="col-md-2">Graft Removed?</th>
@@ -157,6 +162,7 @@
         {% for record in listing_month6 %}
             <tr>
                 <td><strong>{{ record.organ.trial_id }}</strong> <small>#{{ record.id }}</small></td>
+                <td>{{ record.organ.donor.randomisation.allocated_on|date }}</td>
                 <td>{{ record.graft_failure_date|default:"Not Recorded" }}</td>
                 <td>{{ record.get_graft_failure_type_display }}</td>
                 <td>{{ record.graft_failure_type_other }}</td>
@@ -178,7 +184,8 @@
         <thead>
         <tr>
             <th class="col-md-2">Trial ID</th>
-            <th class="col-md-2">Date of Failure</th>
+            <th class="col-md-1">Date of Procurement</th>
+            <th class="col-md-1">Date of Failure</th>
             <th class="col-md-2">Failure Type</th>
             <th class="col-md-4">Failure Notes</th>
             <th class="col-md-2">Graft Removed?</th>
@@ -188,6 +195,7 @@
         {% for record in listing_year1 %}
             <tr>
                 <td><strong>{{ record.organ.trial_id }}</strong> <small>#{{ record.id }}</small></td>
+                <td>{{ record.organ.donor.randomisation.allocated_on|date }}</td>
                 <td>{{ record.graft_failure_date|default:"Not Recorded" }}</td>
                 <td>{{ record.get_graft_failure_type_display }}</td>
                 <td>{{ record.graft_failure_type_other }}</td>

@@ -119,7 +119,8 @@
     {% for organ in listing_hmp %}
         {% if organ.non_serious_events_only|length > 0 %}
         <tr class="info">
-            <td colspan="4"><h4>{{ organ.trial_id }}</h4></td>
+            <td colspan="2"><h4>{{ organ.trial_id }}</h4></td>
+            <td colspan="2" class="lead">Procured: <strong>{{ organ.donor.randomisation.allocated_on|date }}</strong></td>
         </tr>
         <tr>
             <th class="col-md-1">S/AE ID</th>
@@ -154,7 +155,9 @@
     {% for organ in listing_hmp02 %}
         {% if organ.non_serious_events_only|length > 0 %}
         <tr class="info">
-            <td colspan="4"><h4>{{ organ.trial_id }}</h4></td>
+            <td colspan="2"><h4>{{ organ.trial_id }}</h4></td>
+            <td colspan="2" class="">Date of procurement: {{ organ.donor.randomisation.allocated_on }}</td>
+            <td colspan="2" class="lead">Procured: <strong>{{ organ.donor.randomisation.allocated_on|date }}</strong></td>
         </tr>
         <tr>
             <th class="col-md-1">S/AE ID</th>

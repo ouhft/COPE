@@ -50,17 +50,19 @@
     <table class="table">
     {% for organ in listing_hmp02_organs %}
         <tr class="info">
-            <td colspan="2">
+            <td>
                 <h4>{{ organ.trial_id }}</h4>
             </td>
-            <td colspan="2">
-                <span class="lead">Date of death:
+            <td class="lead">
+                Procured: {{ organ.donor.randomisation.allocated_on|date }}
+            </td>
+            <td colspan="2" class="lead">
+                Date of death:
                 {% if organ.safe_recipient.person.date_of_death_unknown %}
                     Date Unknown
-                    {% else %}
-                        {{ organ.safe_recipient.person.date_of_death|default:"Not recorded" }}
-                    {% endif %}
-                </span>
+                {% else %}
+                    {{ organ.safe_recipient.person.date_of_death|default:"Not recorded" }}
+                {% endif %}
             </td>
         </tr>
         <tr>
@@ -108,17 +110,19 @@
     <table class="table">
     {% for organ in listing_hmp_organs %}
         <tr class="info">
-            <td colspan="2">
+            <td>
                 <h4>{{ organ.trial_id }}</h4>
             </td>
-            <td colspan="2">
-                <span class="lead">Date of death:
+            <td class="lead">
+                Procured: {{ organ.donor.randomisation.allocated_on|date }}
+            </td>
+            <td colspan="2" class="lead">
+                Date of death:
                 {% if organ.safe_recipient.person.date_of_death_unknown %}
                     Date Unknown
-                    {% else %}
-                        {{ organ.safe_recipient.person.date_of_death|default:"Not recorded" }}
-                    {% endif %}
-                </span>
+                {% else %}
+                    {{ organ.safe_recipient.person.date_of_death|default:"Not recorded" }}
+                {% endif %}
             </td>
         </tr>
         <tr>

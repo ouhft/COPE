@@ -99,7 +99,8 @@
     {% for organ in listing %}
         {% if organ.serious_events_only|length > 0 %}
             <tr class="info">
-                <td colspan="6"><h4>{{ organ.trial_id }}</h4></td>
+                <td colspan="3"><h4>{{ organ.trial_id }}</h4></td>
+                <td colspan="3" class="lead">Procured: <strong>{{ organ.donor.randomisation.allocated_on|date }}</strong></td>
             </tr>
             <tr>
                 <th class="col-md-1">S/AE ID</th>
