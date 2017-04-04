@@ -2,11 +2,14 @@
 # coding: utf-8
 from __future__ import absolute_import, unicode_literals
 
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 from django.core.validators import ValidationError
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+
 
 from wp4.compare.models.core import AuditControlModelBase
 from wp4.compare.models import Patient, Organ
@@ -325,3 +328,16 @@ class TissueSample(AuditControlModelBase, BarCodeMixin, DeviationMixin):
                 raise ValidationError(_("TSv01 you must enter some notes about why this sample was not collected"))
             if self.collected and not self.event.taken_at:
                 raise ValidationError(_("TSv02 Please record the time the sample was taken"))
+
+
+class WP7Record(BarCodeMixin):
+    """
+    Based on an export from the WP7 Database. A record in this table means a sample exists on file in the Biobank
+    """
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey()
+
+    box_number = models.CharField(max_length=20, null=True, blank=True)
+    position_in_box = models.CharField(max_length=3, null=True, blank=True)
+

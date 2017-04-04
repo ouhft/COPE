@@ -41,12 +41,8 @@
     <table class="table">
     {% for organ in listing|dictsort:"trial_id" %}
         <tr class="info">
-            <td>
-                <h4>{{ organ.trial_id }}</h4>
-            </td>
-            <td class="lead">
-                Procured: {{ organ.donor.randomisation.allocated_on|date }}
-            </td>
+            <td><h4>{{ organ.trial_id }}</h4></td>
+            <td class="lead">Procured: {{ organ.donor.randomisation.allocated_on|date }}</td>
             <td colspan="2" class="lead">
                 Date of death:
                 {% if organ.safe_recipient.person.date_of_death_unknown %}
