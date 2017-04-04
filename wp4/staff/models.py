@@ -80,7 +80,7 @@ class Person(AbstractUser):
         """
         administrator_groups = (self.NATIONAL_COORDINATOR, self.CENTRAL_COORDINATOR, self.SYSTEMS_ADMINISTRATOR,
                                 self.BIOBANK_COORDINATOR, self.CHIEF_INVESTIGATOR, self.PRINCIPLE_INVESTIGATOR,
-                                self.NATIONAL_INVESTIGATOR)
+                                self.NATIONAL_INVESTIGATOR, self.CENTRAL_INVESTIGATOR,)
         if self.has_group(administrator_groups):
             return True
         return False
