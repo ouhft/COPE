@@ -12,17 +12,23 @@
 {% block content %}
     <p>This section supports administration activities on Work Package 4: Compare (WP4) which is a Kidney preservation trial.
     <div class="row">
-        {% if request.user|has_group:5 %}{# Person.CENTRAL_COORDINATOR #}
         <div class="col-md-4">
+        {% if request.user|has_group:5 %}{# Person.CENTRAL_COORDINATOR #}
             <h3>Offline Randomisation Lists</h3>
             <ul>
                 <li><a href="{% url 'wp4:administration:europe_list' %}">Europe list</a></li>
                 <li><a href="{% url 'wp4:administration:uk_list' %}">United Kingdom list</a></li>
             </ul>
-        </div>
         {% endif %}
+
+        <h3>Biobank</h3>
+        <ul>
+            <li><a href="{% url 'wp4:administration:biobank_sample_collection' %}">Sample Collection</a></li>
+        </ul>
+        </div>
+
         <div class="col-md-4">
-            <h3>Reports</h3>
+            <h3>Miscellaneous Reports</h3>
             <ul>
                 <li><a href="{% url 'wp4:administration:procurement_pairs' %}">Procurement Pairs</a></li>
                 {% if not perms.compare.hide_randomisation or request.user.is_superuser %}
@@ -36,7 +42,7 @@
         </div>
 
         <div class="col-md-4">
-            <h3>DMC Reports</h3>
+            <h3>Data Monitoring Committee</h3>
             <ul>
                 <li>
                     {% if not perms.compare.hide_randomisation or request.user.is_superuser %}

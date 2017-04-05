@@ -23,7 +23,7 @@ class EventModelForUserManager(LiveManager, ModelForUserManagerMixin):
         return qs
 
 
-class SampleModelForUserManager(LiveManager, ModelForUserManagerMixin):
+class SampleFromPersonModelForUserManager(LiveManager, ModelForUserManagerMixin):
     """
     Samples manager
     """
@@ -31,6 +31,22 @@ class SampleModelForUserManager(LiveManager, ModelForUserManagerMixin):
         """
         :return: Queryset
         """
-        qs = super(SampleModelForUserManager, self).get_queryset().select_related('event')
+        qs = super(SampleFromPersonModelForUserManager, self).get_queryset().\
+            select_related('event', 'person__donor', 'person__recipient')
 
         return qs
+
+
+class SampleFromOrganModelForUserManager(LiveManager, ModelForUserManagerMixin):
+    """
+    Samples manager
+    """
+    def get_queryset(self):
+        """
+        :return: Queryset
+        """
+        qs = super(SampleFromOrganModelForUserManager, self).get_queryset().\
+            select_related('event', 'organ__donor', 'organ__recipient')
+
+        return qs
+

@@ -95,7 +95,6 @@ class Hospital(AuditControlModelBase):
 
     def _full_description(self):
         return '%s, %s' % (self.name, self.get_country_display())
-
     full_description = cached_property(_full_description, name='full_description')
 
     def get_absolute_url(self):

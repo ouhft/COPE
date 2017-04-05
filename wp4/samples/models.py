@@ -13,7 +13,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from wp4.compare.models.core import AuditControlModelBase
 from wp4.compare.models import Patient, Organ
-from .managers import EventModelForUserManager, SampleModelForUserManager
+from .managers import EventModelForUserManager, SampleFromOrganModelForUserManager, SampleFromPersonModelForUserManager
 
 
 class BarCodeMixin(models.Model):
@@ -180,7 +180,7 @@ class BloodSample(AuditControlModelBase, BarCodeMixin, DeviationMixin):
     centrifuged_at = models.DateTimeField(verbose_name=_("BS01 centrifuged at"), null=True, blank=True)
     wp7_location = GenericRelation(WP7Record)
 
-    objects = SampleModelForUserManager()
+    objects = SampleFromPersonModelForUserManager()
 
     class Meta:
         ordering = ['person', 'event__taken_at']
@@ -226,7 +226,7 @@ class UrineSample(AuditControlModelBase, BarCodeMixin, DeviationMixin):
     centrifuged_at = models.DateTimeField(verbose_name=_("US01 centrifuged at"), null=True, blank=True)
     wp7_location = GenericRelation(WP7Record)
 
-    objects = SampleModelForUserManager()
+    objects = SampleFromPersonModelForUserManager()
 
     class Meta:
         ordering = ['person', 'event__taken_at']
@@ -272,7 +272,7 @@ class PerfusateSample(AuditControlModelBase, BarCodeMixin, DeviationMixin):
     centrifuged_at = models.DateTimeField(verbose_name=_("PS01 centrifuged at"), null=True, blank=True)
     wp7_location = GenericRelation(WP7Record)
 
-    objects = SampleModelForUserManager()
+    objects = SampleFromOrganModelForUserManager()
 
     class Meta:
         ordering = ['organ', 'event__taken_at']
@@ -325,7 +325,7 @@ class TissueSample(AuditControlModelBase, BarCodeMixin, DeviationMixin):
     tissue_type = models.CharField(max_length=1, choices=SAMPLE_CHOICES, verbose_name=_("TS02 tissue sample type"))
     wp7_location = GenericRelation(WP7Record)
 
-    objects = SampleModelForUserManager()
+    objects = SampleFromOrganModelForUserManager()
 
     class Meta:
         ordering = ['organ', 'event__taken_at']

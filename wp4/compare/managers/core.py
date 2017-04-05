@@ -114,9 +114,9 @@ class OrganModelForUserManager(LiveManager, ModelForUserManagerMixin):
         :return: Queryset
         """
         qs = super(OrganModelForUserManager, self).get_queryset().\
-            select_related('recipient', 'recipient__person', 'donor', 'donor__person').\
-            select_related('donor__randomisation', 'donor__retrieval_team').\
-            prefetch_related('organallocation_set')  # 'recipient__person__worksheet_set',
+            select_related('recipient', 'recipient__person', 'recipient__allocation__perfusion_technician').\
+            select_related('donor', 'donor__person', 'donor__randomisation','donor__retrieval_team').\
+            prefetch_related('organallocation_set', 'organallocation_set__transplant_hospital')  # 'recipient__person__worksheet_set',
 
         if self.current_user is not None:
             if not self.current_user.is_superuser:
@@ -152,9 +152,9 @@ class ClosedOrganModelForUserManager(LiveManager, ModelForUserManagerMixin):
         :return: Queryset
         """
         qs = super(ClosedOrganModelForUserManager, self).get_queryset().\
-            select_related('recipient', 'recipient__person', 'donor', 'donor__person').\
-            select_related('donor__randomisation', 'donor__retrieval_team').\
-            prefetch_related('organallocation_set')  # 'recipient__person__worksheet_set',
+            select_related('recipient', 'recipient__person', 'recipient__allocation__perfusion_technician').\
+            select_related('donor', 'donor__person', 'donor__randomisation','donor__retrieval_team').\
+            prefetch_related('organallocation_set', 'organallocation_set__transplant_hospital')  # 'recipient__person__worksheet_set',
 
         if self.current_user is not None:
             if not self.current_user.is_superuser:
@@ -187,7 +187,8 @@ class AllocatableModelForUserManager(LiveManager, ModelForUserManagerMixin):
         :return: Queryset
         """
         qs = super(AllocatableModelForUserManager, self).get_queryset().\
-            select_related('donor', 'donor__person', 'donor__randomisation', 'donor__retrieval_team')
+            select_related('donor', 'donor__person', 'donor__randomisation', 'donor__retrieval_team').\
+            prefetch_related('organallocation_set', 'organallocation_set__transplant_hospital')
 
         if self.current_user is not None:
             if not self.current_user.is_superuser:
@@ -215,9 +216,9 @@ class OpenOrganModelForUserManager(LiveManager, ModelForUserManagerMixin):
         :return: Queryset
         """
         qs = super(OpenOrganModelForUserManager, self).get_queryset().\
-            select_related('recipient', 'recipient__person', 'donor', 'donor__person', 'donor__randomisation',
-                           'donor__retrieval_team').\
-            prefetch_related('organallocation_set')  # 'recipient__person__worksheet_set',
+            select_related('recipient', 'recipient__person', 'recipient__allocation__perfusion_technician').\
+            select_related('donor', 'donor__person', 'donor__randomisation','donor__retrieval_team').\
+            prefetch_related('organallocation_set', 'organallocation_set__transplant_hospital')  # 'recipient__person__worksheet_set',
 
         if self.current_user is not None:
             if not self.current_user.is_superuser:
@@ -254,7 +255,7 @@ class OrganAllocationModelForUserManager(LiveManager, ModelForUserManagerMixin):
         Test for permissions to view and restrict based on rules
         :return:
         """
-        qs = super(OrganAllocationModelForUserManager, self).get_queryset()
+        qs = super(OrganAllocationModelForUserManager, self).get_queryset().select_related('transplant_hospital')
 
         if self.current_user is not None:
             if self.current_user.is_superuser:

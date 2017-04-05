@@ -11,7 +11,7 @@ from django.utils.translation import ugettext_lazy as _
 from wp4.compare.models.core import AuditControlModelBase
 from wp4.compare.models import Organ, YES_NO_UNKNOWN_CHOICES
 from wp4.health_economics.models import QualityOfLife
-from .managers import FollowupModelForUserManager
+from .managers import FollowupModelForUserManager, FollowupWithQOLModelForUserManager
 
 
 class FollowUpBase(AuditControlModelBase):
@@ -348,7 +348,7 @@ class FollowUp3M(FollowUpBase):
         blank=True
     )
 
-    objects = FollowupModelForUserManager()
+    objects = FollowupWithQOLModelForUserManager()
 
     class Meta:
         verbose_name = _("F3m1 3 Month FollowUp")
@@ -534,7 +534,7 @@ class FollowUp1Y(FollowUpBase):
         blank=True
     )
 
-    objects = FollowupModelForUserManager()
+    objects = FollowupWithQOLModelForUserManager()
 
     class Meta:
         verbose_name = _("FYm1 1 Year FollowUp")

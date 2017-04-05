@@ -4,7 +4,7 @@ from __future__ import absolute_import, unicode_literals
 
 from django.conf.urls import include, url
 
-from .views import core, data_extracts, administrator, dmc_reports
+from .views import core, data_extracts, administrator, dmc_reports, biobank
 
 urlpatterns = [
     # Data Extracts (aka: Statisticians' Reports)
@@ -71,6 +71,13 @@ urlpatterns = [
         regex=r'^followups',
         view=administrator.followups,
         name='followups'
+    ),
+
+    # Biobank reports
+    url(
+        regex=r'^biobank/sample-collection',
+        view=biobank.sample_collection,
+        name='biobank_sample_collection'
     ),
 
     # DMC Reports

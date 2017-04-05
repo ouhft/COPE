@@ -3,16 +3,17 @@
 from __future__ import absolute_import, unicode_literals
 
 from django import forms
+from django.db.models import Q
 from django.conf import settings
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Div, HTML, Field
 
-from wp4.compare.models import YES_NO_UNKNOWN_CHOICES
+from wp4.compare.models import YES_NO_UNKNOWN_CHOICES, Organ
 from wp4.compare.forms.core import NO_YES_CHOICES
 from wp4.theme.layout import DateField, FieldWithFollowup, ForeignKeyModal
 
-from .models import FollowUpInitial, FollowUp3M, FollowUp6M, FollowUp1Y, FollowUpBase
+from .models import FollowUpInitial, FollowUp3M, FollowUp6M, FollowUp1Y, FollowUpBase, QualityOfLife
 
 
 class FollowUpInitialForm(forms.ModelForm):
@@ -44,6 +45,7 @@ class FollowUpInitialForm(forms.ModelForm):
         self.fields['induction_therapy'].choices = FollowUpInitial.INDUCTION_CHOICES
 
         self.fields['organ'].widget = forms.HiddenInput()
+        self.fields['organ'].choices = Organ.objects.filter(id=self.instance.organ.id).values_list('id', 'trial_id')
         self.fields['notes'].widget = forms.Textarea()
 
         self.helper = FormHelper(self)
@@ -220,6 +222,7 @@ class FollowUp3MForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(FollowUp3MForm, self).__init__(*args, **kwargs)
         self.fields['organ'].widget = forms.HiddenInput()
+        self.fields['organ'].choices = Organ.objects.filter(id=self.instance.organ.id).values_list('id', 'trial_id')
 
         self.fields['start_date'].input_formats = settings.DATE_INPUT_FORMATS  # FB01
         self.fields['graft_failure_date'].input_formats = settings.DATE_INPUT_FORMATS  # FB11
@@ -240,6 +243,13 @@ class FollowUp3MForm(forms.ModelForm):
 
         self.fields['graft_complications'].widget = forms.Textarea()  # F307
         self.fields['notes'].widget = forms.Textarea()  # FB03
+        # self.fields['quality_of_life'].widget = forms.HiddenInput()
+        # self.fields['quality_of_life'].choices = QualityOfLife.objects.\
+        #     filter(Q(followup_3m__isnull=True) | Q(id=self.instance.id)).\
+        #     select_related('recipient__organ').values_list('id', 'recipient__organ__trial_id')
+        # Because we pregenerate the QoL data, there's no need to look for potential other ones
+        self.fields['quality_of_life'].choices = QualityOfLife.objects.\
+            filter(id=self.instance.quality_of_life.id).values_list('id', 'recipient__organ__trial_id')
 
         self.helper = FormHelper(self)
         self.helper.form_tag = False
@@ -373,6 +383,7 @@ class FollowUp6MForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(FollowUp6MForm, self).__init__(*args, **kwargs)
         self.fields['organ'].widget = forms.HiddenInput()
+        self.fields['organ'].choices = Organ.objects.filter(id=self.instance.organ.id).values_list('id', 'trial_id')
 
         self.fields['start_date'].input_formats = settings.DATE_INPUT_FORMATS  # FB01
         self.fields['graft_failure_date'].input_formats = settings.DATE_INPUT_FORMATS  # FB11
@@ -524,6 +535,7 @@ class FollowUp1YForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(FollowUp1YForm, self).__init__(*args, **kwargs)
         self.fields['organ'].widget = forms.HiddenInput()
+        self.fields['organ'].choices = Organ.objects.filter(id=self.instance.organ.id).values_list('id', 'trial_id')
 
         self.fields['start_date'].input_formats = settings.DATE_INPUT_FORMATS  # FB01
         self.fields['graft_failure_date'].input_formats = settings.DATE_INPUT_FORMATS  # FB11
@@ -544,6 +556,8 @@ class FollowUp1YForm(forms.ModelForm):
 
         self.fields['graft_complications'].widget = forms.Textarea()  # FY07
         self.fields['notes'].widget = forms.Textarea()  # FB03
+        self.fields['quality_of_life'].choices = QualityOfLife.objects.\
+            filter(id=self.instance.quality_of_life.id).values_list('id', 'recipient__organ__trial_id')
 
         self.helper = FormHelper(self)
         self.helper.form_tag = False
@@ -630,7 +644,7 @@ class FollowUp1YForm(forms.ModelForm):
                 ),
                 css_class="row"
             ),
-            ForeignKeyModal('quality_of_life'),  # FY08
+            ForeignKeyModal('quality_of_life', no_search=True),  # FY08
         )
 
     class Meta:

@@ -12,6 +12,7 @@ from crispy_forms.layout import Layout, Div, HTML, Field
 from wp4.theme.layout import InlineFields, FieldWithFollowup, YesNoFieldWithAlternativeFollowups
 from wp4.theme.layout import FieldWithNotKnown, ForeignKeyModal
 from wp4.theme.layout import DateTimeField, DateField, FormPanel
+from wp4.staff.models import Person
 
 from ..models import Donor, Organ, ProcurementResource
 from ..models import YES_NO_UNKNOWN_CHOICES
@@ -35,6 +36,8 @@ class DonorForm(forms.ModelForm):
         self.fields['retrieval_team'].widget = forms.HiddenInput()
         self.fields['sequence_number'].widget = forms.HiddenInput()
         self.fields['perfusion_technician'].widget = forms.HiddenInput()
+        self.fields['transplant_coordinator'].choices = Person.objects.\
+            filter(id=self.instance.transplant_coordinator_id).values_list('id', 'last_name')
         self.fields['call_received'].input_formats = settings.DATETIME_INPUT_FORMATS
         self.fields['scheduled_start'].input_formats = settings.DATETIME_INPUT_FORMATS
         self.fields['technician_arrival'].input_formats = settings.DATETIME_INPUT_FORMATS

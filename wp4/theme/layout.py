@@ -4,9 +4,10 @@ from __future__ import absolute_import, unicode_literals
 
 import string, random
 
-# from django.utils import formats, translation
+from crispy_forms.layout import LayoutObject,  Div, HTML, Field
+from crispy_forms.utils import render_field, flatatt, TEMPLATE_PACK
 
-from crispy_forms.layout import LayoutObject, Layout, Div, HTML, Field, render_field, render_to_string, TEMPLATE_PACK, flatatt
+from django.template.loader import render_to_string
 
 
 def get_field_name(input):
@@ -26,18 +27,6 @@ def get_field_name(input):
         except AttributeError:
             # There are some layouts that have no inputs in
             return ""
-# # if not isinstance(self.field2, str):
-# #     print("DEBUG: ComboField: dir(field2)= %s" % dir(self.field2))
-# if isinstance(self.field1, Field):
-#     print("DEBUG: ComboField: field1 (Field).get_field_names= %s" % self.field1.get_field_names())
-# # 'attrs', 'fields', 'get_field_names', 'get_layout_objects', 'get_rendered_fields', 'get_template_name', 'render', 'template', 'wrapper_class'  -- layout.Field object
-# if isinstance(self.field1, Layout):
-#     print("DEBUG: ComboField: field1 (Layout).get_field_names= %s" % self.field1.get_field_names())
-# # 'fields', 'get_field_names', 'get_layout_objects', 'get_rendered_fields', 'get_template_name', 'render' -- layout.Layout object
-# # 'html', 'render' -- layout.HTML object
-# if isinstance(self.field1, FieldWithNotKnown):
-#     print("DEBUG: ComboField: field1 (FieldWithNotKnown).get_field_names= %s" % self.field1.get_field_names())
-# # 'css_class', 'css_id', 'field1', 'field2', 'field_template1', 'field_template2', 'flat_attrs', 'get_field_names', 'get_layout_objects', 'get_rendered_fields', 'get_template_name', 'label_class', 'label_html', 'render', 'template' -- layout.FieldWithNotKnown object
 
 
 def FormPanel(title, layout, panel_status=None, panel_hidden=None):
@@ -171,7 +160,7 @@ class ComboField(LayoutObject):
             'field_errors': field_errors
             # 'form_field': form.fields[get_field_name(self.field1)]
         })
-        return render_to_string(self.template, context)
+        return render_to_string(self.template, context=context.flatten())
 
 
 class InlineFields(ComboField):
@@ -183,7 +172,6 @@ class InlineFields(ComboField):
 class FieldWithFollowup(ComboField):
     template = 'bootstrap3/layout/multi-other-field.html'
     # Presumes the last value in the select list is the "other" option
-
 
 
 class FieldWithNotKnown(ComboField):
@@ -258,10 +246,17 @@ class YesNoFieldWithAlternativeFollowups(LayoutObject):
             'secondary_field': secondary_output,
             'tertiary_field': tertiary_output
         })
-        return render_to_string(self.template, context)
+        return render_to_string(self.template, context=context.flatten())
 
 
 def ForeignKeyModal(field_name, **kwargs):
+    """
+    Can be called with 'no_search' to remove the search button for edit only links
+    
+    :param field_name: 
+    :param kwargs: 
+    :return: 
+    """
     return Field(field_name, template="bootstrap3/foreign-key-modal.html", **kwargs)
 
 

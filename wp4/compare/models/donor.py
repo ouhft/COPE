@@ -939,8 +939,7 @@ class Organ(AuditControlModelBase):
         if self.perfusion_possible is True and self.perfusion_started is None:
             raise ValidationError(_("ORv03 Please enter the time perfusion started at"))
 
-    @property
-    def safe_recipient(self):
+    def _safe_recipient(self):
         """
         Helper method to return either the related Recipient record, or a safe value of None,
         without the drama of exceptions when it doesn't exist
@@ -952,6 +951,7 @@ class Organ(AuditControlModelBase):
                 return self.recipient  # We have a recipient
         except AttributeError:  # RelatedObjectDoesNotExist
             return None
+    safe_recipient = cached_property(_safe_recipient, name='safe_recipient')
 
     def _final_allocation(self):
         """
@@ -962,8 +962,7 @@ class Organ(AuditControlModelBase):
         :return: OrganAllocation, or None
         :rtype: wp4.compare.models.transplantation.OrganAllocation
         """
-        return self.organallocation_set.order_by('id').last()
-
+        return self.organallocation_set.select_related('transplant_hospital').last()
     final_allocation = cached_property(_final_allocation, name='final_allocation')
 
     def serious_events_only(self):
@@ -990,8 +989,7 @@ class Organ(AuditControlModelBase):
         print("DEBUG: Organ.make_trial_id: {0}".format(self.donor.trial_id))
         return self.donor.trial_id + self.location
 
-    @property
-    def is_allocated(self):
+    def _is_allocated(self):
         """
         Allocation status
 
@@ -1006,41 +1004,41 @@ class Organ(AuditControlModelBase):
         if self.safe_recipient is not None:
             return True  # We have a recipient, which can only occur if at a project site
 
-        final_allocation = self.final_allocation
-        if final_allocation is not None:
-            if final_allocation.reallocated is False and final_allocation.transplant_hospital.is_project_site is False:
+        if self.final_allocation is not None:
+            if self.final_allocation.reallocated is False and \
+                            self.final_allocation.transplant_hospital.is_project_site is False:
                 # We can't say not-reallocated without saving a transplant hospital as well
                 return True
         return False
+    is_allocated = cached_property(_is_allocated, name='is_allocated')
 
-    @property
-    def explain_is_allocated(self):
+    def _explain_is_allocated(self):
         """
         Allocation status description: An explanation as to the allocation status for this organ
 
         :return: Message describing status of allocation
         :rtype: str
         """
-        final_allocation = self.final_allocation
         if self.is_allocated:
             if self.safe_recipient is not None:
                 return "Allocated to Recipient"
 
-            if final_allocation.reallocated is False and final_allocation.transplant_hospital.is_project_site is False:
+            if self.final_allocation.reallocated is False and self.final_allocation.transplant_hospital.is_project_site is False:
                 return "Allocated to a non-project site"  # This should be caught by not_allocated_reason
         else:
             if self.not_allocated_reason:
                 return "Not allocated because: %s" % self.not_allocated_reason
 
-            if final_allocation is None:
+            if self.final_allocation is None:
                 return "No allocations created (and no explanation as yet)"
 
-            if final_allocation.reallocated is True:
+            if self.final_allocation.reallocated is True:
                 return "ERROR: last allocation shows a reallocation"  # This shouldn't occur!
 
             return "Re-allocation status not yet set"  # Possible for a form that is WIP
 
         return "ERROR: Unknown allocation status (test data?)"
+    explain_is_allocated = cached_property(_explain_is_allocated, name='explain_is_allocated')
 
     @property
     def explain_closed_status(self):

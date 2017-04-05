@@ -15,7 +15,7 @@ from wp4.compare.models import RetrievalTeam
 from wp4.compare.models import PRESERVATION_HMP, PRESERVATION_HMPO2, PRESERVATION_NOT_SET, LEFT, RIGHT
 from wp4.locations.models import Hospital
 from wp4.staff.models import Person
-from wp4.adverse_event.models import Event
+from wp4.adverse_event.models import Event as AdverseEvent
 
 from wp4.utils import group_required
 from wp4.followups.models import FollowUp1Y
@@ -150,7 +150,7 @@ def sae_sites(request):
             (current_person.has_perm('compare.hide_randomisation') and not current_person.is_superuser):
         raise PermissionDenied
 
-    listing = Event.objects.all().\
+    listing = AdverseEvent.objects.all().\
         order_by('organ__recipient__allocation__transplant_hospital')
 
     centres = dict()

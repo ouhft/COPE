@@ -1,0 +1,119 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+
+{% block page_title %}{{ location }} Report: Sample Collection - Administration{% endblock %}
+{% block page_header %}
+    Sample Collection
+    <small>REPORT</small>
+{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:administration:index' %}">Administration</a></li>
+    <li class="active">Report: Sample Collection</li>
+{% endblock %}
+
+{% block content %}
+{#    CSS Hack here because Bootstrap hides the badges on print view #}
+    <style>
+        @media print {
+            .badge {
+                padding: 2px 6px;
+                border: 1px solid #000;
+                margin-right: 3em;
+            }
+        }
+    </style>
+    <h2>Summary</h2>
+
+
+    <h2>Data Listing</h2>
+    <table class="table table-responsive table-condensed">
+        <thead>
+        <tr>
+            <th>Event ID</th>
+
+            <th>Type</th>
+            <th>Name</th>
+            <th>Taken at</th>
+
+            <th>Barcode</th>
+            <th>Collected</th>
+            <th>Trial ID</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for sample in listing_bloods %}
+            <tr>
+                <td>
+                    {% if perms.samples.change_event %}
+                        <a href="{% url 'wp4:samples:event_detail' pk=sample.event.pk %}" class="btn btn-default btn-xs"><i
+                                title="edit" class="glyphicon glyphicon-eye-open"></i></a>
+                        <a href="{% url 'wp4:samples:event_update' pk=sample.event.pk %}" class="btn btn-primary btn-xs"><i
+                                title="edit" class="glyphicon glyphicon-edit"></i> {{ sample.event.id }}</a>
+                    {% elif perms.samples.view_event %}
+                        <a href="{% url 'wp4:samples:event_detail' pk=sample.event.pk %}" class="btn btn-default btn-xs"><i
+                                title="edit" class="glyphicon glyphicon-eye-open"></i> {{ sample.event.id }}</a>
+                    {% else %}
+                        {{ sample.event.id }}
+                    {% endif %}
+                </td>
+                <td>{{ sample.event.get_type_display }}</td>
+                <td>{{ sample.event.get_name_display }}</td>
+                <td>{{ sample.event.taken_at }}</td>
+
+                <td>{{ sample.barcode|default:"Not recorded" }}</td>
+                <td class="{{ sample.collected|yesno:"bg-success,bg-danger,bg-warning" }}">
+                    {{ sample.collected|yesno|capfirst }}
+                </td>
+                <td>{{ sample.person.trial_id }}</td>
+
+{#                {% if event.type == 1 %}{# Blood #}
+{#                    {% with event.bloodsample_set.all.0 as sample %}#}
+{#                    {% endwith %}#}
+{##}
+{##}
+{#                    {% elif event.type == 2 %}{# Urine #}
+{#                    {% with event.urinesample_set.all.0 as sample %}#}
+{#                        <td>{{ sample.barcode|default:"Not recorded" }}</td>#}
+{#                        <td class="{{ sample.collected|yesno:"bg-success,bg-danger,bg-warning" }}">#}
+{#                            {{ sample.collected|yesno|capfirst }}#}
+{#                        </td>#}
+{#                        <td>{{ sample.person.trial_id }}</td>#}
+{#                    {% endwith %}#}
+{##}
+{##}
+{#                    {% elif event.type == 3 %}{# Perfusate #}
+{#                    {% with event.perfusatesample_set.all.0 as sample %}#}
+{#                        <td>{{ sample.barcode|default:"Not recorded" }}</td>#}
+{#                        <td class="{{ sample.collected|yesno:"bg-success,bg-danger,bg-warning" }}">#}
+{#                            {{ sample.collected|yesno|capfirst }}#}
+{#                        </td>#}
+{#                        <td>{{ sample.organ.trial_id }}</td>#}
+{#                    {% endwith %}#}
+{##}
+{##}
+{#                    {% elif event.type == 4 %}{# Tissue #}
+{#                    {% with event.tissuesample_set.all.0 as sample %}#}
+{#                        <td>{{ sample.barcode|default:"Not recorded" }}</td>#}
+{#                        <td class="{{ sample.collected|yesno:"bg-success,bg-danger,bg-warning" }}">#}
+{#                            {{ sample.collected|yesno|capfirst }}#}
+{#                        </td>#}
+{#                        <td>{{ sample.organ.trial_id }}</td>#}
+{#                    {% endwith %}#}
+{#                {% endif %}#}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Unmatched Data</h3>
+    <table class="table">
+    {% for record in unmatched %}
+    <tr>
+        <td>{{ record.barcode }}</td>
+        <td>{{ record.box_number }}</td>
+    </tr>
+    {% endfor %}
+    </table>
+{% endblock %}

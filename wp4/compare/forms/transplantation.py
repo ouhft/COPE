@@ -12,6 +12,7 @@ from dal import autocomplete
 
 from wp4.theme.layout import FieldWithFollowup, YesNoFieldWithAlternativeFollowups, FieldWithNotKnown, ForeignKeyModal
 from wp4.theme.layout import DateTimeField, FormPanel
+from wp4.staff.models import Person
 from ..models import OrganAllocation, Recipient, Organ
 from ..models import YES_NO_UNKNOWN_CHOICES, LOCATION_CHOICES
 from .core import NO_YES_CHOICES
@@ -86,7 +87,11 @@ class AllocationForm(forms.ModelForm):
         super(AllocationForm, self).__init__(*args, **kwargs)
         self.fields['organ'].widget = forms.HiddenInput()
         self.fields['perfusion_technician'].required = False
+        self.fields['perfusion_technician'].choices = Person.objects.filter(id=self.instance.perfusion_technician_id).\
+            values_list('id', 'last_name')
         self.fields['call_received'].input_formats = settings.DATETIME_INPUT_FORMATS
+        self.fields['theatre_contact'].choices = Person.objects.filter(id=self.instance.theatre_contact_id).\
+            values_list('id', 'last_name')
         self.fields['scheduled_start'].input_formats = settings.DATETIME_INPUT_FORMATS
         self.fields['technician_arrival'].input_formats = settings.DATETIME_INPUT_FORMATS
         self.fields['depart_perfusion_centre'].input_formats = settings.DATETIME_INPUT_FORMATS

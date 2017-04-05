@@ -6,6 +6,7 @@ from django.contrib.auth.models import AbstractUser
 from django.core.urlresolvers import reverse
 from django.core.validators import RegexValidator
 from django.db import models
+from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -37,14 +38,15 @@ class Person(AbstractUser):
     NATIONAL_INVESTIGATOR = 14  #: Constant for Group ID
     THEATRE_CONTACT = 15  #: Constant for Group ID
 
-    phone_regex = RegexValidator(
+    _phone_regex = RegexValidator(
         regex=r'^\+?1?\d{9,15}$',
         message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed."
     )
+    _my_groups = None
 
     telephone = models.CharField(
         verbose_name=_("SP01 telephone number"),
-        validators=[phone_regex],
+        validators=[_phone_regex],
         max_length=15,
         blank=True,
         null=True
@@ -58,22 +60,22 @@ class Person(AbstractUser):
     )
 
     def has_group(self, group_ids=[]):
-        my_group_ids = [g.id for g in self.groups.all()]
+        if self._my_groups is None:
+            self._my_groups = [g.id for g in self.groups.all()]
         # print("DEBUG: I am {2}, and my_group_ids={0} and group_ids={1} ({3})".format(
         #     my_group_ids, group_ids, self.get_full_name(), type(group_ids))
         # )
         if type(group_ids) in (list, tuple):
             for group in group_ids:
-                if group in my_group_ids:
+                if group in self._my_groups:
                     return True
         else:
-            if group_ids in my_group_ids:
+            if group_ids in self._my_groups:
                 return True
         # print("DEBUG: has_group returning False")
         return False
 
-    @property
-    def is_administrator(self):
+    def _is_administrator(self):
         """
         Checks for membership of an admin group
         :return:
@@ -84,6 +86,8 @@ class Person(AbstractUser):
         if self.has_group(administrator_groups):
             return True
         return False
+
+    is_administrator = cached_property(_is_administrator, name='is_administrator')
 
     class Meta:
         verbose_name = _('SPm1 person')

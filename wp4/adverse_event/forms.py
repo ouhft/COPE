@@ -14,6 +14,7 @@ from dal import autocomplete
 from wp4.compare.models import YES_NO_UNKNOWN_CHOICES
 from wp4.compare.forms.core import NO_YES_CHOICES
 from wp4.theme.layout import DateField, FormPanel, ForeignKeyModal, FieldWithFollowup
+from wp4.staff.models import Person
 
 from wp4.compare.models.donor import Organ
 from .models import Event
@@ -27,6 +28,8 @@ class EventForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(EventForm, self).__init__(*args, **kwargs)
         # self.fields['organ'].widget = forms.HiddenInput()
+        self.fields['organ'].choices = Event.objects.select_related('organ').\
+            filter(id=self.instance.id).values_list('id', 'organ__trial_id')
         self.fields['serious_eligible_1'].choices = NO_YES_CHOICES
         self.fields['serious_eligible_2'].choices = NO_YES_CHOICES
         self.fields['serious_eligible_3'].choices = NO_YES_CHOICES
@@ -58,6 +61,7 @@ class EventForm(forms.ModelForm):
         self.fields['date_of_death'].input_formats = settings.DATE_INPUT_FORMATS
         self.fields['date_of_death'].required = False
         self.fields['treatment_related'].choices = YES_NO_UNKNOWN_CHOICES
+        self.fields['contact'].choices = Person.objects.filter(id=self.instance.contact.id).values_list('id', 'last_name')
 
         try:
             self.fields['date_of_death'].initial = self.instance.organ.safe_recipient.person.date_of_death

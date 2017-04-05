@@ -9,6 +9,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, Div
 
 from wp4.theme.layout import DateField
+from wp4.compare.models.transplantation import Recipient
 
 from .models import QualityOfLife
 
@@ -25,7 +26,8 @@ class QualityOfLifeForm(forms.ModelForm):
     def __init__(self, data=None, *args, **kwargs):
         super(QualityOfLifeForm, self).__init__(data=data, *args, **kwargs)
         self.render_required_fields = True
-        # self.fields['recipient'].widget = forms.HiddenInput()
+        self.fields['recipient'].choices = Recipient.objects.\
+            select_related('organ').values_list('id', 'organ__trial_id')
         self.fields['date_recorded'].input_formats = settings.DATE_INPUT_FORMATS
         self.fields['qol_mobility'].choices = self.QOL_CHOICES
         self.fields['qol_selfcare'].choices = self.QOL_CHOICES
@@ -37,16 +39,16 @@ class QualityOfLifeForm(forms.ModelForm):
         self.helper.form_tag = False
         self.helper.html5_required = True
         self.helper.layout = Layout(
-            'recipient',
-            DateField('date_recorded'),
             Div(
                 Div(
+                    'recipient',
                     Field('qol_mobility', template="bootstrap3/layout/radioselect-buttons.html"),
                     Field('qol_selfcare', template="bootstrap3/layout/radioselect-buttons.html"),
                     Field('qol_usual_activities', template="bootstrap3/layout/radioselect-buttons.html"),
                     css_class="col-md-6"
                 ),
                 Div(
+                    DateField('date_recorded'),
                     Field('qol_pain', template="bootstrap3/layout/radioselect-buttons.html"),
                     Field('qol_anxiety', template="bootstrap3/layout/radioselect-buttons.html"),
                     'vas_score',

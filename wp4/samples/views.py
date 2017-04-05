@@ -41,6 +41,7 @@ class UserBasedQuerysetMixin(object):
 
         return queryset
 
+
 class FormSaveMixin(object):
     def form_valid(self, form):
         messages.success(
