@@ -2,7 +2,7 @@
 # coding: utf-8
 from __future__ import absolute_import, unicode_literals
 
-from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.core.validators import ValidationError
 from django.core.urlresolvers import reverse
@@ -20,7 +20,7 @@ class BarCodeMixin(models.Model):
     """
     Extends with a barcode field
     """
-    barcode = models.CharField(verbose_name=_("BC01 barcode number"), max_length=20, blank=True)
+    barcode = models.CharField(verbose_name=_("BC01 barcode number"), max_length=20, blank=True, db_index=True)
 
     class Meta:
         abstract = True
@@ -39,6 +39,18 @@ class DeviationMixin(models.Model):
 
     class Meta:
         abstract = True
+
+
+class WP7Record(BarCodeMixin):
+    """
+    Based on an export from the WP7 Database. A record in this table means a sample exists on file in the Biobank
+    """
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True, blank=True)
+    object_id = models.PositiveIntegerField(null=True, blank=True)
+    content_object = GenericForeignKey()
+
+    box_number = models.CharField(max_length=20, null=True, blank=True)
+    position_in_box = models.CharField(max_length=3, null=True, blank=True)
 
 
 class Event(AuditControlModelBase):
@@ -166,6 +178,7 @@ class BloodSample(AuditControlModelBase, BarCodeMixin, DeviationMixin):
     blood_type = models.PositiveSmallIntegerField(verbose_name=_("BS02 blood sample type"), choices=SAMPLE_CHOICES)
     person = models.ForeignKey(Patient, verbose_name=_("BS03 sample from"))
     centrifuged_at = models.DateTimeField(verbose_name=_("BS01 centrifuged at"), null=True, blank=True)
+    wp7_location = GenericRelation(WP7Record)
 
     objects = SampleModelForUserManager()
 
@@ -211,6 +224,7 @@ class UrineSample(AuditControlModelBase, BarCodeMixin, DeviationMixin):
     )
     person = models.ForeignKey(Patient, verbose_name=_("US02 sample from"))
     centrifuged_at = models.DateTimeField(verbose_name=_("US01 centrifuged at"), null=True, blank=True)
+    wp7_location = GenericRelation(WP7Record)
 
     objects = SampleModelForUserManager()
 
@@ -256,6 +270,7 @@ class PerfusateSample(AuditControlModelBase, BarCodeMixin, DeviationMixin):
     )
     organ = models.ForeignKey(Organ, verbose_name=_("PS02 sample from"))
     centrifuged_at = models.DateTimeField(verbose_name=_("PS01 centrifuged at"), null=True, blank=True)
+    wp7_location = GenericRelation(WP7Record)
 
     objects = SampleModelForUserManager()
 
@@ -308,6 +323,7 @@ class TissueSample(AuditControlModelBase, BarCodeMixin, DeviationMixin):
     )
     organ = models.ForeignKey(Organ, verbose_name=_("TS01 sample from"))
     tissue_type = models.CharField(max_length=1, choices=SAMPLE_CHOICES, verbose_name=_("TS02 tissue sample type"))
+    wp7_location = GenericRelation(WP7Record)
 
     objects = SampleModelForUserManager()
 
@@ -328,16 +344,3 @@ class TissueSample(AuditControlModelBase, BarCodeMixin, DeviationMixin):
                 raise ValidationError(_("TSv01 you must enter some notes about why this sample was not collected"))
             if self.collected and not self.event.taken_at:
                 raise ValidationError(_("TSv02 Please record the time the sample was taken"))
-
-
-class WP7Record(BarCodeMixin):
-    """
-    Based on an export from the WP7 Database. A record in this table means a sample exists on file in the Biobank
-    """
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
-    content_object = GenericForeignKey()
-
-    box_number = models.CharField(max_length=20, null=True, blank=True)
-    position_in_box = models.CharField(max_length=3, null=True, blank=True)
-

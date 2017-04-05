@@ -6,8 +6,9 @@ from openpyxl import Workbook
 from django.core.management.base import LabelCommand
 from django.utils import timezone
 
-
-from wp4.samples.utils import ReadOnlyWorkbook
+from wp4.samples.utils import WP7Workbook, number_as_str, get_sample_by_barcode
+from wp4.samples.models import WP7Record
+from wp4.samples.forms import WP7RecordForm
 
 
 class Command(LabelCommand):
@@ -23,19 +24,19 @@ class Command(LabelCommand):
 
         if label.split(".")[-1] != "xlsx":
             raise Exception("This is not an xlsx file")
-        print("Workbook ({0}) is about to load".format(label))
+        print("load_wp7: Workbook ({0}) is about to load".format(label))
 
         # Load the xlsx file with the raw data
-        workbook = Workbook()
+        workbook = WP7Workbook()
         if not workbook.load_xlsx(label):
             raise Exception("xlsx file failed to load")
         total_rows = workbook.worksheet.max_row
-        print("Workbook is now loaded. {0} rows were found".format(total_rows))
+        print("load_wp7: Workbook is now loaded. {0} rows were found".format(total_rows))
 
         # Iterate through the data, creating or updating records in WP7Record
         for row_index in range(2, total_rows+1):
             row_data = workbook.load_row(row_index)
-            # print("DEBUG: Row data for row {0} is loaded".format(row_index))
+            print("DEBUG: load_wp7: Row data for row {0} is loaded: {1}".format(row_index, row_data))
 
             def cell_value_by_id(column_id=1):
                 return workbook.worksheet.cell(row=row_index, column=column_id).value
@@ -43,32 +44,34 @@ class Command(LabelCommand):
             def cell_value_by_title(column_name=""):
                 return row_data[column_name.lower()]
 
-            # Get or create a record by using the compound key of DonorID an RecipID
-            donor_id = int_as_str(cell_value_by_title("DONOR_ID"))
-            recipient_id = int_as_str(cell_value_by_title("RECIP_ID"))
+            # Get or create a record by using the barcode as a key
+            barcode = number_as_str(cell_value_by_title("ScannedBarcode"))
 
             record, created = WP7Record.objects.get_or_create(
-                donor_id=donor_id,
-                recip_id=recipient_id,
+                barcode=barcode,
                 defaults={
-                    'donor_id': donor_id,
-                    'recip_id': recipient_id
+                    'barcode': barcode,
                 }
             )
             created_count += 1 if created else 0
 
-            data_form = NHSBTRecordForm(data=row_data, instance=record)
+            print("DEBUG: load_wp7: record {0} is created {1} for barcode {2}".format(record, created, barcode))
+            # Attempt to match it to an existing sample record
+            matched_sample = get_sample_by_barcode(barcode)
+
+            data_form = WP7RecordForm(data={
+                'barcode': row_data["scannedbarcode"],
+                'box_number': row_data["boxnumber"],
+                'position_in_box': row_data["positioninbox"]
+            }, instance=record)
             if data_form.is_valid():
                 if data_form.has_changed():
                     update_count += 1
                     record = data_form.save()
-
-                    log = NHSBTLog()
-                    log.file = file
-                    log.record = record
-                    log.changed_fields = ", ".join(data_form.changed_data)
-                    log.save()
-
+                record.content_object = matched_sample
+                record.save()
+                print("DEBUG: load_wp7: record {0} has content_type {1} for matched_sample {2}".format(
+                    record, record.content_type, matched_sample))
             else:
                 print("Form #{0} is INVALID".format(row_index))
                 print(data_form.errors)
@@ -82,6 +85,8 @@ class Command(LabelCommand):
                 ))
 
         end_time = timezone.now()
-        print("Import completed: Started: {0:%Y-%m-%d %H:%M:%S}. Finished: {1:%Y-%m-%d %H:%M:%S}. New: {2}. Updated: {3}. Total: {4}".format(
-            start_time, end_time, created_count, update_count, total_rows
-        ))
+        print(
+            "Import completed: Started: {0:%Y-%m-%d %H:%M:%S}. ".format(start_time) +
+            "Finished: {0:%Y-%m-%d %H:%M:%S}.".format(end_time) +
+            "New: {0}. Updated: {1}. Total: {2}".format(created_count, update_count, total_rows)
+        )

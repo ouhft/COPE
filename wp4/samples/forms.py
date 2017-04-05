@@ -12,7 +12,8 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, Div, HTML
 
 from ..theme.layout import FieldWithFollowup, DateTimeField, FormPanel
-from .models import Event, UrineSample, BloodSample, TissueSample, PerfusateSample
+from .models import Event, UrineSample, BloodSample, TissueSample, PerfusateSample, WP7Record
+from .utils import number_as_str
 
 # Common CONSTANTS
 NO_YES_CHOICES = (
@@ -219,3 +220,21 @@ class TissueSampleForm(forms.ModelForm):
 
 TissueSampleFormSet = inlineformset_factory(
     Event, TissueSample, form=TissueSampleForm, extra=0, can_delete=False)
+
+
+class WP7RecordForm(forms.ModelForm):
+    class Meta:
+        model = WP7Record
+        fields = [
+            'barcode',
+            'box_number',
+            'position_in_box'
+        ]
+
+        def clean_barcode(self):
+            barcode = self.cleaned_data['barcode']
+            return number_as_str(barcode)
+
+        def clean_position_in_box(self):
+            position_in_box = self.cleaned_data['position_in_box']
+            return number_as_str(position_in_box)

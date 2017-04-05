@@ -123,6 +123,7 @@ function changeForeignKeyModalToAdd(keyName) {
     var ajaxSUCCESS = function () {
     };
     var keyNameSplit = keyName.split("-");
+    console.log("DEBUG: changeForeignKeyModalToAdd(): keyName="+keyName+".");
     if (keyName == "id_donor-transplant_coordinator") {
         //console.log("DEBUG: loading modal for transplant co-ord");
         ajaxURL += "wp4/staff/add";
@@ -138,6 +139,14 @@ function changeForeignKeyModalToAdd(keyName) {
             $('#myModal').modal('show');
             toggleModalContent(true, returnHTML);
             $("#person_form").find("#id_jobs").val("[15]");  // Add the default job role
+        };
+    } else if (keyName == "id_contact") {
+        //console.log("DEBUG: loading modal for adverse event contact");
+        ajaxURL += "wp4/staff/add";
+        ajaxSUCCESS = function (returnHTML) {
+            $('#myModal').modal('show');
+            toggleModalContent(true, returnHTML);
+            $("#person_form").find("#id_jobs").val("[8]");  // Add the default job role
         };
     } else if (keyName == "id_donor-retrieval_hospital" ||
         (keyNameSplit[0] == "id_allocation" && keyNameSplit[2] == "transplant_hospital")) {
