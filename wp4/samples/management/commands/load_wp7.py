@@ -36,7 +36,7 @@ class Command(LabelCommand):
         # Iterate through the data, creating or updating records in WP7Record
         for row_index in range(2, total_rows+1):
             row_data = workbook.load_row(row_index)
-            print("DEBUG: load_wp7: Row data for row {0} is loaded: {1}".format(row_index, row_data))
+            # print("DEBUG: load_wp7: Row data for row {0} is loaded: {1}".format(row_index, row_data))
 
             def cell_value_by_id(column_id=1):
                 return workbook.worksheet.cell(row=row_index, column=column_id).value
@@ -55,7 +55,7 @@ class Command(LabelCommand):
             )
             created_count += 1 if created else 0
 
-            print("DEBUG: load_wp7: record {0} is created {1} for barcode {2}".format(record, created, barcode))
+            # print("DEBUG: load_wp7: record {0} is created {1} for barcode {2}".format(record, created, barcode))
             # Attempt to match it to an existing sample record
             matched_sample = get_sample_by_barcode(barcode)
 
@@ -70,8 +70,8 @@ class Command(LabelCommand):
                     record = data_form.save()
                 record.content_object = matched_sample
                 record.save()
-                print("DEBUG: load_wp7: record {0} has content_type {1} for matched_sample {2}".format(
-                    record, record.content_type, matched_sample))
+                # print("DEBUG: load_wp7: record {0} has content_type {1} for matched_sample {2}".format(
+                #     record, record.content_type, matched_sample))
             else:
                 print("Form #{0} is INVALID".format(row_index))
                 print(data_form.errors)
