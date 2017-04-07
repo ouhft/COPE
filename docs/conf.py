@@ -59,10 +59,12 @@ GITHUB_PROJECT = 'COPE'  # Name of your Github repository
 
 def process_django_models(app, what, name, obj, options, lines):
     """Append params from fields to model documentation."""
+    print("DEBUG: process_django_models() called: obj={0}".format(obj))
     from django.utils.html import strip_tags
     from django.db import models
 
     spelling_white_list = ['', '.. spelling::']
+    activate('en-gb')
 
     if inspect.isclass(obj) and issubclass(obj, models.Model):
         for field in obj._meta.fields:
@@ -70,9 +72,13 @@ def process_django_models(app, what, name, obj, options, lines):
             verbose_name = ugettext(field.verbose_name)
 
             if help_text:
-                lines.append(':param %s: "%s" - %s' % (field.attname, verbose_name,  help_text))
+                lines.append(':param {0}: {1} as "{1}" - {2}'.format(
+                    field.attname, field.verbose_name, verbose_name,  help_text
+                ))
             else:
-                lines.append(':param %s: "%s"' % (field.attname, verbose_name))
+                lines.append(':param {0}: {1} as "{1}"'.format(
+                    field.attname, field.verbose_name, verbose_name
+                ))
 
             if enchant is not None:
                 from enchant.tokenize import basic_tokenize
@@ -96,6 +102,7 @@ def process_django_models(app, what, name, obj, options, lines):
 
 def process_modules(app, what, name, obj, options, lines):
     """Add module names to spelling white list."""
+    print("DEBUG: process_modules() called: name={0}".format(name))
     if what != 'module':
         return lines
     from enchant.tokenize import basic_tokenize
@@ -123,6 +130,7 @@ def setup(app):
     app.connect('autodoc-process-docstring', process_django_models)
     app.connect('autodoc-skip-member', skip_queryset)
     if enchant is not None:
+        print("DEBUG: enchant is working")
         app.connect('autodoc-process-docstring', process_modules)
 
 

@@ -269,19 +269,19 @@ using the permissions given to those objects.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
-<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - locked by the admin team</li>
-<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) &#8211; &#8220;live&#8221;</li>
-<li><strong>number</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;OP01 NHSBT Number&#8221;</li>
-<li><strong>date_of_birth</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateField" title="(in Django v1.11)"><em>django.db.models.DateField</em></a>) &#8211; &#8220;OP02 date of birth&#8221; - Date can not be in the future</li>
-<li><strong>date_of_birth_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;date of birth unknown&#8221; - Internal unknown flag</li>
-<li><strong>date_of_death</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateField" title="(in Django v1.11)"><em>django.db.models.DateField</em></a>) &#8211; &#8220;OP08 date of death&#8221; - Date can not be in the future</li>
-<li><strong>date_of_death_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;date of death unknown&#8221; - Internal unknown flag</li>
-<li><strong>gender</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;OP03 gender&#8221;</li>
-<li><strong>weight</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DecimalField" title="(in Django v1.11)"><em>django.db.models.DecimalField</em></a>) &#8211; &#8220;OP04 Weight (kg)&#8221; - Answer must be in range 20.0-200.0kg</li>
-<li><strong>height</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;OP05 Height (cm)&#8221; - Answer must be in range 100-250cm</li>
-<li><strong>ethnicity</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.IntegerField" title="(in Django v1.11)"><em>django.db.models.IntegerField</em></a>) &#8211; &#8220;OP06 ethnicity&#8221;</li>
-<li><strong>blood_group</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;OP07 blood group&#8221;</li>
+<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; ID as &#8220;ID&#8221;</li>
+<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; record locked as &#8220;record locked&#8221; - record locked</li>
+<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) &#8211; live as &#8220;live&#8221;</li>
+<li><strong>number</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; Hospital Number as &#8220;Hospital Number&#8221;</li>
+<li><strong>date_of_birth</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateField" title="(in Django v1.11)"><em>django.db.models.DateField</em></a>) &#8211; Date of Birth as &#8220;Date of Birth&#8221; - Date of Birth</li>
+<li><strong>date_of_birth_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; date of birth unknown as &#8220;date of birth unknown&#8221; - date of birth unknown</li>
+<li><strong>date_of_death</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateField" title="(in Django v1.11)"><em>django.db.models.DateField</em></a>) &#8211; Date of death as &#8220;Date of death&#8221; - Date of death</li>
+<li><strong>date_of_death_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; date of death unknown as &#8220;date of death unknown&#8221; - date of death unknown</li>
+<li><strong>gender</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; Gender as &#8220;Gender&#8221;</li>
+<li><strong>weight</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DecimalField" title="(in Django v1.11)"><em>django.db.models.DecimalField</em></a>) &#8211; Weight (kg) as &#8220;Weight (kg)&#8221; - Weight (kg)</li>
+<li><strong>height</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; Height (cm) as &#8220;Height (cm)&#8221; - Height (cm)</li>
+<li><strong>ethnicity</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.IntegerField" title="(in Django v1.11)"><em>django.db.models.IntegerField</em></a>) &#8211; Ethnicity as &#8220;Ethnicity&#8221;</li>
+<li><strong>blood_group</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; Blood Group as &#8220;Blood Group&#8221;</li>
 </ul>
 </td>
 </tr>
@@ -301,7 +301,7 @@ using the permissions given to those objects.</p>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.core.Patient.GENDER_CHOICES">
-<code class="descname">GENDER_CHOICES</code><em class="property"> = (('M', 'OPc01 Male'), ('F', 'OPc02 Female'))</em><a class="headerlink" href="#wp4.compare.models.core.Patient.GENDER_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">GENDER_CHOICES</code><em class="property"> = (('M', 'Male'), ('F', 'Female'))</em><a class="headerlink" href="#wp4.compare.models.core.Patient.GENDER_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Patient gender choices</p>
 </dd></dl>
 
@@ -325,7 +325,7 @@ using the permissions given to those objects.</p>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.core.Patient.ETHNICITY_CHOICES">
-<code class="descname">ETHNICITY_CHOICES</code><em class="property"> = ((1, 'OPc03 Caucasian'), (2, 'OPc04 Black'), (3, 'OPc05 Other'))</em><a class="headerlink" href="#wp4.compare.models.core.Patient.ETHNICITY_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ETHNICITY_CHOICES</code><em class="property"> = ((1, 'Caucasian'), (2, 'Black'), (3, 'Other'))</em><a class="headerlink" href="#wp4.compare.models.core.Patient.ETHNICITY_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Patient ethnicity choices</p>
 </dd></dl>
 
@@ -361,7 +361,7 @@ using the permissions given to those objects.</p>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.core.Patient.BLOOD_GROUP_CHOICES">
-<code class="descname">BLOOD_GROUP_CHOICES</code><em class="property"> = ((1, 'O'), (2, 'A'), (3, 'B'), (4, 'AB'), (5, 'OPc06 Unknown'))</em><a class="headerlink" href="#wp4.compare.models.core.Patient.BLOOD_GROUP_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">BLOOD_GROUP_CHOICES</code><em class="property"> = ((1, 'O'), (2, 'A'), (3, 'B'), (4, 'AB'), (5, 'Unknown'))</em><a class="headerlink" href="#wp4.compare.models.core.Patient.BLOOD_GROUP_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Patient blood_group choices</p>
 </dd></dl>
 
@@ -651,12 +651,12 @@ want to use the hide permission here on users that are to be &#8220;blinded&#822
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
-<li><strong>donor_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.OneToOneField" title="(in Django v1.11)"><em>django.db.models.OneToOneField</em></a>) &#8211; &#8220;donor&#8221; - Internal link to the Donor</li>
-<li><strong>list_code</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;RA01 list code&#8221;</li>
-<li><strong>result</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;RA02 result&#8221;</li>
-<li><strong>allocated_on</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;RA03 allocated on&#8221;</li>
-<li><strong>allocated_by_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;RA04 allocated by&#8221;</li>
+<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; ID as &#8220;ID&#8221;</li>
+<li><strong>donor_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.OneToOneField" title="(in Django v1.11)"><em>django.db.models.OneToOneField</em></a>) &#8211; donor as &#8220;donor&#8221; - donor</li>
+<li><strong>list_code</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; List Code as &#8220;List Code&#8221;</li>
+<li><strong>result</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; Result as &#8220;Result&#8221;</li>
+<li><strong>allocated_on</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; Result allocated on as &#8220;Result allocated on&#8221;</li>
+<li><strong>allocated_by_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; RA04 allocated by as &#8220;RA04 allocated by&#8221;</li>
 </ul>
 </td>
 </tr>
@@ -688,7 +688,7 @@ want to use the hide permission here on users that are to be &#8220;blinded&#822
 
 <dl class="attribute">
 <dt id="wp4.compare.models.core.Randomisation.LIST_CHOICES">
-<code class="descname">LIST_CHOICES</code><em class="property"> = ((1, 'RNc01 UK Live list'), (2, 'RNc02 Europe Live list'), (4, 'RNc03 UK Offline list'), (3, 'RNc04 Europe Offline list'))</em><a class="headerlink" href="#wp4.compare.models.core.Randomisation.LIST_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">LIST_CHOICES</code><em class="property"> = ((1, 'UK Online List'), (2, 'Europe Online List'), (4, 'UK OFFline List'), (3, 'Europe OFFline list'))</em><a class="headerlink" href="#wp4.compare.models.core.Randomisation.LIST_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Randomisation list choices</p>
 </dd></dl>
 
@@ -811,9 +811,9 @@ is primarily a preset list of data, with helper functions attached.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
-<li><strong>centre_code</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;RT01 centre code&#8221; - Value must be in the range 10-99</li>
-<li><strong>based_at_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;RT02 base hospital&#8221;</li>
+<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; ID as &#8220;ID&#8221;</li>
+<li><strong>centre_code</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; Centre Code as &#8220;Centre Code&#8221; - Centre Code</li>
+<li><strong>based_at_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; Based At as &#8220;Based At&#8221;</li>
 </ul>
 </td>
 </tr>
@@ -929,13 +929,13 @@ able to view it.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
-<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - locked by the admin team</li>
-<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) &#8211; &#8220;live&#8221;</li>
-<li><strong>name</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;HO01 hospital name&#8221;</li>
-<li><strong>country</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;HO02 country&#8221;</li>
-<li><strong>is_active</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;HO03 is active&#8221; - Not presently used/implemented. For legacy data when a location closes for use</li>
-<li><strong>is_project_site</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;HO04 is project site&#8221;</li>
+<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; ID as &#8220;ID&#8221;</li>
+<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; record locked as &#8220;record locked&#8221; - record locked</li>
+<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) &#8211; live as &#8220;live&#8221;</li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; Hospital Name as &#8220;Hospital Name&#8221;</li>
+<li><strong>country</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; Country as &#8220;Country&#8221;</li>
+<li><strong>is_active</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; Active as &#8220;Active&#8221; - Active</li>
+<li><strong>is_project_site</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; Project site as &#8220;Project site&#8221;</li>
 </ul>
 </td>
 </tr>

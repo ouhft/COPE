@@ -213,7 +213,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param id:</th><td class="field-body">&#8220;ID&#8221;</td>
+<tr class="field-odd field"><th class="field-name">param id:</th><td class="field-body">ID as &#8220;ID&#8221;</td>
 </tr>
 </tbody>
 </table>
@@ -280,7 +280,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>barcode</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;BC01 barcode number&#8221;</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>barcode</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; Barcode number as &#8220;Barcode number&#8221;</td>
 </tr>
 </tbody>
 </table>
@@ -313,8 +313,8 @@ Also holds the meta question of whether this specific sample was actually taken 
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>collected</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;DM01 sample collected?&#8221;</li>
-<li><strong>notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.TextField" title="(in Django v1.11)"><em>django.db.models.TextField</em></a>) &#8211; &#8220;DM02 notes&#8221; - Deviation record</li>
+<li><strong>collected</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; Sample taken as &#8220;Sample taken&#8221;</li>
+<li><strong>notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.TextField" title="(in Django v1.11)"><em>django.db.models.TextField</em></a>) &#8211; Notes as &#8220;Notes&#8221; - Notes</li>
 </ul>
 </td>
 </tr>
@@ -355,12 +355,12 @@ object the first time, the query is executed.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
-<li><strong>barcode</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;BC01 barcode number&#8221;</li>
-<li><strong>content_type_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;content type&#8221;</li>
-<li><strong>object_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveIntegerField</em></a>) &#8211; &#8220;object id&#8221;</li>
-<li><strong>box_number</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;box number&#8221;</li>
-<li><strong>position_in_box</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;position in box&#8221;</li>
+<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; ID as &#8220;ID&#8221;</li>
+<li><strong>barcode</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; Barcode number as &#8220;Barcode number&#8221;</li>
+<li><strong>content_type_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; content type as &#8220;content type&#8221;</li>
+<li><strong>object_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveIntegerField</em></a>) &#8211; object id as &#8220;object id&#8221;</li>
+<li><strong>box_number</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; box number as &#8220;box number&#8221;</li>
+<li><strong>position_in_box</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; position in box as &#8220;position in box&#8221;</li>
 </ul>
 </td>
 </tr>
@@ -447,12 +447,12 @@ link between a Worksheet and the various Sample types</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
-<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - locked by the admin team</li>
-<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) &#8211; &#8220;live&#8221;</li>
-<li><strong>type</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;EV01 sample type&#8221;</li>
-<li><strong>name</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;EV03 sample process name&#8221;</li>
-<li><strong>taken_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;EV02 date and time taken&#8221;</li>
+<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; ID as &#8220;ID&#8221;</li>
+<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; record locked as &#8220;record locked&#8221; - record locked</li>
+<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) &#8211; live as &#8220;live&#8221;</li>
+<li><strong>type</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; Sample type as &#8220;Sample type&#8221;</li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; Sample Process as &#8220;Sample Process&#8221;</li>
+<li><strong>taken_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; Date and time taken as &#8220;Date and time taken&#8221;</li>
 </ul>
 </td>
 </tr>
@@ -484,7 +484,7 @@ link between a Worksheet and the various Sample types</p>
 
 <dl class="attribute">
 <dt id="wp4.samples.models.Event.TYPE_CHOICES">
-<code class="descname">TYPE_CHOICES</code><em class="property"> = ((1, 'EVc01 Blood'), (2, 'EVc02 Urine'), (3, 'EVc03 Perfusate'), (4, 'EVc04 Tissue'))</em><a class="headerlink" href="#wp4.samples.models.Event.TYPE_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">TYPE_CHOICES</code><em class="property"> = ((1, 'Blood Samples'), (2, 'Urine Samples'), (3, 'Perfusate Samples'), (4, 'Tissue Samples'))</em><a class="headerlink" href="#wp4.samples.models.Event.TYPE_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Limit of choices for Event type data</p>
 </dd></dl>
 
@@ -544,7 +544,7 @@ link between a Worksheet and the various Sample types</p>
 
 <dl class="attribute">
 <dt id="wp4.samples.models.Event.NAME_CHOICES">
-<code class="descname">NAME_CHOICES</code><em class="property"> = ((1, 'EVc05 donor blood 1'), (2, 'EVc06 donor urine 1'), (3, 'EVc07 donor urine 2'), (4, 'EVc08 organ perfusate 1'), (5, 'EVc09 organ perfusate 2'), (6, 'EVc10 organ perfusate 3'), (7, 'EVc11 organ tissue 1'), (8, 'EVc12 recipient blood 1'), (9, 'EVc13 recipient blood 2'))</em><a class="headerlink" href="#wp4.samples.models.Event.NAME_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">NAME_CHOICES</code><em class="property"> = ((1, 'DB1 Donor Blood Sample'), (2, 'DU1 Donor Urine Sample at Withdrawal of Support'), (3, 'DU2 Donor Urine Sample from Catheter Bag'), (4, 'P1 Perfusate solution after 15 mins of HMP'), (5, 'P2 Perfusate solution prior to departure'), (6, 'P3 Perfusate solution at end of machine perfusion'), (7, 'RKT Kidney Biopsy after reperfusion'), (8, 'RB1 Blood sample after anaesthesia '), (9, 'RB2 Blood sample after reperfusion'))</em><a class="headerlink" href="#wp4.samples.models.Event.NAME_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Limit of choices for Event name data</p>
 </dd></dl>
 
@@ -695,16 +695,16 @@ to aide reverse sample look ups from Patient)</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
-<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - locked by the admin team</li>
-<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) &#8211; &#8220;live&#8221;</li>
-<li><strong>barcode</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;BC01 barcode number&#8221;</li>
-<li><strong>collected</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;DM01 sample collected?&#8221;</li>
-<li><strong>notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.TextField" title="(in Django v1.11)"><em>django.db.models.TextField</em></a>) &#8211; &#8220;DM02 notes&#8221; - Deviation record</li>
-<li><strong>event_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;event&#8221; - Link to an event of type Blood</li>
-<li><strong>blood_type</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;BS02 blood sample type&#8221;</li>
-<li><strong>person_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;BS03 sample from&#8221;</li>
-<li><strong>centrifuged_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;BS01 centrifuged at&#8221;</li>
+<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; ID as &#8220;ID&#8221;</li>
+<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; record locked as &#8220;record locked&#8221; - record locked</li>
+<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) &#8211; live as &#8220;live&#8221;</li>
+<li><strong>barcode</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; Barcode number as &#8220;Barcode number&#8221;</li>
+<li><strong>collected</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; Sample taken as &#8220;Sample taken&#8221;</li>
+<li><strong>notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.TextField" title="(in Django v1.11)"><em>django.db.models.TextField</em></a>) &#8211; Notes as &#8220;Notes&#8221; - Notes</li>
+<li><strong>event_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; event as &#8220;event&#8221; - event</li>
+<li><strong>blood_type</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; Blood sample type as &#8220;Blood sample type&#8221;</li>
+<li><strong>person_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; Blood sample from as &#8220;Blood sample from&#8221;</li>
+<li><strong>centrifuged_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; Time sample centrifuged as &#8220;Time sample centrifuged&#8221;</li>
 </ul>
 </td>
 </tr>
@@ -724,7 +724,7 @@ to aide reverse sample look ups from Patient)</p>
 
 <dl class="attribute">
 <dt id="wp4.samples.models.BloodSample.SAMPLE_CHOICES">
-<code class="descname">SAMPLE_CHOICES</code><em class="property"> = ((1, 'BSc01 Blood SST'), (2, 'BSc02 Blood EDSA'))</em><a class="headerlink" href="#wp4.samples.models.BloodSample.SAMPLE_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">SAMPLE_CHOICES</code><em class="property"> = ((1, 'Blood Sample SST'), (2, 'Blood Sample EDTA'))</em><a class="headerlink" href="#wp4.samples.models.BloodSample.SAMPLE_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Limit of choices for BloodSample blood_type</p>
 </dd></dl>
 
@@ -846,15 +846,15 @@ to aide reverse sample look ups from Patient)</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
-<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - locked by the admin team</li>
-<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) &#8211; &#8220;live&#8221;</li>
-<li><strong>barcode</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;BC01 barcode number&#8221;</li>
-<li><strong>collected</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;DM01 sample collected?&#8221;</li>
-<li><strong>notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.TextField" title="(in Django v1.11)"><em>django.db.models.TextField</em></a>) &#8211; &#8220;DM02 notes&#8221; - Deviation record</li>
-<li><strong>event_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;event&#8221; - Link to an event of type Urine</li>
-<li><strong>person_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;US02 sample from&#8221;</li>
-<li><strong>centrifuged_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;US01 centrifuged at&#8221;</li>
+<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; ID as &#8220;ID&#8221;</li>
+<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; record locked as &#8220;record locked&#8221; - record locked</li>
+<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) &#8211; live as &#8220;live&#8221;</li>
+<li><strong>barcode</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; Barcode number as &#8220;Barcode number&#8221;</li>
+<li><strong>collected</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; Sample taken as &#8220;Sample taken&#8221;</li>
+<li><strong>notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.TextField" title="(in Django v1.11)"><em>django.db.models.TextField</em></a>) &#8211; Notes as &#8220;Notes&#8221; - Notes</li>
+<li><strong>event_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; event as &#8220;event&#8221; - event</li>
+<li><strong>person_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; Urine sample from as &#8220;Urine sample from&#8221;</li>
+<li><strong>centrifuged_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; Time centrifuged as &#8220;Time centrifuged&#8221;</li>
 </ul>
 </td>
 </tr>
@@ -966,15 +966,15 @@ to aide reverse sample look ups from Patient)</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
-<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - locked by the admin team</li>
-<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) &#8211; &#8220;live&#8221;</li>
-<li><strong>barcode</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;BC01 barcode number&#8221;</li>
-<li><strong>collected</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;DM01 sample collected?&#8221;</li>
-<li><strong>notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.TextField" title="(in Django v1.11)"><em>django.db.models.TextField</em></a>) &#8211; &#8220;DM02 notes&#8221; - Deviation record</li>
-<li><strong>event_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;event&#8221; - Link to an event of type Perfusate</li>
-<li><strong>organ_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;PS02 sample from&#8221;</li>
-<li><strong>centrifuged_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;PS01 centrifuged at&#8221;</li>
+<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; ID as &#8220;ID&#8221;</li>
+<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; record locked as &#8220;record locked&#8221; - record locked</li>
+<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) &#8211; live as &#8220;live&#8221;</li>
+<li><strong>barcode</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; Barcode number as &#8220;Barcode number&#8221;</li>
+<li><strong>collected</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; Sample taken as &#8220;Sample taken&#8221;</li>
+<li><strong>notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.TextField" title="(in Django v1.11)"><em>django.db.models.TextField</em></a>) &#8211; Notes as &#8220;Notes&#8221; - Notes</li>
+<li><strong>event_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; event as &#8220;event&#8221; - event</li>
+<li><strong>organ_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; Perfusate sample from as &#8220;Perfusate sample from&#8221;</li>
+<li><strong>centrifuged_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; Time centrifuged as &#8220;Time centrifuged&#8221;</li>
 </ul>
 </td>
 </tr>
@@ -1086,15 +1086,15 @@ to aide reverse sample look ups from Patient)</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
-<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - locked by the admin team</li>
-<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) &#8211; &#8220;live&#8221;</li>
-<li><strong>barcode</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;BC01 barcode number&#8221;</li>
-<li><strong>collected</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;DM01 sample collected?&#8221;</li>
-<li><strong>notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.TextField" title="(in Django v1.11)"><em>django.db.models.TextField</em></a>) &#8211; &#8220;DM02 notes&#8221; - Deviation record</li>
-<li><strong>event_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;event&#8221; - Link to an event of type Tissue</li>
-<li><strong>organ_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;TS01 sample from&#8221;</li>
-<li><strong>tissue_type</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;TS02 tissue sample type&#8221;</li>
+<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; ID as &#8220;ID&#8221;</li>
+<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; record locked as &#8220;record locked&#8221; - record locked</li>
+<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) &#8211; live as &#8220;live&#8221;</li>
+<li><strong>barcode</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; Barcode number as &#8220;Barcode number&#8221;</li>
+<li><strong>collected</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; Sample taken as &#8220;Sample taken&#8221;</li>
+<li><strong>notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.TextField" title="(in Django v1.11)"><em>django.db.models.TextField</em></a>) &#8211; Notes as &#8220;Notes&#8221; - Notes</li>
+<li><strong>event_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; event as &#8220;event&#8221; - event</li>
+<li><strong>organ_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; Tissue sample from as &#8220;Tissue sample from&#8221;</li>
+<li><strong>tissue_type</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; Tissue sample type as &#8220;Tissue sample type&#8221;</li>
 </ul>
 </td>
 </tr>
@@ -1114,7 +1114,7 @@ to aide reverse sample look ups from Patient)</p>
 
 <dl class="attribute">
 <dt id="wp4.samples.models.TissueSample.SAMPLE_CHOICES">
-<code class="descname">SAMPLE_CHOICES</code><em class="property"> = (('F', 'TSc01 ReK1F'), ('R', 'TSc02 ReK1R'))</em><a class="headerlink" href="#wp4.samples.models.TissueSample.SAMPLE_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">SAMPLE_CHOICES</code><em class="property"> = (('F', 'Formalin Biopsy'), ('R', 'RNA Later Biopsy'))</em><a class="headerlink" href="#wp4.samples.models.TissueSample.SAMPLE_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Limit of choices for BloodSample tissue_type</p>
 </dd></dl>
 
