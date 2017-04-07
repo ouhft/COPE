@@ -1,5 +1,5 @@
-wp4.adverse_event.models
-========================
+wp4\.adverse\_event\.models
+===========================
 
 .. automodule:: wp4.adverse_event.models
 
@@ -19,10 +19,13 @@ wp4.adverse_event.models
 
    .. autosummary::
    
-      AdverseEvent
+      AuditControlModelBase
+      Category
+      Event
+      EventModelForUserManager
+      LiveManager
       Organ
-      StaffPerson
-      VersionControlMixin
+      Person
    
    
 

@@ -1,5 +1,5 @@
-wp4.perfusion_machine.models
-============================
+wp4\.perfusion\_machine\.models
+===============================
 
 .. automodule:: wp4.perfusion_machine.models
 
@@ -13,9 +13,7 @@ wp4.perfusion_machine.models
 
    .. autosummary::
    
-      BaseModelMixin
-      PerfusionFile
-      PerfusionMachine
+      Machine
    
    
 

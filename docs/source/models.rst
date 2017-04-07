@@ -22,7 +22,6 @@ NB: WP4.Compare.Models.Core defines a range of common CONSTANTS used widely thro
 
    wp4.compare.models.core
    wp4.compare.models.donor
-   wp4.compare.models.organ
    wp4.compare.models.transplantation
 
 Adverse Event
@@ -90,12 +89,12 @@ The Samples app manages the collection of meta-data related to the various bioba
 Staff Person
 ------------
 
-The Staff Person app is a helper module to manage staff members that will be interacting with this system.
+The Staff app is a helper module to manage staff members that will be interacting with this system.
 
 .. autosummary::
    :toctree: generated
 
-   wp4.staff_person.models
+   wp4.staff.models
 
 Theme
 -----

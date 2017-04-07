@@ -8,9 +8,11 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>wp4.samples.models &mdash; COPE DB 0.6.0 documentation</title>
+  <title>wp4.samples.models &mdash; COPE DB 0.8.2 documentation</title>
   
 
+  
+  
   
   
 
@@ -30,7 +32,10 @@
   
 
   
-    <link rel="top" title="COPE DB 0.6.0 documentation" href="../../../index.html"/>
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="COPE DB 0.8.2 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -40,6 +45,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -59,7 +65,7 @@
             
             
               <div class="version">
-                0.6.0
+                0.8.2
               </div>
             
           
@@ -80,7 +86,10 @@
           
             
             
-                <ul>
+              
+            
+            
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../source/user_manual.html">COPE DB User Manual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../source/deployment.html">Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../source/development.html">Development Setup</a></li>
@@ -100,8 +109,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../../../index.html">COPE DB</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">COPE DB</a>
+        
       </nav>
 
 
@@ -114,19 +125,36 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../../../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="../../index.html">Module code</a> &raquo;</li>
-      
-    <li>wp4.samples.models</li>
+        
+      <li>wp4.samples.models</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -137,43 +165,58 @@
 <span class="c1"># coding: utf-8</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">unicode_literals</span>
 
+<span class="kn">from</span> <span class="nn">django.contrib.contenttypes.fields</span> <span class="k">import</span> <span class="n">GenericForeignKey</span><span class="p">,</span> <span class="n">GenericRelation</span>
+<span class="kn">from</span> <span class="nn">django.contrib.contenttypes.models</span> <span class="k">import</span> <span class="n">ContentType</span>
 <span class="kn">from</span> <span class="nn">django.core.validators</span> <span class="k">import</span> <span class="n">ValidationError</span>
+<span class="kn">from</span> <span class="nn">django.core.urlresolvers</span> <span class="k">import</span> <span class="n">reverse</span>
 <span class="kn">from</span> <span class="nn">django.db</span> <span class="k">import</span> <span class="n">models</span>
 <span class="kn">from</span> <span class="nn">django.utils</span> <span class="k">import</span> <span class="n">timezone</span>
 <span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="k">import</span> <span class="n">ugettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
 
-<span class="kn">from</span> <span class="nn">..compare.models</span> <span class="k">import</span> <span class="n">OrganPerson</span><span class="p">,</span> <span class="n">VersionControlMixin</span><span class="p">,</span> <span class="n">Organ</span>
+
+<span class="kn">from</span> <span class="nn">wp4.compare.models.core</span> <span class="k">import</span> <span class="n">AuditControlModelBase</span>
+<span class="kn">from</span> <span class="nn">wp4.compare.models</span> <span class="k">import</span> <span class="n">Patient</span><span class="p">,</span> <span class="n">Organ</span>
+<span class="kn">from</span> <span class="nn">.managers</span> <span class="k">import</span> <span class="n">EventModelForUserManager</span><span class="p">,</span> <span class="n">SampleFromOrganModelForUserManager</span><span class="p">,</span> <span class="n">SampleFromPersonModelForUserManager</span>
 
 
-<div class="viewcode-block" id="BarCodedItem"><a class="viewcode-back" href="../../../source/generated/wp4.samples.models.html#wp4.samples.models.BarCodedItem">[docs]</a><span class="k">class</span> <span class="nc">BarCodedItem</span><span class="p">(</span><span class="n">VersionControlMixin</span><span class="p">):</span>
+<div class="viewcode-block" id="BarCodeMixin"><a class="viewcode-back" href="../../../source/generated/wp4.samples.models.html#wp4.samples.models.BarCodeMixin">[docs]</a><span class="k">class</span> <span class="nc">BarCodeMixin</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Base meta class for many Sample classes, that extends VersionControlMixin with a barcode field</span>
+<span class="sd">    Extends with a barcode field</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">barcode</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;BC01 barcode number&quot;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">barcode</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;BC01 barcode number&quot;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">db_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<div class="viewcode-block" id="BarCodedItem.Meta"><a class="viewcode-back" href="../../../source/generated/wp4.samples.models.html#wp4.samples.models.BarCodedItem.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+<div class="viewcode-block" id="BarCodeMixin.Meta"><a class="viewcode-back" href="../../../source/generated/wp4.samples.models.html#wp4.samples.models.BarCodeMixin.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
         <span class="n">abstract</span> <span class="o">=</span> <span class="kc">True</span></div>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">barcode</span></div>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">: </span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">barcode</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Worksheet"><a class="viewcode-back" href="../../../source/generated/wp4.samples.models.html#wp4.samples.models.Worksheet">[docs]</a><span class="k">class</span> <span class="nc">Worksheet</span><span class="p">(</span><span class="n">BarCodedItem</span><span class="p">):</span>
+<div class="viewcode-block" id="DeviationMixin"><a class="viewcode-back" href="../../../source/generated/wp4.samples.models.html#wp4.samples.models.DeviationMixin">[docs]</a><span class="k">class</span> <span class="nc">DeviationMixin</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Record of each Worksheet that links specific samples taken with a specific OrganPerson</span>
+<span class="sd">    In place of Deviation records on a worksheet, we have a way of tracking them per sample.</span>
+<span class="sd">    Also holds the meta question of whether this specific sample was actually taken or not.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">person</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">OrganPerson</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Donor or Recipient that this worksheet relates to&quot;</span><span class="p">)</span>
+    <span class="n">collected</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;DM01 sample collected?&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">notes</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;DM02 notes&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Deviation record&quot;</span><span class="p">)</span>
 
-    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
-        <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;person&#39;</span><span class="p">]</span>
-        <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;WSm1 worksheet&#39;</span><span class="p">)</span>
-        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;WSm2 worksheets&#39;</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">barcode</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">barcode</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> - No Barcode entered&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span></div>
+<div class="viewcode-block" id="DeviationMixin.Meta"><a class="viewcode-back" href="../../../source/generated/wp4.samples.models.html#wp4.samples.models.DeviationMixin.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">abstract</span> <span class="o">=</span> <span class="kc">True</span></div></div>
 
 
-<div class="viewcode-block" id="Event"><a class="viewcode-back" href="../../../source/generated/wp4.samples.models.html#wp4.samples.models.Event">[docs]</a><span class="k">class</span> <span class="nc">Event</span><span class="p">(</span><span class="n">VersionControlMixin</span><span class="p">):</span>
+<div class="viewcode-block" id="WP7Record"><a class="viewcode-back" href="../../../source/generated/wp4.samples.models.html#wp4.samples.models.WP7Record">[docs]</a><span class="k">class</span> <span class="nc">WP7Record</span><span class="p">(</span><span class="n">BarCodeMixin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Based on an export from the WP7 Database. A record in this table means a sample exists on file in the Biobank</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">content_type</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">ContentType</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">object_id</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveIntegerField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">content_object</span> <span class="o">=</span> <span class="n">GenericForeignKey</span><span class="p">()</span>
+
+    <span class="n">box_number</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">position_in_box</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Event"><a class="viewcode-back" href="../../../source/generated/wp4.samples.models.html#wp4.samples.models.Event">[docs]</a><span class="k">class</span> <span class="nc">Event</span><span class="p">(</span><span class="n">AuditControlModelBase</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A Sample Event is a timepoint and process where a specific type of biological sample was extracted</span>
 <span class="sd">    from a person. This even can validate whether enough biological samples were taken (e.g. a blood</span>
@@ -211,10 +254,11 @@
         <span class="p">(</span><span class="n">NAME_RECIPIENT_BLOOD2</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;EVc13 recipient blood 2&quot;</span><span class="p">)),</span>
     <span class="p">)</span>  <span class="c1">#: Limit of choices for Event name data</span>
 
-    <span class="n">worksheet</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Worksheet</span><span class="p">)</span>  <span class="c1"># Internal link to the Worksheet</span>
     <span class="nb">type</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;EV01 sample type&quot;</span><span class="p">),</span> <span class="n">choices</span><span class="o">=</span><span class="n">TYPE_CHOICES</span><span class="p">)</span>
     <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;EV03 sample process name&quot;</span><span class="p">),</span> <span class="n">choices</span><span class="o">=</span><span class="n">NAME_CHOICES</span><span class="p">)</span>
     <span class="n">taken_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;EV02 date and time taken&quot;</span><span class="p">),</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">objects</span> <span class="o">=</span> <span class="n">EventModelForUserManager</span><span class="p">()</span>
 
     <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
         <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">]</span>
@@ -269,27 +313,18 @@
                 <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;EVv05 Time travel detected! Taken at date and time is in the future!&quot;</span><span class="p">))</span></div>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_type_display</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">taken_at</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_type_display</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">taken_at</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Event.get_absolute_url"><a class="viewcode-back" href="../../../source/generated/wp4.samples.models.html#wp4.samples.models.Event.get_absolute_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_absolute_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">reverse</span><span class="p">(</span><span class="s2">&quot;wp4:samples:event_detail&quot;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;pk&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pk</span><span class="p">})</span></div></div>
 
 
-<div class="viewcode-block" id="DeviationMixin"><a class="viewcode-back" href="../../../source/generated/wp4.samples.models.html#wp4.samples.models.DeviationMixin">[docs]</a><span class="k">class</span> <span class="nc">DeviationMixin</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    In place of Deviation records on a worksheet, we have a way of tracking them per sample.</span>
-<span class="sd">    Also holds the meta question of whether this specific sample was actually taken or not.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">collected</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;DM01 sample collected?&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">notes</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;DM02 notes&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Deviation record&quot;</span><span class="p">)</span>
-
-<div class="viewcode-block" id="DeviationMixin.Meta"><a class="viewcode-back" href="../../../source/generated/wp4.samples.models.html#wp4.samples.models.DeviationMixin.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
-        <span class="n">abstract</span> <span class="o">=</span> <span class="kc">True</span></div></div>
-
-
-<div class="viewcode-block" id="BloodSample"><a class="viewcode-back" href="../../../source/generated/wp4.samples.models.html#wp4.samples.models.BloodSample">[docs]</a><span class="k">class</span> <span class="nc">BloodSample</span><span class="p">(</span><span class="n">BarCodedItem</span><span class="p">,</span> <span class="n">DeviationMixin</span><span class="p">):</span>
+<div class="viewcode-block" id="BloodSample"><a class="viewcode-back" href="../../../source/generated/wp4.samples.models.html#wp4.samples.models.BloodSample">[docs]</a><span class="k">class</span> <span class="nc">BloodSample</span><span class="p">(</span><span class="n">AuditControlModelBase</span><span class="p">,</span> <span class="n">BarCodeMixin</span><span class="p">,</span> <span class="n">DeviationMixin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Sample class type for Blood samples.</span>
 
-<span class="sd">    Also contains a helper (repeated, but direct) link to the OrganPerson this sample was from (mainly</span>
-<span class="sd">    to aide reverse sample look ups from OrganPerson)</span>
+<span class="sd">    Also contains a helper (repeated, but direct) link to the Patient this sample was from (mainly</span>
+<span class="sd">    to aide reverse sample look ups from Patient)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">SAMPLE_SST</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1">#: Constant for SAMPLE_CHOICES</span>
     <span class="n">SAMPLE_EDSA</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1">#: Constant for SAMPLE_CHOICES</span>
@@ -304,8 +339,11 @@
         <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Link to an event of type Blood&quot;</span>
     <span class="p">)</span>
     <span class="n">blood_type</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;BS02 blood sample type&quot;</span><span class="p">),</span> <span class="n">choices</span><span class="o">=</span><span class="n">SAMPLE_CHOICES</span><span class="p">)</span>
-    <span class="n">person</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">OrganPerson</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;BS03 sample from&quot;</span><span class="p">))</span>
+    <span class="n">person</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Patient</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;BS03 sample from&quot;</span><span class="p">))</span>
     <span class="n">centrifuged_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;BS01 centrifuged at&quot;</span><span class="p">),</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">wp7_location</span> <span class="o">=</span> <span class="n">GenericRelation</span><span class="p">(</span><span class="n">WP7Record</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">objects</span> <span class="o">=</span> <span class="n">SampleFromPersonModelForUserManager</span><span class="p">()</span>
 
     <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
         <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;person&#39;</span><span class="p">,</span> <span class="s1">&#39;event__taken_at&#39;</span><span class="p">]</span>
@@ -335,20 +373,23 @@
                     <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;BSv03 Body in spin dryer! Sample was centrifuged before it was taken?&quot;</span><span class="p">))</span></div></div>
 
 
-<div class="viewcode-block" id="UrineSample"><a class="viewcode-back" href="../../../source/generated/wp4.samples.models.html#wp4.samples.models.UrineSample">[docs]</a><span class="k">class</span> <span class="nc">UrineSample</span><span class="p">(</span><span class="n">BarCodedItem</span><span class="p">,</span> <span class="n">DeviationMixin</span><span class="p">):</span>
+<div class="viewcode-block" id="UrineSample"><a class="viewcode-back" href="../../../source/generated/wp4.samples.models.html#wp4.samples.models.UrineSample">[docs]</a><span class="k">class</span> <span class="nc">UrineSample</span><span class="p">(</span><span class="n">AuditControlModelBase</span><span class="p">,</span> <span class="n">BarCodeMixin</span><span class="p">,</span> <span class="n">DeviationMixin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Sample class type for Urine samples.</span>
 
-<span class="sd">    Also contains a helper (repeated, but direct) link to the OrganPerson this sample was from (mainly</span>
-<span class="sd">    to aide reverse sample look ups from OrganPerson)</span>
+<span class="sd">    Also contains a helper (repeated, but direct) link to the Patient this sample was from (mainly</span>
+<span class="sd">    to aide reverse sample look ups from Patient)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">event</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span>
         <span class="n">Event</span><span class="p">,</span>
         <span class="n">limit_choices_to</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">Event</span><span class="o">.</span><span class="n">TYPE_URINE</span><span class="p">},</span>
         <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Link to an event of type Urine&quot;</span>
     <span class="p">)</span>
-    <span class="n">person</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">OrganPerson</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;US02 sample from&quot;</span><span class="p">))</span>
+    <span class="n">person</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Patient</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;US02 sample from&quot;</span><span class="p">))</span>
     <span class="n">centrifuged_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;US01 centrifuged at&quot;</span><span class="p">),</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">wp7_location</span> <span class="o">=</span> <span class="n">GenericRelation</span><span class="p">(</span><span class="n">WP7Record</span><span class="p">)</span>
+
+    <span class="n">objects</span> <span class="o">=</span> <span class="n">SampleFromPersonModelForUserManager</span><span class="p">()</span>
 
     <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
         <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;person&#39;</span><span class="p">,</span> <span class="s1">&#39;event__taken_at&#39;</span><span class="p">]</span>
@@ -378,12 +419,12 @@
                     <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;USv03 Body in spin dryer! Sample was centrifuged before it was taken?&quot;</span><span class="p">))</span></div></div>
 
 
-<div class="viewcode-block" id="PerfusateSample"><a class="viewcode-back" href="../../../source/generated/wp4.samples.models.html#wp4.samples.models.PerfusateSample">[docs]</a><span class="k">class</span> <span class="nc">PerfusateSample</span><span class="p">(</span><span class="n">BarCodedItem</span><span class="p">,</span> <span class="n">DeviationMixin</span><span class="p">):</span>
+<div class="viewcode-block" id="PerfusateSample"><a class="viewcode-back" href="../../../source/generated/wp4.samples.models.html#wp4.samples.models.PerfusateSample">[docs]</a><span class="k">class</span> <span class="nc">PerfusateSample</span><span class="p">(</span><span class="n">AuditControlModelBase</span><span class="p">,</span> <span class="n">BarCodeMixin</span><span class="p">,</span> <span class="n">DeviationMixin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Sample class type for Perfusate samples.</span>
 
-<span class="sd">    Also contains a helper (repeated, but direct) link to the OrganPerson this sample was from (mainly</span>
-<span class="sd">    to aide reverse sample look ups from OrganPerson)</span>
+<span class="sd">    Also contains a helper (repeated, but direct) link to the Patient this sample was from (mainly</span>
+<span class="sd">    to aide reverse sample look ups from Patient)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">event</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span>
         <span class="n">Event</span><span class="p">,</span>
@@ -392,6 +433,9 @@
     <span class="p">)</span>
     <span class="n">organ</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Organ</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;PS02 sample from&quot;</span><span class="p">))</span>
     <span class="n">centrifuged_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;PS01 centrifuged at&quot;</span><span class="p">),</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">wp7_location</span> <span class="o">=</span> <span class="n">GenericRelation</span><span class="p">(</span><span class="n">WP7Record</span><span class="p">)</span>
+
+    <span class="n">objects</span> <span class="o">=</span> <span class="n">SampleFromOrganModelForUserManager</span><span class="p">()</span>
 
     <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
         <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;organ&#39;</span><span class="p">,</span> <span class="s1">&#39;event__taken_at&#39;</span><span class="p">]</span>
@@ -421,12 +465,12 @@
                     <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;PSv03 Body in spin dryer! Sample was centrifuged before it was taken?&quot;</span><span class="p">))</span></div></div>
 
 
-<div class="viewcode-block" id="TissueSample"><a class="viewcode-back" href="../../../source/generated/wp4.samples.models.html#wp4.samples.models.TissueSample">[docs]</a><span class="k">class</span> <span class="nc">TissueSample</span><span class="p">(</span><span class="n">BarCodedItem</span><span class="p">,</span> <span class="n">DeviationMixin</span><span class="p">):</span>
+<div class="viewcode-block" id="TissueSample"><a class="viewcode-back" href="../../../source/generated/wp4.samples.models.html#wp4.samples.models.TissueSample">[docs]</a><span class="k">class</span> <span class="nc">TissueSample</span><span class="p">(</span><span class="n">AuditControlModelBase</span><span class="p">,</span> <span class="n">BarCodeMixin</span><span class="p">,</span> <span class="n">DeviationMixin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Sample class type for Perfusate samples.</span>
 
-<span class="sd">    Also contains a helper (repeated, but direct) link to the OrganPerson this sample was from (mainly</span>
-<span class="sd">    to aide reverse sample look ups from OrganPerson)</span>
+<span class="sd">    Also contains a helper (repeated, but direct) link to the Patient this sample was from (mainly</span>
+<span class="sd">    to aide reverse sample look ups from Patient)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">SAMPLE_R</span> <span class="o">=</span> <span class="s2">&quot;R&quot;</span>  <span class="c1">#: Constant for SAMPLE_CHOICES</span>
     <span class="n">SAMPLE_F</span> <span class="o">=</span> <span class="s2">&quot;F&quot;</span>  <span class="c1">#: Constant for SAMPLE_CHOICES</span>
@@ -442,6 +486,9 @@
     <span class="p">)</span>
     <span class="n">organ</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Organ</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;TS01 sample from&quot;</span><span class="p">))</span>
     <span class="n">tissue_type</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">SAMPLE_CHOICES</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;TS02 tissue sample type&quot;</span><span class="p">))</span>
+    <span class="n">wp7_location</span> <span class="o">=</span> <span class="n">GenericRelation</span><span class="p">(</span><span class="n">WP7Record</span><span class="p">)</span>
+
+    <span class="n">objects</span> <span class="o">=</span> <span class="n">SampleFromOrganModelForUserManager</span><span class="p">()</span>
 
     <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
         <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;organ&#39;</span><span class="p">,</span> <span class="s1">&#39;event__taken_at&#39;</span><span class="p">]</span>
@@ -462,6 +509,9 @@
                 <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;TSv02 Please record the time the sample was taken&quot;</span><span class="p">))</span></div></div>
 </pre></div>
 
+           </div>
+           <div class="articleComments">
+            
            </div>
           </div>
           <footer>
@@ -493,10 +543,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.6.0',
+            VERSION:'0.8.2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../../../_static/jquery.js"></script>

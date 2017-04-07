@@ -1,5 +1,5 @@
-wp4.compare.models.core
-=======================
+wp4\.compare\.models\.core
+==========================
 
 .. automodule:: wp4.compare.models.core
 
@@ -9,6 +9,8 @@ wp4.compare.models.core
 
    .. autosummary::
    
+      random
+      random_5050
       validate_not_in_future
    
    
@@ -19,13 +21,15 @@ wp4.compare.models.core
 
    .. autosummary::
    
-      BaseModelMixin
+      AuditControlModelBase
+      LiveManager
       MaxValueValidator
       MinValueValidator
-      OrganPerson
+      Patient
+      Person
+      Randomisation
       RetrievalTeam
-      User
-      VersionControlMixin
+      RetrievalTeamModelForUserManager
       cached_property
       relativedelta
    

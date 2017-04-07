@@ -1,5 +1,5 @@
-wp4.health_economics.models
-===========================
+wp4\.health\_economics\.models
+==============================
 
 .. automodule:: wp4.health_economics.models
 
@@ -20,16 +20,17 @@ wp4.health_economics.models
 
    .. autosummary::
    
-      BaseModelMixin
+      AuditControlModelBase
+      HealthEconomicsModelForUserManager
       MaxValueValidator
       MinValueValidator
       QualityOfLife
       Recipient
       ResourceHospitalAdmission
       ResourceLog
+      ResourceLogModelForUserManager
       ResourceRehabilitation
       ResourceVisit
-      VersionControlMixin
    
    
 

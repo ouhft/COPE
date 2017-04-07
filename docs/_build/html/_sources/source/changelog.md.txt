@@ -2,6 +2,20 @@
 
 This is a list of changes made to the website and application for each release.
 
+## v0.6.4 (14 Oct 2016) - Bugfix
+* Security updates to core libraries
+* Added Admin report for SAE Summary (Issue #126)
+* Added Admin report for Transplantation Sites (Issue #125)
+* Added Admin report for Procurement Pairs (Issue #123)
+
+## v0.6.3 (3 Aug 2016) - Bugfix
+* Fixed an error after randomisation bug (Issue #120)
+* Increased loading speed for Samples (Issue #77)
+* Added Admin link to cases (Issue #117)
+
+## v0.6.2 (5 July 2016) - Bugfix
+* Labelling change for Transplantation form (Issue #58)
+
 ## v0.6.1 (1 July 2016) - Bugfix
 * Resolved Internal Server Errors due to an issue with date_of_birth (Issue #116)
 

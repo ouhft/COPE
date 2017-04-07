@@ -8,9 +8,11 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Deployment &mdash; COPE DB 0.6.0 documentation</title>
+  <title>Deployment &mdash; COPE DB 0.8.2 documentation</title>
   
 
+  
+  
   
   
 
@@ -30,7 +32,10 @@
   
 
   
-    <link rel="top" title="COPE DB 0.6.0 documentation" href="../index.html"/>
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="COPE DB 0.8.2 documentation" href="../index.html"/>
         <link rel="next" title="Development Setup" href="development.html"/>
         <link rel="prev" title="COPE DB User Manual" href="user_manual.html"/> 
 
@@ -41,6 +46,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -60,7 +66,7 @@
             
             
               <div class="version">
-                0.6.0
+                0.8.2
               </div>
             
           
@@ -81,7 +87,10 @@
           
             
             
-                <ul class="current">
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="user_manual.html">COPE DB User Manual</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Deployment</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#test-staging-webfaction">Test/Staging (Webfaction)</a><ul>
@@ -110,6 +119,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#reset-backup">Reset backup:</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#migrating-from-lts-14-04-to-lts-16-04-1">Migrating from LTS 14.04 to LTS 16.04.1</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#todo">TODO</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#footnotes-for-production">Footnotes for Production</a></li>
 </ul>
@@ -133,8 +143,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../index.html">COPE DB</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">COPE DB</a>
+        
       </nav>
 
 
@@ -143,23 +155,40 @@
         <div class="rst-content">
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../index.html">Docs</a> &raquo;</li>
-      
-    <li>Deployment</li>
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Deployment</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
-            <a href="../_sources/source/deployment.txt" rel="nofollow"> View page source</a>
+            
+            <a href="../_sources/source/deployment.md.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -353,7 +382,7 @@ little as possible.</p>
 <span class="n">changing</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">mailname</span> <span class="n">to</span> <span class="n">cope</span><span class="o">.</span><span class="n">nds</span><span class="o">.</span><span class="n">ox</span><span class="o">.</span><span class="n">ac</span><span class="o">.</span><span class="n">uk</span>
 <span class="n">setting</span> <span class="n">myorigin</span>
 <span class="n">setting</span> <span class="n">destinations</span><span class="p">:</span> <span class="n">cope</span><span class="o">.</span><span class="n">nds</span><span class="o">.</span><span class="n">ox</span><span class="o">.</span><span class="n">ac</span><span class="o">.</span><span class="n">uk</span><span class="p">,</span> <span class="n">cope</span><span class="o">.</span><span class="n">nds</span><span class="p">,</span> <span class="n">localhost</span><span class="o">.</span><span class="n">nds</span><span class="p">,</span> <span class="n">localhost</span>
-<span class="n">setting</span> <span class="n">relayhost</span><span class="p">:</span> <span class="n">oxmail</span><span class="o">.</span><span class="n">ox</span><span class="o">.</span><span class="n">ac</span><span class="o">.</span><span class="n">uk</span>
+<span class="n">setting</span> <span class="n">relayhost</span><span class="p">:</span> <span class="n">smtp</span><span class="o">.</span><span class="n">ox</span><span class="o">.</span><span class="n">ac</span><span class="o">.</span><span class="n">uk</span>
 </pre></div>
 </div>
 <p>Current info on the Oxford smarthost is at <a class="reference external" href="#">http://help.it.ox.ac.uk/network/smtp/relay/index</a></p>
@@ -587,6 +616,8 @@ start of x-header names before making the header available in request.META.)
 <li>Check things are working so far <code class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">check</span></code></li>
 <li>Apply any necessary migrations <code class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">migrate</span></code></li>
 <li>Gather the staticfiles up <code class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">collectstatic</span></code></li>
+<li>Apply the locale updates <code class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">compilemessages</span></code></li>
+<li>Check things are working so far II <code class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">check</span></code></li>
 <li>Start the supervisor console to reload the changes <code class="docutils literal"><span class="pre">sudo</span> <span class="pre">supervisorctl</span></code>...</li>
 <li>and then <code class="docutils literal"><span class="pre">restart</span> <span class="pre">cope-django</span></code></li>
 <li>...and all should be fine.</li>
@@ -693,6 +724,39 @@ postgres@cope:~$ createdb copedb
 </ul>
 </div>
 </div>
+<div class="section" id="migrating-from-lts-14-04-to-lts-16-04-1">
+<span id="migrating-from-lts-14-04-to-lts-16-04-1"></span><h3>Migrating from LTS 14.04 to LTS 16.04.1<a class="headerlink" href="#migrating-from-lts-14-04-to-lts-16-04-1" title="Permalink to this headline">¶</a></h3>
+<p>...did not go smoothly :-/</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">autoremove</span></code> to clear enough space on <code class="docutils literal"><span class="pre">/boot</span></code></li>
+<li><code class="docutils literal"><span class="pre">sudo</span> <span class="pre">do-release-upgrade</span></code></li>
+<li>Will need to update <code class="docutils literal"><span class="pre">\etc\sudoers</span></code> via the command <code class="docutils literal"><span class="pre">visudo</span></code> which has to be executed as root</li>
+<li>Update <code class="docutils literal"><span class="pre">/etc/nginx/nginx.conf</span></code></li>
+<li>Investigate the Postgres updates</li>
+<li><code class="docutils literal"><span class="pre">sudo</span> <span class="pre">systemctl</span> <span class="pre">enable</span> <span class="pre">supervisor.service</span></code> to re-enable supervisor to start on bootup</li>
+<li>Reboot the server manually</li>
+<li>... now we diagnose why the supervisor cope script won&#8217;t start up; outwardly because the virtualenv is not working.</li>
+<li>Recreate the virtualenv, because the python links are broken since there has been a change from python3.4 to python3.5</li>
+</ul>
+<div class="highlight-default"><div class="highlight"><pre><span></span>Configuring postgresql-common ├─────────────────────────────────────────┐  
+ │                                                                                                                   │  
+ │ Obsolete major version 9.3                                                                                        │  
+ │                                                                                                                   │  
+ │ The PostgreSQL version 9.3 is obsolete, but the server or client packages are still installed. Please install     │  
+ │ the latest packages (postgresql-9.5 and postgresql-client-9.5) and upgrade the existing  clusters with            │  
+ │ pg_upgradecluster (see manpage).                                                                                  │  
+ │                                                                                                                   │  
+ │ Please be aware that the installation of postgresql-9.5 will automatically create a default cluster 9.5/main. If  │  
+ │ you want to upgrade the 9.3/main cluster, you need to remove the already existing 9.5 cluster (pg_dropcluster     │  
+ │ --stop 9.5 main, see manpage for details).                                                                        │  
+ │                                                                                                                   │  
+ │ The old server and client packages are no longer supported. After the existing clusters are upgraded, the         │  
+ │ postgresql-9.3 and postgresql-client-9.3 packages should be removed.                                              │  
+ │                                                                                                                   │  
+ │ Please see /usr/share/doc/postgresql-common/README.Debian.gz for details.         
+</pre></div>
+</div>
+</div>
 <div class="section" id="todo">
 <span id="todo"></span><h3>TODO<a class="headerlink" href="#todo" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
@@ -727,15 +791,18 @@ postgres@cope:~$ createdb copedb
 
 
            </div>
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="development.html" class="btn btn-neutral float-right" title="Development Setup" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="development.html" class="btn btn-neutral float-right" title="Development Setup" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="user_manual.html" class="btn btn-neutral" title="COPE DB User Manual" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="user_manual.html" class="btn btn-neutral" title="COPE DB User Manual" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -766,10 +833,11 @@ postgres@cope:~$ createdb copedb
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.6.0',
+            VERSION:'0.8.2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../_static/jquery.js"></script>

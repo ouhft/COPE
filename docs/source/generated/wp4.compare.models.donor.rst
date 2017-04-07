@@ -1,5 +1,5 @@
-wp4.compare.models.donor
-========================
+wp4\.compare\.models\.donor
+===========================
 
 .. automodule:: wp4.compare.models.donor
 
@@ -9,8 +9,6 @@ wp4.compare.models.donor
 
    .. autosummary::
    
-      random
-      random_5050
       validate_between_1900_2050
       validate_not_in_future
    
@@ -22,16 +20,23 @@ wp4.compare.models.donor
 
    .. autosummary::
    
+      AllocatableModelForUserManager
+      AuditControlModelBase
+      ClosedOrganModelForUserManager
       Donor
-      Hospital
+      DonorModelForUserManager
+      Machine
       MaxValueValidator
       MinValueValidator
-      OrganPerson
+      OpenOrganModelForUserManager
+      Organ
+      OrganModelForUserManager
+      Patient
+      Person
+      ProcurementResource
+      ProcurementResourceModelForUserManager
       Randomisation
       RetrievalTeam
-      StaffJob
-      StaffPerson
-      VersionControlMixin
       cached_property
       relativedelta
    
@@ -43,6 +48,7 @@ wp4.compare.models.donor
 
    .. autosummary::
    
+      ObjectDoesNotExist
       ValidationError
    
    

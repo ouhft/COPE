@@ -8,9 +8,11 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>wp4.health_economics.models &mdash; COPE DB 0.6.0 documentation</title>
+  <title>wp4.health_economics.models &mdash; COPE DB 0.8.2 documentation</title>
   
 
+  
+  
   
   
 
@@ -30,7 +32,10 @@
   
 
   
-    <link rel="top" title="COPE DB 0.6.0 documentation" href="../../index.html"/>
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="COPE DB 0.8.2 documentation" href="../../index.html"/>
         <link rel="up" title="Data Models" href="../models.html"/>
         <link rel="next" title="wp4.locations.models" href="wp4.locations.models.html"/>
         <link rel="prev" title="wp4.followups.models" href="wp4.followups.models.html"/> 
@@ -42,6 +47,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -61,7 +67,7 @@
             
             
               <div class="version">
-                0.6.0
+                0.8.2
               </div>
             
           
@@ -82,7 +88,10 @@
           
             
             
-                <ul class="current">
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../user_manual.html">COPE DB User Manual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../deployment.html">Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../development.html">Development Setup</a></li>
@@ -116,8 +125,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../../index.html">COPE DB</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">COPE DB</a>
+        
       </nav>
 
 
@@ -126,25 +137,42 @@
         <div class="rst-content">
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="../models.html">Data Models</a> &raquo;</li>
-      
-    <li>wp4.health_economics.models</li>
+        
+      <li>wp4.health_economics.models</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
-            <a href="../../_sources/source/generated/wp4.health_economics.models.txt" rel="nofollow"> View page source</a>
+            
+            <a href="../../_sources/source/generated/wp4.health_economics.models.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -174,22 +202,25 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">BaseModelMixin</span></code>(*args,&nbsp;**kwargs)</td>
-<td>Common data record fields for tracking changes</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">AuditControlModelBase</span></code>(*args,&nbsp;**kwargs)</td>
+<td>Internal common attributes to aid systematic auditing of records.</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">MaxValueValidator</span></code>(limit_value[,&nbsp;message])</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">HealthEconomicsModelForUserManager</span></code>([...])</td>
+<td>QualityOfLife &amp; Resource Logs have their location based on the recipient&#8217;s location</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">MaxValueValidator</span></code>(limit_value[,&nbsp;message])</td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">MinValueValidator</span></code>(limit_value[,&nbsp;message])</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">MinValueValidator</span></code>(limit_value[,&nbsp;message])</td>
 <td></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#wp4.health_economics.models.QualityOfLife" title="wp4.health_economics.models.QualityOfLife"><code class="xref py py-obj docutils literal"><span class="pre">QualityOfLife</span></code></a>(*args,&nbsp;**kwargs)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#wp4.health_economics.models.QualityOfLife" title="wp4.health_economics.models.QualityOfLife"><code class="xref py py-obj docutils literal"><span class="pre">QualityOfLife</span></code></a>(*args,&nbsp;**kwargs)</td>
 <td>WORK IN PROGRESS - Class definition prone to rapid change</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">Recipient</span></code>(*args,&nbsp;**kwargs)</td>
-<td>Extension of an OrganPerson record (via OneToOne link for good ORM/DB management) to capture the Recipient specific data.</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">Recipient</span></code>(*args,&nbsp;**kwargs)</td>
+<td>Extension of an Patient record (via OneToOne link for good ORM/DB management) to capture the Recipient specific data.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#wp4.health_economics.models.ResourceHospitalAdmission" title="wp4.health_economics.models.ResourceHospitalAdmission"><code class="xref py py-obj docutils literal"><span class="pre">ResourceHospitalAdmission</span></code></a>(id,&nbsp;created_on,&nbsp;...)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#wp4.health_economics.models.ResourceHospitalAdmission" title="wp4.health_economics.models.ResourceHospitalAdmission"><code class="xref py py-obj docutils literal"><span class="pre">ResourceHospitalAdmission</span></code></a>(id,&nbsp;record_locked,&nbsp;...)</td>
 <td><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -200,10 +231,13 @@
 </table>
 </td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#wp4.health_economics.models.ResourceLog" title="wp4.health_economics.models.ResourceLog"><code class="xref py py-obj docutils literal"><span class="pre">ResourceLog</span></code></a>(*args,&nbsp;**kwargs)</td>
+<tr class="row-even"><td><a class="reference internal" href="#wp4.health_economics.models.ResourceLog" title="wp4.health_economics.models.ResourceLog"><code class="xref py py-obj docutils literal"><span class="pre">ResourceLog</span></code></a>(*args,&nbsp;**kwargs)</td>
 <td>WORK IN PROGRESS</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#wp4.health_economics.models.ResourceRehabilitation" title="wp4.health_economics.models.ResourceRehabilitation"><code class="xref py py-obj docutils literal"><span class="pre">ResourceRehabilitation</span></code></a>(id,&nbsp;created_on,&nbsp;...)</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">ResourceLogModelForUserManager</span></code>([...])</td>
+<td>Resource Logs have their location based on the recipient&#8217;s location</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#wp4.health_economics.models.ResourceRehabilitation" title="wp4.health_economics.models.ResourceRehabilitation"><code class="xref py py-obj docutils literal"><span class="pre">ResourceRehabilitation</span></code></a>(id,&nbsp;record_locked,&nbsp;...)</td>
 <td><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -214,7 +248,7 @@
 </table>
 </td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#wp4.health_economics.models.ResourceVisit" title="wp4.health_economics.models.ResourceVisit"><code class="xref py py-obj docutils literal"><span class="pre">ResourceVisit</span></code></a>(id,&nbsp;created_on,&nbsp;created_by,&nbsp;...)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#wp4.health_economics.models.ResourceVisit" title="wp4.health_economics.models.ResourceVisit"><code class="xref py py-obj docutils literal"><span class="pre">ResourceVisit</span></code></a>(id,&nbsp;record_locked,&nbsp;live,&nbsp;log,&nbsp;type)</td>
 <td><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -224,9 +258,6 @@
 </tbody>
 </table>
 </td>
-</tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">VersionControlMixin</span></code>(*args,&nbsp;**kwargs)</td>
-<td>Internal common attributes to aide system auditing of records</td>
 </tr>
 </tbody>
 </table>
@@ -240,19 +271,17 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.9)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
-<li><strong>created_on</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;created on&#8221;</li>
-<li><strong>created_by_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;created by&#8221; - User account for the person logged in when this record was made/updated</li>
-<li><strong>version</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.PositiveIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveIntegerField</em></a>) &#8211; &#8220;version&#8221; - Internal tracking version number</li>
-<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.9)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - Not presently implemented or used</li>
-<li><strong>recipient_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;recipient&#8221;</li>
-<li><strong>date_recorded</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.DateField" title="(in Django v1.9)"><em>django.db.models.DateField</em></a>) &#8211; &#8220;QL07 date recorded&#8221; - Date can not be in the future</li>
-<li><strong>qol_mobility</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;QL01 qol mobility score&#8221; - Answer must be in range 1-5</li>
-<li><strong>qol_selfcare</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;QL02 qol self care score&#8221; - Answer must be in range 1-5</li>
-<li><strong>qol_usual_activities</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;QL03 qol usual activites score&#8221; - Answer must be in range 1-5</li>
-<li><strong>qol_pain</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;QL04 qol pain or discomfort score&#8221; - Answer must be in range 1-5</li>
-<li><strong>qol_anxiety</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;QL05 qol anxiety or depression score&#8221; - Answer must be in range 1-5</li>
-<li><strong>vas_score</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;QL06 vas score&#8221; - Answer must be in range 0-100</li>
+<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
+<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - locked by the admin team</li>
+<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) &#8211; &#8220;live&#8221;</li>
+<li><strong>recipient_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;recipient&#8221;</li>
+<li><strong>date_recorded</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateField" title="(in Django v1.11)"><em>django.db.models.DateField</em></a>) &#8211; &#8220;QL07 date recorded&#8221; - Date can not be in the future</li>
+<li><strong>qol_mobility</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;QL01 qol mobility score&#8221; - Answer must be in range 1-5</li>
+<li><strong>qol_selfcare</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;QL02 qol self care score&#8221; - Answer must be in range 1-5</li>
+<li><strong>qol_usual_activities</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;QL03 qol usual activites score&#8221; - Answer must be in range 1-5</li>
+<li><strong>qol_pain</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;QL04 qol pain or discomfort score&#8221; - Answer must be in range 1-5</li>
+<li><strong>qol_anxiety</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;QL05 qol anxiety or depression score&#8221; - Answer must be in range 1-5</li>
+<li><strong>vas_score</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;QL06 vas score&#8221; - Answer must be in range 0-100</li>
 </ul>
 </td>
 </tr>
@@ -262,13 +291,76 @@
 <dt id="wp4.health_economics.models.QualityOfLife.recipient">
 <code class="descname">recipient</code><a class="headerlink" href="#wp4.health_economics.models.QualityOfLife.recipient" title="Permalink to this definition">¶</a></dt>
 <dd><p>Accessor to the related object on the forward side of a many-to-one or
-one-to-one relation.</p>
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 <p>In the example:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
     <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.health_economics.models.QualityOfLife.date_recorded">
+<code class="descname">date_recorded</code><a class="headerlink" href="#wp4.health_economics.models.QualityOfLife.date_recorded" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.health_economics.models.QualityOfLife.qol_mobility">
+<code class="descname">qol_mobility</code><a class="headerlink" href="#wp4.health_economics.models.QualityOfLife.qol_mobility" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.health_economics.models.QualityOfLife.qol_selfcare">
+<code class="descname">qol_selfcare</code><a class="headerlink" href="#wp4.health_economics.models.QualityOfLife.qol_selfcare" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.health_economics.models.QualityOfLife.qol_usual_activities">
+<code class="descname">qol_usual_activities</code><a class="headerlink" href="#wp4.health_economics.models.QualityOfLife.qol_usual_activities" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.health_economics.models.QualityOfLife.qol_pain">
+<code class="descname">qol_pain</code><a class="headerlink" href="#wp4.health_economics.models.QualityOfLife.qol_pain" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.health_economics.models.QualityOfLife.qol_anxiety">
+<code class="descname">qol_anxiety</code><a class="headerlink" href="#wp4.health_economics.models.QualityOfLife.qol_anxiety" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.health_economics.models.QualityOfLife.vas_score">
+<code class="descname">vas_score</code><a class="headerlink" href="#wp4.health_economics.models.QualityOfLife.vas_score" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wp4.health_economics.models.QualityOfLife.country_for_restriction">
+<code class="descname">country_for_restriction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/health_economics/models.html#QualityOfLife.country_for_restriction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.health_economics.models.QualityOfLife.country_for_restriction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the country to be used for geographic restriction of this data
+:return: Int: Value from list in Locations.Models. Should be in range [1,4,5]</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wp4.health_economics.models.QualityOfLife.location_for_restriction">
+<code class="descname">location_for_restriction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/health_economics/models.html#QualityOfLife.location_for_restriction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.health_economics.models.QualityOfLife.location_for_restriction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the location to be used for geographic restriction of this data
+:return: Int: Hospital object id</p>
 </dd></dl>
 
 <dl class="method">
@@ -283,25 +375,12 @@ one-to-one relation.</p>
 
 <dl class="exception">
 <dt id="wp4.health_economics.models.QualityOfLife.MultipleObjectsReturned">
-<em class="property">exception </em><code class="descclassname">QualityOfLife.</code><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#wp4.health_economics.models.QualityOfLife.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#wp4.health_economics.models.QualityOfLife.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="wp4.health_economics.models.QualityOfLife.created_by">
-<code class="descclassname">QualityOfLife.</code><code class="descname">created_by</code><a class="headerlink" href="#wp4.health_economics.models.QualityOfLife.created_by" title="Permalink to this definition">¶</a></dt>
-<dd><p>Accessor to the related object on the forward side of a many-to-one or
-one-to-one relation.</p>
-<p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
-</dd></dl>
-
-<dl class="attribute">
 <dt id="wp4.health_economics.models.QualityOfLife.followup_1y">
-<code class="descclassname">QualityOfLife.</code><code class="descname">followup_1y</code><a class="headerlink" href="#wp4.health_economics.models.QualityOfLife.followup_1y" title="Permalink to this definition">¶</a></dt>
+<code class="descname">followup_1y</code><a class="headerlink" href="#wp4.health_economics.models.QualityOfLife.followup_1y" title="Permalink to this definition">¶</a></dt>
 <dd><p>Accessor to the related object on the reverse side of a one-to-one
 relation.</p>
 <p>In the example:</p>
@@ -314,7 +393,7 @@ relation.</p>
 
 <dl class="attribute">
 <dt id="wp4.health_economics.models.QualityOfLife.followup_3m">
-<code class="descclassname">QualityOfLife.</code><code class="descname">followup_3m</code><a class="headerlink" href="#wp4.health_economics.models.QualityOfLife.followup_3m" title="Permalink to this definition">¶</a></dt>
+<code class="descname">followup_3m</code><a class="headerlink" href="#wp4.health_economics.models.QualityOfLife.followup_3m" title="Permalink to this definition">¶</a></dt>
 <dd><p>Accessor to the related object on the reverse side of a one-to-one
 relation.</p>
 <p>In the example:</p>
@@ -325,15 +404,19 @@ relation.</p>
 <p><code class="docutils literal"><span class="pre">place.restaurant</span></code> is a <code class="docutils literal"><span class="pre">ReverseOneToOneDescriptor</span></code> instance.</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="wp4.health_economics.models.QualityOfLife.get_next_by_created_on">
-<code class="descclassname">QualityOfLife.</code><code class="descname">get_next_by_created_on</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.health_economics.models.QualityOfLife.get_next_by_created_on" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dl class="attribute">
+<dt id="wp4.health_economics.models.QualityOfLife.id">
+<code class="descname">id</code><a class="headerlink" href="#wp4.health_economics.models.QualityOfLife.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
 
-<dl class="method">
-<dt id="wp4.health_economics.models.QualityOfLife.get_previous_by_created_on">
-<code class="descclassname">QualityOfLife.</code><code class="descname">get_previous_by_created_on</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.health_economics.models.QualityOfLife.get_previous_by_created_on" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dl class="attribute">
+<dt id="wp4.health_economics.models.QualityOfLife.recipient_id">
+<code class="descname">recipient_id</code><a class="headerlink" href="#wp4.health_economics.models.QualityOfLife.recipient_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -348,15 +431,13 @@ smaller classes that collectively capture the data.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.9)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
-<li><strong>created_on</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;created on&#8221;</li>
-<li><strong>created_by_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;created by&#8221; - User account for the person logged in when this record was made/updated</li>
-<li><strong>version</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.PositiveIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveIntegerField</em></a>) &#8211; &#8220;version&#8221; - Internal tracking version number</li>
-<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.9)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - Not presently implemented or used</li>
-<li><strong>recipient_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;recipient&#8221;</li>
-<li><strong>date_given</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.DateField" title="(in Django v1.9)"><em>django.db.models.DateField</em></a>) &#8211; &#8220;RL01 date given&#8221; - Date can not be in the future</li>
-<li><strong>date_returned</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.DateField" title="(in Django v1.9)"><em>django.db.models.DateField</em></a>) &#8211; &#8220;RL02 date returned&#8221; - Date can not be in the future</li>
-<li><strong>notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.TextField" title="(in Django v1.9)"><em>django.db.models.TextField</em></a>) &#8211; &#8220;RL03 notes&#8221;</li>
+<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
+<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - locked by the admin team</li>
+<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) &#8211; &#8220;live&#8221;</li>
+<li><strong>recipient_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;recipient&#8221;</li>
+<li><strong>date_given</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateField" title="(in Django v1.11)"><em>django.db.models.DateField</em></a>) &#8211; &#8220;RL01 date given&#8221; - Date can not be in the future</li>
+<li><strong>date_returned</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateField" title="(in Django v1.11)"><em>django.db.models.DateField</em></a>) &#8211; &#8220;RL02 date returned&#8221; - Date can not be in the future</li>
+<li><strong>notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.TextField" title="(in Django v1.11)"><em>django.db.models.TextField</em></a>) &#8211; &#8220;RL03 notes&#8221;</li>
 </ul>
 </td>
 </tr>
@@ -366,13 +447,48 @@ smaller classes that collectively capture the data.</p>
 <dt id="wp4.health_economics.models.ResourceLog.recipient">
 <code class="descname">recipient</code><a class="headerlink" href="#wp4.health_economics.models.ResourceLog.recipient" title="Permalink to this definition">¶</a></dt>
 <dd><p>Accessor to the related object on the forward side of a many-to-one or
-one-to-one relation.</p>
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 <p>In the example:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
     <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.health_economics.models.ResourceLog.date_given">
+<code class="descname">date_given</code><a class="headerlink" href="#wp4.health_economics.models.ResourceLog.date_given" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.health_economics.models.ResourceLog.date_returned">
+<code class="descname">date_returned</code><a class="headerlink" href="#wp4.health_economics.models.ResourceLog.date_returned" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.health_economics.models.ResourceLog.notes">
+<code class="descname">notes</code><a class="headerlink" href="#wp4.health_economics.models.ResourceLog.notes" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wp4.health_economics.models.ResourceLog.country_for_restriction">
+<code class="descname">country_for_restriction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/health_economics/models.html#ResourceLog.country_for_restriction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.health_economics.models.ResourceLog.country_for_restriction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the country to be used for geographic restriction of this data
+:return: Int: Value from list in Locations.Models. Should be in range [1,4,5]</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wp4.health_economics.models.ResourceLog.location_for_restriction">
+<code class="descname">location_for_restriction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/health_economics/models.html#ResourceLog.location_for_restriction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.health_economics.models.ResourceLog.location_for_restriction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the location to be used for geographic restriction of this data
+:return: Int: Hospital object id</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -387,35 +503,12 @@ one-to-one relation.</p>
 
 <dl class="exception">
 <dt id="wp4.health_economics.models.ResourceLog.MultipleObjectsReturned">
-<em class="property">exception </em><code class="descclassname">ResourceLog.</code><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#wp4.health_economics.models.ResourceLog.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#wp4.health_economics.models.ResourceLog.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="wp4.health_economics.models.ResourceLog.created_by">
-<code class="descclassname">ResourceLog.</code><code class="descname">created_by</code><a class="headerlink" href="#wp4.health_economics.models.ResourceLog.created_by" title="Permalink to this definition">¶</a></dt>
-<dd><p>Accessor to the related object on the forward side of a many-to-one or
-one-to-one relation.</p>
-<p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="wp4.health_economics.models.ResourceLog.get_next_by_created_on">
-<code class="descclassname">ResourceLog.</code><code class="descname">get_next_by_created_on</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.health_economics.models.ResourceLog.get_next_by_created_on" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="wp4.health_economics.models.ResourceLog.get_previous_by_created_on">
-<code class="descclassname">ResourceLog.</code><code class="descname">get_previous_by_created_on</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.health_economics.models.ResourceLog.get_previous_by_created_on" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="wp4.health_economics.models.ResourceLog.resourcehospitaladmission_set">
-<code class="descclassname">ResourceLog.</code><code class="descname">resourcehospitaladmission_set</code><a class="headerlink" href="#wp4.health_economics.models.ResourceLog.resourcehospitaladmission_set" title="Permalink to this definition">¶</a></dt>
+<dt id="wp4.health_economics.models.ResourceLog.hospitalisations">
+<code class="descname">hospitalisations</code><a class="headerlink" href="#wp4.health_economics.models.ResourceLog.hospitalisations" title="Permalink to this definition">¶</a></dt>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
@@ -429,8 +522,22 @@ class built by <code class="docutils literal"><span class="pre">create_forward_m
 </dd></dl>
 
 <dl class="attribute">
-<dt id="wp4.health_economics.models.ResourceLog.resourcerehabilitation_set">
-<code class="descclassname">ResourceLog.</code><code class="descname">resourcerehabilitation_set</code><a class="headerlink" href="#wp4.health_economics.models.ResourceLog.resourcerehabilitation_set" title="Permalink to this definition">¶</a></dt>
+<dt id="wp4.health_economics.models.ResourceLog.id">
+<code class="descname">id</code><a class="headerlink" href="#wp4.health_economics.models.ResourceLog.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.health_economics.models.ResourceLog.recipient_id">
+<code class="descname">recipient_id</code><a class="headerlink" href="#wp4.health_economics.models.ResourceLog.recipient_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.health_economics.models.ResourceLog.rehabilitations">
+<code class="descname">rehabilitations</code><a class="headerlink" href="#wp4.health_economics.models.ResourceLog.rehabilitations" title="Permalink to this definition">¶</a></dt>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
@@ -444,8 +551,8 @@ class built by <code class="docutils literal"><span class="pre">create_forward_m
 </dd></dl>
 
 <dl class="attribute">
-<dt id="wp4.health_economics.models.ResourceLog.resourcevisit_set">
-<code class="descclassname">ResourceLog.</code><code class="descname">resourcevisit_set</code><a class="headerlink" href="#wp4.health_economics.models.ResourceLog.resourcevisit_set" title="Permalink to this definition">¶</a></dt>
+<dt id="wp4.health_economics.models.ResourceLog.visits">
+<code class="descname">visits</code><a class="headerlink" href="#wp4.health_economics.models.ResourceLog.visits" title="Permalink to this definition">¶</a></dt>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
@@ -462,17 +569,17 @@ class built by <code class="docutils literal"><span class="pre">create_forward_m
 
 <dl class="class">
 <dt id="wp4.health_economics.models.ResourceVisit">
-<em class="property">class </em><code class="descclassname">wp4.health_economics.models.</code><code class="descname">ResourceVisit</code><span class="sig-paren">(</span><em>id</em>, <em>created_on</em>, <em>created_by</em>, <em>log</em>, <em>type</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/health_economics/models.html#ResourceVisit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.health_economics.models.ResourceVisit" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">wp4.health_economics.models.</code><code class="descname">ResourceVisit</code><span class="sig-paren">(</span><em>id</em>, <em>record_locked</em>, <em>live</em>, <em>log</em>, <em>type</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/health_economics/models.html#ResourceVisit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.health_economics.models.ResourceVisit" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.9)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
-<li><strong>created_on</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;created on&#8221;</li>
-<li><strong>created_by_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;created by&#8221; - User account for the person logged in when this record was made/updated</li>
-<li><strong>log_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;log&#8221;</li>
-<li><strong>type</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;RV01 visit type&#8221;</li>
+<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
+<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - locked by the admin team</li>
+<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) &#8211; &#8220;live&#8221;</li>
+<li><strong>log_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;log&#8221;</li>
+<li><strong>type</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;RV01 visit type&#8221;</li>
 </ul>
 </td>
 </tr>
@@ -500,20 +607,41 @@ class built by <code class="docutils literal"><span class="pre">create_forward_m
 
 <dl class="attribute">
 <dt id="wp4.health_economics.models.ResourceVisit.TYPE_CHOICES">
-<code class="descname">TYPE_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.lazy.&lt;locals&gt;.__proxy__ object&gt;), (2, &lt;django.utils.functional.lazy.&lt;locals&gt;.__proxy__ object&gt;), (3, &lt;django.utils.functional.lazy.&lt;locals&gt;.__proxy__ object&gt;), (4, &lt;django.utils.functional.lazy.&lt;locals&gt;.__proxy__ object&gt;))</em><a class="headerlink" href="#wp4.health_economics.models.ResourceVisit.TYPE_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">TYPE_CHOICES</code><em class="property"> = ((1, 'RVc01 appointment at GP'), (2, 'RVc02 GP visited'), (3, 'RVc03 appointment at specialist'), (4, 'RVc04 A&amp;E'))</em><a class="headerlink" href="#wp4.health_economics.models.ResourceVisit.TYPE_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="wp4.health_economics.models.ResourceVisit.log">
 <code class="descname">log</code><a class="headerlink" href="#wp4.health_economics.models.ResourceVisit.log" title="Permalink to this definition">¶</a></dt>
 <dd><p>Accessor to the related object on the forward side of a many-to-one or
-one-to-one relation.</p>
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 <p>In the example:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
     <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.health_economics.models.ResourceVisit.type">
+<code class="descname">type</code><a class="headerlink" href="#wp4.health_economics.models.ResourceVisit.type" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wp4.health_economics.models.ResourceVisit.country_for_restriction">
+<code class="descname">country_for_restriction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/health_economics/models.html#ResourceVisit.country_for_restriction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.health_economics.models.ResourceVisit.country_for_restriction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the country to be used for geographic restriction of this data
+:return: Int: Value from list in Locations.Models. Should be in range [1,4,5]</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wp4.health_economics.models.ResourceVisit.location_for_restriction">
+<code class="descname">location_for_restriction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/health_economics/models.html#ResourceVisit.location_for_restriction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.health_economics.models.ResourceVisit.location_for_restriction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the location to be used for geographic restriction of this data
+:return: Int: Hospital object id</p>
 </dd></dl>
 
 <dl class="exception">
@@ -523,55 +651,46 @@ one-to-one relation.</p>
 
 <dl class="exception">
 <dt id="wp4.health_economics.models.ResourceVisit.MultipleObjectsReturned">
-<em class="property">exception </em><code class="descclassname">ResourceVisit.</code><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#wp4.health_economics.models.ResourceVisit.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="wp4.health_economics.models.ResourceVisit.created_by">
-<code class="descclassname">ResourceVisit.</code><code class="descname">created_by</code><a class="headerlink" href="#wp4.health_economics.models.ResourceVisit.created_by" title="Permalink to this definition">¶</a></dt>
-<dd><p>Accessor to the related object on the forward side of a many-to-one or
-one-to-one relation.</p>
-<p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="wp4.health_economics.models.ResourceVisit.get_next_by_created_on">
-<code class="descclassname">ResourceVisit.</code><code class="descname">get_next_by_created_on</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.health_economics.models.ResourceVisit.get_next_by_created_on" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="wp4.health_economics.models.ResourceVisit.get_previous_by_created_on">
-<code class="descclassname">ResourceVisit.</code><code class="descname">get_previous_by_created_on</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.health_economics.models.ResourceVisit.get_previous_by_created_on" title="Permalink to this definition">¶</a></dt>
+<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#wp4.health_economics.models.ResourceVisit.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="wp4.health_economics.models.ResourceVisit.get_type_display">
-<code class="descclassname">ResourceVisit.</code><code class="descname">get_type_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.health_economics.models.ResourceVisit.get_type_display" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_type_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.health_economics.models.ResourceVisit.get_type_display" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.health_economics.models.ResourceVisit.id">
+<code class="descname">id</code><a class="headerlink" href="#wp4.health_economics.models.ResourceVisit.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.health_economics.models.ResourceVisit.log_id">
+<code class="descname">log_id</code><a class="headerlink" href="#wp4.health_economics.models.ResourceVisit.log_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="wp4.health_economics.models.ResourceHospitalAdmission">
-<em class="property">class </em><code class="descclassname">wp4.health_economics.models.</code><code class="descname">ResourceHospitalAdmission</code><span class="sig-paren">(</span><em>id</em>, <em>created_on</em>, <em>created_by</em>, <em>log</em>, <em>reason</em>, <em>had_surgery</em>, <em>days_in_itu</em>, <em>days_in_hospital</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/health_economics/models.html#ResourceHospitalAdmission"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.health_economics.models.ResourceHospitalAdmission" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">wp4.health_economics.models.</code><code class="descname">ResourceHospitalAdmission</code><span class="sig-paren">(</span><em>id</em>, <em>record_locked</em>, <em>live</em>, <em>log</em>, <em>reason</em>, <em>had_surgery</em>, <em>days_in_itu</em>, <em>days_in_hospital</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/health_economics/models.html#ResourceHospitalAdmission"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.health_economics.models.ResourceHospitalAdmission" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.9)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
-<li><strong>created_on</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;created on&#8221;</li>
-<li><strong>created_by_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;created by&#8221; - User account for the person logged in when this record was made/updated</li>
-<li><strong>log_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;log&#8221;</li>
-<li><strong>reason</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.CharField" title="(in Django v1.9)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;RH01 reason&#8221;</li>
-<li><strong>had_surgery</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.9)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;RH02 had surgery&#8221;</li>
-<li><strong>days_in_itu</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;RH03 days in itu&#8221;</li>
-<li><strong>days_in_hospital</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;RH04 days in hospital&#8221;</li>
+<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
+<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - locked by the admin team</li>
+<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) &#8211; &#8220;live&#8221;</li>
+<li><strong>log_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;log&#8221;</li>
+<li><strong>reason</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;RH01 reason&#8221;</li>
+<li><strong>had_surgery</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;RH02 had surgery&#8221;</li>
+<li><strong>days_in_itu</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;RH03 days in itu&#8221;</li>
+<li><strong>days_in_hospital</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;RH04 days in hospital&#8221;</li>
 </ul>
 </td>
 </tr>
@@ -581,13 +700,55 @@ one-to-one relation.</p>
 <dt id="wp4.health_economics.models.ResourceHospitalAdmission.log">
 <code class="descname">log</code><a class="headerlink" href="#wp4.health_economics.models.ResourceHospitalAdmission.log" title="Permalink to this definition">¶</a></dt>
 <dd><p>Accessor to the related object on the forward side of a many-to-one or
-one-to-one relation.</p>
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 <p>In the example:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
     <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.health_economics.models.ResourceHospitalAdmission.reason">
+<code class="descname">reason</code><a class="headerlink" href="#wp4.health_economics.models.ResourceHospitalAdmission.reason" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.health_economics.models.ResourceHospitalAdmission.had_surgery">
+<code class="descname">had_surgery</code><a class="headerlink" href="#wp4.health_economics.models.ResourceHospitalAdmission.had_surgery" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.health_economics.models.ResourceHospitalAdmission.days_in_itu">
+<code class="descname">days_in_itu</code><a class="headerlink" href="#wp4.health_economics.models.ResourceHospitalAdmission.days_in_itu" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.health_economics.models.ResourceHospitalAdmission.days_in_hospital">
+<code class="descname">days_in_hospital</code><a class="headerlink" href="#wp4.health_economics.models.ResourceHospitalAdmission.days_in_hospital" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wp4.health_economics.models.ResourceHospitalAdmission.country_for_restriction">
+<code class="descname">country_for_restriction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/health_economics/models.html#ResourceHospitalAdmission.country_for_restriction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.health_economics.models.ResourceHospitalAdmission.country_for_restriction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the country to be used for geographic restriction of this data
+:return: Int: Value from list in Locations.Models. Should be in range [1,4,5]</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wp4.health_economics.models.ResourceHospitalAdmission.location_for_restriction">
+<code class="descname">location_for_restriction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/health_economics/models.html#ResourceHospitalAdmission.location_for_restriction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.health_economics.models.ResourceHospitalAdmission.location_for_restriction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the location to be used for geographic restriction of this data
+:return: Int: Hospital object id</p>
 </dd></dl>
 
 <dl class="exception">
@@ -597,48 +758,39 @@ one-to-one relation.</p>
 
 <dl class="exception">
 <dt id="wp4.health_economics.models.ResourceHospitalAdmission.MultipleObjectsReturned">
-<em class="property">exception </em><code class="descclassname">ResourceHospitalAdmission.</code><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#wp4.health_economics.models.ResourceHospitalAdmission.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#wp4.health_economics.models.ResourceHospitalAdmission.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="wp4.health_economics.models.ResourceHospitalAdmission.created_by">
-<code class="descclassname">ResourceHospitalAdmission.</code><code class="descname">created_by</code><a class="headerlink" href="#wp4.health_economics.models.ResourceHospitalAdmission.created_by" title="Permalink to this definition">¶</a></dt>
-<dd><p>Accessor to the related object on the forward side of a many-to-one or
-one-to-one relation.</p>
-<p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+<dt id="wp4.health_economics.models.ResourceHospitalAdmission.id">
+<code class="descname">id</code><a class="headerlink" href="#wp4.health_economics.models.ResourceHospitalAdmission.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="wp4.health_economics.models.ResourceHospitalAdmission.get_next_by_created_on">
-<code class="descclassname">ResourceHospitalAdmission.</code><code class="descname">get_next_by_created_on</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.health_economics.models.ResourceHospitalAdmission.get_next_by_created_on" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="wp4.health_economics.models.ResourceHospitalAdmission.get_previous_by_created_on">
-<code class="descclassname">ResourceHospitalAdmission.</code><code class="descname">get_previous_by_created_on</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.health_economics.models.ResourceHospitalAdmission.get_previous_by_created_on" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dl class="attribute">
+<dt id="wp4.health_economics.models.ResourceHospitalAdmission.log_id">
+<code class="descname">log_id</code><a class="headerlink" href="#wp4.health_economics.models.ResourceHospitalAdmission.log_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="wp4.health_economics.models.ResourceRehabilitation">
-<em class="property">class </em><code class="descclassname">wp4.health_economics.models.</code><code class="descname">ResourceRehabilitation</code><span class="sig-paren">(</span><em>id</em>, <em>created_on</em>, <em>created_by</em>, <em>log</em>, <em>reason</em>, <em>days_in_hospital</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/health_economics/models.html#ResourceRehabilitation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.health_economics.models.ResourceRehabilitation" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">wp4.health_economics.models.</code><code class="descname">ResourceRehabilitation</code><span class="sig-paren">(</span><em>id</em>, <em>record_locked</em>, <em>live</em>, <em>log</em>, <em>reason</em>, <em>days_in_hospital</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/health_economics/models.html#ResourceRehabilitation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.health_economics.models.ResourceRehabilitation" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.9)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
-<li><strong>created_on</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;created on&#8221;</li>
-<li><strong>created_by_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;created by&#8221; - User account for the person logged in when this record was made/updated</li>
-<li><strong>log_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;log&#8221;</li>
-<li><strong>reason</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.CharField" title="(in Django v1.9)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;RR01 reason&#8221;</li>
-<li><strong>days_in_hospital</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;RR02 days in hospital&#8221;</li>
+<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
+<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - locked by the admin team</li>
+<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) &#8211; &#8220;live&#8221;</li>
+<li><strong>log_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;log&#8221;</li>
+<li><strong>reason</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;RR01 reason&#8221;</li>
+<li><strong>days_in_hospital</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;RR02 days in hospital&#8221;</li>
 </ul>
 </td>
 </tr>
@@ -648,13 +800,41 @@ one-to-one relation.</p>
 <dt id="wp4.health_economics.models.ResourceRehabilitation.log">
 <code class="descname">log</code><a class="headerlink" href="#wp4.health_economics.models.ResourceRehabilitation.log" title="Permalink to this definition">¶</a></dt>
 <dd><p>Accessor to the related object on the forward side of a many-to-one or
-one-to-one relation.</p>
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 <p>In the example:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
     <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.health_economics.models.ResourceRehabilitation.reason">
+<code class="descname">reason</code><a class="headerlink" href="#wp4.health_economics.models.ResourceRehabilitation.reason" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.health_economics.models.ResourceRehabilitation.days_in_hospital">
+<code class="descname">days_in_hospital</code><a class="headerlink" href="#wp4.health_economics.models.ResourceRehabilitation.days_in_hospital" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wp4.health_economics.models.ResourceRehabilitation.country_for_restriction">
+<code class="descname">country_for_restriction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/health_economics/models.html#ResourceRehabilitation.country_for_restriction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.health_economics.models.ResourceRehabilitation.country_for_restriction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the country to be used for geographic restriction of this data
+:return: Int: Value from list in Locations.Models. Should be in range [1,4,5]</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wp4.health_economics.models.ResourceRehabilitation.location_for_restriction">
+<code class="descname">location_for_restriction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/health_economics/models.html#ResourceRehabilitation.location_for_restriction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.health_economics.models.ResourceRehabilitation.location_for_restriction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the location to be used for geographic restriction of this data
+:return: Int: Hospital object id</p>
 </dd></dl>
 
 <dl class="exception">
@@ -664,31 +844,22 @@ one-to-one relation.</p>
 
 <dl class="exception">
 <dt id="wp4.health_economics.models.ResourceRehabilitation.MultipleObjectsReturned">
-<em class="property">exception </em><code class="descclassname">ResourceRehabilitation.</code><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#wp4.health_economics.models.ResourceRehabilitation.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#wp4.health_economics.models.ResourceRehabilitation.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="wp4.health_economics.models.ResourceRehabilitation.created_by">
-<code class="descclassname">ResourceRehabilitation.</code><code class="descname">created_by</code><a class="headerlink" href="#wp4.health_economics.models.ResourceRehabilitation.created_by" title="Permalink to this definition">¶</a></dt>
-<dd><p>Accessor to the related object on the forward side of a many-to-one or
-one-to-one relation.</p>
-<p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+<dt id="wp4.health_economics.models.ResourceRehabilitation.id">
+<code class="descname">id</code><a class="headerlink" href="#wp4.health_economics.models.ResourceRehabilitation.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="wp4.health_economics.models.ResourceRehabilitation.get_next_by_created_on">
-<code class="descclassname">ResourceRehabilitation.</code><code class="descname">get_next_by_created_on</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.health_economics.models.ResourceRehabilitation.get_next_by_created_on" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="wp4.health_economics.models.ResourceRehabilitation.get_previous_by_created_on">
-<code class="descclassname">ResourceRehabilitation.</code><code class="descname">get_previous_by_created_on</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.health_economics.models.ResourceRehabilitation.get_previous_by_created_on" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dl class="attribute">
+<dt id="wp4.health_economics.models.ResourceRehabilitation.log_id">
+<code class="descname">log_id</code><a class="headerlink" href="#wp4.health_economics.models.ResourceRehabilitation.log_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -696,15 +867,18 @@ one-to-one relation.</p>
 
 
            </div>
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="wp4.locations.models.html" class="btn btn-neutral float-right" title="wp4.locations.models" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="wp4.locations.models.html" class="btn btn-neutral float-right" title="wp4.locations.models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="wp4.followups.models.html" class="btn btn-neutral" title="wp4.followups.models" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="wp4.followups.models.html" class="btn btn-neutral" title="wp4.followups.models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -735,10 +909,11 @@ one-to-one relation.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.6.0',
+            VERSION:'0.8.2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../../_static/jquery.js"></script>

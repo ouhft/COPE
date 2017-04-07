@@ -8,9 +8,11 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>wp4.compare.models.core &mdash; COPE DB 0.6.0 documentation</title>
+  <title>wp4.compare.models.core &mdash; COPE DB 0.8.2 documentation</title>
   
 
+  
+  
   
   
 
@@ -30,7 +32,10 @@
   
 
   
-    <link rel="top" title="COPE DB 0.6.0 documentation" href="../../../../index.html"/>
+        <link rel="index" title="Index"
+              href="../../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../../search.html"/>
+    <link rel="top" title="COPE DB 0.8.2 documentation" href="../../../../index.html"/>
         <link rel="up" title="Module code" href="../../../index.html"/> 
 
   
@@ -40,6 +45,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -59,7 +65,7 @@
             
             
               <div class="version">
-                0.6.0
+                0.8.2
               </div>
             
           
@@ -80,7 +86,10 @@
           
             
             
-                <ul>
+              
+            
+            
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../source/user_manual.html">COPE DB User Manual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../source/deployment.html">Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../source/development.html">Development Setup</a></li>
@@ -100,8 +109,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../../../../index.html">COPE DB</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">COPE DB</a>
+        
       </nav>
 
 
@@ -114,19 +125,36 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../../../../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="../../../index.html">Module code</a> &raquo;</li>
-      
-    <li>wp4.compare.models.core</li>
+        
+      <li>wp4.compare.models.core</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -138,8 +166,10 @@
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">unicode_literals</span>
 
 <span class="kn">from</span> <span class="nn">bdateutil</span> <span class="k">import</span> <span class="n">relativedelta</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="k">import</span> <span class="n">random</span>
+<span class="kn">from</span> <span class="nn">livefield.managers</span> <span class="k">import</span> <span class="n">LiveManager</span>
+
 <span class="kn">from</span> <span class="nn">django.conf</span> <span class="k">import</span> <span class="n">settings</span>
-<span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="k">import</span> <span class="n">User</span>
 <span class="kn">from</span> <span class="nn">django.core.exceptions</span> <span class="k">import</span> <span class="n">ObjectDoesNotExist</span>
 <span class="kn">from</span> <span class="nn">django.core.validators</span> <span class="k">import</span> <span class="n">MinValueValidator</span><span class="p">,</span> <span class="n">MaxValueValidator</span><span class="p">,</span> <span class="n">ValidationError</span>
 <span class="kn">from</span> <span class="nn">django.db</span> <span class="k">import</span> <span class="n">models</span>
@@ -147,115 +177,26 @@
 <span class="kn">from</span> <span class="nn">django.utils.functional</span> <span class="k">import</span> <span class="n">cached_property</span>
 <span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="k">import</span> <span class="n">ugettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
 
+<span class="kn">from</span> <span class="nn">wp4.staff.models</span> <span class="k">import</span> <span class="n">Person</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">AuditControlModelBase</span>
 <span class="kn">from</span> <span class="nn">..validators</span> <span class="k">import</span> <span class="n">validate_not_in_future</span>
+<span class="kn">from</span> <span class="nn">..managers.core</span> <span class="k">import</span> <span class="n">RetrievalTeamModelForUserManager</span>
 
 
-<span class="c1"># Common CONSTANTS</span>
-<span class="n">NO</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1">#: CONSTANT for YES_NO_UNKNOWN_CHOICES</span>
-<span class="n">YES</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1">#: CONSTANT for YES_NO_UNKNOWN_CHOICES</span>
-<span class="n">UNKNOWN</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1">#: CONSTANT for YES_NO_UNKNOWN_CHOICES</span>
-<span class="n">YES_NO_UNKNOWN_CHOICES</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="p">(</span><span class="n">UNKNOWN</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;MMc03 Unknown&quot;</span><span class="p">)),</span>
-    <span class="p">(</span><span class="n">NO</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;MMc01 No&quot;</span><span class="p">)),</span>
-    <span class="p">(</span><span class="n">YES</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;MMc02 Yes&quot;</span><span class="p">))</span>
-<span class="p">)</span>  <span class="c1">#: Need Yes to be the last choice for any FieldWithFollowUp where additional elements appear on Yes</span>
-
-<span class="c1"># Originally from Organ</span>
-<span class="n">LEFT</span> <span class="o">=</span> <span class="s2">&quot;L&quot;</span>  <span class="c1">#: CONSTANT for LOCATION_CHOICES</span>
-<span class="n">RIGHT</span> <span class="o">=</span> <span class="s2">&quot;R&quot;</span>  <span class="c1">#: CONSTANT for LOCATION_CHOICES</span>
-<span class="n">LOCATION_CHOICES</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="p">(</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;ORc01 Left&#39;</span><span class="p">)),</span>
-    <span class="p">(</span><span class="n">RIGHT</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;ORc02 Right&#39;</span><span class="p">))</span>
-<span class="p">)</span>   <span class="c1">#: Organ location choices</span>
-
-<span class="c1"># Originally from Organ</span>
-<span class="n">PRESERVATION_HMP</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1">#: CONSTANT for PRESERVATION_CHOICES</span>
-<span class="n">PRESERVATION_HMPO2</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1">#: CONSTANT for PRESERVATION_CHOICES</span>
-<span class="n">PRESERVATION_NOT_SET</span> <span class="o">=</span> <span class="mi">9</span>  <span class="c1">#: CONSTANT for PRESERVATION_CHOICES</span>
-<span class="n">PRESERVATION_CHOICES</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="p">(</span><span class="n">PRESERVATION_NOT_SET</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;ORc11 Not Set&quot;</span><span class="p">)),</span>
-    <span class="p">(</span><span class="n">PRESERVATION_HMP</span><span class="p">,</span> <span class="s2">&quot;HMP&quot;</span><span class="p">),</span>
-    <span class="p">(</span><span class="n">PRESERVATION_HMPO2</span><span class="p">,</span> <span class="s2">&quot;HMP O2&quot;</span><span class="p">)</span>
-<span class="p">)</span>  <span class="c1">#: Organ preservation choices</span>
-
-<span class="c1"># Originally from Randomisation</span>
-<span class="n">LIVE_UNITED_KINGDOM</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1">#: CONSTANT for LIST_CHOICES</span>
-<span class="n">LIVE_EUROPE</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1">#: CONSTANT for LIST_CHOICES</span>
-<span class="n">PAPER_EUROPE</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c1">#: CONSTANT for LIST_CHOICES</span>
-<span class="n">PAPER_UNITED_KINGDOM</span> <span class="o">=</span> <span class="mi">4</span>  <span class="c1">#: CONSTANT for LIST_CHOICES</span>
-<span class="n">LIST_CHOICES</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="p">(</span><span class="n">LIVE_UNITED_KINGDOM</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;RNc01 UK Live list&quot;</span><span class="p">)),</span>
-    <span class="p">(</span><span class="n">LIVE_EUROPE</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;RNc02 Europe Live list&quot;</span><span class="p">)),</span>
-    <span class="p">(</span><span class="n">PAPER_UNITED_KINGDOM</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;RNc03 UK Offline list&quot;</span><span class="p">)),</span>
-    <span class="p">(</span><span class="n">PAPER_EUROPE</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;RNc04 Europe Offline list&quot;</span><span class="p">)),</span>
-<span class="p">)</span>  <span class="c1">#: Randomisation list choices</span>
-
-
-<div class="viewcode-block" id="BaseModelMixin"><a class="viewcode-back" href="../../../../source/generated/wp4.compare.models.core.html#wp4.compare.models.core.BaseModelMixin">[docs]</a><span class="k">class</span> <span class="nc">BaseModelMixin</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<div class="viewcode-block" id="Patient"><a class="viewcode-back" href="../../../../source/generated/wp4.compare.models.core.html#wp4.compare.models.core.Patient">[docs]</a><span class="k">class</span> <span class="nc">Patient</span><span class="p">(</span><span class="n">AuditControlModelBase</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Common data record fields for tracking changes</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">created_on</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">)</span>
-    <span class="n">created_by</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span>
-        <span class="n">User</span><span class="p">,</span>
-        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;User account for the person logged in when this record was made/updated&quot;</span>
-    <span class="p">)</span>
+<span class="sd">    Base attributes for a person involved in this case as a donor or recipient.</span>
 
-<div class="viewcode-block" id="BaseModelMixin.Meta"><a class="viewcode-back" href="../../../../source/generated/wp4.compare.models.core.html#wp4.compare.models.core.BaseModelMixin.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
-        <span class="n">abstract</span> <span class="o">=</span> <span class="kc">True</span></div>
-
-<div class="viewcode-block" id="BaseModelMixin.save"><a class="viewcode-back" href="../../../../source/generated/wp4.compare.models.core.html#wp4.compare.models.core.BaseModelMixin.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">created_by</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">force_insert</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">force_update</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">using</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-             <span class="n">update_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Meta save function that allows models to have their save() method called, and to set the required</span>
-<span class="sd">        created_by link at the same time.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">created_on</span> <span class="o">=</span> <span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">created_by</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">created_by</span> <span class="o">=</span> <span class="n">created_by</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">created_by</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> Record does not have created_by set&quot;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">BaseModelMixin</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">force_insert</span><span class="p">,</span> <span class="n">force_update</span><span class="p">,</span> <span class="n">using</span><span class="p">,</span> <span class="n">update_fields</span><span class="p">)</span></div></div>
-
-
-<div class="viewcode-block" id="VersionControlMixin"><a class="viewcode-back" href="../../../../source/generated/wp4.compare.models.core.html#wp4.compare.models.core.VersionControlMixin">[docs]</a><span class="k">class</span> <span class="nc">VersionControlMixin</span><span class="p">(</span><span class="n">BaseModelMixin</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Internal common attributes to aide system auditing of records</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">version</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveIntegerField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Internal tracking version number&quot;</span><span class="p">)</span>
-    <span class="n">record_locked</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Not presently implemented or used&quot;</span><span class="p">)</span>
-
-    <span class="c1"># NB: Used in Samples and FollowUp Apps too</span>
-<div class="viewcode-block" id="VersionControlMixin.Meta"><a class="viewcode-back" href="../../../../source/generated/wp4.compare.models.core.html#wp4.compare.models.core.VersionControlMixin.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
-        <span class="n">abstract</span> <span class="o">=</span> <span class="kc">True</span></div>
-
-<div class="viewcode-block" id="VersionControlMixin.save"><a class="viewcode-back" href="../../../../source/generated/wp4.compare.models.core.html#wp4.compare.models.core.VersionControlMixin.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">created_by</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">force_insert</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">force_update</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">using</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-             <span class="n">update_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Meta save function that increments the version number over the previous saved version.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">record_locked</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> Record is locked, and can not be saved&quot;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">VersionControlMixin</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">(</span>
-            <span class="n">created_by</span><span class="p">,</span>
-            <span class="n">force_insert</span><span class="p">,</span>
-            <span class="n">force_update</span><span class="p">,</span>
-            <span class="n">using</span><span class="p">,</span>
-            <span class="n">update_fields</span>
-        <span class="p">)</span></div></div>
-
-
-<div class="viewcode-block" id="OrganPerson"><a class="viewcode-back" href="../../../../source/generated/wp4.compare.models.core.html#wp4.compare.models.core.OrganPerson">[docs]</a><span class="k">class</span> <span class="nc">OrganPerson</span><span class="p">(</span><span class="n">VersionControlMixin</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Base attributes for a person involved in this case as a donor or recipient</span>
+<span class="sd">    Patients are not localised in and of themselves, but Donors and Recipients are, thus this class has no geographic</span>
+<span class="sd">    permissions set. Similiarly, because this data is a subset of the Donor and Recipient records it will be treated</span>
+<span class="sd">    using the permissions given to those objects.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">MALE</span> <span class="o">=</span> <span class="s1">&#39;M&#39;</span>  <span class="c1">#: CONSTANT for GENDER_CHOICES</span>
     <span class="n">FEMALE</span> <span class="o">=</span> <span class="s1">&#39;F&#39;</span>  <span class="c1">#: CONSTANT for GENDER_CHOICES</span>
     <span class="n">GENDER_CHOICES</span> <span class="o">=</span> <span class="p">(</span>
         <span class="p">(</span><span class="n">MALE</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;OPc01 Male&#39;</span><span class="p">)),</span>
         <span class="p">(</span><span class="n">FEMALE</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;OPc02 Female&#39;</span><span class="p">))</span>
-    <span class="p">)</span>  <span class="c1">#: OrganPerson gender choices</span>
+    <span class="p">)</span>  <span class="c1">#: Patient gender choices</span>
 
     <span class="n">CAUCASIAN</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1">#: CONSTANT for ETHNICITY_CHOICES</span>
     <span class="n">BLACK</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1">#: CONSTANT for ETHNICITY_CHOICES</span>
@@ -264,7 +205,7 @@
         <span class="p">(</span><span class="n">CAUCASIAN</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;OPc03 Caucasian&#39;</span><span class="p">)),</span>
         <span class="p">(</span><span class="n">BLACK</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;OPc04 Black&#39;</span><span class="p">)),</span>
         <span class="p">(</span><span class="n">OTHER_ETHNICITY</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;OPc05 Other&#39;</span><span class="p">))</span>
-    <span class="p">)</span>  <span class="c1">#: OrganPerson ethnicity choices</span>
+    <span class="p">)</span>  <span class="c1">#: Patient ethnicity choices</span>
 
     <span class="n">BLOOD_O</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1">#: CONSTANT for BLOOD_GROUP_CHOICES</span>
     <span class="n">BLOOD_A</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1">#: CONSTANT for BLOOD_GROUP_CHOICES</span>
@@ -277,7 +218,7 @@
         <span class="p">(</span><span class="n">BLOOD_B</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">),</span>
         <span class="p">(</span><span class="n">BLOOD_AB</span><span class="p">,</span> <span class="s1">&#39;AB&#39;</span><span class="p">),</span>
         <span class="p">(</span><span class="n">BLOOD_UNKNOWN</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;OPc06 Unknown&#39;</span><span class="p">))</span>
-    <span class="p">)</span>  <span class="c1">#: OrganPerson blood_group choices</span>
+    <span class="p">)</span>  <span class="c1">#: Patient blood_group choices</span>
 
     <span class="c1"># &quot;ET Donor number/ NHSBT Number&quot;,</span>
     <span class="n">number</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;OP01 NHSBT Number&#39;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -317,19 +258,22 @@
         <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
 
+    <span class="n">objects</span> <span class="o">=</span> <span class="n">LiveManager</span><span class="p">()</span>
+
     <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
         <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;number&#39;</span><span class="p">]</span>
         <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;OPm1 trial person&#39;</span><span class="p">)</span>
         <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;OPm2 organ people&#39;</span><span class="p">)</span>
+        <span class="c1"># db_table = &#39;compare_patient&#39;</span>
 
-<div class="viewcode-block" id="OrganPerson.clean"><a class="viewcode-back" href="../../../../source/generated/wp4.compare.models.core.html#wp4.compare.models.core.OrganPerson.clean">[docs]</a>    <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Patient.clean"><a class="viewcode-back" href="../../../../source/generated/wp4.compare.models.core.html#wp4.compare.models.core.Patient.clean">[docs]</a>    <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Clears date_of_birth if unknown is flagged.</span>
 <span class="sd">        Clears date_of_death if unknown is flagged.</span>
 <span class="sd">        Error if date_of_death is in the future (OPv02).</span>
 <span class="sd">        Error if date_of_death is before date_of_birth (OPv03)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Clean the fields that at Not Known</span>
+        <span class="c1"># Clean the fields that are Unknown</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">date_of_birth_unknown</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">date_of_birth</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">date_of_death_unknown</span><span class="p">:</span>
@@ -370,23 +314,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">date_of_birth</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">relativedelta</span><span class="p">(</span><span class="n">the_end</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">date_of_birth</span><span class="p">)</span><span class="o">.</span><span class="n">years</span>
         <span class="k">return</span> <span class="kc">None</span>
-
     <span class="n">age_from_dob</span> <span class="o">=</span> <span class="n">cached_property</span><span class="p">(</span><span class="n">_age_from_dob</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;age_from_dob&#39;</span><span class="p">)</span>
-
-    <span class="c1"># def _trial_id(self):</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     Returns the composite trial id string by calling either donor.trial_id() or recipient.trial_id()</span>
-    <span class="c1">#</span>
-    <span class="c1">#     :return: If no donor or recipient trial id found, returns &quot;No Trial ID Assigned&quot;</span>
-    <span class="c1">#     :rtype: str</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     if self.is_donor:</span>
-    <span class="c1">#         return self.donor.trial_id()</span>
-    <span class="c1">#     elif self.is_recipient:</span>
-    <span class="c1">#         return self.recipient.trial_id()</span>
-    <span class="c1">#     return _(&quot;OPm01 No Trial ID Assigned&quot;)</span>
-    <span class="c1">#</span>
-    <span class="c1"># trial_id = cached_property(_trial_id, name=&#39;trial_id&#39;)</span>
 
     <span class="k">def</span> <span class="nf">_is_recipient</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -399,7 +327,6 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">recipient</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
         <span class="k">except</span> <span class="n">ObjectDoesNotExist</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
-
     <span class="n">is_recipient</span> <span class="o">=</span> <span class="n">cached_property</span><span class="p">(</span><span class="n">_is_recipient</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;is_recipient&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_is_donor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -413,7 +340,6 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">donor</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
         <span class="k">except</span> <span class="n">ObjectDoesNotExist</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
-
     <span class="n">is_donor</span> <span class="o">=</span> <span class="n">cached_property</span><span class="p">(</span><span class="n">_is_donor</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;is_donor&#39;</span><span class="p">)</span>
 
     <span class="nd">@property</span>
@@ -426,18 +352,14 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="kc">True</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">date_of_death</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">False</span>
 
-    <span class="k">def</span> <span class="nf">_worksheet</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Patient.trial_id"><a class="viewcode-back" href="../../../../source/generated/wp4.compare.models.core.html#wp4.compare.models.core.Patient.trial_id">[docs]</a>    <span class="k">def</span> <span class="nf">trial_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Looks for the first sample worksheet linked to this person</span>
-
-<span class="sd">        :return: Samples.Worksheet object, or None</span>
-<span class="sd">        :rtype: wp4.samples.models.worksheet</span>
+<span class="sd">        Determine if donor or recipient, and then pass back their trial id</span>
+<span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">worksheet</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">worksheet_set</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
-            <span class="k">return</span> <span class="n">worksheet</span>
-        <span class="k">return</span> <span class="kc">None</span>
-
-    <span class="n">worksheet</span> <span class="o">=</span> <span class="n">cached_property</span><span class="p">(</span><span class="n">_worksheet</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;worksheet&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_donor</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">donor</span><span class="o">.</span><span class="n">trial_id</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">recipient</span><span class="o">.</span><span class="n">trial_id</span></div>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">:</span>
@@ -450,9 +372,84 @@
             <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="RetrievalTeam"><a class="viewcode-back" href="../../../../source/generated/wp4.compare.models.core.html#wp4.compare.models.core.RetrievalTeam">[docs]</a><span class="k">class</span> <span class="nc">RetrievalTeam</span><span class="p">(</span><span class="n">BaseModelMixin</span><span class="p">):</span>
+<div class="viewcode-block" id="random_5050"><a class="viewcode-back" href="../../../../source/generated/wp4.compare.models.core.html#wp4.compare.models.core.random_5050">[docs]</a><span class="k">def</span> <span class="nf">random_5050</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Lookup class for the preset Retrieval Team list. Doesn&#39;t inherit from VersionControlMixin as this</span>
+<span class="sd">    Handy method to return a True/False value with a 0.5 distribution using random()</span>
+
+<span class="sd">    :return: True or False</span>
+<span class="sd">    :rtype: bool</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">random</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="mf">0.5</span>  <span class="c1"># True/False</span></div>
+
+
+<div class="viewcode-block" id="Randomisation"><a class="viewcode-back" href="../../../../source/generated/wp4.compare.models.core.html#wp4.compare.models.core.Randomisation">[docs]</a><span class="k">class</span> <span class="nc">Randomisation</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Populated from the supplied CSV file via the fixture. A &#39;True&#39; result is HMP+O2 for the Left Organ</span>
+
+<span class="sd">    Randomisations are system defined and controlled, so whilst users shouldn&#39;t be troubled with permissions, we do</span>
+<span class="sd">    want to use the hide permission here on users that are to be &quot;blinded&quot; to the effects of randomisation</span>
+<span class="sd">    </span>
+<span class="sd">    Allocation information should not be set until the record has been linked to a donor</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">LIVE_UNITED_KINGDOM</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1">#: CONSTANT for LIST_CHOICES</span>
+    <span class="n">LIVE_EUROPE</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1">#: CONSTANT for LIST_CHOICES</span>
+    <span class="n">PAPER_EUROPE</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c1">#: CONSTANT for LIST_CHOICES</span>
+    <span class="n">PAPER_UNITED_KINGDOM</span> <span class="o">=</span> <span class="mi">4</span>  <span class="c1">#: CONSTANT for LIST_CHOICES</span>
+    <span class="n">LIST_CHOICES</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="n">LIVE_UNITED_KINGDOM</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;RNc01 UK Live list&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">LIVE_EUROPE</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;RNc02 Europe Live list&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">PAPER_UNITED_KINGDOM</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;RNc03 UK Offline list&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">PAPER_EUROPE</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;RNc04 Europe Offline list&quot;</span><span class="p">)),</span>
+    <span class="p">)</span>  <span class="c1">#: Randomisation list choices</span>
+
+    <span class="n">donor</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span>
+        <span class="s1">&#39;Donor&#39;</span><span class="p">,</span>
+        <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Internal link to the Donor&quot;</span>
+    <span class="p">)</span>
+    <span class="n">list_code</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;RA01 list code&quot;</span><span class="p">),</span>
+        <span class="n">choices</span><span class="o">=</span><span class="n">LIST_CHOICES</span>
+    <span class="p">)</span>  <span class="c1">#: Choices limited to LIST_CHOICES</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;RA02 result&quot;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="n">random_5050</span><span class="p">)</span>
+    <span class="n">allocated_on</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;RA03 allocated on&quot;</span><span class="p">),</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">allocated_by</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Person</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;RA04 allocated by&quot;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">permissions</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="s2">&quot;hide_randomisation&quot;</span><span class="p">,</span> <span class="s2">&quot;User should be kept ignorant of this data&quot;</span><span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Randomisation.get_and_assign_result"><a class="viewcode-back" href="../../../../source/generated/wp4.compare.models.core.html#wp4.compare.models.core.Randomisation.get_and_assign_result">[docs]</a>    <span class="k">def</span> <span class="nf">get_and_assign_result</span><span class="p">(</span><span class="n">list_code</span><span class="p">,</span> <span class="n">link_donor</span><span class="p">,</span> <span class="n">active_user</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Finds the next unassigned record on the randomisation list, and then assigns it to the</span>
+<span class="sd">        Donor record supplied, whilst returning the result</span>
+
+<span class="sd">        :param list_code: int. Value from LIST_CHOICES</span>
+<span class="sd">        :param link_donor: Donor object. Donor record to link against this randomisation</span>
+<span class="sd">        :param active_user: Person object. Currently logged in user</span>
+<span class="sd">        :return: &#39;True&#39; result is HMP+O2 for the Left Organ</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="n">Randomisation</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">list_code</span><span class="o">=</span><span class="n">list_code</span><span class="p">,</span> <span class="n">donor</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">options</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;No remaining values for randomisation&quot;</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">options</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">donor</span> <span class="o">=</span> <span class="n">link_donor</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">allocated_on</span> <span class="o">=</span> <span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">allocated_by</span> <span class="o">=</span> <span class="n">active_user</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">result</span></div>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> : </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s1">&#39;03&#39;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_list_code_display</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="RetrievalTeam"><a class="viewcode-back" href="../../../../source/generated/wp4.compare.models.core.html#wp4.compare.models.core.RetrievalTeam">[docs]</a><span class="k">class</span> <span class="nc">RetrievalTeam</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Lookup class for the preset Retrieval Team list. Doesn&#39;t inherit from AuditControlModelBase as this</span>
 <span class="sd">    is primarily a preset list of data, with helper functions attached.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">wp4.locations.models</span> <span class="k">import</span> <span class="n">Hospital</span><span class="p">,</span> <span class="n">UNITED_KINGDOM</span>
@@ -463,6 +460,32 @@
         <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Value must be in the range 10-99&quot;</span>
     <span class="p">)</span>
     <span class="n">based_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Hospital</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;RT02 base hospital&quot;</span><span class="p">))</span>
+
+    <span class="n">objects</span> <span class="o">=</span> <span class="n">RetrievalTeamModelForUserManager</span><span class="p">()</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;centre_code&#39;</span><span class="p">]</span>
+        <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;RTm1 retrieval team&#39;</span><span class="p">)</span>
+        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;RTm2 retrieval teams&#39;</span><span class="p">)</span>
+        <span class="n">permissions</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="s2">&quot;view_retrievalteam&quot;</span><span class="p">,</span> <span class="s2">&quot;Can only view the data&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;restrict_to_national&quot;</span><span class="p">,</span> <span class="s2">&quot;Can only use data from the same location country&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;restrict_to_local&quot;</span><span class="p">,</span> <span class="s2">&quot;Can only use data from a specific location&quot;</span><span class="p">),</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="RetrievalTeam.country_for_restriction"><a class="viewcode-back" href="../../../../source/generated/wp4.compare.models.core.html#wp4.compare.models.core.RetrievalTeam.country_for_restriction">[docs]</a>    <span class="k">def</span> <span class="nf">country_for_restriction</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the country to be used for geographic restriction of this data</span>
+<span class="sd">        :return: Int: Value from list in Locations.Models. Should be in range [1,4,5]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">based_at</span><span class="o">.</span><span class="n">country</span></div>
+
+<div class="viewcode-block" id="RetrievalTeam.location_for_restriction"><a class="viewcode-back" href="../../../../source/generated/wp4.compare.models.core.html#wp4.compare.models.core.RetrievalTeam.location_for_restriction">[docs]</a>    <span class="k">def</span> <span class="nf">location_for_restriction</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the location to be used for geographic restriction of this data</span>
+<span class="sd">        :return: Int: Hospital object id</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">based_at</span><span class="o">.</span><span class="n">id</span></div>
 
 <div class="viewcode-block" id="RetrievalTeam.next_sequence_number"><a class="viewcode-back" href="../../../../source/generated/wp4.compare.models.core.html#wp4.compare.models.core.RetrievalTeam.next_sequence_number">[docs]</a>    <span class="k">def</span> <span class="nf">next_sequence_number</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">is_online</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -490,16 +513,16 @@
 <span class="sd">        :return: Number matching one of the LIST_CHOICE constants</span>
 <span class="sd">        :rtype: int</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">based_at</span><span class="o">.</span><span class="n">country</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">UNITED_KINGDOM</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">based_at</span><span class="o">.</span><span class="n">country</span> <span class="o">==</span> <span class="n">RetrievalTeam</span><span class="o">.</span><span class="n">UNITED_KINGDOM</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">is_online</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">LIVE_UNITED_KINGDOM</span>
+                <span class="k">return</span> <span class="n">Randomisation</span><span class="o">.</span><span class="n">LIVE_UNITED_KINGDOM</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">PAPER_UNITED_KINGDOM</span>
+                <span class="k">return</span> <span class="n">Randomisation</span><span class="o">.</span><span class="n">PAPER_UNITED_KINGDOM</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">is_online</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">LIVE_EUROPE</span>
+                <span class="k">return</span> <span class="n">Randomisation</span><span class="o">.</span><span class="n">LIVE_EUROPE</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">PAPER_EUROPE</span></div>
+                <span class="k">return</span> <span class="n">Randomisation</span><span class="o">.</span><span class="n">PAPER_EUROPE</span></div>
 
     <span class="k">def</span> <span class="nf">_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -508,7 +531,7 @@
 <span class="sd">        :return: (Centre Code) Team Location Description</span>
 <span class="sd">        :rtype: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="s1">&#39;(</span><span class="si">%d</span><span class="s1">) </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">centre_code</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">based_at</span><span class="o">.</span><span class="n">full_description</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s1">&#39;(</span><span class="si">{0:d}</span><span class="s1">) </span><span class="si">{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">centre_code</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">based_at</span><span class="o">.</span><span class="n">full_description</span><span class="p">)</span>
 
     <span class="n">name</span> <span class="o">=</span> <span class="n">cached_property</span><span class="p">(</span><span class="n">_name</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
 
@@ -518,14 +541,12 @@
     <span class="n">based_in_country</span> <span class="o">=</span> <span class="n">cached_property</span><span class="p">(</span><span class="n">_based_in_country</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;based_in_country&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
-
-    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
-        <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;centre_code&#39;</span><span class="p">]</span>
-        <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;RTm1 retrieval team&#39;</span><span class="p">)</span>
-        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;RTm2 retrieval teams&#39;</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></div>
 </pre></div>
 
+           </div>
+           <div class="articleComments">
+            
            </div>
           </div>
           <footer>
@@ -557,10 +578,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../../',
-            VERSION:'0.6.0',
+            VERSION:'0.8.2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../../../../_static/jquery.js"></script>

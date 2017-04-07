@@ -18,12 +18,11 @@ import importlib
 import inspect
 from recommonmark.parser import CommonMarkParser
 
+import django
 from django.db.models.fields.files import FileDescriptor
-from django.db.models.manager import AbstractManagerDescriptor, ManagerDescriptor
+from django.db.models.manager import ManagerDescriptor
 from django.db.models.query import QuerySet
 from django.utils.translation import ugettext, get_language, activate, deactivate
-
-wp4_version_string = "0.6.0"  # NB: Can't reference wp4.__version__ for unknown reasons
 
 try:
     import enchant  # NoQA
@@ -35,20 +34,21 @@ except ImportError:
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 sys.path.insert(0, os.path.abspath('.'))
 sys.path.insert(0, os.path.abspath('..'))
-sys.path.append(os.path.abspath('../../lib/python2.7/site-packages/'))
+sys.path.append(os.path.abspath('../../lib/python3.6/site-packages/'))
+
+
+wp4_version_string = "0.8.2"  # NB: Can't reference wp4.__version__ for unknown reasons
 
 with open('../location.env', 'r') as location_file:
     environment_string = location_file.read().replace('\n', '')
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings." + environment_string)
-import django
 django.setup()
 
-# From https://gist.github.com/codingjoe/314bda5a07ff3b41f247
+# From https://gist.github.com/codingjoe/314bda5a07ff3b41f24
 # Fix Django's FileFields
-FileDescriptor.__get__ = lambda self, *args, **kwargs: self
 ManagerDescriptor.__get__ = lambda self, *args, **kwargs: self.manager
-AbstractManagerDescriptor.__get__ = lambda self, *args, **kwargs: None
+FileDescriptor.__get__ = lambda self, *args, **kwargs: self
 
 # Stop Django from executing DB queries
 QuerySet.__repr__ = lambda self: self.__class__.__name__
@@ -127,9 +127,9 @@ def setup(app):
 
 
 intersphinx_mapping = {
-    'python': ('https://docs.python.org/2.7', None),
+    'python': ('https://docs.python.org/3.6', None),
     'sphinx': ('http://sphinx.pocoo.org/', None),
-    'django': ('https://docs.djangoproject.com/en/1.9/', 'https://docs.djangoproject.com/en/1.9/_objects/'),
+    'django': ('https://docs.djangoproject.com/en/1.11/', 'https://docs.djangoproject.com/en/1.11/_objects/'),
     'djangoextensions': ('https://django-extensions.readthedocs.org/en/latest/', None),
     'braces': ('https://django-braces.readthedocs.org/en/latest/', None),
 }
@@ -150,18 +150,12 @@ def linkcode_resolve(domain, info):
         filename += '/__init__'
     item = mod
     lineno = ''
-    # print("DEBUG: linkcode_resolve: info=%s" % info)
     for piece in info['fullname'].split('.'):
-        # print("DEBUG: linkcode_resolve: item=%s \n piece=%s" % (type(item), piece))
+        item = getattr(item, piece)
         try:
-            item = getattr(item, piece)
-            try:
-                # print("DEBUG: linkcode_resolve: inspect.getsourcelines(item): %s" % inspect.getsourcelines(item))
-                lineno = '#L%d' % inspect.getsourcelines(item)[1]
-            except (TypeError, IOError):
-                pass
-        except AttributeError:
-            pass  # Can't find the attribute...
+            lineno = '#L%d' % inspect.getsourcelines(item)[1]
+        except (TypeError, IOError):
+            pass
     return ("https://github.com/%s/%s/blob/%s/%s.py%s" %
             (github_user, project, head, filename, lineno))
 
@@ -191,7 +185,7 @@ extensions = [
     'sphinx.ext.imgmath',
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
-    'sphinx.ext.intersphinx'
+    'sphinx.ext.intersphinx',
 ]
 
 if enchant is not None:

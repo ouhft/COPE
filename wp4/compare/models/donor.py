@@ -515,7 +515,7 @@ class Donor(AuditControlModelBase):
         value determines which of the two lists to pick from.
 
         :param is_online: bool. Pick from an online list if True, or an Offline list if False
-        :param active_user. The user that is triggering the randomisation process
+        :param active_user: The user that is triggering the randomisation process
         :return: True if randomisation occurs, False otherwise
         :rtype: bool
         """

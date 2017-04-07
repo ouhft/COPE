@@ -8,9 +8,11 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>wp4.compare.models.transplantation &mdash; COPE DB 0.6.0 documentation</title>
+  <title>wp4.compare.models.transplantation &mdash; COPE DB 0.8.2 documentation</title>
   
 
+  
+  
   
   
 
@@ -30,10 +32,13 @@
   
 
   
-    <link rel="top" title="COPE DB 0.6.0 documentation" href="../../index.html"/>
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="COPE DB 0.8.2 documentation" href="../../index.html"/>
         <link rel="up" title="Data Models" href="../models.html"/>
         <link rel="next" title="wp4.adverse_event.models" href="wp4.adverse_event.models.html"/>
-        <link rel="prev" title="wp4.compare.models.organ" href="wp4.compare.models.organ.html"/> 
+        <link rel="prev" title="wp4.compare.models.donor" href="wp4.compare.models.donor.html"/> 
 
   
   <script src="../../_static/js/modernizr.min.js"></script>
@@ -42,6 +47,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -61,7 +67,7 @@
             
             
               <div class="version">
-                0.6.0
+                0.8.2
               </div>
             
           
@@ -82,7 +88,10 @@
           
             
             
-                <ul class="current">
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../user_manual.html">COPE DB User Manual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../deployment.html">Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../development.html">Development Setup</a></li>
@@ -92,7 +101,6 @@
 <li class="toctree-l2 current"><a class="reference internal" href="../models.html#compare">Compare</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="wp4.compare.models.core.html">wp4.compare.models.core</a></li>
 <li class="toctree-l3"><a class="reference internal" href="wp4.compare.models.donor.html">wp4.compare.models.donor</a></li>
-<li class="toctree-l3"><a class="reference internal" href="wp4.compare.models.organ.html">wp4.compare.models.organ</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">wp4.compare.models.transplantation</a></li>
 </ul>
 </li>
@@ -119,8 +127,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../../index.html">COPE DB</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">COPE DB</a>
+        
       </nav>
 
 
@@ -129,25 +139,42 @@
         <div class="rst-content">
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="../models.html">Data Models</a> &raquo;</li>
-      
-    <li>wp4.compare.models.transplantation</li>
+        
+      <li>wp4.compare.models.transplantation</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
-            <a href="../../_sources/source/generated/wp4.compare.models.transplantation.txt" rel="nofollow"> View page source</a>
+            
+            <a href="../../_sources/source/generated/wp4.compare.models.transplantation.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -177,37 +204,40 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">Hospital</span></code>(*args,&nbsp;**kwargs)</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">AuditControlModelBase</span></code>(*args,&nbsp;**kwargs)</td>
+<td>Internal common attributes to aid systematic auditing of records.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">Hospital</span></code>(*args,&nbsp;**kwargs)</td>
 <td>Simple helper class to hold information related to the various project and non-project locations.</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">MaxValueValidator</span></code>(limit_value[,&nbsp;message])</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">MaxValueValidator</span></code>(limit_value[,&nbsp;message])</td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">MinValueValidator</span></code>(limit_value[,&nbsp;message])</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">MinValueValidator</span></code>(limit_value[,&nbsp;message])</td>
 <td></td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">Organ</span></code>(*args,&nbsp;**kwargs)</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">Organ</span></code>(*args,&nbsp;**kwargs)</td>
 <td>The focus of the trial, specifically a Kidney.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#wp4.compare.models.transplantation.OrganAllocation" title="wp4.compare.models.transplantation.OrganAllocation"><code class="xref py py-obj docutils literal"><span class="pre">OrganAllocation</span></code></a>(*args,&nbsp;**kwargs)</td>
+<tr class="row-even"><td><a class="reference internal" href="#wp4.compare.models.transplantation.OrganAllocation" title="wp4.compare.models.transplantation.OrganAllocation"><code class="xref py py-obj docutils literal"><span class="pre">OrganAllocation</span></code></a>(*args,&nbsp;**kwargs)</td>
 <td>Organs can be allocated multiple times before finding a definitive recipient.</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">OrganPerson</span></code>(*args,&nbsp;**kwargs)</td>
-<td>Base attributes for a person involved in this case as a donor or recipient</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">OrganAllocationModelForUserManager</span></code>([...])</td>
+<td></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#wp4.compare.models.transplantation.Recipient" title="wp4.compare.models.transplantation.Recipient"><code class="xref py py-obj docutils literal"><span class="pre">Recipient</span></code></a>(*args,&nbsp;**kwargs)</td>
-<td>Extension of an OrganPerson record (via OneToOne link for good ORM/DB management) to capture the Recipient specific data.</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">Patient</span></code>(*args,&nbsp;**kwargs)</td>
+<td>Base attributes for a person involved in this case as a donor or recipient.</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">StaffJob</span></code>(*args,&nbsp;**kwargs)</td>
-<td>Helper class for the range of Job/roles that are defined in the project protocol.</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">Person</span></code>(*args,&nbsp;**kwargs)</td>
+<td>Replacement for original StaffPerson class which was linked to User as a one-to-one via &#8220;profile&#8221; attribute.</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">StaffPerson</span></code>(*args,&nbsp;**kwargs)</td>
-<td>Base person record that links with the Django User record to add further metadata relevant to the project management.</td>
+<tr class="row-even"><td><a class="reference internal" href="#wp4.compare.models.transplantation.Recipient" title="wp4.compare.models.transplantation.Recipient"><code class="xref py py-obj docutils literal"><span class="pre">Recipient</span></code></a>(*args,&nbsp;**kwargs)</td>
+<td>Extension of an Patient record (via OneToOne link for good ORM/DB management) to capture the Recipient specific data.</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">VersionControlMixin</span></code>(*args,&nbsp;**kwargs)</td>
-<td>Internal common attributes to aide system auditing of records</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">RecipientModelForUserManager</span></code>([...])</td>
+<td></td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">cached_property</span></code>(func[,&nbsp;name])</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">cached_property</span></code>(func[,&nbsp;name])</td>
 <td>Decorator that converts a method with a single self argument into a property cached on the instance.</td>
 </tr>
 </tbody>
@@ -234,30 +264,28 @@ the record of these allocations and a link between Organ and Recipient.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.9)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
-<li><strong>created_on</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;created on&#8221;</li>
-<li><strong>created_by_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;created by&#8221; - User account for the person logged in when this record was made/updated</li>
-<li><strong>version</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.PositiveIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveIntegerField</em></a>) &#8211; &#8220;version&#8221; - Internal tracking version number</li>
-<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.9)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - Not presently implemented or used</li>
-<li><strong>organ_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;organ&#8221;</li>
-<li><strong>perfusion_technician_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;OA01 name of transplant technician&#8221;</li>
-<li><strong>call_received</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;OA02 call received from transplant co-ordinator at&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>call_received_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.9)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;call received unknown&#8221; - Internal unknown flag</li>
-<li><strong>transplant_hospital_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;OA03 transplant hospital&#8221;</li>
-<li><strong>theatre_contact_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;OA04 name of the theatre contact&#8221;</li>
-<li><strong>scheduled_start</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;OA05 scheduled start&#8221; - Date must be fall within 1900-2050</li>
-<li><strong>scheduled_start_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.9)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;scheduled start unknown&#8221; - Internal unknown flag</li>
-<li><strong>technician_arrival</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;OA06 arrival time at hub&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>technician_arrival_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.9)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;technician arrival unknown&#8221; - Internal unknown flag</li>
-<li><strong>depart_perfusion_centre</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;OA07 departure from hub&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>depart_perfusion_centre_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.9)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;depart perfusion centre unknown&#8221; - Internal unknown flag</li>
-<li><strong>arrival_at_recipient_hospital</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;OA08 arrival at transplant hospital&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>arrival_at_recipient_hospital_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.9)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;arrival at recipient hospital unknown&#8221; - Internal unknown flag</li>
-<li><strong>journey_remarks</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.TextField" title="(in Django v1.9)"><em>django.db.models.TextField</em></a>) &#8211; &#8220;OA09 journey notes&#8221;</li>
-<li><strong>reallocated</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.9)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;OA10 reallocated&#8221;</li>
-<li><strong>reallocation_reason</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;OA11 reason for re-allocation&#8221;</li>
-<li><strong>reallocation_reason_other</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.CharField" title="(in Django v1.9)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;OA12 other reason&#8221;</li>
-<li><strong>reallocation_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.OneToOneField" title="(in Django v1.9)"><em>django.db.models.OneToOneField</em></a>) &#8211; &#8220;reallocation&#8221; - Internal forward link value to another OrganAllocation record</li>
+<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
+<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - locked by the admin team</li>
+<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) &#8211; &#8220;live&#8221;</li>
+<li><strong>organ_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;organ&#8221;</li>
+<li><strong>perfusion_technician_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;OA01 name of transplant technician&#8221;</li>
+<li><strong>call_received</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;OA02 call received from transplant co-ordinator at&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>call_received_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;call received unknown&#8221; - Internal unknown flag</li>
+<li><strong>transplant_hospital_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;OA03 transplant hospital&#8221;</li>
+<li><strong>theatre_contact_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;OA04 name of the theatre contact&#8221;</li>
+<li><strong>scheduled_start</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;OA05 scheduled start&#8221; - Date must be fall within 1900-2050</li>
+<li><strong>scheduled_start_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;scheduled start unknown&#8221; - Internal unknown flag</li>
+<li><strong>technician_arrival</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;OA06 arrival time at hub&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>technician_arrival_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;technician arrival unknown&#8221; - Internal unknown flag</li>
+<li><strong>depart_perfusion_centre</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;OA07 departure from hub&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>depart_perfusion_centre_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;depart perfusion centre unknown&#8221; - Internal unknown flag</li>
+<li><strong>arrival_at_recipient_hospital</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;OA08 arrival at transplant hospital&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>arrival_at_recipient_hospital_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;arrival at recipient hospital unknown&#8221; - Internal unknown flag</li>
+<li><strong>journey_remarks</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.TextField" title="(in Django v1.11)"><em>django.db.models.TextField</em></a>) &#8211; &#8220;OA09 journey notes&#8221;</li>
+<li><strong>reallocated</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;OA10 reallocated&#8221;</li>
+<li><strong>reallocation_reason</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;OA11 reason for re-allocation&#8221;</li>
+<li><strong>reallocation_reason_other</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;OA12 other reason&#8221;</li>
+<li><strong>reallocation_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.OneToOneField" title="(in Django v1.11)"><em>django.db.models.OneToOneField</em></a>) &#8211; &#8220;reallocation&#8221; - Internal forward link value to another OrganAllocation record</li>
 <li><strong>_order</strong> (<em>django.db.models.OrderWrt</em>) &#8211; &#8221; order&#8221;</li>
 </ul>
 </td>
@@ -268,7 +296,7 @@ the record of these allocations and a link between Organ and Recipient.</p>
 <dt id="wp4.compare.models.transplantation.OrganAllocation.organ">
 <code class="descname">organ</code><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.organ" title="Permalink to this definition">¶</a></dt>
 <dd><p>Accessor to the related object on the forward side of a many-to-one or
-one-to-one relation.</p>
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 <p>In the example:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
     <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
@@ -297,21 +325,42 @@ one-to-one relation.</p>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.transplantation.OrganAllocation.REALLOCATION_CHOICES">
-<code class="descname">REALLOCATION_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.lazy.&lt;locals&gt;.__proxy__ object&gt;), (2, &lt;django.utils.functional.lazy.&lt;locals&gt;.__proxy__ object&gt;), (3, &lt;django.utils.functional.lazy.&lt;locals&gt;.__proxy__ object&gt;))</em><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.REALLOCATION_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">REALLOCATION_CHOICES</code><em class="property"> = ((1, 'OAc01 Positive crossmatch'), (2, 'OAc02 Unknown'), (3, 'OAc03 Other'))</em><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.REALLOCATION_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>OrganAllocation reallocation_reason choices</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.transplantation.OrganAllocation.perfusion_technician">
 <code class="descname">perfusion_technician</code><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.perfusion_technician" title="Permalink to this definition">¶</a></dt>
-<dd><p>Limit choices to StaffPerson with job StaffJob.PERFUSION_TECHNICIAN</p>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.OrganAllocation.call_received">
+<code class="descname">call_received</code><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.call_received" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.OrganAllocation.call_received_unknown">
+<code class="descname">call_received_unknown</code><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.call_received_unknown" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.transplantation.OrganAllocation.transplant_hospital">
 <code class="descname">transplant_hospital</code><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.transplant_hospital" title="Permalink to this definition">¶</a></dt>
 <dd><p>Accessor to the related object on the forward side of a many-to-one or
-one-to-one relation.</p>
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 <p>In the example:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
     <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
@@ -323,26 +372,123 @@ one-to-one relation.</p>
 <dl class="attribute">
 <dt id="wp4.compare.models.transplantation.OrganAllocation.theatre_contact">
 <code class="descname">theatre_contact</code><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.theatre_contact" title="Permalink to this definition">¶</a></dt>
-<dd><p>Limit choices to StaffPerson with job StaffJob.THEATRE_CONTACT</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="wp4.compare.models.transplantation.OrganAllocation.reallocation_reason">
-<code class="descname">reallocation_reason</code><em class="property"> = None</em><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.reallocation_reason" title="Permalink to this definition">¶</a></dt>
-<dd><p>Limit choices to REALLOCATION_CHOICES</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="wp4.compare.models.transplantation.OrganAllocation.reallocation">
-<code class="descname">reallocation</code><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.reallocation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Accessor to the related object on the forward side of a many-to-one or
-one-to-one relation.</p>
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 <p>In the example:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
     <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.OrganAllocation.scheduled_start">
+<code class="descname">scheduled_start</code><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.scheduled_start" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.OrganAllocation.scheduled_start_unknown">
+<code class="descname">scheduled_start_unknown</code><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.scheduled_start_unknown" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.OrganAllocation.technician_arrival">
+<code class="descname">technician_arrival</code><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.technician_arrival" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.OrganAllocation.technician_arrival_unknown">
+<code class="descname">technician_arrival_unknown</code><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.technician_arrival_unknown" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.OrganAllocation.depart_perfusion_centre">
+<code class="descname">depart_perfusion_centre</code><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.depart_perfusion_centre" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.OrganAllocation.depart_perfusion_centre_unknown">
+<code class="descname">depart_perfusion_centre_unknown</code><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.depart_perfusion_centre_unknown" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.OrganAllocation.arrival_at_recipient_hospital">
+<code class="descname">arrival_at_recipient_hospital</code><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.arrival_at_recipient_hospital" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.OrganAllocation.arrival_at_recipient_hospital_unknown">
+<code class="descname">arrival_at_recipient_hospital_unknown</code><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.arrival_at_recipient_hospital_unknown" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.OrganAllocation.journey_remarks">
+<code class="descname">journey_remarks</code><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.journey_remarks" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.OrganAllocation.reallocated">
+<code class="descname">reallocated</code><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.reallocated" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.OrganAllocation.reallocation_reason">
+<code class="descname">reallocation_reason</code><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.reallocation_reason" title="Permalink to this definition">¶</a></dt>
+<dd><p>Limit choices to REALLOCATION_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.OrganAllocation.reallocation_reason_other">
+<code class="descname">reallocation_reason_other</code><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.reallocation_reason_other" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.OrganAllocation.reallocation">
+<code class="descname">reallocation</code><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.reallocation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a one-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Restaurant</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">place</span> <span class="o">=</span> <span class="n">OneToOneField</span><span class="p">(</span><span class="n">Place</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;restaurant&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">restaurant.place</span></code> is a <code class="docutils literal"><span class="pre">ForwardOneToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wp4.compare.models.transplantation.OrganAllocation.country_for_restriction">
+<code class="descname">country_for_restriction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/compare/models/transplantation.html#OrganAllocation.country_for_restriction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.country_for_restriction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the country to be used for geographic restriction of this data
+:return: Int: Value from list in Locations.Models. Should be in range [None, 1,4,5]</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wp4.compare.models.transplantation.OrganAllocation.location_for_restriction">
+<code class="descname">location_for_restriction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/compare/models/transplantation.html#OrganAllocation.location_for_restriction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.location_for_restriction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the location to be used for geographic restriction of this data
+:return: Int: Hospital object id</p>
 </dd></dl>
 
 <dl class="method">
@@ -370,50 +516,41 @@ one-to-one relation.</p>
 
 <dl class="exception">
 <dt id="wp4.compare.models.transplantation.OrganAllocation.MultipleObjectsReturned">
-<em class="property">exception </em><code class="descclassname">OrganAllocation.</code><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="wp4.compare.models.transplantation.OrganAllocation.created_by">
-<code class="descclassname">OrganAllocation.</code><code class="descname">created_by</code><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.created_by" title="Permalink to this definition">¶</a></dt>
-<dd><p>Accessor to the related object on the forward side of a many-to-one or
-one-to-one relation.</p>
-<p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="wp4.compare.models.transplantation.OrganAllocation.get_next_by_created_on">
-<code class="descclassname">OrganAllocation.</code><code class="descname">get_next_by_created_on</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.get_next_by_created_on" title="Permalink to this definition">¶</a></dt>
+<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="wp4.compare.models.transplantation.OrganAllocation.get_next_in_order">
-<code class="descclassname">OrganAllocation.</code><code class="descname">get_next_in_order</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.get_next_in_order" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="wp4.compare.models.transplantation.OrganAllocation.get_previous_by_created_on">
-<code class="descclassname">OrganAllocation.</code><code class="descname">get_previous_by_created_on</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.get_previous_by_created_on" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_next_in_order</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.get_next_in_order" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="wp4.compare.models.transplantation.OrganAllocation.get_previous_in_order">
-<code class="descclassname">OrganAllocation.</code><code class="descname">get_previous_in_order</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.get_previous_in_order" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_previous_in_order</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.get_previous_in_order" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="wp4.compare.models.transplantation.OrganAllocation.get_reallocation_reason_display">
-<code class="descclassname">OrganAllocation.</code><code class="descname">get_reallocation_reason_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.get_reallocation_reason_display" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_reallocation_reason_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.get_reallocation_reason_display" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
+<dt id="wp4.compare.models.transplantation.OrganAllocation.id">
+<code class="descname">id</code><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.OrganAllocation.organ_id">
+<code class="descname">organ_id</code><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.organ_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="wp4.compare.models.transplantation.OrganAllocation.organallocation">
-<code class="descclassname">OrganAllocation.</code><code class="descname">organallocation</code><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.organallocation" title="Permalink to this definition">¶</a></dt>
+<code class="descname">organallocation</code><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.organallocation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Accessor to the related object on the reverse side of a one-to-one
 relation.</p>
 <p>In the example:</p>
@@ -425,8 +562,22 @@ relation.</p>
 </dd></dl>
 
 <dl class="attribute">
+<dt id="wp4.compare.models.transplantation.OrganAllocation.perfusion_technician_id">
+<code class="descname">perfusion_technician_id</code><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.perfusion_technician_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.OrganAllocation.reallocation_id">
+<code class="descname">reallocation_id</code><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.reallocation_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="wp4.compare.models.transplantation.OrganAllocation.recipient">
-<code class="descclassname">OrganAllocation.</code><code class="descname">recipient</code><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.recipient" title="Permalink to this definition">¶</a></dt>
+<code class="descname">recipient</code><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.recipient" title="Permalink to this definition">¶</a></dt>
 <dd><p>Accessor to the related object on the reverse side of a one-to-one
 relation.</p>
 <p>In the example:</p>
@@ -435,6 +586,20 @@ relation.</p>
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">place.restaurant</span></code> is a <code class="docutils literal"><span class="pre">ReverseOneToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.OrganAllocation.theatre_contact_id">
+<code class="descname">theatre_contact_id</code><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.theatre_contact_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.OrganAllocation.transplant_hospital_id">
+<code class="descname">transplant_hospital_id</code><a class="headerlink" href="#wp4.compare.models.transplantation.OrganAllocation.transplant_hospital_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
 </dd></dl>
 
 </dd></dl>
@@ -442,7 +607,7 @@ relation.</p>
 <dl class="class">
 <dt id="wp4.compare.models.transplantation.Recipient">
 <em class="property">class </em><code class="descclassname">wp4.compare.models.transplantation.</code><code class="descname">Recipient</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/compare/models/transplantation.html#Recipient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient" title="Permalink to this definition">¶</a></dt>
-<dd><p>Extension of an OrganPerson record (via OneToOne link for good ORM/DB management) to capture
+<dd><p>Extension of an Patient record (via OneToOne link for good ORM/DB management) to capture
 the Recipient specific data.</p>
 <p>Linked also to a single Organ (Kidney), and, for convenience, an OrganAllocation (once confirmed)</p>
 <p>Also holds the meta-data specific to the Transplantation Form</p>
@@ -451,54 +616,52 @@ the Recipient specific data.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.9)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
-<li><strong>created_on</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;created on&#8221;</li>
-<li><strong>created_by_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.9)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;created by&#8221; - User account for the person logged in when this record was made/updated</li>
-<li><strong>version</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.PositiveIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveIntegerField</em></a>) &#8211; &#8220;version&#8221; - Internal tracking version number</li>
-<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.9)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - Not presently implemented or used</li>
-<li><strong>person_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.OneToOneField" title="(in Django v1.9)"><em>django.db.models.OneToOneField</em></a>) &#8211; &#8220;person&#8221; - Internal link to OrganPerson</li>
-<li><strong>organ_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.OneToOneField" title="(in Django v1.9)"><em>django.db.models.OneToOneField</em></a>) &#8211; &#8220;organ&#8221; - Internal link to Organ</li>
-<li><strong>allocation_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.OneToOneField" title="(in Django v1.9)"><em>django.db.models.OneToOneField</em></a>) &#8211; &#8220;allocation&#8221; - Internal link to OrganAllocation</li>
-<li><strong>signed_consent</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.9)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;RE13 informed consent given&#8221;</li>
-<li><strong>single_kidney_transplant</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.9)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;RE14 receiving one kidney&#8221;</li>
-<li><strong>renal_disease</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;RE15 renal disease&#8221;</li>
-<li><strong>renal_disease_other</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.CharField" title="(in Django v1.9)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;RE16 other renal disease&#8221;</li>
-<li><strong>pre_transplant_diuresis</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;RE17 diuresis (ml/24hr)&#8221;</li>
-<li><strong>knife_to_skin</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;RE18 knife to skin time&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>perfusate_measure</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.FloatField" title="(in Django v1.9)"><em>django.db.models.FloatField</em></a>) &#8211; &#8220;RE19 pO2 perfusate&#8221;</li>
-<li><strong>perfusion_stopped</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;RE20 stop machine perfusion&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>organ_cold_stored</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.9)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;RE21 kidney was cold stored?&#8221;</li>
-<li><strong>tape_broken</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;RE22 tape over regulator broken&#8221;</li>
-<li><strong>removed_from_machine_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;RE23 kidney removed from machine at&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>oxygen_full_and_open</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;RE24 oxygen full and open&#8221;</li>
-<li><strong>organ_untransplantable</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.9)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;RE25 kidney discarded&#8221; - REh25 Either answer means further questions will open below</li>
-<li><strong>organ_untransplantable_reason</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.CharField" title="(in Django v1.9)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;RE26 untransplantable because&#8221;</li>
-<li><strong>anesthesia_started_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;RE27 start anesthesia at&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>incision</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;RE28 incision&#8221;</li>
-<li><strong>transplant_side</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.CharField" title="(in Django v1.9)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;RE29 transplant side&#8221;</li>
-<li><strong>arterial_problems</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;RE30 arterial problems&#8221;</li>
-<li><strong>arterial_problems_other</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.CharField" title="(in Django v1.9)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;RE31 arterial problems other&#8221;</li>
-<li><strong>venous_problems</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;RE32 venous problems&#8221;</li>
-<li><strong>venous_problems_other</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.CharField" title="(in Django v1.9)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;RE33 venous problems other&#8221;</li>
-<li><strong>anastomosis_started_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;RE34 start anastomosis at&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>anastomosis_started_at_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.9)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;anastomosis started at unknown&#8221; - Internal unknown flag</li>
-<li><strong>reperfusion_started_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;RE35 start reperfusion at&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>reperfusion_started_at_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.9)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;reperfusion started at unknown&#8221; - Internal unknown flag</li>
-<li><strong>mannitol_used</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;RE36 mannitol used&#8221;</li>
-<li><strong>other_diurectics</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;RE37 other diurectics used&#8221;</li>
-<li><strong>other_diurectics_details</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.CharField" title="(in Django v1.9)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;RE38 other diurectics detail&#8221;</li>
-<li><strong>systolic_blood_pressure</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;RE39 systolic blood pressure at reperfusion&#8221; - Value must be in range 10-200</li>
-<li><strong>cvp</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;RE40 cvp at reperfusion&#8221;</li>
-<li><strong>intra_operative_diuresis</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.9)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;RE41 intra-operative diuresis&#8221;</li>
-<li><strong>successful_conclusion</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.9)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;RE42 successful conclusion&#8221;</li>
-<li><strong>operation_concluded_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.9)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;RE43 operation concluded at&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>probe_cleaned</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.9)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;RE44 temperature and flow probe cleaned&#8221;</li>
-<li><strong>ice_removed</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.9)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;RE45 ice and water removed&#8221;</li>
-<li><strong>oxygen_flow_stopped</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.9)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;RE46 oxygen flow stopped&#8221;</li>
-<li><strong>oxygen_bottle_removed</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.9)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;RE47 oxygen bottle removed&#8221;</li>
-<li><strong>box_cleaned</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.9)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;RE48 box kidney assist cleaned&#8221;</li>
-<li><strong>batteries_charged</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.9)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;RE49 batteries charged&#8221;</li>
-<li><strong>cleaning_log</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.9/_objects/ref/models/fields/#django.db.models.TextField" title="(in Django v1.9)"><em>django.db.models.TextField</em></a>) &#8211; &#8220;RE50 cleaning log notes&#8221;</li>
+<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
+<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - locked by the admin team</li>
+<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) &#8211; &#8220;live&#8221;</li>
+<li><strong>person_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.OneToOneField" title="(in Django v1.11)"><em>django.db.models.OneToOneField</em></a>) &#8211; &#8220;person&#8221; - Internal link to Patient</li>
+<li><strong>organ_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.OneToOneField" title="(in Django v1.11)"><em>django.db.models.OneToOneField</em></a>) &#8211; &#8220;organ&#8221; - Internal link to Organ</li>
+<li><strong>allocation_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.OneToOneField" title="(in Django v1.11)"><em>django.db.models.OneToOneField</em></a>) &#8211; &#8220;allocation&#8221; - Internal link to OrganAllocation</li>
+<li><strong>signed_consent</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;RE13 informed consent given&#8221;</li>
+<li><strong>single_kidney_transplant</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;RE14 receiving one kidney&#8221;</li>
+<li><strong>renal_disease</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;RE15 renal disease&#8221;</li>
+<li><strong>renal_disease_other</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;RE16 other renal disease&#8221;</li>
+<li><strong>pre_transplant_diuresis</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;RE17 diuresis (ml/24hr)&#8221;</li>
+<li><strong>knife_to_skin</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;RE18 knife to skin time&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>perfusate_measure</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.FloatField" title="(in Django v1.11)"><em>django.db.models.FloatField</em></a>) &#8211; &#8220;RE19 pO2 perfusate&#8221;</li>
+<li><strong>perfusion_stopped</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;RE20 stop machine perfusion&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>organ_cold_stored</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;RE21 kidney was cold stored?&#8221;</li>
+<li><strong>tape_broken</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;RE22 tape over regulator broken&#8221;</li>
+<li><strong>removed_from_machine_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;RE23 kidney removed from machine at&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>oxygen_full_and_open</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;RE24 oxygen full and open&#8221;</li>
+<li><strong>organ_untransplantable</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;RE25 kidney discarded&#8221; - REh25 Either answer means further questions will open below</li>
+<li><strong>organ_untransplantable_reason</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;RE26 untransplantable because&#8221;</li>
+<li><strong>anesthesia_started_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;RE27 start anesthesia at&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>incision</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;RE28 incision&#8221;</li>
+<li><strong>transplant_side</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;RE29 transplant side&#8221;</li>
+<li><strong>arterial_problems</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;RE30 arterial problems&#8221;</li>
+<li><strong>arterial_problems_other</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;RE31 arterial problems other&#8221;</li>
+<li><strong>venous_problems</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;RE32 venous problems&#8221;</li>
+<li><strong>venous_problems_other</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;RE33 venous problems other&#8221;</li>
+<li><strong>anastomosis_started_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;RE34 start anastomosis at&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>anastomosis_started_at_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;anastomosis started at unknown&#8221; - Internal unknown flag</li>
+<li><strong>reperfusion_started_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;RE35 start reperfusion at&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>reperfusion_started_at_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;reperfusion started at unknown&#8221; - Internal unknown flag</li>
+<li><strong>mannitol_used</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;RE36 mannitol used&#8221;</li>
+<li><strong>other_diurectics</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;RE37 other diurectics used&#8221;</li>
+<li><strong>other_diurectics_details</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;RE38 other diurectics detail&#8221;</li>
+<li><strong>systolic_blood_pressure</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;RE39 systolic blood pressure at reperfusion&#8221; - Value must be in range 10-200</li>
+<li><strong>cvp</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;RE40 cvp at reperfusion&#8221;</li>
+<li><strong>intra_operative_diuresis</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;RE41 intra-operative diuresis&#8221;</li>
+<li><strong>successful_conclusion</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;RE42 successful conclusion&#8221;</li>
+<li><strong>operation_concluded_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;RE43 operation concluded at&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>probe_cleaned</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;RE44 temperature and flow probe cleaned&#8221;</li>
+<li><strong>ice_removed</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;RE45 ice and water removed&#8221;</li>
+<li><strong>oxygen_flow_stopped</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;RE46 oxygen flow stopped&#8221;</li>
+<li><strong>oxygen_bottle_removed</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;RE47 oxygen bottle removed&#8221;</li>
+<li><strong>box_cleaned</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;RE48 box kidney assist cleaned&#8221;</li>
+<li><strong>batteries_charged</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;RE49 batteries charged&#8221;</li>
+<li><strong>cleaning_log</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.TextField" title="(in Django v1.11)"><em>django.db.models.TextField</em></a>) &#8211; &#8220;RE50 cleaning log notes&#8221;</li>
 <li><strong>_order</strong> (<em>django.db.models.OrderWrt</em>) &#8211; &#8221; order&#8221;</li>
 </ul>
 </td>
@@ -508,118 +671,346 @@ the Recipient specific data.</p>
 <dl class="attribute">
 <dt id="wp4.compare.models.transplantation.Recipient.person">
 <code class="descname">person</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.person" title="Permalink to this definition">¶</a></dt>
-<dd><p>Accessor to the related object on the forward side of a many-to-one or
-one-to-one relation.</p>
+<dd><p>Accessor to the related object on the forward side of a one-to-one relation.</p>
 <p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Restaurant</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">place</span> <span class="o">=</span> <span class="n">OneToOneField</span><span class="p">(</span><span class="n">Place</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;restaurant&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+<p><code class="docutils literal"><span class="pre">restaurant.place</span></code> is a <code class="docutils literal"><span class="pre">ForwardOneToOneDescriptor</span></code> instance.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.transplantation.Recipient.organ">
 <code class="descname">organ</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.organ" title="Permalink to this definition">¶</a></dt>
-<dd><p>Accessor to the related object on the forward side of a many-to-one or
-one-to-one relation.</p>
+<dd><p>Accessor to the related object on the forward side of a one-to-one relation.</p>
 <p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Restaurant</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">place</span> <span class="o">=</span> <span class="n">OneToOneField</span><span class="p">(</span><span class="n">Place</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;restaurant&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+<p><code class="docutils literal"><span class="pre">restaurant.place</span></code> is a <code class="docutils literal"><span class="pre">ForwardOneToOneDescriptor</span></code> instance.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.transplantation.Recipient.allocation">
 <code class="descname">allocation</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.allocation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Accessor to the related object on the forward side of a many-to-one or
-one-to-one relation.</p>
+<dd><p>Accessor to the related object on the forward side of a one-to-one relation.</p>
 <p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Restaurant</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">place</span> <span class="o">=</span> <span class="n">OneToOneField</span><span class="p">(</span><span class="n">Place</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;restaurant&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+<p><code class="docutils literal"><span class="pre">restaurant.place</span></code> is a <code class="docutils literal"><span class="pre">ForwardOneToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.Recipient.signed_consent">
+<code class="descname">signed_consent</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.signed_consent" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.Recipient.single_kidney_transplant">
+<code class="descname">single_kidney_transplant</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.single_kidney_transplant" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.transplantation.Recipient.RENAL_DISEASE_CHOICES">
-<code class="descname">RENAL_DISEASE_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.lazy.&lt;locals&gt;.__proxy__ object&gt;), (2, &lt;django.utils.functional.lazy.&lt;locals&gt;.__proxy__ object&gt;), (3, &lt;django.utils.functional.lazy.&lt;locals&gt;.__proxy__ object&gt;), (4, &lt;django.utils.functional.lazy.&lt;locals&gt;.__proxy__ object&gt;), (5, &lt;django.utils.functional.lazy.&lt;locals&gt;.__proxy__ object&gt;), (6, &lt;django.utils.functional.lazy.&lt;locals&gt;.__proxy__ object&gt;), (7, &lt;django.utils.functional.lazy.&lt;locals&gt;.__proxy__ object&gt;), (8, &lt;django.utils.functional.lazy.&lt;locals&gt;.__proxy__ object&gt;), (9, &lt;django.utils.functional.lazy.&lt;locals&gt;.__proxy__ object&gt;), (10, &lt;django.utils.functional.lazy.&lt;locals&gt;.__proxy__ object&gt;), (11, &lt;django.utils.functional.lazy.&lt;locals&gt;.__proxy__ object&gt;))</em><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.RENAL_DISEASE_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">RENAL_DISEASE_CHOICES</code><em class="property"> = ((1, 'REc04 Glomerular diseases'), (2, 'REc05 Polycystic kidneys'), (3, 'REc06 Uncertain etiology'), (4, 'REc07 Tubular and interstitial diseases'), (5, 'REc08 Retransplant graft failure'), (6, 'REc09 diabetic nephropathyes'), (7, 'REc10 hypertensive nephropathyes'), (8, 'REc11 congenital rare disorders'), (9, 'REc12 renovascular and other diseases'), (10, 'REc13 neoplasms'), (11, 'REc14 other'))</em><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.RENAL_DISEASE_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Recipient renal_disease choices</p>
 </dd></dl>
 
 <dl class="attribute">
+<dt id="wp4.compare.models.transplantation.Recipient.renal_disease">
+<code class="descname">renal_disease</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.renal_disease" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.Recipient.renal_disease_other">
+<code class="descname">renal_disease_other</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.renal_disease_other" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.Recipient.pre_transplant_diuresis">
+<code class="descname">pre_transplant_diuresis</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.pre_transplant_diuresis" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="wp4.compare.models.transplantation.Recipient.INCISION_CHOICES">
-<code class="descname">INCISION_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.lazy.&lt;locals&gt;.__proxy__ object&gt;), (2, &lt;django.utils.functional.lazy.&lt;locals&gt;.__proxy__ object&gt;), (3, &lt;django.utils.functional.lazy.&lt;locals&gt;.__proxy__ object&gt;))</em><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.INCISION_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">INCISION_CHOICES</code><em class="property"> = ((1, 'REc15 midline laparotomy'), (2, 'REc16 hockey stick'), (3, 'REc17 unknown'))</em><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.INCISION_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Recipient incision choices</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.transplantation.Recipient.ARTERIAL_PROBLEM_CHOICES">
-<code class="descname">ARTERIAL_PROBLEM_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.lazy.&lt;locals&gt;.__proxy__ object&gt;), (2, &lt;django.utils.functional.lazy.&lt;locals&gt;.__proxy__ object&gt;), (3, &lt;django.utils.functional.lazy.&lt;locals&gt;.__proxy__ object&gt;), (4, &lt;django.utils.functional.lazy.&lt;locals&gt;.__proxy__ object&gt;), (5, &lt;django.utils.functional.lazy.&lt;locals&gt;.__proxy__ object&gt;))</em><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.ARTERIAL_PROBLEM_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ARTERIAL_PROBLEM_CHOICES</code><em class="property"> = ((1, 'REc18 None'), (2, 'REc19 ligated polar artery'), (3, 'REc20 reconstructed polar artery'), (4, 'REc21 repaired intima dissection'), (5, 'REc22 other'))</em><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.ARTERIAL_PROBLEM_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Recipient arterial_problems choices</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.transplantation.Recipient.VENOUS_PROBLEM_CHOICES">
-<code class="descname">VENOUS_PROBLEM_CHOICES</code><em class="property"> = ((1, &lt;django.utils.functional.lazy.&lt;locals&gt;.__proxy__ object&gt;), (2, &lt;django.utils.functional.lazy.&lt;locals&gt;.__proxy__ object&gt;), (3, &lt;django.utils.functional.lazy.&lt;locals&gt;.__proxy__ object&gt;), (4, &lt;django.utils.functional.lazy.&lt;locals&gt;.__proxy__ object&gt;))</em><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.VENOUS_PROBLEM_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">VENOUS_PROBLEM_CHOICES</code><em class="property"> = ((1, 'REc23 none'), (2, 'REc24 laceration'), (3, 'REc25 elongation plasty'), (4, 'REc26 other'))</em><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.VENOUS_PROBLEM_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Recipient venous_problems choices</p>
 </dd></dl>
 
 <dl class="attribute">
+<dt id="wp4.compare.models.transplantation.Recipient.knife_to_skin">
+<code class="descname">knife_to_skin</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.knife_to_skin" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.Recipient.perfusate_measure">
+<code class="descname">perfusate_measure</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.perfusate_measure" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.Recipient.perfusion_stopped">
+<code class="descname">perfusion_stopped</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.perfusion_stopped" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.Recipient.organ_cold_stored">
+<code class="descname">organ_cold_stored</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.organ_cold_stored" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="wp4.compare.models.transplantation.Recipient.tape_broken">
-<code class="descname">tape_broken</code><em class="property"> = None</em><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.tape_broken" title="Permalink to this definition">¶</a></dt>
+<code class="descname">tape_broken</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.tape_broken" title="Permalink to this definition">¶</a></dt>
 <dd><p>Limit choices to YES_NO_UNKNOWN_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.Recipient.removed_from_machine_at">
+<code class="descname">removed_from_machine_at</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.removed_from_machine_at" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.transplantation.Recipient.oxygen_full_and_open">
-<code class="descname">oxygen_full_and_open</code><em class="property"> = None</em><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.oxygen_full_and_open" title="Permalink to this definition">¶</a></dt>
+<code class="descname">oxygen_full_and_open</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.oxygen_full_and_open" title="Permalink to this definition">¶</a></dt>
 <dd><p>Limit choices to YES_NO_UNKNOWN_CHOICES</p>
 </dd></dl>
 
 <dl class="attribute">
+<dt id="wp4.compare.models.transplantation.Recipient.organ_untransplantable">
+<code class="descname">organ_untransplantable</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.organ_untransplantable" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.Recipient.organ_untransplantable_reason">
+<code class="descname">organ_untransplantable_reason</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.organ_untransplantable_reason" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.Recipient.anesthesia_started_at">
+<code class="descname">anesthesia_started_at</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.anesthesia_started_at" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="wp4.compare.models.transplantation.Recipient.incision">
-<code class="descname">incision</code><em class="property"> = None</em><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.incision" title="Permalink to this definition">¶</a></dt>
+<code class="descname">incision</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.incision" title="Permalink to this definition">¶</a></dt>
 <dd><p>Limit choices to INCISION_CHOICES</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.transplantation.Recipient.transplant_side">
-<code class="descname">transplant_side</code><em class="property"> = None</em><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.transplant_side" title="Permalink to this definition">¶</a></dt>
+<code class="descname">transplant_side</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.transplant_side" title="Permalink to this definition">¶</a></dt>
 <dd><p>Limit choices to LOCATION_CHOICES</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.transplantation.Recipient.arterial_problems">
-<code class="descname">arterial_problems</code><em class="property"> = None</em><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.arterial_problems" title="Permalink to this definition">¶</a></dt>
+<code class="descname">arterial_problems</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.arterial_problems" title="Permalink to this definition">¶</a></dt>
 <dd><p>Limit choices to ARTERIAL_PROBLEM_CHOICES</p>
 </dd></dl>
 
 <dl class="attribute">
+<dt id="wp4.compare.models.transplantation.Recipient.arterial_problems_other">
+<code class="descname">arterial_problems_other</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.arterial_problems_other" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="wp4.compare.models.transplantation.Recipient.venous_problems">
-<code class="descname">venous_problems</code><em class="property"> = None</em><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.venous_problems" title="Permalink to this definition">¶</a></dt>
+<code class="descname">venous_problems</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.venous_problems" title="Permalink to this definition">¶</a></dt>
 <dd><p>Limit choices to VENOUS_PROBLEM_CHOICES</p>
 </dd></dl>
 
 <dl class="attribute">
+<dt id="wp4.compare.models.transplantation.Recipient.venous_problems_other">
+<code class="descname">venous_problems_other</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.venous_problems_other" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.Recipient.anastomosis_started_at">
+<code class="descname">anastomosis_started_at</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.anastomosis_started_at" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.Recipient.anastomosis_started_at_unknown">
+<code class="descname">anastomosis_started_at_unknown</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.anastomosis_started_at_unknown" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.Recipient.reperfusion_started_at">
+<code class="descname">reperfusion_started_at</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.reperfusion_started_at" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.Recipient.reperfusion_started_at_unknown">
+<code class="descname">reperfusion_started_at_unknown</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.reperfusion_started_at_unknown" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="wp4.compare.models.transplantation.Recipient.mannitol_used">
-<code class="descname">mannitol_used</code><em class="property"> = None</em><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.mannitol_used" title="Permalink to this definition">¶</a></dt>
+<code class="descname">mannitol_used</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.mannitol_used" title="Permalink to this definition">¶</a></dt>
 <dd><p>Limit choices to YES_NO_UNKNOWN_CHOICES</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.transplantation.Recipient.other_diurectics">
-<code class="descname">other_diurectics</code><em class="property"> = None</em><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.other_diurectics" title="Permalink to this definition">¶</a></dt>
+<code class="descname">other_diurectics</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.other_diurectics" title="Permalink to this definition">¶</a></dt>
 <dd><p>Limit choices to YES_NO_UNKNOWN_CHOICES</p>
 </dd></dl>
 
 <dl class="attribute">
+<dt id="wp4.compare.models.transplantation.Recipient.other_diurectics_details">
+<code class="descname">other_diurectics_details</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.other_diurectics_details" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.Recipient.systolic_blood_pressure">
+<code class="descname">systolic_blood_pressure</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.systolic_blood_pressure" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.Recipient.cvp">
+<code class="descname">cvp</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.cvp" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="wp4.compare.models.transplantation.Recipient.intra_operative_diuresis">
-<code class="descname">intra_operative_diuresis</code><em class="property"> = None</em><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.intra_operative_diuresis" title="Permalink to this definition">¶</a></dt>
+<code class="descname">intra_operative_diuresis</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.intra_operative_diuresis" title="Permalink to this definition">¶</a></dt>
 <dd><p>Limit choices to YES_NO_UNKNOWN_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.Recipient.successful_conclusion">
+<code class="descname">successful_conclusion</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.successful_conclusion" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.Recipient.operation_concluded_at">
+<code class="descname">operation_concluded_at</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.operation_concluded_at" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.Recipient.probe_cleaned">
+<code class="descname">probe_cleaned</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.probe_cleaned" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.Recipient.ice_removed">
+<code class="descname">ice_removed</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.ice_removed" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.Recipient.oxygen_flow_stopped">
+<code class="descname">oxygen_flow_stopped</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.oxygen_flow_stopped" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.Recipient.oxygen_bottle_removed">
+<code class="descname">oxygen_bottle_removed</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.oxygen_bottle_removed" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.Recipient.box_cleaned">
+<code class="descname">box_cleaned</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.box_cleaned" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.Recipient.batteries_charged">
+<code class="descname">batteries_charged</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.batteries_charged" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.Recipient.cleaning_log">
+<code class="descname">cleaning_log</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.cleaning_log" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wp4.compare.models.transplantation.Recipient.country_for_restriction">
+<code class="descname">country_for_restriction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/compare/models/transplantation.html#Recipient.country_for_restriction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.country_for_restriction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the country to be used for geographic restriction of this data
+:return: Int: Value from list in Locations.Models. Should be in range [1,4,5]</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wp4.compare.models.transplantation.Recipient.location_for_restriction">
+<code class="descname">location_for_restriction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/compare/models/transplantation.html#Recipient.location_for_restriction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.location_for_restriction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the location to be used for geographic restriction of this data
+:return: Int: Hospital object id</p>
 </dd></dl>
 
 <dl class="method">
@@ -648,9 +1039,9 @@ one-to-one relation.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Recipient&#8217;s age in years as calcuated from their Date of Birth</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Recipient&#8217;s age in years as calculated from their Date of Birth</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)">int</a></td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a></td>
 </tr>
 </tbody>
 </table>
@@ -666,7 +1057,7 @@ one-to-one relation.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">&#8216;WP4cctnns&#8217;</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)">str</a></td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)">str</a></td>
 </tr>
 </tbody>
 </table>
@@ -679,95 +1070,100 @@ one-to-one relation.</p>
 
 <dl class="exception">
 <dt id="wp4.compare.models.transplantation.Recipient.MultipleObjectsReturned">
-<em class="property">exception </em><code class="descclassname">Recipient.</code><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="wp4.compare.models.transplantation.Recipient.created_by">
-<code class="descclassname">Recipient.</code><code class="descname">created_by</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.created_by" title="Permalink to this definition">¶</a></dt>
-<dd><p>Accessor to the related object on the forward side of a many-to-one or
-one-to-one relation.</p>
-<p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+<dt id="wp4.compare.models.transplantation.Recipient.allocation_id">
+<code class="descname">allocation_id</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.allocation_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="wp4.compare.models.transplantation.Recipient.get_arterial_problems_display">
-<code class="descclassname">Recipient.</code><code class="descname">get_arterial_problems_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.get_arterial_problems_display" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_arterial_problems_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.get_arterial_problems_display" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="wp4.compare.models.transplantation.Recipient.get_incision_display">
-<code class="descclassname">Recipient.</code><code class="descname">get_incision_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.get_incision_display" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_incision_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.get_incision_display" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="wp4.compare.models.transplantation.Recipient.get_intra_operative_diuresis_display">
-<code class="descclassname">Recipient.</code><code class="descname">get_intra_operative_diuresis_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.get_intra_operative_diuresis_display" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_intra_operative_diuresis_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.get_intra_operative_diuresis_display" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="wp4.compare.models.transplantation.Recipient.get_mannitol_used_display">
-<code class="descclassname">Recipient.</code><code class="descname">get_mannitol_used_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.get_mannitol_used_display" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="wp4.compare.models.transplantation.Recipient.get_next_by_created_on">
-<code class="descclassname">Recipient.</code><code class="descname">get_next_by_created_on</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.get_next_by_created_on" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_mannitol_used_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.get_mannitol_used_display" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="wp4.compare.models.transplantation.Recipient.get_next_in_order">
-<code class="descclassname">Recipient.</code><code class="descname">get_next_in_order</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.get_next_in_order" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_next_in_order</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.get_next_in_order" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="wp4.compare.models.transplantation.Recipient.get_other_diurectics_display">
-<code class="descclassname">Recipient.</code><code class="descname">get_other_diurectics_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.get_other_diurectics_display" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_other_diurectics_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.get_other_diurectics_display" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="wp4.compare.models.transplantation.Recipient.get_oxygen_full_and_open_display">
-<code class="descclassname">Recipient.</code><code class="descname">get_oxygen_full_and_open_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.get_oxygen_full_and_open_display" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="wp4.compare.models.transplantation.Recipient.get_previous_by_created_on">
-<code class="descclassname">Recipient.</code><code class="descname">get_previous_by_created_on</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.get_previous_by_created_on" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_oxygen_full_and_open_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.get_oxygen_full_and_open_display" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="wp4.compare.models.transplantation.Recipient.get_previous_in_order">
-<code class="descclassname">Recipient.</code><code class="descname">get_previous_in_order</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.get_previous_in_order" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_previous_in_order</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.get_previous_in_order" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="wp4.compare.models.transplantation.Recipient.get_renal_disease_display">
-<code class="descclassname">Recipient.</code><code class="descname">get_renal_disease_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.get_renal_disease_display" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_renal_disease_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.get_renal_disease_display" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="wp4.compare.models.transplantation.Recipient.get_tape_broken_display">
-<code class="descclassname">Recipient.</code><code class="descname">get_tape_broken_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.get_tape_broken_display" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_tape_broken_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.get_tape_broken_display" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="wp4.compare.models.transplantation.Recipient.get_transplant_side_display">
-<code class="descclassname">Recipient.</code><code class="descname">get_transplant_side_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.get_transplant_side_display" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_transplant_side_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.get_transplant_side_display" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="wp4.compare.models.transplantation.Recipient.get_venous_problems_display">
-<code class="descclassname">Recipient.</code><code class="descname">get_venous_problems_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.get_venous_problems_display" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_venous_problems_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.get_venous_problems_display" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
+<dt id="wp4.compare.models.transplantation.Recipient.id">
+<code class="descname">id</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.Recipient.organ_id">
+<code class="descname">organ_id</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.organ_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.compare.models.transplantation.Recipient.person_id">
+<code class="descname">person_id</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.person_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="wp4.compare.models.transplantation.Recipient.qualityoflife_set">
-<code class="descclassname">Recipient.</code><code class="descname">qualityoflife_set</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.qualityoflife_set" title="Permalink to this definition">¶</a></dt>
+<code class="descname">qualityoflife_set</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.qualityoflife_set" title="Permalink to this definition">¶</a></dt>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
@@ -782,7 +1178,7 @@ class built by <code class="docutils literal"><span class="pre">create_forward_m
 
 <dl class="attribute">
 <dt id="wp4.compare.models.transplantation.Recipient.resourcelog_set">
-<code class="descclassname">Recipient.</code><code class="descname">resourcelog_set</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.resourcelog_set" title="Permalink to this definition">¶</a></dt>
+<code class="descname">resourcelog_set</code><a class="headerlink" href="#wp4.compare.models.transplantation.Recipient.resourcelog_set" title="Permalink to this definition">¶</a></dt>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
@@ -801,15 +1197,18 @@ class built by <code class="docutils literal"><span class="pre">create_forward_m
 
 
            </div>
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="wp4.adverse_event.models.html" class="btn btn-neutral float-right" title="wp4.adverse_event.models" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="wp4.adverse_event.models.html" class="btn btn-neutral float-right" title="wp4.adverse_event.models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="wp4.compare.models.organ.html" class="btn btn-neutral" title="wp4.compare.models.organ" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="wp4.compare.models.donor.html" class="btn btn-neutral" title="wp4.compare.models.donor" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -840,10 +1239,11 @@ class built by <code class="docutils literal"><span class="pre">create_forward_m
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.6.0',
+            VERSION:'0.8.2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../../_static/jquery.js"></script>

@@ -1,6 +1,6 @@
 # Development Setup
 
-Base system is OS X 10.11.4 (El Capitan), and I've got this environment setup in two locations so far. This document
+Base system is macOS 10.12.3 (Sierra), and I've got this environment setup in two locations so far. This document
 mostly details how the second environment was built (to match the first - which has evolved from OS X 10.7 times)
 
 Most of my approach is based on [http://hackercodex.com/guide/python-development-environment-on-mac-osx/]() (which is the
@@ -28,7 +28,7 @@ This needs to be done for GitHub at least, before you can so the project setup b
 
 ## Third party apps in use
 
-* **IDE:** PyCharm - from http://www.jetbrains.com. I'm using the Professional 2016.1 version.
+* **IDE:** PyCharm - from http://www.jetbrains.com. I'm using the Professional 2016.3 version.
 * **Utility:** CodeKit - from http://incident57.com/codekit/. Currently v2.4
 * **Utility:** CyberDuck - from . Currently v4.7.2
 * **Base libraries:** Homebrew - from http://brew.sh. More on its installation later.
@@ -51,14 +51,24 @@ install that now::
     brew install readline
     # Also helpful, but not essential
     brew install bash-completion ssh-copy-id wget
+    
+#### Maintainance
+Periodically Homebrew needs updates, so copy these steps:
+
+```
+brew update
+brew upgrade
+brew doctor
+```
 
 ### Python setup
 
 Start by putting Homebrew's python installs into the system to avoid conflicts with the system python::
 
-    brew install python python3
+    brew install python python3 gettext
+    brew link gettext --force   # This is to enable the language files to be processed in Django
 
-Have installed both python (2.7.10) and python3 (3.5) brew packages, which gives us setuptools, sqlite3 and pip.
+Have installed both python (2.7.10) and python3 (3.6) brew packages, which gives us setuptools, sqlite3 and pip.
 
 Have then pip installed virtualenv, and virtualenvwrapper. However, my installation of these differs from the guide::
 
@@ -103,26 +113,29 @@ Don't forget to `source ~/.bash_profile` at the end if you want to use this sess
 ## Project setup
 
 With the base tools in place, we can now setup the development environment for the project itself. We'll create a
-virtualenv project for development, then get the latest code from the central github repository. ::
+virtualenv project for development, then get the latest code from the central github repository. NB: This has been updated to reflect the change from python 2.7 to python 3 (3.5 or 3.6):
 
-    mkproject cope
-    # NB: this sets CWD to /Users/$USER/Projects/cope
+    mkproject -p /usr/local/bin/python3 py3_cope
+    # NB: this sets CWD to /Users/$USER/Projects/py3_cope
     git clone git@github.com:AllyBradley/COPE.git cope_repo
-    ln -s ~/.virtualenvs/cope/lib ./lib
-    ln -s ~/.virtualenvs/cope/bin ./bin
-    pip install -r cope_repo/requirements/dev_home.txt
+    ln -s ~/.virtualenvs/py3_cope/lib ./lib
+    ln -s ~/.virtualenvs/py3_cope/bin ./bin
+    pip install --upgrade pip setuptools wheel
+    pip install -r cope_repo/requirements/development.txt
     cd cope-repo/
     chmod 775 manage.py
     cp local.env.template local.env
     vi local.env
+    vi location.env          # add the word "development" for settings to work
     pm check                 # Should return 0 errors
     pm migrate
     pm collectstatic         # NB: Should point to the htdocs folder and ask for confirmation
     pm createsuperuser       # superuser is 'carl'
-    pm loaddata config/fixtures/01_hospitals.json
-    pm loaddata config/fixtures/02_persons.json
-    pm loaddata config/fixtures/03_gradings.json
-    pm loaddata config/fixtures/09_testusers.json
+    pm makemessages
+    pm compilemessages
+    
+    # Fixture loading needs to be updated to reflect current project setup
+    ## pm loaddata config/fixtures/01_hospitals.json
 
 
 ## PyCharm setup

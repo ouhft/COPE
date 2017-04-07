@@ -8,9 +8,11 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Data Models &mdash; COPE DB 0.6.0 documentation</title>
+  <title>Data Models &mdash; COPE DB 0.8.2 documentation</title>
   
 
+  
+  
   
   
 
@@ -30,7 +32,10 @@
   
 
   
-    <link rel="top" title="COPE DB 0.6.0 documentation" href="../index.html"/>
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="COPE DB 0.8.2 documentation" href="../index.html"/>
         <link rel="next" title="wp4.compare.models.core" href="generated/wp4.compare.models.core.html"/>
         <link rel="prev" title="Design - WP7:Biobanking" href="design/wp7_design.html"/> 
 
@@ -41,6 +46,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -60,7 +66,7 @@
             
             
               <div class="version">
-                0.6.0
+                0.8.2
               </div>
             
           
@@ -81,7 +87,10 @@
           
             
             
-                <ul class="current">
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="user_manual.html">COPE DB User Manual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="deployment.html">Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="development.html">Development Setup</a></li>
@@ -91,7 +100,6 @@
 <li class="toctree-l2"><a class="reference internal" href="#compare">Compare</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="generated/wp4.compare.models.core.html">wp4.compare.models.core</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/wp4.compare.models.donor.html">wp4.compare.models.donor</a></li>
-<li class="toctree-l3"><a class="reference internal" href="generated/wp4.compare.models.organ.html">wp4.compare.models.organ</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/wp4.compare.models.transplantation.html">wp4.compare.models.transplantation</a></li>
 </ul>
 </li>
@@ -120,7 +128,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#staff-person">Staff Person</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="generated/wp4.staff_person.models.html">wp4.staff_person.models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/wp4.staff.models.html">wp4.staff.models</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#theme">Theme</a></li>
@@ -139,8 +147,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../index.html">COPE DB</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">COPE DB</a>
+        
       </nav>
 
 
@@ -149,23 +159,40 @@
         <div class="rst-content">
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../index.html">Docs</a> &raquo;</li>
-      
-    <li>Data Models</li>
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Data Models</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
-            <a href="../_sources/source/models.txt" rel="nofollow"> View page source</a>
+            
+            <a href="../_sources/source/models.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -174,9 +201,9 @@
   <div class="section" id="data-models">
 <h1>Data Models<a class="headerlink" href="#data-models" title="Permalink to this headline">¶</a></h1>
 <p>This is source documentation for the WP4 data models. These are Python/Django classes mapped to the database by Django&#8217;s ORM, and as such follow the usual Django conventions on model design. There are a few other conventions to note, general ones are noted here, class specific notes are inline below.</p>
-<p>Compare is the central app to this system (presently), and the Core models (such as VersionControlMixin) will appear all over the rest of the apps. This means common fields such as <cite>version</cite>, <cite>created_on</cite>, <cite>created_by</cite>, and <cite>record_locked</cite> will feature repeatedly on many of the models below.</p>
+<p>Compare is the central app to this system (presently), and the Core models (such as AuditControlMixin) will appear all over the rest of the apps. This means common fields such as <cite>version</cite>, <cite>created_on</cite>, <cite>created_by</cite>, and <cite>record_locked</cite> will feature repeatedly on many of the models below.</p>
 <p>Items that appear in CAPITAL LETTERS are frequently the constants used in the system. Whilst many of them follow a clear naming convention (e.g. BLOOD_xxx), some are still in their orignal format (e.g. MALE, FEMALE, CAUCASIAN). Most are also part of groups, which means you&#8217;ll see a topicname_CHOICES constant that links certain constants - typically for the benefit of dropdown lists and other static content (e.g. BLOOD_GROUP_CHOICES).</p>
-<p>Where model attributes use a choice list (e.g. from a constant), there are helper methods to translate the stored value into a display string. These take the form of OBJECT.get_ATTRIBUTE_display() methods (e.g. OrganPerson.get_gender_display() )</p>
+<p>Where model attributes use a choice list (e.g. from a constant), there are helper methods to translate the stored value into a display string. These take the form of OBJECT.get_ATTRIBUTE_display() methods (e.g. Patient.get_gender_display() )</p>
 <div class="section" id="compare">
 <h2>Compare<a class="headerlink" href="#compare" title="Permalink to this headline">¶</a></h2>
 <p>The Compare app collects the majority of data from the Procurement and Transplantation processes, as well as acting as the base for the overall system.</p>
@@ -193,10 +220,7 @@
 <tr class="row-even"><td><a class="reference internal" href="generated/wp4.compare.models.donor.html#module-wp4.compare.models.donor" title="wp4.compare.models.donor"><code class="xref py py-obj docutils literal"><span class="pre">wp4.compare.models.donor</span></code></a></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/wp4.compare.models.organ.html#module-wp4.compare.models.organ" title="wp4.compare.models.organ"><code class="xref py py-obj docutils literal"><span class="pre">wp4.compare.models.organ</span></code></a></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/wp4.compare.models.transplantation.html#module-wp4.compare.models.transplantation" title="wp4.compare.models.transplantation"><code class="xref py py-obj docutils literal"><span class="pre">wp4.compare.models.transplantation</span></code></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/wp4.compare.models.transplantation.html#module-wp4.compare.models.transplantation" title="wp4.compare.models.transplantation"><code class="xref py py-obj docutils literal"><span class="pre">wp4.compare.models.transplantation</span></code></a></td>
 <td></td>
 </tr>
 </tbody>
@@ -295,14 +319,14 @@
 </div>
 <div class="section" id="staff-person">
 <h2>Staff Person<a class="headerlink" href="#staff-person" title="Permalink to this headline">¶</a></h2>
-<p>The Staff Person app is a helper module to manage staff members that will be interacting with this system.</p>
+<p>The Staff app is a helper module to manage staff members that will be interacting with this system.</p>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="generated/wp4.staff_person.models.html#module-wp4.staff_person.models" title="wp4.staff_person.models"><code class="xref py py-obj docutils literal"><span class="pre">wp4.staff_person.models</span></code></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/wp4.staff.models.html#module-wp4.staff.models" title="wp4.staff.models"><code class="xref py py-obj docutils literal"><span class="pre">wp4.staff.models</span></code></a></td>
 <td></td>
 </tr>
 </tbody>
@@ -316,15 +340,18 @@
 
 
            </div>
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="generated/wp4.compare.models.core.html" class="btn btn-neutral float-right" title="wp4.compare.models.core" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="generated/wp4.compare.models.core.html" class="btn btn-neutral float-right" title="wp4.compare.models.core" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="design/wp7_design.html" class="btn btn-neutral" title="Design - WP7:Biobanking" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="design/wp7_design.html" class="btn btn-neutral" title="Design - WP7:Biobanking" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -355,10 +382,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.6.0',
+            VERSION:'0.8.2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../_static/jquery.js"></script>

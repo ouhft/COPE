@@ -1,7 +1,7 @@
-wp4.compare.models.organ
-========================
+wp4\.compare\.models\.transplantation
+=====================================
 
-.. automodule:: wp4.compare.models.organ
+.. automodule:: wp4.compare.models.transplantation
 
    
    
@@ -20,18 +20,17 @@ wp4.compare.models.organ
 
    .. autosummary::
    
-      AllocatableOrganManager
-      BaseModelMixin
-      ClosedOrganManager
-      Donor
+      AuditControlModelBase
+      Hospital
       MaxValueValidator
       MinValueValidator
-      OpenOrganManager
       Organ
-      PerfusionFile
-      PerfusionMachine
-      ProcurementResource
-      VersionControlMixin
+      OrganAllocation
+      OrganAllocationModelForUserManager
+      Patient
+      Person
+      Recipient
+      RecipientModelForUserManager
       cached_property
    
    

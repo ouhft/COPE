@@ -1,5 +1,5 @@
-wp4.locations.models
-====================
+wp4\.locations\.models
+======================
 
 .. automodule:: wp4.locations.models
 
@@ -19,8 +19,9 @@ wp4.locations.models
 
    .. autosummary::
    
+      AuditControlModelBase
       Hospital
-      VersionControlMixin
+      LiveManager
       cached_property
    
    

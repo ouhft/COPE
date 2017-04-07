@@ -8,9 +8,11 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Changelog &mdash; COPE DB 0.6.0 documentation</title>
+  <title>Changelog &mdash; COPE DB 0.8.2 documentation</title>
   
 
+  
+  
   
   
 
@@ -30,8 +32,11 @@
   
 
   
-    <link rel="top" title="COPE DB 0.6.0 documentation" href="../index.html"/>
-        <link rel="prev" title="wp4.staff_person.models" href="generated/wp4.staff_person.models.html"/> 
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="COPE DB 0.8.2 documentation" href="../index.html"/>
+        <link rel="prev" title="wp4.staff.models" href="generated/wp4.staff.models.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -40,6 +45,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -59,7 +65,7 @@
             
             
               <div class="version">
-                0.6.0
+                0.8.2
               </div>
             
           
@@ -80,7 +86,10 @@
           
             
             
-                <ul class="current">
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="user_manual.html">COPE DB User Manual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="deployment.html">Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="development.html">Development Setup</a></li>
@@ -88,6 +97,9 @@
 <li class="toctree-l1"><a class="reference internal" href="design/wp7_design.html">Design - WP7:Biobanking</a></li>
 <li class="toctree-l1"><a class="reference internal" href="models.html">Data Models</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v0-6-4-14-oct-2016-bugfix">v0.6.4 (14 Oct 2016) - Bugfix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v0-6-3-3-aug-2016-bugfix">v0.6.3 (3 Aug 2016) - Bugfix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v0-6-2-5-july-2016-bugfix">v0.6.2 (5 July 2016) - Bugfix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#v0-6-1-1-july-2016-bugfix">v0.6.1 (1 July 2016) - Bugfix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#v0-6-0-21-june-2016-the-follow-up-edition">v0.6.0 (21 June 2016) - The Follow Up edition</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#new-features">New Features</a></li>
@@ -118,8 +130,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../index.html">COPE DB</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">COPE DB</a>
+        
       </nav>
 
 
@@ -128,23 +142,40 @@
         <div class="rst-content">
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../index.html">Docs</a> &raquo;</li>
-      
-    <li>Changelog</li>
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Changelog</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
-            <a href="../_sources/source/changelog.txt" rel="nofollow"> View page source</a>
+            
+            <a href="../_sources/source/changelog.md.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -153,6 +184,29 @@
   <div class="section" id="changelog">
 <span id="changelog"></span><h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
 <p>This is a list of changes made to the website and application for each release.</p>
+<div class="section" id="v0-6-4-14-oct-2016-bugfix">
+<span id="v0-6-4-14-oct-2016-bugfix"></span><h2>v0.6.4 (14 Oct 2016) - Bugfix<a class="headerlink" href="#v0-6-4-14-oct-2016-bugfix" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Security updates to core libraries</li>
+<li>Added Admin report for SAE Summary (Issue #126)</li>
+<li>Added Admin report for Transplantation Sites (Issue #125)</li>
+<li>Added Admin report for Procurement Pairs (Issue #123)</li>
+</ul>
+</div>
+<div class="section" id="v0-6-3-3-aug-2016-bugfix">
+<span id="v0-6-3-3-aug-2016-bugfix"></span><h2>v0.6.3 (3 Aug 2016) - Bugfix<a class="headerlink" href="#v0-6-3-3-aug-2016-bugfix" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Fixed an error after randomisation bug (Issue #120)</li>
+<li>Increased loading speed for Samples (Issue #77)</li>
+<li>Added Admin link to cases (Issue #117)</li>
+</ul>
+</div>
+<div class="section" id="v0-6-2-5-july-2016-bugfix">
+<span id="v0-6-2-5-july-2016-bugfix"></span><h2>v0.6.2 (5 July 2016) - Bugfix<a class="headerlink" href="#v0-6-2-5-july-2016-bugfix" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Labelling change for Transplantation form (Issue #58)</li>
+</ul>
+</div>
 <div class="section" id="v0-6-1-1-july-2016-bugfix">
 <span id="v0-6-1-1-july-2016-bugfix"></span><h2>v0.6.1 (1 July 2016) - Bugfix<a class="headerlink" href="#v0-6-1-1-july-2016-bugfix" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
@@ -283,13 +337,16 @@
 
 
            </div>
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="generated/wp4.staff_person.models.html" class="btn btn-neutral" title="wp4.staff_person.models" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="generated/wp4.staff.models.html" class="btn btn-neutral" title="wp4.staff.models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -320,10 +377,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.6.0',
+            VERSION:'0.8.2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../_static/jquery.js"></script>

@@ -1,7 +1,7 @@
-wp4.staff_person.models
-=======================
+wp4\.staff\.models
+==================
 
-.. automodule:: wp4.staff_person.models
+.. automodule:: wp4.staff.models
 
    
    
@@ -19,12 +19,10 @@ wp4.staff_person.models
 
    .. autosummary::
    
-      Hospital
+      AbstractUser
+      Person
       RegexValidator
-      StaffJob
-      StaffPerson
-      User
-      VersionControlMixin
+      cached_property
    
    
 

@@ -8,9 +8,11 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Design - WP4:Compare &mdash; COPE DB 0.6.0 documentation</title>
+  <title>Design - WP4:Compare &mdash; COPE DB 0.8.2 documentation</title>
   
 
+  
+  
   
   
 
@@ -30,7 +32,10 @@
   
 
   
-    <link rel="top" title="COPE DB 0.6.0 documentation" href="../../index.html"/>
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="COPE DB 0.8.2 documentation" href="../../index.html"/>
         <link rel="next" title="Design - WP7:Biobanking" href="wp7_design.html"/>
         <link rel="prev" title="Development Setup" href="../development.html"/> 
 
@@ -41,6 +46,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -60,7 +66,7 @@
             
             
               <div class="version">
-                0.6.0
+                0.8.2
               </div>
             
           
@@ -81,7 +87,10 @@
           
             
             
-                <ul class="current">
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../user_manual.html">COPE DB User Manual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../deployment.html">Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../development.html">Development Setup</a></li>
@@ -113,8 +122,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../../index.html">COPE DB</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">COPE DB</a>
+        
       </nav>
 
 
@@ -123,23 +134,40 @@
         <div class="rst-content">
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../../index.html">Docs</a> &raquo;</li>
-      
-    <li>Design - WP4:Compare</li>
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+      <li>Design - WP4:Compare</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
-            <a href="../../_sources/source/design/wp4_design.txt" rel="nofollow"> View page source</a>
+            
+            <a href="../../_sources/source/design/wp4_design.md.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -161,11 +189,11 @@
 <span id="procurement-compare-app"></span><h3>Procurement (Compare app)<a class="headerlink" href="#procurement-compare-app" title="Permalink to this headline">¶</a></h3>
 <p>Procurement hangs off of the <em>Donor</em> model, which means that this model also holds any form specific metadata (such as form_completed).</p>
 <p>Each Procurement Form is started via <code class="docutils literal"><span class="pre">DonorStartForm</span></code></p>
-<p><em>OrganPerson</em> is created along with <em>Donor</em> via the DonorStartForm. 2 <em>Organs</em> and a related donor <strong>Sample</strong> <em>Worksheet</em> are also created.</p>
+<p><em>Patient</em> is created along with <em>Donor</em> via the DonorStartForm. 2 <em>Organs</em> and a related donor <strong>Sample</strong> <em>Worksheet</em> are also created.</p>
 <p>Extra steps are taken to complete a <em>Randomisation</em> record if the case is started as an Offline randomisation, otherwise they are not added until later on in the Procurement Form process.</p>
 <p>Procurement Form structure:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>Donor {1}  via DonorForm
-|-&gt; OrganPerson {1}  via OrganPersonForm
+|-&gt; Patient {1}  via OrganPersonForm
 |-&gt; Randomisation {0|1}
 \-&gt; Organ {0|2}  via OrganForm
     \-&gt; ProcurementResources {7}  via ProcurementResource????InlineFormSet made of ProcurementResourceForm
@@ -180,7 +208,7 @@
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Organ</span> <span class="p">{</span><span class="mi">1</span><span class="p">}</span>  <span class="n">via</span> <span class="n">TransplantOrganForm</span>
 <span class="o">|-&gt;</span> <span class="n">OrganAllocation</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="p">{</span><span class="mi">0</span><span class="o">-</span><span class="n">n</span><span class="p">}</span>  <span class="n">via</span> <span class="n">AllocationFormset</span>
 \<span class="o">-&gt;</span> <span class="n">Recipient</span> <span class="p">{</span><span class="mi">0</span><span class="o">|</span><span class="mi">1</span><span class="p">}</span>  <span class="n">via</span> <span class="n">RecipientForm</span>
-    \<span class="o">-&gt;</span> <span class="n">OrganPerson</span> <span class="p">{</span><span class="mi">1</span><span class="p">}</span>  <span class="n">via</span> <span class="n">OrganPersonForm</span>
+    \<span class="o">-&gt;</span> <span class="n">Patient</span> <span class="p">{</span><span class="mi">1</span><span class="p">}</span>  <span class="n">via</span> <span class="n">OrganPersonForm</span>
 </pre></div>
 </div>
 <p>The overall process can be seen in the following process image:</p>
@@ -201,15 +229,18 @@
 
 
            </div>
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="wp7_design.html" class="btn btn-neutral float-right" title="Design - WP7:Biobanking" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="wp7_design.html" class="btn btn-neutral float-right" title="Design - WP7:Biobanking" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../development.html" class="btn btn-neutral" title="Development Setup" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../development.html" class="btn btn-neutral" title="Development Setup" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -240,10 +271,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.6.0',
+            VERSION:'0.8.2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../../_static/jquery.js"></script>
