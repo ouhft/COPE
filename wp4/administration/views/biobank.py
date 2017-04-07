@@ -11,34 +11,100 @@ from wp4.samples.models import WP7Record, BloodSample, UrineSample, TissueSample
 
 
 @login_required
-def sample_collection(request):
-    """
-    Return data that outlines what sample data has been collected, matched against data from the WP7 database
-
-    :param request: 
-    :return: 
-    """
+def blood_collection(request):
     current_person = request.user
     if not current_person.is_administrator:
         raise PermissionDenied
 
-    listing_bloods = BloodSample.objects.all()
-    listing_urine = UrineSample.objects.all()
-    listing_tissue = TissueSample.objects.all()
-    listing_perfusate = PerfusateSample.objects.all()
-    unmatched = WP7Record.objects.filter(content_type__isnull=True)
+    listing = BloodSample.objects.all().order_by('collected')
+
     summary = {}
 
     return render(
         request,
-        'administration/sample_collection.html',
+        'administration/biobank/blood_collection.html',
         {
-            'listing_bloods': listing_bloods,
-            'listing_urine': listing_urine,
-            'listing_tissue': listing_tissue,
-            'listing_perfusate': listing_perfusate,
-            'unmatched': unmatched,
+            'listing': listing,
             'summary': summary
         }
     )
 
+
+@login_required
+def urine_collection(request):
+    current_person = request.user
+    if not current_person.is_administrator:
+        raise PermissionDenied
+
+    listing = UrineSample.objects.all()
+
+    summary = {}
+
+    return render(
+        request,
+        'administration/biobank/urine_collection.html',
+        {
+            'listing': listing,
+            'summary': summary
+        }
+    )
+
+
+@login_required
+def tissue_collection(request):
+    current_person = request.user
+    if not current_person.is_administrator:
+        raise PermissionDenied
+
+    listing = TissueSample.objects.all()
+
+    summary = {}
+
+    return render(
+        request,
+        'administration/biobank/tissue_collection.html',
+        {
+            'listing': listing,
+            'summary': summary
+        }
+    )
+
+
+@login_required
+def perfusate_collection(request):
+    current_person = request.user
+    if not current_person.is_administrator:
+        raise PermissionDenied
+
+    listing = PerfusateSample.objects.all()
+
+    summary = {}
+
+    return render(
+        request,
+        'administration/biobank/perfusate_collection.html',
+        {
+            'listing': listing,
+            'summary': summary
+        }
+    )
+
+
+@login_required
+def unmatched_samples(request):
+    current_person = request.user
+    if not current_person.is_administrator:
+        raise PermissionDenied
+
+    listing = WP7Record.objects.filter(content_type__isnull=True)
+
+    summary = {}
+
+    return render(
+        request,
+        'administration/biobank/unmatched_samples.html',
+        {
+            'listing': listing,
+            'summary': summary
+        }
+    )

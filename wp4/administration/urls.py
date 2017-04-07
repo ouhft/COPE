@@ -7,7 +7,7 @@ from django.conf.urls import include, url
 from .views import core, data_extracts, administrator, dmc_reports, biobank
 
 urlpatterns = [
-    # Data Extracts (aka: Statisticians' Reports)
+    # =================================================================  Data Extracts (aka: Statisticians' Reports)
     url(
         regex=r'^stats/reports/procurement$',
         view=data_extracts.report_procurement,
@@ -30,7 +30,7 @@ urlpatterns = [
     ),
 
 
-    # Administrator Reports
+    # =================================================================  Administrator Reports
     url(
         regex=r'^europe-list$',
         view=administrator.offline_europe_list,
@@ -73,14 +73,34 @@ urlpatterns = [
         name='followups'
     ),
 
-    # Biobank reports
+    # =================================================================  Biobank reports
     url(
-        regex=r'^biobank/sample-collection',
-        view=biobank.sample_collection,
-        name='biobank_sample_collection'
+        regex=r'^biobank/blood-collection',
+        view=biobank.blood_collection,
+        name='biobank_blood_collection'
+    ),
+    url(
+        regex=r'^biobank/urine-collection',
+        view=biobank.urine_collection,
+        name='biobank_urine_collection'
+    ),
+    url(
+        regex=r'^biobank/tissue-collection',
+        view=biobank.tissue_collection,
+        name='biobank_tissue_collection'
+    ),
+    url(
+        regex=r'^biobank/perfusate-collection',
+        view=biobank.perfusate_collection,
+        name='biobank_perfusate_collection'
+    ),
+    url(
+        regex=r'^biobank/unmatched-samples',
+        view=biobank.unmatched_samples,
+        name='biobank_unmatched_samples'
     ),
 
-    # DMC Reports
+    # =================================================================  DMC Reports
     url(
         regex=r'^dmc/death-summaries/open',
         view=dmc_reports.death_summaries,
@@ -91,6 +111,12 @@ urlpatterns = [
         regex=r'^dmc/death-summaries',
         view=dmc_reports.death_summaries,
         name='dmc_death_summaries'
+    ),
+    url(
+        regex=r'^dmc/permanent-impairment/open',
+        view=dmc_reports.permanent_impairment,
+        name='dmc_permanent_impairment_open',
+        kwargs=dict(open_report=True),
     ),
     url(
         regex=r'^dmc/permanent-impairment',
@@ -131,10 +157,7 @@ urlpatterns = [
         name='dmc_serious_events'
     ),
 
-    # Admin tools
-
-
-    # Admin Home
+    # ================================================================= Admin Home
     url(
         regex=r'^$',
         view=core.index,

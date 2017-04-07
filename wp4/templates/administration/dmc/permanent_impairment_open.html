@@ -1,0 +1,75 @@
+{% extends "base_site.html" %}
+{% load l10n i18n theme_tags %}
+
+{% block page_title %}{{ location }} Report: DMC Permanent Impairment [Open] - Administration{% endblock %}
+{% block page_header %}
+    DMC Permanent Impairment
+    <small>OPEN REPORT</small>
+{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:administration:index' %}">Administration</a></li>
+    <li class="active">Report: DMC Permanent Impairment [Open]</li>
+{% endblock %}
+
+{% block content %}
+{#    CSS Hack here because Bootstrap hides the badges on print view #}
+    <style>
+        @media print {
+            .badge {
+                padding: 2px 6px;
+                border: 1px solid #000;
+                margin-right: 3em;
+            }
+        }
+    </style>
+    <h2>Summary</h2>
+    <p>Number of Recipients with Permanent Impairment</p>
+    <table class="table">
+    <tr>
+        <th>Counts</th>
+        <td class="lead">{{ summary.hmp_02|add:summary.hmp }}</td>
+    </tr>
+    </table>
+
+
+    <h2>Data Listing</h2>
+    <p>Show all Adverse Events that are marked as having led to permanent impairment, grouped by Trial ID.
+    Those marked as Serious Adverse events are either <span class="text-danger">RED</span> when both questions agree, or
+    <span class="text-warning">YELLOW</span> when the repeated question doesn't match the first.</p>
+
+    {# Need to output this as a table so that it can be copy and pasted in a Word document, something responsive columns doesn't support #}
+    <table class="table">
+    {% for organ in listing %}
+        <tr class="info">
+            <td colspan="4">
+                <h4>{{ organ.trial_id }}</h4>
+            </td>
+        </tr>
+        <tr>
+            <th class="col-md-2">ID, Onset date, Investigator</th>
+            <th class="col-md-4">Description</th>
+            <th class="col-md-6">Permanent Impairment?</th>
+        </tr>
+
+        {% for event in organ.event_set.all %}
+            {% if event.serious_eligible_3 or event.alive_query_7 %}
+            <tr class="{% if event.serious_eligible_3 %}{{ event.alive_query_7|yesno:"danger,warning" }}{% endif %}">
+                <td>
+                    <span class="lead">#{{ event.id }}</span><br>
+                    {{ event.onset_at_date }}<br>
+                    <small>{{ event.contact }}</small>
+                </td>
+                <td>{{ event.description }}</td>
+                <td>
+                    {% get_verbose_field_name event 'serious_eligible_3' %}: <strong>{{ event.serious_eligible_3|yesno|capfirst }}</strong><br>
+                    {% get_verbose_field_name event 'alive_query_7' %}: <strong>{{ event.alive_query_7|yesno|capfirst }}</strong>
+                </td>
+            </tr>
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+    </table>
+
+{% endblock %}

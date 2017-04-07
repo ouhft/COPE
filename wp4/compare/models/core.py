@@ -151,7 +151,6 @@ class Patient(AuditControlModelBase):
         if self.date_of_birth:
             return relativedelta(the_end, self.date_of_birth).years
         return None
-
     age_from_dob = cached_property(_age_from_dob, name='age_from_dob')
 
     def _is_recipient(self):
@@ -165,7 +164,6 @@ class Patient(AuditControlModelBase):
             return self.recipient is not None
         except ObjectDoesNotExist:
             return False
-
     is_recipient = cached_property(_is_recipient, name='is_recipient')
 
     def _is_donor(self):
@@ -179,7 +177,6 @@ class Patient(AuditControlModelBase):
             return self.donor is not None
         except ObjectDoesNotExist:
             return False
-
     is_donor = cached_property(_is_donor, name='is_donor')
 
     @property

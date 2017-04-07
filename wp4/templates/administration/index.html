@@ -13,18 +13,22 @@
     <p>This section supports administration activities on Work Package 4: Compare (WP4) which is a Kidney preservation trial.
     <div class="row">
         <div class="col-md-4">
-        {% if request.user|has_group:5 %}{# Person.CENTRAL_COORDINATOR #}
+            {% if request.user|has_group:5 %}{# Person.CENTRAL_COORDINATOR #}
             <h3>Offline Randomisation Lists</h3>
             <ul>
                 <li><a href="{% url 'wp4:administration:europe_list' %}">Europe list</a></li>
                 <li><a href="{% url 'wp4:administration:uk_list' %}">United Kingdom list</a></li>
             </ul>
-        {% endif %}
+            {% endif %}
 
-        <h3>Biobank</h3>
-        <ul>
-            <li><a href="{% url 'wp4:administration:biobank_sample_collection' %}">Sample Collection</a></li>
-        </ul>
+            <h3>Biobank</h3>
+            <ul>
+                <li><a href="{% url 'wp4:administration:biobank_blood_collection' %}">Blood Sample Collection</a></li>
+                <li><a href="{% url 'wp4:administration:biobank_urine_collection' %}">Urine Sample Collection</a></li>
+                <li><a href="{% url 'wp4:administration:biobank_tissue_collection' %}">Tissue Sample Collection</a></li>
+                <li><a href="{% url 'wp4:administration:biobank_perfusate_collection' %}">Perfusate Sample Collection</a></li>
+                <li><a href="{% url 'wp4:administration:biobank_unmatched_samples' %}">Unmatched Samples</a></li>
+            </ul>
         </div>
 
         <div class="col-md-4">
@@ -52,8 +56,9 @@
                 </li>
                 <li>
                     {% if not perms.compare.hide_randomisation or request.user.is_superuser %}
-                    <a href="{% url 'wp4:administration:dmc_permanent_impairment' %}">Permanent Impairment</a>
+                    <a href="{% url 'wp4:administration:dmc_permanent_impairment' %}">Permanent Impairment</a><br>
                     {% endif %}
+                    <a href="{% url 'wp4:administration:dmc_permanent_impairment_open' %}">Permanent Impairment [OPEN]</a>
                 </li>
                 <li>
                     {% if not perms.compare.hide_randomisation or request.user.is_superuser %}

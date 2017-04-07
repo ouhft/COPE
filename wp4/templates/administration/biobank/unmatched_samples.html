@@ -1,0 +1,52 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+
+{% block page_title %}{{ location }} Report: Biobank Unmatched Samples - Administration{% endblock %}
+{% block page_header %}
+    Unmatched Samples
+    <small>BIOBANK REPORT</small>
+{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:administration:index' %}">Administration</a></li>
+    <li class="active">Report: Biobank Unmatched Samples</li>
+{% endblock %}
+
+{% block content %}
+{#    CSS Hack here because Bootstrap hides the badges on print view #}
+    <style>
+        @media print {
+            .badge {
+                padding: 2px 6px;
+                border: 1px solid #000;
+                margin-right: 3em;
+            }
+        }
+    </style>
+    <h2>Summary</h2>
+    <p>There are {{ listing|length }} unmatched samples</p>
+
+    <h2>Data Listing</h2>
+    <table class="table table-responsive table-condensed">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Barcode</th>
+            <th>Box Number</th>
+            <th>Position in box</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for sample in listing %}
+            <tr>
+                <td>{{ sample.id }}</td>
+                <td>{{ sample.barcode|default:"Not recorded" }}</td>
+                <td>{{ sample.box_number|default:"Unknown number" }}</td>
+                <td>{{ sample.position_in_box|default:"Unknown position" }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

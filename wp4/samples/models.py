@@ -178,7 +178,7 @@ class BloodSample(AuditControlModelBase, BarCodeMixin, DeviationMixin):
     blood_type = models.PositiveSmallIntegerField(verbose_name=_("BS02 blood sample type"), choices=SAMPLE_CHOICES)
     person = models.ForeignKey(Patient, verbose_name=_("BS03 sample from"))
     centrifuged_at = models.DateTimeField(verbose_name=_("BS01 centrifuged at"), null=True, blank=True)
-    wp7_location = GenericRelation(WP7Record)
+    wp7_location = GenericRelation(WP7Record, blank=True)
 
     objects = SampleFromPersonModelForUserManager()
 

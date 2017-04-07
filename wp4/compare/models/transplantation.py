@@ -442,11 +442,10 @@ class Recipient(AuditControlModelBase):
         """
         Returns the calculated age of the Recipient
 
-        :return: Recipient's age in years as calcuated from their Date of Birth
+        :return: Recipient's age in years as calculated from their Date of Birth
         :rtype: int
         """
         return self.person.age_from_dob
-
     age_from_dob = cached_property(_age_from_dob, name='age_from_dob')
 
     def _trial_id(self):
@@ -457,5 +456,4 @@ class Recipient(AuditControlModelBase):
         :rtype: str
         """
         return self.organ.trial_id
-
     trial_id = cached_property(_trial_id, name='trial_id')

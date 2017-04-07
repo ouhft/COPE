@@ -90,7 +90,7 @@ def adverse_events(request, open_report=False):
     if open_report:
         return render(
             request,
-            'administration/dmc_adverse_events_open.html',
+            'administration/dmc/adverse_events_open.html',
             {
                 'listing': list(chain(listing_hmp, listing_hmp02)),
                 'summary': summary
@@ -99,7 +99,7 @@ def adverse_events(request, open_report=False):
     else:
         return render(
             request,
-            'administration/dmc_adverse_events.html',
+            'administration/dmc/adverse_events.html',
             {
                 'listing_hmp': listing_hmp,
                 'listing_hmp02': listing_hmp02,
@@ -181,7 +181,7 @@ def serious_events(request, open_report=False):
     if open_report:
         return render(
             request,
-            'administration/dmc_serious_events_open.html',
+            'administration/dmc/serious_events_open.html',
             {
                 'listing': list(chain(listing_hmp, listing_hmp02)),
                 'summary': summary
@@ -190,7 +190,7 @@ def serious_events(request, open_report=False):
     else:
         return render(
             request,
-            'administration/dmc_serious_events.html',
+            'administration/dmc/serious_events.html',
             {
                 'listing_hmp': listing_hmp,
                 'listing_hmp02': listing_hmp02,
@@ -315,7 +315,7 @@ def graft_failures(request, open_report=False):
 
     return render(
         request,
-        'administration/dmc_graft_failures_open.html' if open_report else 'administration/dmc_graft_failures.html',
+        'administration/dmc/graft_failures_open.html' if open_report else 'administration/dmc/graft_failures.html',
         {
             'listing_initial': listing_initial.filter(graft_failure=True),
             'listing_month3': listing_month3.filter(graft_failure=True),
@@ -336,6 +336,7 @@ def death_summaries(request, open_report=False):
     - This will produce multiple "deaths" per trial where there are multiple S/AE events that lead to death
 
     :param request:
+    :param open_report:
     :return:
     """
     current_person = request.user
@@ -375,7 +376,7 @@ def death_summaries(request, open_report=False):
     if open_report:
         return render(
             request,
-            'administration/dmc_death_summaries_open.html',
+            'administration/dmc/death_summaries_open.html',
             {
                 'listing': list(chain(listing_hmp_organs, listing_hmp02_organs)),
                 'summary': summary
@@ -384,7 +385,7 @@ def death_summaries(request, open_report=False):
     else:
         return render(
             request,
-            'administration/dmc_death_summaries.html',
+            'administration/dmc/death_summaries.html',
             {
                 'listing_hmp_organs': listing_hmp_organs,
                 'listing_hmp02_organs': listing_hmp02_organs,
@@ -403,6 +404,7 @@ def permanent_impairment(request, open_report=False):
     They are stored as: serious_eligible_3 & alive_query_7
 
     :param request:
+    :param open_report:
     :return:
     """
     current_person = request.user
@@ -436,13 +438,23 @@ def permanent_impairment(request, open_report=False):
         else:
             summary['hmp'] += 1
 
-    return render(
-        request,
-        'administration/dmc_permanent_impairment.html',
-        {
-            'listing_hmp_organs': listing_hmp_organs,
-            'listing_hmp02_organs': listing_hmp02_organs,
-            'summary': summary
-        }
-    )
+    if open_report:
+        return render(
+            request,
+            'administration/dmc/permanent_impairment_open.html',
+            {
+                'listing': list(chain(listing_hmp_organs, listing_hmp02_organs)),
+                'summary': summary
+            }
+        )
+    else:
+        return render(
+            request,
+            'administration/dmc/permanent_impairment.html',
+            {
+                'listing_hmp_organs': listing_hmp_organs,
+                'listing_hmp02_organs': listing_hmp02_organs,
+                'summary': summary
+            }
+        )
 

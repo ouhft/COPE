@@ -32,7 +32,8 @@ class SampleFromPersonModelForUserManager(LiveManager, ModelForUserManagerMixin)
         :return: Queryset
         """
         qs = super(SampleFromPersonModelForUserManager, self).get_queryset().\
-            select_related('event', 'person__donor', 'person__recipient')
+            select_related('event', 'person__donor', 'person__recipient__organ').\
+            prefetch_related('wp7_location')
 
         return qs
 
