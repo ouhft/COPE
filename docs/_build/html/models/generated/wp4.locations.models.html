@@ -1,0 +1,445 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>wp4.locations.models &mdash; COPE DB 0.8.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="COPE DB 0.8.2 documentation" href="../../index.html"/>
+        <link rel="up" title="Data Models" href="../index.html"/>
+        <link rel="next" title="wp4.perfusion_machine.models" href="wp4.perfusion_machine.models.html"/>
+        <link rel="prev" title="wp4.health_economics.models" href="wp4.health_economics.models.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> COPE DB
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.8.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../user_manual.html">COPE DB User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment.html">Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../development.html">Development Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/wp4_design.html">Design - WP4:Compare</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/wp7_design.html">Design - WP7:Biobanking</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Data Models</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#compare">Compare</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#adverse-event">Adverse Event</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#follow-ups">Follow Ups</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#health-economics">Health Economics</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#locations">Locations</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">wp4.locations.models</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#perfusion-machine">Perfusion Machine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#samples">Samples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#staff-person">Staff Person</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#theme">Theme</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">COPE DB</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Data Models</a> &raquo;</li>
+        
+      <li>wp4.locations.models</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/models/generated/wp4.locations.models.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-wp4.locations.models">
+<span id="wp4-locations-models"></span><h1>wp4.locations.models<a class="headerlink" href="#module-wp4.locations.models" title="Permalink to this headline">¶</a></h1>
+<p class="rubric">Functions</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">reverse</span></code>(viewname[,&nbsp;urlconf,&nbsp;args,&nbsp;kwargs,&nbsp;...])</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Classes</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">AuditControlModelBase</span></code>(*args,&nbsp;**kwargs)</td>
+<td>Internal common attributes to aid systematic auditing of records.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#wp4.locations.models.Hospital" title="wp4.locations.models.Hospital"><code class="xref py py-obj docutils literal"><span class="pre">Hospital</span></code></a>(*args,&nbsp;**kwargs)</td>
+<td>Simple helper class to hold information related to the various project and non-project locations.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">LiveManager</span></code></td>
+<td>alias of <code class="xref py py-class docutils literal"><span class="pre">LiveManagerBaseFromLiveQuerySet</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">cached_property</span></code>(func[,&nbsp;name])</td>
+<td>Decorator that converts a method with a single self argument into a property cached on the instance.</td>
+</tr>
+</tbody>
+</table>
+<dl class="data">
+<dt id="wp4.locations.models.UNITED_KINGDOM">
+<code class="descclassname">wp4.locations.models.</code><code class="descname">UNITED_KINGDOM</code><em class="property"> = 1</em><a class="headerlink" href="#wp4.locations.models.UNITED_KINGDOM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for COUNTRY_CHOICES</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="wp4.locations.models.BELGIUM">
+<code class="descclassname">wp4.locations.models.</code><code class="descname">BELGIUM</code><em class="property"> = 4</em><a class="headerlink" href="#wp4.locations.models.BELGIUM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for COUNTRY_CHOICES</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="wp4.locations.models.NETHERLANDS">
+<code class="descclassname">wp4.locations.models.</code><code class="descname">NETHERLANDS</code><em class="property"> = 5</em><a class="headerlink" href="#wp4.locations.models.NETHERLANDS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for COUNTRY_CHOICES</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="wp4.locations.models.COUNTRY_CHOICES">
+<code class="descclassname">wp4.locations.models.</code><code class="descname">COUNTRY_CHOICES</code><em class="property"> = ((1, 'United Kingdom'), (4, 'Belgium'), (5, 'Netherlands'), (10, 'Albania'), (11, 'Andorra'), (12, 'Armenia'), (13, 'Austria'), (14, 'Azerbaijan'), (15, 'Belarus'), (16, 'Bosnia and Herzegovina'), (17, 'Bulgaria'), (18, 'Croatia'), (19, 'Cyprus'), (20, 'Czech Republic'), (21, 'Denmark'), (22, 'Estonia'), (23, 'Finland'), (24, 'France'), (25, 'Georgia'), (26, 'Germany'), (27, 'Greece'), (28, 'Hungary'), (29, 'Iceland'), (30, 'Ireland'), (31, 'Italy'), (32, 'Kazakhstan'), (33, 'Kosovo'), (34, 'Latvia'), (35, 'Liechtenstein'), (36, 'Lithuania'), (37, 'Luxembourg'), (38, 'Macedonia'), (39, 'Malta'), (40, 'Moldova'), (41, 'Monaco'), (42, 'Montenegro'), (43, 'Norway'), (44, 'Poland'), (45, 'Portugal'), (46, 'Romania'), (47, 'Russia'), (48, 'San Marino'), (49, 'Serbia'), (50, 'Slovakia'), (51, 'Slovenia'), (52, 'Spain'), (53, 'Sweden'), (54, 'Switzerland'), (55, 'Turkey'), (56, 'Ukraine'))</em><a class="headerlink" href="#wp4.locations.models.COUNTRY_CHOICES" title="Permalink to this definition">¶</a></dt>
+<dd><p>Choices for Hospital.country</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="wp4.locations.models.Hospital">
+<em class="property">class </em><code class="descclassname">wp4.locations.models.</code><code class="descname">Hospital</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/locations/models.html#Hospital"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.locations.models.Hospital" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simple helper class to hold information related to the various project and non-project locations.
+Currently referenced from Donor, OrganAllocation, RetrievalTeam, Person</p>
+<p>This data is so generic and widely used that there should be no restrictions on geography, and everyone should be
+able to view it.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
+<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - locked by the admin team</li>
+<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) &#8211; &#8220;live&#8221;</li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;Hospital Name&#8221;</li>
+<li><strong>country</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Country&#8221;</li>
+<li><strong>is_active</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Active&#8221; - Not presently used/implemented. For legacy data when a location closes for use</li>
+<li><strong>is_project_site</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Project site&#8221;</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="wp4.locations.models.Hospital.name">
+<code class="descname">name</code><a class="headerlink" href="#wp4.locations.models.Hospital.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.locations.models.Hospital.country">
+<code class="descname">country</code><a class="headerlink" href="#wp4.locations.models.Hospital.country" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.locations.models.Hospital.is_active">
+<code class="descname">is_active</code><a class="headerlink" href="#wp4.locations.models.Hospital.is_active" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.locations.models.Hospital.is_project_site">
+<code class="descname">is_project_site</code><a class="headerlink" href="#wp4.locations.models.Hospital.is_project_site" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.locations.models.Hospital.full_description">
+<code class="descname">full_description</code><a class="headerlink" href="#wp4.locations.models.Hospital.full_description" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="wp4.locations.models.Hospital.get_absolute_url">
+<code class="descname">get_absolute_url</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/locations/models.html#Hospital.get_absolute_url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.locations.models.Hospital.get_absolute_url" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="wp4.locations.models.Hospital.DoesNotExist">
+<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#wp4.locations.models.Hospital.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="wp4.locations.models.Hospital.MultipleObjectsReturned">
+<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#wp4.locations.models.Hospital.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="wp4.locations.models.Hospital.get_country_display">
+<code class="descname">get_country_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.locations.models.Hospital.get_country_display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.locations.models.Hospital.id">
+<code class="descname">id</code><a class="headerlink" href="#wp4.locations.models.Hospital.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.locations.models.Hospital.organallocation_set">
+<code class="descname">organallocation_set</code><a class="headerlink" href="#wp4.locations.models.Hospital.organallocation_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.locations.models.Hospital.person_set">
+<code class="descname">person_set</code><a class="headerlink" href="#wp4.locations.models.Hospital.person_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.locations.models.Hospital.retrievalteam_set">
+<code class="descname">retrievalteam_set</code><a class="headerlink" href="#wp4.locations.models.Hospital.retrievalteam_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="wp4.perfusion_machine.models.html" class="btn btn-neutral float-right" title="wp4.perfusion_machine.models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="wp4.health_economics.models.html" class="btn btn-neutral" title="wp4.health_economics.models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Carl Marshall.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.8.2',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,1294 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>wp4.samples.models &mdash; COPE DB 0.8.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="COPE DB 0.8.2 documentation" href="../../index.html"/>
+        <link rel="up" title="Data Models" href="../index.html"/>
+        <link rel="next" title="wp4.staff.models" href="wp4.staff.models.html"/>
+        <link rel="prev" title="wp4.perfusion_machine.models" href="wp4.perfusion_machine.models.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> COPE DB
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.8.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../user_manual.html">COPE DB User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment.html">Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../development.html">Development Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/wp4_design.html">Design - WP4:Compare</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/wp7_design.html">Design - WP7:Biobanking</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Data Models</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#compare">Compare</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#adverse-event">Adverse Event</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#follow-ups">Follow Ups</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#health-economics">Health Economics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#locations">Locations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#perfusion-machine">Perfusion Machine</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#samples">Samples</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">wp4.samples.models</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#staff-person">Staff Person</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#theme">Theme</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">COPE DB</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Data Models</a> &raquo;</li>
+        
+      <li>wp4.samples.models</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/models/generated/wp4.samples.models.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-wp4.samples.models">
+<span id="wp4-samples-models"></span><h1>wp4.samples.models<a class="headerlink" href="#module-wp4.samples.models" title="Permalink to this headline">¶</a></h1>
+<p class="rubric">Functions</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">reverse</span></code>(viewname[,&nbsp;urlconf,&nbsp;args,&nbsp;kwargs,&nbsp;...])</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Classes</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">AuditControlModelBase</span></code>(*args,&nbsp;**kwargs)</td>
+<td>Internal common attributes to aid systematic auditing of records.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#wp4.samples.models.BarCodeMixin" title="wp4.samples.models.BarCodeMixin"><code class="xref py py-obj docutils literal"><span class="pre">BarCodeMixin</span></code></a>(*args,&nbsp;**kwargs)</td>
+<td>Extends with a barcode field</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#wp4.samples.models.BloodSample" title="wp4.samples.models.BloodSample"><code class="xref py py-obj docutils literal"><span class="pre">BloodSample</span></code></a>(*args,&nbsp;**kwargs)</td>
+<td>Sample class type for Blood samples.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">ContentType</span></code>(id,&nbsp;app_label,&nbsp;model)</td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param id:</th><td class="field-body">&#8220;ID&#8221;</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#wp4.samples.models.DeviationMixin" title="wp4.samples.models.DeviationMixin"><code class="xref py py-obj docutils literal"><span class="pre">DeviationMixin</span></code></a>(*args,&nbsp;**kwargs)</td>
+<td>In place of Deviation records on a worksheet, we have a way of tracking them per sample.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#wp4.samples.models.Event" title="wp4.samples.models.Event"><code class="xref py py-obj docutils literal"><span class="pre">Event</span></code></a>(*args,&nbsp;**kwargs)</td>
+<td>A Sample Event is a timepoint and process where a specific type of biological sample was extracted from a person.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">EventModelForUserManager</span></code>([include_soft_deleted])</td>
+<td>Sample Events manager</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">GenericForeignKey</span></code>([ct_field,&nbsp;fk_field,&nbsp;...])</td>
+<td>Provide a generic many-to-one relation through the <code class="docutils literal"><span class="pre">content_type</span></code> and <code class="docutils literal"><span class="pre">object_id</span></code> fields.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">GenericRelation</span></code>(to[,&nbsp;object_id_field,&nbsp;...])</td>
+<td>Provide a reverse to a relation created by a GenericForeignKey.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">Organ</span></code>(*args,&nbsp;**kwargs)</td>
+<td>The focus of the trial, specifically a Kidney.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">Patient</span></code>(*args,&nbsp;**kwargs)</td>
+<td>Base attributes for a person involved in this case as a donor or recipient.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#wp4.samples.models.PerfusateSample" title="wp4.samples.models.PerfusateSample"><code class="xref py py-obj docutils literal"><span class="pre">PerfusateSample</span></code></a>(*args,&nbsp;**kwargs)</td>
+<td>Sample class type for Perfusate samples.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">SampleFromOrganModelForUserManager</span></code>([...])</td>
+<td>Samples manager</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">SampleFromPersonModelForUserManager</span></code>([...])</td>
+<td>Samples manager</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#wp4.samples.models.TissueSample" title="wp4.samples.models.TissueSample"><code class="xref py py-obj docutils literal"><span class="pre">TissueSample</span></code></a>(*args,&nbsp;**kwargs)</td>
+<td>Sample class type for Perfusate samples.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#wp4.samples.models.UrineSample" title="wp4.samples.models.UrineSample"><code class="xref py py-obj docutils literal"><span class="pre">UrineSample</span></code></a>(*args,&nbsp;**kwargs)</td>
+<td>Sample class type for Urine samples.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#wp4.samples.models.WP7Record" title="wp4.samples.models.WP7Record"><code class="xref py py-obj docutils literal"><span class="pre">WP7Record</span></code></a>(*args,&nbsp;**kwargs)</td>
+<td>Based on an export from the WP7 Database.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Exceptions</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">ValidationError</span></code>(message[,&nbsp;code,&nbsp;params])</td>
+<td>An error while validating data.</td>
+</tr>
+</tbody>
+</table>
+<dl class="class">
+<dt id="wp4.samples.models.BarCodeMixin">
+<em class="property">class </em><code class="descclassname">wp4.samples.models.</code><code class="descname">BarCodeMixin</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/samples/models.html#BarCodeMixin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.samples.models.BarCodeMixin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extends with a barcode field</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>barcode</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;Barcode number&#8221;</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="wp4.samples.models.BarCodeMixin.barcode">
+<code class="descname">barcode</code><a class="headerlink" href="#wp4.samples.models.BarCodeMixin.barcode" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="wp4.samples.models.BarCodeMixin.Meta">
+<em class="property">class </em><code class="descname">Meta</code><a class="reference internal" href="../../_modules/wp4/samples/models.html#BarCodeMixin.Meta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.samples.models.BarCodeMixin.Meta" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="wp4.samples.models.BarCodeMixin.Meta.abstract">
+<code class="descname">abstract</code><em class="property"> = False</em><a class="headerlink" href="#wp4.samples.models.BarCodeMixin.Meta.abstract" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="wp4.samples.models.DeviationMixin">
+<em class="property">class </em><code class="descclassname">wp4.samples.models.</code><code class="descname">DeviationMixin</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/samples/models.html#DeviationMixin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.samples.models.DeviationMixin" title="Permalink to this definition">¶</a></dt>
+<dd><p>In place of Deviation records on a worksheet, we have a way of tracking them per sample.
+Also holds the meta question of whether this specific sample was actually taken or not.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>collected</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;Sample taken&#8221;</li>
+<li><strong>notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.TextField" title="(in Django v1.11)"><em>django.db.models.TextField</em></a>) &#8211; &#8220;Notes&#8221; - Deviation record</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="wp4.samples.models.DeviationMixin.collected">
+<code class="descname">collected</code><a class="headerlink" href="#wp4.samples.models.DeviationMixin.collected" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.DeviationMixin.notes">
+<code class="descname">notes</code><a class="headerlink" href="#wp4.samples.models.DeviationMixin.notes" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="wp4.samples.models.DeviationMixin.Meta">
+<em class="property">class </em><code class="descname">Meta</code><a class="reference internal" href="../../_modules/wp4/samples/models.html#DeviationMixin.Meta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.samples.models.DeviationMixin.Meta" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="wp4.samples.models.DeviationMixin.Meta.abstract">
+<code class="descname">abstract</code><em class="property"> = False</em><a class="headerlink" href="#wp4.samples.models.DeviationMixin.Meta.abstract" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="wp4.samples.models.WP7Record">
+<em class="property">class </em><code class="descclassname">wp4.samples.models.</code><code class="descname">WP7Record</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/samples/models.html#WP7Record"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.samples.models.WP7Record" title="Permalink to this definition">¶</a></dt>
+<dd><p>Based on an export from the WP7 Database. A record in this table means a sample exists on file in the Biobank</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
+<li><strong>barcode</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;Barcode number&#8221;</li>
+<li><strong>content_type_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;content type&#8221;</li>
+<li><strong>object_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveIntegerField</em></a>) &#8211; &#8220;object id&#8221;</li>
+<li><strong>box_number</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;box number&#8221;</li>
+<li><strong>position_in_box</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;position in box&#8221;</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="wp4.samples.models.WP7Record.content_type">
+<code class="descname">content_type</code><a class="headerlink" href="#wp4.samples.models.WP7Record.content_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.WP7Record.object_id">
+<code class="descname">object_id</code><a class="headerlink" href="#wp4.samples.models.WP7Record.object_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.WP7Record.content_object">
+<code class="descname">content_object</code><a class="headerlink" href="#wp4.samples.models.WP7Record.content_object" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provide a generic many-to-one relation through the <code class="docutils literal"><span class="pre">content_type</span></code> and
+<code class="docutils literal"><span class="pre">object_id</span></code> fields.</p>
+<p>This class also doubles as an accessor to the related object (similar to
+ForwardManyToOneDescriptor) by adding itself as a model attribute.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.WP7Record.box_number">
+<code class="descname">box_number</code><a class="headerlink" href="#wp4.samples.models.WP7Record.box_number" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.WP7Record.position_in_box">
+<code class="descname">position_in_box</code><a class="headerlink" href="#wp4.samples.models.WP7Record.position_in_box" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="wp4.samples.models.WP7Record.DoesNotExist">
+<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#wp4.samples.models.WP7Record.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="wp4.samples.models.WP7Record.MultipleObjectsReturned">
+<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#wp4.samples.models.WP7Record.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.WP7Record.content_type_id">
+<code class="descname">content_type_id</code><a class="headerlink" href="#wp4.samples.models.WP7Record.content_type_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.WP7Record.id">
+<code class="descname">id</code><a class="headerlink" href="#wp4.samples.models.WP7Record.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="wp4.samples.models.Event">
+<em class="property">class </em><code class="descclassname">wp4.samples.models.</code><code class="descname">Event</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/samples/models.html#Event"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.samples.models.Event" title="Permalink to this definition">¶</a></dt>
+<dd><p>A Sample Event is a timepoint and process where a specific type of biological sample was extracted
+from a person. This even can validate whether enough biological samples were taken (e.g. a blood
+sample results in two separate containers; whereas a perfusate sample has only one), and acts as the
+link between a Worksheet and the various Sample types</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
+<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - locked by the admin team</li>
+<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) &#8211; &#8220;live&#8221;</li>
+<li><strong>type</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Sample type&#8221;</li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Sample Process&#8221;</li>
+<li><strong>taken_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;Date and time taken&#8221;</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="wp4.samples.models.Event.TYPE_BLOOD">
+<code class="descname">TYPE_BLOOD</code><em class="property"> = 1</em><a class="headerlink" href="#wp4.samples.models.Event.TYPE_BLOOD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for TYPE_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.Event.TYPE_URINE">
+<code class="descname">TYPE_URINE</code><em class="property"> = 2</em><a class="headerlink" href="#wp4.samples.models.Event.TYPE_URINE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for TYPE_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.Event.TYPE_PERFUSATE">
+<code class="descname">TYPE_PERFUSATE</code><em class="property"> = 3</em><a class="headerlink" href="#wp4.samples.models.Event.TYPE_PERFUSATE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for TYPE_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.Event.TYPE_TISSUE">
+<code class="descname">TYPE_TISSUE</code><em class="property"> = 4</em><a class="headerlink" href="#wp4.samples.models.Event.TYPE_TISSUE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for TYPE_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.Event.TYPE_CHOICES">
+<code class="descname">TYPE_CHOICES</code><em class="property"> = ((1, 'Blood Samples'), (2, 'Urine Samples'), (3, 'Perfusate Samples'), (4, 'Tissue Samples'))</em><a class="headerlink" href="#wp4.samples.models.Event.TYPE_CHOICES" title="Permalink to this definition">¶</a></dt>
+<dd><p>Limit of choices for Event type data</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.Event.NAME_DONOR_BLOOD1">
+<code class="descname">NAME_DONOR_BLOOD1</code><em class="property"> = 1</em><a class="headerlink" href="#wp4.samples.models.Event.NAME_DONOR_BLOOD1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for NAME_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.Event.NAME_DONOR_URINE1">
+<code class="descname">NAME_DONOR_URINE1</code><em class="property"> = 2</em><a class="headerlink" href="#wp4.samples.models.Event.NAME_DONOR_URINE1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for NAME_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.Event.NAME_DONOR_URINE2">
+<code class="descname">NAME_DONOR_URINE2</code><em class="property"> = 3</em><a class="headerlink" href="#wp4.samples.models.Event.NAME_DONOR_URINE2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for NAME_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.Event.NAME_ORGAN_PERFUSATE1">
+<code class="descname">NAME_ORGAN_PERFUSATE1</code><em class="property"> = 4</em><a class="headerlink" href="#wp4.samples.models.Event.NAME_ORGAN_PERFUSATE1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for NAME_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.Event.NAME_ORGAN_PERFUSATE2">
+<code class="descname">NAME_ORGAN_PERFUSATE2</code><em class="property"> = 5</em><a class="headerlink" href="#wp4.samples.models.Event.NAME_ORGAN_PERFUSATE2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for NAME_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.Event.NAME_ORGAN_PERFUSATE3">
+<code class="descname">NAME_ORGAN_PERFUSATE3</code><em class="property"> = 6</em><a class="headerlink" href="#wp4.samples.models.Event.NAME_ORGAN_PERFUSATE3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for NAME_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.Event.NAME_ORGAN_TISSUE">
+<code class="descname">NAME_ORGAN_TISSUE</code><em class="property"> = 7</em><a class="headerlink" href="#wp4.samples.models.Event.NAME_ORGAN_TISSUE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for NAME_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.Event.NAME_RECIPIENT_BLOOD1">
+<code class="descname">NAME_RECIPIENT_BLOOD1</code><em class="property"> = 8</em><a class="headerlink" href="#wp4.samples.models.Event.NAME_RECIPIENT_BLOOD1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for NAME_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.Event.NAME_RECIPIENT_BLOOD2">
+<code class="descname">NAME_RECIPIENT_BLOOD2</code><em class="property"> = 9</em><a class="headerlink" href="#wp4.samples.models.Event.NAME_RECIPIENT_BLOOD2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for NAME_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.Event.NAME_CHOICES">
+<code class="descname">NAME_CHOICES</code><em class="property"> = ((1, 'DB1 Donor Blood Sample'), (2, 'DU1 Donor Urine Sample at Withdrawal of Support'), (3, 'DU2 Donor Urine Sample from Catheter Bag'), (4, 'P1 Perfusate solution after 15 mins of HMP'), (5, 'P2 Perfusate solution prior to departure'), (6, 'P3 Perfusate solution at end of machine perfusion'), (7, 'RKT Kidney Biopsy after reperfusion'), (8, 'RB1 Blood sample after anaesthesia '), (9, 'RB2 Blood sample after reperfusion'))</em><a class="headerlink" href="#wp4.samples.models.Event.NAME_CHOICES" title="Permalink to this definition">¶</a></dt>
+<dd><p>Limit of choices for Event name data</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.Event.type">
+<code class="descname">type</code><a class="headerlink" href="#wp4.samples.models.Event.type" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.Event.name">
+<code class="descname">name</code><a class="headerlink" href="#wp4.samples.models.Event.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.Event.taken_at">
+<code class="descname">taken_at</code><a class="headerlink" href="#wp4.samples.models.Event.taken_at" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wp4.samples.models.Event.clean">
+<code class="descname">clean</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/samples/models.html#Event.clean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.samples.models.Event.clean" title="Permalink to this definition">¶</a></dt>
+<dd><p>If type is...</p>
+<ul class="simple">
+<li>BLOOD - check for two different types of BloodSample</li>
+<li>URINE - check for one type of UrineSample</li>
+<li>PERFUSATE - check for one type of PerfusateSample</li>
+<li>TISSUE - check for two different types of TissueSample</li>
+</ul>
+<p>... and that a suitable Event name was chosen, and that taken_at value  is not in the future.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="wp4.samples.models.Event.get_absolute_url">
+<code class="descname">get_absolute_url</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/samples/models.html#Event.get_absolute_url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.samples.models.Event.get_absolute_url" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="wp4.samples.models.Event.DoesNotExist">
+<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#wp4.samples.models.Event.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="wp4.samples.models.Event.MultipleObjectsReturned">
+<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#wp4.samples.models.Event.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.Event.bloodsample_set">
+<code class="descname">bloodsample_set</code><a class="headerlink" href="#wp4.samples.models.Event.bloodsample_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wp4.samples.models.Event.get_name_display">
+<code class="descname">get_name_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.samples.models.Event.get_name_display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="wp4.samples.models.Event.get_type_display">
+<code class="descname">get_type_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.samples.models.Event.get_type_display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.Event.id">
+<code class="descname">id</code><a class="headerlink" href="#wp4.samples.models.Event.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.Event.perfusatesample_set">
+<code class="descname">perfusatesample_set</code><a class="headerlink" href="#wp4.samples.models.Event.perfusatesample_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.Event.tissuesample_set">
+<code class="descname">tissuesample_set</code><a class="headerlink" href="#wp4.samples.models.Event.tissuesample_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.Event.urinesample_set">
+<code class="descname">urinesample_set</code><a class="headerlink" href="#wp4.samples.models.Event.urinesample_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="wp4.samples.models.BloodSample">
+<em class="property">class </em><code class="descclassname">wp4.samples.models.</code><code class="descname">BloodSample</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/samples/models.html#BloodSample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.samples.models.BloodSample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sample class type for Blood samples.</p>
+<p>Also contains a helper (repeated, but direct) link to the Patient this sample was from (mainly
+to aide reverse sample look ups from Patient)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
+<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - locked by the admin team</li>
+<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) &#8211; &#8220;live&#8221;</li>
+<li><strong>barcode</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;Barcode number&#8221;</li>
+<li><strong>collected</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;Sample taken&#8221;</li>
+<li><strong>notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.TextField" title="(in Django v1.11)"><em>django.db.models.TextField</em></a>) &#8211; &#8220;Notes&#8221; - Deviation record</li>
+<li><strong>event_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;event&#8221; - Link to an event of type Blood</li>
+<li><strong>blood_type</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Blood sample type&#8221;</li>
+<li><strong>person_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;Blood sample from&#8221;</li>
+<li><strong>centrifuged_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;Time sample centrifuged&#8221;</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="wp4.samples.models.BloodSample.SAMPLE_SST">
+<code class="descname">SAMPLE_SST</code><em class="property"> = 1</em><a class="headerlink" href="#wp4.samples.models.BloodSample.SAMPLE_SST" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for SAMPLE_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.BloodSample.SAMPLE_EDSA">
+<code class="descname">SAMPLE_EDSA</code><em class="property"> = 2</em><a class="headerlink" href="#wp4.samples.models.BloodSample.SAMPLE_EDSA" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for SAMPLE_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.BloodSample.SAMPLE_CHOICES">
+<code class="descname">SAMPLE_CHOICES</code><em class="property"> = ((1, 'Blood Sample SST'), (2, 'Blood Sample EDTA'))</em><a class="headerlink" href="#wp4.samples.models.BloodSample.SAMPLE_CHOICES" title="Permalink to this definition">¶</a></dt>
+<dd><p>Limit of choices for BloodSample blood_type</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.BloodSample.event">
+<code class="descname">event</code><a class="headerlink" href="#wp4.samples.models.BloodSample.event" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.BloodSample.blood_type">
+<code class="descname">blood_type</code><a class="headerlink" href="#wp4.samples.models.BloodSample.blood_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.BloodSample.person">
+<code class="descname">person</code><a class="headerlink" href="#wp4.samples.models.BloodSample.person" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.BloodSample.centrifuged_at">
+<code class="descname">centrifuged_at</code><a class="headerlink" href="#wp4.samples.models.BloodSample.centrifuged_at" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.BloodSample.wp7_location">
+<code class="descname">wp7_location</code><a class="headerlink" href="#wp4.samples.models.BloodSample.wp7_location" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the one-to-many relation created
+by GenericRelation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Post</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">comments</span> <span class="o">=</span> <span class="n">GenericRelation</span><span class="p">(</span><span class="n">Comment</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">post.comments</span></code> is a ReverseGenericManyToOneDescriptor instance.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wp4.samples.models.BloodSample.clean">
+<code class="descname">clean</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/samples/models.html#BloodSample.clean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.samples.models.BloodSample.clean" title="Permalink to this definition">¶</a></dt>
+<dd><p>If sample is marked as collected, confirm taken_at date is present, otherwise that deviation
+notes have been recorded.</p>
+<p>Ensure that centrifuged_at datetime is not in the future, and that it occured after taken_at datetime</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="exception">
+<dt id="wp4.samples.models.BloodSample.DoesNotExist">
+<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#wp4.samples.models.BloodSample.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="wp4.samples.models.BloodSample.MultipleObjectsReturned">
+<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#wp4.samples.models.BloodSample.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.BloodSample.event_id">
+<code class="descname">event_id</code><a class="headerlink" href="#wp4.samples.models.BloodSample.event_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wp4.samples.models.BloodSample.get_blood_type_display">
+<code class="descname">get_blood_type_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.samples.models.BloodSample.get_blood_type_display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.BloodSample.id">
+<code class="descname">id</code><a class="headerlink" href="#wp4.samples.models.BloodSample.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.BloodSample.person_id">
+<code class="descname">person_id</code><a class="headerlink" href="#wp4.samples.models.BloodSample.person_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="wp4.samples.models.UrineSample">
+<em class="property">class </em><code class="descclassname">wp4.samples.models.</code><code class="descname">UrineSample</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/samples/models.html#UrineSample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.samples.models.UrineSample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sample class type for Urine samples.</p>
+<p>Also contains a helper (repeated, but direct) link to the Patient this sample was from (mainly
+to aide reverse sample look ups from Patient)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
+<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - locked by the admin team</li>
+<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) &#8211; &#8220;live&#8221;</li>
+<li><strong>barcode</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;Barcode number&#8221;</li>
+<li><strong>collected</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;Sample taken&#8221;</li>
+<li><strong>notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.TextField" title="(in Django v1.11)"><em>django.db.models.TextField</em></a>) &#8211; &#8220;Notes&#8221; - Deviation record</li>
+<li><strong>event_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;event&#8221; - Link to an event of type Urine</li>
+<li><strong>person_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;Urine sample from&#8221;</li>
+<li><strong>centrifuged_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;Time centrifuged&#8221;</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="wp4.samples.models.UrineSample.event">
+<code class="descname">event</code><a class="headerlink" href="#wp4.samples.models.UrineSample.event" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.UrineSample.person">
+<code class="descname">person</code><a class="headerlink" href="#wp4.samples.models.UrineSample.person" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.UrineSample.centrifuged_at">
+<code class="descname">centrifuged_at</code><a class="headerlink" href="#wp4.samples.models.UrineSample.centrifuged_at" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.UrineSample.wp7_location">
+<code class="descname">wp7_location</code><a class="headerlink" href="#wp4.samples.models.UrineSample.wp7_location" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the one-to-many relation created
+by GenericRelation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Post</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">comments</span> <span class="o">=</span> <span class="n">GenericRelation</span><span class="p">(</span><span class="n">Comment</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">post.comments</span></code> is a ReverseGenericManyToOneDescriptor instance.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wp4.samples.models.UrineSample.clean">
+<code class="descname">clean</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/samples/models.html#UrineSample.clean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.samples.models.UrineSample.clean" title="Permalink to this definition">¶</a></dt>
+<dd><p>If sample is marked as collected, confirm taken_at date is present, otherwise that deviation
+notes have been recorded.</p>
+<p>Ensure that centrifuged_at datetime is not in the future, and that it occured after taken_at datetime</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="exception">
+<dt id="wp4.samples.models.UrineSample.DoesNotExist">
+<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#wp4.samples.models.UrineSample.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="wp4.samples.models.UrineSample.MultipleObjectsReturned">
+<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#wp4.samples.models.UrineSample.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.UrineSample.event_id">
+<code class="descname">event_id</code><a class="headerlink" href="#wp4.samples.models.UrineSample.event_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.UrineSample.id">
+<code class="descname">id</code><a class="headerlink" href="#wp4.samples.models.UrineSample.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.UrineSample.person_id">
+<code class="descname">person_id</code><a class="headerlink" href="#wp4.samples.models.UrineSample.person_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="wp4.samples.models.PerfusateSample">
+<em class="property">class </em><code class="descclassname">wp4.samples.models.</code><code class="descname">PerfusateSample</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/samples/models.html#PerfusateSample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.samples.models.PerfusateSample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sample class type for Perfusate samples.</p>
+<p>Also contains a helper (repeated, but direct) link to the Patient this sample was from (mainly
+to aide reverse sample look ups from Patient)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
+<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - locked by the admin team</li>
+<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) &#8211; &#8220;live&#8221;</li>
+<li><strong>barcode</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;Barcode number&#8221;</li>
+<li><strong>collected</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;Sample taken&#8221;</li>
+<li><strong>notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.TextField" title="(in Django v1.11)"><em>django.db.models.TextField</em></a>) &#8211; &#8220;Notes&#8221; - Deviation record</li>
+<li><strong>event_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;event&#8221; - Link to an event of type Perfusate</li>
+<li><strong>organ_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;Perfusate sample from&#8221;</li>
+<li><strong>centrifuged_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;Time centrifuged&#8221;</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="wp4.samples.models.PerfusateSample.event">
+<code class="descname">event</code><a class="headerlink" href="#wp4.samples.models.PerfusateSample.event" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.PerfusateSample.organ">
+<code class="descname">organ</code><a class="headerlink" href="#wp4.samples.models.PerfusateSample.organ" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.PerfusateSample.centrifuged_at">
+<code class="descname">centrifuged_at</code><a class="headerlink" href="#wp4.samples.models.PerfusateSample.centrifuged_at" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.PerfusateSample.wp7_location">
+<code class="descname">wp7_location</code><a class="headerlink" href="#wp4.samples.models.PerfusateSample.wp7_location" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the one-to-many relation created
+by GenericRelation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Post</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">comments</span> <span class="o">=</span> <span class="n">GenericRelation</span><span class="p">(</span><span class="n">Comment</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">post.comments</span></code> is a ReverseGenericManyToOneDescriptor instance.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wp4.samples.models.PerfusateSample.clean">
+<code class="descname">clean</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/samples/models.html#PerfusateSample.clean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.samples.models.PerfusateSample.clean" title="Permalink to this definition">¶</a></dt>
+<dd><p>If sample is marked as collected, confirm taken_at date is present, otherwise that deviation
+notes have been recorded.</p>
+<p>Ensure that centrifuged_at datetime is not in the future, and that it occured after taken_at datetime</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="exception">
+<dt id="wp4.samples.models.PerfusateSample.DoesNotExist">
+<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#wp4.samples.models.PerfusateSample.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="wp4.samples.models.PerfusateSample.MultipleObjectsReturned">
+<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#wp4.samples.models.PerfusateSample.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.PerfusateSample.event_id">
+<code class="descname">event_id</code><a class="headerlink" href="#wp4.samples.models.PerfusateSample.event_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.PerfusateSample.id">
+<code class="descname">id</code><a class="headerlink" href="#wp4.samples.models.PerfusateSample.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.PerfusateSample.organ_id">
+<code class="descname">organ_id</code><a class="headerlink" href="#wp4.samples.models.PerfusateSample.organ_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="wp4.samples.models.TissueSample">
+<em class="property">class </em><code class="descclassname">wp4.samples.models.</code><code class="descname">TissueSample</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/samples/models.html#TissueSample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.samples.models.TissueSample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sample class type for Perfusate samples.</p>
+<p>Also contains a helper (repeated, but direct) link to the Patient this sample was from (mainly
+to aide reverse sample look ups from Patient)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
+<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - locked by the admin team</li>
+<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) &#8211; &#8220;live&#8221;</li>
+<li><strong>barcode</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;Barcode number&#8221;</li>
+<li><strong>collected</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;Sample taken&#8221;</li>
+<li><strong>notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.TextField" title="(in Django v1.11)"><em>django.db.models.TextField</em></a>) &#8211; &#8220;Notes&#8221; - Deviation record</li>
+<li><strong>event_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;event&#8221; - Link to an event of type Tissue</li>
+<li><strong>organ_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;Tissue sample from&#8221;</li>
+<li><strong>tissue_type</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;Tissue sample type&#8221;</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="wp4.samples.models.TissueSample.SAMPLE_R">
+<code class="descname">SAMPLE_R</code><em class="property"> = 'R'</em><a class="headerlink" href="#wp4.samples.models.TissueSample.SAMPLE_R" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for SAMPLE_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.TissueSample.SAMPLE_F">
+<code class="descname">SAMPLE_F</code><em class="property"> = 'F'</em><a class="headerlink" href="#wp4.samples.models.TissueSample.SAMPLE_F" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for SAMPLE_CHOICES</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.TissueSample.SAMPLE_CHOICES">
+<code class="descname">SAMPLE_CHOICES</code><em class="property"> = (('F', 'Formalin Biopsy'), ('R', 'RNA Later Biopsy'))</em><a class="headerlink" href="#wp4.samples.models.TissueSample.SAMPLE_CHOICES" title="Permalink to this definition">¶</a></dt>
+<dd><p>Limit of choices for BloodSample tissue_type</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.TissueSample.event">
+<code class="descname">event</code><a class="headerlink" href="#wp4.samples.models.TissueSample.event" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.TissueSample.organ">
+<code class="descname">organ</code><a class="headerlink" href="#wp4.samples.models.TissueSample.organ" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.TissueSample.tissue_type">
+<code class="descname">tissue_type</code><a class="headerlink" href="#wp4.samples.models.TissueSample.tissue_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.TissueSample.wp7_location">
+<code class="descname">wp7_location</code><a class="headerlink" href="#wp4.samples.models.TissueSample.wp7_location" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the one-to-many relation created
+by GenericRelation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Post</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">comments</span> <span class="o">=</span> <span class="n">GenericRelation</span><span class="p">(</span><span class="n">Comment</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">post.comments</span></code> is a ReverseGenericManyToOneDescriptor instance.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wp4.samples.models.TissueSample.clean">
+<code class="descname">clean</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/samples/models.html#TissueSample.clean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.samples.models.TissueSample.clean" title="Permalink to this definition">¶</a></dt>
+<dd><p>If sample is marked as collected, confirm taken_at date is present, otherwise that deviation
+notes have been recorded.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="exception">
+<dt id="wp4.samples.models.TissueSample.DoesNotExist">
+<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#wp4.samples.models.TissueSample.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="wp4.samples.models.TissueSample.MultipleObjectsReturned">
+<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#wp4.samples.models.TissueSample.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.TissueSample.event_id">
+<code class="descname">event_id</code><a class="headerlink" href="#wp4.samples.models.TissueSample.event_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wp4.samples.models.TissueSample.get_tissue_type_display">
+<code class="descname">get_tissue_type_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.samples.models.TissueSample.get_tissue_type_display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.TissueSample.id">
+<code class="descname">id</code><a class="headerlink" href="#wp4.samples.models.TissueSample.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.samples.models.TissueSample.organ_id">
+<code class="descname">organ_id</code><a class="headerlink" href="#wp4.samples.models.TissueSample.organ_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="wp4.staff.models.html" class="btn btn-neutral float-right" title="wp4.staff.models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="wp4.perfusion_machine.models.html" class="btn btn-neutral" title="wp4.perfusion_machine.models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Carl Marshall.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.8.2',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,400 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Data Models &mdash; COPE DB 0.8.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="COPE DB 0.8.2 documentation" href="../index.html"/>
+        <link rel="next" title="Compare Models" href="compare.html"/>
+        <link rel="prev" title="Design - WP7:Biobanking" href="../design/wp7_design.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> COPE DB
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.8.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../user_manual.html">COPE DB User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deployment.html">Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../development.html">Development Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/wp4_design.html">Design - WP4:Compare</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/wp7_design.html">Design - WP7:Biobanking</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Data Models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#compare">Compare</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="compare.html">Compare Models</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#adverse-event">Adverse Event</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="adverse_event.html">Adverse Event Models</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#follow-ups">Follow Ups</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/wp4.followups.models.html">wp4.followups.models</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#health-economics">Health Economics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/wp4.health_economics.models.html">wp4.health_economics.models</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#locations">Locations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/wp4.locations.models.html">wp4.locations.models</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#perfusion-machine">Perfusion Machine</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/wp4.perfusion_machine.models.html">wp4.perfusion_machine.models</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#samples">Samples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/wp4.samples.models.html">wp4.samples.models</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#staff-person">Staff Person</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/wp4.staff.models.html">wp4.staff.models</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#theme">Theme</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">COPE DB</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Data Models</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/models/index.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="data-models">
+<h1>Data Models<a class="headerlink" href="#data-models" title="Permalink to this headline">¶</a></h1>
+<p>This is source documentation for the WP4 data models. These are Python/Django classes mapped to the database by Django&#8217;s ORM, and as such follow the usual Django conventions on model design. There are a few other conventions to note, general ones are noted here, class specific notes are inline below.</p>
+<p>Compare is the central app to this system (presently), and the Core models (such as AuditControlMixin) will appear all over the rest of the apps. This means common fields such as <cite>version</cite>, <cite>created_on</cite>, <cite>created_by</cite>, and <cite>record_locked</cite> will feature repeatedly on many of the models below.</p>
+<p>Items that appear in CAPITAL LETTERS are frequently the constants used in the system. Whilst many of them follow a clear naming convention (e.g. BLOOD_xxx), some are still in their orignal format (e.g. MALE, FEMALE, CAUCASIAN). Most are also part of groups, which means you&#8217;ll see a topicname_CHOICES constant that links certain constants - typically for the benefit of dropdown lists and other static content (e.g. BLOOD_GROUP_CHOICES).</p>
+<p>Where model attributes use a choice list (e.g. from a constant), there are helper methods to translate the stored value into a display string. These take the form of OBJECT.get_ATTRIBUTE_display() methods (e.g. Patient.get_gender_display() )</p>
+<div class="section" id="compare">
+<h2>Compare<a class="headerlink" href="#compare" title="Permalink to this headline">¶</a></h2>
+<p>The Compare app collects the majority of data from the Procurement and Transplantation processes, as well as acting as the base for the overall system.</p>
+<p>NB: WP4.Compare.Models.Core defines a range of common CONSTANTS used widely through the system</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="compare.html">Compare Models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="compare.html#module-wp4.compare.models">wp4.compare.models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="compare.html#module-wp4.compare.models.core">wp4.compare.models.core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="compare.html#module-wp4.compare.models.donor">wp4.compare.models.donor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="compare.html#module-wp4.compare.models.transplantation">wp4.compare.models.transplantation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="compare.html#module-wp4.compare.managers.core">wp4.compare.managers</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="adverse-event">
+<h2>Adverse Event<a class="headerlink" href="#adverse-event" title="Permalink to this headline">¶</a></h2>
+<p>The Adverse Event app collects the Adverse and Serious Adverse event information. These will relate to OrganPeople from the Compare app.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="adverse_event.html">Adverse Event Models</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="follow-ups">
+<h2>Follow Ups<a class="headerlink" href="#follow-ups" title="Permalink to this headline">¶</a></h2>
+<p>The Follow Ups app collects the data from 4 interview points over the course of a year after the transplant operation successfully concluded.</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/wp4.followups.models.html#module-wp4.followups.models" title="wp4.followups.models"><code class="xref py py-obj docutils literal"><span class="pre">wp4.followups.models</span></code></a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Currently unavailable whilst schema is being stabilised</p>
+</div>
+<div class="section" id="health-economics">
+<h2>Health Economics<a class="headerlink" href="#health-economics" title="Permalink to this headline">¶</a></h2>
+<p>The Health Economics app breaks out the research data for the Health Economics analysis, and is featured at various points in the process from pre-transplantation to the final follow up interview.</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/wp4.health_economics.models.html#module-wp4.health_economics.models" title="wp4.health_economics.models"><code class="xref py py-obj docutils literal"><span class="pre">wp4.health_economics.models</span></code></a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="locations">
+<h2>Locations<a class="headerlink" href="#locations" title="Permalink to this headline">¶</a></h2>
+<p>The Locations app is small helper module related to Geographical locations, such as Hospitals.</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/wp4.locations.models.html#module-wp4.locations.models" title="wp4.locations.models"><code class="xref py py-obj docutils literal"><span class="pre">wp4.locations.models</span></code></a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="perfusion-machine">
+<h2>Perfusion Machine<a class="headerlink" href="#perfusion-machine" title="Permalink to this headline">¶</a></h2>
+<p>The Perfusion Machine app is presently a tiny module dedicated to recording information about the machines used in this trial. (Later work may expand this to incorporate data analysis from files supplied by the machines themselves)</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/wp4.perfusion_machine.models.html#module-wp4.perfusion_machine.models" title="wp4.perfusion_machine.models"><code class="xref py py-obj docutils literal"><span class="pre">wp4.perfusion_machine.models</span></code></a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="samples">
+<h2>Samples<a class="headerlink" href="#samples" title="Permalink to this headline">¶</a></h2>
+<p>The Samples app manages the collection of meta-data related to the various biobank samples collected during the trial process.</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/wp4.samples.models.html#module-wp4.samples.models" title="wp4.samples.models"><code class="xref py py-obj docutils literal"><span class="pre">wp4.samples.models</span></code></a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="staff-person">
+<h2>Staff Person<a class="headerlink" href="#staff-person" title="Permalink to this headline">¶</a></h2>
+<p>The Staff app is a helper module to manage staff members that will be interacting with this system.</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/wp4.staff.models.html#module-wp4.staff.models" title="wp4.staff.models"><code class="xref py py-obj docutils literal"><span class="pre">wp4.staff.models</span></code></a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="theme">
+<h2>Theme<a class="headerlink" href="#theme" title="Permalink to this headline">¶</a></h2>
+<p>No Models in theme app. The Theme app relates to templates and utilities for the graphical display of the system.</p>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="compare.html" class="btn btn-neutral float-right" title="Compare Models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../design/wp7_design.html" class="btn btn-neutral" title="Design - WP7:Biobanking" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Carl Marshall.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.8.2',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
