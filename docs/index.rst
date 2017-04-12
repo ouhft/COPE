@@ -23,13 +23,13 @@ Contents
 .. toctree::
    :maxdepth: 2
 
-   source/user_manual
-   source/deployment
-   source/development
-   source/design/wp4_design
-   source/design/wp7_design
-   source/models
-   source/changelog
+   user_manual
+   deployment
+   development
+   design/wp4_design
+   design/wp7_design
+   models/index
+   changelog
 
 
 Indices and tables

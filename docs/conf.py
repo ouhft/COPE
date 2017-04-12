@@ -18,16 +18,17 @@ import importlib
 import inspect
 from recommonmark.parser import CommonMarkParser
 
+try:
+    import enchant  # NoQA
+except ImportError:
+    enchant = None
+
 import django
 from django.db.models.fields.files import FileDescriptor
 from django.db.models.manager import ManagerDescriptor
 from django.db.models.query import QuerySet
 from django.utils.translation import ugettext, get_language, activate, deactivate
 
-try:
-    import enchant  # NoQA
-except ImportError:
-    enchant = None
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -36,8 +37,8 @@ sys.path.insert(0, os.path.abspath('.'))
 sys.path.insert(0, os.path.abspath('..'))
 sys.path.append(os.path.abspath('../../lib/python3.6/site-packages/'))
 
-
-wp4_version_string = "0.8.2"  # NB: Can't reference wp4.__version__ for unknown reasons
+import wp4  # Has to occur after the path has been expanded above
+wp4_version_string = wp4.__version__
 
 with open('../location.env', 'r') as location_file:
     environment_string = location_file.read().replace('\n', '')
@@ -59,7 +60,7 @@ GITHUB_PROJECT = 'COPE'  # Name of your Github repository
 
 def process_django_models(app, what, name, obj, options, lines):
     """Append params from fields to model documentation."""
-    print("DEBUG: process_django_models() called: obj={0}".format(obj))
+    # print("DEBUG: process_django_models() called: obj={0}".format(obj))
     from django.utils.html import strip_tags
     from django.db import models
 
@@ -70,14 +71,17 @@ def process_django_models(app, what, name, obj, options, lines):
         for field in obj._meta.fields:
             help_text = strip_tags(ugettext(field.help_text))
             verbose_name = ugettext(field.verbose_name)
+            choices = field.choices
+            # print("DEBUG: process_django_models() dir(field) = {0}".format(dir(field)))
+            # print("DEBUG: process_django_models() field: {0} ; choices = {1}".format(field, choices))
 
             if help_text:
-                lines.append(':param {0}: {1} as "{1}" - {2}'.format(
-                    field.attname, field.verbose_name, verbose_name,  help_text
+                lines.append(':param {0}: "{1}" - {2}'.format(
+                    field.attname, verbose_name,  help_text
                 ))
             else:
-                lines.append(':param {0}: {1} as "{1}"'.format(
-                    field.attname, field.verbose_name, verbose_name
+                lines.append(':param {0}: "{1}"'.format(
+                    field.attname, verbose_name
                 ))
 
             if enchant is not None:
@@ -102,7 +106,7 @@ def process_django_models(app, what, name, obj, options, lines):
 
 def process_modules(app, what, name, obj, options, lines):
     """Add module names to spelling white list."""
-    print("DEBUG: process_modules() called: name={0}".format(name))
+    # print("DEBUG: process_modules() called: name={0}".format(name))
     if what != 'module':
         return lines
     from enchant.tokenize import basic_tokenize
@@ -185,7 +189,7 @@ extensions = [
     'sphinx.ext.autosummary',
     'sphinx.ext.graphviz',
     'sphinx.ext.napoleon',
-    # 'sphinx.ext.linkcode',  <-- Disabled until we can get linkcode_resolve to actually find the correct lines and files!
+    # 'sphinx.ext.linkcode',  # <-- Disabled until we can get linkcode_resolve to actually find the correct lines and files!
     'sphinx.ext.inheritance_diagram',
     'sphinx.ext.doctest',
     'sphinx.ext.todo',

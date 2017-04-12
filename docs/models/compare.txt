@@ -1,0 +1,91 @@
+Compare Models
+==============
+
+
+wp4\.compare\.models
+--------------------
+
+.. automodule:: wp4.compare.models
+
+
+   .. rubric:: Classes
+
+   .. autosummary::
+
+      AuditControlModelBase
+
+
+wp4\.compare\.models\.core
+--------------------------
+
+.. automodule:: wp4.compare.models.core
+
+
+
+   .. rubric:: Functions
+
+   .. autosummary::
+
+      random_5050
+
+
+   .. rubric:: Classes
+
+   .. autosummary::
+
+      Patient
+      Randomisation
+      RetrievalTeam
+
+
+
+wp4\.compare\.models\.donor
+---------------------------
+
+.. automodule:: wp4.compare.models.donor
+
+
+   .. rubric:: Classes
+
+   .. autosummary::
+
+      Donor
+      Organ
+      ProcurementResource
+
+
+wp4\.compare\.models\.transplantation
+-------------------------------------
+
+.. automodule:: wp4.compare.models.transplantation
+
+
+   .. rubric:: Classes
+
+   .. autosummary::
+
+      OrganAllocation
+      Recipient
+
+
+wp4\.compare\.managers
+----------------------
+
+.. automodule:: wp4.compare.managers.core
+
+
+   .. rubric:: Classes
+
+   .. autosummary::
+
+      RetrievalTeamModelForUserManager
+      AllocatableModelForUserManager
+      ClosedOrganModelForUserManager
+      DonorModelForUserManager
+      OpenOrganModelForUserManager
+      OrganModelForUserManager
+      ProcurementResourceModelForUserManager
+      OrganAllocationModelForUserManager
+      RecipientModelForUserManager
+
+

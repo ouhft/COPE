@@ -13,14 +13,18 @@ class ModelForUserManagerMixin(object):
     """
     Relies on permissions being set on a model so that we can restrict based on the location of the active user
 
-    NB: Class names are not yet dynamically added to permissions as we would want. May appear in django 1.11?
-    http://stackoverflow.com/questions/4963428/how-to-dynamically-name-permissions-in-a-django-abstract-model-class
+    .. note::
+    
+        Class names are not yet dynamically added to permissions as we would want. May appear in django 1.11?
+        http://stackoverflow.com/questions/4963428/how-to-dynamically-name-permissions-in-a-django-abstract-model-class
 
-    permissions = (
-        ("restrict_to_national", "Can only use data from the same location country"),
-        ("restrict_to_local", "Can only use data from a specific location"),
-    )
-
+    
+    Remember, these permissions are set for models using this manager:
+    
+        permissions = (
+            ("restrict_to_national", "Can only use data from the same location country"),
+            ("restrict_to_local", "Can only use data from a specific location"),
+        )
     """
     country_id = None
     hospital_id = None
