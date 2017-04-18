@@ -1,16 +1,16 @@
 Django==1.11
 django-braces==1.11.0
 django-vanilla-views==1.0.4
-django-autocomplete-light==3.2.1
+django-autocomplete-light==3.2.3
 docutils==0.13.1
-django-environ==0.4.1
+django-environ==0.4.2
 django-reversion==2.0.8
-django-reversion-compare==0.7.3
+django-reversion-compare==0.7.4
 bdateutil==0.1
 markdown==2.6.8
-django-livefield==2.7.0
+django-livefield==2.8.0
 django-crispy-forms==1.6.1
-openpyxl
+openpyxl==2.4.6
 
 pytz
 pip
