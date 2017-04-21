@@ -124,6 +124,7 @@ def process_modules(app, what, name, obj, options, lines):
 def skip_queryset(app, what, name, obj, skip, options):
     """Skip queryset subclasses to avoid database queries."""
     from django.db import models
+    print("DEBUG: skip_queryset(): obj.class={0}; name={1}".format(obj.__class__, name))
     if isinstance(obj, (models.QuerySet, models.manager.BaseManager)) or name.endswith('objects'):
         return True
     return skip
@@ -140,10 +141,10 @@ def setup(app):
 
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3.6', None),
-    'sphinx': ('http://sphinx.pocoo.org/', None),
+    'sphinx': ('http://www.sphinx-doc.org/en/stable/', None),
     'django': ('https://docs.djangoproject.com/en/1.11/', 'https://docs.djangoproject.com/en/1.11/_objects/'),
-    'djangoextensions': ('https://django-extensions.readthedocs.org/en/latest/', None),
-    'braces': ('https://django-braces.readthedocs.org/en/latest/', None),
+    'djangoextensions': ('https://django-extensions.readthedocs.io/en/latest/', None),
+    'braces': ('https://django-braces.readthedocs.io/en/latest/', None),
 }
 
 

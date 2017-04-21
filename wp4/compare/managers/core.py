@@ -17,7 +17,6 @@ class ModelForUserManagerMixin(object):
     
         Class names are not yet dynamically added to permissions as we would want. May appear in django 1.11?
         http://stackoverflow.com/questions/4963428/how-to-dynamically-name-permissions-in-a-django-abstract-model-class
-
     
     Remember, these permissions are set for models using this manager:
     
