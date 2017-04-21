@@ -28,8 +28,9 @@ class EventForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(EventForm, self).__init__(*args, **kwargs)
         # self.fields['organ'].widget = forms.HiddenInput()
-        self.fields['organ'].choices = Event.objects.select_related('organ').\
-            filter(id=self.instance.id).values_list('id', 'organ__trial_id')
+        # A redundant shortcut now that DAL 3.2.4 has implemented something to do similar that expects a queryset
+        # self.fields['organ'].choices = Event.objects.select_related('organ').\
+        #     filter(id=self.instance.id).values_list('id', 'organ__trial_id')
         self.fields['serious_eligible_1'].choices = NO_YES_CHOICES
         self.fields['serious_eligible_2'].choices = NO_YES_CHOICES
         self.fields['serious_eligible_3'].choices = NO_YES_CHOICES

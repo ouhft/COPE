@@ -1,0 +1,201 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+
+{% block page_title %}{{ location }} Completeness Report: Procurement - Administration{% endblock %}
+{% block page_header %}
+    Procurement
+    <small>COMPLETENESS REPORT</small>
+{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:administration:index' %}">Administration</a></li>
+    <li class="active">Completeness Report: Procurement</li>
+{% endblock %}
+
+{% block content %}
+{#    CSS Hack here because Bootstrap hides the badges on print view #}
+    <style>
+        @media print {
+            .badge {
+                padding: 2px 6px;
+                border: 1px solid #000;
+                margin-right: 3em;c
+            }
+        }
+    </style>
+    <h2>Summary</h2>
+{#    <ul class="list-group">#}
+{#        <li class="list-group-item list-group-item-info">#}
+{#            Total number of Donors randomised#}
+{#            <span class="badge">{{ summary.full_count }}</span>#}
+{#        </li>#}
+{#        {% for key, value in summary.centres.items %}#}
+{#        <li class="list-group-item">#}
+{#            {{ value.code }} {{ value.name }}#}
+{#            <span class="badge">{{ value.count }}</span>#}
+{#        </li>#}
+{#        {% endfor %}#}
+{#    </ul>#}
+
+    <h2>Listing</h2>
+    </div> {# Escape the containiner #}
+
+    <table class="table table-condensed table-responsive">
+        <thead>
+        <tr>
+            <th>Trial ID</th>
+            <th>Metadata</th>
+            <th>Patient</th>
+            <th>Donor Details</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for donor in listing %}
+            <tr>
+                <td>
+                    <a href="{% url 'wp4:compare:procurement_detail' donor.id %}" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-edit"></i>
+                        {{ donor.trial_id }}
+                    </a>
+                    {% if request.user.is_staff %}
+                        <a href="{% url 'admin:compare_donor_change' donor.id %}"><i class="glyphicon glyphicon-briefcase"></i></a>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if donor.admin_notes|length > 0 %}
+                        <i class="glyphicon glyphicon-bullhorn text-info" title="{{ donor.admin_notes }}"></i>
+                    {% endif %}
+                    {% if donor.multiple_recipients != None %}
+                        <i class="glyphicon glyphicon-ok text-success" title="Present: {{ donor.get_multiple_recipients_display }}"></i>
+                    {% else %}
+                        <i class="glyphicon glyphicon-remove text-danger" title="Missing"></i>
+                    {% endif %}
+
+                    <i class="glyphicon glyphicon-info-sign text-info" title="{{ donor.get_not_randomised_because_display }}"></i>
+                    <i class="glyphicon glyphicon-info-sign text-info" title="{{ donor.not_randomised_because_other }}"></i>
+
+                    {% if donor.procurement_form_completed == True %}
+                        <i class="glyphicon glyphicon-ok text-success" title="Yes"></i>
+                    {% else %}
+                        <i class="glyphicon glyphicon-question-sign text-warning" title="No"></i>
+                    {% endif %}
+                    {% if donor.record_locked == True %}
+                        <i class="glyphicon glyphicon-ok text-success" title="Yes"></i>
+                    {% else %}
+                        <i class="glyphicon glyphicon-question-sign text-warning" title="No"></i>
+                    {% endif %}
+
+                </td>
+                <td>
+                    {% if donor.person.number|length > 0 %}
+                        <i class="glyphicon glyphicon-ok text-success" title="Present: {{ donor.person.number }}"></i>
+                    {% else %}
+                        <i class="glyphicon glyphicon-remove text-danger" title="Missing"></i>
+                    {% endif %}
+
+                    {% if donor.person.date_of_birth %}
+                        <i class="glyphicon glyphicon-ok text-success" title="Present: {{ donor.person.date_of_birth }}"></i>
+                    {% elif donor.person.date_of_birth_unknown %}
+                        <i class="glyphicon glyphicon-ok text-info" title="Marked Unknown"></i>
+                    {% else %}
+                        <i class="glyphicon glyphicon-remove text-danger" title="Missing"></i>
+                    {% endif %}
+
+                    {% if donor.person.weight > 0 %}
+                        <i class="glyphicon glyphicon-ok text-success" title="Present: {{ donor.person.weight }}"></i>
+                    {% else %}
+                        <i class="glyphicon glyphicon-remove text-danger" title="Missing"></i>
+                    {% endif %}
+
+                    {% if donor.person.height > 0 %}
+                        <i class="glyphicon glyphicon-ok text-success" title="Present: {{ donor.person.height }}"></i>
+                    {% else %}
+                        <i class="glyphicon glyphicon-remove text-danger" title="Missing"></i>
+                    {% endif %}
+
+                    {% if donor.person.ethnicity > 0 %}
+                        <i class="glyphicon glyphicon-ok text-success" title="Present: {{ donor.person.get_ethnicity_display }}"></i>
+                    {% else %}
+                        <i class="glyphicon glyphicon-remove text-danger" title="Missing"></i>
+                    {% endif %}
+
+                    {% if donor.person.blood_group > 0 %}
+                        <i class="glyphicon glyphicon-ok text-success" title="Present: {{ donor.person.get_blood_group_display }}"></i>
+                    {% else %}
+                        <i class="glyphicon glyphicon-remove text-danger" title="Missing"></i>
+                    {% endif %}
+                </td>
+
+                <td>
+                    {% if donor.age > 0 %}
+                        <i class="glyphicon glyphicon-ok text-success" title="Present: {{ donor.age }}"></i>
+                    {% else %}
+                        <i class="glyphicon glyphicon-remove text-danger" title="Missing"></i>
+                    {% endif %}
+
+                    {% if donor.date_of_admission %}
+                        <i class="glyphicon glyphicon-ok text-success" title="Present: {{ donor.date_of_admission }}"></i>
+                    {% elif donor.date_of_admission_unknown %}
+                        <i class="glyphicon glyphicon-ok text-info" title="Marked Unknown"></i>
+                    {% else %}
+                        <i class="glyphicon glyphicon-remove text-danger" title="Missing"></i>
+                    {% endif %}
+
+                    {% if donor.admitted_to_itu == True %}
+                        <i class="glyphicon glyphicon-ok text-success" title="Yes"></i>
+                    {% else %}
+                        <i class="glyphicon glyphicon-question-sign text-warning" title="No"></i>
+                    {% endif %}
+
+                    {% if donor.date_admitted_to_itu %}
+                        <i class="glyphicon glyphicon-ok text-success" title="Present: {{ donor.date_admitted_to_itu }}"></i>
+                    {% elif donor.date_admitted_to_itu_unknown %}
+                        <i class="glyphicon glyphicon-ok text-info" title="Marked Unknown"></i>
+                    {% else %}
+                        <i class="glyphicon glyphicon-remove text-danger" title="Missing"></i>
+                    {% endif %}
+
+                    {% if donor.date_of_procurement %}
+                        <i class="glyphicon glyphicon-ok text-success" title="Present: {{ donor.date_of_procurement }}"></i>
+                    {% else %}
+                        <i class="glyphicon glyphicon-remove text-danger" title="Missing"></i>
+                    {% endif %}
+
+                    {% if donor.other_organs_procured == True %}
+                        <i class="glyphicon glyphicon-ok text-info" title="Yes"></i>
+                    {% else %}
+                        <i class="glyphicon glyphicon-remove text-info" title="No"></i>
+                    {% endif %}
+
+                    {% if donor.other_organs_lungs == True %}
+                        <i class="glyphicon glyphicon-ok text-info" title="Yes"></i>
+                    {% else %}
+                        <i class="glyphicon glyphicon-remove text-info" title="No"></i>
+                    {% endif %}
+
+                    {% if donor.other_organs_pancreas == True %}
+                        <i class="glyphicon glyphicon-ok text-info" title="Yes"></i>
+                    {% else %}
+                        <i class="glyphicon glyphicon-remove text-info" title="No"></i>
+                    {% endif %}
+
+                    {% if donor.other_organs_liver == True %}
+                        <i class="glyphicon glyphicon-ok text-info" title="Yes"></i>
+                    {% else %}
+                        <i class="glyphicon glyphicon-remove text-info" title="No"></i>
+                    {% endif %}
+
+                    {% if donor.other_organs_tissue == True %}
+                        <i class="glyphicon glyphicon-ok text-info" title="Yes"></i>
+                    {% else %}
+                        <i class="glyphicon glyphicon-remove text-info" title="No"></i>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="container"> {# return the container #}
+{% endblock %}
+

@@ -45,7 +45,7 @@ class Donor(AuditControlModelBase):
         (1, _("DOc10 Donor not proceeding")),
         (2, _("DOc11 One or more kidneys allocated to non-trial location")),
         (3, _("DOc12 Kidneys not allocated")),
-        (4, _("DOc13 Kidneys not transplanable")),
+        (4, _("DOc13 Kidneys not transplantable")),
         (5, _("DOc14 Other")),
     )  #: Donor not_randomised_because choices
     multiple_recipients = models.PositiveSmallIntegerField(

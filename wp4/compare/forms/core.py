@@ -96,8 +96,10 @@ class DonorStartForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(DonorStartForm, self).__init__(*args, **kwargs)
-        self.fields['retrieval_team'].choices = []  # Can default to empty list because autocomplete will query
-        self.fields['perfusion_technician'].choices = []  # Can default to empty list because autocomplete will query
+        # Shortcutting the choices has been superceded by changes in DAL 3.2.4 (which throws an error when it
+        # can't find a queryset in the choices list)
+        # self.fields['retrieval_team'].choices = []  # Can default to empty list because autocomplete will query
+        # self.fields['perfusion_technician'].choices = []  # Can default to empty list because autocomplete will query
         self.fields['gender'].label = Patient._meta.get_field("gender").verbose_name.title()
         self.fields['gender'].choices = Patient.GENDER_CHOICES
         self.fields['online'].required = False
