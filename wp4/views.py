@@ -30,14 +30,14 @@ def dashboard_index(request):
 
 @login_required
 def dashboard_changelog(request):
-    file_path = settings.ROOT_DIR + 'docs/source/changelog.md'
+    file_path = settings.ROOT_DIR + 'docs/changelog.md'
     with open(str(file_path), 'r') as markdown_file:
         document = markdown_file.read()
         return render(request, 'dashboard/changelog.html', {'document': document})
 
 
 def dashboard_usermanual(request):
-    file_path = settings.ROOT_DIR + 'docs/source/user_manual.md'
+    file_path = settings.ROOT_DIR + 'docs/user_manual.md'
     with open(str(file_path), 'r') as markdown_file:
         document = markdown_file.read()
         return render(request, 'dashboard/user_manual.html', {'document': document})
