@@ -50,6 +50,58 @@ def offline_europe_list(request):
     )
 
 
+@group_required(Person.CENTRAL_COORDINATOR)
+def demographics_data_linkage(request):
+    listing = Donor.objects.all().\
+        select_related('_left_kidney').\
+        select_related('_right_kidney').\
+        order_by('trial_id')
+
+    summary = {
+        "donors" : {
+            "total": 0,
+            "eligibility": {
+                # Eligibilty counts
+                0: 0,
+                1: 0,
+                2: 0,
+                "not_randomised": 0
+            },
+            "p_forms_completed": 0
+        },
+        "kidneys": {
+            "total": 0,
+            "transplantable": {
+                "total": 0,
+                "left": 0,
+                "right": 0
+            },
+            "allocated": {
+                "total": 0,
+                "left": 0,
+                "right": 0
+            },
+        },
+        "recipients": {
+            "total": 0,
+            "left": 0,
+            "right": 0,
+            "t_forms_theoretical": 0,
+            "t_forms_started": 0,
+            "t_forms_completed": 0
+        },
+    }
+
+    return render(
+        request,
+        'administration/demographics.html',
+        {
+            'listing': listing,
+            'summary': summary
+        }
+    )
+
+
 @login_required
 def procurement_pairs(request):
     current_person = request.user

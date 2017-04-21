@@ -42,6 +42,12 @@ urlpatterns = [
         name='uk_list'
     ),
     url(
+        regex=r'^demographics/data-linkage$',
+        view=administrator.demographics_data_linkage,
+        name='demographics_data_linkage'
+    ),
+
+    url(
         regex=r'^procurement-pairs$',
         view=administrator.procurement_pairs,
         name='procurement_pairs'
