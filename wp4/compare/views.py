@@ -125,7 +125,7 @@ def procurement_list(request):
 
             update_trial_ids_and_save(donor)  # This will do the saving of the donor and both kidneys
 
-            return redirect(reverse('wp4:compare:procurement_detail', kwargs={'pk': donor.id}))
+            return redirect(reverse('wp4:compare:procurement_form', kwargs={'pk': donor.id}))
         else:
             print("DEBUG: donor form errors: %s" % donor_form.errors)
 
@@ -360,6 +360,42 @@ def procurement_form(request, pk):
         }
     )
 
+
+@login_required
+def procurement_view(request, pk):
+    """
+    Display the contents of a procurement form, with respect to investigator permissions and data completeness checks
+    
+    :param request: 
+    :param pk: Donor ID
+    :return: 
+    """
+
+    donor = get_object_or_404(Donor, pk=int(pk))
+
+    donor_sample_events = Event.objects.filter(
+        Q(bloodsample__person__id=donor.person.id) |
+        Q(urinesample__person__id=donor.person.id)
+    )
+    left_organ_sample_events = Event.objects.filter(
+        Q(perfusatesample__organ__id=donor.left_kidney.id) |
+        Q(tissuesample__organ__id=donor.left_kidney.id)
+    )
+    right_organ_sample_events = Event.objects.filter(
+        Q(perfusatesample__organ__id=donor.right_kidney.id) |
+        Q(tissuesample__organ__id=donor.right_kidney.id)
+    )
+
+    return render(
+        request=request,
+        template_name="compare/procurement_view.html",
+        context={
+            "donor": donor,
+            "donor_sample_events": donor_sample_events,
+            "left_organ_sample_events": left_organ_sample_events,
+            "right_organ_sample_events": right_organ_sample_events,
+        }
+    )
 
 @login_required
 def transplantation_list(request):

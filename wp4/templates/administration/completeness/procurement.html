@@ -54,7 +54,7 @@
         {% for donor in listing %}
             <tr>
                 <td>
-                    <a href="{% url 'wp4:compare:procurement_detail' donor.id %}" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-edit"></i>
+                    <a href="{% url 'wp4:compare:procurement_form' donor.id %}" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-edit"></i>
                         {{ donor.trial_id }}
                     </a>
                     {% if request.user.is_staff %}

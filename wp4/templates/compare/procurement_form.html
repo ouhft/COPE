@@ -17,7 +17,7 @@
 
 
 {% block content %}
-    <form method="post" action="{% url 'wp4:compare:procurement_detail' pk=donor.id %}" class=""
+    <form method="post" action="{% url 'wp4:compare:procurement_form' pk=donor.id %}" class=""
           id="procurement_form">
         <div class="panel {% if donor.is_randomised %}panel-info{% else %}panel-primary{% endif %}"
              style="margin-top: 10px;">

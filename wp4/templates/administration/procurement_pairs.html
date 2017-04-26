@@ -55,7 +55,7 @@
                 {% if request.user.is_staff %}
                     <a href="{% url 'admin:compare_donor_change' row.id %}"><i class="glyphicon glyphicon-briefcase"></i></a>
                 {% endif %}
-                <a href="{% url 'wp4:compare:procurement_detail' row.id %}">{{ row.trial_id }}</a>
+                <a href="{% url 'wp4:compare:procurement_form' row.id %}">{{ row.trial_id }}</a>
             </td>
             <td>{{ row.retrieval_team.based_at }}</td>
             <td>{{ row.randomisation.allocated_on }}</td>

@@ -31,7 +31,7 @@
                 {% crispy worksheet_form %}
             </div>
             {% if worksheet_form.instance.person.is_donor %}
-                <p><a href="{% url 'wp4:compare:procurement_detail' pk=worksheet_form.instance.person.donor.id %}"
+                <p><a href="{% url 'wp4:compare:procurement_form' pk=worksheet_form.instance.person.donor.id %}"
                       class="btn btn-default">Go to Procurement Record for {{ worksheet_form.instance.person }}</a></p>
             {% else %}
                 <p>

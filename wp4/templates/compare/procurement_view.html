@@ -1,0 +1,441 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+{% load theme_tags %}
+
+{% block page_title %}Case {{ donor.trial_id }} - Procurement{% endblock %}
+{% block page_header %}
+    Procurement
+    <small>Case: {{ donor.trial_id }}</small>
+{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:compare:procurement_list' %}">Procurement</a></li>
+    <li class="active">View Case</li>
+{% endblock %}
+
+
+{% block content %}
+        <div class="panel {% if donor.is_randomised %}panel-info{% else %}panel-primary{% endif %}"
+             style="margin-top: 10px;">
+            <div class="panel-heading" role="tab" id="collapseListGroupHeading1">
+                <h3 class="panel-title">
+                    <a class="" role="button" data-toggle="collapse" href="#collapseListGroup1"
+                       aria-expanded="{% if donor.is_randomised %}false{% else %}true{% endif %}"
+                       aria-controls="collapseListGroup1">
+                        To be eligible for this trial the Donor must satisfy the following conditions...<span class="caret"></span>
+                    </a>
+                </h3>
+            </div>
+            <div id="collapseListGroup1" class="panel-collapse collapse {% if not donor.is_randomised %}in{% endif %}"
+                 role="tabpanel"
+                 aria-labelledby="collapseListGroupHeading1"
+                 aria-expanded="{% if donor.is_randomised %}false{% else %}true{% endif %}" style="">
+                <ul class="list-group" id="eligibility-list">
+                    <li class="list-group-item list-group-item-success">
+                        DCD III
+                    </li>
+                    <li class="list-group-item list-group-item-success">
+                        50 years old or more (is {{ donor.age }})
+                    </li>
+                    <li class="list-group-item list-group-item-{{ donor.left_kidney.transplantable|yesno:"success,danger,warning" }}" id="randomise-left-kidney">
+                        Left Kidney transplantable
+                    </li>
+                    <li class="list-group-item list-group-item-{{ donor.right_kidney.transplantable|yesno:"success,danger,warning" }}" id="randomise-right-kidney">
+                        Right Kidney transplantable
+                    </li>
+                    <li class="list-group-item list-group-item-{% if donor.multiple_recipients == 1 %}success{% elif donor.multiple_recipients == 0 %}danger{% else %}warning{% endif %}" id="randomise-recipients">
+                        Two separate recipients
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="tab-content">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+                <li role="presentation" class="">
+                    <a href="#leftkidney" aria-controls="leftkidney" role="tab" data-toggle="tab" id="leftkidneytab">Left Kidney</a>
+                </li>
+                <li role="presentation" class="active">
+                    <a href="#donor" aria-controls="donor" role="tab" data-toggle="tab" id="donortab">Donor</a>
+                </li>
+                <li role="presentation" class="">
+                    <a href="#rightkidney" aria-controls="rightkidney" role="tab" data-toggle="tab"
+                       id="rightkidneytab">Right Kidney</a>
+                </li>
+                <li role="presentation" class="">
+                    <a href="#samples" aria-controls="samples" role="tab" data-toggle="tab"
+                       id="samplestab">Samples</a>
+                </li>
+            </ul>
+            <!-- Tab panes -->
+            <div role="tabpanel" class="tab-pane fade in active" id="donor">
+                <h2 class="sr-only visible-print">Donor</h2>
+
+                <div class="row">
+                    <div class="col-md-4" style="padding-top: 1em;">
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><h3 class="panel-title">Patient Description</h3></div>
+                            <div class="panel-body" style="padding: 0 1.2em;">
+                                <dl>
+                                    <dt>{% get_verbose_field_name donor.person "number" %}</dt>
+                                    <dd>{{ donor.person.number|default:"Missing" }}</dd>
+                                    <dt>{% get_verbose_field_name donor.person "date_of_birth" %}</dt>
+                                    <dd>
+                                        {% if donor.person.date_of_birth_unknown %}
+                                        Unknown
+                                        {% else %}
+                                        {{ donor.person.date_of_birth|date:"D d M Y"|default:"Missing" }}
+                                        {% endif %}
+                                    </dd>
+                                    <dt>{% get_verbose_field_name donor.person "gender" %}</dt>
+                                    <dd>{{ donor.person.get_gender_display|default:"Missing" }}</dd>
+                                    <dt>{% get_verbose_field_name donor.person "weight" %}</dt>
+                                    <dd>{{ donor.person.weight|default:"Missing" }}</dd>
+                                    <dt>{% get_verbose_field_name donor.person "height" %}</dt>
+                                    <dd>{{ donor.person.height|default:"Missing" }}</dd>
+                                    <dt>{% get_verbose_field_name donor.person "ethnicity" %}</dt>
+                                    <dd>{{ donor.person.get_ethnicity_display|default:"Missing" }}</dd>
+                                    <dt>{% get_verbose_field_name donor.person "blood_group" %}</dt>
+                                    <dd>{{ donor.person.get_blood_group_display|default:"Missing" }}</dd>
+
+                                </dl>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Donor Details</h3>
+                            </div>
+                            <div class="panel-body" style="padding: 0 1.2em;">
+                                <dl>
+                                    <dt>{% get_verbose_field_name donor "age" %}</dt>
+                                    <dd>{{ donor.age }}</dd>
+                                    <dt>{% get_verbose_field_name donor "date_of_admission" %}</dt>
+                                    <dd>
+                                        {% if donor.date_of_admission_unknown %}
+                                        Unknown
+                                        {% else %}
+                                        {{ donor.date_of_admission|date:"D d M Y"|default:"Missing" }}
+                                        {% endif %}
+                                    </dd>
+
+                                    <dt>{% get_verbose_field_name donor "admitted_to_itu" %}</dt>
+                                    <dd>{{ donor.admitted_to_itu|default_if_none:"Unanswered" }}</dd>
+                                    <dt>{% get_verbose_field_name donor "date_admitted_to_itu" %}</dt>
+                                    <dd>
+                                        {% if donor.date_admitted_to_itu_unknown %}
+                                        Unknown
+                                        {% else %}
+                                        {{ donor.date_admitted_to_itu|date:"D d M Y"|default:"Missing" }}
+                                        {% endif %}
+                                    </dd>
+
+                                    <dt>{% get_verbose_field_name donor "date_of_procurement" %}</dt>
+                                    <dd>{{ donor.date_of_procurement|date:"D d M Y"|default:"Missing" }}</dd>
+
+
+                                    <dt>{% get_verbose_field_name donor "other_organs_procured" %}</dt>
+                                    <dd>{{ donor.other_organs_procured|yesno|default_if_none:"unanswered"|capfirst }}</dd>
+                                    <dt>{% get_verbose_field_name donor "other_organs_lungs" %}</dt>
+                                    <dd>{{ donor.other_organs_lungs|yesno|default_if_none:"unanswered"|capfirst }}</dd>
+                                    <dt>{% get_verbose_field_name donor "other_organs_pancreas" %}</dt>
+                                    <dd>{{ donor.other_organs_pancreas|yesno|default_if_none:"unanswered"|capfirst }}</dd>
+                                    <dt>{% get_verbose_field_name donor "other_organs_liver" %}</dt>
+                                    <dd>{{ donor.other_organs_liver|yesno|default_if_none:"unanswered"|capfirst }}</dd>
+                                    <dt>{% get_verbose_field_name donor "other_organs_tissue" %}</dt>
+                                    <dd>{{ donor.other_organs_tissue|yesno|default_if_none:"unanswered"|capfirst }}</dd>
+                                </dl>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-4" style="padding-top: 1em;">
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><h3 class="panel-title">Procedure Data</h3></div>
+                            <div class="panel-body" style="padding: 0 1.2em;">
+                                <dl>
+                                    <dt>{% get_verbose_field_name donor "retrieval_team" %}</dt>
+                                    <dd>{{ donor.retrieval_team|default:"Missing" }}</dd>
+                                    <dt>{% get_verbose_field_name donor "sequence_number" %}</dt>
+                                    <dd>{{ donor.sequence_number|default:"Missing" }}</dd>
+                                    <dt>{% get_verbose_field_name donor "perfusion_technician" %}</dt>
+                                    <dd>{{ donor.perfusion_technician|default:"Missing" }}</dd>
+                                    <dt>{% get_verbose_field_name donor "transplant_coordinator" %}</dt>
+                                    <dd>{{ donor.transplant_coordinator|default:"Missing" }}</dd>
+                                    <dt>{% get_verbose_field_name donor "call_received" %}</dt>
+                                    <dd>
+                                        {% if donor.call_received_unknown %}
+                                        Unknown
+                                        {% else %}
+                                        {{ donor.call_received|default:"Missing" }}
+                                        {% endif %}
+                                    </dd>
+                                    <dt>{% get_verbose_field_name donor "retrieval_hospital" %}</dt>
+                                    <dd>{{ donor.retrieval_hospital|default:"Missing" }}</dd>
+
+                                    <dt>{% get_verbose_field_name donor "scheduled_start" %}</dt>
+                                    <dd>
+                                        {% if donor.scheduled_start_unknown %}
+                                        Unknown
+                                        {% else %}
+                                        {{ donor.scheduled_start|default:"Missing" }}
+                                        {% endif %}
+                                    </dd>
+                                    <dt>{% get_verbose_field_name donor "technician_arrival" %}</dt>
+                                    <dd>
+                                        {% if donor.technician_arrival_unknown %}
+                                        Unknown
+                                        {% else %}
+                                        {{ donor.technician_arrival|default:"Missing" }}
+                                        {% endif %}
+                                    </dd>
+                                    <dt>{% get_verbose_field_name donor "ice_boxes_filled" %}</dt>
+                                    <dd>
+                                        {% if donor.ice_boxes_filled_unknown %}
+                                        Unknown
+                                        {% else %}
+                                        {{ donor.ice_boxes_filled|default:"Missing" }}
+                                        {% endif %}
+                                    </dd>
+                                    <dt>{% get_verbose_field_name donor "depart_perfusion_centre" %}</dt>
+                                    <dd>
+                                        {% if donor.depart_perfusion_centre_unknown %}
+                                        Unknown
+                                        {% else %}
+                                        {{ donor.depart_perfusion_centre|default:"Missing" }}
+                                        {% endif %}
+                                    </dd>
+                                    <dt>{% get_verbose_field_name donor "arrival_at_donor_hospital" %}</dt>
+                                    <dd>
+                                        {% if donor.arrival_at_donor_hospital_unknown %}
+                                        Unknown
+                                        {% else %}
+                                        {{ donor.arrival_at_donor_hospital|default:"Missing" }}
+                                        {% endif %}
+                                    </dd>
+                                    <dt>{% get_verbose_field_name donor "multiple_recipients" %}</dt>
+                                    <dd>{{ donor.get_multiple_recipients_display }}</dd>
+
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><h3 class="panel-title">Donor Procedure</h3></div>
+                            <div class="panel-body" style="padding: 0 1.2em;">
+                                <dl>
+                                    <dt>{% get_verbose_field_name donor "life_support_withdrawal" %}</dt>
+                                    <dd>{{ donor.life_support_withdrawal|default:"Missing" }}</dd>
+                                    <dt>{% get_verbose_field_name donor "systolic_pressure_low" %}</dt>
+                                    <dd>
+                                        {% if donor.systolic_pressure_low_unknown %}
+                                        Unknown
+                                        {% else %}
+                                        {{ donor.systolic_pressure_low|default:"Missing" }}
+                                        {% endif %}
+                                    </dd>
+                                    <dt>{% get_verbose_field_name donor "o2_saturation" %}</dt>
+                                    <dd>
+                                        {% if donor.o2_saturation_unknown %}
+                                        Unknown
+                                        {% else %}
+                                        {{ donor.o2_saturation|default:"Missing" }}
+                                        {% endif %}
+                                    </dd>
+                                    <dt>{% get_verbose_field_name donor "circulatory_arrest" %}</dt>
+                                    <dd>
+                                        {% if donor.circulatory_arrest_unknown %}
+                                        Unknown
+                                        {% else %}
+                                        {{ donor.circulatory_arrest|default:"Missing" }}
+                                        {% endif %}
+                                    </dd>
+                                    <dt>{% get_verbose_field_name donor "length_of_no_touch" %}</dt>
+                                    <dd>{{ donor.length_of_no_touch|default:"Missing" }}</dd>
+                                    <dt>{% get_verbose_field_name donor "death_diagnosed" %}</dt>
+                                    <dd>{{ donor.death_diagnosed|default:"Missing" }}</dd>
+
+                                    <dt>{% get_verbose_field_name donor "perfusion_started" %}</dt>
+                                    <dd>
+                                        {% if donor.perfusion_started_unknown %}
+                                        Unknown
+                                        {% else %}
+                                        {{ donor.perfusion_started|default:"Missing" }}
+                                        {% endif %}
+                                    </dd>
+                                    <dt>{% get_verbose_field_name donor "systemic_flush_used" %}</dt>
+                                    <dd>{{ donor.get_systemic_flush_used_display|default:"Missing" }}</dd>
+                                    <dt>{% get_verbose_field_name donor "systemic_flush_used_other" %}</dt>
+                                    <dd>{{ donor.systemic_flush_used_other|default:"Missing" }}</dd>
+                                    <dt>{% get_verbose_field_name donor "systemic_flush_volume_used" %}</dt>
+                                    <dd>{{ donor.systemic_flush_volume_used|default:"Missing" }}</dd>
+                                    <dt>{% get_verbose_field_name donor "heparin" %}</dt>
+                                    <dd>{{ donor.get_heparin_display|default:"Missing" }}</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4" style="padding-top: 1em;">
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><h3 class="panel-title">Donor Preop Data</h3></div>
+                            <div class="panel-body" style="padding: 0 1.2em;">
+                                <dl>
+                                    <dt>{% get_verbose_field_name donor "diagnosis" %}</dt>
+                                    <dd>{{ donor.get_diagnosis_display|default:"Missing" }}</dd>
+                                    <dt>{% get_verbose_field_name donor "diagnosis_other" %}</dt>
+                                    <dd>{{ donor.diagnosis_other|default:"Missing" }}</dd>
+                                    <dt>{% get_verbose_field_name donor "diabetes_melitus" %}</dt>
+                                    <dd>{{ donor.diabetes_melitus|default:"Missing" }}</dd>
+                                    <dt>{% get_verbose_field_name donor "alcohol_abuse" %}</dt>
+                                    <dd>{{ donor.alcohol_abuse|default:"Missing" }}</dd>
+                                    <dt>{% get_verbose_field_name donor "cardiac_arrest" %}</dt>
+                                    <dd>{{ donor.cardiac_arrest|default:"Missing" }}</dd>
+                                    <dt>{% get_verbose_field_name donor "systolic_blood_pressure" %}</dt>
+                                    <dd>{{ donor.systolic_blood_pressure|default:"Missing" }}</dd>
+                                    <dt>{% get_verbose_field_name donor "diastolic_blood_pressure" %}</dt>
+                                    <dd>{{ donor.diastolic_blood_pressure|default:"Missing" }}</dd>
+
+                                    <dt>{% get_verbose_field_name donor "diuresis_last_day" %}</dt>
+                                    <dd>
+                                        {% if donor.diuresis_last_day_unknown %}
+                                        Unknown
+                                        {% else %}
+                                        {{ donor.diuresis_last_day|default:"Missing" }}
+                                        {% endif %}
+                                    </dd>
+                                    <dt>{% get_verbose_field_name donor "diuresis_last_hour" %}</dt>
+                                    <dd>
+                                        {% if donor.diuresis_last_hour_unknown %}
+                                        Unknown
+                                        {% else %}
+                                        {{ donor.diuresis_last_hour|default:"Missing" }}
+                                        {% endif %}
+                                    </dd>
+
+                                    <dt>{% get_verbose_field_name donor "dopamine" %}</dt>
+                                    <dd>{{ donor.dopamine|default:"Missing" }}</dd>
+                                    <dt>{% get_verbose_field_name donor "dobutamine" %}</dt>
+                                    <dd>{{ donor.dobutamine|default:"Missing" }}</dd>
+                                    <dt>{% get_verbose_field_name donor "nor_adrenaline" %}</dt>
+                                    <dd>{{ donor.nor_adrenaline|default:"Missing" }}</dd>
+                                    <dt>{% get_verbose_field_name donor "vasopressine" %}</dt>
+                                    <dd>{{ donor.vasopressine|default:"Missing" }}</dd>
+                                    <dt>{% get_verbose_field_name donor "other_medication_details" %}</dt>
+                                    <dd>{{ donor.other_medication_details|default:"Missing" }}</dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><h3 class="panel-title">Lab Results</h3></div>
+                            <div class="panel-body" style="padding: 0 1.2em;">
+                                <dl>
+
+                                    <dt>{% get_verbose_field_name donor "last_creatinine" %}</dt>
+                                    <dd>{{ donor.last_creatinine|default:"Missing" }} {{ donor.last_creatinine_unit|default:"Missing" }}</dd>
+                                    <dt>{% get_verbose_field_name donor "max_creatinine" %}</dt>
+                                    <dd>{{ donor.max_creatinine|default:"Missing" }} {{ donor.max_creatinine_unit|default:"Missing" }}</dd>
+
+                                </dl>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="leftkidney">
+                <h2 class="sr-only visible-print">Left Kidney</h2>
+                {% with organ=donor.left_kidney %}
+                <div class="row" style="padding-top: 1em;">
+                    <div class="col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><h3 class="panel-title">Inspection</h3></div>
+                            <div class="panel-body" style="padding: 0 1.2em;">
+                                <dl>
+                                    <dt>{% get_verbose_field_name organ "transplantable" %}</dt>
+                                    <dd>{{ organ.get_transplantable_display|default:"Missing" }}</dd>
+                                    <dt>{% get_verbose_field_name organ "not_transplantable_reason" %}</dt>
+                                    <dd>{{ organ.not_transplantable_reason|default:"Missing" }}</dd>
+
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><h3 class="panel-title">Lab Results</h3></div>
+                            <div class="panel-body" style="padding: 0 1.2em;">
+                                <dl>
+
+
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><h3 class="panel-title">Lab Results</h3></div>
+                            <div class="panel-body" style="padding: 0 1.2em;">
+                                <dl>
+
+
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endwith %}
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="rightkidney">
+                <h2 class="sr-only visible-print">Right Kidney</h2>
+
+                <div class="row" style="padding-top: 1em;">
+                    <div class="col-md-4">
+
+                    </div>
+                    <div class="col-md-4">
+                        {{ donor.right_kidney }}
+                    </div>
+                    <div class="col-md-4">
+
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="samples">
+                <h2 class="sr-only visible-print">Samples</h2>
+
+                <p class="alert alert-warning">Please ensure you have successfully saved before clicking on any links below</p>
+
+                <h3>Donor Samples</h3>
+                {% for event in donor_sample_events %}
+                    {% include "samples/event_detail_panel.html" with event=event %}
+                {% empty %}
+                    <p class="text-danger" style="margin-top: 1em;">No samples have been created for this Donor. Please report to Sys-Admin.</p>
+                {% endfor %}
+
+                <h3>Left Kidney Samples</h3>
+                {% for event in left_organ_sample_events %}
+                    {% include "samples/event_detail_panel.html" with event=event %}
+                {% empty %}
+                    <p class="text-danger" style="margin-top: 1em;">No samples have been created for this Kidney. Please report to Sys-Admin.</p>
+                {% endfor %}
+
+                <h3>Right Kidney Samples</h3>
+                {% for event in right_organ_sample_events %}
+                    {% include "samples/event_detail_panel.html" with event=event %}
+                {% empty %}
+                    <p class="text-danger" style="margin-top: 1em;">No samples have been created for this Kidney. Please report to Sys-Admin.</p>
+                {% endfor %}
+            </div>
+            {% csrf_token %}
+        </div>
+    </form>
+{% endblock %}
+
+
+{% block footer_nav %}
+{% endblock %}
+
+
+{% block footer_extra_scripts %}
+{% endblock %}
