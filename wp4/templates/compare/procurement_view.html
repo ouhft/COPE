@@ -78,29 +78,7 @@
                         <div class="panel panel-default">
                             <div class="panel-heading"><h3 class="panel-title">Patient Description</h3></div>
                             <div class="panel-body" style="padding: 0 1.2em;">
-                                <dl>
-                                    <dt>{% get_verbose_field_name donor.person "number" %}</dt>
-                                    <dd>{{ donor.person.number|default:"Missing" }}</dd>
-                                    <dt>{% get_verbose_field_name donor.person "date_of_birth" %}</dt>
-                                    <dd>
-                                        {% if donor.person.date_of_birth_unknown %}
-                                        Unknown
-                                        {% else %}
-                                        {{ donor.person.date_of_birth|date:"D d M Y"|default:"Missing" }}
-                                        {% endif %}
-                                    </dd>
-                                    <dt>{% get_verbose_field_name donor.person "gender" %}</dt>
-                                    <dd>{{ donor.person.get_gender_display|default:"Missing" }}</dd>
-                                    <dt>{% get_verbose_field_name donor.person "weight" %}</dt>
-                                    <dd>{{ donor.person.weight|default:"Missing" }}</dd>
-                                    <dt>{% get_verbose_field_name donor.person "height" %}</dt>
-                                    <dd>{{ donor.person.height|default:"Missing" }}</dd>
-                                    <dt>{% get_verbose_field_name donor.person "ethnicity" %}</dt>
-                                    <dd>{{ donor.person.get_ethnicity_display|default:"Missing" }}</dd>
-                                    <dt>{% get_verbose_field_name donor.person "blood_group" %}</dt>
-                                    <dd>{{ donor.person.get_blood_group_display|default:"Missing" }}</dd>
-
-                                </dl>
+                                {% display_fields donor.person 'number' 'date_of_birth' 'gender' 'weight' 'height' 'ethnicity' 'blood_group' %}
                             </div>
                         </div>
 
@@ -109,43 +87,7 @@
                                 <h3 class="panel-title">Donor Details</h3>
                             </div>
                             <div class="panel-body" style="padding: 0 1.2em;">
-                                <dl>
-                                    <dt>{% get_verbose_field_name donor "age" %}</dt>
-                                    <dd>{{ donor.age }}</dd>
-                                    <dt>{% get_verbose_field_name donor "date_of_admission" %}</dt>
-                                    <dd>
-                                        {% if donor.date_of_admission_unknown %}
-                                        Unknown
-                                        {% else %}
-                                        {{ donor.date_of_admission|date:"D d M Y"|default:"Missing" }}
-                                        {% endif %}
-                                    </dd>
-
-                                    <dt>{% get_verbose_field_name donor "admitted_to_itu" %}</dt>
-                                    <dd>{{ donor.admitted_to_itu|default_if_none:"Unanswered" }}</dd>
-                                    <dt>{% get_verbose_field_name donor "date_admitted_to_itu" %}</dt>
-                                    <dd>
-                                        {% if donor.date_admitted_to_itu_unknown %}
-                                        Unknown
-                                        {% else %}
-                                        {{ donor.date_admitted_to_itu|date:"D d M Y"|default:"Missing" }}
-                                        {% endif %}
-                                    </dd>
-
-                                    <dt>{% get_verbose_field_name donor "date_of_procurement" %}</dt>
-                                    <dd>{{ donor.date_of_procurement|date:"D d M Y"|default:"Missing" }}</dd>
-
-
-                                    <dt>{% get_verbose_field_name donor "other_organs_procured" %}</dt>
-                                    <dd>{{ donor.other_organs_procured|yesno|default_if_none:"unanswered"|capfirst }}</dd>
-                                    <dt>{% get_verbose_field_name donor "other_organs_lungs" %}</dt>
-                                    <dd>{{ donor.other_organs_lungs|yesno|default_if_none:"unanswered"|capfirst }}</dd>
-                                    <dt>{% get_verbose_field_name donor "other_organs_pancreas" %}</dt>
-                                    <dd>{{ donor.other_organs_pancreas|yesno|default_if_none:"unanswered"|capfirst }}</dd>
-                                    <dt>{% get_verbose_field_name donor "other_organs_liver" %}</dt>
-                                    <dd>{{ donor.other_organs_liver|yesno|default_if_none:"unanswered"|capfirst }}</dd>
-                                    <dt>{% get_verbose_field_name donor "other_organs_tissue" %}</dt>
-                                    <dd>{{ donor.other_organs_tissue|yesno|default_if_none:"unanswered"|capfirst }}</dd>
+                                {% display_fields donor 'age' 'date_of_admission' 'admitted_to_itu' 'date_admitted_to_itu' 'date_of_procurement' 'other_organs_procured' 'other_organs_lungs' 'other_organs_pancreas' 'other_organs_liver' 'other_organs_tissue' %}
                                 </dl>
                             </div>
                         </div>
@@ -155,6 +97,8 @@
                         <div class="panel panel-default">
                             <div class="panel-heading"><h3 class="panel-title">Procedure Data</h3></div>
                             <div class="panel-body" style="padding: 0 1.2em;">
+                                {% display_fields donor 'retrieval_team' 'sequence_number' 'perfusion_technician' 'transplant_coordinator' 'call_received' 'retrieval_hospital' 'scheduled_start' 'technician_arrival' 'ice_boxes_filled' 'depart_perfusion_centre' 'arrival_at_donor_hospital' 'multiple_recipients' %}
+                            <hr>
                                 <dl>
                                     <dt>{% get_verbose_field_name donor "retrieval_team" %}</dt>
                                     <dd>{{ donor.retrieval_team|default:"Missing" }}</dd>

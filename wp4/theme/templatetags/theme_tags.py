@@ -8,6 +8,8 @@ import re
 from django import template
 from django.conf import settings
 from django.contrib.auth.models import Group
+from django.utils.html import format_html
+from django.db.models.options import FieldDoesNotExist
 
 import wp4
 
@@ -46,6 +48,62 @@ def get_verbose_field_name(instance, field_name):
     Returns verbose_name for a field.
     """
     return instance._meta.get_field(field_name).verbose_name
+
+
+@register.simple_tag
+def display_field(instance, field_name):
+    """
+    Takes a given model and field name and renders them for display in a definition list
+    :param instance: Model instance containing the field and data
+    :param field_name: Name of the model field that we want to display
+    :return: HTML String for output in template
+    """
+    field = instance._meta.get_field(field_name)
+    try:
+        field_unknown = instance._meta.get_field("{0}_unknown".format(field_name))
+    except FieldDoesNotExist:
+        field_unknown = None
+    html = format_html("<dt>{0}</dt>", field.verbose_name)
+    value = None
+
+    if field.choices is not None and len(field.choices) > 0:
+        # Look for fields with preset choices first and render the selected choice
+        print("DEBUG: display_field() choices={0}".format(field.choices))
+        value = getattr(instance, 'get_{0}_display'.format(field_name))()
+    elif field_unknown is not None:
+        # If this field has a paired Unknown field, use that as well
+        print("DEBUG: display_field() field_unknown={0}".format(field_unknown))
+    else:
+        # Otherwise assume this is a regular field with a value
+        value = getattr(instance, field_name)
+
+    print("DEBUG: display_field() value={0}".format(value))
+    # Translate the values into readable strings
+    if value is True:
+        value = "Yes"
+    elif value is False:
+        value = "No"
+    elif value is None or value == '':
+        value = "Missing"
+
+    #TODO: Add some date and datetime formatting cleanup - and also, dates are coming up as "Missing"
+
+    html += format_html("<dd>{0}<dd>", value)
+    return html
+
+
+@register.simple_tag
+def display_fields(instance, *fields):
+    """
+    Takes a given model and list of field names and renders them for display in a definition list
+    :param instance: Model instance containing the field and data
+    :param *fields: Name of the model field that we want to display
+    :return: HTML String for output in template
+    """
+    html = format_html("<dl>")
+    for field in fields:
+        html += display_field(instance, field)
+    return html + format_html("</dl>")
 
 
 # http://www.jw.pe/blog/post/using-markdown-django-17/
@@ -93,6 +151,7 @@ def selected_choice_text(field):
         if key == field.value():
             return value
     return ""
+
 
 @register.simple_tag
 def unflatten_attr(text):
