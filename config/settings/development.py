@@ -52,17 +52,24 @@ CACHES = {
 
 # django-debug-toolbar
 # ------------------------------------------------------------------------------
-MIDDLEWARE_CLASSES = ['debug_toolbar.middleware.DebugToolbarMiddleware', ] + MIDDLEWARE_CLASSES
-INSTALLED_APPS += ['debug_toolbar', 'template_profiler_panel']
+MIDDLEWARE_CLASSES = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+] + MIDDLEWARE_CLASSES
+INSTALLED_APPS += [
+    'debug_toolbar',
+    'template_profiler_panel'
+    # Disabled due to django 1.11 creating template timings that caused this profiler to
+    # explode with super huge page sizes and load times - https://github.com/jazzband/django-debug-toolbar/issues/910
+]
 
 INTERNAL_IPS = ('127.0.0.1',)
 
 DEBUG_TOOLBAR_CONFIG = {
     'DISABLE_PANELS': [
         'debug_toolbar.panels.redirects.RedirectsPanel',
+        'debug_toolbar.panels.templates.TemplatesPanel',
     ],
-    ''
-    'SHOW_TEMPLATE_CONTEXT': True,
+    'SHOW_TEMPLATE_CONTEXT': False,
 }
 DEBUG_TOOLBAR_PANELS = [
     'debug_toolbar.panels.versions.VersionsPanel',

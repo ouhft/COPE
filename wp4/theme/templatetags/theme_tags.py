@@ -4,12 +4,15 @@ import time
 import os
 import markdown
 import re
+import datetime
 
 from django import template
 from django.conf import settings
 from django.contrib.auth.models import Group
 from django.utils.html import format_html
+from django.utils.formats import localize
 from django.db.models.options import FieldDoesNotExist
+from django.template.defaultfilters import date
 
 import wp4
 
@@ -61,8 +64,10 @@ def display_field(instance, field_name):
     field = instance._meta.get_field(field_name)
     try:
         field_unknown = instance._meta.get_field("{0}_unknown".format(field_name))
+        field_unknown_value = getattr(instance, "{0}_unknown".format(field_name))
     except FieldDoesNotExist:
         field_unknown = None
+        field_unknown_value = False
     html = format_html("<dt>{0}</dt>", field.verbose_name)
     value = None
 
@@ -70,23 +75,26 @@ def display_field(instance, field_name):
         # Look for fields with preset choices first and render the selected choice
         print("DEBUG: display_field() choices={0}".format(field.choices))
         value = getattr(instance, 'get_{0}_display'.format(field_name))()
-    elif field_unknown is not None:
+    elif field_unknown and field_unknown_value is True:
         # If this field has a paired Unknown field, use that as well
         print("DEBUG: display_field() field_unknown={0}".format(field_unknown))
+        value = "Unknown"
     else:
         # Otherwise assume this is a regular field with a value
         value = getattr(instance, field_name)
 
-    print("DEBUG: display_field() value={0}".format(value))
+    print("DEBUG: display_field() {1} :value={0}".format(value, field_name))
     # Translate the values into readable strings
     if value is True:
         value = "Yes"
     elif value is False:
         value = "No"
+    elif isinstance(value, datetime.datetime):
+        value = localize(value)  # date(value, "D d M Y, P")
+    elif isinstance(value, datetime.date):
+        value = localize(value)  # date(value, "D d M Y")
     elif value is None or value == '':
         value = "Missing"
-
-    #TODO: Add some date and datetime formatting cleanup - and also, dates are coming up as "Missing"
 
     html += format_html("<dd>{0}<dd>", value)
     return html
