@@ -75,7 +75,7 @@ def transplant_per_centre(request):
             # }
             summary["allocation_count"] += 1
             try:
-                # if allocation.recipient is not None:
+                if allocation.recipient is not None:
                 # allocation_block["recipient_id"] = allocation.recipient.id
                 # allocation_block["recipient_number"] = allocation.recipient.person.number
                 # allocation_block["recipient_gender"] = allocation.recipient.person.get_gender_display()
@@ -83,7 +83,7 @@ def transplant_per_centre(request):
                 # allocation_block["recipient_consent"] = allocation.recipient.signed_consent
                 # allocation_block["recipient_single_kidney"] = allocation.recipient.single_kidney_transplant
                 # allocation_block["recipient_knife_to_skin"] = allocation.recipient.knife_to_skin
-                summary["recipient_count"] += 1
+                    summary["recipient_count"] += 1
             except Recipient.DoesNotExist:
                 pass
         #     data_block["allocations"].append(allocation_block)
