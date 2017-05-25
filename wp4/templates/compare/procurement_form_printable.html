@@ -1,0 +1,96 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_field %}
+
+{% block page_title %}Case {{ donor.trial_id }} - Procurement{% endblock %}
+{% block page_header %}
+    Procurement
+    <small>Case: {{ donor.trial_id }}</small>
+{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:compare:procurement_list' %}">Procurement</a></li>
+    <li class="active">View Case</li>
+{% endblock %}
+
+
+{% block content %}
+<h2>Donor</h2>
+
+<div class="row">
+    {% if person_form.non_field_errors or donor_form.non_field_errors %}
+        <div class="col-md-12" style="margin-top: 10px;">
+            {% for error in person_form.non_field_errors %}
+                <p class="alert alert-danger">{{ error }}</p>
+            {% endfor %}
+            {% for error in donor_form.non_field_errors %}
+                <p class="alert alert-danger">{{ error }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% crispy person_form %}
+    {% crispy donor_form %}
+</div>
+
+<h2>Left Kidney</h2>
+
+<div class="row">
+    {% if left_organ_form.non_field_errors or left_organ_procurement_forms.non_form_errors %}
+        <div class="col-md-12" style="margin-top: 10px;">
+            {% for error in left_organ_form.non_field_errors %}
+                <p class="alert alert-danger">{{ error }}</p>
+            {% endfor %}
+            {% for error in left_organ_procurement_forms.non_form_errors %}
+                <p class="alert alert-danger">{{ error }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% crispy left_organ_form %}
+    {% include "compare/snippets/procurement_resource_formset.html" with procurement_formset=left_organ_procurement_forms %}
+</div>
+
+<h2>Right Kidney</h2>
+
+<div class="row">
+    {% if right_organ_form.non_field_errors or right_organ_procurement_forms.non_form_errors %}
+        <div class="col-md-12" style="margin-top: 10px;">
+            {% for error in right_organ_form.non_field_errors %}
+                <p class="alert alert-danger">{{ error }}</p>
+            {% endfor %}
+            {% for error in right_organ_procurement_forms.non_form_errors %}
+                <p class="alert alert-danger">{{ error }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% crispy right_organ_form %}
+    {% include "compare/snippets/procurement_resource_formset.html" with procurement_formset=right_organ_procurement_forms %}
+</div>
+
+<h2>Samples</h2>
+
+<p class="alert alert-warning">Please ensure you have successfully saved before clicking on any links below</p>
+
+<h3>Donor Samples</h3>
+{% for event in donor_sample_events %}
+    {% include "samples/event_detail_panel.html" with event=event %}
+{% empty %}
+    <p class="text-danger" style="margin-top: 1em;">No samples have been created for this Donor. Please report to Sys-Admin.</p>
+{% endfor %}
+
+<h3>Left Kidney Samples</h3>
+{% for event in left_organ_sample_events %}
+    {% include "samples/event_detail_panel.html" with event=event %}
+{% empty %}
+    <p class="text-danger" style="margin-top: 1em;">No samples have been created for this Kidney. Please report to Sys-Admin.</p>
+{% endfor %}
+
+<h3>Right Kidney Samples</h3>
+{% for event in right_organ_sample_events %}
+    {% include "samples/event_detail_panel.html" with event=event %}
+{% empty %}
+    <p class="text-danger" style="margin-top: 1em;">No samples have been created for this Kidney. Please report to Sys-Admin.</p>
+{% endfor %}
+
+{% endblock %}

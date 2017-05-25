@@ -361,18 +361,52 @@ def procurement_form(request, pk):
     )
 
 
+@permission_required('compare.change_donor')
 @login_required
 def procurement_view(request, pk):
     """
-    Display the contents of a procurement form, with respect to investigator permissions and data completeness checks
-    
-    :param request: 
-    :param pk: Donor ID
-    :return: 
+    Display a procurement form for a given donor primary key that can be printed. No edit functionality needed here.
+    :param request:
+    :param pk: Donor ID. We get all related information from the donor record
+    :return:
     """
+    from crispy_forms.layout import Layout, HTML, Field, Div
 
     donor = get_object_or_404(Donor, pk=int(pk))
+    current_person = request.user
 
+    if donor.procurement_form_completed and not current_person.is_administrator:
+        messages.error(request, 'That case has been <strong>closed</strong>.')
+        return redirect(reverse('wp4:compare:procurement_list'))
+
+    # ================================================ DONOR
+    person_form = OrganPersonForm(None, None, instance=donor.person, prefix="donor-person")
+    person_form.helper.layout[1][0][1][0][1].wrap(css_class='text-danger')  # FIX THIS!!  TODO: YOU ARE HERE
+
+    donor_form = DonorForm(None, None, instance=donor, prefix="donor")
+
+    # ================================================ LEFT ORGAN
+    left_organ_instance = donor.left_kidney
+    # print("DEBUG: left_organ_instance=%s" % left_organ_instance)
+    left_organ_form = OrganForm(None, None, instance=left_organ_instance, prefix="left-organ")
+
+    left_organ_procurement_forms = ProcurementResourceLeftInlineFormSet(
+        request.POST or None,
+        prefix="left-organ-procurement",
+        instance=left_organ_instance
+    )
+
+    # =============================================== RIGHT ORGAN
+    right_organ_instance = donor.right_kidney
+    right_organ_form = OrganForm(None, None, instance=right_organ_instance, prefix="right-organ")
+
+    right_organ_procurement_forms = ProcurementResourceRightInlineFormSet(
+        request.POST or None,
+        prefix="right-organ-procurement",
+        instance=right_organ_instance
+    )
+
+    # =============================================== SAMPLES
     donor_sample_events = Event.objects.filter(
         Q(bloodsample__person__id=donor.person.id) |
         Q(urinesample__person__id=donor.person.id)
@@ -388,14 +422,21 @@ def procurement_view(request, pk):
 
     return render(
         request=request,
-        template_name="compare/procurement_view.html",
+        template_name="compare/procurement_form_printable.html",
         context={
+            "person_form": person_form,
+            "donor_form": donor_form,
+            "left_organ_form": left_organ_form,
+            "left_organ_procurement_forms": left_organ_procurement_forms,
+            "right_organ_form": right_organ_form,
+            "right_organ_procurement_forms": right_organ_procurement_forms,
             "donor": donor,
             "donor_sample_events": donor_sample_events,
             "left_organ_sample_events": left_organ_sample_events,
             "right_organ_sample_events": right_organ_sample_events,
         }
     )
+
 
 @login_required
 def transplantation_list(request):
