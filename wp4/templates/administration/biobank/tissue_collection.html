@@ -1,16 +1,16 @@
 {% extends "base_site.html" %}
 {% load l10n i18n %}
 
-{% block page_title %}{{ location }} Report: Biobank Blood Sample Collection - Administration{% endblock %}
+{% block page_title %}{{ location }} Report: Biobank Tissue Sample Collection - Administration{% endblock %}
 {% block page_header %}
-    Blood Sample Collection
+    Tissue Sample Collection
     <small>BIOBANK REPORT</small>
 {% endblock %}
 {% block page_trail %}
     <li><a href="{% url 'home' %}">Home</a></li>
     <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
     <li><a href="{% url 'wp4:administration:index' %}">Administration</a></li>
-    <li class="active">Report: Biobank Blood Sample Collection</li>
+    <li class="active">Report: Biobank Tissue Sample Collection</li>
 {% endblock %}
 
 {% block content %}
@@ -25,6 +25,14 @@
         }
     </style>
     <h2>Summary</h2>
+    <dl>
+        <dt>Total number of samples</dt>
+        <dd>{{ summary.total }}</dd>
+        <dt>Collected?</dt>
+        <dd>Yes: {{ summary.collected.yes }}; No: {{ summary.collected.no }}; Unknown: {{ summary.collected.unknown }};</dd>
+        <dt>Matched?</dt>
+        <dd>Yes: {{ summary.matching.collected_matched }}; No: {{ summary.matching.collected_unmatched }};</dd>
+    </dl>
 
 
     <h2>Data Listing</h2>
@@ -39,7 +47,7 @@
             <th>Barcode</th>
             <th>Collected</th>
             <th>Trial ID</th>
-            <th>Consented?</th>
+            <th>Donor Age</th>
             <th>WP7 Location</th>
         </tr>
         </thead>
@@ -60,24 +68,20 @@
                     {% endif %}
                 </td>
                 <td>{{ sample.event.get_name_display }}</td>
-                <td>{{ sample.get_blood_type_display }}</td>
+                <td>{{ sample.get_tissue_type_display }}</td>
                 <td>{{ sample.event.taken_at }}</td>
 
                 <td>{{ sample.barcode|default:"Not recorded" }}</td>
                 <td class="{{ sample.collected|yesno:"bg-success,bg-danger,bg-warning" }}">
                     {{ sample.collected|yesno:"yes,no,unknown"|capfirst }}
                 </td>
-                <td>{{ sample.person.trial_id }}</td>
-                {% if sample.person.is_recipient %}
-                    <td class="{{ sample.person.recipient.signed_consent|yesno:"success,danger,warning" }}">{{ sample.person.recipient.signed_consent|yesno:"Yes,No,Unknown" }}</td>
-                {% else %}
-                    <td>Not applicable</td>
-                {% endif %}
+                <td>{{ sample.organ.trial_id }}</td>
+                <td>{{ sample.organ.donor.age }}</td>
                 <td>
                     {% for location in sample.wp7_location.all %}
-                        {{ location.box_number|default:"Unknown number" }} @ {{ location.position_in_box|default:"Unknown position" }}
+                        <p class="text-success">{{ location.box_number|default:"Unknown number" }} @ {{ location.position_in_box|default:"Unknown position" }}</p>
                     {% empty %}
-                        No sample matched
+                        <span class="text-muted">No sample matched</span>
                     {% endfor %}
                 </td>
 

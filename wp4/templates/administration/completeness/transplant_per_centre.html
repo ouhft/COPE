@@ -1,0 +1,115 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+
+{% block page_title %}{{ location }} Completeness Report: Transplants per Centre - Administration{% endblock %}
+{% block page_header %}
+    Transplants per Centre
+    <small>COMPLETENESS REPORT</small>
+{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:administration:index' %}">Administration</a></li>
+    <li class="active">Completeness Report: Transplants per Centre</li>
+{% endblock %}
+
+{% block content %}
+{#    CSS Hack here because Bootstrap hides the badges on print view #}
+    <style>
+        @media print {
+            .badge {
+                padding: 2px 6px;
+                border: 1px solid #000;
+                margin-right: 3em;
+            }
+        }
+    </style>
+    <h2>Summary</h2>
+    <ul>
+        <li>Hospital count: {{ summary.hospital_count }}</li>
+        <li>Allocation count: {{ summary.allocation_count }}</li>
+        <li>Recipient count: {{ summary.recipient_count }}</li>
+    </ul>
+
+    <h2>Listing</h2>
+
+    {% for hospital in listing %}
+        {% if hospital.organallocation_set.count > 0 %}
+        <h3>{{ hospital.name }}, {{ hospital.get_country_display }} <small>Allocation count: {{ hospital.organallocation_set.count }}</small></h3>
+
+        <table class="table table-condensed table-responsive">
+            <thead>
+                <tr>
+                    <th colspan="2">Organ</th>
+                    <th colspan="7">Recipient</th>
+                </tr>
+                <tr>
+                    <th class="col-md-1">ID</th>
+                    <th class="col-md-2">Trial ID</th>
+                    <th class="col-md-1">ID</th>
+                    <th class="col-md-2">Number</th>
+                    <th class="col-md-1">Gender</th>
+                    <th class="col-md-1">Age from D.O.B.</th>
+                    <th class="col-md-1">Consented</th>
+                    <th class="col-md-1">Single Kidney</th>
+                    <th class="col-md-2">Knife to Skin</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for allocation in hospital.organallocation_set.all %}
+                <tr>
+                    <td><a href="{% url 'wp4:compare:transplantation_detail' allocation.organ.id %}" class="btn btn-xs btn-default" title="Edit Transplant Form"><i class="glyphicon glyphicon-edit"></i>#{{ allocation.organ.id }}</a></td>
+                    <td>{{ allocation.organ.trial_id }}</td>
+                    <td>#{{ allocation.recipient.id }}</td>
+                    <td>{{ allocation.recipient.person.number }}</td>
+                    <td>{{ allocation.recipient.person.get_gender_display }}</td>
+                    <td>{{ allocation.recipient.age_from_dob|default_if_none:"Unknown" }}</td>
+                    <td>{{ allocation.recipient.signed_consent|yesno:"Yes,No,Unknown"}}</td>
+                    <td>{{ allocation.recipient.single_kidney_transplant|yesno:"Yes,No,Unknown"}}</td>
+                    <td>{{ allocation.recipient.knife_to_skin|default_if_none:"Unknown" }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    {% endfor %}
+
+{#    {% for hospital in data %}#}
+{#        <h3>{{ hospital.name }}, {{ hospital.country }} <small>Allocation count: {{ hospital.allocation_count }}</small></h3>#}
+{#    <table class="table table-condensed table-responsive">#}
+{#        <thead>#}
+{#            <tr>#}
+{#                <th colspan="2">Organ</th>#}
+{#                <th colspan="4">Recipient</th>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <th class="col-md-1">ID</th>#}
+{#                <th class="col-md-2">Trial ID</th>#}
+{#                <th class="col-md-1">ID</th>#}
+{#                <th class="col-md-2">Number</th>#}
+{#                <th class="col-md-1">Gender</th>#}
+{#                <th class="col-md-1">Age from D.O.B.</th>#}
+{#                <th class="col-md-1">Consented</th>#}
+{#                <th class="col-md-1">Single Kidney</th>#}
+{#                <th class="col-md-2">Knife to Skin</th>#}
+{#            </tr>#}
+{#        </thead>#}
+{#        <tbody>#}
+{#        {% for allocation in hospital.allocations %}#}
+{#            <tr>#}
+{#                <td><a href="{% url 'wp4:compare:transplantation_detail' allocation.organ_id %}" class="btn btn-xs btn-default" title="Edit Transplant Form"><i class="glyphicon glyphicon-edit"></i>#{{ allocation.organ_id }}</a></td>#}
+{#                <td>{{ allocation.trial_id }}</td>#}
+{#                <td>#{{ allocation.recipient_id }}</td>#}
+{#                <td>{{ allocation.recipient_number }}</td>#}
+{#                <td>{{ allocation.recipient_gender }}</td>#}
+{#                <td>{{ allocation.recipient_age|default_if_none:"Unknown" }}</td>#}
+{#                <td>{{ allocation.recipient_consent|yesno:"Yes,No,Unknown"}}</td>#}
+{#                <td>{{ allocation.recipient_single_kidney|yesno:"Yes,No,Unknown"}}</td>#}
+{#                <td>{{ allocation.recipient_knife_to_skin|default_if_none:"Unknown" }}</td>#}
+{#            </tr>#}
+{#        {% endfor %}#}
+{#        </tbody>#}
+{#    </table>#}
+{#    {% endfor %}#}
+{% endblock %}
+

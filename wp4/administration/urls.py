@@ -86,6 +86,11 @@ urlpatterns = [
         view=completeness.procurement,
         name='completeness_procurement'
     ),
+    url(
+        regex=r'^completeness/transplant-per-centre',
+        view=completeness.transplant_per_centre,
+        name='completeness_tpc'
+    ),
 
     # =================================================================  Biobank reports
     url(

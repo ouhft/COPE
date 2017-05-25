@@ -436,7 +436,7 @@ class Recipient(AuditControlModelBase):
                     raise ValidationError(_("REv05 Missing Reperfusion Start Time"))
 
     def __str__(self):
-        return '%s (%s)' % (self.person.number, self.trial_id)
+        return "#{0}: {1} ({3}) with trial id {2}".format(self.id, self.person.number, self.trial_id, self.person.id)
 
     def _age_from_dob(self):
         """
