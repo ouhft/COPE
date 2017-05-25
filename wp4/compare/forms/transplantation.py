@@ -87,11 +87,11 @@ class AllocationForm(forms.ModelForm):
         super(AllocationForm, self).__init__(*args, **kwargs)
         self.fields['organ'].widget = forms.HiddenInput()
         self.fields['perfusion_technician'].required = False
-        self.fields['perfusion_technician'].choices = Person.objects.filter(id=self.instance.perfusion_technician_id).\
-            values_list('id', 'last_name')
+        # self.fields['perfusion_technician'].choices = Person.objects.filter(id=self.instance.perfusion_technician_id).\
+        #     values_list('id', 'last_name')
         self.fields['call_received'].input_formats = settings.DATETIME_INPUT_FORMATS
-        self.fields['theatre_contact'].choices = Person.objects.filter(id=self.instance.theatre_contact_id).\
-            values_list('id', 'last_name')
+        # self.fields['theatre_contact'].choices = Person.objects.filter(id=self.instance.theatre_contact_id).\
+        #     values_list('id', 'last_name')
         self.fields['scheduled_start'].input_formats = settings.DATETIME_INPUT_FORMATS
         self.fields['technician_arrival'].input_formats = settings.DATETIME_INPUT_FORMATS
         self.fields['depart_perfusion_centre'].input_formats = settings.DATETIME_INPUT_FORMATS
