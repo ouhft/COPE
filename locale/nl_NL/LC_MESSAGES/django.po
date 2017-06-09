@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: v0.6.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-11 13:13+0000\n"
+"POT-Creation-Date: 2017-06-09 14:28+0000\n"
 "PO-Revision-Date: 2015-12-11 18:45+0000\n"
 "Last-Translator: SARAH MERTENS <SARAH.MERTENS@MED.KULEUVEN.BE>\n"
 "Language-Team: NETHERLANDS <LL@li.org>\n"
@@ -253,15 +253,15 @@ msgstr "Not applicable"
 msgid "DSF01 Offline Case ID"
 msgstr "Offline Case ID"
 
-#: wp4/compare/forms/core.py:135
+#: wp4/compare/forms/core.py:137
 msgid "ASF01 Select trial id for case"
 msgstr "Select Organ ID"
 
-#: wp4/compare/forms/core.py:139
+#: wp4/compare/forms/core.py:141
 msgid "ASF02 Has this been allocated to a recipient?"
 msgstr "Has this been allocated to a recipient?"
 
-#: wp4/compare/forms/core.py:145
+#: wp4/compare/forms/core.py:147
 msgid "ASF03 Why was this not allocated?"
 msgstr "Why was this not allocated?"
 
@@ -462,7 +462,9 @@ msgid "DOc12 Kidneys not allocated"
 msgstr "Kidneys not allocated"
 
 #: wp4/compare/models/donor.py:48
-msgid "DOc13 Kidneys not transplanable"
+#, fuzzy
+#| msgid "DOc13 Kidneys not transplanable"
+msgid "DOc13 Kidneys not transplantable"
 msgstr "Kidneys not transplantable"
 
 #: wp4/compare/models/donor.py:49
