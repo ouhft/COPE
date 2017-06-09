@@ -41,11 +41,6 @@ urlpatterns = [
         view=administrator.offline_uk_list,
         name='uk_list'
     ),
-    url(
-        regex=r'^demographics/data-linkage$',
-        view=administrator.demographics_data_linkage,
-        name='demographics_data_linkage'
-    ),
 
     url(
         regex=r'^procurement-pairs$',
@@ -77,6 +72,12 @@ urlpatterns = [
         regex=r'^followups',
         view=administrator.followups,
         name='followups'
+    ),
+
+    url(
+        regex=r'^demographics/data-linkage$',
+        view=administrator.demographics_data_linkage,
+        name='demographics_data_linkage'
     ),
 
 

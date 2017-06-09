@@ -11,13 +11,10 @@ from wp4.views import dashboard_index, error404, error403, error500
 from wp4.views import wp4_index, dashboard_changelog, dashboard_usermanual
 from wp4.health_economics.views import index as he_index
 from wp4.followups.views import index as fu_index
-from wp4.compare.views import procurement_list, procurement_form
-from wp4.compare.views import transplantation_list, transplantation_form, index as co_index
-from wp4.administration.views import report_procurement, report_organ, report_allocations, report_adverse_events
-from wp4.administration.views import administrator_index, administrator_uk_list, administrator_europe_list
-from wp4.administration.views import administrator_procurement_pairs, administrator_transplantation_sites, administrator_sae_sites
-from wp4.administration.views import flowchart
-from wp4.administration.views import dmc_secondary_outcomes, dmc_death_summaries
+from wp4.compare import views as co_views
+from wp4.administration.views import core as ad_core, data_extracts as ad_data_extracts
+from wp4.administration.views import administrator as ad_administrator, completeness as ad_completeness
+from wp4.administration.views import dmc_reports as ad_dmc_reports, biobank as ad_biobank
 
 from .utils.languages import LANGUAGE_STRINGS
 
@@ -107,8 +104,8 @@ class WP4URLsTestCase(TestCase):
             url = resolve(LANG["url"] + '/wp4/follow-up/')
             self.assertEqual(url.func, fu_index)
             # Initial
-            url = resolve(LANG["url"] + '/wp4/follow-up/initial/add/')
-            self.assertEqual(url.func.__name__, 'FollowUpInitialCreateView')
+            # url = resolve(LANG["url"] + '/wp4/follow-up/initial/add/')
+            # self.assertEqual(url.func.__name__, 'FollowUpInitialCreateView')
             url = resolve(LANG["url"] + '/wp4/follow-up/initial/1/details/')
             self.assertEqual(url.func.__name__, 'FollowUpInitialDetailView')
             url = resolve(LANG["url"] + '/wp4/follow-up/initial/1/')
@@ -116,8 +113,8 @@ class WP4URLsTestCase(TestCase):
             url = resolve(LANG["url"] + '/wp4/follow-up/initial/')
             self.assertEqual(url.func.__name__, 'FollowUpInitialListView')
             # 3M
-            url = resolve(LANG["url"] + '/wp4/follow-up/month3/add/')
-            self.assertEqual(url.func.__name__, 'FollowUp3MCreateView')
+            # url = resolve(LANG["url"] + '/wp4/follow-up/month3/add/')
+            # self.assertEqual(url.func.__name__, 'FollowUp3MCreateView')
             url = resolve(LANG["url"] + '/wp4/follow-up/month3/1/details/')
             self.assertEqual(url.func.__name__, 'FollowUp3MDetailView')
             url = resolve(LANG["url"] + '/wp4/follow-up/month3/1/')
@@ -125,8 +122,8 @@ class WP4URLsTestCase(TestCase):
             url = resolve(LANG["url"] + '/wp4/follow-up/month3/')
             self.assertEqual(url.func.__name__, 'FollowUp3MListView')
             # 6M
-            url = resolve(LANG["url"] + '/wp4/follow-up/month6/add/')
-            self.assertEqual(url.func.__name__, 'FollowUp6MCreateView')
+            # url = resolve(LANG["url"] + '/wp4/follow-up/month6/add/')
+            # self.assertEqual(url.func.__name__, 'FollowUp6MCreateView')
             url = resolve(LANG["url"] + '/wp4/follow-up/month6/1/details/')
             self.assertEqual(url.func.__name__, 'FollowUp6MDetailView')
             url = resolve(LANG["url"] + '/wp4/follow-up/month6/1/')
@@ -134,8 +131,8 @@ class WP4URLsTestCase(TestCase):
             url = resolve(LANG["url"] + '/wp4/follow-up/month6/')
             self.assertEqual(url.func.__name__, 'FollowUp6MListView')
             # Final
-            url = resolve(LANG["url"] + '/wp4/follow-up/final/add/')
-            self.assertEqual(url.func.__name__, 'FollowUp1YCreateView')
+            # url = resolve(LANG["url"] + '/wp4/follow-up/final/add/')
+            # self.assertEqual(url.func.__name__, 'FollowUp1YCreateView')
             url = resolve(LANG["url"] + '/wp4/follow-up/final/1/details/')
             self.assertEqual(url.func.__name__, 'FollowUp1YDetailView')
             url = resolve(LANG["url"] + '/wp4/follow-up/final/1/')
@@ -200,16 +197,23 @@ class WP4URLsTestCase(TestCase):
             translation.activate(LANG["string"])
             url = resolve(LANG["url"] + '/wp4/compare/retrieval-team-autocomplete/')
             self.assertEqual(url.func.__name__, 'RetrievalTeamAutoComplete')
+            url = resolve(LANG["url"] + '/wp4/compare/adverse-organ-autocomplete/')
+            self.assertEqual(url.func.__name__, 'AdverseEventOrganAutoComplete')
+
             url = resolve(LANG["url"] + '/wp4/compare/procurement/')
-            self.assertEqual(url.func, procurement_list)
+            self.assertEqual(url.func, co_views.procurement_list)
             url = resolve(LANG["url"] + '/wp4/compare/procurement/1/')
-            self.assertEqual(url.func, procurement_form)
+            self.assertEqual(url.func, co_views.procurement_view)
+            url = resolve(LANG["url"] + '/wp4/compare/procurement/1/update/')
+            self.assertEqual(url.func, co_views.procurement_form)
+
             url = resolve(LANG["url"] + '/wp4/compare/transplantation/')
-            self.assertEqual(url.func, transplantation_list)
+            self.assertEqual(url.func, co_views.transplantation_list)
             url = resolve(LANG["url"] + '/wp4/compare/transplantation/1/')
-            self.assertEqual(url.func, transplantation_form)
+            self.assertEqual(url.func, co_views.transplantation_form)
+
             url = resolve(LANG["url"] + '/wp4/compare/')
-            self.assertEqual(url.func, co_index)
+            self.assertEqual(url.func, co_views.index)
         translation.deactivate()
 
     # wp4/administration/urls.py
@@ -218,32 +222,71 @@ class WP4URLsTestCase(TestCase):
             # print("DEBUG: test_administration_urls_use_correct_views: {0}".format(LANG['string']))
             translation.activate(LANG["string"])
             url = resolve(LANG["url"] + '/wp4/administration/stats/reports/procurement')
-            self.assertEqual(url.func, report_procurement)
+            self.assertEqual(url.func, ad_data_extracts.report_procurement)
             url = resolve(LANG["url"] + '/wp4/administration/stats/reports/organs')
-            self.assertEqual(url.func, report_organ)
+            self.assertEqual(url.func, ad_data_extracts.report_organ)
             url = resolve(LANG["url"] + '/wp4/administration/stats/reports/allocations')
-            self.assertEqual(url.func, report_allocations)
+            self.assertEqual(url.func, ad_data_extracts.report_allocations)
             url = resolve(LANG["url"] + '/wp4/administration/stats/reports/adverse-events')
-            self.assertEqual(url.func, report_adverse_events)
+            self.assertEqual(url.func, ad_data_extracts.report_adverse_events)
 
-            url = resolve(LANG["url"] + '/wp4/administration/procurement-pairs')
-            self.assertEqual(url.func, administrator_procurement_pairs)
-            url = resolve(LANG["url"] + '/wp4/administration/transplantation-sites')
-            self.assertEqual(url.func, administrator_transplantation_sites)
-            url = resolve(LANG["url"] + '/wp4/administration/sae-sites')
-            self.assertEqual(url.func, administrator_sae_sites)
             url = resolve(LANG["url"] + '/wp4/administration/europe-list')
-            self.assertEqual(url.func, administrator_europe_list)
+            self.assertEqual(url.func, ad_administrator.offline_europe_list)
             url = resolve(LANG["url"] + '/wp4/administration/uk-list')
-            self.assertEqual(url.func, administrator_uk_list)
+            self.assertEqual(url.func, ad_administrator.offline_uk_list)
+            url = resolve(LANG["url"] + '/wp4/administration/procurement-pairs')
+            self.assertEqual(url.func, ad_administrator.procurement_pairs)
+            url = resolve(LANG["url"] + '/wp4/administration/transplantation-sites')
+            self.assertEqual(url.func, ad_administrator.transplantation_sites)
+            url = resolve(LANG["url"] + '/wp4/administration/sae-sites')
+            self.assertEqual(url.func, ad_administrator.sae_sites)
             url = resolve(LANG["url"] + '/wp4/administration/flowchart')
-            self.assertEqual(url.func, flowchart)
+            self.assertEqual(url.func, ad_administrator.flowchart)
+            url = resolve(LANG["url"] + '/wp4/administration/completed-pairs')
+            self.assertEqual(url.func, ad_administrator.completed_pairs)
+            url = resolve(LANG["url"] + '/wp4/administration/followups')
+            self.assertEqual(url.func, ad_administrator.followups)
 
-            url = resolve(LANG["url"] + '/wp4/administration/dmc/secondary-outcomes')
-            self.assertEqual(url.func, dmc_secondary_outcomes)
+            url = resolve(LANG["url"] + '/wp4/administration/demographics/data-linkage')
+            self.assertEqual(url.func, ad_administrator.demographics_data_linkage)
+
+            url = resolve(LANG["url"] + '/wp4/administration/completeness/procurement')
+            self.assertEqual(url.func, ad_completeness.procurement)
+            url = resolve(LANG["url"] + '/wp4/administration/completeness/transplant-per-centre')
+            self.assertEqual(url.func, ad_completeness.transplant_per_centre)
+
+            url = resolve(LANG["url"] + '/wp4/administration/biobank/blood-collection')
+            self.assertEqual(url.func, ad_biobank.blood_collection)
+            url = resolve(LANG["url"] + '/wp4/administration/biobank/urine-collection')
+            self.assertEqual(url.func, ad_biobank.urine_collection)
+            url = resolve(LANG["url"] + '/wp4/administration/biobank/tissue-collection')
+            self.assertEqual(url.func, ad_biobank.tissue_collection)
+            url = resolve(LANG["url"] + '/wp4/administration/biobank/perfusate-collection')
+            self.assertEqual(url.func, ad_biobank.perfusate_collection)
+            url = resolve(LANG["url"] + '/wp4/administration/biobank/unmatched-samples')
+            self.assertEqual(url.func, ad_biobank.unmatched_samples)
+
+            url = resolve(LANG["url"] + '/wp4/administration/dmc/death-summaries/open')
+            self.assertEqual(url.func, ad_dmc_reports.death_summaries)
             url = resolve(LANG["url"] + '/wp4/administration/dmc/death-summaries')
-            self.assertEqual(url.func, dmc_death_summaries)
+            self.assertEqual(url.func, ad_dmc_reports.death_summaries)
+            url = resolve(LANG["url"] + '/wp4/administration/dmc/permanent-impairment/open')
+            self.assertEqual(url.func, ad_dmc_reports.permanent_impairment)
+            url = resolve(LANG["url"] + '/wp4/administration/dmc/permanent-impairment')
+            self.assertEqual(url.func, ad_dmc_reports.permanent_impairment)
+            url = resolve(LANG["url"] + '/wp4/administration/dmc/graft-failures/open')
+            self.assertEqual(url.func, ad_dmc_reports.graft_failures)
+            url = resolve(LANG["url"] + '/wp4/administration/dmc/graft-failures')
+            self.assertEqual(url.func, ad_dmc_reports.graft_failures)
+            url = resolve(LANG["url"] + '/wp4/administration/dmc/adverse-events/open')
+            self.assertEqual(url.func, ad_dmc_reports.adverse_events)
+            url = resolve(LANG["url"] + '/wp4/administration/dmc/adverse-events')
+            self.assertEqual(url.func, ad_dmc_reports.adverse_events)
+            url = resolve(LANG["url"] + '/wp4/administration/dmc/serious-events/open')
+            self.assertEqual(url.func, ad_dmc_reports.serious_events)
+            url = resolve(LANG["url"] + '/wp4/administration/dmc/serious-events')
+            self.assertEqual(url.func, ad_dmc_reports.serious_events)
 
             url = resolve(LANG["url"] + '/wp4/administration/')
-            self.assertEqual(url.func, administrator_index)
+            self.assertEqual(url.func, ad_core.index)
         translation.deactivate()
