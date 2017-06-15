@@ -6,6 +6,7 @@ from django.contrib.auth.models import AbstractUser
 from django.core.urlresolvers import reverse
 from django.core.validators import RegexValidator
 from django.db import models
+from django.conf import settings
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
@@ -84,6 +85,9 @@ class Person(AbstractUser):
                                 self.BIOBANK_COORDINATOR, self.CHIEF_INVESTIGATOR, self.PRINCIPLE_INVESTIGATOR,
                                 self.NATIONAL_INVESTIGATOR, self.CENTRAL_INVESTIGATOR,)
         if self.has_group(administrator_groups):
+            return True
+        elif self.has_group(self.CENTRAL_INVESTIGATOR) and settings.DEBUG is True:
+            # Add a pass through for Ina when on the test server as per Issue #249
             return True
         return False
 
