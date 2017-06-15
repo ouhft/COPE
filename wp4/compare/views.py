@@ -370,8 +370,6 @@ def procurement_view(request, pk):
     :param pk: Donor ID. We get all related information from the donor record
     :return:
     """
-    from crispy_forms.layout import Layout, HTML, Field, Div
-
     donor = get_object_or_404(Donor, pk=int(pk))
     current_person = request.user
 

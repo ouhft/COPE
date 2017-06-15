@@ -18,6 +18,7 @@ from wp4.administration.views import dmc_reports as ad_dmc_reports, biobank as a
 
 from .utils.languages import LANGUAGE_STRINGS
 
+
 class WP4URLsTestCase(TestCase):
     """
     Test the urls used throughout the site match the expected views

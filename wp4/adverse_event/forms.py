@@ -65,7 +65,8 @@ class EventForm(forms.ModelForm):
         self.fields['contact'].choices = Person.objects.filter(id=self.instance.contact.id).values_list('id', 'last_name')
 
         try:
-            self.fields['date_of_death'].initial = self.instance.organ.safe_recipient.person.date_of_death
+            if self.instance.organ.safe_recipient:
+                self.fields['date_of_death'].initial = self.instance.organ.safe_recipient.person.date_of_death
         except Organ.DoesNotExist:
             pass
 

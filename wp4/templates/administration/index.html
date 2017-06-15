@@ -22,7 +22,10 @@
 
             <h3>Demographics</h3>
             <ul>
-                <li><a href="{% url 'wp4:administration:demographics_data_linkage' %}">Data linkage</a></li>
+                <li>
+                    <a href="{% url 'wp4:administration:demographics_data_linkage' %}">Data linkage</a>
+                    <i class="glyphicon glyphicon-warning-sign text-warning" title="Slow to load"></i>
+                </li>
             </ul>
             {% endif %}
 

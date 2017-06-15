@@ -36,7 +36,7 @@ class CoreDataMixin(object):
         group_tech = Group.objects.get(pk=Person.PERFUSION_TECHNICIAN)
         group_local = Group.objects.get(pk=Person.LOCAL_INVESTIGATOR)
 
-        # modify the core user accounts
+        # modify the core user accounts (as loaded from fixtures)pm
         cls.user_admin = Person.objects.get(pk=1)
         cls.user_admin.set_password('adminpass')  # Replace password from fixture
         cls.user_admin.groups.add(group_admin)

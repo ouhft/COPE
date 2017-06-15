@@ -141,7 +141,15 @@ class AdverseEventListView(LoginRequiredMixin, MultiplePermissionsRequiredMixin,
     }
     paginate_by = 50
     paginate_orphans = 5
-    orderable_columns = ("id", "organ__trial_id", "onset_at_date", "death", "event_ongoing", "treatment_related", "contact")
+    orderable_columns = (
+        "id",
+        "organ__trial_id",
+        "onset_at_date",
+        "death",
+        "event_ongoing",
+        "treatment_related",
+        "contact"
+    )
     orderable_columns_default = "onset_at_date"
 
 
