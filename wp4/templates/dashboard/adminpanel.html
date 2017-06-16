@@ -1,0 +1,31 @@
+{% load l10n i18n theme_tags %}
+{% if user.is_authenticated %}
+    {% if user.is_administrator %}
+        <ul class="list-group">
+            <a href="{% url 'wp4:administration:index' %}" class="list-group-item list-group-item-info">Administration
+                Home</a>
+            {% if request.user|has_group:5 %}{# Person.CENTRAL_COORDINATOR #}
+                <a href="{% url 'wp4:administration:index' %}" class="list-group-item">Offline Randomisation Lists</a>
+                <a href="{% url 'wp4:administration:index' %}" class="list-group-item">Demographics</a>
+            {% endif %}
+
+            <a href="{% url 'wp4:administration:index' %}" class="list-group-item">Biobank</a>
+            <a href="{% url 'wp4:administration:index' %}" class="list-group-item">Completeness Reports</a>
+            <a href="{% url 'wp4:administration:index' %}" class="list-group-item">Miscellaneous Reports</a>
+            <a href="{% url 'wp4:administration:index' %}" class="list-group-item">Data Monitoring Committee</a>
+
+            {% if request.user|has_group:5 or request.user|has_group:6 %}
+                {# Person.CENTRAL_COORDINATOR or Person.STATISTICIAN #}
+                <a href="{% url 'wp4:administration:index' %}" class="list-group-item">Statistician Data</a>
+            {% endif %}
+        </ul>
+    {% endif %}
+
+    {% if perms.staff.change_person or perms.staff.single_person %}
+        <ul class="list-group">
+            <a href="{% url 'wp4:staff:list' %}" class="list-group-item">Staff Management</a>
+        </ul>
+    {% endif %}
+{% else %}
+    <p>Please log in to see the administration tools</p>
+{% endif %}

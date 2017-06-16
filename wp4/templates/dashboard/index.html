@@ -21,11 +21,13 @@
         <div class="col-md-4">
             <h2>WP4: Compare</h2>
             <p>This section supports activities on Work Package 4: Compare (WP4) which is a Kidney preservation trial.
-            {% include "dashboard/wp4panel.html" %}
+                {% include "dashboard/wp4panel.html" %}
         </div>
         <div class="col-md-4">
-{#            <h2>WP7: Biobank</h2>#}
-{#            <p>Scheduled for development in Q4 2016</p>#}
+            {% if user.is_administrator %}
+            <h2>Administration Functions</h2>
+            {% include "dashboard/adminpanel.html" %}
+            {% endif %}
         </div>
     </div>
 
