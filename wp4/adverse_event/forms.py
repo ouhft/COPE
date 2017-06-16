@@ -62,7 +62,8 @@ class EventForm(forms.ModelForm):
         self.fields['date_of_death'].input_formats = settings.DATE_INPUT_FORMATS
         self.fields['date_of_death'].required = False
         self.fields['treatment_related'].choices = YES_NO_UNKNOWN_CHOICES
-        self.fields['contact'].choices = Person.objects.filter(id=self.instance.contact.id).values_list('id', 'last_name')
+        # Removes the cause of the ISE, but slows down page load - #291
+        # self.fields['contact'].choices = Person.objects.filter(id=self.instance.contact.id).values_list('id', 'last_name')
 
         try:
             if self.instance.organ.safe_recipient:
