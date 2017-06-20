@@ -204,8 +204,11 @@
                     </li>
                     {% if event.death %}
                     <li class="list-group-item">
-                        <strong>Date of Death</strong><br>
-                        {{ event.organ.safe_recipient.person.date_of_death }}
+                        <strong>Date of Death</strong>: {% if event.organ.safe_recipient.person.date_of_death_unknown %}
+                        Unknown
+                        {% else %}
+                        {{ event.organ.safe_recipient.person.date_of_death|default_if_none:"Not Recorded" }}
+                        {% endif %}
                     </li>
                     <li class="list-group-item">
                         <strong>{% get_verbose_field_name event 'treatment_related' %}</strong>

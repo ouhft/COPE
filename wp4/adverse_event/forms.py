@@ -11,9 +11,9 @@ from crispy_forms.layout import Layout, Div, HTML, Field
 from crispy_forms.bootstrap import InlineCheckboxes
 from dal import autocomplete
 
-from wp4.compare.models import YES_NO_UNKNOWN_CHOICES
+from wp4.compare.models import YES_NO_UNKNOWN_CHOICES, Patient
 from wp4.compare.forms.core import NO_YES_CHOICES
-from wp4.theme.layout import DateField, FormPanel, ForeignKeyModal, FieldWithFollowup
+from wp4.theme.layout import DateField, FormPanel, ForeignKeyModal, FieldWithFollowup, FieldWithNotKnown
 from wp4.staff.models import Person
 
 from wp4.compare.models.donor import Organ
@@ -22,6 +22,7 @@ from .models import Event
 
 class EventForm(forms.ModelForm):
     date_of_death = forms.DateField()  # This is to allow DoD to be captured and sent to the linked recipient
+    date_of_death_unknown = forms.BooleanField()
 
     organ_field = Field('organ', template="bootstrap3/layout/read-only.html")
 
@@ -61,6 +62,7 @@ class EventForm(forms.ModelForm):
         self.fields['death'].choices = NO_YES_CHOICES
         self.fields['date_of_death'].input_formats = settings.DATE_INPUT_FORMATS
         self.fields['date_of_death'].required = False
+        self.fields['date_of_death_unknown'].required = False
         self.fields['treatment_related'].choices = YES_NO_UNKNOWN_CHOICES
         # Removes the cause of the ISE, but slows down page load - #291
         # self.fields['contact'].choices = Person.objects.filter(id=self.instance.contact.id).values_list('id', 'last_name')
@@ -68,6 +70,7 @@ class EventForm(forms.ModelForm):
         try:
             if self.instance.organ.safe_recipient:
                 self.fields['date_of_death'].initial = self.instance.organ.safe_recipient.person.date_of_death
+                self.fields['date_of_death_unknown'].initial = self.instance.organ.safe_recipient.person.date_of_death_unknown
         except Organ.DoesNotExist:
             pass
 
@@ -145,7 +148,11 @@ class EventForm(forms.ModelForm):
                 FieldWithFollowup(
                     Field('death', template="bootstrap3/layout/radioselect-buttons.html"),
                     Layout(
-                        DateField('date_of_death'),
+                        FieldWithNotKnown(
+                            DateField('date_of_death', notknown=True),
+                            'date_of_death_unknown',
+                            label=Patient._meta.get_field("date_of_death").verbose_name.title()
+                        ),
                         Field('treatment_related', template="bootstrap3/layout/radioselect-buttons.html"),
                         HTML("<p>Cause of death, tick all that apply</p>"),
                         Div(
@@ -168,10 +175,10 @@ class EventForm(forms.ModelForm):
         )
 
     def save(self, commit=True):
-        date_of_death = self.cleaned_data['date_of_death']
         organ = self.cleaned_data['organ']
-        if date_of_death is not None and organ.safe_recipient is not None:
-            organ.safe_recipient.person.date_of_death = date_of_death
+        if organ.safe_recipient is not None:
+            organ.safe_recipient.person.date_of_death = self.cleaned_data['date_of_death']
+            organ.safe_recipient.person.date_of_death_unknown = self.cleaned_data['date_of_death_unknown']
             organ.safe_recipient.person.save()
         return super(EventForm, self).save(commit=commit)
 
