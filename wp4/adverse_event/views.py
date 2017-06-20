@@ -77,8 +77,6 @@ class EmailOnSaveMixin(object):
 
 
 class AjaxFormMixin(object):
-    form_class = EventForm
-
     def form_valid(self, form):
         if self.request.is_ajax():
             self.object = form.save()
@@ -101,12 +99,20 @@ class AjaxFormMixin(object):
         )
         return super(AjaxFormMixin, self).form_invalid(form)
 
-    def get_form(self, form_class=None):
-        if self.request.user.is_administrator:
-            form_class = AdminEventForm
-        form = super(AjaxFormMixin, self).get_form(form_class)
+    def get_form_class(self):
+        """
+        If this is an admin user, we want to display the categories, unless this is a form being created
+        :return:
+        """
+        if self.request.user.is_administrator and self.form_class is not EventStartForm:
+            return AdminEventForm
+        return super(AjaxFormMixin, self).get_form_class()
 
-        return form
+    def get_success_url(self):
+        if self.form_class is EventStartForm:
+            return reverse('wp4:adverse_event:update', args=(self.object.id,))
+        else:
+            return super(AjaxFormMixin, self).get_success_url()
 
 
 class UserBasedQuerysetMixin(object):

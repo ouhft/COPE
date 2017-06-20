@@ -224,13 +224,35 @@ class EventForm(forms.ModelForm):
         localized_fields = "__all__"
 
 
-class EventStartForm(EventForm):
+class EventStartForm(forms.ModelForm):
     organ_field = 'organ'
 
-    class Meta(EventForm.Meta):
+    def __init__(self, *args, **kwargs):
+        super(EventStartForm, self).__init__(*args, **kwargs)
+        self.fields['onset_at_date'].input_formats = settings.DATE_INPUT_FORMATS
+
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+        self.helper.html5_required = True
+        self.helper.layout = Layout(
+            FormPanel("Start a new event", Layout(
+                self.organ_field,
+                DateField('onset_at_date'),
+                ForeignKeyModal('contact'),
+            )),
+        )
+
+    class Meta:
+        model = Event
+        fields = [
+            'organ',
+            'onset_at_date',
+            'contact'
+        ]
         widgets = {
             'organ': autocomplete.ModelSelect2(url='wp4:compare:adverse-organ-autocomplete')
         }
+        localized_fields = "__all__"
 
 
 class AdminEventForm(EventForm):
