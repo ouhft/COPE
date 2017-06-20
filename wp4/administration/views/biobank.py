@@ -36,7 +36,7 @@ def urine_collection(request):
     if not current_person.is_administrator:
         raise PermissionDenied
 
-    listing = UrineSample.objects.all()
+    listing = UrineSample.objects.all().order_by('collected')
 
     summary = {}
 
@@ -101,7 +101,7 @@ def perfusate_collection(request):
     if not current_person.is_administrator:
         raise PermissionDenied
 
-    listing = PerfusateSample.objects.all()
+    listing = PerfusateSample.objects.all().order_by('collected')
 
     summary = {}
 
