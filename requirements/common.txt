@@ -4,7 +4,7 @@ django-vanilla-views==1.0.4
 django-autocomplete-light==3.2.9
 docutils==0.13.1
 django-environ==0.4.3
-django-reversion==2.0.8
+django-reversion==2.0.9
 django-reversion-compare==0.7.5
 bdateutil==0.1
 markdown==2.6.8

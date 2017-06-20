@@ -43,9 +43,6 @@ node_modules/
 # SQLLite dbs
 *.sqlite3*
 
-# Codekit
-config.codekit
-
 # Django
 staticfiles/
 media/
