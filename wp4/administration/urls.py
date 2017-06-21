@@ -119,6 +119,11 @@ urlpatterns = [
         view=biobank.unmatched_samples,
         name='biobank_unmatched_samples'
     ),
+    url(
+        regex=r'biobank/wp7-upload',
+        view=biobank.wp7_file_form,
+        name='biobank_wp7_form'
+    ),
 
     # =================================================================  DMC Reports
     url(

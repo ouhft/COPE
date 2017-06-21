@@ -2,12 +2,18 @@
 # coding: utf-8
 from __future__ import absolute_import, unicode_literals
 
+from io import BytesIO
+
 from django.core.exceptions import PermissionDenied
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, reverse
 from django.utils import timezone
 
 from wp4.samples.models import WP7Record, BloodSample, UrineSample, TissueSample, PerfusateSample
+from wp4.samples.forms import WP7FileForm
+from wp4.samples.utils import WP7Workbook, load_wp7_xlsx
 
 
 @login_required
@@ -159,3 +165,37 @@ def paired_biopsies(request):
             'summary': summary
         }
     )
+
+
+@login_required
+def wp7_file_form(request):
+    """
+    Process a file being uploaded from the WP7 database
+    :param request:
+    :return: Page response
+    """
+    if request.method == 'POST':
+        form = WP7FileForm(request.POST, request.FILES)
+        if form.is_valid():
+
+            file_in_memory = request.FILES['file'].read()
+            # Load the xlsx file with the raw data
+            workbook = WP7Workbook()
+            if not workbook.load_xlsx(filename=BytesIO(file_in_memory)):
+                raise Exception("xlsx file failed to load")
+
+            total_rows, created_count, update_count = load_wp7_xlsx(workbook)
+
+            messages.success(
+                request=request,
+                message="<strong>WP7 Data loaded</strong>:" +
+                        "{0} rows processed, resulting in {1} created and {2} updated records".\
+                        format(total_rows, created_count, update_count)
+            )
+        else:
+            messages.error(request, "Error with file upload form: {0}".format(form.errors))
+    else:
+        messages.error(request, "No form was submitted correctly")
+    # messages.info(request, "Hello from wp7_file_form")
+    return HttpResponseRedirect(reverse('wp4:administration:index'))
+

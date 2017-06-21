@@ -5,6 +5,7 @@ from __future__ import absolute_import, unicode_literals
 from django.db import transaction
 
 from openpyxl import Workbook, load_workbook
+from io import IOBase
 
 from wp4.locations.models import UNITED_KINGDOM
 from .models import Event, BloodSample, UrineSample, PerfusateSample, TissueSample
@@ -200,7 +201,7 @@ class WP7Workbook(Workbook):
             self.__headers_by_title__[self.worksheet.cell(row=1, column=column_id).value] = column_id
 
     def load_xlsx(self, filename=None):
-        if isinstance(filename, str):
+        if isinstance(filename, str) or isinstance(filename, IOBase):
             self.__workbook__ = load_workbook(filename)
             self.__load_header_dictionaries__()
             return True
@@ -247,16 +248,81 @@ def get_sample_by_barcode(barcode):
         return None
 
     for result in BloodSample.objects.filter(barcode=barcode):
-        print("get_sample_by_barcode() match found with {0}".format(result))
+        # print("get_sample_by_barcode() match found with {0}".format(result))
         return result
     for result in UrineSample.objects.filter(barcode=barcode):
-        print("get_sample_by_barcode() match found with {0}".format(result))
+        # print("get_sample_by_barcode() match found with {0}".format(result))
         return result
     for result in TissueSample.objects.filter(barcode=barcode):
-        print("get_sample_by_barcode() match found with {0}".format(result))
+        # print("get_sample_by_barcode() match found with {0}".format(result))
         return result
     for result in PerfusateSample.objects.filter(barcode=barcode):
-        print("get_sample_by_barcode() match found with {0}".format(result))
+        # print("get_sample_by_barcode() match found with {0}".format(result))
         return result
 
     return None
+
+
+def load_wp7_xlsx(workbook):
+    """
+    For a given workbook, create and update the WP7 samples record (used from either command line or UI)
+    :param workbook: WP7Workbook object
+    :return total_rows, created_count, update_count: int, int, int - used as feedback to help track changes
+    """
+    from .forms import WP7RecordForm  # Done locally, else there's import recursion issues on loading
+    from .models import WP7Record
+
+    total_rows = workbook.worksheet.max_row
+    created_count = 0
+    update_count = 0
+    print("load_wp7_xlsx: Workbook is now loaded. {0} rows were found".format(total_rows))
+
+    # Iterate through the data, creating or updating records in WP7Record
+    for row_index in range(2, total_rows + 1):
+        row_data = workbook.load_row(row_index)
+
+        # print("DEBUG: load_wp7_xlsx: Row data for row {0} is loaded: {1}".format(row_index, row_data))
+
+        def cell_value_by_id(column_id=1):
+            return workbook.worksheet.cell(row=row_index, column=column_id).value
+
+        def cell_value_by_title(column_name=""):
+            return row_data[column_name.lower()]
+
+        # Get or create a record by using the barcode as a key
+        barcode = number_as_str(cell_value_by_title("ScannedBarcode"))
+
+        record, created = WP7Record.objects.get_or_create(
+            barcode=barcode,
+            defaults={
+                'barcode': barcode,
+            }
+        )
+        created_count += 1 if created else 0
+
+        # print("DEBUG: load_wp7_xlsx: record {0} is created {1} for barcode {2}".format(record, created, barcode))
+        # Attempt to match it to an existing sample record
+        matched_sample = get_sample_by_barcode(barcode)
+
+        data_form = WP7RecordForm(data={
+            'barcode': row_data["scannedbarcode"],
+            'box_number': row_data["boxnumber"],
+            'position_in_box': row_data["positioninbox"]
+        }, instance=record)
+        if data_form.is_valid():
+            if data_form.has_changed():
+                update_count += 1
+                record = data_form.save()
+            record.content_object = matched_sample
+            record.save()
+            # print("DEBUG: load_wp7_xlsx: record {0} has content_type {1} for matched_sample {2}".format(
+            #     record, record.content_type, matched_sample))
+        else:
+            print("Form #{0} is INVALID".format(row_index))
+            print(data_form.errors)
+
+        # Provide some feedback
+        # if row_index % 50 == 0:
+        #     print("Row {0} of {1} imported".format(row_index, total_rows))
+
+    return total_rows, created_count, update_count

@@ -6,6 +6,8 @@ from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
+from wp4.samples.forms import WP7FileForm
+
 
 # Admin Home
 @login_required
@@ -14,4 +16,8 @@ def index(request):
     if not current_person.is_administrator:
         raise PermissionDenied
 
-    return render(request, 'administration/index.html', {})
+    # Include a file upload form for Biobank
+    wp7_form = WP7FileForm()
+
+    return render(request, 'administration/index.html', {"wp7_form": wp7_form})
+

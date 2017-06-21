@@ -238,3 +238,10 @@ class WP7RecordForm(forms.ModelForm):
         def clean_position_in_box(self):
             position_in_box = self.cleaned_data['position_in_box']
             return number_as_str(position_in_box)
+
+
+class WP7FileForm(forms.Form):
+    """
+    Handle the uploading of data from the WP7 database
+    """
+    file = forms.FileField(label="WP7 Excel File")
