@@ -38,13 +38,14 @@
                 <li><a href="{% url 'wp4:administration:biobank_unmatched_samples' %}">Unmatched Samples</a></li>
             </ul>
 
-            <h4>Upload WP7 Data</h4>
+            <h4>WP7 Data</h4>
             <form method="POST" class="" action="{% url 'wp4:administration:biobank_wp7_form' %}"  enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ wp7_form }}
                 <button type="submit" class="save btn btn-default">Upload</button>
                 <i class="glyphicon glyphicon-warning-sign text-warning" title="Slow to load"></i>
             </form>
+            <p>Download [TBI]</p>
         </div>
 
         <div class="col-md-4">

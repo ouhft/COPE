@@ -25,6 +25,56 @@
         }
     </style>
     <h2>Summary</h2>
+    <table class="table table-condensed">
+        <tr>
+            <td></td>
+            <th>SST</th>
+            <th>EDSA</th>
+            <th>Total</th>
+        </tr>
+        <tr>
+            <th>All Samples</th>
+            <td>{{ summary.total.sst }}</td>
+            <td>{{ summary.total.edsa }}</td>
+            <td>{{ summary.total.sst|add:summary.total.edsa }}</td>
+        </tr>
+        <tr>
+            <th colspan="4">Collected - Status:</th>
+        </tr>
+        <tr>
+            <th>-- Unknown</th>
+            <td>{{ summary.collected.yes.sst }}</td>
+            <td>{{ summary.collected.yes.edsa }}</td>
+            <td>{{ summary.collected.yes.sst|add:summary.collected.yes.edsa }}</td>
+        </tr>
+        <tr>
+            <th>-- No</th>
+            <td>{{ summary.collected.no.sst }}</td>
+            <td>{{ summary.collected.no.edsa }}</td>
+            <td>{{ summary.collected.no.sst|add:summary.collected.no.edsa }}</td>
+        </tr>
+        <tr>
+            <th>-- Yes</th>
+            <td>{{ summary.collected.unknown.sst }}</td>
+            <td>{{ summary.collected.unknown.edsa }}</td>
+            <td>{{ summary.collected.unknown.sst|add:summary.collected.unknown.edsa }}</td>
+        </tr>
+        <tr>
+            <th colspan="4">Collected - Matching:</th>
+        </tr>
+        <tr>
+            <th>-- Yes</th>
+            <td>{{ summary.matching.collected_matched.sst }}</td>
+            <td>{{ summary.matching.collected_matched.edsa }}</td>
+            <td>{{ summary.matching.collected_matched.sst|add:summary.matching.collected_matched.edsa }}</td>
+        </tr>
+        <tr>
+            <th>-- No</th>
+            <td>{{ summary.matching.collected_unmatched.sst }}</td>
+            <td>{{ summary.matching.collected_unmatched.edsa }}</td>
+            <td>{{ summary.matching.collected_unmatched.sst|add:summary.matching.collected_unmatched.edsa }}</td>
+        </tr>
+    </table>
 
 
     <h2>Data Listing</h2>

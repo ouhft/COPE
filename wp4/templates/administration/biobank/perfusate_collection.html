@@ -25,6 +25,42 @@
         }
     </style>
     <h2>Summary</h2>
+    <table class="table table-condensed">
+        <tr>
+            <td></td>
+            <th>Total</th>
+        </tr>
+        <tr>
+            <th>All Samples</th>
+            <td>{{ summary.total }}</td>
+        </tr>
+        <tr>
+            <th colspan="4">Collected - Status:</th>
+        </tr>
+        <tr>
+            <th>-- Unknown</th>
+            <td>{{ summary.collected.yes }}</td>
+        </tr>
+        <tr>
+            <th>-- No</th>
+            <td>{{ summary.collected.no }}</td>
+        </tr>
+        <tr>
+            <th>-- Yes</th>
+            <td>{{ summary.collected.unknown }}</td>
+        </tr>
+        <tr>
+            <th colspan="4">Collected - Matching:</th>
+        </tr>
+        <tr>
+            <th>-- Yes</th>
+            <td>{{ summary.matching.collected_matched }}</td>
+        </tr>
+        <tr>
+            <th>-- No</th>
+            <td>{{ summary.matching.collected_unmatched }}</td>
+        </tr>
+    </table>
 
 
     <h2>Data Listing</h2>
