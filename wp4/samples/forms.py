@@ -245,3 +245,8 @@ class WP7FileForm(forms.Form):
     Handle the uploading of data from the WP7 database
     """
     file = forms.FileField(label="WP7 Excel File")
+
+    def __init__(self, *args, **kwargs):
+        super(WP7FileForm, self).__init__(*args, **kwargs)
+        self.fields['file'].widget.attrs.update({'class': 'form-control'})
+

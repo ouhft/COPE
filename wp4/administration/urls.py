@@ -124,6 +124,11 @@ urlpatterns = [
         view=biobank.wp7_file_form,
         name='biobank_wp7_form'
     ),
+    url(
+        regex=r'biobank/wp7-download',
+        view=biobank.export_for_wp7,
+        name='biobank_wp7_export'
+    ),
 
     # =================================================================  DMC Reports
     url(

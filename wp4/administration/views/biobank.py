@@ -3,17 +3,20 @@
 from __future__ import absolute_import, unicode_literals
 
 from io import BytesIO
+import csv
 
 from django.core.exceptions import PermissionDenied
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, reverse
 from django.utils import timezone
 
 from wp4.samples.models import WP7Record, BloodSample, UrineSample, TissueSample, PerfusateSample
 from wp4.samples.forms import WP7FileForm
 from wp4.samples.utils import WP7Workbook, load_wp7_xlsx
+from wp4.staff.models import Person
+from wp4.utils import group_required
 
 
 @login_required
@@ -302,3 +305,95 @@ def wp7_file_form(request):
     # messages.info(request, "Hello from wp7_file_form")
     return HttpResponseRedirect(reverse('wp4:administration:index'))
 
+
+@group_required(Person.BIOBANK_COORDINATOR, Person.CENTRAL_COORDINATOR)
+def export_for_wp7(request):
+    """
+    Produce a minimalist dataset for populating information in the WP7 DB
+
+    - Sample process – type (blood, urine, perfusate, biopsy) STATIC
+    - Sample sub-type (sample code i.e. DB1, DU1, P1, etc.) STATIC
+    - Trial ID - STATIC
+    - Barcode – VARIABLE
+    - Date and time of collection - STATIC
+
+    This is essentially four downloads rolled into one - the four sample types need iterating over slightly
+    differently to get the same information out of them.
+
+    :param request:
+    :return HttpResponse: csv text file
+    """
+    # Create the HttpResponse object with the appropriate CSV header.
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="wp4_data_extract_for_wp7.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow([
+        "sample.event.get_type_display",
+        "sample.event.get_name_display",
+        "sample.person|organ.trial_id",
+        "sample.barcode",
+        "sample.event.taken_at",
+    ])
+
+    bloods = BloodSample.objects.filter(collected=True)
+    for sample in bloods:
+        result_row = []
+
+        result_row.append(sample.event.get_type_display())
+        result_row.append(sample.event.get_name_display())
+        result_row.append(sample.person.trial_id())
+        result_row.append(sample.barcode)
+        try:
+            result_row.append(sample.event.taken_at.strftime("%d-%m-%Y %H:%M"))
+        except AttributeError:
+            result_row.append("")
+
+        writer.writerow(result_row)
+
+    tissues = TissueSample.objects.filter(collected=True)
+    for sample in tissues:
+        result_row = []
+
+        result_row.append(sample.event.get_type_display())
+        result_row.append(sample.event.get_name_display())
+        result_row.append(sample.organ.trial_id)
+        result_row.append(sample.barcode)
+        try:
+            result_row.append(sample.event.taken_at.strftime("%d-%m-%Y %H:%M"))
+        except AttributeError:
+            result_row.append("")
+
+        writer.writerow(result_row)
+
+    perfusates = PerfusateSample.objects.filter(collected=True)
+    for sample in perfusates:
+        result_row = []
+
+        result_row.append(sample.event.get_type_display())
+        result_row.append(sample.event.get_name_display())
+        result_row.append(sample.organ.trial_id)
+        result_row.append(sample.barcode)
+        try:
+            result_row.append(sample.event.taken_at.strftime("%d-%m-%Y %H:%M"))
+        except AttributeError:
+            result_row.append("")
+
+        writer.writerow(result_row)
+
+    urines = UrineSample.objects.filter(collected=True)
+    for sample in urines:
+        result_row = []
+
+        result_row.append(sample.event.get_type_display())
+        result_row.append(sample.event.get_name_display())
+        result_row.append(sample.person.trial_id())
+        result_row.append(sample.barcode)
+        try:
+            result_row.append(sample.event.taken_at.strftime("%d-%m-%Y %H:%M"))
+        except AttributeError:
+            result_row.append("")
+
+        writer.writerow(result_row)
+
+    return response

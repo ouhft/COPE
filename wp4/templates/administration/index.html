@@ -38,14 +38,17 @@
                 <li><a href="{% url 'wp4:administration:biobank_unmatched_samples' %}">Unmatched Samples</a></li>
             </ul>
 
-            <h4>WP7 Data</h4>
-            <form method="POST" class="" action="{% url 'wp4:administration:biobank_wp7_form' %}"  enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ wp7_form }}
-                <button type="submit" class="save btn btn-default">Upload</button>
-                <i class="glyphicon glyphicon-warning-sign text-warning" title="Slow to load"></i>
+            <h4>WP7 Data Exchange</h4>
+            <form method="POST" class="form-inline" action="{% url 'wp4:administration:biobank_wp7_form' %}"  enctype="multipart/form-data" style="margin-bottom: 1em;">
+                <div class="form-group">
+                    {% csrf_token %}
+                    {{ wp7_form }}
+                </div>
+                <button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-import"></i> Upload WP7 File <i class="glyphicon glyphicon-warning-sign text-warning" title="Slow to load"></i></button>
             </form>
-            <p>Download [TBI]</p>
+            <p><a href="{% url 'wp4:administration:biobank_wp7_export' %}" class="btn btn-default">
+            <i class="glyphicon glyphicon-export"></i> WP4 Data Exchange file
+            </a></p>
         </div>
 
         <div class="col-md-4">
