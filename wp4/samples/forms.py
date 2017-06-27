@@ -4,9 +4,11 @@ from __future__ import absolute_import, unicode_literals
 
 from django import forms
 from django.conf import settings
+from django.contrib.contenttypes.models import ContentType
 from django.forms.models import inlineformset_factory
 # from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, Div, HTML
@@ -23,6 +25,44 @@ NO_YES_CHOICES = (
 YES_NO_CHOICES = (
     (True, _("FF02 Yes")),
     (False, _("FF01 No")))
+
+
+class SampleWP7SaveMixin(forms.ModelForm):
+    def save(self, commit=True):
+        """
+        Checks if the barcode has been changed, and if so, after the save, attempt to run a relink function
+        to the WP7 data that exists. Remember that unlinking may be needed too
+
+        :param commit:
+        :return:
+        """
+        # print("DEBUG: SampleWP7SaveMixin.save(): form changed={0}, changes={1}".format(
+        #     self.has_changed(), self.changed_data
+        # ))
+
+        self.instance = super(SampleWP7SaveMixin, self).save(commit=commit)
+
+        if self.has_changed() and 'barcode' in self.changed_data:
+            # Unlink anything linked to this record, as a change implies this will be wrong
+            old_records = WP7Record.objects.filter(
+                object_id=self.instance.id,
+                content_type=ContentType.objects.get_for_model(self.instance)
+            )
+            for record in old_records:
+                # print("DEBUG: SampleWP7SaveMixin.save(): record {0} unlinked".format(record))
+                record.content_object = None
+                record.save()
+
+            # Now link (if barcode exists)
+            try:
+                wp7_record = WP7Record.objects.get(barcode__exact=self.instance.barcode)
+
+                # print("DEBUG: SampleWP7SaveMixin.save(): wp7_record={0}".format(wp7_record))
+                if wp7_record is not None:
+                    wp7_record.content_object = self.instance
+                    wp7_record.save()
+            except WP7Record.DoesNotExist:
+                pass
 
 
 class EventForm(forms.ModelForm):
@@ -47,7 +87,7 @@ class EventForm(forms.ModelForm):
         fields = ('type', 'name', 'taken_at')
 
 
-class BloodSampleForm(forms.ModelForm):
+class BloodSampleForm(SampleWP7SaveMixin):
     layout_collected = Layout(
         'barcode',
         DateTimeField('centrifuged_at'),
@@ -95,7 +135,7 @@ BloodSampleFormSet = inlineformset_factory(
 )
 
 
-class UrineSampleForm(forms.ModelForm):
+class UrineSampleForm(SampleWP7SaveMixin):
     layout_collected = Layout(
         'barcode',
         DateTimeField('centrifuged_at'),
@@ -136,7 +176,7 @@ UrineSampleFormSet = inlineformset_factory(
     Event, UrineSample, form=UrineSampleForm, extra=0, can_delete=False)
 
 
-class PerfusateSampleForm(forms.ModelForm):
+class PerfusateSampleForm(SampleWP7SaveMixin):
     layout_collected = Layout(
         'barcode',
         DateTimeField('centrifuged_at'),
@@ -177,7 +217,7 @@ PerfusateSampleFormSet = inlineformset_factory(
     Event, PerfusateSample, form=PerfusateSampleForm, extra=0, can_delete=False)
 
 
-class TissueSampleForm(forms.ModelForm):
+class TissueSampleForm(SampleWP7SaveMixin):
     layout_collected = Layout(
         'barcode',
     )

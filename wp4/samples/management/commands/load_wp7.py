@@ -22,11 +22,11 @@ class Command(LabelCommand):
         if not workbook.load_xlsx(label):
             raise Exception("xlsx file failed to load")
 
-        total_rows, created_count, update_count = load_wp7_xlsx(workbook)
+        total_rows, created_count, linked_count = load_wp7_xlsx(workbook)
 
         end_time = timezone.now()
         print(
             "Import completed: Started: {0:%Y-%m-%d %H:%M:%S}. ".format(start_time) +
             "Finished: {0:%Y-%m-%d %H:%M:%S}.".format(end_time) +
-            "New: {0}. Updated: {1}. Total: {2}".format(created_count, update_count, total_rows)
+            "Added: {0}. Linked: {1}. Total: {2}".format(created_count, linked_count, total_rows)
         )

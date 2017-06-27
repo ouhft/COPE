@@ -290,13 +290,13 @@ def wp7_file_form(request):
             if not workbook.load_xlsx(filename=BytesIO(file_in_memory)):
                 raise Exception("xlsx file failed to load")
 
-            total_rows, created_count, update_count = load_wp7_xlsx(workbook)
+            total_rows, created_count, linked_count = load_wp7_xlsx(workbook)
 
             messages.success(
                 request=request,
                 message="<strong>WP7 Data loaded</strong>:" +
-                        "{0} rows processed, resulting in {1} created and {2} updated records".\
-                        format(total_rows, created_count, update_count)
+                        "{0} rows processed, resulting in {1} records added with {2} linked".\
+                        format(total_rows, created_count, linked_count)
             )
         else:
             messages.error(request, "Error with file upload form: {0}".format(form.errors))
@@ -331,6 +331,7 @@ def export_for_wp7(request):
     writer.writerow([
         "sample.event.get_type_display",
         "sample.event.get_name_display",
+        "sample.get_xxxx_type_display",
         "sample.person|organ.trial_id",
         "sample.barcode",
         "sample.event.taken_at",
@@ -342,6 +343,7 @@ def export_for_wp7(request):
 
         result_row.append(sample.event.get_type_display())
         result_row.append(sample.event.get_name_display())
+        result_row.append(sample.get_blood_type_display())
         result_row.append(sample.person.trial_id())
         result_row.append(sample.barcode)
         try:
@@ -357,6 +359,7 @@ def export_for_wp7(request):
 
         result_row.append(sample.event.get_type_display())
         result_row.append(sample.event.get_name_display())
+        result_row.append(sample.get_tissue_type_display())
         result_row.append(sample.organ.trial_id)
         result_row.append(sample.barcode)
         try:
@@ -372,6 +375,7 @@ def export_for_wp7(request):
 
         result_row.append(sample.event.get_type_display())
         result_row.append(sample.event.get_name_display())
+        result_row.append("")
         result_row.append(sample.organ.trial_id)
         result_row.append(sample.barcode)
         try:
@@ -387,6 +391,7 @@ def export_for_wp7(request):
 
         result_row.append(sample.event.get_type_display())
         result_row.append(sample.event.get_name_display())
+        result_row.append("")
         result_row.append(sample.person.trial_id())
         result_row.append(sample.barcode)
         try:
