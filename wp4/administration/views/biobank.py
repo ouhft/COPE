@@ -344,7 +344,7 @@ def export_for_wp7(request):
         result_row.append(sample.event.get_type_display())
         result_row.append(sample.event.get_name_display())
         result_row.append(sample.get_blood_type_display())
-        result_row.append(sample.person.trial_id())
+        result_row.append(sample.person.trial_id)
         result_row.append(sample.barcode)
         try:
             result_row.append(sample.event.taken_at.strftime("%d-%m-%Y %H:%M"))
@@ -392,7 +392,7 @@ def export_for_wp7(request):
         result_row.append(sample.event.get_type_display())
         result_row.append(sample.event.get_name_display())
         result_row.append("")
-        result_row.append(sample.person.trial_id())
+        result_row.append(sample.person.trial_id)
         result_row.append(sample.barcode)
         try:
             result_row.append(sample.event.taken_at.strftime("%d-%m-%Y %H:%M"))

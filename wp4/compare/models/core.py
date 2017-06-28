@@ -189,6 +189,7 @@ class Patient(AuditControlModelBase):
         """
         return True if self.date_of_death is None else False
 
+    @property
     def trial_id(self):
         """
         Determine if donor or recipient, and then pass back their trial id
