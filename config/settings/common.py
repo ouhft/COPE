@@ -20,11 +20,11 @@ import environ
 ROOT_DIR = environ.Path(__file__) - 3  # (/a/b/myfile.py - 3 = /)
 APPS_DIR = ROOT_DIR.path('wp4')
 BASE_DIR = str(ROOT_DIR)  # For django_extensions and other legacy code
+ENV_FILE = str(environ.Path(__file__) - 1 + ".env")
 
 env = environ.Env()
-if not env.bool("LOCAL_ENV_SET", default=False):
-    print("DEBUG: reading env data from %s" % str(ROOT_DIR('local.env')))
-    env.read_env(str(ROOT_DIR('local.env')))
+env.read_env(env_file=ENV_FILE)
+
 
 # APP CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -102,7 +102,8 @@ MIGRATION_MODULES = {
 # DEBUG
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#debug
-DEBUG = env.bool("DJANGO_DEBUG", False)
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = env.bool('DJANGO_DEBUG', False)
 
 # FIXTURE CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -121,7 +122,7 @@ EMAIL_FILE_PATH = env('DJANGO_EMAIL_FILE_PATH', default='/tmp')
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#admins
 ADMINS = [
-    ("Carl Marshall", 'carl.marshall@nds.ox.ac.uk'),
+    ("Carl Marshall", env('DJANGO_EMAIL_ADMIN_ADDRESS')),
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#managers
@@ -174,6 +175,12 @@ DATE_INPUT_FORMATS = [
     '%Y/%m/%d',  # '2006/10/25'
 ]
 
+# SECRET CONFIGURATION
+# ------------------------------------------------------------------------------
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
+# Raises ImproperlyConfigured exception if DJANGO_SECRET_KEY not in os.environ
+SECRET_KEY = env("DJANGO_SECRET_KEY")
+
 # TEMPLATE CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#templates
@@ -183,7 +190,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-dirs
         'DIRS': [
-            str(APPS_DIR.path('templates')),
+            str(APPS_DIR.path('theme/templates')),
         ],
         'OPTIONS': {
             # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-debug
@@ -216,14 +223,14 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 # STATIC FILE CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-root
-STATIC_ROOT = str(ROOT_DIR('staticfiles'))
+STATIC_ROOT = env('STATIC_FILES_ROOT', default=str(ROOT_DIR('staticfiles')))
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-url
 STATIC_URL = '/static/'
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
 STATICFILES_DIRS = [
-    str(APPS_DIR.path('static')),
+    str(APPS_DIR.path('theme/static')),
     str(ROOT_DIR.path('docs/_static'))
 ]
 
@@ -236,7 +243,7 @@ STATICFILES_FINDERS = [
 # MEDIA CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#media-root
-MEDIA_ROOT = str(ROOT_DIR('media'))
+MEDIA_ROOT = env('MEDIA_FILES_ROOT', default=str(ROOT_DIR('media')))
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#media-url
 MEDIA_URL = '/media/'
@@ -247,6 +254,7 @@ ROOT_URLCONF = 'config.urls'
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#wsgi-application
 WSGI_APPLICATION = 'config.wsgi.application'
+ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['example.com'])
 
 # AUTHENTICATION CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -259,6 +267,8 @@ AUTHENTICATION_BACKENDS = [
 ACCOUNT_AUTHENTICATION_METHOD = 'username'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
+ACCOUNT_ALLOW_REGISTRATION = env.bool('DJANGO_ACCOUNT_ALLOW_REGISTRATION', True)
 
 # Custom user app defaults
 # Select the correct user model

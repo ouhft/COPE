@@ -19,20 +19,11 @@ print("DEBUG: Loading settings from development")
 
 # DEBUG
 # ------------------------------------------------------------------------------
-DEBUG = env.bool('DJANGO_DEBUG', default=True)
-TEMPLATES[0]['OPTIONS']['debug'] = DEBUG
 CRISPY_FAIL_SILENTLY = not DEBUG
 # Debug language for seeing labels rather than translations
 LANGUAGES = LANGUAGES + [
     ('en-db', _('SET04 Debug Language')),
 ]
-ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['example.com'])
-
-# SECRET CONFIGURATION
-# ------------------------------------------------------------------------------
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
-# Note: This key only used for development and testing.
-SECRET_KEY = env("DJANGO_SECRET_KEY", default='poiuytrewqasdfghjkl09876543211234567890mnbvcxzzxcvbnm.lo9876cft5432')
 
 # Mail settings
 # ------------------------------------------------------------------------------
@@ -58,8 +49,8 @@ MIDDLEWARE_CLASSES = [
 INSTALLED_APPS += [
     'debug_toolbar',
     'template_profiler_panel'
-    # Disabled due to django 1.11 creating template timings that caused this profiler to
-    # explode with super huge page sizes and load times - https://github.com/jazzband/django-debug-toolbar/issues/910
+    # Disabled due to django 1.11 creating template timings that caused this profiler to explode with super
+    # huge page sizes and load times - https://github.com/jazzband/django-debug-toolbar/issues/910
 ]
 
 INTERNAL_IPS = ('127.0.0.1',)
