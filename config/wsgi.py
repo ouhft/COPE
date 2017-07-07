@@ -11,6 +11,6 @@ import environ
 
 from django.core.wsgi import get_wsgi_application
 
-environ.Env.read_env(env_file='settings/.env')
+environ.Env.read_env(env_file='config/settings/.env')
 
 application = get_wsgi_application()
