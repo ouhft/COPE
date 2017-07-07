@@ -184,8 +184,6 @@ def procurement_form(request, pk):
         messages.error(request, 'That case has been <strong>closed</strong>.')
         return redirect(reverse('wp4:compare:procurement_list'))
 
-
-
     # ================================================ DONOR
     person_form = OrganPersonForm(
         request.POST or None,

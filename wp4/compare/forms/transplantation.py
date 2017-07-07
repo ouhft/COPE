@@ -12,7 +12,6 @@ from dal import autocomplete
 
 from wp4.theme.layout import FieldWithFollowup, YesNoFieldWithAlternativeFollowups, FieldWithNotKnown, ForeignKeyModal
 from wp4.theme.layout import DateTimeField, FormPanel
-from wp4.staff.models import Person
 from ..models import OrganAllocation, Recipient, Organ
 from ..models import YES_NO_UNKNOWN_CHOICES, LOCATION_CHOICES
 from .core import NO_YES_CHOICES
@@ -27,71 +26,11 @@ class AllocationForm(forms.ModelForm):
         'reallocation'
     )
 
-    helper = FormHelper()
-    helper.form_tag = False
-    helper.html5_required = True
-    helper.include_media = False  # We will add the media ourselves in the footer
-    helper.layout = Layout(
-        'organ',
-        Div(
-            Div(
-                'perfusion_technician',
-                FieldWithNotKnown(
-                    DateTimeField('call_received', notknown=True),
-                    'call_received_unknown',
-                    label=OrganAllocation._meta.get_field("call_received").verbose_name.title()
-                ),
-                'transplant_hospital',
-                ForeignKeyModal('theatre_contact'),
-                FieldWithNotKnown(
-                    DateTimeField('scheduled_start', notknown=True),
-                    'scheduled_start_unknown',
-                    label=OrganAllocation._meta.get_field("scheduled_start").verbose_name.title()
-                ),
-                FieldWithNotKnown(
-                    DateTimeField('technician_arrival', notknown=True),
-                    'technician_arrival_unknown',
-                    label=OrganAllocation._meta.get_field("technician_arrival").verbose_name.title()
-                ),
-                style="padding-right:0.5em"
-            ),
-            css_class="col-md-4"
-        ),
-        Div(
-            Div(
-                FieldWithNotKnown(
-                    DateTimeField('depart_perfusion_centre', notknown=True),
-                    'depart_perfusion_centre_unknown',
-                    label=OrganAllocation._meta.get_field("depart_perfusion_centre").verbose_name.title()
-                ),
-                FieldWithNotKnown(
-                    DateTimeField('arrival_at_recipient_hospital', notknown=True),
-                    'arrival_at_recipient_hospital_unknown',
-                    label=OrganAllocation._meta.get_field("arrival_at_recipient_hospital").verbose_name.title()
-                ),
-                'journey_remarks',
-                style="padding-right:0.5em"
-            ),
-            css_class="col-md-4"
-        ),
-        Div(
-            FieldWithFollowup(
-                Field('reallocated', template="bootstrap3/layout/radioselect-buttons.html"),
-                layout_reallocation
-            ),
-            css_class="col-md-4"
-        )
-    )
-
     def __init__(self, *args, **kwargs):
         super(AllocationForm, self).__init__(*args, **kwargs)
         self.fields['organ'].widget = forms.HiddenInput()
         self.fields['perfusion_technician'].required = False
-        # self.fields['perfusion_technician'].choices = Person.objects.filter(id=self.instance.perfusion_technician_id).\
-        #     values_list('id', 'last_name')
         self.fields['call_received'].input_formats = settings.DATETIME_INPUT_FORMATS
-        # self.fields['theatre_contact'].choices = Person.objects.filter(id=self.instance.theatre_contact_id).\
-        #     values_list('id', 'last_name')
         self.fields['scheduled_start'].input_formats = settings.DATETIME_INPUT_FORMATS
         self.fields['technician_arrival'].input_formats = settings.DATETIME_INPUT_FORMATS
         self.fields['depart_perfusion_centre'].input_formats = settings.DATETIME_INPUT_FORMATS
@@ -99,6 +38,62 @@ class AllocationForm(forms.ModelForm):
         self.fields['reallocated'].choices = NO_YES_CHOICES
         self.fields['reallocation_reason'].choices = OrganAllocation.REALLOCATION_CHOICES
         self.fields['reallocation'].widget = forms.HiddenInput()
+
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+        self.helper.html5_required = True
+        self.helper.include_media = False  # We will add the media ourselves in the footer
+        self.helper.layout = Layout(
+            'organ',
+            Div(
+                Div(
+                    'perfusion_technician',
+                    FieldWithNotKnown(
+                        DateTimeField('call_received', notknown=True),
+                        'call_received_unknown',
+                        label=OrganAllocation._meta.get_field("call_received").verbose_name.title()
+                    ),
+                    'transplant_hospital',
+                    ForeignKeyModal('theatre_contact'),
+                    FieldWithNotKnown(
+                        DateTimeField('scheduled_start', notknown=True),
+                        'scheduled_start_unknown',
+                        label=OrganAllocation._meta.get_field("scheduled_start").verbose_name.title()
+                    ),
+                    FieldWithNotKnown(
+                        DateTimeField('technician_arrival', notknown=True),
+                        'technician_arrival_unknown',
+                        label=OrganAllocation._meta.get_field("technician_arrival").verbose_name.title()
+                    ),
+                    style="padding-right:0.5em"
+                ),
+                css_class="col-md-4"
+            ),
+            Div(
+                Div(
+                    FieldWithNotKnown(
+                        DateTimeField('depart_perfusion_centre', notknown=True),
+                        'depart_perfusion_centre_unknown',
+                        label=OrganAllocation._meta.get_field("depart_perfusion_centre").verbose_name.title()
+                    ),
+                    FieldWithNotKnown(
+                        DateTimeField('arrival_at_recipient_hospital', notknown=True),
+                        'arrival_at_recipient_hospital_unknown',
+                        label=OrganAllocation._meta.get_field("arrival_at_recipient_hospital").verbose_name.title()
+                    ),
+                    'journey_remarks',
+                    style="padding-right:0.5em"
+                ),
+                css_class="col-md-4"
+            ),
+            Div(
+                FieldWithFollowup(
+                    Field('reallocated', template="bootstrap3/layout/radioselect-buttons.html"),
+                    self.layout_reallocation
+                ),
+                css_class="col-md-4"
+            )
+        )
 
     class Meta:
         model = OrganAllocation

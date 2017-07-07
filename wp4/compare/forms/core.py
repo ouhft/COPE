@@ -42,14 +42,6 @@ class OrganPersonForm(forms.ModelForm):
         Field('blood_group', template="bootstrap3/layout/radioselect-buttons.html")
     )
 
-    helper = FormHelper()
-    helper.form_tag = False
-    helper.html5_required = True
-    helper.layout = Layout(
-        HTML("<div class=\"col-md-4\" style=\"margin-top: 10px\">"),
-        FormPanel("Patient Description", layout_person)
-    )
-
     def __init__(self, *args, **kwargs):
         super(OrganPersonForm, self).__init__(*args, **kwargs)
         self.fields['number'].required = False
@@ -57,6 +49,14 @@ class OrganPersonForm(forms.ModelForm):
         self.fields['gender'].choices = Patient.GENDER_CHOICES
         self.fields['ethnicity'].choices = Patient.ETHNICITY_CHOICES
         self.fields['blood_group'].choices = Patient.BLOOD_GROUP_CHOICES
+
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+        self.helper.html5_required = True
+        self.helper.layout = Layout(
+            HTML("<div class=\"col-md-4\" style=\"margin-top: 10px\">"),
+            FormPanel("Patient Description", self.layout_person)
+        )
 
     class Meta:
         model = Patient
@@ -80,30 +80,26 @@ class DonorStartForm(forms.ModelForm):
         label=_("DSF01 Offline Case ID")
     )
 
-    helper = FormHelper()
-    helper.form_tag = False
-    helper.html5_required = True
-    helper.layout = Layout(
-        'retrieval_team',
-        'perfusion_technician',
-        'age',
-        Field('gender', template="bootstrap3/layout/radioselect-buttons.html"),
-        FieldWithFollowup(
-            Field('online', template="bootstrap3/layout/radioselect-buttons.html"),
-            'randomisation'
-        )
-    )
-
     def __init__(self, *args, **kwargs):
         super(DonorStartForm, self).__init__(*args, **kwargs)
-        # Shortcutting the choices has been superceded by changes in DAL 3.2.4 (which throws an error when it
-        # can't find a queryset in the choices list)
-        # self.fields['retrieval_team'].choices = []  # Can default to empty list because autocomplete will query
-        # self.fields['perfusion_technician'].choices = []  # Can default to empty list because autocomplete will query
         self.fields['gender'].label = Patient._meta.get_field("gender").verbose_name.title()
         self.fields['gender'].choices = Patient.GENDER_CHOICES
         self.fields['online'].required = False
         self.fields['online'].choices = YES_NO_CHOICES
+
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+        self.helper.html5_required = True
+        self.helper.layout = Layout(
+            'retrieval_team',
+            'perfusion_technician',
+            'age',
+            Field('gender', template="bootstrap3/layout/radioselect-buttons.html"),
+            FieldWithFollowup(
+                Field('online', template="bootstrap3/layout/radioselect-buttons.html"),
+                'randomisation'
+            )
+        )
 
     class Meta:
         model = Donor
@@ -148,22 +144,20 @@ class AllocationStartForm(forms.Form):
         required=False
     )
 
-    helper = FormHelper()
-    helper.form_tag = False
-    helper.html5_required = True
-    helper.layout = Layout(
-        'organ',
-        # This counter doesn't work because it is only accurate at compile time
-        # HTML("<p> " + str(Organ.allocatable_objects.count()) + " available organs</p>"),
-        FieldWithFollowup(
-            Field('allocated', template="bootstrap3/layout/radioselect-buttons.html"),
-            'not_allocated_reason'
-        )
-    )
-
     def __init__(self, *args, **kwargs):
         super(AllocationStartForm, self).__init__(*args, **kwargs)
         self.fields['allocated'].choices = YES_NO_CHOICES
+
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+        self.helper.html5_required = True
+        self.helper.layout = Layout(
+            'organ',
+            FieldWithFollowup(
+                Field('allocated', template="bootstrap3/layout/radioselect-buttons.html"),
+                'not_allocated_reason'
+            )
+        )
 
     class Meta:
         localized_fields = '__all__'

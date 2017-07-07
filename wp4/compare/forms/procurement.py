@@ -12,7 +12,6 @@ from crispy_forms.layout import Layout, Div, HTML, Field
 from wp4.theme.layout import InlineFields, FieldWithFollowup, YesNoFieldWithAlternativeFollowups
 from wp4.theme.layout import FieldWithNotKnown, ForeignKeyModal
 from wp4.theme.layout import DateTimeField, DateField, FormPanel
-from wp4.staff.models import Person
 
 from ..models import Donor, Organ, ProcurementResource
 from ..models import YES_NO_UNKNOWN_CHOICES
@@ -36,8 +35,6 @@ class DonorForm(forms.ModelForm):
         self.fields['retrieval_team'].widget = forms.HiddenInput()
         self.fields['sequence_number'].widget = forms.HiddenInput()
         self.fields['perfusion_technician'].widget = forms.HiddenInput()
-        # self.fields['transplant_coordinator'].choices = Person.objects.\
-        #     filter(id=self.instance.transplant_coordinator_id).values_list('id', 'last_name')
         self.fields['call_received'].input_formats = settings.DATETIME_INPUT_FORMATS
         self.fields['scheduled_start'].input_formats = settings.DATETIME_INPUT_FORMATS
         self.fields['technician_arrival'].input_formats = settings.DATETIME_INPUT_FORMATS
@@ -398,19 +395,6 @@ class OrganForm(forms.ModelForm):
 
 
 class ProcurementResourceForm(forms.ModelForm):
-    helper = FormHelper()
-    helper.form_tag = False
-    helper.html5_required = True
-    helper.layout = Layout(
-        'organ',
-        Field('type', template="bootstrap3/layout/read-only.html"),
-        'lot_number',
-        FieldWithNotKnown(
-            DateField('expiry_date', notknown=True),
-            'expiry_date_unknown',
-            label=ProcurementResource._meta.get_field("expiry_date").verbose_name.title()
-        )
-    )
 
     def __init__(self, *args, **kwargs):
         super(ProcurementResourceForm, self).__init__(*args, **kwargs)
@@ -419,6 +403,20 @@ class ProcurementResourceForm(forms.ModelForm):
         self.fields['type'].widget = forms.HiddenInput()
         self.fields['type'].choices = ProcurementResource.TYPE_CHOICES
         self.fields['expiry_date'].input_formats = settings.DATE_INPUT_FORMATS
+
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+        self.helper.html5_required = True
+        self.helper.layout = Layout(
+            'organ',
+            Field('type', template="bootstrap3/layout/read-only.html"),
+            'lot_number',
+            FieldWithNotKnown(
+                DateField('expiry_date', notknown=True),
+                'expiry_date_unknown',
+                label=ProcurementResource._meta.get_field("expiry_date").verbose_name.title()
+            )
+        )
 
     class Meta:
         model = ProcurementResource
