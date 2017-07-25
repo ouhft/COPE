@@ -289,7 +289,8 @@ def DynamicDonorForm(is_admin=False, *args, **kwargs):
         def __init__(self):
             super(InternalDonorForm, self).__init__(*args, **kwargs)
             # self.helper.layout[3][2][1].append(Field('admin_notes'))
-            self.helper.layout.append(self.layout_admin_extras)
+            if is_admin:
+                self.helper.layout.append(self.layout_admin_extras)
 
     return InternalDonorForm()
 
