@@ -29,7 +29,7 @@ from .models import PRESERVATION_HMPO2, PRESERVATION_HMP
 from .forms.core import DonorStartForm, OrganPersonForm, AllocationStartForm
 from .forms.procurement import DynamicDonorForm, OrganForm
 from .forms.procurement import ProcurementResourceLeftInlineFormSet, ProcurementResourceRightInlineFormSet
-from .forms.transplantation import AllocationFormSet, RecipientForm, TransplantOrganForm
+from .forms.transplantation import AllocationFormSet, RecipientForm, DynamicTransplantOrganForm
 from .utils import update_trial_ids_and_save
 
 
@@ -529,7 +529,8 @@ def transplantation_form(request, pk=None):
     # See if we can process the forms associated with the eventual recipient
     if organ.safe_recipient is not None:
         # Form metadata is on the Organ record, so we have a TransplantOrganForm
-        organ_form = TransplantOrganForm(
+        organ_form = DynamicTransplantOrganForm(
+            current_person.is_administrator,
             request.POST or None,
             request.FILES or None,
             instance=organ,

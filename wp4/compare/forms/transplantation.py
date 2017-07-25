@@ -360,3 +360,29 @@ class TransplantOrganForm(forms.ModelForm):
                 )
             ), panel_status="danger"),  # , panel_hidden=True
         )
+
+
+def DynamicTransplantOrganForm(is_admin=False, *args, **kwargs):
+    """
+    Dynamic overlay for the TransplantOrganForm modelform so that we can add in extra fields on demand if this is an
+    admin user
+
+    :param is_admin: Defaults to false
+    :param args:
+    :param kwargs:
+    :return: TransplantOrganForm modelform object
+    """
+    class InternalForm(TransplantOrganForm):
+        layout_admin_extras = Layout(
+            FormPanel("Administrators Only", Layout('admin_notes'), panel_status="danger"),
+        )
+
+        class Meta(TransplantOrganForm.Meta):
+            fields = TransplantOrganForm.Meta.fields if not is_admin else TransplantOrganForm.Meta.fields + ['admin_notes']
+
+        def __init__(self):
+            super(InternalForm, self).__init__(*args, **kwargs)
+            if is_admin:
+                self.helper.layout.append(self.layout_admin_extras)
+
+    return InternalForm()
