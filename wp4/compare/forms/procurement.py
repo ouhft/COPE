@@ -266,6 +266,34 @@ class DonorForm(forms.ModelForm):
         return cleaned_data
 
 
+def DynamicDonorForm(is_admin=False, *args, **kwargs):
+    """
+    Dynamic overlay for the DonorForm modelform so that we can add in extra fields on demand if this is an admin user
+
+    :param is_admin: Defaults to false
+    :param args:
+    :param kwargs:
+    :return: DonorForm modelform object
+    """
+    class InternalDonorForm(DonorForm):
+        layout_admin_extras = Layout(
+            Div(
+                FormPanel("Administrators Only", Layout('admin_notes'), panel_status="danger"),
+                css_class="col-md-12",
+            ),
+        )
+
+        class Meta(DonorForm.Meta):
+            fields = DonorForm.Meta.fields if not is_admin else DonorForm.Meta.fields + ['admin_notes']
+
+        def __init__(self):
+            super(InternalDonorForm, self).__init__(*args, **kwargs)
+            # self.helper.layout[3][2][1].append(Field('admin_notes'))
+            self.helper.layout.append(self.layout_admin_extras)
+
+    return InternalDonorForm()
+
+
 class OrganForm(forms.ModelForm):
     layout_artificial_patches = Layout(
         Field('artificial_patch_size', template="bootstrap3/layout/radioselect-buttons.html"),

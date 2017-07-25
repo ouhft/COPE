@@ -27,7 +27,7 @@ from wp4.followups.utils import generate_followups_from_recipient
 from .models import Patient, Donor, Organ, Recipient, ProcurementResource, OrganAllocation, RetrievalTeam
 from .models import PRESERVATION_HMPO2, PRESERVATION_HMP
 from .forms.core import DonorStartForm, OrganPersonForm, AllocationStartForm
-from .forms.procurement import DonorForm, OrganForm
+from .forms.procurement import DynamicDonorForm, OrganForm
 from .forms.procurement import ProcurementResourceLeftInlineFormSet, ProcurementResourceRightInlineFormSet
 from .forms.transplantation import AllocationFormSet, RecipientForm, TransplantOrganForm
 from .utils import update_trial_ids_and_save
@@ -197,7 +197,13 @@ def procurement_form(request, pk):
     else:
         print("DEBUG: person form errors: %s" % person_form.errors)
 
-    donor_form = DonorForm(request.POST or None, request.FILES or None, instance=donor, prefix="donor")
+    donor_form = DynamicDonorForm(
+        current_person.is_administrator,
+        request.POST or None,
+        request.FILES or None,
+        instance=donor,
+        prefix="donor"
+    )
     if donor_form.is_valid():
         donor = donor_form.save(current_person)
 
@@ -377,9 +383,9 @@ def procurement_view(request, pk):
 
     # ================================================ DONOR
     person_form = OrganPersonForm(None, None, instance=donor.person, prefix="donor-person")
-    person_form.helper.layout[1][0][1][0][1].wrap(css_class='text-danger')  # FIX THIS!!  TODO: YOU ARE HERE
+    # person_form.helper.layout[1][0][1][0][1].wrap(css_class='text-danger')  # FIX THIS!!  TODO: YOU ARE HERE
 
-    donor_form = DonorForm(None, None, instance=donor, prefix="donor")
+    donor_form = DynamicDonorForm(current_person.is_administrator, None, None, instance=donor, prefix="donor")
 
     # ================================================ LEFT ORGAN
     left_organ_instance = donor.left_kidney
