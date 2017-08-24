@@ -367,6 +367,9 @@ def DynamicTransplantOrganForm(is_admin=False, *args, **kwargs):
     Dynamic overlay for the TransplantOrganForm modelform so that we can add in extra fields on demand if this is an
     admin user
 
+    ref: https://stackoverflow.com/questions/297383/dynamically-update-modelforms-meta-class
+    ref: http://django-crispy-forms.readthedocs.io/en/latest/dynamic_layouts.html#manipulating-a-layout
+
     :param is_admin: Defaults to false
     :param args:
     :param kwargs:

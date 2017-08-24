@@ -7,7 +7,7 @@
 		"uuidString": "2F21D3FE-7ED7-4D98-A63A-B612A96A0466"
 		}
 	],
-"creatorBuild": "25813",
+"creatorBuild": "25900",
 "files": {
 	"\/500.html": {
 		"ft": 8192,
@@ -149,6 +149,7 @@
 		},
 	"\/js-plugins\/affix.js": {
 		"ft": 64,
+		"ma": 0,
 		"mi": 1,
 		"oA": 1,
 		"oAP": "\/js-plugins\/min\/affix-min.js",
@@ -158,6 +159,7 @@
 		},
 	"\/js-plugins\/alert.js": {
 		"ft": 64,
+		"ma": 0,
 		"mi": 1,
 		"oA": 1,
 		"oAP": "\/js-plugins\/min\/alert-min.js",
@@ -167,6 +169,7 @@
 		},
 	"\/js-plugins\/bootstrap-datetimepicker.js": {
 		"ft": 64,
+		"ma": 0,
 		"mi": 1,
 		"oA": 1,
 		"oAP": "\/js-plugins\/min\/bootstrap-datetimepicker-min.js",
@@ -176,6 +179,7 @@
 		},
 	"\/js-plugins\/button.js": {
 		"ft": 64,
+		"ma": 0,
 		"mi": 1,
 		"oA": 1,
 		"oAP": "\/js-plugins\/min\/button-min.js",
@@ -185,6 +189,7 @@
 		},
 	"\/js-plugins\/carousel.js": {
 		"ft": 64,
+		"ma": 0,
 		"mi": 1,
 		"oA": 1,
 		"oAP": "\/js-plugins\/min\/carousel-min.js",
@@ -194,6 +199,7 @@
 		},
 	"\/js-plugins\/collapse.js": {
 		"ft": 64,
+		"ma": 0,
 		"mi": 1,
 		"oA": 1,
 		"oAP": "\/js-plugins\/min\/collapse-min.js",
@@ -203,6 +209,7 @@
 		},
 	"\/js-plugins\/dropdown.js": {
 		"ft": 64,
+		"ma": 0,
 		"mi": 1,
 		"oA": 1,
 		"oAP": "\/js-plugins\/min\/dropdown-min.js",
@@ -212,6 +219,7 @@
 		},
 	"\/js-plugins\/jquery-2.1.4.js": {
 		"ft": 64,
+		"ma": 0,
 		"mi": 1,
 		"oA": 1,
 		"oAP": "\/js-plugins\/min\/jquery-2.1.4-min.js",
@@ -221,6 +229,7 @@
 		},
 	"\/js-plugins\/jquery-3.1.1.js": {
 		"ft": 64,
+		"ma": 0,
 		"mi": 1,
 		"oA": 1,
 		"oAP": "\/js-plugins\/min\/jquery-3.1.1-min.js",
@@ -230,6 +239,7 @@
 		},
 	"\/js-plugins\/jquery.ajax.js": {
 		"ft": 64,
+		"ma": 0,
 		"mi": 1,
 		"oA": 1,
 		"oAP": "\/js-plugins\/min\/jquery.ajax-min.js",
@@ -239,6 +249,7 @@
 		},
 	"\/js-plugins\/modal.js": {
 		"ft": 64,
+		"ma": 0,
 		"mi": 1,
 		"oA": 1,
 		"oAP": "\/js-plugins\/min\/modal-min.js",
@@ -248,6 +259,7 @@
 		},
 	"\/js-plugins\/moment-with-locales.js": {
 		"ft": 64,
+		"ma": 0,
 		"mi": 1,
 		"oA": 1,
 		"oAP": "\/js-plugins\/min\/moment-with-locales-min.js",
@@ -257,6 +269,7 @@
 		},
 	"\/js-plugins\/popover.js": {
 		"ft": 64,
+		"ma": 0,
 		"mi": 1,
 		"oA": 1,
 		"oAP": "\/js-plugins\/min\/popover-min.js",
@@ -266,6 +279,7 @@
 		},
 	"\/js-plugins\/scrollspy.js": {
 		"ft": 64,
+		"ma": 0,
 		"mi": 1,
 		"oA": 1,
 		"oAP": "\/js-plugins\/min\/scrollspy-min.js",
@@ -275,6 +289,7 @@
 		},
 	"\/js-plugins\/tab.js": {
 		"ft": 64,
+		"ma": 0,
 		"mi": 1,
 		"oA": 1,
 		"oAP": "\/js-plugins\/min\/tab-min.js",
@@ -284,6 +299,7 @@
 		},
 	"\/js-plugins\/tooltip.js": {
 		"ft": 64,
+		"ma": 0,
 		"mi": 1,
 		"oA": 1,
 		"oAP": "\/js-plugins\/min\/tooltip-min.js",
@@ -293,6 +309,7 @@
 		},
 	"\/js-plugins\/transition.js": {
 		"ft": 64,
+		"ma": 0,
 		"mi": 1,
 		"oA": 1,
 		"oAP": "\/js-plugins\/min\/transition-min.js",
@@ -302,6 +319,7 @@
 		},
 	"\/js\/cope.js": {
 		"ft": 64,
+		"ma": 0,
 		"mi": 1,
 		"oA": 0,
 		"oAP": "\/js\/min\/cope-min.js",
@@ -311,6 +329,7 @@
 		},
 	"\/js\/min\/cope-min.js": {
 		"ft": 64,
+		"ma": 0,
 		"mi": 1,
 		"oA": 1,
 		"oAP": "\/js\/min\/min\/cope-min-min.js",
@@ -1972,6 +1991,10 @@
 			"active": 0,
 			"optionString": "{'setWithoutGet': true, 'getWithoutSet': false}"
 			},
+		"array-bracket-newline": {
+			"active": 0,
+			"optionString": "{'multiline': true, 'minItems': null}"
+			},
 		"array-bracket-spacing": {
 			"active": 0,
 			"optionString": "'never', {'singleValue': false, 'objectsInArrays': false, 'arraysInArrays': false}"
@@ -1979,6 +2002,10 @@
 		"array-callback-return": {
 			"active": 0,
 			"optionString": ""
+			},
+		"array-element-newline": {
+			"active": 0,
+			"optionString": "'always'"
 			},
 		"arrow-body-style": {
 			"active": 0,
@@ -2076,6 +2103,10 @@
 			"active": 0,
 			"optionString": "'always', {'null': 'always'}"
 			},
+		"for-direction": {
+			"active": 0,
+			"optionString": ""
+			},
 		"func-call-spacing": {
 			"active": 0,
 			"optionString": "'never'"
@@ -2095,6 +2126,10 @@
 		"generator-star-spacing": {
 			"active": 0,
 			"optionString": "{'before': true, 'after': false}"
+			},
+		"getter-return": {
+			"active": 0,
+			"optionString": "{'allowImplicit': false}"
 			},
 		"global-require": {
 			"active": 0,
@@ -2223,6 +2258,10 @@
 		"no-bitwise": {
 			"active": 0,
 			"optionString": "{'allow': ['~'], 'int32Hint': true}"
+			},
+		"no-buffer-constructor": {
+			"active": 0,
+			"optionString": ""
 			},
 		"no-caller": {
 			"active": 0,
@@ -2768,6 +2807,10 @@
 			"active": 0,
 			"optionString": "{'blocks': 'always', 'switches': 'always', 'classes': 'always'}"
 			},
+		"padding-line-between-statements": {
+			"active": 0,
+			"optionString": "{blankLine: 'always', prev:'*', next:'return'}"
+			},
 		"prefer-arrow-callback": {
 			"active": 0,
 			"optionString": ""
@@ -2836,6 +2879,10 @@
 			"active": 0,
 			"optionString": "{'before': false, 'after': true}"
 			},
+		"semi-style": {
+			"active": 0,
+			"optionString": "'last'"
+			},
 		"sort-imports": {
 			"active": 0,
 			"optionString": "{'ignoreCase': false, 'ignoreMemberSort': true, 'memberSyntaxSortOrder': ['none', 'all', 'multiple', 'single']}"
@@ -2875,6 +2922,10 @@
 		"strict": {
 			"active": 0,
 			"optionString": "'safe'"
+			},
+		"switch-colon-spacing": {
+			"active": 0,
+			"optionString": "{'after': true, 'before': false}"
 			},
 		"symbol-description": {
 			"active": 0,
@@ -3504,9 +3555,11 @@
 		},
 	"languageDefaultsUserDefined": [
 		],
+	"overrideExternalServerCSS": 0,
 	"previewPathAddition": "",
 	"skippedFoldersString": "log, _logs, logs, _cache, cache, \/storage\/framework\/sessions, node_modules",
 	"sourceFolderName": "source",
+	"susyVersion": 3,
 	"uglifyDefinesString": "",
 	"uglifyFlags2": {
 		"ascii-only": {

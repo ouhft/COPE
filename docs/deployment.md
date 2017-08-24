@@ -1,9 +1,17 @@
 # Deployment
 
+There are presently three deployments of this project code: 
+
+* **Development**: Local copy for development work and testing
+* **Test/Staging**: Externally hosted deployment with dummy data but latest code to allow for partners to test and trial changes
+* **Production**: Dedicated VM hosted by MSD-IT providing the cope.nds.ox.ac.uk domain 
+
 Local development deployment notes on this can be found in [Development](development.md)
 
 
 ## Test/Staging (Webfaction)
+
+Testing has an auto-redeploy script setup which will attempt to take the lastest code changes from master after each push. The information below therefore, relates to the intial setup of the COPE DB deployment (and lacks any notes on the changes between python 2 and python 3).
 
 Used an existing site setup, which needs documenting at some stage, and cleared it out as much as possible of the
 previous application install (lots of ``pip uninstall``, along with deleting a few files and folders)
@@ -93,16 +101,46 @@ The apache2 ``httpd.conf`` looks like this presently (copy in ``deploy/httpd.con
     WSGIScriptAlias / /home/cm13/webapps/wp4_django/COPE/config/wsgi.py
 
 
-Unrelated, but likely useful to remember: Command to get pip to update all installed packages:
-
-    pip list --outdated
-    pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U
-
-
 ## Production (cope.nds)
 
-An Ubuntu 14.04 LTS Server virtual machine has been created and hosted by MSD-IT Services. This is the unmanaged
-service, which means that we are responsible for it's patching and upkeep. Initial steps so far have been to change
+An Ubuntu 16.04.3 (originally 14.04) LTS Server virtual machine has been created and hosted by MSD-IT Services. This is the unmanaged
+service, which means that we are responsible for its patching and upkeep. 
+
+### Maintainence
+Periodically there are maintainence tasks to do, such as:
+
+**System:**
+
+Don't forget to keep things up to date with ([https://help.ubuntu.com/community/AptGet/Howto]()):
+
+    sudo apt autoremove
+    sudo apt update
+    sudo apt upgrade
+    sudo apt autoclean
+
+    sudo shutdown -r now
+
+**Database:**
+
+After the end of each month, it is worth collating all the daily database backups into a single compressed archive. Instructions on how to do this can be found on the server, in a text file, in the db-backups folder
+
+#### Update the application release
+
+ * Activate the virtualenv ``workon py3_cope``
+ * Move into the repository directory for most tasks ``cd /sites/py3_cope/cope_repo/``
+ * Get the latest updates from the central repository ``git pull --all``
+ * Update the application libraries ``pip install -r requirements/production.txt``
+ * Check things are working so far ``python manage.py check``
+ * Apply any necessary migrations ``python manage.py migrate``
+ * Gather the staticfiles up ``python manage.py collectstatic``
+ * Apply the locale updates `python manage.py compilemessages`
+ * Check things are working so far II ``python manage.py check``
+ * Start the supervisor console to reload the changes ``sudo supervisorctl restart cope-django``
+ * ...and all should be fine.
+
+### Setup
+
+Initial steps so far have been to change
 the user account password (u: copeuser - p: in carl's password safe). Installing ssh keys will happen soon. Access
 to the server should be via ssh (only from Oxford network, including vpn) and via the VMWare web console (oxford network
 only - [https://fibula.msd.ox.ac.uk/]())
@@ -112,7 +150,7 @@ Setup is going to be loosely based on the guides from [https://www.chicagodjango
 in the Two Scoops of Django 1.8: Best Practices guide (see Chapter 31). More useful though is the guide from
 [http://michal.karzynski.pl/blog/2013/06/09/django-nginx-gunicorn-virtualenv-supervisor/]() (which I've used in the past).
 
-### Access
+#### Access
 
 So, initially we have access via ``ssh copeuser@cope.nds.ox.ac.uk``, and using a password. Step two is to install our
 SSH key (iMac@Home presently). Step one is we need to generate an ssh key for the server to register with github for
@@ -162,16 +200,6 @@ version of python is 2.7.6, which is currently fine for use, so will skip instal
 requiring any particular caching installation at this time either, so in the interests of KISS, we will install as
 little as possible.
 
-#### Maintainence
-
-Don't forget to keep things up to date with ([https://help.ubuntu.com/community/AptGet/Howto]()):
-
-    sudo apt-get update
-    sudo apt-get upgrade
-    sudo apt-get check
-    sudo apt-get autoclean
-
-    sudo shutdown -r now
 
 #### Installation
 
@@ -418,27 +446,7 @@ The string "HTTP_X_FORWARDED_PROTOCOL" is derived from ``proxy_set_header X-Forw
 
 Port 443 has been confirmed as open on the MSD firewall for cope.nds.ox.ac.uk
 
-### Maintainence and updates
 
-Periodically there are maintainence tasks to do, such as:
-
-* Update the OS libraries and packages - see Maintenace under System Setup above
-* Backup the DB - ``cp db.sqlite3 ../db-backup/yyyymmdd.sqlite3``
-
-#### Update the application release
- * Activate the virtualenv ``workon cope``
- * Move into the repository directory for most tasks ``cd cope-repo``
- * Get the latest updates from the central repository ``git pull --all``
- * Checkout the relevant tagged release (i.e. not Head of Master branch) ``git checkout 0.4.6``
- * Update the application libraries ``pip install -r requirements/production.txt``
- * Check things are working so far ``python manage.py check``
- * Apply any necessary migrations ``python manage.py migrate``
- * Gather the staticfiles up ``python manage.py collectstatic``
- * Apply the locale updates `python manage.py compilemessages`
- * Check things are working so far II ``python manage.py check``
- * Start the supervisor console to reload the changes ``sudo supervisorctl``...
- * and then ``restart cope-django``
- * ...and all should be fine.
 
 #### Troubleshooting
 When things do not go to plan, we want to find out what we can. There's no debug mode on the production server, so it's into the error logs for information. Logs from supervisord are found via: ``cd /var/log/supervisor/``. Unfortunately stack traces aren't captured here (for example on a Server Error), so more work needs to be done to help the monitoring of this server.
