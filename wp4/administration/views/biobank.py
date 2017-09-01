@@ -15,6 +15,7 @@ from django.utils import timezone
 from wp4.samples.models import WP7Record, BloodSample, UrineSample, TissueSample, PerfusateSample
 from wp4.samples.forms import WP7FileForm
 from wp4.samples.utils import WP7Workbook, load_wp7_xlsx
+from wp4.compare.models.donor import Donor
 from wp4.staff.models import Person
 from wp4.utils import group_required
 
@@ -259,13 +260,13 @@ def paired_biopsies(request):
     if not current_person.is_administrator:
         raise PermissionDenied
 
-    listing = {}
+    listing = Donor.objects.all().prefetch_related('_left_kidney__tissuesample_set').prefetch_related('_right_kidney__tissuesample_set')
 
     summary = {}
 
     return render(
         request,
-        'administration/biobank/unmatched_samples.html',
+        'administration/biobank/paired_biopsies.html',
         {
             'listing': listing,
             'summary': summary

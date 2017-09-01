@@ -120,6 +120,11 @@ urlpatterns = [
         name='biobank_unmatched_samples'
     ),
     url(
+        regex=r'^biobank/paired-biopsies',
+        view=biobank.paired_biopsies,
+        name='biobank_paired_biopsies'
+    ),
+    url(
         regex=r'biobank/wp7-upload',
         view=biobank.wp7_file_form,
         name='biobank_wp7_form'
