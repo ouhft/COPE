@@ -260,7 +260,7 @@ def paired_biopsies(request):
     if not current_person.is_administrator:
         raise PermissionDenied
 
-    listing = Donor.objects.all().prefetch_related('_left_kidney__tissuesample_set').prefetch_related('_right_kidney__tissuesample_set')
+    listing = Donor.objects.all().prefetch_related('_left_kidney__tissuesample_set').prefetch_related('_right_kidney__tissuesample_set').order_by('trial_id')
 
     summary = {}
 
