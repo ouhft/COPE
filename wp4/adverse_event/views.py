@@ -188,4 +188,5 @@ class AdverseEventUpdateView(LoginRequiredMixin, MultiplePermissionsRequiredMixi
         "all": ("adverse_event.change_event", ),
         "any": (),
     }
+    form_class = EventForm
 
