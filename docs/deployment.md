@@ -166,10 +166,11 @@ little as possible.
 
 Don't forget to keep things up to date with ([https://help.ubuntu.com/community/AptGet/Howto]()):
 
-    sudo apt-get update
-    sudo apt-get upgrade
+    sudo apt autoremove
+    sudo apt update
+    sudo apt upgrade
     sudo apt-get check
-    sudo apt-get autoclean
+    sudo apt autoclean
 
     sudo shutdown -r now
 
@@ -418,11 +419,11 @@ The string "HTTP_X_FORWARDED_PROTOCOL" is derived from ``proxy_set_header X-Forw
 
 Port 443 has been confirmed as open on the MSD firewall for cope.nds.ox.ac.uk
 
-### Maintainence and updates
+### Maintenance and updates
 
-Periodically there are maintainence tasks to do, such as:
+Periodically there are maintenance tasks to do, such as:
 
-* Update the OS libraries and packages - see Maintenace under System Setup above
+* Update the OS libraries and packages - see Maintenance under System Setup above
 * Backup the DB - ``cp db.sqlite3 ../db-backup/yyyymmdd.sqlite3``
 
 #### Update the application release
