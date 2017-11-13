@@ -1,9 +1,27 @@
 # Deployment
 
+## Development
 Local development deployment notes on this can be found in [Development](development.md)
 
 
-## Test/Staging (Webfaction)
+## Test/Staging
+Test server deployment is to the dev.nds server, accessible under [https://dev.nds.ox.ac.uk/cope/](). This is an Ubuntu 16.04 Server with similar setup to the Production environment. This location was moved here from external (personal) hosting in Nov 2017, having been online in its previous setup since Aug 2015.
+
+Deployment Outline
+
+* Create project
+* Create project user `cope-app-user`
+* Clone repository, select branch
+* Create subfolders, link virtualenv folders
+* Install requirements
+* Modify local `.env` settings
+* Create database (port from old location)
+* Copy deployment files into system folders (nginx, supervisor, etc)
+* Link into the main Nginx config via sites-available
+
+
+
+### Webfaction - OLD 
 
 Used an existing site setup, which needs documenting at some stage, and cleared it out as much as possible of the
 previous application install (lots of ``pip uninstall``, along with deleting a few files and folders)
