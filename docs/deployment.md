@@ -9,11 +9,21 @@ Test server deployment is to the dev.nds server, accessible under [https://dev.n
 
 Deployment Outline
 
-* Create project
-* Create project user `cope-app-user`
+* Create project `$ mkproject -p /usr/bin/python3 cope`
+  * This will activate the new virtualenv, and drop you into `/sites/cope`
+* Create project user `$ sudo useradd --system --gid worker --shell /bin/bash --home /sites/cope cope-app-user`
 * Clone repository, select branch
+  * `$ git clone git@github.com:ouh-churchill/cope.git cope_repo`
+  * `$ cd cope_repo/`
+  * `$ git checkout testing`
 * Create subfolders, link virtualenv folders
+  * `$ cd ..` <-- return to `/sites/cope`
+  * `$ ln -s /sites/.virtualenvs/cope/lib ./lib`
+  * `$ ln -s /sites/.virtualenvs/cope/bin ./bin` 
+  * `$ mkdir -p var/log var/run etc/nginx/sites-available htdocs/media etc/gunicorn`
 * Install requirements
+  * `$ cd cope_repo/`
+  * `$ pip install -r requirements/staging.txt`
 * Modify local `.env` settings
 * Create database (port from old location)
 * Copy deployment files into system folders (nginx, supervisor, etc)
