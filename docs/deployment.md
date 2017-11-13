@@ -29,8 +29,34 @@ Deployment Outline
   * `$ vi config/settings/.env` -- Put in local setting values
   * `$ python manage.py check`
 * Create database (port from old location)
+  * Check it is current with `$ python manage.py migrate`, there should be no missing migrations.
+* Copy the static content into place `$ python manage.py collectstatic`
 * Copy deployment files into system folders (nginx, supervisor, etc)
+  * `$ ln -s /sites/cope/cope_repo/deploy/staging/bin/gunicorn_start.sh /sites/cope/bin/gunicorn_start.sh` -- copy the gunicorn script into the project's bin folder, where the gunicorn config expects to find it
+  * `$ cd /etc/supervisor/conf.d/` -- goto the supervisorctl config folder 
+  * `$ sudo ln -s /sites/cope/cope_repo/deploy/staging/etc/supervisor/conf.d/cope-django.conf ./cope-django.conf` -- copy the config from the repo into the system folder
+  * `$ cd /sites` & `$ sudo chown -R carl:worker cope/` to make all the files now part of the `worker` group and thus executable by the `cope-app-worker` user.
+  * `$ sudo supervisorctl` to begin loading of the new config, and to start the process
+  * `reread` to find the config. `add cope` to make supervisor recognise it. `start cope` to kick the process off.
+  * `$ cd /etc/nginx/sites-available/` to get to the nginx config location
+  * `$ sudo ln -s /sites/cope/cope_repo/deploy/staging/etc/nginx/sites-available/cope.conf cope.conf` to bring in the cope proxy site config
+  * `$ cd ../sites-enabled/` to move into the enabled sites folder
+  * `$ sudo ln -s ../sites-available/cope.conf cope.conf` to make nginx recognise this as an active site
 * Link into the main Nginx config via sites-available
+  * `$ sudo vi default` to edit the main nginx server config, and to add in our new location
+
+  ```
+  location /cope {
+      proxy_set_header X-Forwarded-Protocol $scheme;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header Host $http_host;
+      proxy_set_header X-Scheme $scheme;
+      proxy_set_header X-Forwarded-For $remote_addr;
+
+      proxy_pass http://localhost:9002/;
+  }
+  ``` 
+  * `$ sudo systemctl restart nginx` to reload the config, and start the site
 
 
 
