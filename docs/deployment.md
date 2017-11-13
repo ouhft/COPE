@@ -25,6 +25,9 @@ Deployment Outline
   * `$ cd cope_repo/`
   * `$ pip install -r requirements/staging.txt`
 * Modify local `.env` settings
+  * `$ cp config/settings/.env.template config/settings/.env`
+  * `$ vi config/settings/.env` -- Put in local setting values
+  * `$ python manage.py check`
 * Create database (port from old location)
 * Copy deployment files into system folders (nginx, supervisor, etc)
 * Link into the main Nginx config via sites-available

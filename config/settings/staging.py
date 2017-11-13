@@ -15,7 +15,7 @@ print("DEBUG: Loading settings from staging")
 
 # Because we're behind a reverse proxy, pay attention to where the request is coming from
 USE_X_FORWARDED_HOST = True
-FORCE_SCRIPT_NAME = env('FORCE_SCRIPT_NAME', default='/quod/')
+FORCE_SCRIPT_NAME = env('FORCE_SCRIPT_NAME', default='/cope/')
 
 # django-secure
 # ------------------------------------------------------------------------------
@@ -50,8 +50,8 @@ INSTALLED_APPS += ["gunicorn", ]
 EMAIL_HOST = env('DJANGO_EMAIL_HOST', default='localhost')
 EMAIL_PORT = 25
 EMAIL_BACKEND = env('DJANGO_EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
-DEFAULT_FROM_EMAIL = env('DJANGO_DEFAULT_FROM_EMAIL', default='QUODsite <noreply@dev.nds.ox.ac.uk>')
-EMAIL_SUBJECT_PREFIX = env("DJANGO_EMAIL_SUBJECT_PREFIX", default='[QUODsite] ')
+DEFAULT_FROM_EMAIL = env('DJANGO_DEFAULT_FROM_EMAIL', default='COPE DB (Testing) <noreply@dev.nds.ox.ac.uk>')
+EMAIL_SUBJECT_PREFIX = env("DJANGO_EMAIL_SUBJECT_PREFIX", default='[COPE DB Testing] ')
 SERVER_EMAIL = env('DJANGO_SERVER_EMAIL', default=DEFAULT_FROM_EMAIL)
 
 
