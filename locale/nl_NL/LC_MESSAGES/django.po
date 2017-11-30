@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: v0.6.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-09 14:28+0000\n"
+"POT-Creation-Date: 2017-11-30 17:44+0000\n"
 "PO-Revision-Date: 2015-12-11 18:45+0000\n"
 "Last-Translator: SARAH MERTENS <SARAH.MERTENS@MED.KULEUVEN.BE>\n"
 "Language-Team: NETHERLANDS <LL@li.org>\n"
@@ -17,19 +17,19 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: config/settings/common.py:344
+#: config/settings/common.py:354
 msgid "SET01 Great Britain"
 msgstr "Great Britain"
 
-#: config/settings/common.py:345
+#: config/settings/common.py:355
 msgid "SET02 Belgium"
 msgstr "Belgium"
 
-#: config/settings/common.py:346
+#: config/settings/common.py:356
 msgid "SET03 Netherlands"
 msgstr "Netherlands"
 
-#: config/settings/development.py:27 config/settings/webfaction.py:18
+#: config/settings/development.py:25 config/settings/webfaction.py:18
 msgid "SET04 Debug Language"
 msgstr "Debug Mode"
 
@@ -232,12 +232,12 @@ msgid "AEm2 adverse events"
 msgstr "Adverse Events"
 
 #: wp4/compare/forms/core.py:20 wp4/compare/forms/core.py:26
-#: wp4/samples/forms.py:20 wp4/samples/forms.py:25
+#: wp4/samples/forms.py:22 wp4/samples/forms.py:27
 msgid "FF01 No"
 msgstr "No"
 
 #: wp4/compare/forms/core.py:21 wp4/compare/forms/core.py:25
-#: wp4/samples/forms.py:21 wp4/samples/forms.py:24
+#: wp4/samples/forms.py:23 wp4/samples/forms.py:26
 msgid "FF02 Yes"
 msgstr "Yes"
 
@@ -253,47 +253,47 @@ msgstr "Not applicable"
 msgid "DSF01 Offline Case ID"
 msgstr "Offline Case ID"
 
-#: wp4/compare/forms/core.py:137
+#: wp4/compare/forms/core.py:133
 msgid "ASF01 Select trial id for case"
 msgstr "Select Organ ID"
 
-#: wp4/compare/forms/core.py:141
+#: wp4/compare/forms/core.py:137
 msgid "ASF02 Has this been allocated to a recipient?"
 msgstr "Has this been allocated to a recipient?"
 
-#: wp4/compare/forms/core.py:147
+#: wp4/compare/forms/core.py:143
 msgid "ASF03 Why was this not allocated?"
 msgstr "Why was this not allocated?"
 
-#: wp4/compare/forms/procurement.py:256
+#: wp4/compare/forms/procurement.py:253
 msgid "DFv01 Please enter a valid reason for this case to not be randomised"
 msgstr "Please enter a valid reason for this case to not be randomised"
 
-#: wp4/compare/forms/procurement.py:263
+#: wp4/compare/forms/procurement.py:260
 msgid "DFv02 Please add additional information"
 msgstr "Please enter additional information"
 
-#: wp4/compare/forms/transplantation.py:306
+#: wp4/compare/forms/transplantation.py:301
 msgid "RFv01 Please enter a reason why this was untransplantable"
 msgstr "Please enter a reason why this was untransplantable"
 
-#: wp4/compare/forms/transplantation.py:315
+#: wp4/compare/forms/transplantation.py:310
 msgid "RFv02 Please enter time perfusion was stopped"
 msgstr "Please enter the time perfusion was stopped"
 
-#: wp4/compare/forms/transplantation.py:320
+#: wp4/compare/forms/transplantation.py:315
 msgid "RFv03 Please enter time kidney was removed from machine"
 msgstr "Please enter time kidney was removed from machine"
 
-#: wp4/compare/forms/transplantation.py:325
+#: wp4/compare/forms/transplantation.py:320
 msgid "RFv04 Please enter time anesthesia was started"
 msgstr "Please enter the time anesthesia started at"
 
-#: wp4/compare/forms/transplantation.py:330
+#: wp4/compare/forms/transplantation.py:325
 msgid "RFv05 Please enter time anastomosis was started"
 msgstr "Please enter the time anastomosis started at"
 
-#: wp4/compare/forms/transplantation.py:335
+#: wp4/compare/forms/transplantation.py:330
 msgid "RFv06 Please enter time reperfusion was started"
 msgstr "Please enter the time reperfusion started at"
 
@@ -395,53 +395,53 @@ msgid ""
 "born!"
 msgstr "Date of death given is before date of birth.  Please make a correction"
 
-#: wp4/compare/models/core.py:236
+#: wp4/compare/models/core.py:237
 msgid "RNc01 UK Live list"
 msgstr "UK Online List"
 
-#: wp4/compare/models/core.py:237
+#: wp4/compare/models/core.py:238
 msgid "RNc02 Europe Live list"
 msgstr "Europe Online List"
 
-#: wp4/compare/models/core.py:238
+#: wp4/compare/models/core.py:239
 msgid "RNc03 UK Offline list"
 msgstr "UK OFFline List"
 
-#: wp4/compare/models/core.py:239
+#: wp4/compare/models/core.py:240
 msgid "RNc04 Europe Offline list"
 msgstr "Europe OFFline list"
 
-#: wp4/compare/models/core.py:249
+#: wp4/compare/models/core.py:250
 msgid "RA01 list code"
 msgstr "List Code"
 
-#: wp4/compare/models/core.py:252
+#: wp4/compare/models/core.py:253
 msgid "RA02 result"
 msgstr "Result"
 
-#: wp4/compare/models/core.py:253
+#: wp4/compare/models/core.py:254
 msgid "RA03 allocated on"
 msgstr "Result allocated on"
 
-#: wp4/compare/models/core.py:254
+#: wp4/compare/models/core.py:255
 #, fuzzy
 #| msgid "RA03 allocated on"
 msgid "RA04 allocated by"
 msgstr "Result allocated on"
 
-#: wp4/compare/models/core.py:295
+#: wp4/compare/models/core.py:296
 msgid "RT01 centre code"
 msgstr "Centre Code"
 
-#: wp4/compare/models/core.py:299
+#: wp4/compare/models/core.py:300
 msgid "RT02 base hospital"
 msgstr "Based At"
 
-#: wp4/compare/models/core.py:305
+#: wp4/compare/models/core.py:306
 msgid "RTm1 retrieval team"
 msgstr "Retrieval Team"
 
-#: wp4/compare/models/core.py:306
+#: wp4/compare/models/core.py:307
 msgid "RTm2 retrieval teams"
 msgstr "Retrieval Teams"
 
@@ -2433,83 +2433,83 @@ msgstr "Password change"
 msgid "Change password: %s"
 msgstr "Change password"
 
-#: wp4/staff/models.py:48
+#: wp4/staff/models.py:49
 #, fuzzy
 #| msgid "PE13 telephone number"
 msgid "SP01 telephone number"
 msgstr "Telephone Number"
 
-#: wp4/staff/models.py:56
+#: wp4/staff/models.py:57
 #, fuzzy
 #| msgid "REc24 laceration"
 msgid "SP02 location"
 msgstr "Laceration"
 
-#: wp4/staff/models.py:93
+#: wp4/staff/models.py:97
 #, fuzzy
 #| msgid "PEm1 person"
 msgid "SPm1 person"
 msgstr "Staff Person"
 
-#: wp4/staff/models.py:94
+#: wp4/staff/models.py:98
 #, fuzzy
 #| msgid "PEm2 people"
 msgid "SPm2 people"
 msgstr "Staff People"
 
-#: wp4/templates/admin/base_site.html:3
+#: wp4/theme/templates/admin/base_site.html:3
 msgid "COPE site admin"
 msgstr "COPE site admin"
 
-#: wp4/templates/admin/base_site.html:6
+#: wp4/theme/templates/admin/base_site.html:6
 msgid "COPE DB basic administration"
 msgstr "COPE DB basic administration"
 
-#: wp4/templates/registration/logged_out.html:7
-#: wp4/templates/registration/password_change_done.html:6
-#: wp4/templates/registration/password_reset_complete.html:6
-#: wp4/templates/registration/password_reset_confirm.html:6
-#: wp4/templates/registration/password_reset_done.html:6
+#: wp4/theme/templates/registration/logged_out.html:7
+#: wp4/theme/templates/registration/password_change_done.html:6
+#: wp4/theme/templates/registration/password_reset_complete.html:6
+#: wp4/theme/templates/registration/password_reset_confirm.html:6
+#: wp4/theme/templates/registration/password_reset_done.html:6
 msgid "Home"
 msgstr "Home"
 
-#: wp4/templates/registration/logged_out.html:11
+#: wp4/theme/templates/registration/logged_out.html:11
 msgid "Thanks for spending some quality time with the Web site today."
 msgstr "You have been successfully logged out"
 
-#: wp4/templates/registration/logged_out.html:13
+#: wp4/theme/templates/registration/logged_out.html:13
 msgid "Log in again"
 msgstr "Your session has timed out. Please log in again"
 
-#: wp4/templates/registration/password_change_done.html:3
+#: wp4/theme/templates/registration/password_change_done.html:3
 msgid "Documentation"
 msgstr "Documentation"
 
-#: wp4/templates/registration/password_change_done.html:3
+#: wp4/theme/templates/registration/password_change_done.html:3
 msgid "Change password"
 msgstr "Change password"
 
-#: wp4/templates/registration/password_change_done.html:3
+#: wp4/theme/templates/registration/password_change_done.html:3
 msgid "Log out"
 msgstr "Log out"
 
-#: wp4/templates/registration/password_change_done.html:7
+#: wp4/theme/templates/registration/password_change_done.html:7
 msgid "Password change"
 msgstr "Password change"
 
-#: wp4/templates/registration/password_change_done.html:14
+#: wp4/theme/templates/registration/password_change_done.html:14
 msgid "Your password was changed."
 msgstr "Your password has been changed"
 
-#: wp4/templates/registration/password_change_form.html:17
+#: wp4/theme/templates/registration/password_change_form.html:17
 msgid "Please correct the error below."
 msgstr "Please correct the error below"
 
-#: wp4/templates/registration/password_change_form.html:18
+#: wp4/theme/templates/registration/password_change_form.html:18
 msgid "Please correct the errors below."
 msgstr "Please correct the errors below"
 
-#: wp4/templates/registration/password_change_form.html:22
+#: wp4/theme/templates/registration/password_change_form.html:22
 msgid ""
 "Please enter your old password, for security's sake, and then enter your new "
 "password twice so we can verify you typed it in correctly."
@@ -2517,49 +2517,49 @@ msgstr ""
 "To reset your password type in the old password followed by the new "
 "password.  Re-enter the new password to verify it."
 
-#: wp4/templates/registration/password_change_form.html:62
-#: wp4/templates/registration/password_reset_confirm.html:24
+#: wp4/theme/templates/registration/password_change_form.html:62
+#: wp4/theme/templates/registration/password_reset_confirm.html:24
 msgid "Change my password"
 msgstr "Change my password"
 
-#: wp4/templates/registration/password_reset_complete.html:7
-#: wp4/templates/registration/password_reset_done.html:7
+#: wp4/theme/templates/registration/password_reset_complete.html:7
+#: wp4/theme/templates/registration/password_reset_done.html:7
 msgid "Password reset"
 msgstr "Password reset"
 
-#: wp4/templates/registration/password_reset_complete.html:16
+#: wp4/theme/templates/registration/password_reset_complete.html:16
 msgid "Your password has been set.  You may go ahead and log in now."
 msgstr "Your password has been set.  You may now log in"
 
-#: wp4/templates/registration/password_reset_complete.html:18
+#: wp4/theme/templates/registration/password_reset_complete.html:18
 msgid "Log in"
 msgstr "Log in"
 
-#: wp4/templates/registration/password_reset_confirm.html:7
+#: wp4/theme/templates/registration/password_reset_confirm.html:7
 msgid "Password reset confirmation"
 msgstr "Your password has successfully been reset"
 
-#: wp4/templates/registration/password_reset_confirm.html:17
+#: wp4/theme/templates/registration/password_reset_confirm.html:17
 msgid ""
 "Please enter your new password twice so we can verify you typed it in "
 "correctly."
 msgstr "Please enter your new password "
 
-#: wp4/templates/registration/password_reset_confirm.html:21
+#: wp4/theme/templates/registration/password_reset_confirm.html:21
 msgid "New password:"
 msgstr "New password"
 
-#: wp4/templates/registration/password_reset_confirm.html:23
+#: wp4/theme/templates/registration/password_reset_confirm.html:23
 msgid "Confirm password:"
 msgstr "Please confirm your password"
 
-#: wp4/templates/registration/password_reset_confirm.html:29
+#: wp4/theme/templates/registration/password_reset_confirm.html:29
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
 "used.  Please request a new password reset."
 msgstr "Please request a new password reset"
 
-#: wp4/templates/registration/password_reset_done.html:15
+#: wp4/theme/templates/registration/password_reset_done.html:15
 msgid ""
 "We've emailed you instructions for setting your password, if an account "
 "exists with the email you entered. You should receive them shortly."
@@ -2568,7 +2568,7 @@ msgstr ""
 "exists with the email you entered. You should receive them shortly. Please "
 "check your email."
 
-#: wp4/templates/registration/password_reset_done.html:17
+#: wp4/theme/templates/registration/password_reset_done.html:17
 msgid ""
 "If you don't receive an email, please make sure you've entered the address "
 "you registered with, and check your spam folder."
@@ -2576,7 +2576,7 @@ msgstr ""
 " If you don't receive an email, please make sure you've entered the address "
 "you registered with, and check your spam/junk folder."
 
-#: wp4/templates/registration/password_reset_email.html:2
+#: wp4/theme/templates/registration/password_reset_email.html:2
 #, python-format
 msgid ""
 "You're receiving this email because you requested a password reset for your "
@@ -2585,24 +2585,24 @@ msgstr ""
 "You're receiving this email because you requested a password reset for your "
 "COPE DB database account at %(site_name)s."
 
-#: wp4/templates/registration/password_reset_email.html:4
+#: wp4/theme/templates/registration/password_reset_email.html:4
 msgid "Please go to the following page and choose a new password:"
 msgstr "Please go to the following page and choose a new password:"
 
-#: wp4/templates/registration/password_reset_email.html:8
+#: wp4/theme/templates/registration/password_reset_email.html:8
 msgid "Your username, in case you've forgotten:"
 msgstr "Your username, in case you've forgotten is:"
 
-#: wp4/templates/registration/password_reset_email.html:10
+#: wp4/theme/templates/registration/password_reset_email.html:10
 msgid "Thanks for using our site!"
 msgstr "Thanks for using our site!"
 
-#: wp4/templates/registration/password_reset_email.html:12
+#: wp4/theme/templates/registration/password_reset_email.html:12
 #, python-format
 msgid "The %(site_name)s team"
 msgstr "The %(site_name)s Team"
 
-#: wp4/templates/registration/password_reset_form.html:9
+#: wp4/theme/templates/registration/password_reset_form.html:9
 msgid ""
 "Forgotten your password? Enter your email address below, and we'll email "
 "instructions for setting a new one."
@@ -2610,7 +2610,7 @@ msgstr ""
 "Forgotten your password? Enter your email address below, and we'll email "
 "instructions for setting a new one"
 
-#: wp4/templates/registration/password_reset_form.html:32
+#: wp4/theme/templates/registration/password_reset_form.html:32
 msgid "Reset my password"
 msgstr "Reset my password"
 
