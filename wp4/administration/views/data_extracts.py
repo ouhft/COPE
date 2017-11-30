@@ -50,6 +50,7 @@ def report_procurement(request):
         "donor.get_alcohol_abuse_display",
         "donor.diuresis_last_day",
         "donor.last_creatinine",
+        "donor.get_last_creatinine_unit_display"
     ])
 
     donors = Donor.objects.filter(randomisation__isnull=False)
@@ -106,6 +107,7 @@ def report_procurement(request):
         result_row.append(donor.get_alcohol_abuse_display())
         result_row.append(donor.diuresis_last_day)
         result_row.append(donor.last_creatinine)
+        result_row.append(donor.get_last_creatinine_unit_display())
 
         writer.writerow(result_row)
 
