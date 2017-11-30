@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Adverse Event Models &mdash; COPE DB 0.8.2 documentation</title>
+  <title>Adverse Event Models &mdash; COPE DB 0.8.6 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="COPE DB 0.8.2 documentation" href="../index.html"/>
+    <link rel="top" title="COPE DB 0.8.6 documentation" href="../index.html"/>
         <link rel="up" title="Data Models" href="index.html"/>
         <link rel="next" title="wp4.followups.models" href="generated/wp4.followups.models.html"/>
         <link rel="prev" title="Compare Models" href="compare.html"/> 
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.8.2
+                0.8.6
               </div>
             
           
@@ -187,7 +187,7 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">reverse</span></code>(viewname[,&nbsp;urlconf,&nbsp;args,&nbsp;kwargs,&nbsp;...])</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">reverse</span></code>(viewname[,&nbsp;urlconf,&nbsp;args,&nbsp;kwargs,&nbsp;…])</td>
 <td></td>
 </tr>
 </tbody>
@@ -209,7 +209,7 @@
 <td>Collects (serious) adverse event information related to a specific Organ within the study</td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">EventModelForUserManager</span></code>([include_soft_deleted])</td>
-<td>Events have their location based on the organ recipient&#8217;s location</td>
+<td>Events have their location based on the organ recipient’s location</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">LiveManager</span></code></td>
 <td>alias of <code class="xref py py-class docutils literal"><span class="pre">LiveManagerBaseFromLiveQuerySet</span></code></td>
@@ -218,7 +218,7 @@
 <td>The focus of the trial, specifically a Kidney.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">Person</span></code>(*args,&nbsp;**kwargs)</td>
-<td>Replacement for original StaffPerson class which was linked to User as a one-to-one via &#8220;profile&#8221; attribute.</td>
+<td>Replacement for original StaffPerson class which was linked to User as a one-to-one via “profile” attribute.</td>
 </tr>
 </tbody>
 </table>
@@ -231,10 +231,10 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
-<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - locked by the admin team</li>
-<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) &#8211; &#8220;live&#8221;</li>
-<li><strong>description</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;AC01 category description&#8221;</li>
+<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) – “ID”</li>
+<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “record locked” - locked by the admin team</li>
+<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “live”</li>
+<li><strong>description</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) – “AC01 category description”</li>
 </ul>
 </td>
 </tr>
@@ -293,49 +293,49 @@ commented out in code likely refer to items added to help improve the process, b
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
-<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - locked by the admin team</li>
-<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) &#8211; &#8220;live&#8221;</li>
-<li><strong>organ_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;Trial ID&#8221;</li>
-<li><strong>serious_eligible_1</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Did the adverse event lead to death?&#8221;</li>
-<li><strong>serious_eligible_2</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Did it result in a life-threatening illness or injury?&#8221;</li>
-<li><strong>serious_eligible_3</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Did it result in a permanent impairment of a body structure or a body function?&#8221;</li>
-<li><strong>serious_eligible_4</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Did it require hospitalisation?&#8221;</li>
-<li><strong>serious_eligible_5</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Did it require prolongation of hospitalisation?&#8221;</li>
-<li><strong>serious_eligible_6</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Did it result in medical or surgical intervention to prevent life-threatening illness or injury or permanent impairment to a body structure or a body function?&#8221;</li>
-<li><strong>onset_at_date</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateField" title="(in Django v1.11)"><em>django.db.models.DateField</em></a>) &#8211; &#8220;Date of Onset of Adverse Event&#8221;</li>
-<li><strong>event_ongoing</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Is the event still ongoing?&#8221;</li>
-<li><strong>description</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.TextField" title="(in Django v1.11)"><em>django.db.models.TextField</em></a>) &#8211; &#8220;Please describe the event&#8221;</li>
-<li><strong>action</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.TextField" title="(in Django v1.11)"><em>django.db.models.TextField</em></a>) &#8211; &#8220;Action taken&#8221;</li>
-<li><strong>outcome</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.TextField" title="(in Django v1.11)"><em>django.db.models.TextField</em></a>) &#8211; &#8220;Outcome&#8221;</li>
-<li><strong>alive_query_1</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Did the event result in incapacity/inability to work?&#8221;</li>
-<li><strong>alive_query_2</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Did the event result in a sign/symptom that interferes with the subject&#8217;s usual activity?&#8221;</li>
-<li><strong>alive_query_3</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Did the event cause signs/symptoms that resolved with no sequelae?&#8221;</li>
-<li><strong>alive_query_4</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Did the event arise from device deficiency?&#8221;</li>
-<li><strong>alive_query_5</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Did the event arise from device user error?&#8221;</li>
-<li><strong>alive_query_6</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Did the event result in a life-threatening illness or injury?&#8221;</li>
-<li><strong>alive_query_7</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Did the event result in permanent impairment of a body structure or a body function?&#8221;</li>
-<li><strong>alive_query_8</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Did the event require prolongation of hospitalisation?&#8221;</li>
-<li><strong>alive_query_9</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Did the event result in medical or surgical intervention to prevent life-threatening illness or injury or permanent impairment to a body structure or a body function?&#8221;</li>
-<li><strong>rehospitalisation</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Did the event require hospitalisation?&#8221;</li>
-<li><strong>date_of_admission</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateField" title="(in Django v1.11)"><em>django.db.models.DateField</em></a>) &#8211; &#8220;Date of admission&#8221;</li>
-<li><strong>date_of_discharge</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateField" title="(in Django v1.11)"><em>django.db.models.DateField</em></a>) &#8211; &#8220;Date of discharge&#8221;</li>
-<li><strong>admitted_to_itu</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Were they admitted to ITU?&#8221;</li>
-<li><strong>dialysis_needed</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Was dialysis needed?&#8221;</li>
-<li><strong>biopsy_taken</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Was a kidney biopsy taken?&#8221;</li>
-<li><strong>surgery_required</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Was surgery required?&#8221;</li>
-<li><strong>rehospitalisation_comments</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.TextField" title="(in Django v1.11)"><em>django.db.models.TextField</em></a>) &#8211; &#8220;Comments&#8221;</li>
-<li><strong>death</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Did the event lead to death?&#8221;</li>
-<li><strong>treatment_related</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Was death treatment related?&#8221;</li>
-<li><strong>cause_of_death_1</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Cerebrovascular Accident&#8221;</li>
-<li><strong>cause_of_death_2</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Multi Organ Failure&#8221;</li>
-<li><strong>cause_of_death_3</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Pneumonia&#8221;</li>
-<li><strong>cause_of_death_4</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Sepsis&#8221;</li>
-<li><strong>cause_of_death_5</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Transplant related&#8221;</li>
-<li><strong>cause_of_death_6</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Other&#8221;</li>
-<li><strong>cause_of_death_comment</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;If other, give details&#8221;</li>
-<li><strong>contact_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;Please select the contact who can provide more information&#8221; - AEh09 This should be the Local Investigator for the Transplant Centre</li>
-<li><strong>_order</strong> (<em>django.db.models.OrderWrt</em>) &#8211; &#8221; order&#8221;</li>
+<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) – “ID”</li>
+<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “record locked” - locked by the admin team</li>
+<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “live”</li>
+<li><strong>organ_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) – “Trial ID”</li>
+<li><strong>serious_eligible_1</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Did the adverse event lead to death?”</li>
+<li><strong>serious_eligible_2</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Did it result in a life-threatening illness or injury?”</li>
+<li><strong>serious_eligible_3</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Did it result in a permanent impairment of a body structure or a body function?”</li>
+<li><strong>serious_eligible_4</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Did it require hospitalisation?”</li>
+<li><strong>serious_eligible_5</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Did it require prolongation of hospitalisation?”</li>
+<li><strong>serious_eligible_6</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Did it result in medical or surgical intervention to prevent life-threatening illness or injury or permanent impairment to a body structure or a body function?”</li>
+<li><strong>onset_at_date</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateField" title="(in Django v1.11)"><em>django.db.models.DateField</em></a>) – “Date of Onset of Adverse Event”</li>
+<li><strong>event_ongoing</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Is the event still ongoing?”</li>
+<li><strong>description</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.TextField" title="(in Django v1.11)"><em>django.db.models.TextField</em></a>) – “Please describe the event”</li>
+<li><strong>action</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.TextField" title="(in Django v1.11)"><em>django.db.models.TextField</em></a>) – “Action taken”</li>
+<li><strong>outcome</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.TextField" title="(in Django v1.11)"><em>django.db.models.TextField</em></a>) – “Outcome”</li>
+<li><strong>alive_query_1</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Did the event result in incapacity/inability to work?”</li>
+<li><strong>alive_query_2</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Did the event result in a sign/symptom that interferes with the subject’s usual activity?”</li>
+<li><strong>alive_query_3</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Did the event cause signs/symptoms that resolved with no sequelae?”</li>
+<li><strong>alive_query_4</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Did the event arise from device deficiency?”</li>
+<li><strong>alive_query_5</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Did the event arise from device user error?”</li>
+<li><strong>alive_query_6</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Did the event result in a life-threatening illness or injury?”</li>
+<li><strong>alive_query_7</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Did the event result in permanent impairment of a body structure or a body function?”</li>
+<li><strong>alive_query_8</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Did the event require prolongation of hospitalisation?”</li>
+<li><strong>alive_query_9</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Did the event result in medical or surgical intervention to prevent life-threatening illness or injury or permanent impairment to a body structure or a body function?”</li>
+<li><strong>rehospitalisation</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Did the event require hospitalisation?”</li>
+<li><strong>date_of_admission</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateField" title="(in Django v1.11)"><em>django.db.models.DateField</em></a>) – “Date of admission”</li>
+<li><strong>date_of_discharge</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateField" title="(in Django v1.11)"><em>django.db.models.DateField</em></a>) – “Date of discharge”</li>
+<li><strong>admitted_to_itu</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Were they admitted to ITU?”</li>
+<li><strong>dialysis_needed</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Was dialysis needed?”</li>
+<li><strong>biopsy_taken</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Was a kidney biopsy taken?”</li>
+<li><strong>surgery_required</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Was surgery required?”</li>
+<li><strong>rehospitalisation_comments</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.TextField" title="(in Django v1.11)"><em>django.db.models.TextField</em></a>) – “Comments”</li>
+<li><strong>death</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Did the event lead to death?”</li>
+<li><strong>treatment_related</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Was death treatment related?”</li>
+<li><strong>cause_of_death_1</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Cerebrovascular Accident”</li>
+<li><strong>cause_of_death_2</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Multi Organ Failure”</li>
+<li><strong>cause_of_death_3</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Pneumonia”</li>
+<li><strong>cause_of_death_4</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Sepsis”</li>
+<li><strong>cause_of_death_5</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Transplant related”</li>
+<li><strong>cause_of_death_6</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Other”</li>
+<li><strong>cause_of_death_comment</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) – “If other, give details”</li>
+<li><strong>contact_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) – “Please select the contact who can provide more information” - AEh09 This should be the Local Investigator for the Transplant Centre</li>
+<li><strong>_order</strong> (<em>django.db.models.OrderWrt</em>) – ” order”</li>
 </ul>
 </td>
 </tr>
@@ -781,7 +781,7 @@ object the first time, the query is executed.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.8.2',
+            VERSION:'0.8.6',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
