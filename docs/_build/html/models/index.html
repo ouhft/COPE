@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Data Models &mdash; COPE DB 0.8.2 documentation</title>
+  <title>Data Models &mdash; COPE DB 0.8.6 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="COPE DB 0.8.2 documentation" href="../index.html"/>
+    <link rel="top" title="COPE DB 0.8.6 documentation" href="../index.html"/>
         <link rel="next" title="Compare Models" href="compare.html"/>
         <link rel="prev" title="Design - WP7:Biobanking" href="../design/wp7_design.html"/> 
 
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.8.2
+                0.8.6
               </div>
             
           
@@ -198,9 +198,9 @@
             
   <div class="section" id="data-models">
 <h1>Data Models<a class="headerlink" href="#data-models" title="Permalink to this headline">¶</a></h1>
-<p>This is source documentation for the WP4 data models. These are Python/Django classes mapped to the database by Django&#8217;s ORM, and as such follow the usual Django conventions on model design. There are a few other conventions to note, general ones are noted here, class specific notes are inline below.</p>
+<p>This is source documentation for the WP4 data models. These are Python/Django classes mapped to the database by Django’s ORM, and as such follow the usual Django conventions on model design. There are a few other conventions to note, general ones are noted here, class specific notes are inline below.</p>
 <p>Compare is the central app to this system (presently), and the Core models (such as AuditControlMixin) will appear all over the rest of the apps. This means common fields such as <cite>version</cite>, <cite>created_on</cite>, <cite>created_by</cite>, and <cite>record_locked</cite> will feature repeatedly on many of the models below.</p>
-<p>Items that appear in CAPITAL LETTERS are frequently the constants used in the system. Whilst many of them follow a clear naming convention (e.g. BLOOD_xxx), some are still in their orignal format (e.g. MALE, FEMALE, CAUCASIAN). Most are also part of groups, which means you&#8217;ll see a topicname_CHOICES constant that links certain constants - typically for the benefit of dropdown lists and other static content (e.g. BLOOD_GROUP_CHOICES).</p>
+<p>Items that appear in CAPITAL LETTERS are frequently the constants used in the system. Whilst many of them follow a clear naming convention (e.g. BLOOD_xxx), some are still in their orignal format (e.g. MALE, FEMALE, CAUCASIAN). Most are also part of groups, which means you’ll see a topicname_CHOICES constant that links certain constants - typically for the benefit of dropdown lists and other static content (e.g. BLOOD_GROUP_CHOICES).</p>
 <p>Where model attributes use a choice list (e.g. from a constant), there are helper methods to translate the stored value into a display string. These take the form of OBJECT.get_ATTRIBUTE_display() methods (e.g. Patient.get_gender_display() )</p>
 <div class="section" id="compare">
 <h2>Compare<a class="headerlink" href="#compare" title="Permalink to this headline">¶</a></h2>
@@ -369,7 +369,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.8.2',
+            VERSION:'0.8.6',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

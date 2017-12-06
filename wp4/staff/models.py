@@ -83,7 +83,7 @@ class Person(AbstractUser):
         """
         administrator_groups = (self.NATIONAL_COORDINATOR, self.CENTRAL_COORDINATOR, self.SYSTEMS_ADMINISTRATOR,
                                 self.BIOBANK_COORDINATOR, self.CHIEF_INVESTIGATOR, self.PRINCIPLE_INVESTIGATOR,
-                                self.NATIONAL_INVESTIGATOR, self.CENTRAL_INVESTIGATOR,)
+                                self.NATIONAL_INVESTIGATOR, self.CENTRAL_INVESTIGATOR, self.STATISTICIAN,)
         if self.has_group(administrator_groups):
             return True
         elif self.has_group(self.CENTRAL_INVESTIGATOR) and settings.DEBUG is True:

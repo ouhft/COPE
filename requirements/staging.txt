@@ -1,0 +1,7 @@
+-r common.txt
+
+gunicorn
+setproctitle
+django-secure
+
+django-extensions==1.9.7

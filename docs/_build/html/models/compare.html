@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Compare Models &mdash; COPE DB 0.8.2 documentation</title>
+  <title>Compare Models &mdash; COPE DB 0.8.6 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="COPE DB 0.8.2 documentation" href="../index.html"/>
+    <link rel="top" title="COPE DB 0.8.6 documentation" href="../index.html"/>
         <link rel="up" title="Data Models" href="index.html"/>
         <link rel="next" title="Adverse Event Models" href="adverse_event.html"/>
         <link rel="prev" title="Data Models" href="index.html"/> 
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.8.2
+                0.8.6
               </div>
             
           
@@ -278,8 +278,8 @@ record_locked will allow the admin team to mark records as having been reviewed 
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - locked by the admin team</li>
-<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) &#8211; &#8220;live&#8221;</li>
+<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “record locked” - locked by the admin team</li>
+<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “live”</li>
 </ul>
 </td>
 </tr>
@@ -372,19 +372,19 @@ using the permissions given to those objects.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
-<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - locked by the admin team</li>
-<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) &#8211; &#8220;live&#8221;</li>
-<li><strong>number</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;Hospital Number&#8221;</li>
-<li><strong>date_of_birth</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateField" title="(in Django v1.11)"><em>django.db.models.DateField</em></a>) &#8211; &#8220;Date of Birth&#8221; - Date can not be in the future</li>
-<li><strong>date_of_birth_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;date of birth unknown&#8221; - Internal unknown flag</li>
-<li><strong>date_of_death</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateField" title="(in Django v1.11)"><em>django.db.models.DateField</em></a>) &#8211; &#8220;Date of death&#8221; - Date can not be in the future</li>
-<li><strong>date_of_death_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;date of death unknown&#8221; - Internal unknown flag</li>
-<li><strong>gender</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;Gender&#8221;</li>
-<li><strong>weight</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DecimalField" title="(in Django v1.11)"><em>django.db.models.DecimalField</em></a>) &#8211; &#8220;Weight (kg)&#8221; - Answer must be in range 20.0-200.0kg</li>
-<li><strong>height</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Height (cm)&#8221; - Answer must be in range 100-250cm</li>
-<li><strong>ethnicity</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.IntegerField" title="(in Django v1.11)"><em>django.db.models.IntegerField</em></a>) &#8211; &#8220;Ethnicity&#8221;</li>
-<li><strong>blood_group</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Blood Group&#8221;</li>
+<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) – “ID”</li>
+<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “record locked” - locked by the admin team</li>
+<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “live”</li>
+<li><strong>number</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) – “Hospital Number”</li>
+<li><strong>date_of_birth</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateField" title="(in Django v1.11)"><em>django.db.models.DateField</em></a>) – “Date of Birth” - Date can not be in the future</li>
+<li><strong>date_of_birth_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “date of birth unknown” - Internal unknown flag</li>
+<li><strong>date_of_death</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateField" title="(in Django v1.11)"><em>django.db.models.DateField</em></a>) – “Date of death” - Date can not be in the future</li>
+<li><strong>date_of_death_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “date of death unknown” - Internal unknown flag</li>
+<li><strong>gender</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) – “Gender”</li>
+<li><strong>weight</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DecimalField" title="(in Django v1.11)"><em>django.db.models.DecimalField</em></a>) – “Weight (kg)” - Answer must be in range 20.0-200.0kg</li>
+<li><strong>height</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Height (cm)” - Answer must be in range 100-250cm</li>
+<li><strong>ethnicity</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.IntegerField" title="(in Django v1.11)"><em>django.db.models.IntegerField</em></a>) – “Ethnicity”</li>
+<li><strong>blood_group</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Blood Group”</li>
 </ul>
 </td>
 </tr>
@@ -567,7 +567,7 @@ Uses <a class="reference external" href="http://www.nhs.uk/chq/Pages/how-can-i-w
 <dl class="attribute">
 <dt id="wp4.compare.models.core.Patient.age_from_dob">
 <code class="descname">age_from_dob</code><a class="headerlink" href="#wp4.compare.models.core.Patient.age_from_dob" title="Permalink to this definition">¶</a></dt>
-<dd><p>Determines a person&#8217;s age from their Date of Birth, compared initially against a Date of Death
+<dd><p>Determines a person’s age from their Date of Birth, compared initially against a Date of Death
 (if it exists), or against the current date if not applicable.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -629,9 +629,9 @@ Uses <a class="reference external" href="http://www.nhs.uk/chq/Pages/how-can-i-w
 </table>
 </dd></dl>
 
-<dl class="method">
+<dl class="attribute">
 <dt id="wp4.compare.models.core.Patient.trial_id">
-<code class="descname">trial_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/wp4/compare/models/core.html#Patient.trial_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.compare.models.core.Patient.trial_id" title="Permalink to this definition">¶</a></dt>
+<code class="descname">trial_id</code><a class="headerlink" href="#wp4.compare.models.core.Patient.trial_id" title="Permalink to this definition">¶</a></dt>
 <dd><p>Determine if donor or recipient, and then pass back their trial id
 :return:</p>
 </dd></dl>
@@ -745,21 +745,21 @@ class built by <code class="docutils literal"><span class="pre">create_forward_m
 <dl class="class">
 <dt id="wp4.compare.models.core.Randomisation">
 <em class="property">class </em><code class="descclassname">wp4.compare.models.core.</code><code class="descname">Randomisation</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/wp4/compare/models/core.html#Randomisation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.compare.models.core.Randomisation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Populated from the supplied CSV file via the fixture. A &#8216;True&#8217; result is HMP+O2 for the Left Organ</p>
-<p>Randomisations are system defined and controlled, so whilst users shouldn&#8217;t be troubled with permissions, we do
-want to use the hide permission here on users that are to be &#8220;blinded&#8221; to the effects of randomisation</p>
+<dd><p>Populated from the supplied CSV file via the fixture. A ‘True’ result is HMP+O2 for the Left Organ</p>
+<p>Randomisations are system defined and controlled, so whilst users shouldn’t be troubled with permissions, we do
+want to use the hide permission here on users that are to be “blinded” to the effects of randomisation</p>
 <p>Allocation information should not be set until the record has been linked to a donor</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
-<li><strong>donor_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.OneToOneField" title="(in Django v1.11)"><em>django.db.models.OneToOneField</em></a>) &#8211; &#8220;donor&#8221; - Internal link to the Donor</li>
-<li><strong>list_code</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;List Code&#8221;</li>
-<li><strong>result</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Result&#8221;</li>
-<li><strong>allocated_on</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;Result allocated on&#8221;</li>
-<li><strong>allocated_by_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;RA04 allocated by&#8221;</li>
+<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) – “ID”</li>
+<li><strong>donor_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.OneToOneField" title="(in Django v1.11)"><em>django.db.models.OneToOneField</em></a>) – “donor” - Internal link to the Donor</li>
+<li><strong>list_code</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “List Code”</li>
+<li><strong>result</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Result”</li>
+<li><strong>allocated_on</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) – “Result allocated on”</li>
+<li><strong>allocated_by_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) – “RA04 allocated by”</li>
 </ul>
 </td>
 </tr>
@@ -850,13 +850,13 @@ Donor record supplied, whilst returning the result</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>list_code</strong> &#8211; int. Value from LIST_CHOICES</li>
-<li><strong>link_donor</strong> &#8211; Donor object. Donor record to link against this randomisation</li>
-<li><strong>active_user</strong> &#8211; Person object. Currently logged in user</li>
+<li><strong>list_code</strong> – int. Value from LIST_CHOICES</li>
+<li><strong>link_donor</strong> – Donor object. Donor record to link against this randomisation</li>
+<li><strong>active_user</strong> – Person object. Currently logged in user</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">&#8216;True&#8217; result is HMP+O2 for the Left Organ</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">‘True’ result is HMP+O2 for the Left Organ</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)">bool</a></p>
@@ -907,16 +907,16 @@ object the first time, the query is executed.</p>
 <dl class="class">
 <dt id="wp4.compare.models.core.RetrievalTeam">
 <em class="property">class </em><code class="descclassname">wp4.compare.models.core.</code><code class="descname">RetrievalTeam</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/wp4/compare/models/core.html#RetrievalTeam"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.compare.models.core.RetrievalTeam" title="Permalink to this definition">¶</a></dt>
-<dd><p>Lookup class for the preset Retrieval Team list. Doesn&#8217;t inherit from AuditControlModelBase as this
+<dd><p>Lookup class for the preset Retrieval Team list. Doesn’t inherit from AuditControlModelBase as this
 is primarily a preset list of data, with helper functions attached.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
-<li><strong>centre_code</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Centre Code&#8221; - Value must be in the range 10-99</li>
-<li><strong>based_at_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;Based At&#8221;</li>
+<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) – “ID”</li>
+<li><strong>centre_code</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Centre Code” - Value must be in the range 10-99</li>
+<li><strong>based_at_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) – “Based At”</li>
 </ul>
 </td>
 </tr>
@@ -960,7 +960,7 @@ one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 <dt id="wp4.compare.models.core.RetrievalTeam.next_sequence_number">
 <code class="descname">next_sequence_number</code><span class="sig-paren">(</span><em>is_online=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/wp4/compare/models/core.html#RetrievalTeam.next_sequence_number"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.compare.models.core.RetrievalTeam.next_sequence_number" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the next available sequence number, taking into account that the donor must already be
-linked to a randomisation record, and thus we&#8217;re able to deduce if this is an online or offline
+linked to a randomisation record, and thus we’re able to deduce if this is an online or offline
 case.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -984,7 +984,7 @@ case.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>is_online</strong> &#8211; True, select from the online lists. False, select from the offline lists</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>is_online</strong> – True, select from the online lists. False, select from the offline lists</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Number matching one of the LIST_CHOICE constants</td>
 </tr>
@@ -1032,13 +1032,13 @@ able to view it.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
-<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - locked by the admin team</li>
-<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) &#8211; &#8220;live&#8221;</li>
-<li><strong>name</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;Hospital Name&#8221;</li>
-<li><strong>country</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Country&#8221;</li>
-<li><strong>is_active</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Active&#8221; - Not presently used/implemented. For legacy data when a location closes for use</li>
-<li><strong>is_project_site</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Project site&#8221;</li>
+<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) – “ID”</li>
+<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “record locked” - locked by the admin team</li>
+<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “live”</li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) – “Hospital Name”</li>
+<li><strong>country</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Country”</li>
+<li><strong>is_active</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Active” - Not presently used/implemented. For legacy data when a location closes for use</li>
+<li><strong>is_project_site</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Project site”</li>
 </ul>
 </td>
 </tr>
@@ -1239,83 +1239,83 @@ the Donor specific data</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
-<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - locked by the admin team</li>
-<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) &#8211; &#8220;live&#8221;</li>
-<li><strong>person_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.OneToOneField" title="(in Django v1.11)"><em>django.db.models.OneToOneField</em></a>) &#8211; &#8220;person&#8221; - Internal link to Patient</li>
-<li><strong>sequence_number</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;sequence number&#8221; - Internal value for tracking trial ID sequence number. Value of 1-99</li>
-<li><strong>multiple_recipients</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Multiple Recipients&#8221;</li>
-<li><strong>not_randomised_because</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Why was this not randomised?&#8221;</li>
-<li><strong>not_randomised_because_other</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;More details&#8221;</li>
-<li><strong>procurement_form_completed</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Form completed?&#8221; - Select Yes when you believe the form is complete and you have no more data to enter</li>
-<li><strong>admin_notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.TextField" title="(in Django v1.11)"><em>django.db.models.TextField</em></a>) &#8211; &#8220;Admin only notes&#8221;</li>
-<li><strong>trial_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;DO99 donor id&#8221;</li>
-<li><strong>retrieval_team_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;Retrieval Team&#8221;</li>
-<li><strong>perfusion_technician_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;Name of MTO&#8221;</li>
-<li><strong>transplant_coordinator_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;Name of the SN-OD&#8221;</li>
-<li><strong>call_received</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;Consultant called MTO at&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>call_received_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;call received unknown&#8221; - Internal unknown flag</li>
-<li><strong>retrieval_hospital</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;Retrieval Hospital&#8221;</li>
-<li><strong>scheduled_start</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;Scheduled time of therapy withdrawal&#8221; - Date must be fall within 1900-2050</li>
-<li><strong>scheduled_start_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;scheduled start unknown&#8221; - Internal unknown flag</li>
-<li><strong>technician_arrival</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;Arrival time of MTO at the Hub&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>technician_arrival_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;technician arrival unknown&#8221; - Internal unknown flag</li>
-<li><strong>ice_boxes_filled</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;Ice Boxes filled with sufficient amount of Ice (for Kidney Assist)&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>ice_boxes_filled_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;ice boxes filled unknown&#8221; - Internal unknown flag</li>
-<li><strong>depart_perfusion_centre</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;Departure from Hub&#8221;</li>
-<li><strong>depart_perfusion_centre_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;depart perfusion centre unknown&#8221; - Internal unknown flag</li>
-<li><strong>arrival_at_donor_hospital</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;Arrival at Donor hospital&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>arrival_at_donor_hospital_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;arrival at donor hospital unknown&#8221; - Internal unknown flag</li>
-<li><strong>age</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Age&#8221; - Age must be in the range 50-99</li>
-<li><strong>date_of_admission</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateField" title="(in Django v1.11)"><em>django.db.models.DateField</em></a>) &#8211; &#8220;Date of admission in hospital&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>date_of_admission_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;date of admission unknown&#8221; - Internal unknown flag</li>
-<li><strong>admitted_to_itu</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Were they admitted to ITU?&#8221;</li>
-<li><strong>date_admitted_to_itu</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateField" title="(in Django v1.11)"><em>django.db.models.DateField</em></a>) &#8211; &#8220;Date of admission&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>date_admitted_to_itu_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;date admitted to itu unknown&#8221; - Internal unknown flag</li>
-<li><strong>date_of_procurement</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateField" title="(in Django v1.11)"><em>django.db.models.DateField</em></a>) &#8211; &#8220;Date of procurement&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>other_organs_procured</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Other organs procured&#8221;</li>
-<li><strong>other_organs_lungs</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Lungs&#8221;</li>
-<li><strong>other_organs_pancreas</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Pancreas&#8221;</li>
-<li><strong>other_organs_liver</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Liver&#8221;</li>
-<li><strong>other_organs_tissue</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Tissue&#8221;</li>
-<li><strong>diagnosis</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Donor diagnosis&#8221;</li>
-<li><strong>diagnosis_other</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;Other diagnosis details&#8221;</li>
-<li><strong>diabetes_melitus</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Diabetes mellitus&#8221;</li>
-<li><strong>alcohol_abuse</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Alcohol abuse&#8221;</li>
-<li><strong>cardiac_arrest</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;Cardiac arrest (during ITU stay prior to retrieval procedure)&#8221;</li>
-<li><strong>systolic_blood_pressure</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Last systolic blood pressure (before switch off)&#8221; - Value must be in the range 10-200</li>
-<li><strong>diastolic_blood_pressure</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Last diastolic blood pressure (before switch off)&#8221; - Value must be in the range 10-200</li>
-<li><strong>diuresis_last_day</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Diuresis last 24hrs (ml)&#8221;</li>
-<li><strong>diuresis_last_day_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;diuresis last day unknown&#8221; - Internal unknown flag</li>
-<li><strong>diuresis_last_hour</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Diuresis last hour (ml)&#8221;</li>
-<li><strong>diuresis_last_hour_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;diuresis last hour unknown&#8221; - Internal unknown flag</li>
-<li><strong>dopamine</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Dopamine&#8221;</li>
-<li><strong>dobutamine</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Dobutamine&#8221;</li>
-<li><strong>nor_adrenaline</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;(Nor)Adrenaline&#8221;</li>
-<li><strong>vasopressine</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Vasopressine&#8221;</li>
-<li><strong>other_medication_details</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;Other medication details&#8221;</li>
-<li><strong>last_creatinine</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.FloatField" title="(in Django v1.11)"><em>django.db.models.FloatField</em></a>) &#8211; &#8220;Last creatinine&#8221;</li>
-<li><strong>last_creatinine_unit</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;last creatinine unit&#8221;</li>
-<li><strong>max_creatinine</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.FloatField" title="(in Django v1.11)"><em>django.db.models.FloatField</em></a>) &#8211; &#8220;Maximum creatinine (during admission)&#8221;</li>
-<li><strong>max_creatinine_unit</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;max creatinine unit&#8221;</li>
-<li><strong>life_support_withdrawal</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;Time of withdrawal of life support&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>systolic_pressure_low</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;Systolic arterial pressure &lt;50 mm Hg (inadequate organ perfusion)&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>systolic_pressure_low_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;systolic pressure low unknown&#8221; - Internal unknown flag</li>
-<li><strong>o2_saturation</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;O2 saturation below 80%&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>o2_saturation_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;o2 saturation unknown&#8221; - Internal unknown flag</li>
-<li><strong>circulatory_arrest</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;End of cardiac output (= Start of no touch period)&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>circulatory_arrest_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;circulatory arrest unknown&#8221; - Internal unknown flag</li>
-<li><strong>length_of_no_touch</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Length of no touch period (minutes)&#8221; - Value must be in the range 1-60 minutes</li>
-<li><strong>death_diagnosed</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;Knife to skin time&#8221; - This also counts as Date of Death for donor. Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>perfusion_started</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;Start time of in-situ cold perfusion&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>perfusion_started_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;perfusion started unknown&#8221; - Internal unknown flag</li>
-<li><strong>systemic_flush_used</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Systemic (aortic) flush solution used&#8221;</li>
-<li><strong>systemic_flush_used_other</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;Other flush name&#8221;</li>
-<li><strong>systemic_flush_volume_used</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Volume of flush used (ml)&#8221;</li>
-<li><strong>heparin</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;Heparin&#8221;</li>
-<li><strong>_left_kidney_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.OneToOneField" title="(in Django v1.11)"><em>django.db.models.OneToOneField</em></a>) &#8211; &#8221; left kidney&#8221;</li>
-<li><strong>_right_kidney_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.OneToOneField" title="(in Django v1.11)"><em>django.db.models.OneToOneField</em></a>) &#8211; &#8221; right kidney&#8221;</li>
-<li><strong>_order</strong> (<em>django.db.models.OrderWrt</em>) &#8211; &#8221; order&#8221;</li>
+<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) – “ID”</li>
+<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “record locked” - locked by the admin team</li>
+<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “live”</li>
+<li><strong>person_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.OneToOneField" title="(in Django v1.11)"><em>django.db.models.OneToOneField</em></a>) – “person” - Internal link to Patient</li>
+<li><strong>sequence_number</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “sequence number” - Internal value for tracking trial ID sequence number. Value of 1-99</li>
+<li><strong>multiple_recipients</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Multiple Recipients”</li>
+<li><strong>not_randomised_because</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Why was this not randomised?”</li>
+<li><strong>not_randomised_because_other</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) – “More details”</li>
+<li><strong>procurement_form_completed</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Form completed?” - Select Yes when you believe the form is complete and you have no more data to enter</li>
+<li><strong>admin_notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.TextField" title="(in Django v1.11)"><em>django.db.models.TextField</em></a>) – “Admin only notes”</li>
+<li><strong>trial_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) – “DO99 donor id”</li>
+<li><strong>retrieval_team_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) – “Retrieval Team”</li>
+<li><strong>perfusion_technician_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) – “Name of MTO”</li>
+<li><strong>transplant_coordinator_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) – “Name of the SN-OD”</li>
+<li><strong>call_received</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) – “Consultant called MTO at” - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>call_received_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “call received unknown” - Internal unknown flag</li>
+<li><strong>retrieval_hospital</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) – “Retrieval Hospital”</li>
+<li><strong>scheduled_start</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) – “Scheduled time of therapy withdrawal” - Date must be fall within 1900-2050</li>
+<li><strong>scheduled_start_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “scheduled start unknown” - Internal unknown flag</li>
+<li><strong>technician_arrival</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) – “Arrival time of MTO at the Hub” - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>technician_arrival_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “technician arrival unknown” - Internal unknown flag</li>
+<li><strong>ice_boxes_filled</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) – “Ice Boxes filled with sufficient amount of Ice (for Kidney Assist)” - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>ice_boxes_filled_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “ice boxes filled unknown” - Internal unknown flag</li>
+<li><strong>depart_perfusion_centre</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) – “Departure from Hub”</li>
+<li><strong>depart_perfusion_centre_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “depart perfusion centre unknown” - Internal unknown flag</li>
+<li><strong>arrival_at_donor_hospital</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) – “Arrival at Donor hospital” - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>arrival_at_donor_hospital_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “arrival at donor hospital unknown” - Internal unknown flag</li>
+<li><strong>age</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Age” - Age must be in the range 50-99</li>
+<li><strong>date_of_admission</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateField" title="(in Django v1.11)"><em>django.db.models.DateField</em></a>) – “Date of admission in hospital” - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>date_of_admission_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “date of admission unknown” - Internal unknown flag</li>
+<li><strong>admitted_to_itu</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Were they admitted to ITU?”</li>
+<li><strong>date_admitted_to_itu</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateField" title="(in Django v1.11)"><em>django.db.models.DateField</em></a>) – “Date of admission” - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>date_admitted_to_itu_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “date admitted to itu unknown” - Internal unknown flag</li>
+<li><strong>date_of_procurement</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateField" title="(in Django v1.11)"><em>django.db.models.DateField</em></a>) – “Date of procurement” - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>other_organs_procured</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Other organs procured”</li>
+<li><strong>other_organs_lungs</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Lungs”</li>
+<li><strong>other_organs_pancreas</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Pancreas”</li>
+<li><strong>other_organs_liver</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Liver”</li>
+<li><strong>other_organs_tissue</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Tissue”</li>
+<li><strong>diagnosis</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Donor diagnosis”</li>
+<li><strong>diagnosis_other</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) – “Other diagnosis details”</li>
+<li><strong>diabetes_melitus</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Diabetes mellitus”</li>
+<li><strong>alcohol_abuse</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Alcohol abuse”</li>
+<li><strong>cardiac_arrest</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) – “Cardiac arrest (during ITU stay prior to retrieval procedure)”</li>
+<li><strong>systolic_blood_pressure</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Last systolic blood pressure (before switch off)” - Value must be in the range 10-200</li>
+<li><strong>diastolic_blood_pressure</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Last diastolic blood pressure (before switch off)” - Value must be in the range 10-200</li>
+<li><strong>diuresis_last_day</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Diuresis last 24hrs (ml)”</li>
+<li><strong>diuresis_last_day_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “diuresis last day unknown” - Internal unknown flag</li>
+<li><strong>diuresis_last_hour</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Diuresis last hour (ml)”</li>
+<li><strong>diuresis_last_hour_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “diuresis last hour unknown” - Internal unknown flag</li>
+<li><strong>dopamine</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Dopamine”</li>
+<li><strong>dobutamine</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Dobutamine”</li>
+<li><strong>nor_adrenaline</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “(Nor)Adrenaline”</li>
+<li><strong>vasopressine</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Vasopressine”</li>
+<li><strong>other_medication_details</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) – “Other medication details”</li>
+<li><strong>last_creatinine</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.FloatField" title="(in Django v1.11)"><em>django.db.models.FloatField</em></a>) – “Last creatinine”</li>
+<li><strong>last_creatinine_unit</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “last creatinine unit”</li>
+<li><strong>max_creatinine</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.FloatField" title="(in Django v1.11)"><em>django.db.models.FloatField</em></a>) – “Maximum creatinine (during admission)”</li>
+<li><strong>max_creatinine_unit</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “max creatinine unit”</li>
+<li><strong>life_support_withdrawal</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) – “Time of withdrawal of life support” - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>systolic_pressure_low</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) – “Systolic arterial pressure &lt;50 mm Hg (inadequate organ perfusion)” - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>systolic_pressure_low_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “systolic pressure low unknown” - Internal unknown flag</li>
+<li><strong>o2_saturation</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) – “O2 saturation below 80%” - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>o2_saturation_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “o2 saturation unknown” - Internal unknown flag</li>
+<li><strong>circulatory_arrest</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) – “End of cardiac output (= Start of no touch period)” - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>circulatory_arrest_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “circulatory arrest unknown” - Internal unknown flag</li>
+<li><strong>length_of_no_touch</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Length of no touch period (minutes)” - Value must be in the range 1-60 minutes</li>
+<li><strong>death_diagnosed</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) – “Knife to skin time” - This also counts as Date of Death for donor. Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>perfusion_started</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) – “Start time of in-situ cold perfusion” - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>perfusion_started_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “perfusion started unknown” - Internal unknown flag</li>
+<li><strong>systemic_flush_used</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Systemic (aortic) flush solution used”</li>
+<li><strong>systemic_flush_used_other</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) – “Other flush name”</li>
+<li><strong>systemic_flush_volume_used</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Volume of flush used (ml)”</li>
+<li><strong>heparin</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) – “Heparin”</li>
+<li><strong>_left_kidney_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.OneToOneField" title="(in Django v1.11)"><em>django.db.models.OneToOneField</em></a>) – ” left kidney”</li>
+<li><strong>_right_kidney_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.OneToOneField" title="(in Django v1.11)"><em>django.db.models.OneToOneField</em></a>) – ” right kidney”</li>
+<li><strong>_order</strong> (<em>django.db.models.OrderWrt</em>) – ” order”</li>
 </ul>
 </td>
 </tr>
@@ -1342,7 +1342,7 @@ object the first time, the query is executed.</p>
 
 <dl class="attribute">
 <dt id="wp4.compare.models.donor.Donor.NON_RANDOMISATION_CHOICES">
-<code class="descname">NON_RANDOMISATION_CHOICES</code><em class="property"> = ((0, 'Not applicable'), (1, 'Donor not proceeding'), (2, 'One or more kidneys allocated to non-trial location'), (3, 'Kidneys not allocated'), (4, 'Kidneys not transplantable'), (5, 'Other'))</em><a class="headerlink" href="#wp4.compare.models.donor.Donor.NON_RANDOMISATION_CHOICES" title="Permalink to this definition">¶</a></dt>
+<code class="descname">NON_RANDOMISATION_CHOICES</code><em class="property"> = ((0, 'Not applicable'), (1, 'Donor not proceeding'), (2, 'One or more kidneys allocated to non-trial location'), (3, 'Kidneys not allocated'), (4, 'DOc13 Kidneys not transplantable'), (5, 'Other'))</em><a class="headerlink" href="#wp4.compare.models.donor.Donor.NON_RANDOMISATION_CHOICES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Donor not_randomised_because choices</p>
 </dd></dl>
 
@@ -1901,7 +1901,7 @@ object the first time, the query is executed.</p>
 <dl class="attribute">
 <dt id="wp4.compare.models.donor.Donor.systemic_flush_volume_used">
 <code class="descname">systemic_flush_volume_used</code><a class="headerlink" href="#wp4.compare.models.donor.Donor.systemic_flush_volume_used" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>NB</em> &#8211; this doesn&#8217;t appear on the paper forms</p>
+<dd><p><em>NB</em> – this doesn’t appear on the paper forms</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -1971,10 +1971,10 @@ same value for person.date_of_death</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>force_insert</strong> &#8211; bool. As parent method</li>
-<li><strong>force_update</strong> &#8211; bool. As parent method</li>
-<li><strong>using</strong> &#8211; As parent method</li>
-<li><strong>update_fields</strong> &#8211; As parent method</li>
+<li><strong>force_insert</strong> – bool. As parent method</li>
+<li><strong>force_update</strong> – bool. As parent method</li>
+<li><strong>using</strong> – As parent method</li>
+<li><strong>update_fields</strong> – As parent method</li>
 </ul>
 </td>
 </tr>
@@ -1998,8 +1998,8 @@ value determines which of the two lists to pick from.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>is_online</strong> &#8211; bool. Pick from an online list if True, or an Offline list if False</li>
-<li><strong>active_user</strong> &#8211; The user that is triggering the randomisation process</li>
+<li><strong>is_online</strong> – bool. Pick from an online list if True, or an Offline list if False</li>
+<li><strong>active_user</strong> – The user that is triggering the randomisation process</li>
 </ul>
 </td>
 </tr>
@@ -2071,14 +2071,14 @@ created with sensible defaults and linked.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">&#8216;WP4cctnns&#8217; - where:<ul class="simple">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">‘WP4cctnns’ - where:<ul class="simple">
 <li>cc = 2 digit centre code</li>
 <li>t = single digit, 0 for online, 9 for offline randomisation</li>
 <li>nn = 2 digit sequence number, starting at 01</li>
 <li>s = (optional) single character denoting organ location, L for Left, R for Right</li>
 </ul>
-<p>If no centre_code set or a lack of sequence_number, returns &#8220;No Trial ID Assigned (DOnnn)&#8221;
-where nnn = the object&#8217;s ID</p>
+<p>If no centre_code set or a lack of sequence_number, returns “No Trial ID Assigned (DOnnn)”
+where nnn = the object’s ID</p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)">str</a></td>
@@ -2289,42 +2289,42 @@ object the first time, the query is executed.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
-<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - locked by the admin team</li>
-<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) &#8211; &#8220;live&#8221;</li>
-<li><strong>donor_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;donor&#8221; - Internal link to the Donor</li>
-<li><strong>location</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;Kidney location&#8221;</li>
-<li><strong>not_allocated_reason</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;OR31 not allocated because&#8221;</li>
-<li><strong>admin_notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.TextField" title="(in Django v1.11)"><em>django.db.models.TextField</em></a>) &#8211; &#8220;Admin only notes&#8221;</li>
-<li><strong>transplantation_notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.TextField" title="(in Django v1.11)"><em>django.db.models.TextField</em></a>) &#8211; &#8220;Transplantation notes (if any)&#8221;</li>
-<li><strong>transplantation_form_completed</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Form completed?&#8221; - Select Yes when you believe the form is complete and you have no more data to enter</li>
-<li><strong>trial_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;OR99 organ id&#8221;</li>
-<li><strong>removal</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;Removal time&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>renal_arteries</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Number of renal arteries&#8221; - Number of arteries must be in range 0-5</li>
-<li><strong>graft_damage</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Renal graft damage&#8221;</li>
-<li><strong>graft_damage_other</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;Other damage details&#8221;</li>
-<li><strong>washout_perfusion</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Washout perfusion&#8221;</li>
-<li><strong>transplantable</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;Transplantable?&#8221; - This answer can be amended after randomisation and saving of the form if necessary</li>
-<li><strong>not_transplantable_reason</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;Why not transplantable?&#8221;</li>
-<li><strong>preservation</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;preservation&#8221;</li>
-<li><strong>perfusion_possible</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;Is machine perfusion possible?&#8221;</li>
-<li><strong>perfusion_not_possible_because</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;Why was machine perfusion not possible? Please provide details&#8221;</li>
-<li><strong>perfusion_started</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;Time machine perfusion started&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>patch_holder</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Patch holder used?&#8221;</li>
-<li><strong>artificial_patch_used</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;Artificial patch used?&#8221;</li>
-<li><strong>artificial_patch_size</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Artificial patch size&#8221;</li>
-<li><strong>artificial_patch_number</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Patch number&#8221;</li>
-<li><strong>oxygen_bottle_full</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;Is the oxygen bottle full?&#8221;</li>
-<li><strong>oxygen_bottle_open</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;Is the oxygen bottle open?&#8221;</li>
-<li><strong>oxygen_bottle_changed</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;Was the oxygen tank changed?&#8221;</li>
-<li><strong>oxygen_bottle_changed_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;If yes, when was it changed?&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>oxygen_bottle_changed_at_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;oxygen bottle changed at unknown&#8221; - Internal unknown flag</li>
-<li><strong>ice_container_replenished</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;Was the ice container replenished?&#8221;</li>
-<li><strong>ice_container_replenished_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;Ice container replenished at&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>ice_container_replenished_at_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;ice container replenished at unknown&#8221; - Internal unknown flag</li>
-<li><strong>perfusate_measurable</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;Is it logistically possible to measure pO2 perfusate (use blood gas analyser)?&#8221;</li>
-<li><strong>perfusate_measure</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.FloatField" title="(in Django v1.11)"><em>django.db.models.FloatField</em></a>) &#8211; &#8220;Value pO2&#8221;</li>
-<li><strong>perfusion_machine_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;Perfusion machine used&#8221;</li>
+<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) – “ID”</li>
+<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “record locked” - locked by the admin team</li>
+<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “live”</li>
+<li><strong>donor_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) – “donor” - Internal link to the Donor</li>
+<li><strong>location</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) – “Kidney location”</li>
+<li><strong>not_allocated_reason</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) – “OR31 not allocated because”</li>
+<li><strong>admin_notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.TextField" title="(in Django v1.11)"><em>django.db.models.TextField</em></a>) – “Admin only notes”</li>
+<li><strong>transplantation_notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.TextField" title="(in Django v1.11)"><em>django.db.models.TextField</em></a>) – “Transplantation notes (if any)”</li>
+<li><strong>transplantation_form_completed</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Form completed?” - Select Yes when you believe the form is complete and you have no more data to enter</li>
+<li><strong>trial_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) – “OR99 organ id”</li>
+<li><strong>removal</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) – “Removal time” - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>renal_arteries</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Number of renal arteries” - Number of arteries must be in range 0-5</li>
+<li><strong>graft_damage</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Renal graft damage”</li>
+<li><strong>graft_damage_other</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) – “Other damage details”</li>
+<li><strong>washout_perfusion</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Washout perfusion”</li>
+<li><strong>transplantable</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) – “Transplantable?” - This answer can be amended after randomisation and saving of the form if necessary</li>
+<li><strong>not_transplantable_reason</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) – “Why not transplantable?”</li>
+<li><strong>preservation</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “preservation”</li>
+<li><strong>perfusion_possible</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) – “Is machine perfusion possible?”</li>
+<li><strong>perfusion_not_possible_because</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) – “Why was machine perfusion not possible? Please provide details”</li>
+<li><strong>perfusion_started</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) – “Time machine perfusion started” - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>patch_holder</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Patch holder used?”</li>
+<li><strong>artificial_patch_used</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) – “Artificial patch used?”</li>
+<li><strong>artificial_patch_size</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Artificial patch size”</li>
+<li><strong>artificial_patch_number</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Patch number”</li>
+<li><strong>oxygen_bottle_full</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) – “Is the oxygen bottle full?”</li>
+<li><strong>oxygen_bottle_open</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) – “Is the oxygen bottle open?”</li>
+<li><strong>oxygen_bottle_changed</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) – “Was the oxygen tank changed?”</li>
+<li><strong>oxygen_bottle_changed_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) – “If yes, when was it changed?” - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>oxygen_bottle_changed_at_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “oxygen bottle changed at unknown” - Internal unknown flag</li>
+<li><strong>ice_container_replenished</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) – “Was the ice container replenished?”</li>
+<li><strong>ice_container_replenished_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) – “Ice container replenished at” - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>ice_container_replenished_at_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “ice container replenished at unknown” - Internal unknown flag</li>
+<li><strong>perfusate_measurable</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) – “Is it logistically possible to measure pO2 perfusate (use blood gas analyser)?”</li>
+<li><strong>perfusate_measure</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.FloatField" title="(in Django v1.11)"><em>django.db.models.FloatField</em></a>) – “Value pO2”</li>
+<li><strong>perfusion_machine_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) – “Perfusion machine used”</li>
 </ul>
 </td>
 </tr>
@@ -2717,7 +2717,7 @@ one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 <dt id="wp4.compare.models.donor.Organ.safe_recipient">
 <code class="descname">safe_recipient</code><a class="headerlink" href="#wp4.compare.models.donor.Organ.safe_recipient" title="Permalink to this definition">¶</a></dt>
 <dd><p>Helper method to return either the related Recipient record, or a safe value of None,
-without the drama of exceptions when it doesn&#8217;t exist</p>
+without the drama of exceptions when it doesn’t exist</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -2732,7 +2732,7 @@ without the drama of exceptions when it doesn&#8217;t exist</p>
 <dt id="wp4.compare.models.donor.Organ.final_allocation">
 <code class="descname">final_allocation</code><a class="headerlink" href="#wp4.compare.models.donor.Organ.final_allocation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Work out if there are any OrganAllocations, and then return the latest one</p>
-<p>TODO: Rename this as &#8220;latest allocation&#8221;. The <cite>allocation</cite> property links to the final allocation</p>
+<p>TODO: Rename this as “latest allocation”. The <cite>allocation</cite> property links to the final allocation</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -2763,7 +2763,7 @@ without the drama of exceptions when it doesn&#8217;t exist</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">&#8216;WP4cctnns&#8217;</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">‘WP4cctnns’</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)">str</a></td>
 </tr>
@@ -2795,7 +2795,7 @@ without the drama of exceptions when it doesn&#8217;t exist</p>
 <dl class="attribute">
 <dt id="wp4.compare.models.donor.Organ.explain_is_allocated">
 <code class="descname">explain_is_allocated</code><a class="headerlink" href="#wp4.compare.models.donor.Organ.explain_is_allocated" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>Allocation status description</em> &#8211; An explanation as to the allocation status for this organ</p>
+<dd><p><em>Allocation status description</em> – An explanation as to the allocation status for this organ</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -2831,7 +2831,7 @@ without the drama of exceptions when it doesn&#8217;t exist</p>
 <dd><p>A kidney should be flagged as COLD STORED when (1) OR (2) where
 (1) if wp4.compare.models.organ.Organ - perfusion_possible (django.db.models.NullBooleanField) – “OR09 machine
 perfusion possible?” is FALSE
-(2) if &#8220;Was the kidney cold stored because of a machine problem&#8221; in the Transplantation form is TRUE</p>
+(2) if “Was the kidney cold stored because of a machine problem” in the Transplantation form is TRUE</p>
 <p>See discussion in Issue 166 for more detail</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -3190,14 +3190,14 @@ Organ if needed</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
-<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - locked by the admin team</li>
-<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) &#8211; &#8220;live&#8221;</li>
-<li><strong>organ_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;Kidney&#8221;</li>
-<li><strong>type</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;Resource used&#8221;</li>
-<li><strong>lot_number</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;Lot number&#8221;</li>
-<li><strong>expiry_date</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateField" title="(in Django v1.11)"><em>django.db.models.DateField</em></a>) &#8211; &#8220;Expiry date&#8221;</li>
-<li><strong>expiry_date_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;expiry date unknown&#8221; - Internal unknown flag</li>
+<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) – “ID”</li>
+<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “record locked” - locked by the admin team</li>
+<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “live”</li>
+<li><strong>organ_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) – “Kidney”</li>
+<li><strong>type</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) – “Resource used”</li>
+<li><strong>lot_number</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) – “Lot number”</li>
+<li><strong>expiry_date</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateField" title="(in Django v1.11)"><em>django.db.models.DateField</em></a>) – “Expiry date”</li>
+<li><strong>expiry_date_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “expiry date unknown” - Internal unknown flag</li>
 </ul>
 </td>
 </tr>
@@ -3357,29 +3357,29 @@ the record of these allocations and a link between Organ and Recipient.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
-<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - locked by the admin team</li>
-<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) &#8211; &#8220;live&#8221;</li>
-<li><strong>organ_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;organ&#8221;</li>
-<li><strong>perfusion_technician_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;Name of TT attending&#8221;</li>
-<li><strong>call_received</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;Call received from MTO involved with Donor procedure at&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>call_received_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;call received unknown&#8221; - Internal unknown flag</li>
-<li><strong>transplant_hospital_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;Transplant hospital&#8221;</li>
-<li><strong>theatre_contact_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) &#8211; &#8220;Name of transplant hospital&#8217;s operating theatre contact person&#8221;</li>
-<li><strong>scheduled_start</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;Scheduled start time for transplant&#8221; - Date must be fall within 1900-2050</li>
-<li><strong>scheduled_start_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;scheduled start unknown&#8221; - Internal unknown flag</li>
-<li><strong>technician_arrival</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;Arrival time at hub&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>technician_arrival_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;technician arrival unknown&#8221; - Internal unknown flag</li>
-<li><strong>depart_perfusion_centre</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;Departure time from hub&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>depart_perfusion_centre_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;depart perfusion centre unknown&#8221; - Internal unknown flag</li>
-<li><strong>arrival_at_recipient_hospital</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;Arrival time at transplant hospital&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>arrival_at_recipient_hospital_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;arrival at recipient hospital unknown&#8221; - Internal unknown flag</li>
-<li><strong>journey_remarks</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.TextField" title="(in Django v1.11)"><em>django.db.models.TextField</em></a>) &#8211; &#8220;Notes from the journey&#8221;</li>
-<li><strong>reallocated</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;Was the kidney re-allocated to another transplant centre?&#8221;</li>
-<li><strong>reallocation_reason</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Reason for re-allocation&#8221;</li>
-<li><strong>reallocation_reason_other</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;Details of other reason&#8221;</li>
-<li><strong>reallocation_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.OneToOneField" title="(in Django v1.11)"><em>django.db.models.OneToOneField</em></a>) &#8211; &#8220;reallocation&#8221; - Internal forward link value to another OrganAllocation record</li>
-<li><strong>_order</strong> (<em>django.db.models.OrderWrt</em>) &#8211; &#8221; order&#8221;</li>
+<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) – “ID”</li>
+<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “record locked” - locked by the admin team</li>
+<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “live”</li>
+<li><strong>organ_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) – “organ”</li>
+<li><strong>perfusion_technician_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) – “Name of TT attending”</li>
+<li><strong>call_received</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) – “Call received from MTO involved with Donor procedure at” - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>call_received_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “call received unknown” - Internal unknown flag</li>
+<li><strong>transplant_hospital_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) – “Transplant hospital”</li>
+<li><strong>theatre_contact_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v1.11)"><em>django.db.models.ForeignKey</em></a>) – “Name of transplant hospital’s operating theatre contact person”</li>
+<li><strong>scheduled_start</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) – “Scheduled start time for transplant” - Date must be fall within 1900-2050</li>
+<li><strong>scheduled_start_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “scheduled start unknown” - Internal unknown flag</li>
+<li><strong>technician_arrival</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) – “Arrival time at hub” - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>technician_arrival_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “technician arrival unknown” - Internal unknown flag</li>
+<li><strong>depart_perfusion_centre</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) – “Departure time from hub” - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>depart_perfusion_centre_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “depart perfusion centre unknown” - Internal unknown flag</li>
+<li><strong>arrival_at_recipient_hospital</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) – “Arrival time at transplant hospital” - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>arrival_at_recipient_hospital_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “arrival at recipient hospital unknown” - Internal unknown flag</li>
+<li><strong>journey_remarks</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.TextField" title="(in Django v1.11)"><em>django.db.models.TextField</em></a>) – “Notes from the journey”</li>
+<li><strong>reallocated</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) – “Was the kidney re-allocated to another transplant centre?”</li>
+<li><strong>reallocation_reason</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Reason for re-allocation”</li>
+<li><strong>reallocation_reason_other</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) – “Details of other reason”</li>
+<li><strong>reallocation_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.OneToOneField" title="(in Django v1.11)"><em>django.db.models.OneToOneField</em></a>) – “reallocation” - Internal forward link value to another OrganAllocation record</li>
+<li><strong>_order</strong> (<em>django.db.models.OrderWrt</em>) – ” order”</li>
 </ul>
 </td>
 </tr>
@@ -3709,53 +3709,53 @@ the Recipient specific data.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) &#8211; &#8220;ID&#8221;</li>
-<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;record locked&#8221; - locked by the admin team</li>
-<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) &#8211; &#8220;live&#8221;</li>
-<li><strong>person_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.OneToOneField" title="(in Django v1.11)"><em>django.db.models.OneToOneField</em></a>) &#8211; &#8220;person&#8221; - Internal link to Patient</li>
-<li><strong>organ_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.OneToOneField" title="(in Django v1.11)"><em>django.db.models.OneToOneField</em></a>) &#8211; &#8220;organ&#8221; - Internal link to Organ</li>
-<li><strong>allocation_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.OneToOneField" title="(in Django v1.11)"><em>django.db.models.OneToOneField</em></a>) &#8211; &#8220;allocation&#8221; - Internal link to OrganAllocation</li>
-<li><strong>signed_consent</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;Has recipient consent been obtained?&#8221;</li>
-<li><strong>single_kidney_transplant</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;Is the recipient undergoing a single kidney transplant?&#8221;</li>
-<li><strong>renal_disease</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Renal disease&#8221;</li>
-<li><strong>renal_disease_other</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;Other type of renal disease&#8221;</li>
-<li><strong>pre_transplant_diuresis</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Diuresis (ml/24hr)&#8221;</li>
-<li><strong>knife_to_skin</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;Knife to skin time&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>perfusate_measure</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.FloatField" title="(in Django v1.11)"><em>django.db.models.FloatField</em></a>) &#8211; &#8220;p02 Perfusate&#8221;</li>
-<li><strong>perfusion_stopped</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;Time machine perfusion stopped&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>organ_cold_stored</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Was the kidney cold stored?&#8221;</li>
-<li><strong>tape_broken</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Tape over regulator broken?&#8221;</li>
-<li><strong>removed_from_machine_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;Time kidney removed from machine&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>oxygen_full_and_open</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Oxygen bottle full and open?&#8221;</li>
-<li><strong>organ_untransplantable</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;Was the kidney discarded?&#8221; - Either answer means further questions will open below</li>
-<li><strong>organ_untransplantable_reason</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;Reason kidney was untransplantable&#8221;</li>
-<li><strong>anesthesia_started_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;Start time of anaesthesia&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>incision</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Incision&#8221;</li>
-<li><strong>transplant_side</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;Transplant side&#8221;</li>
-<li><strong>arterial_problems</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Arterial problems&#8221;</li>
-<li><strong>arterial_problems_other</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;Arterial problems other&#8221;</li>
-<li><strong>venous_problems</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Venous problems&#8221;</li>
-<li><strong>venous_problems_other</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;Venous problems other&#8221;</li>
-<li><strong>anastomosis_started_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;Anastomosis start time&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>anastomosis_started_at_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;anastomosis started at unknown&#8221; - Internal unknown flag</li>
-<li><strong>reperfusion_started_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;Reperfusion start time&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>reperfusion_started_at_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;reperfusion started at unknown&#8221; - Internal unknown flag</li>
-<li><strong>mannitol_used</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Mannitol used?&#8221;</li>
-<li><strong>other_diurectics</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Other diuretics used&#8221;</li>
-<li><strong>other_diurectics_details</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) &#8211; &#8220;Details of other diuretics used&#8221;</li>
-<li><strong>systolic_blood_pressure</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Systolic blood pressure at start of reperfusion&#8221; - Value must be in range 10-200</li>
-<li><strong>cvp</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;cvp at reperfusion&#8221;</li>
-<li><strong>intra_operative_diuresis</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) &#8211; &#8220;Intra-operative diuresis&#8221;</li>
-<li><strong>successful_conclusion</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) &#8211; &#8220;Successful conclusion?&#8221;</li>
-<li><strong>operation_concluded_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) &#8211; &#8220;Operation end time&#8221; - Date must be fall within 1900-2050, and not be in the future</li>
-<li><strong>probe_cleaned</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;Temperature and flow probe cleaned?&#8221;</li>
-<li><strong>ice_removed</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;Ice and water removed?&#8221;</li>
-<li><strong>oxygen_flow_stopped</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;Oxygen flow stopped&#8221;</li>
-<li><strong>oxygen_bottle_removed</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;Oxygen bottle removed&#8221;</li>
-<li><strong>box_cleaned</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;Kidney assist box cleaned&#8221;</li>
-<li><strong>batteries_charged</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) &#8211; &#8220;Batteries put on charge&#8221;</li>
-<li><strong>cleaning_log</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.TextField" title="(in Django v1.11)"><em>django.db.models.TextField</em></a>) &#8211; &#8220;Cleaning log notes&#8221;</li>
-<li><strong>_order</strong> (<em>django.db.models.OrderWrt</em>) &#8211; &#8221; order&#8221;</li>
+<li><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.AutoField" title="(in Django v1.11)"><em>django.db.models.AutoField</em></a>) – “ID”</li>
+<li><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “record locked” - locked by the admin team</li>
+<li><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “live”</li>
+<li><strong>person_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.OneToOneField" title="(in Django v1.11)"><em>django.db.models.OneToOneField</em></a>) – “person” - Internal link to Patient</li>
+<li><strong>organ_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.OneToOneField" title="(in Django v1.11)"><em>django.db.models.OneToOneField</em></a>) – “organ” - Internal link to Organ</li>
+<li><strong>allocation_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.OneToOneField" title="(in Django v1.11)"><em>django.db.models.OneToOneField</em></a>) – “allocation” - Internal link to OrganAllocation</li>
+<li><strong>signed_consent</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) – “Has recipient consent been obtained?”</li>
+<li><strong>single_kidney_transplant</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) – “Is the recipient undergoing a single kidney transplant?”</li>
+<li><strong>renal_disease</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Renal disease”</li>
+<li><strong>renal_disease_other</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) – “Other type of renal disease”</li>
+<li><strong>pre_transplant_diuresis</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Diuresis (ml/24hr)”</li>
+<li><strong>knife_to_skin</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) – “Knife to skin time” - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>perfusate_measure</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.FloatField" title="(in Django v1.11)"><em>django.db.models.FloatField</em></a>) – “p02 Perfusate”</li>
+<li><strong>perfusion_stopped</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) – “Time machine perfusion stopped” - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>organ_cold_stored</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Was the kidney cold stored?”</li>
+<li><strong>tape_broken</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Tape over regulator broken?”</li>
+<li><strong>removed_from_machine_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) – “Time kidney removed from machine” - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>oxygen_full_and_open</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Oxygen bottle full and open?”</li>
+<li><strong>organ_untransplantable</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) – “Was the kidney discarded?” - Either answer means further questions will open below</li>
+<li><strong>organ_untransplantable_reason</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) – “Reason kidney was untransplantable”</li>
+<li><strong>anesthesia_started_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) – “Start time of anaesthesia” - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>incision</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Incision”</li>
+<li><strong>transplant_side</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) – “Transplant side”</li>
+<li><strong>arterial_problems</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Arterial problems”</li>
+<li><strong>arterial_problems_other</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) – “Arterial problems other”</li>
+<li><strong>venous_problems</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Venous problems”</li>
+<li><strong>venous_problems_other</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) – “Venous problems other”</li>
+<li><strong>anastomosis_started_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) – “Anastomosis start time” - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>anastomosis_started_at_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “anastomosis started at unknown” - Internal unknown flag</li>
+<li><strong>reperfusion_started_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) – “Reperfusion start time” - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>reperfusion_started_at_unknown</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “reperfusion started at unknown” - Internal unknown flag</li>
+<li><strong>mannitol_used</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Mannitol used?”</li>
+<li><strong>other_diurectics</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Other diuretics used”</li>
+<li><strong>other_diurectics_details</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.CharField" title="(in Django v1.11)"><em>django.db.models.CharField</em></a>) – “Details of other diuretics used”</li>
+<li><strong>systolic_blood_pressure</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Systolic blood pressure at start of reperfusion” - Value must be in range 10-200</li>
+<li><strong>cvp</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “cvp at reperfusion”</li>
+<li><strong>intra_operative_diuresis</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v1.11)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Intra-operative diuresis”</li>
+<li><strong>successful_conclusion</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.BooleanField" title="(in Django v1.11)"><em>django.db.models.BooleanField</em></a>) – “Successful conclusion?”</li>
+<li><strong>operation_concluded_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v1.11)"><em>django.db.models.DateTimeField</em></a>) – “Operation end time” - Date must be fall within 1900-2050, and not be in the future</li>
+<li><strong>probe_cleaned</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) – “Temperature and flow probe cleaned?”</li>
+<li><strong>ice_removed</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) – “Ice and water removed?”</li>
+<li><strong>oxygen_flow_stopped</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) – “Oxygen flow stopped”</li>
+<li><strong>oxygen_bottle_removed</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) – “Oxygen bottle removed”</li>
+<li><strong>box_cleaned</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) – “Kidney assist box cleaned”</li>
+<li><strong>batteries_charged</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v1.11)"><em>django.db.models.NullBooleanField</em></a>) – “Batteries put on charge”</li>
+<li><strong>cleaning_log</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/models/fields/#django.db.models.TextField" title="(in Django v1.11)"><em>django.db.models.TextField</em></a>) – “Cleaning log notes”</li>
+<li><strong>_order</strong> (<em>django.db.models.OrderWrt</em>) – ” order”</li>
 </ul>
 </td>
 </tr>
@@ -4132,7 +4132,7 @@ object the first time, the query is executed.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Recipient&#8217;s age in years as calculated from their Date of Birth</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Recipient’s age in years as calculated from their Date of Birth</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a></td>
 </tr>
@@ -4148,7 +4148,7 @@ object the first time, the query is executed.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">&#8216;WP4cctnns&#8217;</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">‘WP4cctnns’</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)">str</a></td>
 </tr>
@@ -4299,17 +4299,17 @@ class built by <code class="docutils literal"><span class="pre">create_forward_m
 <tr class="row-odd"><td><a class="reference internal" href="#wp4.compare.managers.core.RetrievalTeamModelForUserManager" title="wp4.compare.managers.core.RetrievalTeamModelForUserManager"><code class="xref py py-obj docutils literal"><span class="pre">RetrievalTeamModelForUserManager</span></code></a>()</td>
 <td>Test for permissions to view and restrict based on rules.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#wp4.compare.managers.core.AllocatableModelForUserManager" title="wp4.compare.managers.core.AllocatableModelForUserManager"><code class="xref py py-obj docutils literal"><span class="pre">AllocatableModelForUserManager</span></code></a>([...])</td>
-<td>Get only the Organs that are available for allocation, which means they&#8217;re Unallocated (not deliberately), Randomised, and still Transplantable (but not necessarily a completed P form).</td>
+<tr class="row-even"><td><a class="reference internal" href="#wp4.compare.managers.core.AllocatableModelForUserManager" title="wp4.compare.managers.core.AllocatableModelForUserManager"><code class="xref py py-obj docutils literal"><span class="pre">AllocatableModelForUserManager</span></code></a>([…])</td>
+<td>Get only the Organs that are available for allocation, which means they’re Unallocated (not deliberately), Randomised, and still Transplantable (but not necessarily a completed P form).</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#wp4.compare.managers.core.ClosedOrganModelForUserManager" title="wp4.compare.managers.core.ClosedOrganModelForUserManager"><code class="xref py py-obj docutils literal"><span class="pre">ClosedOrganModelForUserManager</span></code></a>([...])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#wp4.compare.managers.core.ClosedOrganModelForUserManager" title="wp4.compare.managers.core.ClosedOrganModelForUserManager"><code class="xref py py-obj docutils literal"><span class="pre">ClosedOrganModelForUserManager</span></code></a>([…])</td>
 <td>Get only the Organs that have had completed outcomes.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#wp4.compare.managers.core.DonorModelForUserManager" title="wp4.compare.managers.core.DonorModelForUserManager"><code class="xref py py-obj docutils literal"><span class="pre">DonorModelForUserManager</span></code></a>([include_soft_deleted])</td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#wp4.compare.managers.core.OpenOrganModelForUserManager" title="wp4.compare.managers.core.OpenOrganModelForUserManager"><code class="xref py py-obj docutils literal"><span class="pre">OpenOrganModelForUserManager</span></code></a>([...])</td>
-<td>Get only the Organs that are open for transplantation, which means they&#8217;ve one or more allocations, and have not had their form closed (either by allocation outside of project area, or completed form).</td>
+<tr class="row-odd"><td><a class="reference internal" href="#wp4.compare.managers.core.OpenOrganModelForUserManager" title="wp4.compare.managers.core.OpenOrganModelForUserManager"><code class="xref py py-obj docutils literal"><span class="pre">OpenOrganModelForUserManager</span></code></a>([…])</td>
+<td>Get only the Organs that are open for transplantation, which means they’ve one or more allocations, and have not had their form closed (either by allocation outside of project area, or completed form).</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#wp4.compare.managers.core.OrganModelForUserManager" title="wp4.compare.managers.core.OrganModelForUserManager"><code class="xref py py-obj docutils literal"><span class="pre">OrganModelForUserManager</span></code></a>([include_soft_deleted])</td>
 <td>For the more mundate cases of listing organs for a given user</td>
@@ -4317,10 +4317,10 @@ class built by <code class="docutils literal"><span class="pre">create_forward_m
 <tr class="row-odd"><td><a class="reference internal" href="#wp4.compare.managers.core.ProcurementResourceModelForUserManager" title="wp4.compare.managers.core.ProcurementResourceModelForUserManager"><code class="xref py py-obj docutils literal"><span class="pre">ProcurementResourceModelForUserManager</span></code></a>()</td>
 <td>Test for permissions to view and restrict based on rules.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#wp4.compare.managers.core.OrganAllocationModelForUserManager" title="wp4.compare.managers.core.OrganAllocationModelForUserManager"><code class="xref py py-obj docutils literal"><span class="pre">OrganAllocationModelForUserManager</span></code></a>([...])</td>
+<tr class="row-even"><td><a class="reference internal" href="#wp4.compare.managers.core.OrganAllocationModelForUserManager" title="wp4.compare.managers.core.OrganAllocationModelForUserManager"><code class="xref py py-obj docutils literal"><span class="pre">OrganAllocationModelForUserManager</span></code></a>([…])</td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#wp4.compare.managers.core.RecipientModelForUserManager" title="wp4.compare.managers.core.RecipientModelForUserManager"><code class="xref py py-obj docutils literal"><span class="pre">RecipientModelForUserManager</span></code></a>([...])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#wp4.compare.managers.core.RecipientModelForUserManager" title="wp4.compare.managers.core.RecipientModelForUserManager"><code class="xref py py-obj docutils literal"><span class="pre">RecipientModelForUserManager</span></code></a>([…])</td>
 <td></td>
 </tr>
 </tbody>
@@ -4338,8 +4338,8 @@ class built by <code class="docutils literal"><span class="pre">create_forward_m
 <blockquote>
 <div><dl class="docutils">
 <dt>permissions = (</dt>
-<dd>(&#8220;restrict_to_national&#8221;, &#8220;Can only use data from the same location country&#8221;),
-(&#8220;restrict_to_local&#8221;, &#8220;Can only use data from a specific location&#8221;),</dd>
+<dd>(“restrict_to_national”, “Can only use data from the same location country”),
+(“restrict_to_local”, “Can only use data from a specific location”),</dd>
 </dl>
 <p>)</p>
 </div></blockquote>
@@ -4379,7 +4379,7 @@ no user is specified, then the manager should continue to work as the default ma
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user</strong> &#8211; </td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user</strong> – </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
 </tr>
@@ -4437,10 +4437,10 @@ no user is specified, then the manager should continue to work as the default ma
 <em class="property">class </em><code class="descclassname">wp4.compare.managers.core.</code><code class="descname">ClosedOrganModelForUserManager</code><span class="sig-paren">(</span><em>include_soft_deleted=False</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/wp4/compare/managers/core.html#ClosedOrganModelForUserManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.compare.managers.core.ClosedOrganModelForUserManager" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get only the Organs that have had completed outcomes. These are:</p>
 <ul class="simple">
-<li>Organ.not_allocated_reason has a value... which results in...</li>
+<li>Organ.not_allocated_reason has a value… which results in…</li>
 <li>Recipient.transplantation_form_completed is True</li>
 </ul>
-<p>So wait, what about if the Organ is allocated to a non project site hospital, doesn&#8217;t that also
+<p>So wait, what about if the Organ is allocated to a non project site hospital, doesn’t that also
 close the case? Yes, yes it does, and we can more trivially cover this by writing a message into
 not_allocated_reason of $MESSAGE$, and then setting the transplantation_form_completed flag</p>
 <dl class="method">
@@ -4462,7 +4462,7 @@ not_allocated_reason of $MESSAGE$, and then setting the transplantation_form_com
 <dl class="class">
 <dt id="wp4.compare.managers.core.AllocatableModelForUserManager">
 <em class="property">class </em><code class="descclassname">wp4.compare.managers.core.</code><code class="descname">AllocatableModelForUserManager</code><span class="sig-paren">(</span><em>include_soft_deleted=False</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/wp4/compare/managers/core.html#AllocatableModelForUserManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.compare.managers.core.AllocatableModelForUserManager" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get only the Organs that are available for allocation, which means they&#8217;re Unallocated (not
+<dd><p>Get only the Organs that are available for allocation, which means they’re Unallocated (not
 deliberately), Randomised, and still Transplantable (but not necessarily a completed P form).</p>
 <dl class="method">
 <dt id="wp4.compare.managers.core.AllocatableModelForUserManager.get_queryset">
@@ -4484,7 +4484,7 @@ where preservation=PRESERVATION_NOT_SET OR transplantation_form_completed=True</
 <dl class="class">
 <dt id="wp4.compare.managers.core.OpenOrganModelForUserManager">
 <em class="property">class </em><code class="descclassname">wp4.compare.managers.core.</code><code class="descname">OpenOrganModelForUserManager</code><span class="sig-paren">(</span><em>include_soft_deleted=False</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/wp4/compare/managers/core.html#OpenOrganModelForUserManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.compare.managers.core.OpenOrganModelForUserManager" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get only the Organs that are open for transplantation, which means they&#8217;ve one or more allocations,
+<dd><p>Get only the Organs that are open for transplantation, which means they’ve one or more allocations,
 and have not had their form closed (either by allocation outside of project area, or completed form).</p>
 <dl class="method">
 <dt id="wp4.compare.managers.core.OpenOrganModelForUserManager.get_queryset">
@@ -4586,7 +4586,7 @@ preservation=PRESERVATION_NOT_SET</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.8.2',
+            VERSION:'0.8.6',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

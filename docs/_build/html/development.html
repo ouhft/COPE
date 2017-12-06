@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Development Setup &mdash; COPE DB 0.8.2 documentation</title>
+  <title>Development Setup &mdash; COPE DB 0.8.6 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="COPE DB 0.8.2 documentation" href="index.html"/>
+    <link rel="top" title="COPE DB 0.8.6 documentation" href="index.html"/>
         <link rel="next" title="Design - WP4:Compare" href="design/wp4_design.html"/>
         <link rel="prev" title="Deployment" href="deployment.html"/> 
 
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.8.2
+                0.8.6
               </div>
             
           
@@ -178,10 +178,10 @@
             
   <div class="section" id="development-setup">
 <span id="development-setup"></span><h1>Development Setup<a class="headerlink" href="#development-setup" title="Permalink to this headline">¶</a></h1>
-<p>Base system is macOS 10.12.3 (Sierra), and I&#8217;ve got this environment setup in two locations so far. This document
+<p>Base system is macOS 10.12.3 (Sierra), and I've got this environment setup in two locations so far. This document
 mostly details how the second environment was built (to match the first - which has evolved from OS X 10.7 times)</p>
 <p>Most of my approach is based on <a class="reference external" href="#">http://hackercodex.com/guide/python-development-environment-on-mac-osx/</a> (which is the
-updated version of the guide I&#8217;ve used for the past 4 years)</p>
+updated version of the guide I've used for the past 4 years)</p>
 <div class="section" id="user-credentials">
 <span id="user-credentials"></span><h2>User credentials<a class="headerlink" href="#user-credentials" title="Permalink to this headline">¶</a></h2>
 <p>As a new user account (on a new machine, but that bit is irrelevant) we need to create an SSH key for access to things
@@ -203,7 +203,7 @@ like GitHub and cope.nds Server.::</p>
 <div class="section" id="third-party-apps-in-use">
 <span id="third-party-apps-in-use"></span><h2>Third party apps in use<a class="headerlink" href="#third-party-apps-in-use" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><strong>IDE:</strong> PyCharm - from http://www.jetbrains.com. I&#8217;m using the Professional 2016.3 version.</li>
+<li><strong>IDE:</strong> PyCharm - from http://www.jetbrains.com. I'm using the Professional 2016.3 version.</li>
 <li><strong>Utility:</strong> CodeKit - from http://incident57.com/codekit/. Currently v2.4</li>
 <li><strong>Utility:</strong> CyberDuck - from . Currently v4.7.2</li>
 <li><strong>Base libraries:</strong> Homebrew - from http://brew.sh. More on its installation later.</li>
@@ -219,7 +219,7 @@ like GitHub and cope.nds Server.::</p>
 <span class="c1"># This prompts a gui installer to pop up, so click to accept.</span>
 </pre></div>
 </div>
-<p>Of the various base libraries that come up for use in various projects, one that seems to be key is <code class="docutils literal"><span class="pre">readline</span></code>, so we&#8217;ll
+<p>Of the various base libraries that come up for use in various projects, one that seems to be key is <code class="docutils literal"><span class="pre">readline</span></code>, so we'll
 install that now::</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">brew</span> <span class="n">install</span> <span class="n">readline</span>
 <span class="c1"># Also helpful, but not essential</span>
@@ -238,7 +238,7 @@ install that now::</p>
 </div>
 <div class="section" id="python-setup">
 <span id="python-setup"></span><h3>Python setup<a class="headerlink" href="#python-setup" title="Permalink to this headline">¶</a></h3>
-<p>Start by putting Homebrew&#8217;s python installs into the system to avoid conflicts with the system python::</p>
+<p>Start by putting Homebrew's python installs into the system to avoid conflicts with the system python::</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">brew</span> <span class="n">install</span> <span class="n">python</span> <span class="n">python3</span> <span class="n">gettext</span>
 <span class="n">brew</span> <span class="n">link</span> <span class="n">gettext</span> <span class="o">--</span><span class="n">force</span>   <span class="c1"># This is to enable the language files to be processed in Django</span>
 </pre></div>
@@ -282,12 +282,12 @@ alias ll=&#39;ls -laG&#39;
 alias pm=&#39;python manage.py&#39;
 </pre></div>
 </div>
-<p>Don&#8217;t forget to <code class="docutils literal"><span class="pre">source</span> <span class="pre">~/.bash_profile</span></code> at the end if you want to use this session with this setup!</p>
+<p>Don't forget to <code class="docutils literal"><span class="pre">source</span> <span class="pre">~/.bash_profile</span></code> at the end if you want to use this session with this setup!</p>
 </div>
 </div>
 <div class="section" id="project-setup">
 <span id="project-setup"></span><h2>Project setup<a class="headerlink" href="#project-setup" title="Permalink to this headline">¶</a></h2>
-<p>With the base tools in place, we can now setup the development environment for the project itself. We&#8217;ll create a
+<p>With the base tools in place, we can now setup the development environment for the project itself. We'll create a
 virtualenv project for development, then get the latest code from the central github repository. NB: This has been updated to reflect the change from python 2.7 to python 3 (3.5 or 3.6):</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">mkproject</span> <span class="o">-</span><span class="n">p</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">python3</span> <span class="n">py3_cope</span>
 <span class="c1"># NB: this sets CWD to /Users/$USER/Projects/py3_cope</span>
@@ -383,7 +383,7 @@ virtualenv project for development, then get the latest code from the central gi
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.8.2',
+            VERSION:'0.8.6',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

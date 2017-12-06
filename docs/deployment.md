@@ -1,57 +1,65 @@
 # Deployment
 
-There are presently three deployments of this project code: 
-
-* **Development**: Local copy for development work and testing
-* **Test/Staging**: Externally hosted deployment with dummy data but latest code to allow for partners to test and trial changes
-* **Production**: Dedicated VM hosted by MSD-IT providing the cope.nds.ox.ac.uk domain 
-
+## Development
 Local development deployment notes on this can be found in [Development](development.md)
 
 
-## Test/Staging (Webfaction)
+## Test/Staging
+Test server deployment is to the dev.nds server, accessible under [https://dev.nds.ox.ac.uk/cope/](). This is an Ubuntu 16.04 Server with similar setup to the Production environment. This location was moved here from external (personal) hosting in Nov 2017, having been online in its previous setup since Aug 2015.
 
-Testing has an auto-redeploy script setup which will attempt to take the lastest code changes from master after each push. The information below therefore, relates to the intial setup of the COPE DB deployment (and lacks any notes on the changes between python 2 and python 3).
+Deployment Outline
 
-Used an existing site setup, which needs documenting at some stage, and cleared it out as much as possible of the
-previous application install (lots of ``pip uninstall``, along with deleting a few files and folders)
+* Create project `$ mkproject -p /usr/bin/python3 cope`
+  * This will activate the new virtualenv, and drop you into `/sites/cope`
+* Create project user `$ sudo useradd --system --gid worker --shell /bin/bash --home /sites/cope cope-app-user`
+* Clone repository, select branch
+  * `$ git clone git@github.com:ouh-churchill/cope.git cope_repo`
+  * `$ cd cope_repo/`
+  * `$ git checkout testing`
+* Create subfolders, link virtualenv folders
+  * `$ cd ..` <-- return to `/sites/cope`
+  * `$ ln -s /sites/.virtualenvs/cope/lib ./lib`
+  * `$ ln -s /sites/.virtualenvs/cope/bin ./bin` 
+  * `$ mkdir -p var/log var/run etc/nginx/sites-available htdocs/media etc/gunicorn`
+* Install requirements
+  * `$ cd cope_repo/`
+  * `$ pip install -r requirements/staging.txt`
+* Modify local `.env` settings
+  * `$ cp config/settings/.env.template config/settings/.env`
+  * `$ vi config/settings/.env` -- Put in local setting values
+  * `$ python manage.py check`
+* Create database (port from old location)
+  * Check it is current with `$ python manage.py migrate`, there should be no missing migrations.
+* Copy the static content into place `$ python manage.py collectstatic`
+* Copy deployment files into system folders (nginx, supervisor, etc)
+  * `$ ln -s /sites/cope/cope_repo/deploy/staging/bin/gunicorn_start.sh /sites/cope/bin/gunicorn_start.sh` -- copy the gunicorn script into the project's bin folder, where the gunicorn config expects to find it
+  * `$ cd /etc/supervisor/conf.d/` -- goto the supervisorctl config folder 
+  * `$ sudo ln -s /sites/cope/cope_repo/deploy/staging/etc/supervisor/conf.d/cope-django.conf ./cope-django.conf` -- copy the config from the repo into the system folder
+  * `$ cd /sites` & `$ sudo chown -R carl:worker cope/` to make all the files now part of the `worker` group and thus executable by the `cope-app-worker` user.
+  * `$ sudo supervisorctl` to begin loading of the new config, and to start the process
+  * `reread` to find the config. `add cope` to make supervisor recognise it. `start cope` to kick the process off.
+  * `$ cd /etc/nginx/sites-available/` to get to the nginx config location
+  * `$ sudo ln -s /sites/cope/cope_repo/deploy/staging/etc/nginx/sites-available/cope.conf cope.conf` to bring in the cope proxy site config
+  * `$ cd ../sites-enabled/` to move into the enabled sites folder
+  * `$ sudo ln -s ../sites-available/cope.conf cope.conf` to make nginx recognise this as an active site
+* Link into the main Nginx config via sites-available
+  * `$ sudo vi default` to edit the main nginx server config, and to add in our new location
 
-Commands from the initial setup that were used (though not necessarily the correct ones as this is taken from
-bash history on the server - and excludes the steps taken on the webfaction control panel)::
+  ```
+  location /cope {
+      proxy_set_header X-Forwarded-Protocol $scheme;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header Host $http_host;
+      proxy_set_header X-Scheme $scheme;
+      proxy_set_header X-Forwarded-For $remote_addr;
 
-    cd ~/webapps/wp4_django/
-    mkvirtualenv wp4_20150514
-    deactivate
-    touch ~/.virtualenvs/wp4_20150514/lib/python2.7/sitecustomize.py
-    workon wp4_20150514
-    ln -s ../../.virtualenvs/wp4_20150514/lib/ ./lib
+      proxy_pass http://localhost:9002/;
+  }
+  ``` 
+  * `$ sudo systemctl restart nginx` to reload the config, and start the site
 
-After the virtual environment is setup, the application code was put into place (this is from v0.2.0)::
-
-    git clone git@github.com:AllyBradley/COPE.git
-    cd COPE/
-    git checkout testing
-    pip install -r requirements/webfaction.txt
-    vi local.env
-    pm migrate
-    pm collectstatic
-
-...and Apache was then configured::
-
-    cd apache2/conf/
-    cp httpd.conf httpd.conf.orig
-    vi httpd.conf
-    ../bin/restart
-
-Which left us with a working instance, so the application setup was started (will list the setup for v0.2.0)::
-
-    pm createsuperuser
-    pm loaddata config/fixtures/01_hospitals.json
-    pm loaddata config/fixtures/02_persons.json
-    pm loaddata config/fixtures/03_gradings.json
-    pm loaddata config/fixtures/09_testusers.json
-
-Create a link to the auto-deploy script and add it to the crontab::
+#### TODO
+Create a link to the auto-deploy script and add it to the crontab e.g. (from webfaction docs)::
 
     ln -s cope_repo/deploy/webfaction/deploy-cm13.sh ./update_by_cron.sh
     chmod 755 COPE/deploy/webfaction/deploy-cm13.sh
@@ -59,88 +67,10 @@ Create a link to the auto-deploy script and add it to the crontab::
     */2 * * * * $HOME/webapps/wp4_django/update_by_cron.sh >> $HOME/webapps/wp4_django/cron-wp4_django.log 2>&1
 
 
-### Footnotes for Staging
-
-The apache2 ``httpd.conf`` looks like this presently (copy in ``deploy/httpd.conf.webfaction``)::
-
-    ServerRoot "/home/cm13/webapps/wp4_django/apache2"
-
-    LoadModule authz_core_module modules/mod_authz_core.so
-    LoadModule dir_module        modules/mod_dir.so
-    LoadModule env_module        modules/mod_env.so
-    LoadModule log_config_module modules/mod_log_config.so
-    LoadModule mime_module       modules/mod_mime.so
-    LoadModule rewrite_module    modules/mod_rewrite.so
-    LoadModule setenvif_module   modules/mod_setenvif.so
-    LoadModule wsgi_module       modules/mod_wsgi.so
-    LoadModule unixd_module      modules/mod_unixd.so
-
-    LogFormat "%{X-Forwarded-For}i %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" combined
-    CustomLog /home/cm13/logs/user/access_wp4_django.log combined
-    ErrorLog /home/cm13/logs/user/error_wp4_django.log
-
-    DirectoryIndex index.py
-    # DocumentRoot /home/cm13/webapps/wp4_django/htdocs
-
-    Listen 31283
-    KeepAlive Off
-    SetEnvIf X-Forwarded-SSL on HTTPS=1
-    ServerLimit 1
-    StartServers 1
-    MaxRequestWorkers 5
-    MinSpareThreads 1
-    MaxSpareThreads 3
-    ThreadsPerChild 5
-
-    WSGIPythonPath /home/cm13/webapps/wp4_django/lib/python2.7
-    WSGIDaemonProcess wp4_django processes=2 threads=12 python-path=/home/cm13/webapps/wp4_django/lib/python2.7:/home/cm13/webapps/wp4_django/lib/python2.7/site-packages:/home/cm13/webapps/wp4_django/COPE/
-    WSGIProcessGroup wp4_django
-    WSGIRestrictEmbedded On
-    WSGILazyInitialization On
-
-    WSGIScriptAlias / /home/cm13/webapps/wp4_django/COPE/config/wsgi.py
-
-
 ## Production (cope.nds)
 
-An Ubuntu 16.04.3 (originally 14.04) LTS Server virtual machine has been created and hosted by MSD-IT Services. This is the unmanaged
-service, which means that we are responsible for its patching and upkeep. 
-
-### Maintainence
-Periodically there are maintainence tasks to do, such as:
-
-**System:**
-
-Don't forget to keep things up to date with ([https://help.ubuntu.com/community/AptGet/Howto]()):
-
-    sudo apt autoremove
-    sudo apt update
-    sudo apt upgrade
-    sudo apt autoclean
-
-    sudo shutdown -r now
-
-**Database:**
-
-After the end of each month, it is worth collating all the daily database backups into a single compressed archive. Instructions on how to do this can be found on the server, in a text file, in the db-backups folder
-
-#### Update the application release
-
- * Activate the virtualenv ``workon py3_cope``
- * Move into the repository directory for most tasks ``cd /sites/py3_cope/cope_repo/``
- * Get the latest updates from the central repository ``git pull --all``
- * Update the application libraries ``pip install -r requirements/production.txt``
- * Check things are working so far ``python manage.py check``
- * Apply any necessary migrations ``python manage.py migrate``
- * Gather the staticfiles up ``python manage.py collectstatic``
- * Apply the locale updates `python manage.py compilemessages`
- * Check things are working so far II ``python manage.py check``
- * Start the supervisor console to reload the changes ``sudo supervisorctl restart cope-django``
- * ...and all should be fine.
-
-### Setup
-
-Initial steps so far have been to change
+An Ubuntu 14.04 LTS Server virtual machine has been created and hosted by MSD-IT Services. This is the unmanaged
+service, which means that we are responsible for it's patching and upkeep. Initial steps so far have been to change
 the user account password (u: copeuser - p: in carl's password safe). Installing ssh keys will happen soon. Access
 to the server should be via ssh (only from Oxford network, including vpn) and via the VMWare web console (oxford network
 only - [https://fibula.msd.ox.ac.uk/]())
@@ -150,7 +80,7 @@ Setup is going to be loosely based on the guides from [https://www.chicagodjango
 in the Two Scoops of Django 1.8: Best Practices guide (see Chapter 31). More useful though is the guide from
 [http://michal.karzynski.pl/blog/2013/06/09/django-nginx-gunicorn-virtualenv-supervisor/]() (which I've used in the past).
 
-#### Access
+### Access
 
 So, initially we have access via ``ssh copeuser@cope.nds.ox.ac.uk``, and using a password. Step two is to install our
 SSH key (iMac@Home presently). Step one is we need to generate an ssh key for the server to register with github for
@@ -200,6 +130,17 @@ version of python is 2.7.6, which is currently fine for use, so will skip instal
 requiring any particular caching installation at this time either, so in the interests of KISS, we will install as
 little as possible.
 
+#### Maintainence
+
+Don't forget to keep things up to date with ([https://help.ubuntu.com/community/AptGet/Howto]()):
+
+    sudo apt autoremove
+    sudo apt update
+    sudo apt upgrade
+    sudo apt-get check
+    sudo apt autoclean
+
+    sudo shutdown -r now
 
 #### Installation
 
@@ -446,7 +387,27 @@ The string "HTTP_X_FORWARDED_PROTOCOL" is derived from ``proxy_set_header X-Forw
 
 Port 443 has been confirmed as open on the MSD firewall for cope.nds.ox.ac.uk
 
+### Maintenance and updates
 
+Periodically there are maintenance tasks to do, such as:
+
+* Update the OS libraries and packages - see Maintenance under System Setup above
+* Backup the DB - ``cp db.sqlite3 ../db-backup/yyyymmdd.sqlite3``
+
+#### Update the application release
+ * Activate the virtualenv ``workon cope``
+ * Move into the repository directory for most tasks ``cd cope-repo``
+ * Get the latest updates from the central repository ``git pull --all``
+ * Checkout the relevant tagged release (i.e. not Head of Master branch) ``git checkout 0.4.6``
+ * Update the application libraries ``pip install -r requirements/production.txt``
+ * Check things are working so far ``python manage.py check``
+ * Apply any necessary migrations ``python manage.py migrate``
+ * Gather the staticfiles up ``python manage.py collectstatic``
+ * Apply the locale updates `python manage.py compilemessages`
+ * Check things are working so far II ``python manage.py check``
+ * Start the supervisor console to reload the changes ``sudo supervisorctl``...
+ * and then ``restart cope-django``
+ * ...and all should be fine.
 
 #### Troubleshooting
 When things do not go to plan, we want to find out what we can. There's no debug mode on the production server, so it's into the error logs for information. Logs from supervisord are found via: ``cd /var/log/supervisor/``. Unfortunately stack traces aren't captured here (for example on a Server Error), so more work needs to be done to help the monitoring of this server.

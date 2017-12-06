@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>wp4.compare.models.donor &mdash; COPE DB 0.8.2 documentation</title>
+  <title>wp4.compare.models.donor &mdash; COPE DB 0.8.6 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../../search.html"/>
-    <link rel="top" title="COPE DB 0.8.2 documentation" href="../../../../index.html"/>
+    <link rel="top" title="COPE DB 0.8.6 documentation" href="../../../../index.html"/>
         <link rel="up" title="wp4.compare.models" href="../models.html"/> 
 
   
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                0.8.2
+                0.8.6
               </div>
             
           
@@ -210,7 +210,7 @@
         <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;DOc10 Donor not proceeding&quot;</span><span class="p">)),</span>
         <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;DOc11 One or more kidneys allocated to non-trial location&quot;</span><span class="p">)),</span>
         <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;DOc12 Kidneys not allocated&quot;</span><span class="p">)),</span>
-        <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;DOc13 Kidneys not transplanable&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;DOc13 Kidneys not transplantable&quot;</span><span class="p">)),</span>
         <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;DOc14 Other&quot;</span><span class="p">)),</span>
     <span class="p">)</span>  <span class="c1">#: Donor not_randomised_because choices</span>
     <span class="n">multiple_recipients</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>
@@ -670,8 +670,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">person</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">Donor</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">force_insert</span><span class="p">,</span> <span class="n">force_update</span><span class="p">,</span> <span class="n">using</span><span class="p">,</span> <span class="n">update_fields</span><span class="p">)</span></div>
 
-    <span class="nd">@transaction</span><span class="o">.</span><span class="n">atomic</span>
-<div class="viewcode-block" id="Donor.randomise"><a class="viewcode-back" href="../../../../models/compare.html#wp4.compare.models.donor.Donor.randomise">[docs]</a>    <span class="k">def</span> <span class="nf">randomise</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">is_online</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">active_user</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Donor.randomise"><a class="viewcode-back" href="../../../../models/compare.html#wp4.compare.models.donor.Donor.randomise">[docs]</a>    <span class="nd">@transaction</span><span class="o">.</span><span class="n">atomic</span>
+    <span class="k">def</span> <span class="nf">randomise</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">is_online</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">active_user</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Randomise if eligible and not already done. This is determined by looking at the elibility</span>
 <span class="sd">        criteria, and checking that the Organ.preservation is not set. Once randomised, the</span>
@@ -1415,7 +1415,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../../',
-            VERSION:'0.8.2',
+            VERSION:'0.8.6',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

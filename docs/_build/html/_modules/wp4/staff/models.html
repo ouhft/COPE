@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>wp4.staff.models &mdash; COPE DB 0.8.2 documentation</title>
+  <title>wp4.staff.models &mdash; COPE DB 0.8.6 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="COPE DB 0.8.2 documentation" href="../../../index.html"/>
+    <link rel="top" title="COPE DB 0.8.6 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                0.8.2
+                0.8.6
               </div>
             
           
@@ -169,6 +169,7 @@
 <span class="kn">from</span> <span class="nn">django.core.urlresolvers</span> <span class="k">import</span> <span class="n">reverse</span>
 <span class="kn">from</span> <span class="nn">django.core.validators</span> <span class="k">import</span> <span class="n">RegexValidator</span>
 <span class="kn">from</span> <span class="nn">django.db</span> <span class="k">import</span> <span class="n">models</span>
+<span class="kn">from</span> <span class="nn">django.conf</span> <span class="k">import</span> <span class="n">settings</span>
 <span class="kn">from</span> <span class="nn">django.utils.functional</span> <span class="k">import</span> <span class="n">cached_property</span>
 <span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="k">import</span> <span class="n">ugettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
 
@@ -245,8 +246,11 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">administrator_groups</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">NATIONAL_COORDINATOR</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">CENTRAL_COORDINATOR</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">SYSTEMS_ADMINISTRATOR</span><span class="p">,</span>
                                 <span class="bp">self</span><span class="o">.</span><span class="n">BIOBANK_COORDINATOR</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">CHIEF_INVESTIGATOR</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">PRINCIPLE_INVESTIGATOR</span><span class="p">,</span>
-                                <span class="bp">self</span><span class="o">.</span><span class="n">NATIONAL_INVESTIGATOR</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">CENTRAL_INVESTIGATOR</span><span class="p">,)</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">NATIONAL_INVESTIGATOR</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">CENTRAL_INVESTIGATOR</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">STATISTICIAN</span><span class="p">,)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_group</span><span class="p">(</span><span class="n">administrator_groups</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_group</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">CENTRAL_INVESTIGATOR</span><span class="p">)</span> <span class="ow">and</span> <span class="n">settings</span><span class="o">.</span><span class="n">DEBUG</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="c1"># Add a pass through for Ina when on the test server as per Issue #249</span>
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="kc">False</span>
 
@@ -300,7 +304,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.8.2',
+            VERSION:'0.8.6',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

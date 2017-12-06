@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Design - WP4:Compare &mdash; COPE DB 0.8.2 documentation</title>
+  <title>Design - WP4:Compare &mdash; COPE DB 0.8.6 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="COPE DB 0.8.2 documentation" href="../index.html"/>
+    <link rel="top" title="COPE DB 0.8.6 documentation" href="../index.html"/>
         <link rel="next" title="Design - WP7:Biobanking" href="wp7_design.html"/>
         <link rel="prev" title="Development Setup" href="../development.html"/> 
 
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.8.2
+                0.8.6
               </div>
             
           
@@ -184,7 +184,7 @@
 </div>
 <div class="section" id="forms">
 <span id="forms"></span><h2>Forms<a class="headerlink" href="#forms" title="Permalink to this headline">¶</a></h2>
-<p>There are several key &#8220;forms&#8221; in the system, which are actually composed of a number of smaller forms (and occasionally formsets).</p>
+<p>There are several key &quot;forms&quot; in the system, which are actually composed of a number of smaller forms (and occasionally formsets).</p>
 <div class="section" id="procurement-compare-app">
 <span id="procurement-compare-app"></span><h3>Procurement (Compare app)<a class="headerlink" href="#procurement-compare-app" title="Permalink to this headline">¶</a></h3>
 <p>Procurement hangs off of the <em>Donor</em> model, which means that this model also holds any form specific metadata (such as form_completed).</p>
@@ -202,7 +202,7 @@
 </div>
 <div class="section" id="transplantation-compare-app">
 <span id="transplantation-compare-app"></span><h3>Transplantation (Compare app)<a class="headerlink" href="#transplantation-compare-app" title="Permalink to this headline">¶</a></h3>
-<p>Transplantation hangs off of the <em>Organ</em> model. This is because neither <em>OrganAllocation</em>, nor <em>Recipient</em> records can be guaranteed to exist for this form to be considered &#8220;closed&#8221;. Consequently we need to record form metadata on the <em>Organ</em> record (rather than Recipient as originally intended).</p>
+<p>Transplantation hangs off of the <em>Organ</em> model. This is because neither <em>OrganAllocation</em>, nor <em>Recipient</em> records can be guaranteed to exist for this form to be considered &quot;closed&quot;. Consequently we need to record form metadata on the <em>Organ</em> record (rather than Recipient as originally intended).</p>
 <p>Each Transplantation Form is started via <code class="docutils literal"><span class="pre">AllocationStartForm</span></code>. This will create an initial <em>OrganAllocation</em> record which is what is displayed for the Transplantion form to start with.</p>
 <p>Tranplantation Form structure:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Organ</span> <span class="p">{</span><span class="mi">1</span><span class="p">}</span>  <span class="n">via</span> <span class="n">TransplantOrganForm</span>
@@ -271,7 +271,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.8.2',
+            VERSION:'0.8.6',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

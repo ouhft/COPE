@@ -40,10 +40,12 @@ sys.path.append(os.path.abspath('../../lib/python3.6/site-packages/'))
 import wp4  # Has to occur after the path has been expanded above
 wp4_version_string = wp4.__version__
 
-with open('../location.env', 'r') as location_file:
-    environment_string = location_file.read().replace('\n', '')
-
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings." + environment_string)
+# with open('../location.env', 'r') as location_file:
+#     environment_string = location_file.read().replace('\n', '')
+#
+# os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings." + environment_string)
+import environ
+environ.Env.read_env(env_file='../config/settings/.env')
 django.setup()
 
 # From https://gist.github.com/codingjoe/314bda5a07ff3b41f24

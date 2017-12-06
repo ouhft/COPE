@@ -226,7 +226,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 STATIC_ROOT = env('STATIC_FILES_ROOT', default=str(ROOT_DIR('staticfiles')))
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-url
-STATIC_URL = '/static/'
+STATIC_URL = env('STATIC_FILES_URL', default='/static/')
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
 STATICFILES_DIRS = [
@@ -246,7 +246,7 @@ STATICFILES_FINDERS = [
 MEDIA_ROOT = env('MEDIA_FILES_ROOT', default=str(ROOT_DIR('media')))
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#media-url
-MEDIA_URL = '/media/'
+MEDIA_URL = env('MEDIA_FILES_URL', default='/media/')
 
 # URL Configuration
 # ------------------------------------------------------------------------------
@@ -363,9 +363,13 @@ LOCALE_PATHS = [
 
 # REDIRECT_FIELD_NAME = 'redirect_to'
 
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = env('LOGIN_URL', default='login')
+LOGIN_REDIRECT_URL = env('LOGIN_REDIRECT_URL', default='/')
+LOGOUT_REDIRECT_URL = env('LOGOUT_REDIRECT_URL', default='/')
 REDIRECT_FIELD_NAME = 'redirect_to'
+
+# Location of root django.contrib.admin URL, use {% raw %}{% url 'admin:index' %}{% endraw %}
+ADMIN_URL = env('ADMIN_URL', default=r'^admin/')
 
 # Rename the tag field for bootstrap styles
 MESSAGE_TAGS = {
