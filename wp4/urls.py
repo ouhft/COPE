@@ -17,15 +17,16 @@ from .administration import urls as administration_urls
 from .views import wp4_index
 
 
+app_name = "wp4"
 urlpatterns = [
-    url(r'^health-economics/', include(health_economics_urls, namespace="health_economics")),
-    url(r'^follow-up/', include(followup_urls, namespace="followup")),
-    url(r'^adverse-event/', include(adverseevent_urls, namespace="adverse_event")),
-    url(r'^staff/', include(person_urls, namespace="staff")),
-    url(r'^location/', include(locations_urls, namespace="locations")),
-    url(r'^sample/', include(samples_urls, namespace="samples")),
-    url(r'^compare/', include(compare_urls, namespace="compare")),
-    url(r'^administration/', include(administration_urls, namespace="administration")),
+    url(r'^health-economics/', include(health_economics_urls)),
+    url(r'^follow-up/', include(followup_urls)),
+    url(r'^adverse-event/', include(adverseevent_urls)),
+    url(r'^staff/', include(person_urls)),
+    url(r'^location/', include(locations_urls)),
+    url(r'^sample/', include(samples_urls)),
+    url(r'^compare/', include(compare_urls)),
+    url(r'^administration/', include(administration_urls)),
 
     url(
         regex=r'^$',

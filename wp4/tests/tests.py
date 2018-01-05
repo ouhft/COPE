@@ -3,12 +3,12 @@
 from __future__ import absolute_import, unicode_literals
 
 from django.contrib.auth.models import Group, Permission
-from django.contrib.contenttypes.models import ContentType
-from django.test import LiveServerTestCase
-from django.core.urlresolvers import reverse
-
-from selenium import webdriver
-from selenium.webdriver.support.ui import Select
+# from django.contrib.contenttypes.models import ContentType
+# from django.test import LiveServerTestCase
+# from django.urls import reverse
+#
+# from selenium import webdriver
+# from selenium.webdriver.support.ui import Select
 
 from wp4.staff.models import Person
 # from wp4.locations.models import Hospital, UNITED_KINGDOM, BELGIUM, NETHERLANDS

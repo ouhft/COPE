@@ -104,7 +104,7 @@
                 <a href="{% url 'admin:adverse_event_event_change' row.id %}"><i
                         class="glyphicon glyphicon-briefcase"></i></a>
                 {% endif %}
-                <a href="{% url 'wp4:adverse_event:update' row.id %}">{{ row.id }}</a>
+                <a href="{% url 'wp4:adverse-event:update' row.id %}">{{ row.id }}</a>
             </td>
             <td>{{ row.organ.trial_id }}</td>
             <td>{{ row.organ.recipient.allocation.transplant_hospital }}</td>

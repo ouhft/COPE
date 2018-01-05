@@ -2,10 +2,9 @@
 # coding: utf-8
 from __future__ import absolute_import, unicode_literals
 
-from django.core.urlresolvers import reverse
 from django.core.validators import MinValueValidator
 from django.db import models
-from django.utils import timezone
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 from wp4.compare.models.core import AuditControlModelBase
@@ -28,6 +27,9 @@ class FollowUpBase(AuditControlModelBase):
     start_date = models.DateField(verbose_name=_("FB01 start date"), null=True)  # Note, not blank!
     # form_completed = models.BooleanField(verbose_name=_("FB02 form completed"), default=False)
     notes = models.TextField(verbose_name=_("FB03 general notes"), blank=True)
+    # Issue #310 - add a record of where this data was sourced from: Null=Not answered, True=Paper, False=Direct entry
+    paper_form_was_the_source = models.NullBooleanField("OR97 Was this data entered from a paper record", blank=True)
+
 
     FAILURE_OTHER = 10
     FAILURE_CHOICES = (
@@ -133,7 +135,7 @@ class FollowUpBase(AuditControlModelBase):
 
 
 class FollowUpInitial(FollowUpBase):
-    organ = models.OneToOneField(Organ, related_name="followup_initial", verbose_name=_("FI01 Trial id"))
+    organ = models.OneToOneField(Organ, on_delete=models.PROTECT, related_name="followup_initial", verbose_name=_("FI01 Trial id"))
 
     serum_creatinine_unit = models.PositiveSmallIntegerField(
         verbose_name=_("FI02 creatinine unit"),
@@ -287,7 +289,7 @@ class FollowUpInitial(FollowUpBase):
         return '%s (%s)' % (self.trial_id, self.start_date)
 
     def get_absolute_url(self):
-        return reverse('wp4:followup:initial_detail', kwargs={'pk': self.pk})
+        return reverse('wp4:follow-ups:initial_detail', kwargs={'pk': self.pk})
 
     @property
     def trial_id(self):
@@ -295,7 +297,7 @@ class FollowUpInitial(FollowUpBase):
 
 
 class FollowUp3M(FollowUpBase):
-    organ = models.OneToOneField(Organ, related_name="followup_3m", verbose_name=_("F301 Trial id"))
+    organ = models.OneToOneField(Organ, on_delete=models.PROTECT, related_name="followup_3m", verbose_name=_("F301 Trial id"))
 
     serum_creatinine_unit = models.PositiveSmallIntegerField(
         verbose_name=_("F310 creatinine unit"),
@@ -342,6 +344,7 @@ class FollowUp3M(FollowUpBase):
     # QoL is in health_economics app
     quality_of_life = models.OneToOneField(
         QualityOfLife,
+        on_delete=models.PROTECT,
         related_name="followup_3m",
         verbose_name=_("F308 quality of life"),
         null=True,
@@ -384,7 +387,7 @@ class FollowUp3M(FollowUpBase):
         return '%s (%s)' % (self.trial_id, self.start_date)
 
     def get_absolute_url(self):
-        return reverse('wp4:followup:month3_detail', kwargs={'pk': self.pk})
+        return reverse('wp4:follow-ups:month3_detail', kwargs={'pk': self.pk})
 
     @property
     def trial_id(self):
@@ -392,7 +395,7 @@ class FollowUp3M(FollowUpBase):
 
 
 class FollowUp6M(FollowUpBase):
-    organ = models.OneToOneField(Organ, related_name="followup_6m", verbose_name=_("F601 Trial id"))
+    organ = models.OneToOneField(Organ, on_delete=models.PROTECT, related_name="followup_6m", verbose_name=_("F601 Trial id"))
 
     serum_creatinine_unit = models.PositiveSmallIntegerField(
         verbose_name=_("F610 creatinine unit"),
@@ -473,7 +476,7 @@ class FollowUp6M(FollowUpBase):
         return '%s (%s)' % (self.trial_id, self.start_date)
 
     def get_absolute_url(self):
-        return reverse('wp4:followup:month6_detail', kwargs={'pk': self.pk})
+        return reverse('wp4:follow-ups:month6_detail', kwargs={'pk': self.pk})
 
     @property
     def trial_id(self):
@@ -481,7 +484,7 @@ class FollowUp6M(FollowUpBase):
 
 
 class FollowUp1Y(FollowUpBase):
-    organ = models.OneToOneField(Organ, related_name="followup_1y", verbose_name=_("FY01 Trial id"))
+    organ = models.OneToOneField(Organ, on_delete=models.PROTECT, related_name="followup_1y", verbose_name=_("FY01 Trial id"))
 
     serum_creatinine_unit = models.PositiveSmallIntegerField(
         verbose_name=_("FY10 creatinine unit"),
@@ -528,6 +531,7 @@ class FollowUp1Y(FollowUpBase):
     # QoL is in health_economics app
     quality_of_life = models.OneToOneField(
         QualityOfLife,
+        on_delete=models.PROTECT,
         related_name="followup_1y",
         verbose_name=_("FY08 quality of life"),
         null=True,
@@ -570,7 +574,7 @@ class FollowUp1Y(FollowUpBase):
         return '%s (%s)' % (self.trial_id, self.start_date)
 
     def get_absolute_url(self):
-        return reverse('wp4:followup:final_detail', kwargs={'pk': self.pk})
+        return reverse('wp4:follow-ups:final_detail', kwargs={'pk': self.pk})
 
     @property
     def trial_id(self):

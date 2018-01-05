@@ -14,26 +14,26 @@
     <ul class="list-group">
         <li class="list-group-item list-group-item-info">Health Economics: Home</li>
         {#  You can't access this page without perms.health_economics.add_qualityoflife  #}
-        <a href="{% url 'wp4:health_economics:list' %}" class="list-group-item">Quality of Life Forms</a>
+        <a href="{% url 'wp4:health-economics:list' %}" class="list-group-item">Quality of Life Forms</a>
         {% if perms.health_economics.add_resourcelog %}
-{#        <a href="{% url 'wp4:health_economics:list' %}" class="list-group-item">Resource Logs</a>#}
+{#        <a href="{% url 'wp4:health-economics:list' %}" class="list-group-item">Resource Logs</a>#}
         {% endif %}
     </ul>
 
     {% if perms.followups.add_followupinitial %}
     <ul class="list-group">
         <li class="list-group-item list-group-item-info">
-            Related: <a href="{%  url 'wp4:followup:index' %}">Follow Ups</a>
+            Related: <a href="{%  url 'wp4:follow-ups:index' %}">Follow Ups</a>
         </li>
-        <a href="{% url 'wp4:followup:initial_list' %}" class="list-group-item">Initial</a>
+        <a href="{% url 'wp4:follow-ups:initial_list' %}" class="list-group-item">Initial</a>
         {% if perms.followups.add_followup3m %}
-            <a href="{% url 'wp4:followup:month3_list' %}" class="list-group-item">Month 3</a>
+            <a href="{% url 'wp4:follow-ups:month3_list' %}" class="list-group-item">Month 3</a>
         {% endif %}
         {% if perms.followups.add_followup6m %}
-            <a href="{% url 'wp4:followup:month6_list' %}" class="list-group-item">Month 6</a>
+            <a href="{% url 'wp4:follow-ups:month6_list' %}" class="list-group-item">Month 6</a>
         {% endif %}
         {% if perms.followups.add_followup1y %}
-            <a href="{% url 'wp4:followup:final_list' %}" class="list-group-item">Final</a>
+            <a href="{% url 'wp4:follow-ups:final_list' %}" class="list-group-item">Final</a>
         {% endif %}
     </ul>
     {% endif %}

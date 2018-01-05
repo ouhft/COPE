@@ -32,12 +32,12 @@
         <tr class="{% if event.is_serious %}text-danger{% endif %} {% if event.death %}bg-danger{% endif %}">
             <td>
                 {% if perms.adverse_event.change_event %}
-                <a href="{% url 'wp4:adverse_event:detail' pk=event.pk %}" class="btn btn-default btn-xs"><i
+                <a href="{% url 'wp4:adverse-event:detail' pk=event.pk %}" class="btn btn-default btn-xs"><i
                     title="edit" class="glyphicon glyphicon-eye-open"></i></a>
-                <a href="{% url 'wp4:adverse_event:update' pk=event.pk %}" class="btn btn-primary btn-xs"><i
+                <a href="{% url 'wp4:adverse-event:update' pk=event.pk %}" class="btn btn-primary btn-xs"><i
                     title="edit" class="glyphicon glyphicon-edit"></i> {{ event.id }}</a>
                 {% elif perms.adverse_event.view_event %}
-                <a href="{% url 'wp4:adverse_event:detail' pk=event.pk %}" class="btn btn-default btn-xs"><i
+                <a href="{% url 'wp4:adverse-event:detail' pk=event.pk %}" class="btn btn-default btn-xs"><i
                     title="edit" class="glyphicon glyphicon-eye-open"></i> {{ event.id }}</a>
                 {% else %}
                     {{ event.id }}
@@ -62,6 +62,6 @@
         <p>No events are available.</p>
     {% endif %}
     {% if perms.adverse_event.add_event %}
-    <p><a href="{% url "wp4:adverse_event:add" %}" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Add Event</a></p>
+    <p><a href="{% url "wp4:adverse-event:add" %}" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Add Event</a></p>
     {% endif %}
 {% endblock %}

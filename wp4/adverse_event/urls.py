@@ -6,6 +6,7 @@ from django.conf.urls import include, url
 from . import views
 
 
+app_name = "adverse-event"
 urlpatterns = [
     url(
         regex=r'^add/$',

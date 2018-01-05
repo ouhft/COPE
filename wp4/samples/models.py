@@ -5,8 +5,8 @@ from __future__ import absolute_import, unicode_literals
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.core.validators import ValidationError
-from django.core.urlresolvers import reverse
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
@@ -172,11 +172,12 @@ class BloodSample(AuditControlModelBase, BarCodeMixin, DeviationMixin):
 
     event = models.ForeignKey(
         Event,
+        on_delete=models.PROTECT,
         limit_choices_to={'type': Event.TYPE_BLOOD},
         help_text="Link to an event of type Blood"
     )
     blood_type = models.PositiveSmallIntegerField(verbose_name=_("BS02 blood sample type"), choices=SAMPLE_CHOICES)
-    person = models.ForeignKey(Patient, verbose_name=_("BS03 sample from"))
+    person = models.ForeignKey(Patient, on_delete=models.PROTECT, verbose_name=_("BS03 sample from"))
     centrifuged_at = models.DateTimeField(verbose_name=_("BS01 centrifuged at"), null=True, blank=True)
     wp7_location = GenericRelation(WP7Record, blank=True)
 
@@ -219,10 +220,11 @@ class UrineSample(AuditControlModelBase, BarCodeMixin, DeviationMixin):
     """
     event = models.ForeignKey(
         Event,
+        on_delete=models.PROTECT,
         limit_choices_to={'type': Event.TYPE_URINE},
         help_text="Link to an event of type Urine"
     )
-    person = models.ForeignKey(Patient, verbose_name=_("US02 sample from"))
+    person = models.ForeignKey(Patient, on_delete=models.PROTECT, verbose_name=_("US02 sample from"))
     centrifuged_at = models.DateTimeField(verbose_name=_("US01 centrifuged at"), null=True, blank=True)
     wp7_location = GenericRelation(WP7Record)
 
@@ -265,10 +267,11 @@ class PerfusateSample(AuditControlModelBase, BarCodeMixin, DeviationMixin):
     """
     event = models.ForeignKey(
         Event,
+        on_delete=models.PROTECT,
         limit_choices_to={'type': Event.TYPE_PERFUSATE},
         help_text="Link to an event of type Perfusate"
     )
-    organ = models.ForeignKey(Organ, verbose_name=_("PS02 sample from"))
+    organ = models.ForeignKey(Organ, on_delete=models.PROTECT, verbose_name=_("PS02 sample from"))
     centrifuged_at = models.DateTimeField(verbose_name=_("PS01 centrifuged at"), null=True, blank=True)
     wp7_location = GenericRelation(WP7Record)
 
@@ -318,10 +321,11 @@ class TissueSample(AuditControlModelBase, BarCodeMixin, DeviationMixin):
 
     event = models.ForeignKey(
         Event,
+        on_delete=models.PROTECT,
         limit_choices_to={'type': Event.TYPE_TISSUE},
         help_text="Link to an event of type Tissue"
     )
-    organ = models.ForeignKey(Organ, verbose_name=_("TS01 sample from"))
+    organ = models.ForeignKey(Organ, on_delete=models.PROTECT, verbose_name=_("TS01 sample from"))
     tissue_type = models.CharField(max_length=1, choices=SAMPLE_CHOICES, verbose_name=_("TS02 tissue sample type"))
     wp7_location = GenericRelation(WP7Record)
 

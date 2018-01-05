@@ -4,16 +4,11 @@ from __future__ import absolute_import, unicode_literals
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
-from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.utils import six
-from django.views.generic import ListView, CreateView, UpdateView, DetailView
-from django.views.generic.edit import ModelFormMixin
+from django.views.generic import ListView, UpdateView, DetailView
 
 from braces.views import LoginRequiredMixin, MultiplePermissionsRequiredMixin, OrderableListMixin
-
-from wp4.health_economics.models import QualityOfLife
 
 from .models import FollowUpInitial, FollowUp3M, FollowUp6M, FollowUp1Y
 from .forms import FollowUpInitialForm, FollowUp3MForm, FollowUp6MForm, FollowUp1YForm

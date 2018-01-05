@@ -4,7 +4,7 @@ from __future__ import absolute_import, unicode_literals
 
 from django.test import TestCase
 from django.conf import settings
-from django.core.urlresolvers import resolve
+from django.urls import resolve
 from django.utils import translation
 
 from wp4.views import dashboard_index, error404, error403, error500

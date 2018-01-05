@@ -32,7 +32,7 @@ class Donor(AuditControlModelBase):
 
     Also holds the meta-data specific to the Procurement Form
     """
-    person = models.OneToOneField(Patient, help_text="Internal link to Patient")
+    person = models.OneToOneField(Patient, on_delete=models.PROTECT, help_text="Internal link to Patient")
     sequence_number = models.PositiveSmallIntegerField(
         default=0,
         validators=[MaxValueValidator(99)],
@@ -68,14 +68,16 @@ class Donor(AuditControlModelBase):
     trial_id = models.CharField(verbose_name=_('DO99 donor id'), max_length=10, blank=True)
 
     # Procedure data
-    retrieval_team = models.ForeignKey(RetrievalTeam, verbose_name=_("DO01 retrieval team"))
+    retrieval_team = models.ForeignKey(RetrievalTeam, on_delete=models.PROTECT, verbose_name=_("DO01 retrieval team"))
     perfusion_technician = models.ForeignKey(
         Person,
+        on_delete=models.PROTECT,
         verbose_name=_('DO03 name of transplant technician'),
         related_name="donor_perfusion_technician_set",
     )
     transplant_coordinator = models.ForeignKey(
         Person,
+        on_delete=models.PROTECT,
         verbose_name=_('DO04 name of the SN-OD'),
         related_name="donor_transplant_coordinator_set",
         blank=True,
@@ -330,8 +332,8 @@ class Donor(AuditControlModelBase):
     )  #: As administered to donor/in flush solution
 
     # Internal references back to Organ, to help speed up the linking and querying from the DB
-    _left_kidney = models.OneToOneField('Organ', related_name='left_kidney', null=True, default=None)
-    _right_kidney = models.OneToOneField('Organ', related_name='right_kidney', null=True, default=None)
+    _left_kidney = models.OneToOneField('Organ', on_delete=models.PROTECT, related_name='left_kidney', null=True, default=None)
+    _right_kidney = models.OneToOneField('Organ', on_delete=models.PROTECT, related_name='right_kidney', null=True, default=None)
 
     objects = DonorModelForUserManager()
 
@@ -687,7 +689,7 @@ class Organ(AuditControlModelBase):
     """
     The focus of the trial, specifically a Kidney.
     """
-    donor = models.ForeignKey(Donor, help_text="Internal link to the Donor")
+    donor = models.ForeignKey(Donor, on_delete=models.PROTECT, help_text="Internal link to the Donor")
     location = models.CharField(
         verbose_name=_('OR01 kidney location'),
         max_length=1,
@@ -707,7 +709,9 @@ class Organ(AuditControlModelBase):
         default=False,
         help_text="Select Yes when you believe the form is complete and you have no more data to enter"
     )
-    trial_id = models.CharField(verbose_name=_('OR99 organ id'), max_length=10, blank=True)
+    trial_id = models.CharField(verbose_name=_('OR98 organ id'), max_length=10, blank=True)
+    # Issue #310 - add a record of where this data was sourced from: Null=Not answered, True=Paper, False=Direct entry
+    paper_form_was_the_source = models.NullBooleanField("OR97 Was this data entered from a paper record", blank=True)
 
     # Inspection data
     GRAFT_DAMAGE_ARTERIAL = 1  #: Constant for GRAFT_DAMAGE_CHOICES
@@ -857,6 +861,7 @@ class Organ(AuditControlModelBase):
     # TODO: Check the value range for perfusate_measure
     perfusion_machine = models.ForeignKey(
         Machine,
+        on_delete=models.PROTECT,
         verbose_name=_('OR24 perfusion machine'),
         blank=True,
         null=True
@@ -1189,7 +1194,7 @@ class ProcurementResource(AuditControlModelBase):
         (PERFUSATE_SOLUTION, _("PRc07 Perfusate solution"))
     )  #: ProcurementResource type choices
 
-    organ = models.ForeignKey(Organ, verbose_name=_('PR01 related kidney'))
+    organ = models.ForeignKey(Organ, on_delete=models.PROTECT, verbose_name=_('PR01 related kidney'))
     type = models.CharField(verbose_name=_('PR02 resource used'), choices=TYPE_CHOICES, max_length=5)
     lot_number = models.CharField(verbose_name=_('PR03 lot number'), max_length=50, blank=True)
     expiry_date = models.DateField(verbose_name=_('PR04 expiry date'), blank=True, null=True)

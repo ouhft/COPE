@@ -9,8 +9,8 @@
 {% block page_trail %}
     <li><a href="{% url 'home' %}">Home</a></li>
     <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
-    <li><a href="{% url 'wp4:followup:index' %}">Follow Up</a></li>
-    <li><a href="{% url 'wp4:followup:initial_list' %}">Initial</a></li>
+    <li><a href="{% url 'wp4:follow-ups:index' %}">Follow Up</a></li>
+    <li><a href="{% url 'wp4:follow-ups:initial_list' %}">Initial</a></li>
     <li class="active">View Report</li>
 {% endblock %}
 
@@ -131,7 +131,7 @@
     <nav class="navbar navbar-default navbar-fixed-bottom">
         <div class="container">
             <div class="navbar-right">
-                <a href="{% url "wp4:followup:initial_update" pk=followupinitial.pk %}" class="btn btn-primary navbar-btn"
+                <a href="{% url "wp4:follow-ups:initial_update" pk=followupinitial.pk %}" class="btn btn-primary navbar-btn"
                    id="nav_button_edit">Edit</a>
             </div>
         </div>

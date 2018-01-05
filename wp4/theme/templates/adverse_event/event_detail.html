@@ -8,7 +8,7 @@
 {% block page_trail %}
     <li><a href="{% url 'home' %}">Home</a></li>
     <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
-    <li><a href="{% url 'wp4:adverse_event:list' %}">Adverse Events</a></li>
+    <li><a href="{% url 'wp4:adverse-event:list' %}">Adverse Events</a></li>
     <li class="active">View Event #{{ event.id }}</li>
 {% endblock %}
 
@@ -239,7 +239,7 @@
 
 
 {% if perms.adverse_event.change_event %}
-    <p><a href="{% url 'wp4:adverse_event:update' pk=event.pk %}" class="btn btn-primary btn-lg"><i
+    <p><a href="{% url 'wp4:adverse-event:update' pk=event.pk %}" class="btn btn-primary btn-lg"><i
             title="edit" class="glyphicon glyphicon-edit"></i> Edit Event</a></p>
 {% endif %}
 

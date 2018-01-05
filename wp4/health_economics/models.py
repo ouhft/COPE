@@ -2,9 +2,9 @@
 # coding: utf-8
 from __future__ import absolute_import, unicode_literals
 
-from django.core.urlresolvers import reverse
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 from wp4.compare.models.core import AuditControlModelBase
@@ -20,7 +20,7 @@ class QualityOfLife(AuditControlModelBase):
 
     Collects Quality of Life results for a given recipient on a specific date
     """
-    recipient = models.ForeignKey(Recipient)  # Internal link to the Recipient
+    recipient = models.ForeignKey(Recipient, on_delete=models.PROTECT)  # Internal link to the Recipient
     date_recorded = models.DateField(
         verbose_name=_("QL07 date recorded"),
         blank=True, null=True,
@@ -94,7 +94,7 @@ class QualityOfLife(AuditControlModelBase):
         return self.recipient.location_for_restriction
 
     def get_absolute_url(self):
-        return reverse("wp4:health_economics:update", kwargs={"pk": self.pk})
+        return reverse("wp4:health-economics:update", kwargs={"pk": self.pk})
 
     def __str__(self):
         return "{0} @ {1}".format(self.recipient.trial_id, self.date_recorded)
@@ -107,7 +107,7 @@ class ResourceLog(AuditControlModelBase):
     Collects the data from the Participant Resource Use Log. Acts as the central link to several
     smaller classes that collectively capture the data.
     """
-    recipient = models.ForeignKey(Recipient)  # Internal link to the Recipient
+    recipient = models.ForeignKey(Recipient, on_delete=models.PROTECT)  # Internal link to the Recipient
     date_given = models.DateField(
         verbose_name=_("RL01 date given"),
         blank=True, null=True,
@@ -169,7 +169,7 @@ class ResourceVisit(AuditControlModelBase):
         (TYPE_SPECIALIST, _("RVc03 appointment at specialist")),
         (TYPE_HOSPITAL, _("RVc04 A&E")),
     )
-    log = models.ForeignKey(ResourceLog, related_name="visits")
+    log = models.ForeignKey(ResourceLog, on_delete=models.PROTECT, related_name="visits")
     type = models.PositiveSmallIntegerField(verbose_name=_('RV01 visit type'), choices=TYPE_CHOICES)
 
     objects = ResourceLogModelForUserManager()
@@ -197,7 +197,7 @@ class ResourceVisit(AuditControlModelBase):
 
 
 class ResourceHospitalAdmission(AuditControlModelBase):
-    log = models.ForeignKey(ResourceLog, related_name="hospitalisations")
+    log = models.ForeignKey(ResourceLog, on_delete=models.PROTECT, related_name="hospitalisations")
     reason = models.CharField(verbose_name=_('RH01 reason'), max_length=200, blank=True)
     had_surgery = models.NullBooleanField(verbose_name=_("RH02 had surgery"), blank=True)
     days_in_itu = models.PositiveSmallIntegerField(verbose_name=_("RH03 days in itu"), default=0)
@@ -228,7 +228,7 @@ class ResourceHospitalAdmission(AuditControlModelBase):
 
 
 class ResourceRehabilitation(AuditControlModelBase):
-    log = models.ForeignKey(ResourceLog, related_name="rehabilitations")
+    log = models.ForeignKey(ResourceLog, on_delete=models.PROTECT, related_name="rehabilitations")
     reason = models.CharField(verbose_name=_('RR01 reason'), max_length=200, blank=True)
     days_in_hospital = models.PositiveSmallIntegerField(verbose_name=_("RR02 days in hospital"), default=1)
 

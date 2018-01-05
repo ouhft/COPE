@@ -4,7 +4,7 @@ from __future__ import absolute_import, unicode_literals
 
 from django.test import TestCase, RequestFactory
 from django.test.client import Client
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from wp4.staff.models import Person
 from wp4 import views as wp4_views
@@ -12,7 +12,6 @@ from wp4.compare import views as c_views
 from wp4.samples import views as s_views
 from wp4.followups import views as f_views
 from wp4.health_economics import views as he_views
-from wp4.adverse_event import views as ae_views
 
 from .tests import CoreDataMixin
 

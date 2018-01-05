@@ -6,6 +6,7 @@ from django.conf.urls import include, url
 
 from .views import core, data_extracts, administrator, completeness, dmc_reports, biobank
 
+app_name = "administration"
 urlpatterns = [
     # =================================================================  Data Extracts (aka: Statisticians' Reports)
     url(

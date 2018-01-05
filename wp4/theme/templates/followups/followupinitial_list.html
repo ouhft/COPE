@@ -11,7 +11,7 @@
 {% block page_trail %}
     <li><a href="{% url 'home' %}">Home</a></li>
     <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
-    <li><a href="{% url 'wp4:followup:index' %}">Follow Up</a></li>
+    <li><a href="{% url 'wp4:follow-ups:index' %}">Follow Up</a></li>
     <li class="active">Initial</li>
 {% endblock %}
 
@@ -41,10 +41,10 @@
             <tr>
                 <td>
                     {% if perms.followups.change_followupinitial %}
-                    <a href="{% url 'wp4:followup:initial_update' pk=follow.pk %}" class="btn btn-default btn-xs"><i
+                    <a href="{% url 'wp4:follow-ups:initial_update' pk=follow.pk %}" class="btn btn-default btn-xs"><i
                         title="edit" class="glyphicon glyphicon-edit"></i> {{ follow.id }}</a>
                     {% elif perms.followups.view_followupinitial %}
-                    <a href="{% url 'wp4:followup:initial_detail' pk=follow.pk %}" class="btn btn-default btn-xs"><i
+                    <a href="{% url 'wp4:follow-ups:initial_detail' pk=follow.pk %}" class="btn btn-default btn-xs"><i
                         title="edit" class="glyphicon glyphicon-eye-open"></i> {{ follow.id }}</a>
                     {% else %}
                         {{ follow.id }}

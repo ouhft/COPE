@@ -23,7 +23,7 @@ class OrganAllocation(AuditControlModelBase):
     Organs can be allocated multiple times before finding a definitive recipient. This class acts as
     the record of these allocations and a link between Organ and Recipient.
     """
-    organ = models.ForeignKey(Organ)  # Internal link to the Organ
+    organ = models.ForeignKey(Organ, on_delete=models.PROTECT)  # Internal link to the Organ
 
     #  Allocation data
     REALLOCATION_CROSSMATCH = 1  #: Constant for REALLOCATION_CHOICES
@@ -37,6 +37,7 @@ class OrganAllocation(AuditControlModelBase):
 
     perfusion_technician = models.ForeignKey(
         Person,
+        on_delete=models.PROTECT,
         verbose_name=_('OA01 name of transplant technician'),
         related_name="recipient_perfusion_technician_set",
         blank=True, null=True
@@ -48,9 +49,15 @@ class OrganAllocation(AuditControlModelBase):
         help_text="Date must be fall within 1900-2050, and not be in the future"
     )
     call_received_unknown = models.BooleanField(default=False, help_text="Internal unknown flag")
-    transplant_hospital = models.ForeignKey(Hospital, verbose_name=_('OA03 transplant hospital'), blank=True, null=True)
+    transplant_hospital = models.ForeignKey(
+        Hospital,
+        on_delete=models.PROTECT,
+        verbose_name=_('OA03 transplant hospital'),
+        blank=True, null=True
+    )
     theatre_contact = models.ForeignKey(
         Person,
+        on_delete=models.PROTECT,
         verbose_name=_('OA04 name of the theatre contact'),
         related_name="recipient_transplant_coordinator_set",
         blank=True, null=True
@@ -93,6 +100,7 @@ class OrganAllocation(AuditControlModelBase):
     reallocation_reason_other = models.CharField(verbose_name=_('OA12 other reason'), max_length=250, blank=True)
     reallocation = models.OneToOneField(
         'OrganAllocation',
+        on_delete=models.PROTECT,
         default=None,
         blank=True, null=True,
         help_text="Internal forward link value to another OrganAllocation record"
@@ -181,9 +189,9 @@ class Recipient(AuditControlModelBase):
 
     Also holds the meta-data specific to the Transplantation Form
     """
-    person = models.OneToOneField(Patient, help_text="Internal link to Patient")
-    organ = models.OneToOneField(Organ, help_text="Internal link to Organ")
-    allocation = models.OneToOneField(OrganAllocation, help_text="Internal link to OrganAllocation")
+    person = models.OneToOneField(Patient, on_delete=models.PROTECT, help_text="Internal link to Patient")
+    organ = models.OneToOneField(Organ, on_delete=models.PROTECT, help_text="Internal link to Organ")
+    allocation = models.OneToOneField(OrganAllocation, on_delete=models.PROTECT, help_text="Internal link to OrganAllocation")
 
     # Trial signoffs
     signed_consent = models.NullBooleanField(

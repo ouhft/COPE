@@ -242,6 +242,7 @@ class Randomisation(models.Model):
 
     donor = models.OneToOneField(
         'Donor',
+        on_delete=models.PROTECT,
         null=True, blank=True,
         default=None,
         help_text="Internal link to the Donor"
@@ -252,7 +253,13 @@ class Randomisation(models.Model):
     )  #: Choices limited to LIST_CHOICES
     result = models.BooleanField(verbose_name=_("RA02 result"), default=random_5050)
     allocated_on = models.DateTimeField(verbose_name=_("RA03 allocated on"), null=True, blank=True)
-    allocated_by = models.ForeignKey(Person, verbose_name=_("RA04 allocated by"), default=None, null=True)
+    allocated_by = models.ForeignKey(
+        Person,
+        on_delete=models.PROTECT,
+        verbose_name=_("RA04 allocated by"),
+        default=None,
+        null=True
+    )
 
     class Meta:
         permissions = (
@@ -297,7 +304,7 @@ class RetrievalTeam(models.Model):
         validators=[MinValueValidator(10), MaxValueValidator(99)],
         help_text="Value must be in the range 10-99"
     )
-    based_at = models.ForeignKey(Hospital, verbose_name=_("RT02 base hospital"))
+    based_at = models.ForeignKey(Hospital, on_delete=models.PROTECT, verbose_name=_("RT02 base hospital"))
 
     objects = RetrievalTeamModelForUserManager()
 

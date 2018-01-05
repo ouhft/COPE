@@ -7,3 +7,4 @@ from django.apps import AppConfig
 
 class HealthEconomicsConfig(AppConfig):
     name = 'health_economics'
+    verbose_name = "Health Economics"

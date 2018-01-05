@@ -16,13 +16,13 @@
             <a href="{% url 'wp4:samples:index' %}" class="list-group-item">Sample Collection</a>
         {% endif %}
         {% if perms.followups.change_followupinitial or perms.followups.view_followupinitial %}
-            <a href="{% url 'wp4:followup:index' %}" class="list-group-item">Follow Up Forms</a>
+            <a href="{% url 'wp4:follow-ups:index' %}" class="list-group-item">Follow Up Forms</a>
         {% endif %}
         {% if perms.health_economics.change_qualityoflife or perms.health_economics.view_qualityoflife %}
-            <a href="{% url 'wp4:health_economics:index' %}" class="list-group-item">Health Economics Forms</a>
+            <a href="{% url 'wp4:health-economics:index' %}" class="list-group-item">Health Economics Forms</a>
         {% endif %}
         {% if perms.adverse_event.change_event or perms.adverse_event.view_event %}
-            <a href="{% url 'wp4:adverse_event:list' %}" class="list-group-item">Adverse Event Forms</a>
+            <a href="{% url 'wp4:adverse-event:list' %}" class="list-group-item">Adverse Event Forms</a>
         {% endif %}
     </ul>
 {% else %}

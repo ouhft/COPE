@@ -45,17 +45,17 @@
                             {% endif %}
 
                             {% if perms.followups.change_followupinitial or perms.followups.view_followupinitial %}
-                                {% url 'wp4:followup:index' as url_followup %}
+                                {% url 'wp4:follow-ups:index' as url_followup %}
                                 <li class="{% active request url_followup %}"><a href="{{ url_followup }}">Follow Up</a></li>
                             {% endif %}
 
                             {% if perms.health_economics.change_qualityoflife or perms.health_economics.view_qualityoflife %}
-                                {% url 'wp4:health_economics:index' as url_healtheconomics %}
+                                {% url 'wp4:health-economics:index' as url_healtheconomics %}
                                 <li class="{% active request url_healtheconomics %}"><a href="{{ url_healtheconomics }}">Health Economics</a></li>
                             {% endif %}
 
                             {% if perms.adverse_event.change_event or perms.adverse_event.view_event %}
-                                {% url 'wp4:adverse_event:list' as url_adverseevents %}
+                                {% url 'wp4:adverse-event:list' as url_adverseevents %}
                                 <li class="{% active request url_adverseevents %}"><a href="{{ url_adverseevents }}">Adverse Events</a></li>
                             {% endif %}
                         </ul>

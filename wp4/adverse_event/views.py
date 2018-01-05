@@ -4,11 +4,11 @@
 from django.conf import settings
 from django.contrib import messages
 from django.core.mail import EmailMessage
-from django.core.urlresolvers import reverse
 from django.core.validators import validate_email, ValidationError
 from django.http import HttpResponseRedirect
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
 from django.views.generic.edit import FormMixin
+from django.urls import reverse
 from django.utils import six
 
 from braces.views import LoginRequiredMixin, MultiplePermissionsRequiredMixin, OrderableListMixin
@@ -110,7 +110,7 @@ class AjaxFormMixin(object):
 
     def get_success_url(self):
         if self.form_class is EventStartForm:
-            return reverse('wp4:adverse_event:update', args=(self.object.id,))
+            return reverse('wp4:adverse-event:update', args=(self.object.id,))
         else:
             return super(AjaxFormMixin, self).get_success_url()
 

@@ -3,8 +3,8 @@
 from __future__ import unicode_literals
 from livefield.managers import LiveManager
 
-from django.core.urlresolvers import reverse
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 from wp4.compare.models import AuditControlModelBase, YES_NO_UNKNOWN_CHOICES, Organ
@@ -40,7 +40,7 @@ class Event(AuditControlModelBase):
     """
 
     # Event basics
-    organ = models.ForeignKey(Organ, verbose_name=_("AE04 trial id link"))
+    organ = models.ForeignKey(Organ, on_delete=models.PROTECT, verbose_name=_("AE04 trial id link"))
     # Because even if the form wants to record a trial id string, it's going to be pointless if it doesn't actually
     # link to a record
     categories = models.ManyToManyField(Category)
@@ -101,6 +101,7 @@ class Event(AuditControlModelBase):
     # Page 4
     contact = models.ForeignKey(
         Person,
+        on_delete=models.PROTECT,
         verbose_name=_("AE09 primary contact"),
         help_text=_("AEh09 This should be the Local Investigator for the Transplant Centre"),
         related_name='adverse_event_contact'
@@ -156,7 +157,7 @@ class Event(AuditControlModelBase):
         return False
 
     def get_absolute_url(self):
-        return reverse("wp4:adverse_event:detail", kwargs={"pk": self.pk})
+        return reverse("wp4:adverse-event:detail", kwargs={"pk": self.pk})
 
     def __str__(self):
         return "{0} @ {1}".format(self.organ.trial_id, self.onset_at_date)

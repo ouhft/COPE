@@ -2,11 +2,11 @@
 # coding: utf-8
 from __future__ import absolute_import, unicode_literals
 
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser
-from django.core.urlresolvers import reverse
 from django.core.validators import RegexValidator
 from django.db import models
-from django.conf import settings
+from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
@@ -54,9 +54,9 @@ class Person(AbstractUser):
     )  #: Contents validated against phone_regex ``r'^\+?1?\d{9,15}$'``
     based_at = models.ForeignKey(
         Hospital,
+        on_delete=models.PROTECT,
         verbose_name=_("SP02 location"),
-        blank=True,
-        null=True,
+        blank=True, null=True,
         help_text="Link to a primary hospital location for the member of staff"
     )
 

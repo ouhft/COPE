@@ -4,7 +4,7 @@ from __future__ import absolute_import, unicode_literals
 from livefield.managers import LiveManager
 
 from django.db import models
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 

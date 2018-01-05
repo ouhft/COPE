@@ -6,7 +6,7 @@ from django.conf.urls import url
 
 from . import views
 
-
+app_name = "health-economics"
 urlpatterns = [
     url(
         regex=r'^$',
