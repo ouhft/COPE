@@ -1,5 +1,0 @@
--r common.txt
-
-django-secure
-# pygraphviz
-django-extensions==1.6.7
