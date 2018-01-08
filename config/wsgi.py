@@ -13,9 +13,6 @@ import environ
 from django.core.wsgi import get_wsgi_application
 
 # Determine location and therefore which settings to consult
-if os.getcwd() == '/home/cm13':
-    environ.Env.read_env(env_file='webapps/wp4_django_py3/cope_repo/config/settings/.env')
-else:
-    environ.Env.read_env(env_file='config/settings/.env')
+environ.Env.read_env(env_file='config/settings/.env')
 
 application = get_wsgi_application()

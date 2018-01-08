@@ -48,7 +48,7 @@ MIDDLEWARE = [
 ] + MIDDLEWARE
 INSTALLED_APPS += [
     'debug_toolbar',
-    'template_profiler_panel'
+    # 'template_profiler_panel'
     # Disabled due to django 1.11 creating template timings that caused this profiler to explode with super
     # huge page sizes and load times - https://github.com/jazzband/django-debug-toolbar/issues/910
 ]
@@ -76,7 +76,7 @@ DEBUG_TOOLBAR_PANELS = [
     'debug_toolbar.panels.logging.LoggingPanel',
     'debug_toolbar.panels.redirects.RedirectsPanel',
     # 'debug_toolbar.panels.profiling.ProfilingPanel',
-    'template_profiler_panel.panels.template.TemplateProfilerPanel'
+    # 'template_profiler_panel.panels.template.TemplateProfilerPanel'
 ]
 
 # django-extensions

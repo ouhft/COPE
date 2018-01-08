@@ -31,20 +31,22 @@ def _strip_path(path):
 
 
 class TimezoneMiddleware(object):
-    def __init__(self):
+    def __init__(self, get_response):
+        self.get_response = get_response
         if not settings.USE_I18N:
             raise MiddlewareNotUsed("TimezoneMiddleware not appropriate")
 
     # http://stackoverflow.com/questions/18322262/how-to-setup-custom-middleware-in-django
     # https://docs.djangoproject.com/en/1.9/topics/i18n/timezones/
-    def process_request(self, request):
+    # https://docs.djangoproject.com/en/2.0/topics/http/middleware/ -- New Middleware Class definition
+    def __call__(self, request):
         tzname = request.session.get('django_timezone')
         if tzname is None:
             # Determine the tz from the url localisation
             locale, path = _strip_path(request.path_info)
             if locale != '':
                 country = locale.split('-')[1]  # Take the country code only
-                if country != u'db':
+                if country != 'db':
                     tzname = pytz.country_timezones[country][0]  # in cases of where there are more than one
 
         # print("DEBUG: TimezoneMiddleware:tzname=%s" % tzname)
@@ -53,3 +55,7 @@ class TimezoneMiddleware(object):
             timezone.activate(pytz.timezone(tzname))
         else:
             timezone.deactivate()
+
+        response = self.get_response(request)
+        return response
+
