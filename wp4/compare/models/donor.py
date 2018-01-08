@@ -712,6 +712,7 @@ class Organ(AuditControlModelBase):
     trial_id = models.CharField(verbose_name=_('OR98 organ id'), max_length=10, blank=True)
     # Issue #310 - add a record of where this data was sourced from: Null=Not answered, True=Paper, False=Direct entry
     paper_form_was_the_source = models.NullBooleanField("OR97 Was this data entered from a paper record", blank=True)
+    included_for_analysis = models.BooleanField(verbose_name='OR96 included for analysis', default=False)  # Issue #313
 
     # Inspection data
     GRAFT_DAMAGE_ARTERIAL = 1  #: Constant for GRAFT_DAMAGE_CHOICES
