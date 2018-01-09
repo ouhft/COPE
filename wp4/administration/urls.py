@@ -3,29 +3,35 @@
 from __future__ import absolute_import, unicode_literals
 
 from django.conf.urls import include, url
+from django.urls import path
 
 from .views import core, data_extracts, administrator, completeness, dmc_reports, biobank
 
 app_name = "administration"
 urlpatterns = [
     # =================================================================  Data Extracts (aka: Statisticians' Reports)
-    url(
-        regex=r'^stats/reports/procurement$',
+    path(
+        'stats/reports/data-simplified',
+        view=data_extracts.report_data_flattened,
+        name='stats_simple'
+    ),
+    path(
+        'stats/reports/procurement',
         view=data_extracts.report_procurement,
         name='stats_p'
     ),
-    url(
-        regex=r'^stats/reports/organs$',
+    path(
+        'stats/reports/organs',
         view=data_extracts.report_organ,
         name='stats_o'
     ),
-    url(
-        regex=r'^stats/reports/allocations$',
+    path(
+        'stats/reports/allocations',
         view=data_extracts.report_allocations,
         name='stats_a'
     ),
-    url(
-        regex=r'^stats/reports/adverse-events$',
+    path(
+        'stats/reports/adverse-events',
         view=data_extracts.report_adverse_events,
         name='stats_ae'
     ),
