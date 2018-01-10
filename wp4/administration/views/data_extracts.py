@@ -402,6 +402,7 @@ def report_adverse_events(request):
 
     return response
 
+
 """
 A simplified output of the main data in a flat table for the statician to interpret. Issue #314. Organ centric listing
 with non-normalised additions of donor, allocation, recipient, and followups.
@@ -533,46 +534,242 @@ def report_data_flattened(request):
         "organ.donor.systemic_flush_volume_used",
         "organ.donor.heparin",  # 80
 
-
-
-
-
+        # ALLOCATION
+        "organ.allocation.perfusion_technician",
+        "organ.allocation.call_received",
+        "organ.allocation.call_received_unknown",
+        "organ.allocation.transplant_hospital",
+        "organ.allocation.theatre_contact",
+        "organ.allocation.scheduled_start",
+        "organ.allocation.scheduled_start_unknown",
+        "organ.allocation.technician_arrival",
+        "organ.allocation.technician_arrival_unknown",
+        "organ.allocation.depart_perfusion_centre",  # 10
+        "organ.allocation.depart_perfusion_centre_unknown",
+        "organ.allocation.arrival_at_recipient_hospital",
+        "organ.allocation.arrival_at_recipient_hospital_unknown",
+        "organ.allocation.journey_remarks",
+        "organ.allocation.reallocated",
+        "organ.allocation.get_reallocation_reason_display",
+        "organ.allocation.reallocation_reason_other",
 
         # RECIPIENT
+        "organ.recipient.person.number",
         "organ.recipient.person.date_of_birth",
-        "organ.recipient.person.gender",
+        "organ.recipient.person.date_of_birth_unknown",
+        "organ.recipient.person.date_of_death",
+        "organ.recipient.person.date_of_death_unknown",
+        "organ.recipient.person.get_gender_display",
         "organ.recipient.person.weight",
         "organ.recipient.person.height",
-        "organ.recipient.person.ethnicity",
         "organ.recipient.person.get_ethnicity_display",
-        "organ.recipient.person.blood_group",
-        "organ.recipient.person.get_blood_group_display",
-        "organ.recipient.renal_disease",
+        "organ.recipient.person.get_blood_group_display",  # 10
+        "organ.recipient.signed_consent",
+        "organ.recipient.single_kidney_transplant",
         "organ.recipient.get_renal_disease_display",
+        "organ.recipient.renal_disease_other",
         "organ.recipient.pre_transplant_diuresis",
+        "organ.recipient.knife_to_skin",
+        "organ.recipient.perfusate_measure",
         "organ.recipient.perfusion_stopped",
         "organ.recipient.organ_cold_stored",
+        "organ.recipient.tape_broken",  # 20
         "organ.recipient.removed_from_machine_at",
+        "organ.recipient.oxygen_full_and_open",
         "organ.recipient.organ_untransplantable",
         "organ.recipient.organ_untransplantable_reason",
-        "organ.recipient.knife_to_skin",
-        "organ.recipient.incision",
+        "organ.recipient.anesthesia_started_at",
         "organ.recipient.get_incision_display",
-        "organ.recipient.transplant_side",
         "organ.recipient.get_transplant_side_display",
-        "organ.recipient.arterial_problems",
         "organ.recipient.get_arterial_problems_display",
-        "organ.recipient.venous_problems",
         "organ.recipient.get_venous_problems_display",
-        "organ.recipient.anastomosis_started_at",
+        "organ.recipient.anastomosis_started_at",  # 30
+        "organ.recipient.anastomosis_started_at_unknown",
         "organ.recipient.reperfusion_started_at",
-        "organ.recipient.successful_conclusion",
+        "organ.recipient.reperfusion_started_at_unknown",
+        "organ.recipient.mannitol_used",
+        "organ.recipient.other_diurectics",
+        "organ.recipient.other_diurectics_details",
+        "organ.recipient.systolic_blood_pressure",
+        "organ.recipient.cvp",
+        "organ.recipient.intra_operative_diuresis",
+        "organ.recipient.successful_conclusion",  # 40
         "organ.recipient.operation_concluded_at",
+        "organ.recipient.probe_cleaned",
+        "organ.recipient.ice_removed",
+        "organ.recipient.oxygen_flow_stopped",
+        "organ.recipient.oxygen_bottle_removed",
+        "organ.recipient.box_cleaned",
+        "organ.recipient.batteries_charged",
+        "organ.recipient.cleaning_log",
+
+        # FOLLOW UP 1
+        "organ.followup_initial.start_date",
+        "organ.followup_initial.notes",
+        "organ.followup_initial.paper_form_was_the_source",
+        "organ.followup_initial.graft_failure",
+        "organ.followup_initial.graft_failure_date",
+        "organ.followup_initial.get_graft_failure_type_display",
+        "organ.followup_initial.graft_failure_type_other",
+        "organ.followup_initial.graft_removal",
+        "organ.followup_initial.graft_removal_date",
+        "organ.followup_initial.get_dialysis_type_display",  # 10
+        "organ.followup_initial.immunosuppression_1",
+        "organ.followup_initial.immunosuppression_2",
+        "organ.followup_initial.immunosuppression_3",
+        "organ.followup_initial.immunosuppression_4",
+        "organ.followup_initial.immunosuppression_5",
+        "organ.followup_initial.immunosuppression_6",
+        "organ.followup_initial.immunosuppression_7",
+        "organ.followup_initial.immunosuppression_other",
+        "organ.followup_initial.rejection",
+        "organ.followup_initial.rejection_prednisolone",  # 20
+        "organ.followup_initial.rejection_drug",
+        "organ.followup_initial.rejection_drug_other",
+        "organ.followup_initial.rejection_biopsy",
+        "organ.followup_initial.calcineurin",
+        "organ.followup_initial.get_serum_creatinine_unit_display",
+        "organ.followup_initial.serum_creatinine_1",
+        "organ.followup_initial.serum_creatinine_2",
+        "organ.followup_initial.serum_creatinine_3",
+        "organ.followup_initial.serum_creatinine_4",
+        "organ.followup_initial.serum_creatinine_5",  # 30
+        "organ.followup_initial.serum_creatinine_6",
+        "organ.followup_initial.serum_creatinine_7",
+        "organ.followup_initial.dialysis_requirement_1",
+        "organ.followup_initial.dialysis_requirement_2",
+        "organ.followup_initial.dialysis_requirement_3",
+        "organ.followup_initial.dialysis_requirement_4",
+        "organ.followup_initial.dialysis_requirement_5",
+        "organ.followup_initial.dialysis_requirement_6",
+        "organ.followup_initial.dialysis_requirement_7",
+        "organ.followup_initial.get_dialysis_cause_display",  # 40
+        "organ.followup_initial.dialysis_cause_other",
+        "organ.followup_initial.hla_mismatch_a",
+        "organ.followup_initial.hla_mismatch_b",
+        "organ.followup_initial.hla_mismatch_dr",
+        "organ.followup_initial.get_induction_therapy_display",
+        "organ.followup_initial.discharge_date",
+
+        # FOLLOW UP 2
+        "organ.followup_3m.start_date",
+        "organ.followup_3m.notes",
+        "organ.followup_3m.paper_form_was_the_source",
+        "organ.followup_3m.graft_failure",
+        "organ.followup_3m.graft_failure_date",
+        "organ.followup_3m.get_graft_failure_type_display",
+        "organ.followup_3m.graft_failure_type_other",
+        "organ.followup_3m.graft_removal",
+        "organ.followup_3m.graft_removal_date",
+        "organ.followup_3m.get_dialysis_type_display",  # 10
+        "organ.followup_3m.immunosuppression_1",
+        "organ.followup_3m.immunosuppression_2",
+        "organ.followup_3m.immunosuppression_3",
+        "organ.followup_3m.immunosuppression_4",
+        "organ.followup_3m.immunosuppression_5",
+        "organ.followup_3m.immunosuppression_6",
+        "organ.followup_3m.immunosuppression_7",
+        "organ.followup_3m.immunosuppression_other",
+        "organ.followup_3m.rejection",
+        "organ.followup_3m.rejection_prednisolone",  # 20
+        "organ.followup_3m.rejection_drug",
+        "organ.followup_3m.rejection_drug_other",
+        "organ.followup_3m.rejection_biopsy",
+        "organ.followup_3m.calcineurin",
+        "organ.followup_3m.get_serum_creatinine_unit_display",
+        "organ.followup_3m.serum_creatinine",
+        "organ.followup_3m.creatinine_clearance",
+        "organ.followup_3m.currently_on_dialysis",
+        "organ.followup_3m.dialysis_date",
+        "organ.followup_3m.number_of_dialysis_sessions",  # 30
+        "organ.followup_3m.rejection_periods",
+        "organ.followup_3m.graft_complications",
+        "organ.followup_3m.quality_of_life.date_recorded",
+        "organ.followup_3m.quality_of_life.qol_mobility",
+        "organ.followup_3m.quality_of_life.qol_selfcare",
+        "organ.followup_3m.quality_of_life.qol_usual_activities",
+        "organ.followup_3m.quality_of_life.qol_pain",
+        "organ.followup_3m.quality_of_life.qol_anxiety",
+        "organ.followup_3m.quality_of_life.vas_score",
+
+        # FOLLOW UP 3
+        "organ.followup_6m.start_date",
+        "organ.followup_6m.notes",
+        "organ.followup_6m.paper_form_was_the_source",
+        "organ.followup_6m.graft_failure",
+        "organ.followup_6m.graft_failure_date",
+        "organ.followup_6m.get_graft_failure_type_display",
+        "organ.followup_6m.graft_failure_type_other",
+        "organ.followup_6m.graft_removal",
+        "organ.followup_6m.graft_removal_date",
+        "organ.followup_6m.get_dialysis_type_display",  # 10
+        "organ.followup_6m.immunosuppression_1",
+        "organ.followup_6m.immunosuppression_2",
+        "organ.followup_6m.immunosuppression_3",
+        "organ.followup_6m.immunosuppression_4",
+        "organ.followup_6m.immunosuppression_5",
+        "organ.followup_6m.immunosuppression_6",
+        "organ.followup_6m.immunosuppression_7",
+        "organ.followup_6m.immunosuppression_other",
+        "organ.followup_6m.rejection",
+        "organ.followup_6m.rejection_prednisolone",  # 20
+        "organ.followup_6m.rejection_drug",
+        "organ.followup_6m.rejection_drug_other",
+        "organ.followup_6m.rejection_biopsy",
+        "organ.followup_6m.calcineurin",
+        "organ.followup_6m.get_serum_creatinine_unit_display",
+        "organ.followup_6m.serum_creatinine",
+        "organ.followup_6m.creatinine_clearance",
+        "organ.followup_6m.currently_on_dialysis",
+        "organ.followup_6m.dialysis_date",
+        "organ.followup_6m.number_of_dialysis_sessions",  # 30
+        "organ.followup_6m.rejection_periods",
+        "organ.followup_6m.graft_complications",
+
+        # FOLLOW UP 4
+        "organ.followup_1y.start_date",
+        "organ.followup_1y.notes",
+        "organ.followup_1y.paper_form_was_the_source",
+        "organ.followup_1y.graft_failure",
+        "organ.followup_1y.graft_failure_date",
+        "organ.followup_1y.get_graft_failure_type_display",
+        "organ.followup_1y.graft_failure_type_other",
+        "organ.followup_1y.graft_removal",
+        "organ.followup_1y.graft_removal_date",
+        "organ.followup_1y.get_dialysis_type_display",  # 10
+        "organ.followup_1y.immunosuppression_1",
+        "organ.followup_1y.immunosuppression_2",
+        "organ.followup_1y.immunosuppression_3",
+        "organ.followup_1y.immunosuppression_4",
+        "organ.followup_1y.immunosuppression_5",
+        "organ.followup_1y.immunosuppression_6",
+        "organ.followup_1y.immunosuppression_7",
+        "organ.followup_1y.immunosuppression_other",
+        "organ.followup_1y.rejection",
+        "organ.followup_1y.rejection_prednisolone",  # 20
+        "organ.followup_1y.rejection_drug",
+        "organ.followup_1y.rejection_drug_other",
+        "organ.followup_1y.rejection_biopsy",
+        "organ.followup_1y.calcineurin",
+        "organ.followup_1y.get_serum_creatinine_unit_display",
+        "organ.followup_1y.serum_creatinine",
+        "organ.followup_1y.creatinine_clearance",
+        "organ.followup_1y.currently_on_dialysis",
+        "organ.followup_1y.dialysis_date",
+        "organ.followup_1y.number_of_dialysis_sessions",  # 30
+        "organ.followup_1y.rejection_periods",
+        "organ.followup_1y.graft_complications",
+        "organ.followup_1y.quality_of_life.date_recorded",
+        "organ.followup_1y.quality_of_life.qol_mobility",
+        "organ.followup_1y.quality_of_life.qol_selfcare",
+        "organ.followup_1y.quality_of_life.qol_usual_activities",
+        "organ.followup_1y.quality_of_life.qol_pain",
+        "organ.followup_1y.quality_of_life.qol_anxiety",
+        "organ.followup_1y.quality_of_life.vas_score",
 
     ])
 
-    organs = Organ.objects.filter(recipient__isnull=False)
-    for organ in organs:
+    for organ in Organ.objects.all():
         result_row = []
 
         # ORGAN
@@ -585,7 +782,7 @@ def report_data_flattened(request):
         result_row.append(organ.paper_form_was_the_source)
         result_row.append(organ.included_for_analysis)
         try:
-            result_row.append(organ.removal.strftime("%d-%m-%Y"))
+            result_row.append(organ.removal.strftime("%d-%m-%Y %H:%M %Z"))
         except AttributeError:
             result_row.append("")
         result_row.append(organ.renal_arteries)  # 10
@@ -599,7 +796,7 @@ def report_data_flattened(request):
         result_row.append(organ.perfusion_possible)
         result_row.append(organ.perfusion_not_possible_because)
         try:
-            result_row.append(organ.perfusion_started.strftime("%d-%m-%Y %H:%M"))  # 20
+            result_row.append(organ.perfusion_started.strftime("%d-%m-%Y %H:%M %Z"))  # 20
         except AttributeError:
             result_row.append("")
         result_row.append(organ.get_patch_holder_display())
@@ -610,13 +807,13 @@ def report_data_flattened(request):
         result_row.append(organ.oxygen_bottle_open)
         result_row.append(organ.oxygen_bottle_changed)
         try:
-            result_row.append(organ.oxygen_bottle_changed_at.strftime("%d-%m-%Y %H:%M"))
+            result_row.append(organ.oxygen_bottle_changed_at.strftime("%d-%m-%Y %H:%M %Z"))
         except AttributeError:
             result_row.append("")
         result_row.append(organ.oxygen_bottle_changed_at_unknown)
         result_row.append(organ.ice_container_replenished)  # 30
         try:
-            result_row.append(organ.ice_container_replenished_at.strftime("%d-%m-%Y %H:%M"))
+            result_row.append(organ.ice_container_replenished_at.strftime("%d-%m-%Y %H:%M %Z"))
         except AttributeError:
             result_row.append("")
         result_row.append(organ.ice_container_replenished_at_unknown)
@@ -664,33 +861,33 @@ def report_data_flattened(request):
         except AttributeError:
             result_row.append("")
         try:
-            result_row.append(donor.call_received.strftime("%d-%m-%Y"))  # 20
+            result_row.append(donor.call_received.strftime("%d-%m-%Y %H:%M %Z"))  # 20
         except AttributeError:
             result_row.append("")
         result_row.append(donor.call_received_unknown)
         result_row.append(str(donor.retrieval_hospital))
         try:
-            result_row.append(donor.scheduled_start.strftime("%d-%m-%Y"))
+            result_row.append(donor.scheduled_start.strftime("%d-%m-%Y %H:%M %Z"))
         except AttributeError:
             result_row.append("")
         result_row.append(donor.scheduled_start_unknown)
         try:
-            result_row.append(donor.technician_arrival.strftime("%d-%m-%Y"))
+            result_row.append(donor.technician_arrival.strftime("%d-%m-%Y %H:%M %Z"))
         except AttributeError:
             result_row.append("")
         result_row.append(donor.technician_arrival_unknown)
         try:
-            result_row.append(donor.ice_boxes_filled.strftime("%d-%m-%Y"))
+            result_row.append(donor.ice_boxes_filled.strftime("%d-%m-%Y %H:%M %Z"))
         except AttributeError:
             result_row.append("")
         result_row.append(donor.ice_boxes_filled_unknown)
         try:
-            result_row.append(donor.depart_perfusion_centre.strftime("%d-%m-%Y"))
+            result_row.append(donor.depart_perfusion_centre.strftime("%d-%m-%Y %H:%M %Z"))
         except AttributeError:
             result_row.append("")
         result_row.append(donor.depart_perfusion_centre_unknown)  # 30
         try:
-            result_row.append(donor.arrival_at_donor_hospital.strftime("%d-%m-%Y"))
+            result_row.append(donor.arrival_at_donor_hospital.strftime("%d-%m-%Y %H:%M %Z"))
         except AttributeError:
             result_row.append("")
         result_row.append(donor.arrival_at_donor_hospital_unknown)
@@ -736,31 +933,31 @@ def report_data_flattened(request):
         result_row.append(donor.max_creatinine)
         result_row.append(donor.max_creatinine_unit)
         try:
-            result_row.append(donor.life_support_withdrawal.strftime("%d-%m-%Y %H:%M"))
+            result_row.append(donor.life_support_withdrawal.strftime("%d-%m-%Y %H:%M %Z"))
         except AttributeError:
             result_row.append("")
         try:
-            result_row.append(donor.systolic_pressure_low.strftime("%d-%m-%Y"))
+            result_row.append(donor.systolic_pressure_low.strftime("%d-%m-%Y %H:%M %Z"))
         except AttributeError:
             result_row.append("")
         result_row.append(donor.systolic_pressure_low_unknown)
         try:
-            result_row.append(donor.o2_saturation.strftime("%d-%m-%Y"))
+            result_row.append(donor.o2_saturation.strftime("%d-%m-%Y %H:%M %Z"))
         except AttributeError:
             result_row.append("")
         result_row.append(donor.o2_saturation_unknown)
         try:
-            result_row.append(donor.circulatory_arrest.strftime("%d-%m-%Y"))  # 70
+            result_row.append(donor.circulatory_arrest.strftime("%d-%m-%Y %H:%M %Z"))  # 70
         except AttributeError:
             result_row.append("")
         result_row.append(donor.circulatory_arrest_unknown)
         result_row.append(donor.length_of_no_touch)
         try:
-            result_row.append(donor.death_diagnosed.strftime("%d-%m-%Y %H:%M"))
+            result_row.append(donor.death_diagnosed.strftime("%d-%m-%Y %H:%M %Z"))
         except AttributeError:
             result_row.append("")
         try:
-            result_row.append(donor.perfusion_started.strftime("%d-%m-%Y %H:%M"))
+            result_row.append(donor.perfusion_started.strftime("%d-%m-%Y %H:%M %Z"))
         except AttributeError:
             result_row.append("")
         result_row.append(donor.perfusion_started_unknown)
@@ -770,63 +967,383 @@ def report_data_flattened(request):
         result_row.append(donor.systemic_flush_volume_used)
         result_row.append(donor.heparin)  # 80
 
-
-
-
-
+        # ALLOCATION
+        allocation = organ.final_allocation
+        if allocation is None:
+            for x in range(17):
+                result_row.append("")
+        else:
+            try:
+                result_row.append(str(allocation.perfusion_technician))
+            except AttributeError:
+                result_row.append("")
+            try:
+                result_row.append(allocation.call_received.strftime("%d-%m-%Y %H:%M %Z"))
+            except AttributeError:
+                result_row.append("")
+            result_row.append(allocation.call_received_unknown)
+            try:
+                result_row.append(str(allocation.transplant_hospital))
+            except AttributeError:
+                result_row.append("")
+            try:
+                result_row.append(str(allocation.theatre_contact))
+            except AttributeError:
+                result_row.append("")
+            try:
+                result_row.append(allocation.scheduled_start.strftime("%d-%m-%Y %H:%M %Z"))
+            except AttributeError:
+                result_row.append("")
+            result_row.append(allocation.scheduled_start_unknown)
+            try:
+                result_row.append(allocation.technician_arrival.strftime("%d-%m-%Y %H:%M %Z"))
+            except AttributeError:
+                result_row.append("")
+            result_row.append(allocation.technician_arrival_unknown)
+            try:
+                result_row.append(allocation.depart_perfusion_centre.strftime("%d-%m-%Y %H:%M %Z"))  # 10
+            except AttributeError:
+                result_row.append("")
+            result_row.append(allocation.depart_perfusion_centre_unknown)
+            try:
+                result_row.append(allocation.arrival_at_recipient_hospital.strftime("%d-%m-%Y %H:%M %Z"))
+            except AttributeError:
+                result_row.append("")
+            result_row.append(allocation.arrival_at_recipient_hospital_unknown)
+            result_row.append(allocation.journey_remarks)
+            result_row.append(allocation.reallocated)
+            result_row.append(allocation.get_reallocation_reason_display())
+            result_row.append(allocation.reallocation_reason_other)
 
         # RECIPIENT
-        try:
-            result_row.append(organ.recipient.person.date_of_birth.strftime("%d-%m-%Y"))
-        except AttributeError:
-            result_row.append("")
-        result_row.append(organ.recipient.person.gender)
-        result_row.append(organ.recipient.person.weight)
-        result_row.append(organ.recipient.person.height)
-        result_row.append(organ.recipient.person.ethnicity)
-        result_row.append(organ.recipient.person.get_ethnicity_display())
-        result_row.append(organ.recipient.person.blood_group)
-        result_row.append(organ.recipient.person.get_blood_group_display())
-        result_row.append(organ.recipient.renal_disease)
-        result_row.append(organ.recipient.get_renal_disease_display())
-        result_row.append(organ.recipient.pre_transplant_diuresis)
-        try:
-            result_row.append(organ.recipient.perfusion_stopped.strftime("%d-%m-%Y %H:%M"))
-        except AttributeError:
-            result_row.append("")
-        result_row.append(organ.recipient.organ_cold_stored)
-        try:
-            result_row.append(organ.recipient.removed_from_machine_at.strftime("%d-%m-%Y %H:%M"))
-        except AttributeError:
-            result_row.append("")
-        result_row.append(organ.recipient.organ_untransplantable)
-        result_row.append(organ.recipient.organ_untransplantable_reason)
-        try:
-            result_row.append(organ.recipient.knife_to_skin.strftime("%d-%m-%Y %H:%M"))
-        except AttributeError:
-            result_row.append("")
-        result_row.append(organ.recipient.incision)
-        result_row.append(organ.recipient.get_incision_display())
-        result_row.append(organ.recipient.transplant_side)
-        result_row.append(organ.recipient.get_transplant_side_display())
-        result_row.append(organ.recipient.arterial_problems)
-        result_row.append(organ.recipient.get_arterial_problems_display())
-        result_row.append(organ.recipient.venous_problems)
-        result_row.append(organ.recipient.get_venous_problems_display())
-        try:
-            result_row.append(organ.recipient.anastomosis_started_at.strftime("%d-%m-%Y %H:%M"))
-        except AttributeError:
-            result_row.append("")
-        try:
-            result_row.append(organ.recipient.reperfusion_started_at.strftime("%d-%m-%Y %H:%M"))
-        except AttributeError:
-            result_row.append("")
-        result_row.append(organ.recipient.successful_conclusion)
-        try:
-            result_row.append(organ.recipient.operation_concluded_at.strftime("%d-%m-%Y %H:%M"))
-        except AttributeError:
-            result_row.append("")
+        recipient = organ.safe_recipient
+        if recipient is None:
+            # If no recipient, blank out all the recipient columns
+            for x in range(40):
+                result_row.append("")
+        else:
+            result_row.append(recipient.person.number)
+            try:
+                result_row.append(recipient.person.date_of_birth.strftime("%d-%m-%Y"))
+            except AttributeError:
+                result_row.append("")
+            result_row.append(recipient.person.date_of_birth_unknown)
+            try:
+                result_row.append(recipient.person.date_of_death.strftime("%d-%m-%Y"))
+            except AttributeError:
+                result_row.append("")
+            result_row.append(recipient.person.date_of_death_unknown)
+            result_row.append(recipient.person.get_gender_display())
+            result_row.append(recipient.person.weight)
+            result_row.append(recipient.person.height)
+            result_row.append(recipient.person.get_ethnicity_display())
+            result_row.append(recipient.person.get_blood_group_display())  # 10
+            result_row.append(recipient.signed_consent)
+            result_row.append(recipient.single_kidney_transplant)
+            result_row.append(recipient.get_renal_disease_display())
+            result_row.append(recipient.renal_disease_other)
+            result_row.append(recipient.pre_transplant_diuresis)
+            try:
+                result_row.append(recipient.knife_to_skin.strftime("%d-%m-%Y %H:%M %Z"))
+            except AttributeError:
+                result_row.append("")
+            result_row.append(recipient.perfusate_measure)
+            try:
+                result_row.append(recipient.perfusion_stopped.strftime("%d-%m-%Y %H:%M %Z"))
+            except AttributeError:
+                result_row.append("")
+            result_row.append(recipient.organ_cold_stored)
+            result_row.append(recipient.tape_broken)  # 20
+            try:
+                result_row.append(recipient.removed_from_machine_at.strftime("%d-%m-%Y %H:%M %Z"))
+            except AttributeError:
+                result_row.append("")
+            result_row.append(recipient.oxygen_full_and_open)
+            result_row.append(recipient.organ_untransplantable)
+            result_row.append(recipient.organ_untransplantable_reason)
+            try:
+                result_row.append(recipient.anesthesia_started_at.strftime("%d-%m-%Y %H:%M %Z"))
+            except AttributeError:
+                result_row.append("")
+            result_row.append(recipient.get_incision_display())
+            result_row.append(recipient.get_transplant_side_display())
+            result_row.append(recipient.get_arterial_problems_display())
+            result_row.append(recipient.get_venous_problems_display())
+            try:
+                result_row.append(recipient.anastomosis_started_at.strftime("%d-%m-%Y %H:%M %Z"))  # 30
+            except AttributeError:
+                result_row.append("")
+            result_row.append(recipient.anastomosis_started_at_unknown)
+            try:
+                result_row.append(recipient.reperfusion_started_at.strftime("%d-%m-%Y %H:%M %Z"))
+            except AttributeError:
+                result_row.append("")
+            result_row.append(recipient.reperfusion_started_at_unknown)
+            result_row.append(recipient.mannitol_used)
+            result_row.append(recipient.other_diurectics)
+            result_row.append(recipient.other_diurectics_details)
+            result_row.append(recipient.systolic_blood_pressure)
+            result_row.append(recipient.cvp)
+            result_row.append(recipient.intra_operative_diuresis)
+            result_row.append(recipient.successful_conclusion)  # 40
+            try:
+                result_row.append(recipient.operation_concluded_at.strftime("%d-%m-%Y %H:%M %Z"))
+            except AttributeError:
+                result_row.append("")
+            result_row.append(recipient.probe_cleaned)
+            result_row.append(recipient.ice_removed)
+            result_row.append(recipient.oxygen_flow_stopped)
+            result_row.append(recipient.oxygen_bottle_removed)
+            result_row.append(recipient.box_cleaned)
+            result_row.append(recipient.batteries_charged)
+            result_row.append(recipient.cleaning_log)
 
+        # FOLLOW UP 1
+        try:
+            followup = organ.followup_initial
+            try:
+                result_row.append(followup.start_date.strftime("%d-%m-%Y"))
+            except AttributeError:
+                result_row.append("")
+            result_row.append(followup.notes)
+            result_row.append(followup.paper_form_was_the_source)
+            result_row.append(followup.graft_failure)
+            try:
+                result_row.append(followup.graft_failure_date.strftime("%d-%m-%Y"))
+            except AttributeError:
+                result_row.append("")
+            result_row.append(followup.get_graft_failure_type_display())
+            result_row.append(followup.graft_failure_type_other)
+            result_row.append(followup.graft_removal)
+            try:
+                result_row.append(followup.graft_removal_date.strftime("%d-%m-%Y"))
+            except AttributeError:
+                result_row.append("")
+            result_row.append(followup.get_dialysis_type_display())  # 10
+            result_row.append(followup.immunosuppression_1)
+            result_row.append(followup.immunosuppression_2)
+            result_row.append(followup.immunosuppression_3)
+            result_row.append(followup.immunosuppression_4)
+            result_row.append(followup.immunosuppression_5)
+            result_row.append(followup.immunosuppression_6)
+            result_row.append(followup.immunosuppression_7)
+            result_row.append(followup.immunosuppression_other)
+            result_row.append(followup.rejection)
+            result_row.append(followup.rejection_prednisolone)  # 20
+            result_row.append(followup.rejection_drug)
+            result_row.append(followup.rejection_drug_other)
+            result_row.append(followup.rejection_biopsy)
+            result_row.append(followup.calcineurin)  # End Base
+            result_row.append(followup.get_serum_creatinine_unit_display())
+            result_row.append(followup.serum_creatinine_1)
+            result_row.append(followup.serum_creatinine_2)
+            result_row.append(followup.serum_creatinine_3)
+            result_row.append(followup.serum_creatinine_4)
+            result_row.append(followup.serum_creatinine_5)  # 30
+            result_row.append(followup.serum_creatinine_6)
+            result_row.append(followup.serum_creatinine_7)
+            result_row.append(followup.dialysis_requirement_1)
+            result_row.append(followup.dialysis_requirement_2)
+            result_row.append(followup.dialysis_requirement_3)
+            result_row.append(followup.dialysis_requirement_4)
+            result_row.append(followup.dialysis_requirement_5)
+            result_row.append(followup.dialysis_requirement_6)
+            result_row.append(followup.dialysis_requirement_7)
+            result_row.append(followup.get_dialysis_cause_display())  # 40
+            result_row.append(followup.dialysis_cause_other)
+            result_row.append(followup.hla_mismatch_a)
+            result_row.append(followup.hla_mismatch_b)
+            result_row.append(followup.hla_mismatch_dr)
+            result_row.append(followup.get_induction_therapy_display())
+            try:
+                result_row.append(followup.discharge_date.strftime("%d-%m-%Y"))
+            except AttributeError:
+                result_row.append("")
+        except AttributeError:
+            # If no followup, blank out all the followup columns
+            for x in range(46):
+                result_row.append("")
+
+        # FOLLOW UP 2
+        try:
+            followup = organ.followup_3m
+            try:
+                result_row.append(followup.start_date.strftime("%d-%m-%Y"))
+            except AttributeError:
+                result_row.append("")
+            result_row.append(followup.notes)
+            result_row.append(followup.paper_form_was_the_source)
+            result_row.append(followup.graft_failure)
+            try:
+                result_row.append(followup.graft_failure_date.strftime("%d-%m-%Y"))
+            except AttributeError:
+                result_row.append("")
+            result_row.append(followup.get_graft_failure_type_display())
+            result_row.append(followup.graft_failure_type_other)
+            result_row.append(followup.graft_removal)
+            try:
+                result_row.append(followup.graft_removal_date.strftime("%d-%m-%Y"))
+            except AttributeError:
+                result_row.append("")
+            result_row.append(followup.get_dialysis_type_display())  # 10
+            result_row.append(followup.immunosuppression_1)
+            result_row.append(followup.immunosuppression_2)
+            result_row.append(followup.immunosuppression_3)
+            result_row.append(followup.immunosuppression_4)
+            result_row.append(followup.immunosuppression_5)
+            result_row.append(followup.immunosuppression_6)
+            result_row.append(followup.immunosuppression_7)
+            result_row.append(followup.immunosuppression_other)
+            result_row.append(followup.rejection)
+            result_row.append(followup.rejection_prednisolone)  # 20
+            result_row.append(followup.rejection_drug)
+            result_row.append(followup.rejection_drug_other)
+            result_row.append(followup.rejection_biopsy)
+            result_row.append(followup.calcineurin)  # End Base
+            result_row.append(followup.get_serum_creatinine_unit_display())
+            result_row.append(followup.serum_creatinine)
+            result_row.append(followup.creatinine_clearance)
+            result_row.append(followup.currently_on_dialysis)
+            try:
+                result_row.append(followup.dialysis_date.strftime("%d-%m-%Y"))
+            except AttributeError:
+                result_row.append("")
+            result_row.append(followup.number_of_dialysis_sessions)
+            result_row.append(followup.rejection_periods)
+            result_row.append(followup.graft_complications)
+            # QoL
+            try:
+                result_row.append(followup.quality_of_life.date_recorded.strftime("%d-%m-%Y"))
+            except AttributeError:
+                result_row.append("")
+            result_row.append(followup.quality_of_life.qol_mobility)
+            result_row.append(followup.quality_of_life.qol_selfcare)
+            result_row.append(followup.quality_of_life.qol_usual_activities)
+            result_row.append(followup.quality_of_life.qol_pain)
+            result_row.append(followup.quality_of_life.qol_anxiety)
+            result_row.append(followup.quality_of_life.vas_score)
+
+        except AttributeError:
+            # If no followup, blank out all the followup columns
+            for x in range(39):
+                result_row.append("")
+
+        # FOLLOW UP 3
+        try:
+            followup = organ.followup_6m
+            try:
+                result_row.append(followup.start_date.strftime("%d-%m-%Y"))
+            except AttributeError:
+                result_row.append("")
+            result_row.append(followup.notes)
+            result_row.append(followup.paper_form_was_the_source)
+            result_row.append(followup.graft_failure)
+            try:
+                result_row.append(followup.graft_failure_date.strftime("%d-%m-%Y"))
+            except AttributeError:
+                result_row.append("")
+            result_row.append(followup.get_graft_failure_type_display())
+            result_row.append(followup.graft_failure_type_other)
+            result_row.append(followup.graft_removal)
+            try:
+                result_row.append(followup.graft_removal_date.strftime("%d-%m-%Y"))
+            except AttributeError:
+                result_row.append("")
+            result_row.append(followup.get_dialysis_type_display())  # 10
+            result_row.append(followup.immunosuppression_1)
+            result_row.append(followup.immunosuppression_2)
+            result_row.append(followup.immunosuppression_3)
+            result_row.append(followup.immunosuppression_4)
+            result_row.append(followup.immunosuppression_5)
+            result_row.append(followup.immunosuppression_6)
+            result_row.append(followup.immunosuppression_7)
+            result_row.append(followup.immunosuppression_other)
+            result_row.append(followup.rejection)
+            result_row.append(followup.rejection_prednisolone)  # 20
+            result_row.append(followup.rejection_drug)
+            result_row.append(followup.rejection_drug_other)
+            result_row.append(followup.rejection_biopsy)
+            result_row.append(followup.calcineurin)  # End Base
+            result_row.append(followup.get_serum_creatinine_unit_display())
+            result_row.append(followup.serum_creatinine)
+            result_row.append(followup.creatinine_clearance)
+            result_row.append(followup.currently_on_dialysis)
+            try:
+                result_row.append(followup.dialysis_date.strftime("%d-%m-%Y"))
+            except AttributeError:
+                result_row.append("")
+            result_row.append(followup.number_of_dialysis_sessions)  # 30
+            result_row.append(followup.rejection_periods)
+            result_row.append(followup.graft_complications)
+
+        except AttributeError:
+            # If no followup, blank out all the followup columns
+            for x in range(32):  # TODO: Correct the column count
+                result_row.append("")
+
+        # FOLLOW UP 4
+        try:
+            followup = organ.followup_1y
+            try:
+                result_row.append(followup.start_date.strftime("%d-%m-%Y"))
+            except AttributeError:
+                result_row.append("")
+            result_row.append(followup.notes)
+            result_row.append(followup.paper_form_was_the_source)
+            result_row.append(followup.graft_failure)
+            try:
+                result_row.append(followup.graft_failure_date.strftime("%d-%m-%Y"))
+            except AttributeError:
+                result_row.append("")
+            result_row.append(followup.get_graft_failure_type_display())
+            result_row.append(followup.graft_failure_type_other)
+            result_row.append(followup.graft_removal)
+            try:
+                result_row.append(followup.graft_removal_date.strftime("%d-%m-%Y"))
+            except AttributeError:
+                result_row.append("")
+            result_row.append(followup.get_dialysis_type_display())  # 10
+            result_row.append(followup.immunosuppression_1)
+            result_row.append(followup.immunosuppression_2)
+            result_row.append(followup.immunosuppression_3)
+            result_row.append(followup.immunosuppression_4)
+            result_row.append(followup.immunosuppression_5)
+            result_row.append(followup.immunosuppression_6)
+            result_row.append(followup.immunosuppression_7)
+            result_row.append(followup.immunosuppression_other)
+            result_row.append(followup.rejection)
+            result_row.append(followup.rejection_prednisolone)  # 20
+            result_row.append(followup.rejection_drug)
+            result_row.append(followup.rejection_drug_other)
+            result_row.append(followup.rejection_biopsy)
+            result_row.append(followup.calcineurin)  # End Base
+            result_row.append(followup.get_serum_creatinine_unit_display())
+            result_row.append(followup.serum_creatinine)
+            result_row.append(followup.creatinine_clearance)
+            result_row.append(followup.currently_on_dialysis)
+            try:
+                result_row.append(followup.dialysis_date.strftime("%d-%m-%Y"))
+            except AttributeError:
+                result_row.append("")
+            result_row.append(followup.number_of_dialysis_sessions)
+            result_row.append(followup.rejection_periods)
+            result_row.append(followup.graft_complications)
+            # QoL
+            try:
+                result_row.append(followup.quality_of_life.date_recorded.strftime("%d-%m-%Y"))
+            except AttributeError:
+                result_row.append("")
+            result_row.append(followup.quality_of_life.qol_mobility)
+            result_row.append(followup.quality_of_life.qol_selfcare)
+            result_row.append(followup.quality_of_life.qol_usual_activities)
+            result_row.append(followup.quality_of_life.qol_pain)
+            result_row.append(followup.quality_of_life.qol_anxiety)
+            result_row.append(followup.quality_of_life.vas_score)
+
+        except AttributeError:
+            # If no followup, blank out all the followup columns
+            for x in range(39):
+                result_row.append("")
 
         writer.writerow(result_row)
 
