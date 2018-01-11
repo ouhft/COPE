@@ -8,7 +8,7 @@ from django.http import HttpResponse
 
 from wp4.compare.models import Donor, Organ, OrganAllocation
 from wp4.staff.models import Person
-from wp4.adverse_event.models import Event
+from wp4.adverse_event.models import Event, Category
 from wp4.utils import group_required
 
 
@@ -767,8 +767,15 @@ def report_data_flattened(request):
         "organ.followup_1y.quality_of_life.qol_anxiety",
         "organ.followup_1y.quality_of_life.vas_score",
 
+        # Extras: S/AE Numbers
+        "S/AE Total Count",
+        "S/AE IDs with serious_eligible_1 set",
+        "S/AE IDs with death set",
+        "S/AE IDs with Permanent Graph Failure category"
+
     ])
 
+    pgf_category_object = Category.objects.get(id=8)  # Hardcoded reference to PGF Category
     for organ in Organ.objects.all():
         result_row = []
 
@@ -971,7 +978,7 @@ def report_data_flattened(request):
         allocation = organ.final_allocation
         if allocation is None:
             for x in range(17):
-                result_row.append("")
+                result_row.append("No Allocation")
         else:
             try:
                 result_row.append(str(allocation.perfusion_technician))
@@ -1019,8 +1026,8 @@ def report_data_flattened(request):
         recipient = organ.safe_recipient
         if recipient is None:
             # If no recipient, blank out all the recipient columns
-            for x in range(40):
-                result_row.append("")
+            for x in range(48):
+                result_row.append("No Recipient")
         else:
             result_row.append(recipient.person.number)
             try:
@@ -1162,7 +1169,7 @@ def report_data_flattened(request):
         except AttributeError:
             # If no followup, blank out all the followup columns
             for x in range(46):
-                result_row.append("")
+                result_row.append("No FU 1")
 
         # FOLLOW UP 2
         try:
@@ -1226,7 +1233,7 @@ def report_data_flattened(request):
         except AttributeError:
             # If no followup, blank out all the followup columns
             for x in range(39):
-                result_row.append("")
+                result_row.append("No FU 2")
 
         # FOLLOW UP 3
         try:
@@ -1279,7 +1286,7 @@ def report_data_flattened(request):
         except AttributeError:
             # If no followup, blank out all the followup columns
             for x in range(32):  # TODO: Correct the column count
-                result_row.append("")
+                result_row.append("No FU 3")
 
         # FOLLOW UP 4
         try:
@@ -1325,7 +1332,7 @@ def report_data_flattened(request):
                 result_row.append(followup.dialysis_date.strftime("%d-%m-%Y"))
             except AttributeError:
                 result_row.append("")
-            result_row.append(followup.number_of_dialysis_sessions)
+            result_row.append(followup.number_of_dialysis_sessions)  # 30
             result_row.append(followup.rejection_periods)
             result_row.append(followup.graft_complications)
             # QoL
@@ -1343,7 +1350,27 @@ def report_data_flattened(request):
         except AttributeError:
             # If no followup, blank out all the followup columns
             for x in range(39):
-                result_row.append("")
+                result_row.append("No FU 4")
+
+        total_count = 0
+        serious_eligible_1_ids = []
+        death_ids = []
+        pgf_category_ids = []
+
+
+        for event in organ.event_set.all():
+            total_count += 1
+            if event.serious_eligible_1:
+                serious_eligible_1_ids.append(event.id)
+            if event.death:
+                death_ids.append(event.id)
+            if pgf_category_object in event.categories.all():
+                pgf_category_ids.append(event.id)
+
+        result_row.append(total_count)
+        result_row.append(serious_eligible_1_ids)
+        result_row.append(death_ids)
+        result_row.append(pgf_category_ids)
 
         writer.writerow(result_row)
 
