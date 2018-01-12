@@ -771,13 +771,15 @@ def report_data_flattened(request):
         "S/AE Total Count",
         "S/AE IDs with serious_eligible_1 set",
         "S/AE IDs with death set",
-        "S/AE IDs with Permanent Graph Failure category"
+        "S/AE IDs with Permanent Graph Failure category",
+        "DGF Detected",
 
     ])
 
     pgf_category_object = Category.objects.get(id=8)  # Hardcoded reference to PGF Category
-    for organ in Organ.objects.all():
+    for organ in Organ.objects.prefetch_related('event_set').select_related('followup_initial', 'followup_3m__quality_of_life', 'followup_6m', 'followup_1y__quality_of_life').all():
         result_row = []
+        dgf_detected = False
 
         # ORGAN
         result_row.append(organ.trial_id)
@@ -1166,6 +1168,12 @@ def report_data_flattened(request):
                 result_row.append(followup.discharge_date.strftime("%d-%m-%Y"))
             except AttributeError:
                 result_row.append("")
+
+            if followup.dialysis_requirement_1 or followup.dialysis_requirement_2 or \
+                followup.dialysis_requirement_3 or followup.dialysis_requirement_4 or \
+                followup.dialysis_requirement_5 or followup.dialysis_requirement_6 or \
+                followup.dialysis_requirement_7 or followup.dialysis_cause == 1:
+                dgf_detected = True
         except AttributeError:
             # If no followup, blank out all the followup columns
             for x in range(46):
@@ -1357,7 +1365,6 @@ def report_data_flattened(request):
         death_ids = []
         pgf_category_ids = []
 
-
         for event in organ.event_set.all():
             total_count += 1
             if event.serious_eligible_1:
@@ -1371,6 +1378,7 @@ def report_data_flattened(request):
         result_row.append(serious_eligible_1_ids)
         result_row.append(death_ids)
         result_row.append(pgf_category_ids)
+        result_row.append(dgf_detected)
 
         writer.writerow(result_row)
 

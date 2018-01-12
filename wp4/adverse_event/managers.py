@@ -17,7 +17,7 @@ class EventModelForUserManager(LiveManager, ModelForUserManagerMixin):
         """
         qs = super(EventModelForUserManager, self).get_queryset().\
             select_related('organ', 'organ__recipient', 'organ__recipient__allocation').\
-            prefetch_related('organ__organallocation_set')
+            prefetch_related('organ__organallocation_set', 'categories')
 
         # print("DEBUG: EventModelForUserManager.get_queryset(): self.current_user={0}".format(self.current_user))
         if self.current_user is not None:
