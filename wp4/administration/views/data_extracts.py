@@ -534,6 +534,12 @@ def report_data_flattened(request):
         "organ.donor.systemic_flush_volume_used",
         "organ.donor.heparin",  # 80
 
+        # RANDOMISATION
+        "organ.donor.randomisation.get_list_code_display"
+        "organ.donor.randomisation.result"
+        "organ.donor.randomisation.allocated_on"
+        "organ.donor.randomisation.allocated_by"
+
         # ALLOCATION
         "organ.allocation.perfusion_technician",
         "organ.allocation.call_received",
@@ -975,6 +981,24 @@ def report_data_flattened(request):
         result_row.append(donor.systemic_flush_used_other)
         result_row.append(donor.systemic_flush_volume_used)
         result_row.append(donor.heparin)  # 80
+
+        # RANDOMISATION
+        try:
+            randomisation = donor.randomisation
+            result_row.append(randomisation.get_list_code_display())
+            result_row.append(randomisation.result)
+            try:
+                result_row.append(randomisation.allocated_on.strftime("%d-%m-%Y %H:%M %Z"))
+            except AttributeError:
+                result_row.append("")
+            try:
+                result_row.append(str(randomisation.allocated_by))
+            except AttributeError:
+                result_row.append("")
+        except AttributeError:
+            # If no randomisation, blank out all the randomisation columns
+            for x in range(4):
+                result_row.append("No Randomisation")
 
         # ALLOCATION
         allocation = organ.final_allocation
