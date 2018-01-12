@@ -2,4 +2,3 @@
 
 gunicorn
 setproctitle
-django-secure

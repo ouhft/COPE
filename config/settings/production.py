@@ -13,16 +13,9 @@ from .common import *  # noqa
 
 print("DEBUG: Loading settings from production")
 
-# django-secure
-# ------------------------------------------------------------------------------
-INSTALLED_APPS += ["djangosecure", ]
-SECURITY_MIDDLEWARE = [
-    'djangosecure.middleware.SecurityMiddleware',
-]
-MIDDLEWARE = SECURITY_MIDDLEWARE + MIDDLEWARE
 
-# set this to 60 seconds and then to 518400 when you can prove it works
-SECURE_HSTS_SECONDS = 60
+# https://docs.djangoproject.com/en/2.0/ref/middleware/
+SECURE_HSTS_SECONDS = 518400
 SECURE_HSTS_INCLUDE_SUBDOMAINS = env.bool("DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS", default=True)
 SECURE_FRAME_DENY = env.bool("DJANGO_SECURE_FRAME_DENY", default=True)
 SECURE_CONTENT_TYPE_NOSNIFF = env.bool("DJANGO_SECURE_CONTENT_TYPE_NOSNIFF", default=True)
@@ -35,7 +28,6 @@ SECURE_SSL_REDIRECT = env.bool("DJANGO_SECURE_SSL_REDIRECT", default=True)
 # ------------------------------------------------------------------------------
 # Hosts/domain names that are valid for this site
 # See https://docs.djangoproject.com/en/1.6/ref/settings/#allowed-hosts
-# ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['example.com']) -- In Common.py
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTOCOL', 'https')
 # END SITE CONFIGURATION
 

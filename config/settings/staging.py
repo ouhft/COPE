@@ -17,14 +17,7 @@ print("DEBUG: Loading settings from staging")
 USE_X_FORWARDED_HOST = True
 FORCE_SCRIPT_NAME = env('FORCE_SCRIPT_NAME', default='/cope/')
 
-# django-secure
-# ------------------------------------------------------------------------------
-# INSTALLED_APPS += ["djangosecure", ]
-# SECURITY_MIDDLEWARE = [
-#     'djangosecure.middleware.SecurityMiddleware',
-# ]
-# MIDDLEWARE = SECURITY_MIDDLEWARE + MIDDLEWARE
-
+# https://docs.djangoproject.com/en/2.0/ref/middleware/
 # set this to 60 seconds and then to 518400 when you can prove it works
 SECURE_HSTS_SECONDS = 60
 SECURE_HSTS_INCLUDE_SUBDOMAINS = env.bool("DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS", default=True)
@@ -39,7 +32,6 @@ SECURE_SSL_REDIRECT = env.bool("DJANGO_SECURE_SSL_REDIRECT", default=True)
 # ------------------------------------------------------------------------------
 # Hosts/domain names that are valid for this site
 # See https://docs.djangoproject.com/en/1.6/ref/settings/#allowed-hosts
-# ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['example.com']) -- In Common.py
 # SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTOCOL', 'https')
 # END SITE CONFIGURATION
 
@@ -50,8 +42,8 @@ INSTALLED_APPS += ["gunicorn", ]
 EMAIL_HOST = env('DJANGO_EMAIL_HOST', default='localhost')
 EMAIL_PORT = 25
 EMAIL_BACKEND = env('DJANGO_EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
-DEFAULT_FROM_EMAIL = env('DJANGO_DEFAULT_FROM_EMAIL', default='COPE DB (Testing) <noreply@dev.nds.ox.ac.uk>')
-EMAIL_SUBJECT_PREFIX = env("DJANGO_EMAIL_SUBJECT_PREFIX", default='[COPE DB Testing] ')
+DEFAULT_FROM_EMAIL = env('DJANGO_DEFAULT_FROM_EMAIL', default='Cope DB (Testing) <noreply@dev.nds.ox.ac.uk>')
+EMAIL_SUBJECT_PREFIX = env("DJANGO_EMAIL_SUBJECT_PREFIX", default='[Cope DB Testing] ')
 SERVER_EMAIL = env('DJANGO_SERVER_EMAIL', default=DEFAULT_FROM_EMAIL)
 
 

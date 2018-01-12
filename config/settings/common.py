@@ -77,7 +77,6 @@ INSTALLED_APPS = THIRD_PARTY_PRE_DJANGO_APPS + DJANGO_APPS + THIRD_PARTY_APPS + 
 # MIDDLEWARE CONFIGURATION
 # ------------------------------------------------------------------------------
 MIDDLEWARE = [
-    # Make sure djangosecure.middleware.SecurityMiddleware is listed first
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
