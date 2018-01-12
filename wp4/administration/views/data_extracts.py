@@ -535,10 +535,10 @@ def report_data_flattened(request):
         "organ.donor.heparin",  # 80
 
         # RANDOMISATION
-        "organ.donor.randomisation.get_list_code_display"
-        "organ.donor.randomisation.result"
-        "organ.donor.randomisation.allocated_on"
-        "organ.donor.randomisation.allocated_by"
+        "organ.donor.randomisation.get_list_code_display",
+        "organ.donor.randomisation.result",
+        "organ.donor.randomisation.allocated_on",
+        "organ.donor.randomisation.allocated_by",
 
         # ALLOCATION
         "organ.allocation.perfusion_technician",
