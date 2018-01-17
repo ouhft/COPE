@@ -713,6 +713,12 @@ class Organ(AuditControlModelBase):
     # Issue #310 - add a record of where this data was sourced from: Null=Not answered, True=Paper, False=Direct entry
     paper_form_was_the_source = models.NullBooleanField("OR97 Was this data entered from a paper record", blank=True)
     included_for_analysis = models.BooleanField(verbose_name='OR96 included for analysis', default=False)  # Issue #313
+    excluded_from_analysis_because = models.CharField(
+        verbose_name='OR95 excluded from analysis because',
+        max_length=100,
+        blank=True,
+        default=""
+    )
 
     # Inspection data
     GRAFT_DAMAGE_ARTERIAL = 1  #: Constant for GRAFT_DAMAGE_CHOICES
@@ -1058,6 +1064,63 @@ class Organ(AuditControlModelBase):
         """
         # TODO: Write this function
         return "Unknown closed status"
+
+    def update_inclusion_status(self):
+        """
+        Using a set of rules (see Issue #318), determine if this organ should be included for analysis, and set the
+        corresponding values (included_for_analysis & excluded_from_analysis_because).
+        """
+        from wp4.compare.models import NO
+        self.included_for_analysis = False  # Presumption that it will fail, try to prove organ is eligible
+
+        # Do some of the more tenuous checks first because the answers may not exist
+        try:
+            transplant_hospital_is_project_site = self.final_allocation.transplant_hospital.is_project_site
+        except AttributeError:
+            transplant_hospital_is_project_site = False
+
+        try:
+            initial_followup_exists = True if self.followup_initial is not None else False
+        except AttributeError:
+            initial_followup_exists = False
+
+        # Begin the tests
+        if self.donor.not_randomised_because != 0:
+            # Explain why the donor was not randomised (and thus not to be used in analysis)
+            self.excluded_from_analysis_because = self.donor.get_not_randomised_because_display()
+        elif self.donor.multiple_recipients == NO:
+            self.excluded_from_analysis_because = "Donor does not have multiple recipients [DO02]"
+        elif not self.transplantable:
+            self.excluded_from_analysis_because = "Organ marked not transplantable [OR07]: " + \
+                self.not_transplantable_reason if self.not_transplantable_reason else "(No reason given)"
+        # Now look at the Allocation options
+        elif self.not_allocated_reason:
+            self.excluded_from_analysis_because = "Not allocated because: {0} [OR31]".format(self.not_allocated_reason)
+        elif self.final_allocation is None:
+            self.excluded_from_analysis_because = "No allocations created (and no explanation as yet)"
+        elif not transplant_hospital_is_project_site:
+            self.excluded_from_analysis_because = "Allocated to a non-project site"
+        elif self.final_allocation.reallocated is True:
+            self.excluded_from_analysis_because = "ERROR: last allocation shows a reallocation"  # This shouldn't occur!
+        # Do we have a recipient?
+        elif self.safe_recipient is None:
+            self.excluded_from_analysis_because = "No Recipient has been created for organ"
+            # If we're here, all must be well...
+        elif self.safe_recipient.signed_consent is False:
+            self.excluded_from_analysis_because = "No Recipient consent received [RE13]"
+        elif self.safe_recipient.single_kidney_transplant is False:
+            self.excluded_from_analysis_because = "Recipient receiving more than one kidney RE14]"
+        elif not (self.safe_recipient.successful_conclusion or self.safe_recipient.operation_concluded_at or
+                  self.safe_recipient.reperfusion_started_at or self.safe_recipient.anastomosis_started_at or
+                  self.safe_recipient.knife_to_skin or initial_followup_exists):
+            self.excluded_from_analysis_because = "No evidence of a transplant occurring"
+        else:
+            self.included_for_analysis = True
+
+        print("DEBUG: update_inclusion_status(): organ: {3} ({0}) included: {1}  reason: {2}".format(
+            self.id, self.included_for_analysis, self.excluded_from_analysis_because, self.trial_id))
+        # self.save()
+
 
     @property
     def was_cold_stored(self):

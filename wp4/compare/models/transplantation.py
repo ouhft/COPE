@@ -191,7 +191,11 @@ class Recipient(AuditControlModelBase):
     """
     person = models.OneToOneField(Patient, on_delete=models.PROTECT, help_text="Internal link to Patient")
     organ = models.OneToOneField(Organ, on_delete=models.PROTECT, help_text="Internal link to Organ")
-    allocation = models.OneToOneField(OrganAllocation, on_delete=models.PROTECT, help_text="Internal link to OrganAllocation")
+    allocation = models.OneToOneField(
+        OrganAllocation,
+        on_delete=models.PROTECT,
+        help_text="Internal link to OrganAllocation"
+    )
 
     # Trial signoffs
     signed_consent = models.NullBooleanField(
