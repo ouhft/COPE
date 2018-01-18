@@ -1088,20 +1088,28 @@ class Organ(AuditControlModelBase):
         if self.donor.not_randomised_because != 0:
             # Explain why the donor was not randomised (and thus not to be used in analysis)
             self.excluded_from_analysis_because = self.donor.get_not_randomised_because_display()
+            if self.donor.not_randomised_because == 5:
+                self.excluded_from_analysis_because = "{0}: {1}".format(
+                    self.excluded_from_analysis_because, self.donor.not_randomised_because_other)
         elif self.donor.multiple_recipients == NO:
             self.excluded_from_analysis_because = "Donor does not have multiple recipients [DO02]"
         elif not self.transplantable:
             self.excluded_from_analysis_because = "Organ marked not transplantable [OR07]: " + \
                 self.not_transplantable_reason if self.not_transplantable_reason else "(No reason given)"
         # Now look at the Allocation options
+        elif not transplant_hospital_is_project_site:
+            try:
+                self.excluded_from_analysis_because = "Allocated to a non-project site ({0})".format(
+                    self.final_allocation.transplant_hospital)
+            except AttributeError:
+                self.excluded_from_analysis_because = "No transplant hospital selected"
+        elif self.final_allocation is not None and self.final_allocation.reallocated is True:
+            self.excluded_from_analysis_because = "ERROR: last allocation shows a reallocation"  # This shouldn't occur!
         elif self.not_allocated_reason:
-            self.excluded_from_analysis_because = "Not allocated because: {0} [OR31]".format(self.not_allocated_reason)
+            self.excluded_from_analysis_because = "Not allocated because: {0} [OR31]".format(
+                self.not_allocated_reason)
         elif self.final_allocation is None:
             self.excluded_from_analysis_because = "No allocations created (and no explanation as yet)"
-        elif not transplant_hospital_is_project_site:
-            self.excluded_from_analysis_because = "Allocated to a non-project site"
-        elif self.final_allocation.reallocated is True:
-            self.excluded_from_analysis_because = "ERROR: last allocation shows a reallocation"  # This shouldn't occur!
         # Do we have a recipient?
         elif self.safe_recipient is None:
             self.excluded_from_analysis_because = "No Recipient has been created for organ"
