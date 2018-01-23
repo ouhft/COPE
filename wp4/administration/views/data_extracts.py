@@ -334,7 +334,8 @@ def report_adverse_events(request):
         "adverseevent.cause_of_death_5",
         "adverseevent.cause_of_death_6",
         "adverseevent.cause_of_death_comment",
-        "adverseevent.organ.final_allocation.transplant_hospital.name"
+        "adverseevent.organ.final_allocation.transplant_hospital.name",
+        "adverseevent.categories list"
     ])
 
     events = Event.objects.all()
@@ -397,18 +398,23 @@ def report_adverse_events(request):
             result_row.append(event.organ.final_allocation.transplant_hospital.name)
         except AttributeError:
             result_row.append("")
+        # Add in the categories that have been applied to this S/AE
+        categories_list = []
+        for category in event.categories.all():
+            categories_list.append(category.description)
+        result_row.append(categories_list)
 
         writer.writerow(result_row)
 
     return response
 
 
-"""
-A simplified output of the main data in a flat table for the statician to interpret. Issue #314. Organ centric listing
-with non-normalised additions of donor, allocation, recipient, and followups.
-"""
 @group_required(Person.STATISTICIAN, Person.CENTRAL_COORDINATOR)
 def report_data_flattened(request):
+    """
+    A simplified output of the main data in a flat table for the statician to interpret. Issue #314. Organ centric listing
+    with non-normalised additions of donor, allocation, recipient, and followups.
+    """
     # Create the HttpResponse object with the appropriate CSV header.
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="wp4_report_adverseevents.csv"'
