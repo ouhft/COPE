@@ -19,7 +19,7 @@ from .utils import generate_username
 
 class TechnicianAutoComplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
-        if not self.request.user.is_authenticated():
+        if not self.request.user.is_authenticated:
             return Person.objects.none()
 
         qs = Person.objects.filter(groups__in=[Person.PERFUSION_TECHNICIAN])

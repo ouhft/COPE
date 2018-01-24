@@ -40,7 +40,7 @@ def index(request):
 
 class RetrievalTeamAutoComplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
-        if not self.request.user.is_authenticated():
+        if not self.request.user.is_authenticated:
             return RetrievalTeam.objects.none()
 
         qs = RetrievalTeam.objects.all()
@@ -53,7 +53,7 @@ class RetrievalTeamAutoComplete(autocomplete.Select2QuerySetView):
 
 class AdverseEventOrganAutoComplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
-        if not self.request.user.is_authenticated():
+        if not self.request.user.is_authenticated:
             return Organ.objects.none()
 
         qs = Organ.objects.for_user(self.request.user).all()

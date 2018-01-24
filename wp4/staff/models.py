@@ -96,6 +96,7 @@ class Person(AbstractUser):
     class Meta:
         verbose_name = _('SPm1 person')
         verbose_name_plural = _('SPm2 people')
+        ordering = ['id']
         permissions = (
             ("single_person", "Can only view their own person record"),
         )

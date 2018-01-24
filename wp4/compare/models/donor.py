@@ -886,6 +886,7 @@ class Organ(AuditControlModelBase):
         verbose_name_plural = _('ORm2 organs')
         default_manager_name = 'objects'
         base_manager_name = 'objects'
+        ordering = ['id']
         permissions = (
             ("view_organ", "Can only view the data"),
             ("restrict_to_national", "Can only use data from the same location country"),
@@ -1277,6 +1278,7 @@ class ProcurementResource(AuditControlModelBase):
     class Meta:
         verbose_name = _('PRm1 procurement resource')
         verbose_name_plural = _('PRm2 procurement resources')
+        ordering = ['id']
         permissions = (
             ("view_procurementresource", "Can only view the data"),
         )

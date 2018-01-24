@@ -16,7 +16,7 @@ from .forms import HospitalForm
 
 class HospitalAutoComplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
-        if not self.request.user.is_authenticated():
+        if not self.request.user.is_authenticated:
             return Hospital.objects.none()
 
         qs = Hospital.objects.all()
