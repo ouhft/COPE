@@ -16,7 +16,7 @@ class HealthEconomicsModelForUserManager(LiveManager, ModelForUserManagerMixin):
         :return: Queryset
         """
         qs = super(HealthEconomicsModelForUserManager, self).get_queryset().\
-            select_related('recipient', 'recipient__allocation')
+            select_related('recipient', 'recipient__allocation').prefetch_related('followup_3m', 'followup_1y')
 
         if self.current_user is not None:
             if self.current_user.is_superuser:

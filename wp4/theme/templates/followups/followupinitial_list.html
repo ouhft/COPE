@@ -22,7 +22,7 @@
     </h2>
 
     {% include 'includes/paginator.html' %}
-    <table class="table table-responsive table-condensed">
+    <table class="table table-responsive table-condensed table-striped">
         <thead>
         <tr>
             <th>ID</th>
@@ -50,7 +50,7 @@
                         {{ follow.id }}
                     {% endif %}
                 </td>
-                <td>{{ follow.organ.trial_id }}</td>
+                <td><samp><span class="text-muted">{{ follow.organ.trial_id|slice:":3" }}</span><span class="">{{ follow.organ.trial_id|slice:"3:5" }}</span><strong>{{ follow.organ.trial_id|slice:"5:8" }}</strong><span class="">{{ follow.organ.trial_id|slice:"8:" }}</span></samp></td>
                 <td>{{ follow.start_date }}</td>
                 <td>{{ follow.has_graft_failed|yesno|capfirst }}</td>
                 <td>{{ follow.was_graft_removed|yesno|capfirst }}</td>

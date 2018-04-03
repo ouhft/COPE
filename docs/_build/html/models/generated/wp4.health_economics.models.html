@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>wp4.health_economics.models &mdash; COPE DB 0.8.6 documentation</title>
+  <title>wp4.health_economics.models &mdash; COPE DB 0.9.1 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="COPE DB 0.8.6 documentation" href="../../index.html"/>
+    <link rel="top" title="COPE DB 0.9.1 documentation" href="../../index.html"/>
         <link rel="up" title="Data Models" href="../index.html"/>
         <link rel="next" title="wp4.locations.models" href="wp4.locations.models.html"/>
         <link rel="prev" title="wp4.followups.models" href="wp4.followups.models.html"/> 
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.8.6
+                0.9.1
               </div>
             
           
@@ -94,7 +94,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../user_manual.html">COPE DB User Manual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../deployment.html">Deployment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../development.html">Development Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../development.html">Development</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../design/wp4_design.html">Design - WP4:Compare</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../design/wp7_design.html">Design - WP7:Biobanking</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Data Models</a><ul class="current">
@@ -180,21 +180,6 @@
             
   <div class="section" id="module-wp4.health_economics.models">
 <span id="wp4-health-economics-models"></span><h1>wp4.health_economics.models<a class="headerlink" href="#module-wp4.health_economics.models" title="Permalink to this headline">¶</a></h1>
-<p class="rubric">Functions</p>
-<table border="1" class="longtable docutils">
-<colgroup>
-<col width="10%" />
-<col width="90%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">reverse</span></code>(viewname[,&nbsp;urlconf,&nbsp;args,&nbsp;kwargs,&nbsp;…])</td>
-<td></td>
-</tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">validate_not_in_future</span></code>(date)</td>
-<td></td>
-</tr>
-</tbody>
-</table>
 <p class="rubric">Classes</p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -202,58 +187,40 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">AuditControlModelBase</span></code>(*args,&nbsp;**kwargs)</td>
-<td>Internal common attributes to aid systematic auditing of records.</td>
-</tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">HealthEconomicsModelForUserManager</span></code>([…])</td>
-<td>QualityOfLife &amp; Resource Logs have their location based on the recipient’s location</td>
-</tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">MaxValueValidator</span></code>(limit_value[,&nbsp;message])</td>
-<td></td>
-</tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">MinValueValidator</span></code>(limit_value[,&nbsp;message])</td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="#wp4.health_economics.models.QualityOfLife" title="wp4.health_economics.models.QualityOfLife"><code class="xref py py-obj docutils literal"><span class="pre">QualityOfLife</span></code></a>(*args,&nbsp;**kwargs)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#wp4.health_economics.models.QualityOfLife" title="wp4.health_economics.models.QualityOfLife"><code class="xref py py-obj docutils literal notranslate"><span class="pre">QualityOfLife</span></code></a>(*args,&nbsp;**kwargs)</td>
 <td>WORK IN PROGRESS - Class definition prone to rapid change</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">Recipient</span></code>(*args,&nbsp;**kwargs)</td>
-<td>Extension of an Patient record (via OneToOne link for good ORM/DB management) to capture the Recipient specific data.</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="#wp4.health_economics.models.ResourceHospitalAdmission" title="wp4.health_economics.models.ResourceHospitalAdmission"><code class="xref py py-obj docutils literal"><span class="pre">ResourceHospitalAdmission</span></code></a>(id,&nbsp;record_locked,&nbsp;…)</td>
+<tr class="row-even"><td><a class="reference internal" href="#wp4.health_economics.models.ResourceHospitalAdmission" title="wp4.health_economics.models.ResourceHospitalAdmission"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ResourceHospitalAdmission</span></code></a>(id,&nbsp;record_locked,&nbsp;…)</td>
 <td><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param id:</th><td class="field-body">”ID”</td>
+<tr class="field-odd field"><th class="field-name">param id:</th><td class="field-body">”ID” :type id: django.db.models.AutoField :param record_locked: “record locked” - locked by the admin team :type record_locked: django.db.models.BooleanField :param live: “live” :type live: livefield.fields.LiveField :param log_id: “log” :type log_id: django.db.models.ForeignKey :param reason: “RH01 reason” :type reason: django.db.models.CharField :param had_surgery: “RH02 had surgery” :type had_surgery: django.db.models.NullBooleanField :param days_in_itu: “RH03 days in itu” :type days_in_itu: django.db.models.PositiveSmallIntegerField :param days_in_hospital: “RH04 days in hospital” :type days_in_hospital: django.db.models.PositiveSmallIntegerField</td>
 </tr>
 </tbody>
 </table>
 </td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#wp4.health_economics.models.ResourceLog" title="wp4.health_economics.models.ResourceLog"><code class="xref py py-obj docutils literal"><span class="pre">ResourceLog</span></code></a>(*args,&nbsp;**kwargs)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#wp4.health_economics.models.ResourceLog" title="wp4.health_economics.models.ResourceLog"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ResourceLog</span></code></a>(*args,&nbsp;**kwargs)</td>
 <td>WORK IN PROGRESS</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">ResourceLogModelForUserManager</span></code>([…])</td>
-<td>Resource Logs have their location based on the recipient’s location</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="#wp4.health_economics.models.ResourceRehabilitation" title="wp4.health_economics.models.ResourceRehabilitation"><code class="xref py py-obj docutils literal"><span class="pre">ResourceRehabilitation</span></code></a>(id,&nbsp;record_locked,&nbsp;…)</td>
+<tr class="row-even"><td><a class="reference internal" href="#wp4.health_economics.models.ResourceRehabilitation" title="wp4.health_economics.models.ResourceRehabilitation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ResourceRehabilitation</span></code></a>(id,&nbsp;record_locked,&nbsp;…)</td>
 <td><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param id:</th><td class="field-body">”ID”</td>
+<tr class="field-odd field"><th class="field-name">param id:</th><td class="field-body">”ID” :type id: django.db.models.AutoField :param record_locked: “record locked” - locked by the admin team :type record_locked: django.db.models.BooleanField :param live: “live” :type live: livefield.fields.LiveField :param log_id: “log” :type log_id: django.db.models.ForeignKey :param reason: “RR01 reason” :type reason: django.db.models.CharField :param days_in_hospital: “RR02 days in hospital” :type days_in_hospital: django.db.models.PositiveSmallIntegerField</td>
 </tr>
 </tbody>
 </table>
 </td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#wp4.health_economics.models.ResourceVisit" title="wp4.health_economics.models.ResourceVisit"><code class="xref py py-obj docutils literal"><span class="pre">ResourceVisit</span></code></a>(id,&nbsp;record_locked,&nbsp;live,&nbsp;log,&nbsp;type)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#wp4.health_economics.models.ResourceVisit" title="wp4.health_economics.models.ResourceVisit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ResourceVisit</span></code></a>(id,&nbsp;record_locked,&nbsp;live,&nbsp;log,&nbsp;type)</td>
 <td><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param id:</th><td class="field-body">”ID”</td>
+<tr class="field-odd field"><th class="field-name">param id:</th><td class="field-body">”ID” :type id: django.db.models.AutoField :param record_locked: “record locked” - locked by the admin team :type record_locked: django.db.models.BooleanField :param live: “live” :type live: livefield.fields.LiveField :param log_id: “log” :type log_id: django.db.models.ForeignKey :param type: “Visit type” :type type: django.db.models.PositiveSmallIntegerField</td>
 </tr>
 </tbody>
 </table>
@@ -293,11 +260,11 @@
 <dd><p>Accessor to the related object on the forward side of a many-to-one or
 one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 <p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
     <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -384,11 +351,11 @@ object the first time, the query is executed.</p>
 <dd><p>Accessor to the related object on the reverse side of a one-to-one
 relation.</p>
 <p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Restaurant</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Restaurant</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
     <span class="n">place</span> <span class="o">=</span> <span class="n">OneToOneField</span><span class="p">(</span><span class="n">Place</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;restaurant&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><code class="docutils literal"><span class="pre">place.restaurant</span></code> is a <code class="docutils literal"><span class="pre">ReverseOneToOneDescriptor</span></code> instance.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Place.restaurant</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseOneToOneDescriptor</span></code> instance.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -397,11 +364,11 @@ relation.</p>
 <dd><p>Accessor to the related object on the reverse side of a one-to-one
 relation.</p>
 <p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Restaurant</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Restaurant</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
     <span class="n">place</span> <span class="o">=</span> <span class="n">OneToOneField</span><span class="p">(</span><span class="n">Place</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;restaurant&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><code class="docutils literal"><span class="pre">place.restaurant</span></code> is a <code class="docutils literal"><span class="pre">ReverseOneToOneDescriptor</span></code> instance.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Place.restaurant</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseOneToOneDescriptor</span></code> instance.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -449,11 +416,11 @@ smaller classes that collectively capture the data.</p>
 <dd><p>Accessor to the related object on the forward side of a many-to-one or
 one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 <p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
     <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -512,13 +479,13 @@ object the first time, the query is executed.</p>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
     <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
 <p>Most of the implementation is delegated to a dynamically defined manager
-class built by <code class="docutils literal"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -541,13 +508,13 @@ object the first time, the query is executed.</p>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
     <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
 <p>Most of the implementation is delegated to a dynamically defined manager
-class built by <code class="docutils literal"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -556,13 +523,13 @@ class built by <code class="docutils literal"><span class="pre">create_forward_m
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
     <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
 <p>Most of the implementation is delegated to a dynamically defined manager
-class built by <code class="docutils literal"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
 </dd></dl>
 
 </dd></dl>
@@ -616,11 +583,11 @@ class built by <code class="docutils literal"><span class="pre">create_forward_m
 <dd><p>Accessor to the related object on the forward side of a many-to-one or
 one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 <p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
     <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -656,7 +623,7 @@ object the first time, the query is executed.</p>
 
 <dl class="method">
 <dt id="wp4.health_economics.models.ResourceVisit.get_type_display">
-<code class="descname">get_type_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.health_economics.models.ResourceVisit.get_type_display" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_type_display</code><span class="sig-paren">(</span><em>*</em>, <em>field=&lt;django.db.models.fields.PositiveSmallIntegerField: type&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.health_economics.models.ResourceVisit.get_type_display" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -702,11 +669,11 @@ object the first time, the query is executed.</p>
 <dd><p>Accessor to the related object on the forward side of a many-to-one or
 one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 <p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
     <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -802,11 +769,11 @@ object the first time, the query is executed.</p>
 <dd><p>Accessor to the related object on the forward side of a many-to-one or
 one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 <p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
     <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -909,7 +876,7 @@ object the first time, the query is executed.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.8.6',
+            VERSION:'0.9.1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

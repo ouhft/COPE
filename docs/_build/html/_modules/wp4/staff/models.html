@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>wp4.staff.models &mdash; COPE DB 0.8.6 documentation</title>
+  <title>wp4.staff.models &mdash; COPE DB 0.9.1 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="COPE DB 0.8.6 documentation" href="../../../index.html"/>
+    <link rel="top" title="COPE DB 0.9.1 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                0.8.6
+                0.9.1
               </div>
             
           
@@ -92,7 +92,7 @@
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../user_manual.html">COPE DB User Manual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../deployment.html">Deployment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../development.html">Development Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../development.html">Development</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../design/wp4_design.html">Design - WP4:Compare</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../design/wp7_design.html">Design - WP7:Biobanking</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../models/index.html">Data Models</a></li>
@@ -165,11 +165,11 @@
 <span class="c1"># coding: utf-8</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">unicode_literals</span>
 
+<span class="kn">from</span> <span class="nn">django.conf</span> <span class="k">import</span> <span class="n">settings</span>
 <span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="k">import</span> <span class="n">AbstractUser</span>
-<span class="kn">from</span> <span class="nn">django.core.urlresolvers</span> <span class="k">import</span> <span class="n">reverse</span>
 <span class="kn">from</span> <span class="nn">django.core.validators</span> <span class="k">import</span> <span class="n">RegexValidator</span>
 <span class="kn">from</span> <span class="nn">django.db</span> <span class="k">import</span> <span class="n">models</span>
-<span class="kn">from</span> <span class="nn">django.conf</span> <span class="k">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">django.urls</span> <span class="k">import</span> <span class="n">reverse</span>
 <span class="kn">from</span> <span class="nn">django.utils.functional</span> <span class="k">import</span> <span class="n">cached_property</span>
 <span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="k">import</span> <span class="n">ugettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
 
@@ -217,9 +217,9 @@
     <span class="p">)</span>  <span class="c1">#: Contents validated against phone_regex ``r&#39;^\+?1?\d{9,15}$&#39;``</span>
     <span class="n">based_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span>
         <span class="n">Hospital</span><span class="p">,</span>
+        <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">PROTECT</span><span class="p">,</span>
         <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;SP02 location&quot;</span><span class="p">),</span>
-        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Link to a primary hospital location for the member of staff&quot;</span>
     <span class="p">)</span>
 
@@ -259,6 +259,7 @@
     <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
         <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;SPm1 person&#39;</span><span class="p">)</span>
         <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;SPm2 people&#39;</span><span class="p">)</span>
+        <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
         <span class="n">permissions</span> <span class="o">=</span> <span class="p">(</span>
             <span class="p">(</span><span class="s2">&quot;single_person&quot;</span><span class="p">,</span> <span class="s2">&quot;Can only view their own person record&quot;</span><span class="p">),</span>
         <span class="p">)</span>
@@ -304,7 +305,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.8.6',
+            VERSION:'0.9.1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

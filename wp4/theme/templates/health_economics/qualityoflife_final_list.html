@@ -2,12 +2,12 @@
 
 
 {% block page_title %}Quality of Life : Health Economics{% endblock %}
-{% block page_header %}Quality of Life <small>All Results</small>{% endblock %}
+{% block page_header %}Quality of Life <small>Final</small>{% endblock %}
 {% block page_trail %}
     <li><a href="{% url 'home' %}">Home</a></li>
     <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
     <li><a href="{% url 'wp4:health-economics:index' %}">Health Economics</a></li>
-    <li class="active">Quality of Life: All Results</li>
+    <li class="active">Quality of Life: Final</li>
 {% endblock %}
 
 
@@ -20,8 +20,6 @@
                 <th>ID {% include 'includes/sort_column.html' with sort_by_field='id' %}</th>
                 <th>Recipient {% include 'includes/sort_column.html' with sort_by_field='recipient__organ__trial_id' default_sort=True %}</th>
                 <th>Date {% include 'includes/sort_column.html' with sort_by_field='date_recorded' %}</th>
-                <th>Month 3 ID?</th>
-                <th>Final ID?</th>
             </tr>
             </thead>
             <tbody>
@@ -33,10 +31,6 @@
                     <td><samp><span class="text-muted">{{ qol_record.recipient.trial_id|slice:":3" }}</span><span class="">{{ qol_record.recipient.trial_id|slice:"3:5" }}</span><strong>{{ qol_record.recipient.trial_id|slice:"5:8" }}</strong><span class="">{{ qol_record.recipient.trial_id|slice:"8:" }}</span></samp></td>
 {#                    <td>{{ qol_record.recipient.trial_id }}</td>#}
                     <td>{{ qol_record.date_recorded }}</td>
-                    <td>{% if qol_record.followup_3m.id %}<a href="{% url 'wp4:follow-ups:month3_detail' qol_record.followup_3m.id %}" class="btn btn-xs btn-default"><i
-                            class="glyphicon glyphicon-eye-open"></i> {{ qol_record.followup_3m.id }}</a>{% endif %}</td>
-                    <td>{% if qol_record.followup_1y.id %}<a href="{% url 'wp4:follow-ups:final_detail' qol_record.followup_1y.id %}" class="btn btn-xs btn-default"><i
-                            class="glyphicon glyphicon-eye-open"></i> {{ qol_record.followup_1y.id }}</a>{% endif %}</td>
                 </tr>
             {% endfor %}
             </tbody>
@@ -45,5 +39,5 @@
     {% else %}
         <p>No records are available.</p>
     {% endif %}
-{#    <p><a href="{% url "wp4:health-economics:add" %}" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Add Record</a></p>#}
+{#    <p><a href="{% url "wp4:health-economics:add" %}" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Add Baseline Record</a></p>#}
 {% endblock %}

@@ -57,10 +57,25 @@ class AjaxFormMixin(object):
 class QualityOfLifeListView(AjaxReturnIDMixin, LoginRequiredMixin, OrderableListMixin, ListView):
     model = QualityOfLife
     ordering = "id"
-    paginate_by = 25
+    paginate_by = 100
     paginate_orphans = 5
-    orderable_columns = ("id", "date_recorded")
-    orderable_columns_default = "id"
+    orderable_columns = ("id", "recipient__organ__trial_id", "date_recorded")
+    orderable_columns_default = "recipient__organ__trial_id"
+
+
+class QualityOfLifeBaselineListView(QualityOfLifeListView):
+    queryset = QualityOfLife.objects.filter(followup_3m__isnull=True, followup_1y__isnull=True)
+    template_name = "health_economics/qualityoflife_baseline_list.html"
+
+
+class QualityOfLifeMonth3ListView(QualityOfLifeListView):
+    queryset = QualityOfLife.objects.filter(followup_3m__isnull=False, followup_1y__isnull=True)
+    template_name = "health_economics/qualityoflife_month3_list.html"
+
+
+class QualityOfLifeFinalListView(QualityOfLifeListView):
+    queryset = QualityOfLife.objects.filter(followup_3m__isnull=True, followup_1y__isnull=False)
+    template_name = "health_economics/qualityoflife_final_list.html"
 
 
 class QualityOfLifeDetailView(AjaxReturnIDMixin, DetailView):

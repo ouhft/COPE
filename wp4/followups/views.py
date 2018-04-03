@@ -70,7 +70,7 @@ class FollowUpInitialListView(LoginRequiredMixin, MultiplePermissionsRequiredMix
         "all": (),
         "any": ("followups.change_followupinitial", "followups.view_followupinitial"),
     }
-    paginate_by = 25
+    paginate_by = 100
     orderable_columns = ("organ__trial_id", "start_date",)
     orderable_columns_default = "organ__trial_id"
 
@@ -102,7 +102,7 @@ class FollowUp3MListView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, O
         "all": (),
         "any": ("followups.change_followup3m", "followups.view_followup3m"),
     }
-    paginate_by = 25
+    paginate_by = 100
     orderable_columns = ("organ__trial_id", "start_date",)
     orderable_columns_default = "organ__trial_id"
 
@@ -133,7 +133,7 @@ class FollowUp6MListView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, O
         "all": (),
         "any": ("followups.change_followup6m", "followups.view_followup6m"),
     }
-    paginate_by = 25
+    paginate_by = 100
     orderable_columns = ("organ__trial_id", "start_date",)
     orderable_columns_default = "organ__trial_id"
 
@@ -164,7 +164,7 @@ class FollowUp1YListView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, O
         "all": (),
         "any": ("followups.change_followup1y", "followups.view_followup1y"),
     }
-    paginate_by = 25
+    paginate_by = 100
     orderable_columns = ("organ__trial_id", "start_date",)
     orderable_columns_default = "organ__trial_id"
 

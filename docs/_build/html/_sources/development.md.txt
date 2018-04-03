@@ -1,13 +1,27 @@
-# Development Setup
+# Development
 
-Base system is macOS 10.12.3 (Sierra), and I've got this environment setup in two locations so far. This document
-mostly details how the second environment was built (to match the first - which has evolved from OS X 10.7 times)
+Base system is presently (Aug 2017) macOS 10.12.6 (Sierra), and I've got this environment setup in two locations so far. 
+
+## Maintainence
+    
+Periodically Homebrew needs updates, so copy these steps:
+
+```
+brew update
+brew upgrade
+brew doctor
+```
+
+
+## Setup
+
+This document mostly details how the second environment was built (to match the first - which has evolved from OS X 10.7 times)
 
 Most of my approach is based on [http://hackercodex.com/guide/python-development-environment-on-mac-osx/]() (which is the
 updated version of the guide I've used for the past 4 years)
 
 
-## User credentials
+### User credentials
 
 As a new user account (on a new machine, but that bit is irrelevant) we need to create an SSH key for access to things
 like GitHub and cope.nds Server.::
@@ -21,20 +35,22 @@ With a key generated, it can be added to:
 
 * cope.nds authorised_keys
 * webfaction authorised_keys
-* GitHub marshalc keys
+* GitHub personal account (i.e. marshalc) keys
 
 This needs to be done for GitHub at least, before you can so the project setup below
 
 
-## Third party apps in use
+### Third party apps
 
-* **IDE:** PyCharm - from http://www.jetbrains.com. I'm using the Professional 2016.3 version.
-* **Utility:** CodeKit - from http://incident57.com/codekit/. Currently v2.4
-* **Utility:** CyberDuck - from . Currently v4.7.2
-* **Base libraries:** Homebrew - from http://brew.sh. More on its installation later.
+The following have been used during the build and maintainence of this system:
+
+* **IDE:** PyCharm - from [https://www.jetbrains.com/pycharm/](). I'm using the Professional 2017.2 version.
+* **Utility:** CodeKit - from [http://incident57.com/codekit/](). Currently v3.3
+* **Utility:** CyberDuck - from [https://cyberduck.io](). Currently v6.2.2
+* **Base libraries:** Homebrew - from [http://brew.sh](). More on its installation later.
 
 
-### Brew installation
+#### Brew installation
 
 Easy enough, just follow the instructions on the Homebrew website. ::
 
@@ -51,15 +67,7 @@ install that now::
     brew install readline
     # Also helpful, but not essential
     brew install bash-completion ssh-copy-id wget
-    
-#### Maintainance
-Periodically Homebrew needs updates, so copy these steps:
 
-```
-brew update
-brew upgrade
-brew doctor
-```
 
 ### Python setup
 
@@ -110,7 +118,7 @@ Then as part of `vi ~/.bash_profile` we add::
 
 Don't forget to `source ~/.bash_profile` at the end if you want to use this session with this setup!
 
-## Project setup
+### Project setup
 
 With the base tools in place, we can now setup the development environment for the project itself. We'll create a
 virtualenv project for development, then get the latest code from the central github repository. NB: This has been updated to reflect the change from python 2.7 to python 3 (3.5 or 3.6):
@@ -138,7 +146,7 @@ virtualenv project for development, then get the latest code from the central gi
     ## pm loaddata config/fixtures/01_hospitals.json
 
 
-## PyCharm setup
+### PyCharm setup
 
 Now we can head to PyCharm and make the project available, along with debug options, etc
 
@@ -155,6 +163,10 @@ Now we can head to PyCharm and make the project available, along with debug opti
 ## Useful things to remember
 
 * `pip list -o` will list the installed packages that have been superceded/outdated
+* Unrelated, but likely useful to remember: Command to get pip to update all installed packages ::
+	
+	pip list --outdated
+	pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U
 
 ## Documentation
 Sphinx is now installed in the development branch to allow documentation to be generated. Notes on the setup of this can be found at: [https://gist.github.com/marshalc/327fc737ce0557a253c0c3d57f679292]()

@@ -2,22 +2,124 @@
 
 This is a list of changes made to the website and application for each release.
 
+## v0.8.2 (16 Jun 2017) - Bugfix
+
+## v0.8.1 (31 Mar 2017) - Bugfix
+* Issue #262: 
+  - Fixes the incorrect date math for `activate_followups_in_window()` 
+  - Added the start of a Follow Ups report to help debug this issue
+  - Basic Admin updates for Samples app
+* Issue #265:
+  - New template tag produced to allow progamatic changes to querystring values
+  - Template tag used in paginator
+  - Sort Columns extracted as an include, to use the `query_transform` tag and simplified calling
+  - Modified the main listing templates that had manually implemented sorting
+* Issue #251:
+  - Cleaned up Administration index page, added some permission checking for displaying of links
+  - Refactored the Administration App views into separate files for clarity
+  - Checked permissions match between view and index display
+  - Fixed broken link in SAE Sites template (the origin for this issue)
+* Issue #252 - Fixed ISE from bad reference
+* Issue #258 - Add a Key Description to the Combined Pairs report. Added new DMC reports:
+  - Adverse Events
+  - Serious Events
+  - Graft Failures
+* Issue #273 - Fixed broken link in S/AE Alert emails
+* Issue #260 - ISE: SAE - String index out of range, which was due to missing or invalid email addresses in the data.
+* DMC Reports:
+  - Added DMC Permanent Impairment Report
+  - Added permissions checking for DMC reports
+  - Fixed default url for Adverse Events to Detail, rather than update
+  - Added a link back to edit the event from Detail
+  - Adverse events, new calculation method and totals
+  - Serious Adverse events, new calculation method and totals
+  - Added categories to Adverse Event report
+  - Added categories to Serious Adverse Event report
+  - OPEN report versions added for SAE, AE, and Graft Failure reports. Death and Impairment left to do.
+  - Index listing permissions refined to allow for Open reports to be viewed by Administrators that are blinded to randomisation
+* Enhanced Completed Pairs to show what happens to Non-allocated Eligible Kidneys, and highlighting of pairs without CC data
+
+## v0.8.0 (21 Mar 2017) - People and Permissions
+
+### New Features
+* Documentation for COPE DB now published on each server. Production version at [https://cope.nds.ox.ac.uk/docs/]() (and same subdirectory on Test/Staging)
+* New Staff tool that allows for easier and effective management of users by the Co-ordinators. Adds extra roles for National and Central Investigators.
+* Samples have had their data entry forms overhauled, with Worksheets removed as a concept (and data linkage). There's now a display version for each type of sample as well as the data entry form (Issue [#130](https://github.com/AllyBradley/COPE/issues/130), [#26](https://github.com/AllyBradley/COPE/issues/26), & [#241](https://github.com/AllyBradley/COPE/issues/241))
+* Follow Ups are now produced based on a schedule, rather than previous data entry actions (Issue [#140](https://github.com/AllyBradley/COPE/issues/140)). However, a complete Recipient record is needed before this can happen, which means completing most of the Transplant Form.
+  - Initial Follow Up to be generated on creation of Recipient record
+  - 3M Follow Up to be generated 70 days after Randomisation Date
+  - 6M Follow Up to be generated 150 days after Randomisation Date
+  - 12M Follow Up to be generated 300 days after Randomisation Date
+
+### Main Changes
+* Banner added on Test Site to announce THIS IS THE TEST SYSTEM due to user confusion and errors
+* Added extra fields to S/AE reporting (Issue [#170](https://github.com/AllyBradley/COPE/issues/170))
+* Amended S/AE report for Statistician (Issue [#188](https://github.com/AllyBradley/COPE/issues/188))
+* New reports added for DMC and Co-ordinators (e.g. Completed Pairs, Donor Flowchart, DMC Death Summaries, DMC Secondary Outcomes, etc)
+* Removed validation check for a Perfusion Technician to be entered on the Transplant Form (Issue [#192](https://github.com/AllyBradley/COPE/issues/192))
+* Implementation of a "soft-delete" function for Administrators (the introduction of LiveField on core models)
+* Removed "Worksheets" from Samples as these were not being effectively used and causing data conflicts (Issue [#129](https://github.com/AllyBradley/COPE/issues/129))
+* Password change no longer requires admin access (Issue [#160](https://github.com/AllyBradley/COPE/issues/160))
+* New permissions added to support Read Only or Geographically bounded access to data (Issue [#167](https://github.com/AllyBradley/COPE/issues/167))
+* Cold Storage validation modified (Issue [#146](https://github.com/AllyBradley/COPE/issues/146)) to partly address problems with the data entered so far, however there are outstanding concerns over this topic
+* Date of Death as recored by an S/AE form has been moved from being specific to each S/AE record/form and correctly reassigned to the relevant Recipient record. This means that any further S/AE forms will all show and reference the same DoD. (Issue [#163](https://github.com/AllyBradley/COPE/issues/163))
+* S/AE Emails send on saving (Issue [#155](https://github.com/AllyBradley/COPE/issues/155))
+* The 0.8.0 Release introduced Database Breaking changes, and so there is no automatic migration path from earlier versions to this release. New database setup scripts were generated, and lots of manual effort has been put in to port (and clean) the data between releases.
+* Added Categorisation to S/AE events (Issue [#190](https://github.com/AllyBradley/COPE/issues/190))
+* Changed the need to link Donor to a specific hospital, and allow freetext records (Issue [#211](https://github.com/AllyBradley/COPE/issues/211))
+* Removed Transplant Technicians' ability to add-new/edit Allocation Hospitals (Issue [#212](https://github.com/AllyBradley/COPE/issues/212))
+* Restricted Allocation locations on Transplant form to Project Sites + "other" (Issue [#210](https://github.com/AllyBradley/COPE/issues/210))
+* Removed duplicate Staff records introduced through a combination of human error and process logic (Issue [#180](https://github.com/AllyBradley/COPE/issues/180))
+* Trial ID autocomplete added for S/AE Forms (Issue [#157](https://github.com/AllyBradley/COPE/issues/157))
+* Administrators can now edit closed Procurement and Transplant forms (Issue [#168](https://github.com/AllyBradley/COPE/issues/168))
+
+### Minor or Background Changes
+
+* Various library updates for security improvements
+* Typos corrected (Issues [#87](https://github.com/AllyBradley/COPE/issues/87) & [#86](https://github.com/AllyBradley/COPE/issues/86))
+* Documentation updates
+* Re-enabled ReVersion-Compare after updates to library
+* GitIgnore tweaked to account for database copies in use during development
+* New Groups fixture added (Issue [#208](https://github.com/AllyBradley/COPE/issues/208))
+* Moved Admin reports and functions into their own Administration app (from Compare app)
+* Added the Staff App (Issue [#208](https://github.com/AllyBradley/COPE/issues/208))
+* Changed the core Auth model to use the new Staff model, and the subsequent data migrations and cleanup needed to enable this
+* StaffJob profiles have been replaced with Auth.Groups (Issue [#167](https://github.com/AllyBradley/COPE/issues/167))
+* Modified the database backup script to compress on backup due to space constraints
+* Added script to send an email on server boot and shutdown (Issue [#132](https://github.com/AllyBradley/COPE/issues/132))
+* Configuration to support logrotation added (Issue [#135](https://github.com/AllyBradley/COPE/issues/135)) 
+* Fixed a logrotate permissions bug (Issue [#138](https://github.com/AllyBradley/COPE/issues/138))
+* Added `Organ.was_cold_stored` as per Issue [#166](https://github.com/AllyBradley/COPE/issues/166)
+* Changed hardcoded email references to use Staff record details (Issue [#239](https://github.com/AllyBradley/COPE/issues/239))
+* Refactoring including: `adverse_event.AdverseEvent` renamed to `adverse_event.event`, `OrganPerson` renamed to `Patient`, and `VersionControlMixin` rebuilt as `AuditControlModelBase`
+* Added limited ordering to the S/AE, HE-QoL, and FU listings
+* Added `Trial_ID` as a database field, and changed the way the IDs are generated so as to populate this
+* Added `allocated_by` to Randomisation to help clear up who performed the randomisation (Issue [#223](https://github.com/AllyBradley/COPE/issues/223))
+* Fixed select Perfusion Technician (Theatre contact, etc) listing missing names for display bug (Issue [#226](https://github.com/AllyBradley/COPE/issues/226))
+* `created_by` removed from base model class as mostly unused and creating surplus data linkage redundancies
+* Basic admin supports triggering a password change for `Staff.Person` records (Issue [#229](https://github.com/AllyBradley/COPE/issues/229))
+* Quality of Life model form now loads the DateTime picker tool (Issue [#109](https://github.com/AllyBradley/COPE/issues/109))
+* Fixed Donor not proceeding - appearing without cause bug (Issue [#221](https://github.com/AllyBradley/COPE/issues/221))
+* Linked fixed on repository ReadMe (Issue [#171](https://github.com/AllyBradley/COPE/issues/171))
+
+
+
 ## v0.6.4 (14 Oct 2016) - Bugfix
 * Security updates to core libraries
-* Added Admin report for SAE Summary (Issue #126)
-* Added Admin report for Transplantation Sites (Issue #125)
-* Added Admin report for Procurement Pairs (Issue #123)
+* Added Admin report for SAE Summary (Issue [#126](https://github.com/AllyBradley/COPE/issues/126))
+* Added Admin report for Transplantation Sites (Issue [#125](https://github.com/AllyBradley/COPE/issues/125))
+* Added Admin report for Procurement Pairs (Issue [#123](https://github.com/AllyBradley/COPE/issues/123))
 
 ## v0.6.3 (3 Aug 2016) - Bugfix
-* Fixed an error after randomisation bug (Issue #120)
-* Increased loading speed for Samples (Issue #77)
-* Added Admin link to cases (Issue #117)
+* Fixed an error after randomisation bug (Issue [#120](https://github.com/AllyBradley/COPE/issues/120))
+* Increased loading speed for Samples (Issue [#77](https://github.com/AllyBradley/COPE/issues/77))
+* Added Admin link to cases (Issue [#117](https://github.com/AllyBradley/COPE/issues/117))
 
 ## v0.6.2 (5 July 2016) - Bugfix
-* Labelling change for Transplantation form (Issue #58)
+* Labelling change for Transplantation form (Issue [#58](https://github.com/AllyBradley/COPE/issues/58))
 
 ## v0.6.1 (1 July 2016) - Bugfix
-* Resolved Internal Server Errors due to an issue with date_of_birth (Issue #116)
+* Resolved Internal Server Errors due to an issue with date_of_birth (Issue [#116](https://github.com/AllyBradley/COPE/issues/116))
 
 ## v0.6.0 (21 June 2016) - The Follow Up edition
 ### New Features

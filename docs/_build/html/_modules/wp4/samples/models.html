@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>wp4.samples.models &mdash; COPE DB 0.8.6 documentation</title>
+  <title>wp4.samples.models &mdash; COPE DB 0.9.1 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="COPE DB 0.8.6 documentation" href="../../../index.html"/>
+    <link rel="top" title="COPE DB 0.9.1 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                0.8.6
+                0.9.1
               </div>
             
           
@@ -92,7 +92,7 @@
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../user_manual.html">COPE DB User Manual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../deployment.html">Deployment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../development.html">Development Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../development.html">Development</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../design/wp4_design.html">Design - WP4:Compare</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../design/wp7_design.html">Design - WP7:Biobanking</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../models/index.html">Data Models</a></li>
@@ -168,8 +168,8 @@
 <span class="kn">from</span> <span class="nn">django.contrib.contenttypes.fields</span> <span class="k">import</span> <span class="n">GenericForeignKey</span><span class="p">,</span> <span class="n">GenericRelation</span>
 <span class="kn">from</span> <span class="nn">django.contrib.contenttypes.models</span> <span class="k">import</span> <span class="n">ContentType</span>
 <span class="kn">from</span> <span class="nn">django.core.validators</span> <span class="k">import</span> <span class="n">ValidationError</span>
-<span class="kn">from</span> <span class="nn">django.core.urlresolvers</span> <span class="k">import</span> <span class="n">reverse</span>
 <span class="kn">from</span> <span class="nn">django.db</span> <span class="k">import</span> <span class="n">models</span>
+<span class="kn">from</span> <span class="nn">django.urls</span> <span class="k">import</span> <span class="n">reverse</span>
 <span class="kn">from</span> <span class="nn">django.utils</span> <span class="k">import</span> <span class="n">timezone</span>
 <span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="k">import</span> <span class="n">ugettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
 
@@ -335,11 +335,12 @@
 
     <span class="n">event</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span>
         <span class="n">Event</span><span class="p">,</span>
+        <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">PROTECT</span><span class="p">,</span>
         <span class="n">limit_choices_to</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">Event</span><span class="o">.</span><span class="n">TYPE_BLOOD</span><span class="p">},</span>
         <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Link to an event of type Blood&quot;</span>
     <span class="p">)</span>
     <span class="n">blood_type</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;BS02 blood sample type&quot;</span><span class="p">),</span> <span class="n">choices</span><span class="o">=</span><span class="n">SAMPLE_CHOICES</span><span class="p">)</span>
-    <span class="n">person</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Patient</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;BS03 sample from&quot;</span><span class="p">))</span>
+    <span class="n">person</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Patient</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">PROTECT</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;BS03 sample from&quot;</span><span class="p">))</span>
     <span class="n">centrifuged_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;BS01 centrifuged at&quot;</span><span class="p">),</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">wp7_location</span> <span class="o">=</span> <span class="n">GenericRelation</span><span class="p">(</span><span class="n">WP7Record</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
@@ -382,10 +383,11 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">event</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span>
         <span class="n">Event</span><span class="p">,</span>
+        <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">PROTECT</span><span class="p">,</span>
         <span class="n">limit_choices_to</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">Event</span><span class="o">.</span><span class="n">TYPE_URINE</span><span class="p">},</span>
         <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Link to an event of type Urine&quot;</span>
     <span class="p">)</span>
-    <span class="n">person</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Patient</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;US02 sample from&quot;</span><span class="p">))</span>
+    <span class="n">person</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Patient</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">PROTECT</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;US02 sample from&quot;</span><span class="p">))</span>
     <span class="n">centrifuged_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;US01 centrifuged at&quot;</span><span class="p">),</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">wp7_location</span> <span class="o">=</span> <span class="n">GenericRelation</span><span class="p">(</span><span class="n">WP7Record</span><span class="p">)</span>
 
@@ -428,10 +430,11 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">event</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span>
         <span class="n">Event</span><span class="p">,</span>
+        <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">PROTECT</span><span class="p">,</span>
         <span class="n">limit_choices_to</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">Event</span><span class="o">.</span><span class="n">TYPE_PERFUSATE</span><span class="p">},</span>
         <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Link to an event of type Perfusate&quot;</span>
     <span class="p">)</span>
-    <span class="n">organ</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Organ</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;PS02 sample from&quot;</span><span class="p">))</span>
+    <span class="n">organ</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Organ</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">PROTECT</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;PS02 sample from&quot;</span><span class="p">))</span>
     <span class="n">centrifuged_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;PS01 centrifuged at&quot;</span><span class="p">),</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">wp7_location</span> <span class="o">=</span> <span class="n">GenericRelation</span><span class="p">(</span><span class="n">WP7Record</span><span class="p">)</span>
 
@@ -481,10 +484,11 @@
 
     <span class="n">event</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span>
         <span class="n">Event</span><span class="p">,</span>
+        <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">PROTECT</span><span class="p">,</span>
         <span class="n">limit_choices_to</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">Event</span><span class="o">.</span><span class="n">TYPE_TISSUE</span><span class="p">},</span>
         <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Link to an event of type Tissue&quot;</span>
     <span class="p">)</span>
-    <span class="n">organ</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Organ</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;TS01 sample from&quot;</span><span class="p">))</span>
+    <span class="n">organ</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Organ</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">PROTECT</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;TS01 sample from&quot;</span><span class="p">))</span>
     <span class="n">tissue_type</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">SAMPLE_CHOICES</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;TS02 tissue sample type&quot;</span><span class="p">))</span>
     <span class="n">wp7_location</span> <span class="o">=</span> <span class="n">GenericRelation</span><span class="p">(</span><span class="n">WP7Record</span><span class="p">)</span>
 
@@ -543,7 +547,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.8.6',
+            VERSION:'0.9.1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

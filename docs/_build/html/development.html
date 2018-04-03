@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Development Setup &mdash; COPE DB 0.8.6 documentation</title>
+  <title>Development &mdash; COPE DB 0.9.1 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="COPE DB 0.8.6 documentation" href="index.html"/>
+    <link rel="top" title="COPE DB 0.9.1 documentation" href="index.html"/>
         <link rel="next" title="Design - WP4:Compare" href="design/wp4_design.html"/>
         <link rel="prev" title="Deployment" href="deployment.html"/> 
 
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.8.6
+                0.9.1
               </div>
             
           
@@ -93,18 +93,19 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="user_manual.html">COPE DB User Manual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="deployment.html">Deployment</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Development Setup</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#user-credentials">User credentials</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#third-party-apps-in-use">Third party apps in use</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#brew-installation">Brew installation</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#maintainance">Maintainance</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Development</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#maintainence">Maintainence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#setup">Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#user-credentials">User credentials</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#third-party-apps">Third party apps</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#brew-installation">Brew installation</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#python-setup">Python setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#project-setup">Project setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pycharm-setup">PyCharm setup</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#project-setup">Project setup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#pycharm-setup">PyCharm setup</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#useful-things-to-remember">Useful things to remember</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#documentation">Documentation</a></li>
 </ul>
@@ -157,7 +158,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Development Setup</li>
+      <li>Development</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -176,17 +177,28 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="development-setup">
-<span id="development-setup"></span><h1>Development Setup<a class="headerlink" href="#development-setup" title="Permalink to this headline">¶</a></h1>
-<p>Base system is macOS 10.12.3 (Sierra), and I've got this environment setup in two locations so far. This document
-mostly details how the second environment was built (to match the first - which has evolved from OS X 10.7 times)</p>
+  <div class="section" id="development">
+<span id="development"></span><h1>Development<a class="headerlink" href="#development" title="Permalink to this headline">¶</a></h1>
+<p>Base system is presently (Aug 2017) macOS 10.12.6 (Sierra), and I’ve got this environment setup in two locations so far.</p>
+<div class="section" id="maintainence">
+<span id="maintainence"></span><h2>Maintainence<a class="headerlink" href="#maintainence" title="Permalink to this headline">¶</a></h2>
+<p>Periodically Homebrew needs updates, so copy these steps:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">brew</span> <span class="n">update</span>
+<span class="n">brew</span> <span class="n">upgrade</span>
+<span class="n">brew</span> <span class="n">doctor</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="setup">
+<span id="setup"></span><h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h2>
+<p>This document mostly details how the second environment was built (to match the first - which has evolved from OS X 10.7 times)</p>
 <p>Most of my approach is based on <a class="reference external" href="#">http://hackercodex.com/guide/python-development-environment-on-mac-osx/</a> (which is the
-updated version of the guide I've used for the past 4 years)</p>
+updated version of the guide I’ve used for the past 4 years)</p>
 <div class="section" id="user-credentials">
-<span id="user-credentials"></span><h2>User credentials<a class="headerlink" href="#user-credentials" title="Permalink to this headline">¶</a></h2>
+<span id="user-credentials"></span><h3>User credentials<a class="headerlink" href="#user-credentials" title="Permalink to this headline">¶</a></h3>
 <p>As a new user account (on a new machine, but that bit is irrelevant) we need to create an SSH key for access to things
 like GitHub and cope.nds Server.::</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="o">~/.</span><span class="n">ssh</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="o">~/.</span><span class="n">ssh</span>
 <span class="n">chmod</span> <span class="mi">700</span> <span class="o">~/.</span><span class="n">ssh</span>
 <span class="n">ssh</span><span class="o">-</span><span class="n">keygen</span> <span class="o">-</span><span class="n">t</span> <span class="n">rsa</span> <span class="o">-</span><span class="n">b</span> <span class="mi">4096</span>
 <span class="c1"># Follow onscreen prompts for name of key and empty passphrase</span>
@@ -196,22 +208,23 @@ like GitHub and cope.nds Server.::</p>
 <ul class="simple">
 <li>cope.nds authorised_keys</li>
 <li>webfaction authorised_keys</li>
-<li>GitHub marshalc keys</li>
+<li>GitHub personal account (i.e. marshalc) keys</li>
 </ul>
 <p>This needs to be done for GitHub at least, before you can so the project setup below</p>
 </div>
-<div class="section" id="third-party-apps-in-use">
-<span id="third-party-apps-in-use"></span><h2>Third party apps in use<a class="headerlink" href="#third-party-apps-in-use" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="third-party-apps">
+<span id="third-party-apps"></span><h3>Third party apps<a class="headerlink" href="#third-party-apps" title="Permalink to this headline">¶</a></h3>
+<p>The following have been used during the build and maintainence of this system:</p>
 <ul class="simple">
-<li><strong>IDE:</strong> PyCharm - from http://www.jetbrains.com. I'm using the Professional 2016.3 version.</li>
-<li><strong>Utility:</strong> CodeKit - from http://incident57.com/codekit/. Currently v2.4</li>
-<li><strong>Utility:</strong> CyberDuck - from . Currently v4.7.2</li>
-<li><strong>Base libraries:</strong> Homebrew - from http://brew.sh. More on its installation later.</li>
+<li><strong>IDE:</strong> PyCharm - from <a class="reference external" href="#">https://www.jetbrains.com/pycharm/</a>. I’m using the Professional 2017.2 version.</li>
+<li><strong>Utility:</strong> CodeKit - from <a class="reference external" href="#">http://incident57.com/codekit/</a>. Currently v3.3</li>
+<li><strong>Utility:</strong> CyberDuck - from <a class="reference external" href="#">https://cyberduck.io</a>. Currently v6.2.2</li>
+<li><strong>Base libraries:</strong> Homebrew - from <a class="reference external" href="#">http://brew.sh</a>. More on its installation later.</li>
 </ul>
 <div class="section" id="brew-installation">
-<span id="brew-installation"></span><h3>Brew installation<a class="headerlink" href="#brew-installation" title="Permalink to this headline">¶</a></h3>
+<span id="brew-installation"></span><h4>Brew installation<a class="headerlink" href="#brew-installation" title="Permalink to this headline">¶</a></h4>
 <p>Easy enough, just follow the instructions on the Homebrew website. ::</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ruby</span> <span class="o">-</span><span class="n">e</span> <span class="s2">&quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ruby</span> <span class="o">-</span><span class="n">e</span> <span class="s2">&quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</span>
 <span class="c1"># Accept suggestions, and enter password for sudo</span>
 <span class="n">brew</span> <span class="n">doctor</span>
 <span class="c1"># Recommends running the xcode install to get the 10.10 SDK which isn&#39;t implicit in the XCode 7 install</span>
@@ -219,39 +232,31 @@ like GitHub and cope.nds Server.::</p>
 <span class="c1"># This prompts a gui installer to pop up, so click to accept.</span>
 </pre></div>
 </div>
-<p>Of the various base libraries that come up for use in various projects, one that seems to be key is <code class="docutils literal"><span class="pre">readline</span></code>, so we'll
+<p>Of the various base libraries that come up for use in various projects, one that seems to be key is <code class="docutils literal notranslate"><span class="pre">readline</span></code>, so we’ll
 install that now::</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">brew</span> <span class="n">install</span> <span class="n">readline</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">brew</span> <span class="n">install</span> <span class="n">readline</span>
 <span class="c1"># Also helpful, but not essential</span>
 <span class="n">brew</span> <span class="n">install</span> <span class="n">bash</span><span class="o">-</span><span class="n">completion</span> <span class="n">ssh</span><span class="o">-</span><span class="n">copy</span><span class="o">-</span><span class="nb">id</span> <span class="n">wget</span>
-</pre></div>
-</div>
-<div class="section" id="maintainance">
-<span id="maintainance"></span><h4>Maintainance<a class="headerlink" href="#maintainance" title="Permalink to this headline">¶</a></h4>
-<p>Periodically Homebrew needs updates, so copy these steps:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">brew</span> <span class="n">update</span>
-<span class="n">brew</span> <span class="n">upgrade</span>
-<span class="n">brew</span> <span class="n">doctor</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="section" id="python-setup">
 <span id="python-setup"></span><h3>Python setup<a class="headerlink" href="#python-setup" title="Permalink to this headline">¶</a></h3>
-<p>Start by putting Homebrew's python installs into the system to avoid conflicts with the system python::</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">brew</span> <span class="n">install</span> <span class="n">python</span> <span class="n">python3</span> <span class="n">gettext</span>
+<p>Start by putting Homebrew’s python installs into the system to avoid conflicts with the system python::</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">brew</span> <span class="n">install</span> <span class="n">python</span> <span class="n">python3</span> <span class="n">gettext</span>
 <span class="n">brew</span> <span class="n">link</span> <span class="n">gettext</span> <span class="o">--</span><span class="n">force</span>   <span class="c1"># This is to enable the language files to be processed in Django</span>
 </pre></div>
 </div>
 <p>Have installed both python (2.7.10) and python3 (3.6) brew packages, which gives us setuptools, sqlite3 and pip.</p>
 <p>Have then pip installed virtualenv, and virtualenvwrapper. However, my installation of these differs from the guide::</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">virtualenv</span> <span class="n">virtualenvwrapper</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">virtualenv</span> <span class="n">virtualenvwrapper</span>
 <span class="n">mkdir</span> <span class="o">~/.</span><span class="n">virtualenvs</span> <span class="o">~/</span><span class="n">Projects</span>
 <span class="n">vi</span> <span class="o">~/.</span><span class="n">bashrc</span>
 </pre></div>
 </div>
 <p>Creates new file and so we add::</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span># From virtualenvwrapper setup guide
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># From virtualenvwrapper setup guide
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/Projects
 source /usr/local/bin/virtualenvwrapper.sh
@@ -265,8 +270,8 @@ gpip(){
 }
 </pre></div>
 </div>
-<p>Then as part of <code class="docutils literal"><span class="pre">vi</span> <span class="pre">~/.bash_profile</span></code> we add::</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span># Set architecture flags
+<p>Then as part of <code class="docutils literal notranslate"><span class="pre">vi</span> <span class="pre">~/.bash_profile</span></code> we add::</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Set architecture flags
 export ARCHFLAGS=&quot;-arch x86_64&quot;
 # Ensure user-installed binaries take precedence
 export PATH=/usr/local/bin:$PATH
@@ -282,14 +287,13 @@ alias ll=&#39;ls -laG&#39;
 alias pm=&#39;python manage.py&#39;
 </pre></div>
 </div>
-<p>Don't forget to <code class="docutils literal"><span class="pre">source</span> <span class="pre">~/.bash_profile</span></code> at the end if you want to use this session with this setup!</p>
-</div>
+<p>Don’t forget to <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">~/.bash_profile</span></code> at the end if you want to use this session with this setup!</p>
 </div>
 <div class="section" id="project-setup">
-<span id="project-setup"></span><h2>Project setup<a class="headerlink" href="#project-setup" title="Permalink to this headline">¶</a></h2>
-<p>With the base tools in place, we can now setup the development environment for the project itself. We'll create a
+<span id="project-setup"></span><h3>Project setup<a class="headerlink" href="#project-setup" title="Permalink to this headline">¶</a></h3>
+<p>With the base tools in place, we can now setup the development environment for the project itself. We’ll create a
 virtualenv project for development, then get the latest code from the central github repository. NB: This has been updated to reflect the change from python 2.7 to python 3 (3.5 or 3.6):</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">mkproject</span> <span class="o">-</span><span class="n">p</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">python3</span> <span class="n">py3_cope</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkproject</span> <span class="o">-</span><span class="n">p</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">python3</span> <span class="n">py3_cope</span>
 <span class="c1"># NB: this sets CWD to /Users/$USER/Projects/py3_cope</span>
 <span class="n">git</span> <span class="n">clone</span> <span class="n">git</span><span class="nd">@github</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="n">AllyBradley</span><span class="o">/</span><span class="n">COPE</span><span class="o">.</span><span class="n">git</span> <span class="n">cope_repo</span>
 <span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">~/.</span><span class="n">virtualenvs</span><span class="o">/</span><span class="n">py3_cope</span><span class="o">/</span><span class="n">lib</span> <span class="o">./</span><span class="n">lib</span>
@@ -314,12 +318,12 @@ virtualenv project for development, then get the latest code from the central gi
 </div>
 </div>
 <div class="section" id="pycharm-setup">
-<span id="pycharm-setup"></span><h2>PyCharm setup<a class="headerlink" href="#pycharm-setup" title="Permalink to this headline">¶</a></h2>
+<span id="pycharm-setup"></span><h3>PyCharm setup<a class="headerlink" href="#pycharm-setup" title="Permalink to this headline">¶</a></h3>
 <p>Now we can head to PyCharm and make the project available, along with debug options, etc</p>
 <ul class="simple">
 <li>Open PyCharm</li>
 <li>Select open project</li>
-<li>Point it to <code class="docutils literal"><span class="pre">$HOME/Projects/cope</span></code></li>
+<li>Point it to <code class="docutils literal notranslate"><span class="pre">$HOME/Projects/cope</span></code></li>
 <li>Allow it to index files and complete loading.</li>
 <li>You should be prompted to add a new VCS root for cope_repo. Do this.</li>
 <li>In Preferences, Enable Django support for the project</li>
@@ -327,10 +331,16 @@ virtualenv project for development, then get the latest code from the central gi
 <li>You can now test by running the testserver (^R for shortcut, or see toolbar button)</li>
 </ul>
 </div>
+</div>
 <div class="section" id="useful-things-to-remember">
 <span id="useful-things-to-remember"></span><h2>Useful things to remember<a class="headerlink" href="#useful-things-to-remember" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><code class="docutils literal"><span class="pre">pip</span> <span class="pre">list</span> <span class="pre">-o</span></code> will list the installed packages that have been superceded/outdated</li>
+<ul>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">list</span> <span class="pre">-o</span></code> will list the installed packages that have been superceded/outdated</p>
+</li>
+<li><p class="first">Unrelated, but likely useful to remember: Command to get pip to update all installed packages ::</p>
+<p>pip list –outdated
+pip freeze –local | grep -v ‘^-e’ | cut -d = -f 1  | xargs -n1 pip install -U</p>
+</li>
 </ul>
 </div>
 <div class="section" id="documentation">
@@ -383,7 +393,7 @@ virtualenv project for development, then get the latest code from the central gi
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.8.6',
+            VERSION:'0.9.1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

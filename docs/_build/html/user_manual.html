@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>COPE DB User Manual &mdash; COPE DB 0.8.6 documentation</title>
+  <title>COPE DB User Manual &mdash; COPE DB 0.9.1 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="COPE DB 0.8.6 documentation" href="index.html"/>
+    <link rel="top" title="COPE DB 0.9.1 documentation" href="index.html"/>
         <link rel="next" title="Deployment" href="deployment.html"/>
         <link rel="prev" title="Documentation for the COPE DB System" href="index.html"/> 
 
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.8.6
+                0.9.1
               </div>
             
           
@@ -114,7 +114,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#randomisation">Randomisation</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#if-the-facts-change">If the facts change...</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#if-the-facts-change">If the facts change…</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#transplantation">Transplantation</a></li>
@@ -125,7 +125,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="deployment.html">Deployment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="development.html">Development Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development.html">Development</a></li>
 <li class="toctree-l1"><a class="reference internal" href="design/wp4_design.html">Design - WP4:Compare</a></li>
 <li class="toctree-l1"><a class="reference internal" href="design/wp7_design.html">Design - WP7:Biobanking</a></li>
 <li class="toctree-l1"><a class="reference internal" href="models/index.html">Data Models</a></li>
@@ -218,15 +218,15 @@
 <div><strong>Please ensure you keep your username and password details secure, and do not share them with anyone else</strong>. All system actions are recorded and logged against the relevant user account for auditing purposes and you will be held to account for any actions taken with your user account.</div></blockquote>
 <div class="section" id="logins-and-passwords">
 <span id="logins-and-passwords"></span><h3>Logins and Passwords<a class="headerlink" href="#logins-and-passwords" title="Permalink to this headline">¶</a></h3>
-<p>Clicking on the Login button on the NavBar or any link that goes to a secure page will take you to the <em>Login page</em>, where you will be asked for your username and password. If you have forgotten your password, you an click on the <code class="docutils literal"><span class="pre">Lost</span> <span class="pre">Password?</span></code> link under the username text input, and you will be taken to a <em>Password Reset page</em>. Enter your registered email address (if you're not sure which one that is, please contact the COPE Admin team) to have a password reset link emailed to you. Once you have that email, clicking on the link will take you back to the website and prompt you to enter a new password twice.</p>
+<p>Clicking on the Login button on the NavBar or any link that goes to a secure page will take you to the <em>Login page</em>, where you will be asked for your username and password. If you have forgotten your password, you an click on the <code class="docutils literal notranslate"><span class="pre">Lost</span> <span class="pre">Password?</span></code> link under the username text input, and you will be taken to a <em>Password Reset page</em>. Enter your registered email address (if you’re not sure which one that is, please contact the COPE Admin team) to have a password reset link emailed to you. Once you have that email, clicking on the link will take you back to the website and prompt you to enter a new password twice.</p>
 <p>Once you are logged into the system, the Navbar will update to something similar to the image below:</p>
 <p><img alt="Navbar with user menu on display" src="_images/screen_index_loggedin.png" /></p>
 <p>In the upper right corner of the page, on the Navbar you should now see some new links and menus. Working from the right hand edge to the left, we have:</p>
 <ul class="simple">
-<li><strong>Logout</strong> - the &quot;power on/off&quot; icon is to securely log you out of the system. You should use this anytime you leave your computer or the website.</li>
-<li><strong>Locale</strong> - the &quot;globe&quot; icon is to allow you to select your current location and will update the system to use terminology appropriate to your country</li>
-<li><strong>User</strong> - the &quot;person outline&quot; icon is the User menu and shows some basic information about your account, and a link to Change Password</li>
-<li><strong>WP4 Menu</strong> - The text &quot;WP4: Compare&quot; has a small menu linking to the various sections of the website, we'll cover more of this in a moment.</li>
+<li><strong>Logout</strong> - the “power on/off” icon is to securely log you out of the system. You should use this anytime you leave your computer or the website.</li>
+<li><strong>Locale</strong> - the “globe” icon is to allow you to select your current location and will update the system to use terminology appropriate to your country</li>
+<li><strong>User</strong> - the “person outline” icon is the User menu and shows some basic information about your account, and a link to Change Password</li>
+<li><strong>WP4 Menu</strong> - The text “WP4: Compare” has a small menu linking to the various sections of the website, we’ll cover more of this in a moment.</li>
 <li><strong>Home</strong> - will take you back to the system home page from earlier (though still logged in).</li>
 </ul>
 </div>
@@ -235,11 +235,11 @@
 <p>There are a few conventions to be aware of that are used to help you collect accurate data easily as possible.</p>
 <div class="section" id="questions-with-followups">
 <span id="questions-with-followups"></span><h4>Questions with followups<a class="headerlink" href="#questions-with-followups" title="Permalink to this headline">¶</a></h4>
-<p>Some questions will have additional questions related to the answer given; You should be aware of these causing the form to add questions (sliding into view) directly below the question you've just answered.</p>
+<p>Some questions will have additional questions related to the answer given; You should be aware of these causing the form to add questions (sliding into view) directly below the question you’ve just answered.</p>
 </div>
 <div class="section" id="date-time-questions">
 <span id="date-time-questions"></span><h4>Date &amp; Time questions<a class="headerlink" href="#date-time-questions" title="Permalink to this headline">¶</a></h4>
-<p>These can be recognised by the grey &quot;calendar&quot; icon to the right of the text entry, and placeholder text similar to <code class="docutils literal"><span class="pre">DD-MM-YYYY</span></code> (for dates) or <code class="docutils literal"><span class="pre">DD-MM-YYYY</span> <span class="pre">HH:MM</span></code> (for dates and times). You can type dates into these fields directly, or you can click on the icon to the right to get a calendar popup widget displayed, such as:</p>
+<p>These can be recognised by the grey “calendar” icon to the right of the text entry, and placeholder text similar to <code class="docutils literal notranslate"><span class="pre">DD-MM-YYYY</span></code> (for dates) or <code class="docutils literal notranslate"><span class="pre">DD-MM-YYYY</span> <span class="pre">HH:MM</span></code> (for dates and times). You can type dates into these fields directly, or you can click on the icon to the right to get a calendar popup widget displayed, such as:</p>
 <p><img alt="Examples of the Date and Time picker" src="_images/screen_procurement_form_datetime.png" /></p>
 <p>In the above image we can see 5 examples.</p>
 <ul class="simple">
@@ -259,11 +259,11 @@
 <div class="section" id="people-and-locations">
 <span id="people-and-locations"></span><h4>People and Locations<a class="headerlink" href="#people-and-locations" title="Permalink to this headline">¶</a></h4>
 <p>There are a range of questions where we want to know about either people, or locations (i.e. hospitals). In these cases we may not know about them before you start data entry, so we will want you to add some extra information to help complete the record.</p>
-<p>Apart from the question label as the first clue, you can identify these fields by the greyed out appearance (so that you can't type directly into them), and the magnifying glass icon to the right hand side. Clicking on the magnifying glass will bring up another window with the currently available option in.</p>
+<p>Apart from the question label as the first clue, you can identify these fields by the greyed out appearance (so that you can’t type directly into them), and the magnifying glass icon to the right hand side. Clicking on the magnifying glass will bring up another window with the currently available option in.</p>
 <p><img alt="Manage Staff popup showing existing staff" src="_images/screen_procurement_form_manage_staff_list.png" /></p>
-<p>Using the example of &quot;Name of the SN-OD&quot;, this is the list of people known to the system so far. If the correct answer is one of these people, clicking on them will close the window and put the answer in the form. If the answer is someone else, then clicking on Add Person will let us create a new staff member.</p>
+<p>Using the example of “Name of the SN-OD”, this is the list of people known to the system so far. If the correct answer is one of these people, clicking on them will close the window and put the answer in the form. If the answer is someone else, then clicking on Add Person will let us create a new staff member.</p>
 <p><img alt="Manage Staff popup showing add new person form" src="_images/screen_procurement_form_manage_staff_form.png" /></p>
-<p>To complete this form (shown above) we need to know their first name and last names as a minimum. However, since this is to aide contacting people in case of followups, we really want to know more, like where they are based (pick an existing location - if one doesn't exist, you'll have to create it via another question first), their telephone number, and an email address.</p>
+<p>To complete this form (shown above) we need to know their first name and last names as a minimum. However, since this is to aide contacting people in case of followups, we really want to know more, like where they are based (pick an existing location - if one doesn’t exist, you’ll have to create it via another question first), their telephone number, and an email address.</p>
 <p>Whilst it is possible to edit the contact information of existing people, please do so with care, as this information may be critical for other cases also.</p>
 <p><img alt="" src="_images/screen_procurement_form_manage_location_list1.png" /></p>
 <p>When dealing with either locations or people, the list may grow to be larger than the available screenspace. In which case it will fill from top to bottom as shown above (with Manage Hospitals), and you can scroll the screen to find the correct entry, or to the bottom to find the Add Hospital Option.</p>
@@ -274,7 +274,7 @@
 </div>
 <div class="section" id="searchable-typeahead-fields">
 <span id="searchable-typeahead-fields"></span><h4>Searchable / Typeahead fields<a class="headerlink" href="#searchable-typeahead-fields" title="Permalink to this headline">¶</a></h4>
-<p>There are a limited number of fields where you can find an answer by typing part of the answer into a field, and then selecting from the list of matching results that appears. You do need to click on a valid result for this field to be completed, simply typing the answer is not sufficient. If you can't find the answer you're looking for, please contact COPE Admin. If you want to change the answer, you will see a small grey circle with a cross in next to the answer - click that and it will return to being an empty field to type and search again in.</p>
+<p>There are a limited number of fields where you can find an answer by typing part of the answer into a field, and then selecting from the list of matching results that appears. You do need to click on a valid result for this field to be completed, simply typing the answer is not sufficient. If you can’t find the answer you’re looking for, please contact COPE Admin. If you want to change the answer, you will see a small grey circle with a cross in next to the answer - click that and it will return to being an empty field to type and search again in.</p>
 </div>
 <div class="section" id="saving-data">
 <span id="saving-data"></span><h4>Saving data<a class="headerlink" href="#saving-data" title="Permalink to this headline">¶</a></h4>
@@ -288,7 +288,7 @@
 <p>When the answer relates to a specific field, it may be highlighted directly with advice given below it (such as in the Date of Birth example above).</p>
 <p><img alt="" src="_images/screen_procurement_form_save_failed_extrainfo.png" /></p>
 <p>And it is possible to have multiple mistakes highlighted on save, in which case you may see an error count in the tabs affected, as well as help messages above the forms.</p>
-<p>Try and correct all the errors, and then save again. It is possible to have recurring (though perhaps different) errors, so don't stop correcting until you see the green successful save message.</p>
+<p>Try and correct all the errors, and then save again. It is possible to have recurring (though perhaps different) errors, so don’t stop correcting until you see the green successful save message.</p>
 </div>
 </div>
 </div>
@@ -306,7 +306,7 @@
 <div class="section" id="procurement">
 <span id="procurement"></span><h3>Procurement<a class="headerlink" href="#procurement" title="Permalink to this headline">¶</a></h3>
 <p><img alt="Procurement screenhot showing an emtpy listing" src="_images/screen_procurement_empty.png" /></p>
-<p>When you first start and click on Procurement (<em>Procurement Files</em> on the <em>Home</em> page, or <code class="docutils literal"><span class="pre">WP4:Compare</span> <span class="pre">-&gt;</span> <span class="pre">Procurement</span></code> in the Navbar) you are likely to see an empty screen similar to above. On the left would be a list of cases you are currently working on (Open Cases). On the right is a small form to start off a New Case.</p>
+<p>When you first start and click on Procurement (<em>Procurement Files</em> on the <em>Home</em> page, or <code class="docutils literal notranslate"><span class="pre">WP4:Compare</span> <span class="pre">-&gt;</span> <span class="pre">Procurement</span></code> in the Navbar) you are likely to see an empty screen similar to above. On the left would be a list of cases you are currently working on (Open Cases). On the right is a small form to start off a New Case.</p>
 <div class="section" id="new-cases">
 <span id="new-cases"></span><h4>New Cases<a class="headerlink" href="#new-cases" title="Permalink to this headline">¶</a></h4>
 <p>To start a new case (i.e. to collect Donor and Organ details during retrieval) you need the following information as a minimum:</p>
@@ -319,15 +319,15 @@
 <p>Additionally, to allow for all eventualities, we need to account for when things go wrong with the data recording. We anticipate the following scenarios:</p>
 <ol class="simple">
 <li>Data is entered as it is collected, and saved frequently. This presumes you have internet connectivity on whichever device you are using for data collection.</li>
-<li>If you have connectivity issues, then the expectation is that you will take notes on the procedure (perhaps using the backup Paper form as a template) for you to enter into the system when connectivity returns. However, if you need to Randomise and can't connect to the system, you need to contact your nearest co-ordinator.</li>
+<li>If you have connectivity issues, then the expectation is that you will take notes on the procedure (perhaps using the backup Paper form as a template) for you to enter into the system when connectivity returns. However, if you need to Randomise and can’t connect to the system, you need to contact your nearest co-ordinator.</li>
 </ol>
 <p>The co-ordinator will do one of two things:</p>
 <ul class="simple">
 <li>Assuming they can access the system, they can enter the basic information needed to randomise based on feedback from you. The case should then appear on your list of Open Cases when you next get online access and you can resume data entry.</li>
 <li>If the system is offline (such as for maintenance), then they will have access to a small list of values to allow them to randomise the case offline. Upon consulting this list, they will give you an Offline Case ID (three digit number), which you (or they, presuming they have your notes) can use upon regaining access to the system to link up with the correct randomisation record.</li>
 </ul>
-<p><strong>In short:</strong> Work <em>Online</em> throughout. If no connection, contact co-ordinator. Use paper notes to record details that you can't get into the system immediately, but resume online once you can.</p>
-<p>Once you have entered the basic information, you can click <code class="docutils literal"><span class="pre">Start</span> <span class="pre">new</span> <span class="pre">case</span></code> to move onto the main data entry form</p>
+<p><strong>In short:</strong> Work <em>Online</em> throughout. If no connection, contact co-ordinator. Use paper notes to record details that you can’t get into the system immediately, but resume online once you can.</p>
+<p>Once you have entered the basic information, you can click <code class="docutils literal notranslate"><span class="pre">Start</span> <span class="pre">new</span> <span class="pre">case</span></code> to move onto the main data entry form</p>
 </div>
 <div class="section" id="existing-cases">
 <span id="existing-cases"></span><h4>Existing cases<a class="headerlink" href="#existing-cases" title="Permalink to this headline">¶</a></h4>
@@ -341,15 +341,15 @@
 <ul class="simple">
 <li><strong>Page Title</strong> - states Procurement (as previous page), but also shows the Case identifier. Until a case is randomised, it has a system assigned ID for reference purposes. In this case, the indentifier is <em>DO026</em></li>
 <li><strong>Eligibility Criteria</strong> - Under the Page trail is the list of eligibility criteria for this trial. We trust you to only start recording cases that are <em>DCDIII</em>, but we will confirm things like age (50+), whether the kidneys have been deemed transplantable, and if there are two separate recipients. More on this below.</li>
-<li><strong>Action Bar</strong> - attached to the bottom of the screen is a light grey bar with (currently) on button on it at the right hand side. Be default that button will say <code class="docutils literal"><span class="pre">Save</span></code>, however, it will change depending on the state of the form (again, see details below).</li>
+<li><strong>Action Bar</strong> - attached to the bottom of the screen is a light grey bar with (currently) on button on it at the right hand side. Be default that button will say <code class="docutils literal notranslate"><span class="pre">Save</span></code>, however, it will change depending on the state of the form (again, see details below).</li>
 <li><strong>Data collection areas</strong> - In the main page content area under the eligibility criteria, there are a range of tabs and data entry fields. This is where the majority of the information and interaction will happen.</li>
 </ul>
 <p>Of the data collection areas, there are four tabs containing sets of questions:</p>
 <ul class="simple">
-<li><strong>Left Kidney</strong> - all about one of the two organs we're transplanting</li>
+<li><strong>Left Kidney</strong> - all about one of the two organs we’re transplanting</li>
 <li><strong>Donor</strong> - core information about the donor of the organ(s)</li>
 <li><strong>Right Kidney</strong> - the other organ</li>
-<li><strong>Samples</strong> - information specific to the samples being taken. Varies depending on your region (for example, UK Donor's don't record any sample information)</li>
+<li><strong>Samples</strong> - information specific to the samples being taken. Varies depending on your region (for example, UK Donor’s don’t record any sample information)</li>
 </ul>
 <p><strong>You can enter data in any order you wish, and you can save the form at any time to ensure data is not lost.</strong> Answers are partially validated on each save, and you need to clear all errors to complete a save, otherwise changes will be lost. When data entry for the case is ready to complete and be signed off, there will be extra checks made on the data to help identify any recurring issues with data quality.</p>
 <div class="section" id="donor-data">
@@ -358,7 +358,7 @@
 <ul class="simple">
 <li>Patient Description - generic information about the donor as a patient</li>
 <li>Donor Details - extra data related to donors specifically</li>
-<li>Procedure Data - records of the technician's actions and logistics</li>
+<li>Procedure Data - records of the technician’s actions and logistics</li>
 <li>Donor Pre-op Data - much like it says, information from prior to extraction</li>
 <li>Donor Procedure - data from during the extraction</li>
 <li>Lab Results - local records of creatinine</li>
@@ -386,11 +386,11 @@
 <div class="section" id="randomisation">
 <span id="randomisation"></span><h3>Randomisation<a class="headerlink" href="#randomisation" title="Permalink to this headline">¶</a></h3>
 <p>A key function of this system is to tell you how to set up the transport of the kidneys. The checklist at the top of the Procurement form will give you a summary of the criteria that need to be passed. Clicking on the small circles with arrows in next to one of the last three items will highlight the relevant question in the form for you to answer.</p>
-<p>For example, clicking on <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Kidney</span> <span class="pre">transplantable</span></code>, will result in...</p>
+<p>For example, clicking on <code class="docutils literal notranslate"><span class="pre">Left</span> <span class="pre">Kidney</span> <span class="pre">transplantable</span></code>, will result in…</p>
 <p><img alt="" src="_images/screen_procurement_form_randomise_leftkidney.png" /></p>
-<p>... the Left Kidney tab being selected, and the Transplantable? question being highlighted with orange pulses. Similarly, clicking on <code class="docutils literal"><span class="pre">Two</span> <span class="pre">separate</span> <span class="pre">recipients</span></code> will result in...</p>
+<p>… the Left Kidney tab being selected, and the Transplantable? question being highlighted with orange pulses. Similarly, clicking on <code class="docutils literal notranslate"><span class="pre">Two</span> <span class="pre">separate</span> <span class="pre">recipients</span></code> will result in…</p>
 <p><img alt="" src="_images/screen_procurement_form_randomise_recipients.png" /></p>
-<p>... the Donor tab being selected, and the Multiple Recipients question at the bottom of the Procedure Data group being highlighted with orange pulses.</p>
+<p>… the Donor tab being selected, and the Multiple Recipients question at the bottom of the Procedure Data group being highlighted with orange pulses.</p>
 <p>Selecting the relevant answers on these questions will result in the checklist row turning green (and the thumb down icon on the right turning into a thumb up), and if all five thumbs are up, the Save button on the Action Bar will change to Save and Randomise.</p>
 <p><img alt="" src="_images/screen_procurement_form_save_and_randomise.png" /></p>
 <p><strong>Note:</strong> It is still possible for the save to be stalled by errors in the form, so please check the feedback messages after pressing the button!</p>
@@ -405,9 +405,9 @@
 <li>On the Kidney tabs, the Preset Data field for Preservation will have been updated with the randomisation results</li>
 </ul>
 <div class="section" id="if-the-facts-change">
-<span id="if-the-facts-change"></span><h4>If the facts change...<a class="headerlink" href="#if-the-facts-change" title="Permalink to this headline">¶</a></h4>
+<span id="if-the-facts-change"></span><h4>If the facts change…<a class="headerlink" href="#if-the-facts-change" title="Permalink to this headline">¶</a></h4>
 <p>Understandably during the course of the procedure, an early positive inspection leading to a timely randomisation (allowing the Technician to set up the machines), can be overriden by later events. Back table inspection may find serious damage or other issues with the kidney, and the surgeon can now deem the organs to not be transplantable.</p>
-<p>We want you to record these changes of data as they happen. Even if you've done a randomisation, you can subsequently declare the organ not transplantable (remember to give a reason in the followup question), and then save the form again. Similarly with the recipient data - it may be unknown at the start when you need to randomise, but later it turns out that there are not two separate recipients. Again, save the changes and update the relevant notes.</p>
+<p>We want you to record these changes of data as they happen. Even if you’ve done a randomisation, you can subsequently declare the organ not transplantable (remember to give a reason in the followup question), and then save the form again. Similarly with the recipient data - it may be unknown at the start when you need to randomise, but later it turns out that there are not two separate recipients. Again, save the changes and update the relevant notes.</p>
 </div>
 </div>
 <div class="section" id="transplantation">
@@ -437,7 +437,7 @@
 <span id="sample-collection-and-recording"></span><h3>Sample Collection and Recording<a class="headerlink" href="#sample-collection-and-recording" title="Permalink to this headline">¶</a></h3>
 <p>At the end of the Transplantation:Recipient form (seen above) you can see a section marked Samples, and similarly, on the Transplant:Samples tab:</p>
 <p><img alt="" src="_images/screen_procurement_form_samples.png" /></p>
-<p>Following the warning advice to save before clicking, clicking on the <code class="docutils literal"><span class="pre">Goto</span> <span class="pre">Samples</span> <span class="pre">Worksheet</span></code> button will take you into the Samples data collection system.</p>
+<p>Following the warning advice to save before clicking, clicking on the <code class="docutils literal notranslate"><span class="pre">Goto</span> <span class="pre">Samples</span> <span class="pre">Worksheet</span></code> button will take you into the Samples data collection system.</p>
 <p>We anticipate that various people will be involved in recording sample data, and those users may not be the technicians involved in the procurement of the sample - for example, Perfusate 1 and 2 from the Donor Procurement proceedure are likely to be recorded by the recieving technician, and consequently, those samples are logged on the Recipient Worksheet.</p>
 <p><img alt="" src="_images/screen_samples_worksheet.png" /></p>
 <p>The Samples Worksheet is a fairly long form with not a lot of questions being asked. Depending on whether this is a Donor or Recipient Worksheet, there will be a range of sections covering Perfusate, Urine, Blood, and Biopsy data. The first thing to record is the Barcode number for the Worksheet that will accompany the samples back to the lab.</p>
@@ -501,7 +501,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.8.6',
+            VERSION:'0.9.1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

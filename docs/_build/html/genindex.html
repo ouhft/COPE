@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; COPE DB 0.8.6 documentation</title>
+  <title>Index &mdash; COPE DB 0.9.1 documentation</title>
   
 
   
@@ -36,7 +36,7 @@
         <link rel="index" title="Index"
               href="#"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="COPE DB 0.8.6 documentation" href="index.html"/> 
+    <link rel="top" title="COPE DB 0.9.1 documentation" href="index.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                0.8.6
+                0.9.1
               </div>
             
           
@@ -92,7 +92,7 @@
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="user_manual.html">COPE DB User Manual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="deployment.html">Deployment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="development.html">Development Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development.html">Development</a></li>
 <li class="toctree-l1"><a class="reference internal" href="design/wp4_design.html">Design - WP4:Compare</a></li>
 <li class="toctree-l1"><a class="reference internal" href="design/wp7_design.html">Design - WP7:Biobanking</a></li>
 <li class="toctree-l1"><a class="reference internal" href="models/index.html">Data Models</a></li>
@@ -763,6 +763,8 @@
         <li><a href="models/compare.html#wp4.compare.models.donor.Organ.event_set">(wp4.compare.models.donor.Organ attribute)</a>
 </li>
       </ul></li>
+      <li><a href="models/compare.html#wp4.compare.models.donor.Organ.excluded_from_analysis_because">excluded_from_analysis_because (wp4.compare.models.donor.Organ attribute)</a>
+</li>
       <li><a href="models/compare.html#wp4.compare.models.donor.ProcurementResource.expiry_date">expiry_date (wp4.compare.models.donor.ProcurementResource attribute)</a>
 </li>
       <li><a href="models/compare.html#wp4.compare.models.donor.ProcurementResource.expiry_date_unknown">expiry_date_unknown (wp4.compare.models.donor.ProcurementResource attribute)</a>
@@ -1273,6 +1275,8 @@
 </li>
       <li><a href="models/compare.html#wp4.compare.models.transplantation.Recipient.INCISION_CHOICES">INCISION_CHOICES (wp4.compare.models.transplantation.Recipient attribute)</a>
 </li>
+      <li><a href="models/compare.html#wp4.compare.models.donor.Organ.included_for_analysis">included_for_analysis (wp4.compare.models.donor.Organ attribute)</a>
+</li>
       <li><a href="models/generated/wp4.followups.models.html#wp4.followups.models.FollowUpInitial.INDUCTION_CHOICES">INDUCTION_CHOICES (wp4.followups.models.FollowUpInitial attribute)</a>
 </li>
       <li><a href="models/generated/wp4.followups.models.html#wp4.followups.models.FollowUpInitial.induction_therapy">induction_therapy (wp4.followups.models.FollowUpInitial attribute)</a>
@@ -1693,6 +1697,12 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="models/compare.html#wp4.compare.models.core.Randomisation.PAPER_EUROPE">PAPER_EUROPE (wp4.compare.models.core.Randomisation attribute)</a>
 </li>
+      <li><a href="models/compare.html#wp4.compare.models.donor.Organ.paper_form_was_the_source">paper_form_was_the_source (wp4.compare.models.donor.Organ attribute)</a>
+
+      <ul>
+        <li><a href="models/generated/wp4.followups.models.html#wp4.followups.models.FollowUpBase.paper_form_was_the_source">(wp4.followups.models.FollowUpBase attribute)</a>
+</li>
+      </ul></li>
       <li><a href="models/compare.html#wp4.compare.models.core.Randomisation.PAPER_UNITED_KINGDOM">PAPER_UNITED_KINGDOM (wp4.compare.models.core.Randomisation attribute)</a>
 </li>
       <li><a href="models/compare.html#wp4.compare.models.donor.Organ.PATCH_DOUBLE_ARTERY">PATCH_DOUBLE_ARTERY (wp4.compare.models.donor.Organ attribute)</a>
@@ -2355,15 +2365,17 @@
         <li><a href="models/generated/wp4.followups.models.html#wp4.followups.models.FollowUpBase.UNIT_UMOLL">(wp4.followups.models.FollowUpBase attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="models/generated/wp4.locations.models.html#wp4.locations.models.UNITED_KINGDOM">UNITED_KINGDOM (in module wp4.locations.models)</a>
 
       <ul>
         <li><a href="models/compare.html#wp4.compare.models.core.RetrievalTeam.UNITED_KINGDOM">(wp4.compare.models.core.RetrievalTeam attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="models/compare.html#wp4.compare.models.UNKNOWN">UNKNOWN (in module wp4.compare.models)</a>
+</li>
+      <li><a href="models/compare.html#wp4.compare.models.donor.Organ.update_inclusion_status">update_inclusion_status() (wp4.compare.models.donor.Organ method)</a>
 </li>
       <li><a href="models/generated/wp4.samples.models.html#wp4.samples.models.UrineSample">UrineSample (class in wp4.samples.models)</a>
 </li>
@@ -2516,7 +2528,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.8.6',
+            VERSION:'0.9.1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

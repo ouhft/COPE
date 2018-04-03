@@ -14,32 +14,14 @@
     <ul class="list-group">
         <li class="list-group-item list-group-item-info">Health Economics: Home</li>
         {#  You can't access this page without perms.health_economics.add_qualityoflife  #}
-        <a href="{% url 'wp4:health-economics:list' %}" class="list-group-item">Quality of Life Forms</a>
-        {% if perms.health_economics.add_resourcelog %}
+        <a href="{% url 'wp4:health-economics:list' %}" class="list-group-item">Quality of Life Forms : All</a>
+        <a href="{% url 'wp4:health-economics:list-baseline' %}" class="list-group-item">Quality of Life Forms : Baseline</a>
+        <a href="{% url 'wp4:health-economics:list-month3' %}" class="list-group-item">Quality of Life Forms : Month 3</a>
+        <a href="{% url 'wp4:health-economics:list-final' %}" class="list-group-item">Quality of Life Forms : Final</a>
+
+{#        {% if perms.health_economics.add_resourcelog %}#}
 {#        <a href="{% url 'wp4:health-economics:list' %}" class="list-group-item">Resource Logs</a>#}
-        {% endif %}
+{#        {% endif %}#}
     </ul>
 
-    {% if perms.followups.add_followupinitial %}
-    <ul class="list-group">
-        <li class="list-group-item list-group-item-info">
-            Related: <a href="{%  url 'wp4:follow-ups:index' %}">Follow Ups</a>
-        </li>
-        <a href="{% url 'wp4:follow-ups:initial_list' %}" class="list-group-item">Initial</a>
-        {% if perms.followups.add_followup3m %}
-            <a href="{% url 'wp4:follow-ups:month3_list' %}" class="list-group-item">Month 3</a>
-        {% endif %}
-        {% if perms.followups.add_followup6m %}
-            <a href="{% url 'wp4:follow-ups:month6_list' %}" class="list-group-item">Month 6</a>
-        {% endif %}
-        {% if perms.followups.add_followup1y %}
-            <a href="{% url 'wp4:follow-ups:final_list' %}" class="list-group-item">Final</a>
-        {% endif %}
-    </ul>
-    {% endif %}
-
-    {% if user.is_staff %}
-        <h3>Overview</h3>
-        <p>TBC</p>
-    {% endif %}
 {% endblock %}

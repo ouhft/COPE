@@ -30,6 +30,21 @@ urlpatterns = [
         name='update'
     ),
     url(
+        regex=r'^list/baseline/$',
+        view=views.QualityOfLifeBaselineListView.as_view(),
+        name='list-baseline'
+    ),
+    url(
+        regex=r'^list/month3/$',
+        view=views.QualityOfLifeMonth3ListView.as_view(),
+        name='list-month3'
+    ),
+    url(
+        regex=r'^list/final/$',
+        view=views.QualityOfLifeFinalListView.as_view(),
+        name='list-final'
+    ),
+    url(
         regex=r'^list/$',
         view=views.QualityOfLifeListView.as_view(),
         name='list'

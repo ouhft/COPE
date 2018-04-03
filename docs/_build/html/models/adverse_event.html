@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Adverse Event Models &mdash; COPE DB 0.8.6 documentation</title>
+  <title>Adverse Event Models &mdash; COPE DB 0.9.1 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="COPE DB 0.8.6 documentation" href="../index.html"/>
+    <link rel="top" title="COPE DB 0.9.1 documentation" href="../index.html"/>
         <link rel="up" title="Data Models" href="index.html"/>
         <link rel="next" title="wp4.followups.models" href="generated/wp4.followups.models.html"/>
         <link rel="prev" title="Compare Models" href="compare.html"/> 
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.8.6
+                0.9.1
               </div>
             
           
@@ -94,7 +94,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../user_manual.html">COPE DB User Manual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../deployment.html">Deployment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../development.html">Development Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../development.html">Development</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../design/wp4_design.html">Design - WP4:Compare</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../design/wp7_design.html">Design - WP7:Biobanking</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Data Models</a><ul class="current">
@@ -187,7 +187,7 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">reverse</span></code>(viewname[,&nbsp;urlconf,&nbsp;args,&nbsp;kwargs,&nbsp;…])</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">reverse</span></code>(viewname[,&nbsp;urlconf,&nbsp;args,&nbsp;kwargs,&nbsp;…])</td>
 <td></td>
 </tr>
 </tbody>
@@ -199,25 +199,25 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">AuditControlModelBase</span></code>(*args,&nbsp;**kwargs)</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">AuditControlModelBase</span></code>(*args,&nbsp;**kwargs)</td>
 <td>Internal common attributes to aid systematic auditing of records.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#wp4.adverse_event.models.Category" title="wp4.adverse_event.models.Category"><code class="xref py py-obj docutils literal"><span class="pre">Category</span></code></a>(*args,&nbsp;**kwargs)</td>
+<tr class="row-even"><td><a class="reference internal" href="#wp4.adverse_event.models.Category" title="wp4.adverse_event.models.Category"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Category</span></code></a>(*args,&nbsp;**kwargs)</td>
 <td>Allows S/AE events to be categorised for DMC reporting purposes.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#wp4.adverse_event.models.Event" title="wp4.adverse_event.models.Event"><code class="xref py py-obj docutils literal"><span class="pre">Event</span></code></a>(*args,&nbsp;**kwargs)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#wp4.adverse_event.models.Event" title="wp4.adverse_event.models.Event"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Event</span></code></a>(*args,&nbsp;**kwargs)</td>
 <td>Collects (serious) adverse event information related to a specific Organ within the study</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">EventModelForUserManager</span></code>([include_soft_deleted])</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">EventModelForUserManager</span></code>([include_soft_deleted])</td>
 <td>Events have their location based on the organ recipient’s location</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">LiveManager</span></code></td>
-<td>alias of <code class="xref py py-class docutils literal"><span class="pre">LiveManagerBaseFromLiveQuerySet</span></code></td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">LiveManager</span></code></td>
+<td>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.models.manager.LiveManagerBaseFromLiveQuerySet</span></code></td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">Organ</span></code>(*args,&nbsp;**kwargs)</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">Organ</span></code>(*args,&nbsp;**kwargs)</td>
 <td>The focus of the trial, specifically a Kidney.</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">Person</span></code>(*args,&nbsp;**kwargs)</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">Person</span></code>(*args,&nbsp;**kwargs)</td>
 <td>Replacement for original StaffPerson class which was linked to User as a one-to-one via “profile” attribute.</td>
 </tr>
 </tbody>
@@ -263,14 +263,14 @@ object the first time, the query is executed.</p>
 <dd><p>Accessor to the related objects manager on the forward and reverse sides of
 a many-to-many relation.</p>
 <p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
     <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><code class="docutils literal"><span class="pre">pizza.toppings</span></code> and <code class="docutils literal"><span class="pre">topping.pizzas</span></code> are <code class="docutils literal"><span class="pre">ManyToManyDescriptor</span></code>
+<p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
 instances.</p>
 <p>Most of the implementation is delegated to a dynamically defined manager
-class built by <code class="docutils literal"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -347,11 +347,11 @@ commented out in code likely refer to items added to help improve the process, b
 <dd><p>Accessor to the related object on the forward side of a many-to-one or
 one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 <p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
     <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -360,14 +360,14 @@ one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 <dd><p>Accessor to the related objects manager on the forward and reverse sides of
 a many-to-many relation.</p>
 <p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
     <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><code class="docutils literal"><span class="pre">pizza.toppings</span></code> and <code class="docutils literal"><span class="pre">topping.pizzas</span></code> are <code class="docutils literal"><span class="pre">ManyToManyDescriptor</span></code>
+<p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
 instances.</p>
 <p>Most of the implementation is delegated to a dynamically defined manager
-class built by <code class="docutils literal"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -635,11 +635,11 @@ object the first time, the query is executed.</p>
 <dd><p>Accessor to the related object on the forward side of a many-to-one or
 one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 <p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
     <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
 </dd></dl>
 
 <dl class="method">
@@ -696,27 +696,27 @@ object the first time, the query is executed.</p>
 
 <dl class="method">
 <dt id="wp4.adverse_event.models.Event.get_next_by_onset_at_date">
-<code class="descname">get_next_by_onset_at_date</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.adverse_event.models.Event.get_next_by_onset_at_date" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_next_by_onset_at_date</code><span class="sig-paren">(</span><em>*</em>, <em>field=&lt;django.db.models.fields.DateField: onset_at_date&gt;</em>, <em>is_next=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.adverse_event.models.Event.get_next_by_onset_at_date" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="wp4.adverse_event.models.Event.get_next_in_order">
-<code class="descname">get_next_in_order</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.adverse_event.models.Event.get_next_in_order" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_next_in_order</code><span class="sig-paren">(</span><em>*</em>, <em>is_next=True</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.adverse_event.models.Event.get_next_in_order" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="wp4.adverse_event.models.Event.get_previous_by_onset_at_date">
-<code class="descname">get_previous_by_onset_at_date</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.adverse_event.models.Event.get_previous_by_onset_at_date" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_previous_by_onset_at_date</code><span class="sig-paren">(</span><em>*</em>, <em>field=&lt;django.db.models.fields.DateField: onset_at_date&gt;</em>, <em>is_next=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.adverse_event.models.Event.get_previous_by_onset_at_date" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="wp4.adverse_event.models.Event.get_previous_in_order">
-<code class="descname">get_previous_in_order</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.adverse_event.models.Event.get_previous_in_order" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_previous_in_order</code><span class="sig-paren">(</span><em>*</em>, <em>is_next=False</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.adverse_event.models.Event.get_previous_in_order" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="wp4.adverse_event.models.Event.get_treatment_related_display">
-<code class="descname">get_treatment_related_display</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.adverse_event.models.Event.get_treatment_related_display" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_treatment_related_display</code><span class="sig-paren">(</span><em>*</em>, <em>field=&lt;django.db.models.fields.PositiveSmallIntegerField: treatment_related&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.adverse_event.models.Event.get_treatment_related_display" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -781,7 +781,7 @@ object the first time, the query is executed.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.8.6',
+            VERSION:'0.9.1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

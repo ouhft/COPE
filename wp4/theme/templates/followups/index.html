@@ -27,12 +27,4 @@
         {% endif %}
     </ul>
 
-    <ul class="list-group">
-        <li class="list-group-item list-group-item-info">
-            Related: <a href="{% url 'wp4:health-economics:index' %}">Health Economics</a>
-        </li>
-        {% if perms.health_economics.change_qualityoflife or perms.health_economics.view_qualityoflife %}
-        <a href="{% url 'wp4:health-economics:list' %}" class="list-group-item">Quality of Life Forms</a>
-        {% endif %}
-    </ul>
 {% endblock %}

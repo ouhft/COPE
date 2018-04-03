@@ -1,15 +1,9 @@
-wp4\.locations\.models
-======================
+wp4.locations.models
+====================
 
 .. automodule:: wp4.locations.models
 
    
-   
-   .. rubric:: Functions
-
-   .. autosummary::
-   
-      reverse
    
    
 
@@ -19,10 +13,7 @@ wp4\.locations\.models
 
    .. autosummary::
    
-      AuditControlModelBase
       Hospital
-      LiveManager
-      cached_property
    
    
 

@@ -1,15 +1,9 @@
-wp4\.samples\.models
-====================
+wp4.samples.models
+==================
 
 .. automodule:: wp4.samples.models
 
    
-   
-   .. rubric:: Functions
-
-   .. autosummary::
-   
-      reverse
    
    
 
@@ -19,20 +13,11 @@ wp4\.samples\.models
 
    .. autosummary::
    
-      AuditControlModelBase
       BarCodeMixin
       BloodSample
-      ContentType
       DeviationMixin
       Event
-      EventModelForUserManager
-      GenericForeignKey
-      GenericRelation
-      Organ
-      Patient
       PerfusateSample
-      SampleFromOrganModelForUserManager
-      SampleFromPersonModelForUserManager
       TissueSample
       UrineSample
       WP7Record
@@ -40,11 +25,5 @@ wp4\.samples\.models
    
 
    
-   
-   .. rubric:: Exceptions
-
-   .. autosummary::
-   
-      ValidationError
    
    
