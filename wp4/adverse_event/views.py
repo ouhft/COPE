@@ -145,7 +145,7 @@ class AdverseEventListView(LoginRequiredMixin, MultiplePermissionsRequiredMixin,
         "all": (),
         "any": ("adverse_event.change_event", "adverse_event.view_event"),
     }
-    paginate_by = 50
+    paginate_by = 100
     paginate_orphans = 5
     orderable_columns = (
         "id",
