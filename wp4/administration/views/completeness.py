@@ -4,9 +4,11 @@ from __future__ import absolute_import, unicode_literals
 
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.http import HttpResponseNotFound, Http404
+from django.shortcuts import get_object_or_404, render
 
 from wp4.compare.models import Donor, Organ, Recipient
+from wp4.compare.utils import get_donor_id_from_trial_id
 from wp4.locations.models import Hospital
 
 
@@ -98,3 +100,30 @@ def transplant_per_centre(request):
             'summary': summary
         }
     )
+
+
+@login_required
+def donor_summary(request, donor_pk):
+    current_person = request.user
+    if not current_person.is_administrator:
+        raise PermissionDenied
+
+    donor = get_object_or_404(Donor, pk=int(donor_pk))
+
+    return render(
+        request,
+        'administration/completeness/donor-summary.html',
+        {
+            'donor': donor
+        }
+    )
+
+
+@login_required
+def donor_summary_by_trial_id(request, trial_id):
+    try:
+        donor_pk = get_donor_id_from_trial_id(trial_id)
+        return donor_summary(request, donor_pk)
+    except TypeError:
+        raise Http404
+        # return HttpResponseNotFound("Trial ID Not Found")

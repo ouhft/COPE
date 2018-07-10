@@ -1,0 +1,314 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+
+{% block page_title %}{{ location }} Completeness Report: Donor Summary - Administration{% endblock %}
+{% block page_header %}
+    Donor Summary
+    <small>COMPLETENESS REPORT</small>
+{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:administration:index' %}">Administration</a></li>
+    <li class="active">Completeness Report: Donor Summary</li>
+{% endblock %}
+
+{% block content %}
+
+    <h2>Donor
+        <small>[pk={{ donor.id }}] {{ donor.trial_id }}</small>
+        {% if request.user.is_staff %}
+            <a href="{% url 'admin:compare_donor_change' donor.id %}"><i class="glyphicon glyphicon-briefcase"></i></a>
+        {% endif %}
+    </h2>
+
+    <p><strong>Person:</strong> [pk={{ donor.person.id }}]: {{ donor.person }}</p>
+    <p><strong>Retrieval Team:</strong> [pk={{ donor.retrieval_team.id }}]: {{ donor.retrieval_team }}</p>
+    <p><strong>Perfusion Technician:</strong> [pk={{ donor.perfusion_technician.id }}]: {{ donor.perfusion_technician }}
+    </p>
+    <p><strong>Transplant Coordinator:</strong>
+        [pk={{ donor.transplant_coordinator.id }}]: {{ donor.transplant_coordinator }}</p>
+
+    <h4>Donor Samples</h4>
+    <ul>
+        {% for sample in donor.person.bloodsample_set.all %}
+            <li><strong>Blood Sample:</strong> [pk={{ sample.id }}]: {{ sample }}</li>
+            {% empty %}
+            <li>No Blood Samples</li>
+        {% endfor %}
+        {% for sample in donor.person.urinesample_set.all %}
+            <li><strong>Urine Sample:</strong> [pk={{ sample.id }}]: {{ sample }}</li>
+            {% empty %}
+            <li>No Urine Samples</li>
+        {% endfor %}
+    </ul>
+
+    <div class="row">
+        <div class="col-md-6">
+            {% with kidney=donor.left_kidney %}
+                <h3>Left Kidney
+                    <small>[pk={{ kidney.id }}] {{ kidney.trial_id }}</small>
+                </h3>
+                <p><strong>Kidney Info:</strong> {{ kidney }}</p>
+                <p><strong>Perfusion Machine:</strong> {{ kidney.perfusion_machine }}</p>
+
+                <h4>Kidney Samples</h4>
+                <ul>
+                    {% for sample in kidney.perfusatesample_set.all %}
+                        <li><strong>Perfusate Sample:</strong> [pk={{ sample.id }}]: {{ sample }}</li>
+                        {% empty %}
+                        <li>No Perfusate Samples</li>
+                    {% endfor %}
+                    {% for sample in kidney.tissuesample_set.all %}
+                        <li><strong>Tissue Sample:</strong> [pk={{ sample.id }}]: {{ sample }}</li>
+                        {% empty %}
+                        <li>No Tissue Samples</li>
+                    {% endfor %}
+                </ul>
+
+                <h4>Procurement Resources</h4>
+                <ul>
+                    {% for resource in kidney.procurementresource_set.all %}
+                        <li><strong>Resource:</strong> [pk={{ resource.id }}]: {{ resource }}</li>
+                        {% empty %}
+                        <li>No Resources</li>
+                    {% endfor %}
+                </ul>
+
+                <h4>Allocations</h4>
+                <ul>
+                    {% for allocation in kidney.organallocation_set.all %}
+                        <li><strong>Allocation:</strong> [pk={{ allocation.id }}]: {{ allocation }}</li>
+                        {% empty %}
+                        <li>No Allocations</li>
+                    {% endfor %}
+                </ul>
+
+                <h4>Adverse Events</h4>
+                <ul>
+                    {% for event in kidney.event_set.all %}
+                        <li>
+                            <strong>Event:</strong> [pk={{ event.id }}]: {{ event }}
+                            {% if event.is_serious %}
+                                <i class="glyphicon glyphicon-exclamation-sign text-danger" title="SAE"></i>
+                            {% endif %}
+                        </li>
+                        {% empty %}
+                        <li>No Events</li>
+                    {% endfor %}
+                </ul>
+
+                <h4>Followups</h4>
+                <p><strong>Initial:</strong>
+                    {% if kidney.followup_initial %}
+                        [pk={{ kidney.followup_initial.id }}]
+                    {% else %}
+                        Not recorded
+                    {% endif %}
+                </p>
+                <p><strong>Month 3:</strong>
+                    {% if kidney.followup_3m %}
+                        [pk={{ kidney.followup_3m.id }}]<br>
+                        {% if kidney.followup_3m.quality_of_life %}
+                            + QoL: [pk={{ kidney.followup_3m.quality_of_life.id }}]:
+                            {{ kidney.followup_3m.quality_of_life }}
+                        {% else %}
+                            + No Quality Of Life Record
+                        {% endif %}
+                    {% else %}
+                        Not recorded
+                    {% endif %}
+                </p>
+                <p><strong>Month 6:</strong>
+                    {% if kidney.followup_6m %}
+                        [pk={{ kidney.followup_6m.id }}]
+                    {% else %}
+                        Not recorded
+                    {% endif %}
+                </p>
+                <p><strong>Year 1:</strong>
+                    {% if kidney.followup_1y %}
+                        [pk={{ kidney.followup_1y.id }}]<br>
+                        {% if kidney.followup_1y.quality_of_life %}
+                            + QoL: [pk={{ kidney.followup_1y.quality_of_life.id }}]:
+                            {{ kidney.followup_1y.quality_of_life }}
+                        {% else %}
+                            + No Quality Of Life Record
+                        {% endif %}
+                    {% else %}
+                        Not recorded
+                    {% endif %}
+                </p>
+
+                {% if kidney.recipient.live %}
+                    <h3>Recipient
+                        {% with consent=kidney.recipient.signed_consent %}
+                            {% if consent %}
+                                <i class="glyphicon glyphicon-ok text-success" title="Consent Agreed"></i>
+                            {% elif consent == None %}
+                                <i class="glyphicon glyphicon-ok text-info" title="Consent Unknown"></i>
+                            {% else %}
+                                <i class="glyphicon glyphicon-remove text-danger" title="Consent Withdrawn"></i>
+                            {% endif %}
+                        {% endwith %}
+                        <small>[pk={{ kidney.recipient.id }}]</small>
+                    </h3>
+                    <p><strong>Recipient:</strong> {{ kidney.recipient }}</p>
+
+                    <h4>Recipient Samples</h4>
+                    <ul>
+                        {% for sample in kidney.recipient.person.bloodsample_set.all %}
+                            <li><strong>Blood Sample:</strong> [pk={{ sample.id }}]: {{ sample }}</li>
+                            {% empty %}
+                            <li>No Blood Samples</li>
+                        {% endfor %}
+                    </ul>
+
+                    <h4>Baseline Quality of Life</h4>
+                    {% for qol in kidney.recipient.baseline_qol %}
+                        <p><strong>QoL:</strong> [pk={{ qol.id }}]: {{ qol }}</p>
+                        {% empty %}
+                        <p>No Baseline Quality Of Life Record</p>
+                    {% endfor %}
+                {% else %}
+                    <h3>No Recipient!</h3>
+                {% endif %}
+            {% endwith %}
+
+
+        </div>
+        <div class="col-md-6">
+            {% with kidney=donor.right_kidney %}
+                <h3>Right Kidney
+                    <small>[pk={{ kidney.id }}] {{ kidney.trial_id }}</small>
+                </h3>
+                <p><strong>Kidney Info:</strong> {{ kidney }}</p>
+                <p><strong>Perfusion Machine:</strong> {{ kidney.perfusion_machine }}</p>
+
+                <h4>Kidney Samples</h4>
+                <ul>
+                    {% for sample in kidney.perfusatesample_set.all %}
+                        <li><strong>Perfusate Sample:</strong> [pk={{ sample.id }}]: {{ sample }}</li>
+                        {% empty %}
+                        <li>No Perfusate Samples</li>
+                    {% endfor %}
+                    {% for sample in kidney.tissuesample_set.all %}
+                        <li><strong>Tissue Sample:</strong> [pk={{ sample.id }}]: {{ sample }}</li>
+                        {% empty %}
+                        <li>No Tissue Samples</li>
+                    {% endfor %}
+                </ul>
+
+                <h4>Procurement Resources</h4>
+                <ul>
+                    {% for resource in kidney.procurementresource_set.all %}
+                        <li><strong>Resource:</strong> [pk={{ resource.id }}]: {{ resource }}</li>
+                        {% empty %}
+                        <li>No Resources</li>
+                    {% endfor %}
+                </ul>
+
+                <h4>Allocations</h4>
+                <ul>
+                    {% for allocation in kidney.organallocation_set.all %}
+                        <li><strong>Allocation:</strong> [pk={{ allocation.id }}]: {{ allocation }}</li>
+                        {% empty %}
+                        <li>No Allocations</li>
+                    {% endfor %}
+                </ul>
+
+                <h4>Adverse Events</h4>
+                <ul>
+                    {% for event in kidney.event_set.all %}
+                        <li>
+                            <strong>Event:</strong> [pk={{ event.id }}]: {{ event }}
+                            {% if event.is_serious %}
+                                <i class="glyphicon glyphicon-exclamation-sign text-danger" title="SAE"></i>
+                            {% endif %}
+                        </li>
+                        {% empty %}
+                        <li>No Events</li>
+                    {% endfor %}
+                </ul>
+
+                <h4>Followups</h4>
+                <p><strong>Initial:</strong>
+                    {% if kidney.followup_initial %}
+                        [pk={{ kidney.followup_initial.id }}]
+                    {% else %}
+                        Not recorded
+                    {% endif %}
+                </p>
+                <p><strong>Month 3:</strong>
+                    {% if kidney.followup_3m %}
+                        [pk={{ kidney.followup_3m.id }}]<br>
+                        {% if kidney.followup_3m.quality_of_life %}
+                            + QoL: [pk={{ kidney.followup_3m.quality_of_life.id }}]:
+                            {{ kidney.followup_3m.quality_of_life }}
+                        {% else %}
+                            + No Quality Of Life Record
+                        {% endif %}
+                    {% else %}
+                        Not recorded
+                    {% endif %}
+                </p>
+                <p><strong>Month 6:</strong>
+                    {% if kidney.followup_6m %}
+                        [pk={{ kidney.followup_6m.id }}]
+                    {% else %}
+                        Not recorded
+                    {% endif %}
+                </p>
+                <p><strong>Year 1:</strong>
+                    {% if kidney.followup_1y %}
+                        [pk={{ kidney.followup_1y.id }}]<br>
+                        {% if kidney.followup_1y.quality_of_life %}
+                            + QoL: [pk={{ kidney.followup_1y.quality_of_life.id }}]:
+                            {{ kidney.followup_1y.quality_of_life }}
+                        {% else %}
+                            + No Quality Of Life Record
+                        {% endif %}
+                    {% else %}
+                        Not recorded
+                    {% endif %}
+                </p>
+
+                {% if kidney.recipient.live %}
+                    <h3>Recipient
+                        {% with consent=kidney.recipient.signed_consent %}
+                            {% if consent %}
+                                <i class="glyphicon glyphicon-ok text-success" title="Consent Agreed"></i>
+                            {% elif consent == None %}
+                                <i class="glyphicon glyphicon-ok text-info" title="Consent Unknown"></i>
+                            {% else %}
+                                <i class="glyphicon glyphicon-remove text-danger" title="Consent Withdrawn"></i>
+                            {% endif %}
+                        {% endwith %}
+                        <small>[pk={{ kidney.recipient.id }}]</small>
+                    </h3>
+                    <p><strong>Recipient:</strong> {{ kidney.recipient }}</p>
+
+                    <h4>Recipient Samples</h4>
+                    <ul>
+                        {% for sample in kidney.recipient.person.bloodsample_set.all %}
+                            <li><strong>Blood Sample:</strong> [pk={{ sample.id }}]: {{ sample }}</li>
+                            {% empty %}
+                            <li>No Blood Samples</li>
+                        {% endfor %}
+                    </ul>
+
+                    <h4>Baseline Quality of Life</h4>
+                    {% for qol in kidney.recipient.baseline_qol %}
+                        <p><strong>QoL:</strong> [pk={{ qol.id }}]: {{ qol }}</p>
+                        {% empty %}
+                        <p>No Baseline Quality Of Life Record</p>
+                    {% endfor %}
+                {% else %}
+                    <h3>No Recipient!</h3>
+                {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+
+{% endblock %}
+

@@ -469,3 +469,14 @@ class Recipient(AuditControlModelBase):
         """
         return self.organ.trial_id
     trial_id = cached_property(_trial_id, name='trial_id')
+
+    def _baseline_qol(self):
+        """
+        Returns the Baseline Quality of Life record for the Recipient (i.e. one not linked also to a Follow Up)
+
+        :return: Quality of Life record(s)
+        :rtype: QualityOfLife
+        """
+        from wp4.health_economics.models import QualityOfLife
+        return QualityOfLife.objects.filter(recipient=self.id, followup_3m=None, followup_1y=None)
+    baseline_qol = cached_property(_baseline_qol, name='baseline_qol')

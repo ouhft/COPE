@@ -3,7 +3,7 @@
 from __future__ import absolute_import, unicode_literals
 from __future__ import print_function
 
-from .models import Donor, Randomisation
+from .models import Donor, Randomisation, Recipient
 from .models import LEFT, RIGHT
 
 
@@ -148,3 +148,80 @@ def get_person_from_trial_id(trial_id_string):
     if trial_object.is_donor:
         return trial_object.to_donor().person
     return None
+
+
+def get_donor_id_from_trial_id(trial_id_string):
+    trial_object = TrialIDUtility(trial_id_string)
+    if trial_object.is_donor:
+        return trial_object.to_donor().id
+    return None
+
+
+def delete_donor(donor_pk):
+    """
+    Soft deletes (i.e. uses livefield) all the records that spawn from the specified Donor ID
+    :param donor_pk: int, the primary key of a Donor record
+    """
+    # Work from the end of the dependencies backwards
+    donor = Donor.objects.get(pk=donor_pk)
+
+    for organ in [donor.left_kidney, donor.right_kidney]:
+        for event in organ.event_set.all():
+            if event.is_serious:
+                print("WARNING: Serious Adverse Event (id:{0}) has been deleted".format(event.id))
+            event.delete()
+
+        for allocation in organ.organallocation_set.all():
+            allocation.delete()
+
+        for resource in organ.procurementresource_set.all():
+            resource.delete()
+
+        for sample in organ.perfusatesample_set.all():
+            sample.event.delete()
+            sample.delete()
+
+        for sample in organ.tissuesample_set.all():
+            sample.event.delete()
+            sample.delete()
+
+        if organ.safe_recipient is not None:
+            organ.safe_recipient.delete()
+        organ.delete()
+
+    for sample in donor.person.bloodsample_set.all():
+        sample.event.delete()
+        sample.delete()
+
+    for sample in donor.person.urinesample_set.all():
+        sample.event.delete()
+        sample.delete()
+
+    donor.person.delete()
+    donor.delete()
+
+
+def delete_recipient(recipient_pk):
+    """
+    Soft deletes (i.e. uses livefield) all the records that spawn from the specified Recipient ID, e.g. for
+    non-consented Recipients
+    :param recipient_pk: int, the primary key of a Recipient record
+    """
+    # Work from the end of the dependencies backwards
+    recipient = Recipient.objects.get(pk=recipient_pk)
+
+    for qol in recipient.qualityoflife_set.all():
+        qol.delete()
+
+    for sample in recipient.person.bloodsample_set.all():
+        sample.event.delete()
+        sample.delete()
+
+    recipient.organ.followup_initial.delete()
+    recipient.organ.followup_3m.delete()
+    recipient.organ.followup_6m.delete()
+    recipient.organ.followup_1y.delete()
+
+    recipient.person.delete()
+    recipient.delete()
+    print("DEBUG: delete_recipient({0}) completed".format(recipient_pk))

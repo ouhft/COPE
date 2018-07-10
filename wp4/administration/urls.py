@@ -99,6 +99,16 @@ urlpatterns = [
         view=completeness.transplant_per_centre,
         name='completeness_tpc'
     ),
+    path(
+        'completeness/donor-summary/<int:donor_pk>/',
+        view=completeness.donor_summary,
+        name='stats_simple'
+    ),
+    path(
+        'completeness/donor-summary/<str:trial_id>/',
+        view=completeness.donor_summary_by_trial_id,
+        name='stats_simple'
+    ),
 
     # =================================================================  Biobank reports
     url(
