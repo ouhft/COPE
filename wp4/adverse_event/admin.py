@@ -14,6 +14,7 @@ class AdverseEventAdmin(AuditedModelAdmin):
     list_display = (
         'id',
         'organ',
+        'live',
         'onset_at_date',
         'event_ongoing',
         'is_serious',

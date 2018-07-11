@@ -103,7 +103,7 @@ def transplant_per_centre(request):
 
 
 @login_required
-def donor_summary(request, donor_pk):
+def donor_summary_by_donor_id(request, donor_pk):
     current_person = request.user
     if not current_person.is_administrator:
         raise PermissionDenied
@@ -123,7 +123,53 @@ def donor_summary(request, donor_pk):
 def donor_summary_by_trial_id(request, trial_id):
     try:
         donor_pk = get_donor_id_from_trial_id(trial_id)
-        return donor_summary(request, donor_pk)
+        return donor_summary_by_donor_id(request, donor_pk)
     except TypeError:
         raise Http404
         # return HttpResponseNotFound("Trial ID Not Found")
+
+
+@login_required
+def donor_summary_listing(request):
+    current_person = request.user
+    if not current_person.is_administrator:
+        raise PermissionDenied
+
+    donors = Donor.all_objects.all().order_by('trial_id')
+
+    return render(
+        request,
+        'administration/completeness/donor-summary-listing.html',
+        {
+            'donors': donors
+        }
+    )
+
+
+@login_required
+def consent_summary_listing(request):
+    current_person = request.user
+    if not current_person.is_administrator:
+        raise PermissionDenied
+
+    recipients = Recipient.objects.exclude(signed_consent=True).order_by('organ__trial_id')
+
+    summary = {
+        "non_consent": 0,
+        "unknown": 0
+    }
+
+    for recipient in recipients:
+        if recipient.signed_consent is None:
+            summary["unknown"] += 1
+        else:
+            summary["non_consent"] += 1
+
+    return render(
+        request,
+        'administration/completeness/consent-summary-listing.html',
+        {
+            'summary': summary,
+            'listing': recipients
+        }
+    )

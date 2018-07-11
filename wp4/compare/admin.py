@@ -52,7 +52,7 @@ class AuditedModelAdmin(CompareVersionAdmin):
 # =========== Models.Core ===============
 @admin.register(Patient)
 class PatientAdmin(AuditedModelAdmin):
-    list_display = ('id', 'trial_id', 'number', 'gender', 'age_from_dob',  'is_alive', 'recipient', 'donor')
+    list_display = ('id', 'trial_id', 'live', 'number', 'gender', 'age_from_dob',  'is_alive', 'recipient', 'donor')
     ordering = ('id',)
     fields = AuditedModelAdmin.fields + (
         'number',
@@ -90,6 +90,7 @@ class DonorAdmin(AuditedModelAdmin):
     list_display = (
         'id',
         'trial_id',
+        'live',
         'person',
         'retrieval_team',
         'perfusion_technician',
@@ -188,6 +189,7 @@ class OrganAdmin(AuditedModelAdmin):
     list_display = (
         'id',
         'trial_id',
+        'live',
         'location',
         'transplantable',
         'is_allocated',
@@ -245,6 +247,7 @@ class OrganAllocationAdmin(AuditedModelAdmin):
     list_display = (
         'id',
         'organ',
+        'live',
         'reallocated',
         'transplant_hospital',
         'perfusion_technician',
@@ -271,6 +274,7 @@ class RecipientAdmin(AuditedModelAdmin):
     list_display = (
         'id',
         'trial_id',
+        'live',
         'person',
         'allocation',
         'signed_consent',

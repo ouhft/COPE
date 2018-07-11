@@ -1,0 +1,58 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+
+{% block page_title %}{{ location }} Completeness Report: Non Consent Summary - Administration{% endblock %}
+{% block page_header %}
+    Non Consent Summary
+    <small>COMPLETENESS REPORT</small>
+{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:administration:index' %}">Administration</a></li>
+    <li class="active">Completeness Report: Non Consent Summary</li>
+{% endblock %}
+
+{% block content %}
+    <h2>Summary</h2>
+    <p>There are {{ summary.non_consent }} Non Consenting Recipients, and {{ summary.unknown }} recipients with Unknown
+        consent</p>
+
+    <h2>Listing</h2>
+
+    <table class="table table-responsive">
+        <thead>
+        <tr>
+            <th>Trial ID</th>
+            <th>Consent Status</th>
+            {% if request.user.is_staff %}
+                <th>Admin</th>
+            {% endif %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for recipient in listing %}
+            <tr>
+                <td>
+                    {{ recipient.trial_id }}
+                </td>
+                <td>
+                    {% if recipient.signed_consent == None %}
+                        <i class="glyphicon glyphicon-question-sign text-warning" title="Unknown"></i>
+                    {% else %}
+                        <i class="glyphicon glyphicon-warning-sign text-danger" title="Withdrawn"></i>
+                    {% endif %}
+                </td>
+                {% if request.user.is_staff %}
+                    <td>
+                        <a href="{% url 'admin:compare_recipient_change' recipient.id %}"><i
+                                class="glyphicon glyphicon-briefcase"></i></a>
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
+

@@ -101,13 +101,23 @@ urlpatterns = [
     ),
     path(
         'completeness/donor-summary/<int:donor_pk>/',
-        view=completeness.donor_summary,
-        name='stats_simple'
+        view=completeness.donor_summary_by_donor_id,
+        name='donor_summary_donor'
     ),
     path(
         'completeness/donor-summary/<str:trial_id>/',
         view=completeness.donor_summary_by_trial_id,
-        name='stats_simple'
+        name='donor_summary_trial'
+    ),
+    path(
+        'completeness/donor-summary/',
+        view=completeness.donor_summary_listing,
+        name='donor_summary'
+    ),
+    path(
+        'completeness/consent-summary/',
+        view=completeness.consent_summary_listing,
+        name='consent_summary'
     ),
 
     # =================================================================  Biobank reports

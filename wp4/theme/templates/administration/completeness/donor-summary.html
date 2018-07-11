@@ -10,7 +10,8 @@
     <li><a href="{% url 'home' %}">Home</a></li>
     <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
     <li><a href="{% url 'wp4:administration:index' %}">Administration</a></li>
-    <li class="active">Completeness Report: Donor Summary</li>
+    <li><a href="{% url 'wp4:administration:donor_summary' %}">Donor Summary</a></li>
+    <li class="active">Completeness Report: {{ donor.trial_id }}</li>
 {% endblock %}
 
 {% block content %}

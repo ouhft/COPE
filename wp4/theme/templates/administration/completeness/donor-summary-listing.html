@@ -1,0 +1,63 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+
+{% block page_title %}{{ location }} Completeness Report: Donor Summary - Administration{% endblock %}
+{% block page_header %}
+    Donor Summary
+    <small>COMPLETENESS REPORT</small>
+{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:administration:index' %}">Administration</a></li>
+    <li class="active">Completeness Report: Donor Summary</li>
+{% endblock %}
+
+{% block content %}
+    <h2>Listing All Donors</h2>
+
+    <table class="table table-responsive">
+        <thead>
+        <tr>
+            <th>Trial ID</th>
+            <th>Live</th>
+            {% if request.user.is_staff %}
+                <th>Admin</th>
+            {% endif %}
+            <th>Donor Summary</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for donor in donors %}
+            <tr>
+                <td>
+                    {{ donor.trial_id }}
+                </td>
+                <td>
+                    {% if donor.live == True %}
+                        <i class="glyphicon glyphicon-ok text-success" title="Yes"></i>
+                    {% else %}
+                        <i class="glyphicon glyphicon-warning-sign text-danger" title="Deleted"></i>
+                    {% endif %}
+                </td>
+                {% if request.user.is_staff %}
+                    <td>
+                        <a href="{% url 'admin:compare_donor_change' donor.id %}"><i
+                                class="glyphicon glyphicon-briefcase"></i></a>
+                    </td>
+                {% endif %}
+                <td>
+                    {% if donor.live == True %}
+                    <a href="{% url 'wp4:administration:donor_summary_donor' donor.id %}" class="btn btn-xs btn-default"><i
+                            class="glyphicon glyphicon-eye-open"></i>
+                        {{ donor.id }}
+                    </a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
+
