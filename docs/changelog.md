@@ -2,7 +2,68 @@
 
 This is a list of changes made to the website and application for each release.
 
+## v0.9.2 (11 Jul 2018) - Bugfix
+* Issue #328: Listing page added showing non-consenting Recipients
+
+## v0.9.1 (3 Apr 2018) - Bugfix
+* Third party updates for security (e.g. Django 2.0.4)
+* Issue #321: Updates to labels - calcinurin and similar on Follow Up forms
+* Issue #322: Changes to the Follow up listing
+* Issue #323: New functions for listing Health Economics QoL results
+
+## v0.9.0 (24 Jan 2018) - Documentation Improvements
+This was a partial release of a tranche of work identified, not all of which has been critical to the project activities.
+
+* Issue #307: Date of procurement misaligned on DMC Adverse Events Report - fixed
+* Issue #308: Migrate Test site from external hosting to internal server - Implemented. https://dev.nds.ox.ac.uk/cope/ now hosts the test/preview version of this application. Documentation is also available on that server as it is here.
+* Issues #309-314, 317-318: DMC Process Improvements. Developed and applied to test server. Some aspects have yet to be fully realised.
+* Issue #316: Update to Django 2.0 - main development framework had a major release with multiple breaking changes to be rectified.
+* Miscellaneous other updates
+  - Statistician access to Admin screens fixed
+  - Added a creatinine unit display to the Procurement report
+
+## v0.8.5 (20 Sep 2017) - Bugfix
+* Issue #282: Make Admin fields accessible on main system for Admin team members
+* Issue #306: ISE: ImproperlyConfigured at /en-gb/wp4/adverse-event/670/ Using ModelFormMixin (base class of AdverseEventUpdateView) without the 'fields' attribute is prohibited - Fixed
+* Miscellaneous other updates
+  - Documentation updates for development and deployment
+  - Paired Biopsies report enhancements
+  - Added "Admin Notes" fields to the Procurement and Transplantation forms for admin users
+
+## v0.8.4 (7 Jul 2017) - Minor Enhancements
+* Issue #214: Add date of transplant to adverse events report
+* Issue #259: Modify Basic Admin query set to be LiveField aware
+* Issue #298: Convert Patient.trial_id() to a property rather than a method - Done
+* Issue #300: Add a View Profile to Staff listing - Implemented
+
+## v0.8.3 (27 Jun 2017) - Minor Enhancements
+* Issue #270: Modify the S/AE start process so that Date of Death is loaded once an organ is selected - Implemented
+* Issue #271: S/AE Form Date of Death missing Unknown option - Fixed
+* Issue #290: Urine and Perfusate Sample collection reports are missing - Resolved
+* Issue #291: S/AE Add Event results in ISE for RelatedObjectDoesNotExist at /en-gb/wp4/adverse-event/add/ - Fixed
+* Issue #294: WP7 Data Export process - Implemented
+* Issue #295: WP7 Data Import via UI - Implemented
+* Issue #296: WP7 Rematch sample data on update - Implemented
+
 ## v0.8.2 (16 Jun 2017) - Bugfix
+* Issue #186: Ongoing work with the documentation processes
+* Issue #249: Access to reports for Central Investigator - Fixed.
+* Issue #258: Add key and description to Completed Pairs report
+* Issue #276: WP7 data exchange upgrades
+  - New WP7Record model added to store output from the WP7 database that confirms a sample has been received.
+  - Command-line process written to import data and match on barcode
+* Issue #280: Added Report showing list of all patients and their linking information (i.e. demographics)
+* Issue #287: Transplantation form throws AttributeError on current version of DAL and Django - Fixed.
+* Issue #289: S/AE Form has ISE for missing person - due to case having no recipient - Fixed.
+* DMC Reports:
+  - Open version of Death Summaries
+  - Typographical errors corrected
+  - Added date of procurement to most reports as an indication of when the organ was transplanted
+* Miscellaneous other updates
+  - Fixed permission issue related to Central Administrator role and the is_administrator checks
+  - Added a new completeness report for Transplants per Centre
+  - Added Tissue Sample report for Biobank
+  - Third party libraries updated. Issues introduced (such as increased load times due to CrispyForms interacting with ForeignKeys and Select lists) by the updates were resolved.
 
 ## v0.8.1 (31 Mar 2017) - Bugfix
 * Issue #262: 
@@ -10,7 +71,7 @@ This is a list of changes made to the website and application for each release.
   - Added the start of a Follow Ups report to help debug this issue
   - Basic Admin updates for Samples app
 * Issue #265:
-  - New template tag produced to allow progamatic changes to querystring values
+  - New template tag produced to allow programatic changes to querystring values
   - Template tag used in paginator
   - Sort Columns extracted as an include, to use the `query_transform` tag and simplified calling
   - Modified the main listing templates that had manually implemented sorting
@@ -66,7 +127,7 @@ This is a list of changes made to the website and application for each release.
 * S/AE Emails send on saving (Issue [#155](https://github.com/AllyBradley/COPE/issues/155))
 * The 0.8.0 Release introduced Database Breaking changes, and so there is no automatic migration path from earlier versions to this release. New database setup scripts were generated, and lots of manual effort has been put in to port (and clean) the data between releases.
 * Added Categorisation to S/AE events (Issue [#190](https://github.com/AllyBradley/COPE/issues/190))
-* Changed the need to link Donor to a specific hospital, and allow freetext records (Issue [#211](https://github.com/AllyBradley/COPE/issues/211))
+* Changed the need to link Donor to a specific hospital, and allow free-text records (Issue [#211](https://github.com/AllyBradley/COPE/issues/211))
 * Removed Transplant Technicians' ability to add-new/edit Allocation Hospitals (Issue [#212](https://github.com/AllyBradley/COPE/issues/212))
 * Restricted Allocation locations on Transplant form to Project Sites + "other" (Issue [#210](https://github.com/AllyBradley/COPE/issues/210))
 * Removed duplicate Staff records introduced through a combination of human error and process logic (Issue [#180](https://github.com/AllyBradley/COPE/issues/180))
@@ -87,7 +148,7 @@ This is a list of changes made to the website and application for each release.
 * StaffJob profiles have been replaced with Auth.Groups (Issue [#167](https://github.com/AllyBradley/COPE/issues/167))
 * Modified the database backup script to compress on backup due to space constraints
 * Added script to send an email on server boot and shutdown (Issue [#132](https://github.com/AllyBradley/COPE/issues/132))
-* Configuration to support logrotation added (Issue [#135](https://github.com/AllyBradley/COPE/issues/135)) 
+* Configuration to support log-rotation added (Issue [#135](https://github.com/AllyBradley/COPE/issues/135)) 
 * Fixed a logrotate permissions bug (Issue [#138](https://github.com/AllyBradley/COPE/issues/138))
 * Added `Organ.was_cold_stored` as per Issue [#166](https://github.com/AllyBradley/COPE/issues/166)
 * Changed hardcoded email references to use Staff record details (Issue [#239](https://github.com/AllyBradley/COPE/issues/239))
@@ -140,7 +201,7 @@ This is a list of changes made to the website and application for each release.
 
 
 ## v0.5.1 (1 May 2016) - Bugfix 
-* Internal documentation comments were appearing in the UI. These have been modifed or hidden (Issue #89)
+* Internal documentation comments were appearing in the UI. These have been modified or hidden (Issue #89)
 * Online randomisation was failing, due to an incorrect validation check on an internal sequence number. (Issue #88)
 * Question RE22 on the recipient form (Tape over regulator broken?) has not been saving. Incorrect field definition has been fixed. (Issue #81)
 
@@ -167,7 +228,7 @@ This is a list of changes made to the website and application for each release.
 * Follow Up forms:
  * Urine Creatinine has been removed (Issue #49)
  * "Are they dead" question added to each stage of the forms (Issue #40)
-* Security improvments made with:
+* Security improvements made with:
  * Password rules implemented
  * Access controls tightened on all areas
  * Templates and menus now only show links for accessible (to you) areas
@@ -193,7 +254,7 @@ This is a list of changes made to the website and application for each release.
 * Updated the core VersionControlModel class to handle saving for inherited classes
 * New managers added to the Organ class to handle common queries
 * Added `not_allocated_reason` to replace the redundant `allocated` attribute
-* Two permission checking utilities added to determine if member of a list of groups, or has a specifed Job
+* Two permission checking utilities added to determine if member of a list of groups, or has a specified Job
 * Many models updated to replace method calls with more appropriate property flags, and subsequent related corrections
 * Organ now has an `explain_is_allocated` method that attempts to work out the allocated status of itself, and put it into words
 * Foreign Key Widget now shows error messages when appropriate (previously they were not displayed)
