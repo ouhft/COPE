@@ -46,3 +46,4 @@ node_modules/
 # Django
 staticfiles/
 media/
+/wp4/theme/static/config.codekit3
