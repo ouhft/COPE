@@ -266,7 +266,7 @@ class FollowUpInitial(FollowUpBase):
         verbose_name = _("FIm1 Initial FollowUp")
         verbose_name_plural = _("FIm2 Initial FollowUps")
         permissions = (
-            ("view_followupinitial", "Can only view the data"),
+            # ("view_followupinitial", "Can only view the data"),  # Replaced by Django 2.1 functionality
             ("restrict_to_national", "Can only use data from the same location country"),
             ("restrict_to_local", "Can only use data from a specific location"),
         )
@@ -357,7 +357,7 @@ class FollowUp3M(FollowUpBase):
         verbose_name = _("F3m1 3 Month FollowUp")
         verbose_name_plural = _("F3m2 3 Month FollowUps")
         permissions = (
-            ("view_followup3m", "Can only view the data"),
+            # ("view_followup3m", "Can only view the data"),  # Replaced by Django 2.1 functionality
             ("restrict_to_national", "Can only use data from the same location country"),
             ("restrict_to_local", "Can only use data from a specific location"),
         )
@@ -446,7 +446,7 @@ class FollowUp6M(FollowUpBase):
         verbose_name = _("F6m1 6 Month FollowUp")
         verbose_name_plural = _("F6m2 6 Month FollowUps")
         permissions = (
-            ("view_followup6m", "Can only view the data"),
+            # ("view_followup6m", "Can only view the data"),  # Replaced by Django 2.1 functionality
             ("restrict_to_national", "Can only use data from the same location country"),
             ("restrict_to_local", "Can only use data from a specific location"),
         )
@@ -544,7 +544,7 @@ class FollowUp1Y(FollowUpBase):
         verbose_name = _("FYm1 1 Year FollowUp")
         verbose_name_plural = _("FYm2 1 Year FollowUps")
         permissions = (
-            ("view_followup1y", "Can only view the data"),
+            # ("view_followup1y", "Can only view the data"),  # Replaced by Django 2.1 functionality
             ("restrict_to_national", "Can only use data from the same location country"),
             ("restrict_to_local", "Can only use data from a specific location"),
         )

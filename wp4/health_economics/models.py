@@ -74,7 +74,7 @@ class QualityOfLife(AuditControlModelBase):
         verbose_name = _("QLm1 Quality of Life record")
         verbose_name_plural = _("QLm2 Quality of Life records")
         permissions = (
-            ("view_qualityoflife", "Can only view the data"),
+            # ("view_qualityoflife", "Can only view the data"),  # Replaced by Django 2.1 functionality
             ("restrict_to_national", "Can only use data from the same location country"),
             ("restrict_to_local", "Can only use data from a specific location"),
         )
@@ -133,7 +133,7 @@ class ResourceLog(AuditControlModelBase):
         verbose_name = _("RLm1 Resource Usage Log")
         verbose_name_plural = _("RLm2 Resource Usage Logs")
         permissions = (
-            ("view_resourcelog", "Can only view the data"),
+            # ("view_resourcelog", "Can only view the data"),  # Replaced by Django 2.1 functionality
             ("restrict_to_national", "Can only use data from the same location country"),
             ("restrict_to_local", "Can only use data from a specific location"),
         )
@@ -176,7 +176,7 @@ class ResourceVisit(AuditControlModelBase):
 
     class Meta:
         permissions = (
-            ("view_resourcevisit", "Can only view the data"),
+            # ("view_resourcevisit", "Can only view the data"),  # Replaced by Django 2.1 functionality
             ("restrict_to_national", "Can only use data from the same location country"),
             ("restrict_to_local", "Can only use data from a specific location"),
         )
@@ -207,7 +207,7 @@ class ResourceHospitalAdmission(AuditControlModelBase):
 
     class Meta:
         permissions = (
-            ("view_resourcehospitaladmission", "Can only view the data"),
+            # ("view_resourcehospitaladmission", "Can only view the data"),  # Replaced by Django 2.1 functionality
             ("restrict_to_national", "Can only use data from the same location country"),
             ("restrict_to_local", "Can only use data from a specific location"),
         )
@@ -236,7 +236,7 @@ class ResourceRehabilitation(AuditControlModelBase):
 
     class Meta:
         permissions = (
-            ("view_resourcerehabilitation", "Can only view the data"),
+            # ("view_resourcerehabilitation", "Can only view the data"),  # Replaced by Django 2.1 functionality
             ("restrict_to_national", "Can only use data from the same location country"),
             ("restrict_to_local", "Can only use data from a specific location"),
         )

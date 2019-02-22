@@ -313,7 +313,7 @@ class RetrievalTeam(models.Model):
         verbose_name = _('RTm1 retrieval team')
         verbose_name_plural = _('RTm2 retrieval teams')
         permissions = (
-            ("view_retrievalteam", "Can only view the data"),
+            # ("view_retrievalteam", "Can only view the data"),  # Replaced by Django 2.1 functionality
             ("restrict_to_national", "Can only use data from the same location country"),
             ("restrict_to_local", "Can only use data from a specific location"),
         )

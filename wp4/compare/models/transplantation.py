@@ -114,7 +114,7 @@ class OrganAllocation(AuditControlModelBase):
         verbose_name_plural = _('OAm2 organ allocations')
         get_latest_by = 'pk'
         permissions = (
-            ("view_organallocation", "Can only view the data"),
+            # ("view_organallocation", "Can only view the data"),  # Replaced by Django 2.1 functionality
             ("restrict_to_national", "Can only use data from the same location country"),
             ("restrict_to_local", "Can only use data from a specific location"),
         )
@@ -392,7 +392,7 @@ class Recipient(AuditControlModelBase):
         verbose_name_plural = _('REm2 recipients')
         get_latest_by = 'pk'
         permissions = (
-            ("view_recipient", "Can only view the data"),
+            # ("view_recipient", "Can only view the data"),  # Replaced by Django 2.1 functionality
             ("restrict_to_national", "Can only use data from the same location country"),
             ("restrict_to_local", "Can only use data from a specific location"),
         )

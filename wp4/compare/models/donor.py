@@ -342,7 +342,7 @@ class Donor(AuditControlModelBase):
         verbose_name = _('DOm1 donor')
         verbose_name_plural = _('DOm2 donors')
         permissions = (
-            ("view_donor", "Can only view the data"),
+            # ("view_donor", "Can only view the data"),  # Replaced by Django 2.1 functionality
             ("restrict_to_national", "Can only use data from the same location country"),
             ("restrict_to_local", "Can only use data from a specific location"),
         )
@@ -888,7 +888,7 @@ class Organ(AuditControlModelBase):
         base_manager_name = 'objects'
         ordering = ['id']
         permissions = (
-            ("view_organ", "Can only view the data"),
+            # ("view_organ", "Can only view the data"),  # Replaced by Django 2.1 functionality
             ("restrict_to_national", "Can only use data from the same location country"),
             ("restrict_to_local", "Can only use data from a specific location"),
         )
@@ -1280,7 +1280,7 @@ class ProcurementResource(AuditControlModelBase):
         verbose_name_plural = _('PRm2 procurement resources')
         ordering = ['id']
         permissions = (
-            ("view_procurementresource", "Can only view the data"),
+            # ("view_procurementresource", "Can only view the data"),  # Replaced by Django 2.1 functionality
         )
 
     def clean(self):

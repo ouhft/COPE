@@ -115,7 +115,7 @@ class Event(AuditControlModelBase):
         verbose_name = _('AEm1 adverse event')
         verbose_name_plural = _('AEm2 adverse events')
         permissions = (
-            ("view_event", "Can only view the data"),
+            # ("view_event", "Can only view the data"),  # Replaced by Django 2.1 functionality
             ("restrict_to_national", "Can only use data from the same location country"),
             ("restrict_to_local", "Can only use data from a specific location"),
         )
