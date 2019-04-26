@@ -7,7 +7,7 @@ from django.core.validators import validate_email, ValidationError
 from .models import Person
 
 JACQUES_PIREENE = 109  # Staff.Person at v0.8.0
-INA_JOCHMANS = 108  # Staff.Person at v0.8.0
+INA_JOCHMANS = 419  # Staff.Person at v0.9.3 -- See #337 about original account being overwritten by SM
 SARAH_MERTENS = 6  # Staff.Person at v0.8.0
 ALLY_BRADLEY = 3  # Staff.Person at v0.8.0
 AUKJE_BRAT = 78  # Staff.Person at v0.8.0
