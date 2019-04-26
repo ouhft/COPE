@@ -1,4 +1,5 @@
 {% extends "base_site.html" %}
+{% load theme_tags %}
 
 {% block page_title %}Staff{% endblock %}
 {% block page_header %}Staff{% endblock %}
@@ -9,8 +10,16 @@
 {% endblock %}
 
 {% block content %}
-    <h2><a href="{% url 'wp4:staff:update' person.id %}" class="btn btn-primary" title="Edit this Person"><i
-                            class="glyphicon glyphicon-edit"></i>{{ person.id }}</a> {{ person.get_full_name }}</h2>
+    <h2>
+        <a href="{% url 'wp4:staff:update' person.id %}" class="btn btn-primary" title="Edit this Person">
+            <i class="glyphicon glyphicon-edit"></i> {{ person.id }}
+        </a> {{ person.get_full_name }}
+        {% if request.user.is_staff %}
+            <small>
+            <a href="{% url 'admin:staff_person_change' person.id %}"><i class="glyphicon glyphicon-briefcase"></i></a>
+            </small>
+        {% endif %}
+    </h2>
     <div class="row">
         <div class="col-md-6">
             <dl class="dl-horizontal">
