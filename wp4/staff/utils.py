@@ -34,19 +34,19 @@ def generate_username(current_person):
     """
     Take the last name, and initials of first names, remove spaces and return as lowercase
     
-    TODO: Strip out hyphens in the last name
-    
     :param current_person: Person object requiring a new username
     :return string: username
     """
-    last_name = ''.join(current_person.last_name.split())
+    last_name = ''.join(current_person.last_name.replace('-','').split())
+    # print("DEBUG: generate_username({0}): last_name={1}".format(current_person.last_name, last_name))
     first_name = "".join(item[0] for item in current_person.first_name.split())
     username = "{0}{1}".format(first_name, last_name).lower()
 
     # Now test for collisions, until there are none
     i = 1
     while Person.objects.filter(username=username).exclude(pk=current_person.id).count() > 0:
-        username += str(i)
+        username = "{0}{1}".format(first_name, last_name).lower() + str(i)
         i += 1
 
+    # print("DEBUG: generate_username({0}): username={1}".format(current_person.last_name, username))
     return username
