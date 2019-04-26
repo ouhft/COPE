@@ -5,6 +5,8 @@ import datetime
 
 from django import forms
 from django.conf import settings
+from django.db.models.functions import Concat
+from django.db.models import Value
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Div, HTML, Field
@@ -13,7 +15,7 @@ from dal import autocomplete
 
 from wp4.compare.models import YES_NO_UNKNOWN_CHOICES, Patient
 from wp4.compare.forms.core import NO_YES_CHOICES
-from wp4.theme.layout import DateField, FormPanel, ForeignKeyModal, FieldWithFollowup, FieldWithNotKnown
+from wp4.theme.layout import DateField, FormPanel, FieldWithFollowup, FieldWithNotKnown
 from wp4.staff.models import Person
 
 from wp4.compare.models.donor import Organ
@@ -64,8 +66,10 @@ class EventForm(forms.ModelForm):
         self.fields['date_of_death'].required = False
         self.fields['date_of_death_unknown'].required = False
         self.fields['treatment_related'].choices = YES_NO_UNKNOWN_CHOICES
-        # Removes the cause of the ISE, but slows down page load - #291
-        # self.fields['contact'].choices = Person.objects.filter(id=self.instance.contact.id).values_list('id', 'last_name')
+        self.fields['contact'].choices = Person.objects.\
+            filter(groups__id=Person.LOCAL_INVESTIGATOR).\
+            annotate(full_name=Concat('first_name', Value(' '), 'last_name')).\
+            values_list('id', 'full_name')
 
         try:
             if self.instance.organ.safe_recipient:
@@ -171,7 +175,8 @@ class EventForm(forms.ModelForm):
                     )
                 ),
             )),
-            ForeignKeyModal('contact'),
+            # ForeignKeyModal('contact'), -- remove the ability to create new users here as they are not Local Investigators #339
+            Field('contact'),
         )
 
     def save(self, commit=True):
@@ -237,6 +242,10 @@ class EventStartForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(EventStartForm, self).__init__(*args, **kwargs)
         self.fields['onset_at_date'].input_formats = settings.DATE_INPUT_FORMATS
+        self.fields['contact'].choices = Person.objects.\
+            filter(groups__id=Person.LOCAL_INVESTIGATOR).\
+            annotate(full_name=Concat('first_name', Value(' '), 'last_name')).\
+            values_list('id', 'full_name')
 
         self.helper = FormHelper(self)
         self.helper.form_tag = False
@@ -245,7 +254,8 @@ class EventStartForm(forms.ModelForm):
             FormPanel("Start a new event", Layout(
                 self.organ_field,
                 DateField('onset_at_date'),
-                ForeignKeyModal('contact'),
+                # ForeignKeyModal('contact'), -- remove the ability to create new users here as they are not Local Investigators #339
+                Field('contact'),
             )),
         )
 
