@@ -42,9 +42,11 @@
                 <dd>{{ person.id }}</dd>
                 <dt>Username</dt>
                 <dd>{{ person.username }}</dd>
-                {% if user.is_staff %}
                 <dt>Is Active?</dt>
-                <dd>{{ person.is_active|yesno|capfirst }}</dd>
+                <dd class="{% if not person.is_active %}bg-danger{% endif %}">
+                    {{ person.is_active|yesno|capfirst }}
+                </dd>
+                {% if user.is_staff %}
                 <dt>Is Staff?</dt>
                 <dd>{{ person.is_staff|yesno|capfirst }}</dd>
                 <dt>Is Superuser?</dt>

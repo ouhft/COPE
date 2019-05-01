@@ -7,7 +7,7 @@ from __future__ import absolute_import, unicode_literals
 from django import forms
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Div
+from crispy_forms.layout import Layout, Div, HTML
 from crispy_forms.bootstrap import InlineCheckboxes
 
 from .models import Person
@@ -20,6 +20,7 @@ class PersonForm(forms.ModelForm):
     helper.layout = Layout(
         Div(
             Div(
+                'is_active',
                 'first_name',
                 'last_name',
                 'email',
@@ -29,6 +30,10 @@ class PersonForm(forms.ModelForm):
             Div(
                 'based_at',
                 InlineCheckboxes('groups'),
+                HTML("""
+                   <a href="{% url 'password_change' %}" class="btn btn-default">Change User Password</a> 
+                   NB: This requires the user's existing password to be used.
+                """),
                 css_class="col-md-6", style="margin-top: 10px;"
             ),
             css_class="row"
@@ -41,7 +46,7 @@ class PersonForm(forms.ModelForm):
 
     class Meta:
         model = Person
-        fields = ('first_name', 'last_name', 'telephone', 'email', 'based_at', 'groups')
+        fields = ('is_active', 'first_name', 'last_name', 'telephone', 'email', 'based_at', 'groups')
 
 
 class PersonAjaxForm(forms.ModelForm):
