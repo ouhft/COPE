@@ -53,6 +53,7 @@ class DonorForm(forms.ModelForm):
         self.fields['other_organs_tissue'].choices = NO_YES_CHOICES
         self.fields['diabetes_melitus'].choices = YES_NO_UNKNOWN_CHOICES
         self.fields['alcohol_abuse'].choices = YES_NO_UNKNOWN_CHOICES
+        self.fields['hypertension'].choices = YES_NO_UNKNOWN_CHOICES
         self.fields['cardiac_arrest'].choices = NO_YES_CHOICES
         self.fields['dopamine'].choices = YES_NO_UNKNOWN_CHOICES
         self.fields['dobutamine'].choices = YES_NO_UNKNOWN_CHOICES
@@ -183,6 +184,7 @@ class DonorForm(forms.ModelForm):
                     FieldWithFollowup('diagnosis', 'diagnosis_other'),
                     Field('diabetes_melitus', template="bootstrap3/layout/radioselect-buttons.html"),
                     Field('alcohol_abuse', template="bootstrap3/layout/radioselect-buttons.html"),
+                    Field('hypertension', template="bootstrap3/layout/radioselect-buttons.html"),
                     Field('cardiac_arrest', template="bootstrap3/layout/radioselect-buttons.html"),
                     'systolic_blood_pressure',
                     'diastolic_blood_pressure',
@@ -222,7 +224,7 @@ class DonorForm(forms.ModelForm):
             'date_of_admission', 'date_of_admission_unknown', 'admitted_to_itu', 'date_admitted_to_itu',
             'date_admitted_to_itu_unknown', 'date_of_procurement',
             'other_organs_procured', 'other_organs_lungs', 'other_organs_pancreas', 'other_organs_liver',
-            'other_organs_tissue', 'diagnosis', 'diagnosis_other', 'diabetes_melitus', 'alcohol_abuse',
+            'other_organs_tissue', 'diagnosis', 'diagnosis_other', 'diabetes_melitus', 'alcohol_abuse', 'hypertension',
             'cardiac_arrest', 'systolic_blood_pressure', 'diastolic_blood_pressure', 'diuresis_last_day',
             'diuresis_last_day_unknown', 'diuresis_last_hour', 'diuresis_last_hour_unknown', 'dopamine',
             'dobutamine', 'nor_adrenaline', 'vasopressine', 'other_medication_details', 'last_creatinine',

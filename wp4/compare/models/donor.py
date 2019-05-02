@@ -187,6 +187,12 @@ class Donor(AuditControlModelBase):
         choices=YES_NO_UNKNOWN_CHOICES,
         blank=True, null=True
     )  #: Choices limited to YES_NO_UNKNOWN_CHOICES
+    hypertension = models.PositiveSmallIntegerField(
+        verbose_name=_('DO53 donor hypertension'),
+        choices=YES_NO_UNKNOWN_CHOICES,
+        default=None,
+        blank=True, null=True
+    )  #: Choices limited to YES_NO_UNKNOWN_CHOICES. Added per #336, post trial closure.
     cardiac_arrest = models.NullBooleanField(
         verbose_name=_('DO26 cardiac arrest'),
         blank=True, null=True

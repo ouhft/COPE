@@ -139,6 +139,7 @@ class DonorAdmin(AuditedModelAdmin):
             ('diagnosis', 'diagnosis_other'),
             'diabetes_melitus',
             'alcohol_abuse',
+            'hypertension',
             'cardiac_arrest',
             ('systolic_blood_pressure', 'diastolic_blood_pressure'),
             ('diuresis_last_day', 'diuresis_last_day_unknown'),
