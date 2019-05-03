@@ -48,6 +48,8 @@ def report_procurement(request):
         "donor.get_diabetes_melitus_display",
         "donor.alcohol_abuse",
         "donor.get_alcohol_abuse_display",
+        "donor.hypertension",
+        "donor.get_hypertension_display",
         "donor.diuresis_last_day",
         "donor.last_creatinine",
         "donor.get_last_creatinine_unit_display"
@@ -105,6 +107,8 @@ def report_procurement(request):
         result_row.append(donor.get_diabetes_melitus_display())
         result_row.append(donor.alcohol_abuse)
         result_row.append(donor.get_alcohol_abuse_display())
+        result_row.append(donor.hypertension)
+        result_row.append(donor.get_hypertension_display())
         result_row.append(donor.diuresis_last_day)
         result_row.append(donor.last_creatinine)
         result_row.append(donor.get_last_creatinine_unit_display())
@@ -507,6 +511,7 @@ def report_data_flattened(request):
         "organ.donor.diagnosis_other",
         "organ.donor.get_diabetes_melitus_display",
         "organ.donor.get_alcohol_abuse_display",
+        "organ.donor.get_hypertension_display",  # Added for #336
         "organ.donor.cardiac_arrest",
         "organ.donor.systolic_blood_pressure",  # 50
         "organ.donor.diastolic_blood_pressure",
@@ -522,7 +527,9 @@ def report_data_flattened(request):
         "organ.donor.last_creatinine",
         "organ.donor.get_last_creatinine_unit_display",
         "organ.donor.max_creatinine",
-        "organ.donor.max_creatinine_unit",
+        "organ.donor.get_max_creatinine_unit_display",
+        "organ.donor.panel_reactive_antibodies",  # Added for #336
+        "organ.donor.panel_reactive_antibodies_unknown",   # Added for #336
         "organ.donor.life_support_withdrawal",
         "organ.donor.systolic_pressure_low",
         "organ.donor.systolic_pressure_low_unknown",
@@ -937,6 +944,7 @@ def report_data_flattened(request):
         result_row.append(donor.diagnosis_other)
         result_row.append(donor.get_diabetes_melitus_display())
         result_row.append(donor.get_alcohol_abuse_display())
+        result_row.append(donor.get_hypertension_display())
         result_row.append(donor.cardiac_arrest)
         result_row.append(donor.systolic_blood_pressure)  # 50
         result_row.append(donor.diastolic_blood_pressure)
@@ -952,7 +960,9 @@ def report_data_flattened(request):
         result_row.append(donor.last_creatinine)
         result_row.append(donor.get_last_creatinine_unit_display())
         result_row.append(donor.max_creatinine)
-        result_row.append(donor.max_creatinine_unit)
+        result_row.append(donor.get_max_creatinine_unit_display())
+        result_row.append(donor.panel_reactive_antibodies)
+        result_row.append(donor.panel_reactive_antibodies_unknown)
         try:
             result_row.append(donor.life_support_withdrawal.strftime("%d-%m-%Y %H:%M %Z"))
         except AttributeError:
