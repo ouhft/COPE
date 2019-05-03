@@ -25,7 +25,7 @@ class Patient(AuditControlModelBase):
     Base attributes for a person involved in this case as a donor or recipient.
 
     Patients are not localised in and of themselves, but Donors and Recipients are, thus this class has no geographic
-    permissions set. Similiarly, because this data is a subset of the Donor and Recipient records it will be treated
+    permissions set. Similarly, because this data is a subset of the Donor and Recipient records it will be treated
     using the permissions given to those objects.
     """
     MALE = 'M'  #: CONSTANT for GENDER_CHOICES

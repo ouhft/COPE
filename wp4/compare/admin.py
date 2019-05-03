@@ -152,7 +152,8 @@ class DonorAdmin(AuditedModelAdmin):
         ]}),
         ('Lab Results', {'fields': [
             ('last_creatinine', 'last_creatinine_unit'),
-            ('max_creatinine', 'max_creatinine_unit')
+            ('max_creatinine', 'max_creatinine_unit'),
+            ('panel_reactive_antibodies', 'panel_reactive_antibodies_unknown')
         ]}),
         ('Operation Data', {'fields': [
             'life_support_withdrawal',

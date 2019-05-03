@@ -198,7 +198,8 @@ class DonorForm(forms.ModelForm):
                 )),
                 FormPanel("Lab Results", Layout(
                     InlineFields('last_creatinine', 'last_creatinine_unit'),
-                    InlineFields('max_creatinine', 'max_creatinine_unit')
+                    InlineFields('max_creatinine', 'max_creatinine_unit'),
+                    FieldWithNotKnown('panel_reactive_antibodies', 'panel_reactive_antibodies_unknown'),
                 )),
                 FormPanel("Complete Submission", Layout(
                     FieldWithFollowup(
@@ -236,7 +237,8 @@ class DonorForm(forms.ModelForm):
             'perfusion_started', 'perfusion_started_unknown',
             'systemic_flush_used', 'systemic_flush_used_other',
             'systemic_flush_volume_used', 'heparin',
-            'procurement_form_completed', 'not_randomised_because', 'not_randomised_because_other'
+            'procurement_form_completed', 'not_randomised_because', 'not_randomised_because_other',
+            'panel_reactive_antibodies', 'panel_reactive_antibodies_unknown'
         ]
         localized_fields = "__all__"
 
