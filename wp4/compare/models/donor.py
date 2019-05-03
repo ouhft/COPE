@@ -19,7 +19,8 @@ from ..managers.core import DonorModelForUserManager
 from ..managers.core import ClosedOrganModelForUserManager, AllocatableModelForUserManager, OpenOrganModelForUserManager
 from ..managers.core import OrganModelForUserManager, ProcurementResourceModelForUserManager
 from .core import Patient, Randomisation, RetrievalTeam
-from . import YES_NO_UNKNOWN_CHOICES, PRESERVATION_HMP, PRESERVATION_HMPO2, PRESERVATION_NOT_SET
+from . import YES_NO_UNKNOWN_CHOICES, YES_NO_NA_CHOICES
+from . import PRESERVATION_HMP, PRESERVATION_HMPO2, PRESERVATION_NOT_SET
 from . import LOCATION_CHOICES, PRESERVATION_CHOICES
 from . import LEFT, RIGHT
 from . import AuditControlModelBase
@@ -725,13 +726,38 @@ class Organ(AuditControlModelBase):
     trial_id = models.CharField(verbose_name=_('OR98 organ id'), max_length=10, blank=True)
     # Issue #310 - add a record of where this data was sourced from: Null=Not answered, True=Paper, False=Direct entry
     paper_form_was_the_source = models.NullBooleanField("OR97 Was this data entered from a paper record", blank=True)
-    included_for_analysis = models.BooleanField(verbose_name='OR96 included for analysis', default=False)  # Issue #313
+    # Issue #313
+    included_for_analysis = models.BooleanField(verbose_name='OR96 included for analysis', default=False)
     excluded_from_analysis_because = models.CharField(
         verbose_name='OR95 excluded from analysis because',
         max_length=100,
         blank=True,
         default=""
     )
+    # Issue #336 - More Organ admin data classification. Not for display on the Transplantation Form
+    ATT_HMP02 = 0
+    ATT_HMP = 1
+    ATT_COLD_STORAGE = 2
+    ATT_UNKNOWN = 3
+    ATT_NO_TREATMENT = 4
+    ATT_CHOICES = (
+        (ATT_HMP02, _("ORc931 HMP O2")),
+        (ATT_HMP, _("ORc932 HMP")),
+        (ATT_COLD_STORAGE, _("ORc933 Cold Storage")),
+        (ATT_UNKNOWN, _("ORc934 Unknown")),
+        (ATT_NO_TREATMENT, _("ORc934 No Treatment")),
+    )
+    intention_to_treat = models.PositiveSmallIntegerField(
+        verbose_name=_('OR94 intention to treat'),
+        choices=YES_NO_NA_CHOICES,
+        blank=True, null=True,
+        default=None
+    )  #: Choices limited to YES_NO_NA_CHOICES
+    actual_treatment_received = models.PositiveSmallIntegerField(
+        verbose_name=_('OR93 actual treatment received'),
+        choices=ATT_CHOICES,
+        default=ATT_UNKNOWN
+    )  #: Choices limited to YES_NO_NA_CHOICES
 
     # Inspection data
     GRAFT_DAMAGE_ARTERIAL = 1  #: Constant for GRAFT_DAMAGE_CHOICES

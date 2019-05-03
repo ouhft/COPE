@@ -213,6 +213,10 @@ class OrganAdmin(AuditedModelAdmin):
             'not_allocated_reason',
             'transplantation_form_completed',
             'transplantation_notes',
+            'included_for_analysis',
+            'excluded_from_analysis_because',
+            'intention_to_treat',
+            'actual_treatment_received'
         ]}),
         ('Inspection', {'fields': [
             'removal',

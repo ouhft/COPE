@@ -16,6 +16,13 @@ YES_NO_UNKNOWN_CHOICES = (
     (YES, _("MMc02 Yes"))
 )  #: Need Yes to be the last choice for any FieldWithFollowUp where additional elements appear on Yes
 
+NOT_APPLICABLE = 3  #: CONSTANT for YES_NO_NA_CHOICES
+YES_NO_NA_CHOICES = (
+    (NOT_APPLICABLE, _("MMc04 Not Applicable")),
+    (NO, _("MMc01 No")),
+    (YES, _("MMc02 Yes"))
+)
+
 # Originally from Organ
 LEFT = "L"  #: CONSTANT for LOCATION_CHOICES
 RIGHT = "R"  #: CONSTANT for LOCATION_CHOICES

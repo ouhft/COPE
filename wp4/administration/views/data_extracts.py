@@ -433,7 +433,12 @@ def report_data_flattened(request):
         "organ.transplantation_notes",
         "organ.transplantation_form_completed",
         "organ.paper_form_was_the_source",
-        "organ.included_for_analysis",
+        "organ.included_for_analysis",  # Added #313
+        "organ.excluded_from_analysis_because",  # Added #313
+        "organ.intention_to_treat",  # Added #336
+        "organ.get_intention_to_treat_display",  # Added #336
+        "organ.actual_treatment_received",  # Added #336
+        "organ.get_actual_treatment_received_display",  # Added #336
         "organ.removal",
         "organ.renal_arteries",  # 10
         "organ.get_graft_damage_display",
@@ -808,7 +813,12 @@ def report_data_flattened(request):
         result_row.append(organ.transplantation_notes)
         result_row.append(organ.transplantation_form_completed)
         result_row.append(organ.paper_form_was_the_source)
-        result_row.append(organ.included_for_analysis)
+        result_row.append(organ.included_for_analysis)  # Added #313
+        result_row.append(organ.excluded_from_analysis_because)  # Added #313
+        result_row.append(organ.intention_to_treat)  # Added #336
+        result_row.append(organ.get_intention_to_treat_display)  # Added #336
+        result_row.append(organ.actual_treatment_received)  # Added #336
+        result_row.append(organ.get_actual_treatment_received_display)  # Added #336
         try:
             result_row.append(organ.removal.strftime("%d-%m-%Y %H:%M %Z"))
         except AttributeError:
