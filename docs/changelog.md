@@ -2,6 +2,16 @@
 
 This is a list of changes made to the website and application for each release.
 
+## v0.9.3 (24 May 2019) - Enhancements and Fixes
+* Issue #336: New fields requested for future analysis 
+* Issue #339: Blocked invalid data entry for Local Investigator on S/AE
+* Issue #338: Username generation bug - extra long usernames being incorrectly created for duplicate users
+* Issue #340: Added the "Is Active?" field to the Staff Profile pages for admin users to deactivate user accounts without removing data linkages.
+* Miscellaneous other updates:
+  - Updates to third party libraries
+  - Admin link added for Staff Profiles
+  - Hardcoded data link update for IJ
+
 ## v0.9.2 (11 Jul 2018) - Bugfix
 * Issue #328: Listing page added showing non-consenting Recipients
 
