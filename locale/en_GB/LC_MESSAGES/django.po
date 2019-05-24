@@ -852,7 +852,7 @@ msgstr "Intention to treat (ITT)"
 
 #: wp4/compare/models/donor.py:757
 msgid "OR93 actual treatment received"
-msgstr "Was death treatment related?"
+msgstr "Actual treatment received"
 
 #: wp4/compare/models/donor.py:770
 msgid "ORc01 None"
