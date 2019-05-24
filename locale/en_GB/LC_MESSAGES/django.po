@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: v0.9.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-24 14:40+0000\n"
+"POT-Creation-Date: 2019-05-24 15:57+0000\n"
 "PO-Revision-Date: 2015-12-11 18:45+0000\n"
 "Last-Translator: CARL MARSHALL <CARL.MARSHALL@NDS.OX.AC.UK>\n"
 "Language-Team: OXFORD <LL@li.org>\n"
@@ -813,6 +813,18 @@ msgstr "Form completed?"
 #: wp4/compare/models/donor.py:726
 msgid "OR98 organ id"
 msgstr "Organ"
+
+#: wp4/compare/models/donor.py:728
+msgid "OR97 Was this data entered from a paper record"
+msgstr "Was this data entered from a paper record?"
+
+#: wp4/compare/models/donor.py:730
+msgid "OR96 included for analysis"
+msgstr "Included for analysis?"
+
+#: wp4/compare/models/donor.py:732
+msgid "OR95 excluded from analysis because"
+msgstr "Excluded because?"
 
 #: wp4/compare/models/donor.py:744
 msgid "ORc931 HMP O2"
@@ -2626,4 +2638,3 @@ msgstr ""
 #: wp4/theme/templates/registration/password_reset_form.html:32
 msgid "Reset my password"
 msgstr "Reset my password"
-
