@@ -178,7 +178,7 @@
 
 
 {% block footer_nav %}
-    {% if not donor.form_completed %}
+    {% if not donor.form_completed and not donor.record_locked %}
     <nav class="navbar navbar-default navbar-fixed-bottom">
         <div class="container">
             <div class="navbar-right">

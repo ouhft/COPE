@@ -1,0 +1,197 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_field %}
+
+{% block page_title %}{{ location }} Completeness Data Management: Post Trial Categorisation -
+    Administration{% endblock %}
+{% block page_header %}
+    Post Trial Categorisation
+    <small>EDIT CASE {{ organ.trial_id }}</small>
+{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:administration:index' %}">Administration</a></li>
+    <li><a href="{% url 'wp4:administration:completeness_post_trial_list' %}">Completeness Data Management: Post Trial
+        Categorisation</a></li>
+    <li class="active">Edit Case {{ organ.trial_id }}</li>
+{% endblock %}
+
+{% block content %}
+    <div class="tab-content">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs nav-justified" role="tablist">
+            <li role="presentation" class="active">
+                <a href="#itt" aria-controls="itt" role="tab" data-toggle="tab" id="itttab">Intention To Treat</a>
+            </li>
+            <li role="presentation" class="">
+                <a href="#atr" aria-controls="atr" role="tab" data-toggle="tab" id="atrtab">Actual Treatment
+                    Received</a>
+            </li>
+        </ul>
+        <!-- Tab panes -->
+        <div role="tabpanel" class="tab-pane fade in active" id="itt">
+            <h2 class="sr-only visible-print">Intention To Treat</h2>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-striped">
+                        <tbody>
+                        <tr>
+                            <th>Transplantable?</th>
+                            <td>{{ organ.transplantable|yesno:"yes,no,unknown"|capfirst }}</td>
+                        </tr>
+                        <tr>
+                            <th>Not transplantable reason</th>
+                            <td>{{ organ.not_transplantable_reason }}</td>
+                        </tr>
+                        <tr>
+                            <th>Multiple recipients?</th>
+                            <td>{{ organ.donor.get_multiple_recipients_display|default_if_none:"Unanswered" }}</td>
+                        </tr>
+                        <tr>
+                            <th>Not Randomised because...</th>
+                            <td>{{ organ.donor.get_not_randomised_because_display }}</td>
+                        </tr>
+                        <tr>
+
+                            <th>Other reason</th>
+                            <td>{{ organ.donor.not_randomised_because_other }}</td>
+                        </tr>
+                        <tr>
+
+                            <th>Randomisation result?</th>
+                            <td>{{ organ.donor.randomisation.get_result_display }}</td>
+                        </tr>
+                        <tr>
+
+                            <th>Consented?</th>
+                            <td>{{ organ.recipient.signed_consent|yesno:"yes,no,unknown"|capfirst }}</td>
+                        </tr>
+                        <tr>
+
+                            <th>Single Kidney Transplant?</th>
+                            <td>{{ organ.recipient.single_kidney_transplant|yesno:"yes,no,unknown"|capfirst }}</td>
+                        </tr>
+                        <tr>
+
+                            <th>Untransplantable?</th>
+                            <td>{{ organ.recipient.organ_untransplantable|yesno:"yes,no,unknown"|capfirst }}
+                                - {{ organ.recipient.organ_untransplantable_reason }}</td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="atr">
+            <h2 class="sr-only visible-print">Actual Treatment Received</h2>
+            <div class="row">
+                <div class="col-md-12">
+                    <p><i class="in" </p>
+                    <table class="table table-striped">
+                        <tbody>
+                        <tr>
+                            <th>Perfusion Possible?</th>
+                            <td>{{ organ.perfusion_possible|yesno:"yes,no,unknown"|capfirst }}</td>
+                        </tr>
+                        <tr>
+                            <th>Not possible because</th>
+                            <td>{{ organ.perfusion_not_possible_because }}</td>
+                        </tr>
+                        <tr>
+                            <th>Perfusion Started at</th>
+                            <td>{{ organ.perfusion_started|default_if_none:"Not answered" }}</td>
+                        </tr>
+                        <tr>
+                            <th>Oxygen Bottle Full?</th>
+                            <td>{{ organ.oxygen_bottle_full|yesno:"yes,no,unknown"|capfirst }}</td>
+                        </tr>
+                        <tr>
+                            <th>Oxygen Bottle Open?</th>
+                            <td>{{ organ.oxygen_bottle_open|yesno:"yes,no,unknown"|capfirst }}</td>
+                        </tr>
+                        <tr>
+                            <th>Oxygen Bottle Changed?</th>
+                            <td>{{ organ.oxygen_bottle_changed|yesno:"yes,no,unknown"|capfirst }}</td>
+                        </tr>
+                        <tr>
+                            <th>Oxygen Bottle Changed at</th>
+                            <td>{% if organ.oxygen_bottle_changed_at_unknown is False %}{{ organ.oxygen_bottle_changed_at|default_if_none:"Not answered" }}{% else %}Unknown{% endif %}</td>
+                        </tr>
+                        <tr>
+                            <th>Perfusate Measurable?</th>
+                            <td>{{ organ.perfusate_measurable|yesno:"yes,no,unknown"|capfirst }}</td>
+                        </tr>
+                        <tr>
+                            <th>Organ Perfusate Measured</th>
+                            <td>{{ organ.perfusate_measure|default_if_none:"Not answered" }}</td>
+                        </tr>
+                        <tr>
+                            <th>Organ Perfusate Measured</th>
+                            <td>{{ organ.perfusate_measure|default_if_none:"Not answered" }}</td>
+                        </tr>
+                        <tr>
+                            <th>Recipient Perfusate Measured</th>
+                            <td>{{ organ.recipient.perfusate_measure|default_if_none:"Not answered" }}</td>
+                        </tr>
+                        <tr>
+                            <th>Recipient Perfusion Stopped at</th>
+                            <td>{{ organ.recipient.perfusion_stopped|default_if_none:"Not answered" }}</td>
+                        </tr>
+                        <tr>
+                            <th>Organ Cold Stored?</th>
+                            <td>{{ organ.recipient.organ_cold_stored|yesno|capfirst }}</td>
+                        </tr>
+                        <tr>
+                            <th>Organ Removed from machine at</th>
+                            <td>{{ organ.recipient.removed_from_machine_at|default_if_none:"Not answered" }}</td>
+                        </tr>
+                        <tr>
+                            <th>Oxygen Full and Open?</th>
+                            <td>{{ organ.recipient.oxygen_full_and_open|yesno:"yes,no,unknown"|capfirst }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <h3>Categorisation Data Form</h3>
+    <form method="post" action="{% url 'wp4:administration:completeness_post_trial_form' organ_pk=organ.id %}" class=""
+          id="completeness_form">
+        {% crispy completeness_form %}
+    </form>
+{% endblock %}
+
+
+
+{% block footer_nav %}
+    {#    {% if not donor.form_completed and not donor.record_locked %}#}
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container">
+            <div class="navbar-right">
+                <input type="button" class="btn btn-primary navbar-btn" value="Save" id="nav_button_save"/>
+            </div>
+        </div>
+    </nav>
+    {#    {% endif %}#}
+{% endblock %}
+
+
+
+
+
+{% block footer_extra_scripts %}
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function (event) {
+            // Navbar bottom actions
+            $('footer').addClass('navbar_spacing');
+            $('#nav_button_save').on('click', function () {
+                $('#completeness_form').submit();
+            });
+        });
+    </script>
+{% endblock %}

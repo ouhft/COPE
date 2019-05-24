@@ -89,13 +89,13 @@ urlpatterns = [
 
 
     # =================================================================  Completeness Reports
-    url(
-        regex=r'^completeness/procurement$',
+    path(
+        'completeness/procurement/',
         view=completeness.procurement,
         name='completeness_procurement'
     ),
-    url(
-        regex=r'^completeness/transplant-per-centre',
+    path(
+        'completeness/transplant-per-centre/',
         view=completeness.transplant_per_centre,
         name='completeness_tpc'
     ),
@@ -118,6 +118,17 @@ urlpatterns = [
         'completeness/consent-summary/',
         view=completeness.consent_summary_listing,
         name='consent_summary'
+    ),
+    # Added for #336 to handle data entry
+    path(
+        'completeness/post-trial/<int:organ_pk>/',
+        view=completeness.post_trial_categorisation_form,
+        name='completeness_post_trial_form'
+    ),
+    path(
+        'completeness/post-trial/',
+        view=completeness.post_trial_categorisation_list,
+        name='completeness_post_trial_list'
     ),
 
     # =================================================================  Biobank reports

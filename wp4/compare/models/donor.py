@@ -735,17 +735,17 @@ class Organ(AuditControlModelBase):
         default=""
     )
     # Issue #336 - More Organ admin data classification. Not for display on the Transplantation Form
-    ATT_HMP02 = 0
-    ATT_HMP = 1
-    ATT_COLD_STORAGE = 2
-    ATT_UNKNOWN = 3
-    ATT_NO_TREATMENT = 4
-    ATT_CHOICES = (
-        (ATT_HMP02, _("ORc931 HMP O2")),
-        (ATT_HMP, _("ORc932 HMP")),
-        (ATT_COLD_STORAGE, _("ORc933 Cold Storage")),
-        (ATT_UNKNOWN, _("ORc934 Unknown")),
-        (ATT_NO_TREATMENT, _("ORc934 No Treatment")),
+    ATR_HMP02 = 0
+    ATR_HMP = 1
+    ATR_COLD_STORAGE = 2
+    ATR_UNKNOWN = 3
+    ATR_NO_TREATMENT = 4
+    ATR_CHOICES = (
+        (ATR_HMP02, _("ORc931 HMP O2")),
+        (ATR_HMP, _("ORc932 HMP")),
+        (ATR_COLD_STORAGE, _("ORc933 Cold Storage")),
+        (ATR_UNKNOWN, _("ORc934 Unknown")),
+        (ATR_NO_TREATMENT, _("ORc934 No Treatment")),
     )
     intention_to_treat = models.PositiveSmallIntegerField(
         verbose_name=_('OR94 intention to treat'),
@@ -755,8 +755,8 @@ class Organ(AuditControlModelBase):
     )  #: Choices limited to YES_NO_NA_CHOICES
     actual_treatment_received = models.PositiveSmallIntegerField(
         verbose_name=_('OR93 actual treatment received'),
-        choices=ATT_CHOICES,
-        default=ATT_UNKNOWN
+        choices=ATR_CHOICES,
+        default=ATR_UNKNOWN
     )  #: Choices limited to YES_NO_NA_CHOICES
 
     # Inspection data

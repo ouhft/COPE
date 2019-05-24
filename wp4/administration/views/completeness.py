@@ -3,13 +3,17 @@
 from __future__ import absolute_import, unicode_literals
 
 from django.core.exceptions import PermissionDenied
-from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponseNotFound, Http404
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
+from django.urls import reverse
 
 from wp4.compare.models import Donor, Organ, Recipient
 from wp4.compare.utils import get_donor_id_from_trial_id
 from wp4.locations.models import Hospital
+
+from ..forms import OrganAdminForm
 
 
 # Completeness Reports
@@ -171,5 +175,64 @@ def consent_summary_listing(request):
         {
             'summary': summary,
             'listing': recipients
+        }
+    )
+
+
+# Completeness Data additions
+@login_required
+def post_trial_categorisation_list(request):
+    current_person = request.user
+    if not current_person.is_administrator:
+        raise PermissionDenied
+
+    listing = Organ.objects.all().order_by('trial_id')
+
+    return render(
+        request,
+        'administration/completeness/post-trial_list.html',
+        {
+            'listing': listing
+        }
+    )
+
+@permission_required('compare.change_organ')
+@login_required
+def post_trial_categorisation_form(request, organ_pk):
+    current_person = request.user
+    if not current_person.is_administrator:
+        raise PermissionDenied
+
+    organ = get_object_or_404(Organ, pk=int(organ_pk))
+    form = OrganAdminForm(
+        request.POST or None,
+        request.FILES or None,
+        instance=organ
+    )
+
+    if form.is_valid():
+        organ = form.save(current_person)
+        messages.success(request, 'Form has been <strong>successfully saved</strong>')
+        # print("DEBUG: post_trial_categorisation_form() - Form valid")
+        return redirect(reverse('wp4:administration:completeness_post_trial_list'))
+    elif request.POST:
+        error_count = len(form.errors)
+        messages.error(
+            request,
+            '<strong>Form was NOT saved</strong>, please correct the %d %s below' % (
+                error_count,
+                "errors" if error_count != 1 else "error"
+            )
+        )
+        # print("DEBUG: post_trial_categorisation_form() - Form invalid")
+    # else:
+        # print("DEBUG: post_trial_categorisation_form() - eh?")
+
+    return render(
+        request,
+        'administration/completeness/post-trial_form.html',
+        {
+            'organ': organ,
+            'completeness_form': form
         }
     )

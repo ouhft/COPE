@@ -1,0 +1,65 @@
+{% extends "base_site.html" %}
+{% load l10n i18n %}
+
+{% block page_title %}{{ location }} Completeness Data Management: Post Trial Categorisation - Administration{% endblock %}
+{% block page_header %}
+    Post Trial Categorisation
+    <small>COMPLETENESS DATA MANAGEMENT</small>
+{% endblock %}
+{% block page_trail %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'wp4:index' %}">WP4: Compare</a></li>
+    <li><a href="{% url 'wp4:administration:index' %}">Administration</a></li>
+    <li class="active">Completeness Data Management: Post Trial Categorisation</li>
+{% endblock %}
+
+{% block content %}
+{#    CSS Hack here because Bootstrap hides the badges on print view #}
+    <style>
+        @media print {
+            .badge {
+                padding: 2px 6px;
+                border: 1px solid #000;
+                margin-right: 3em;
+            }
+        }
+    </style>
+
+    <h2>Listing</h2>
+
+    <table class="table table-condensed table-responsive">
+        <thead>
+        <tr>
+            <th>Trial ID</th>
+            <th>Included for analysis?</th>
+            <th>Intention to treat</th>
+            <th>Actual Treatment</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for organ in listing %}
+            <tr>
+                <td>
+                    <a href="{% url 'wp4:administration:completeness_post_trial_form' organ.id %}" class="btn btn-xs btn-primary">
+                        <i class="glyphicon glyphicon-edit"></i>
+                        {{ organ.trial_id }}
+                    </a>
+                    {% if request.user.is_staff %}
+                        <a href="{% url 'admin:compare_organ_change' organ.id %}"><i class="glyphicon glyphicon-briefcase"></i></a>
+                    {% endif %}
+                </td>
+                <td>
+                    {{ organ.included_for_analysis|yesno|capfirst }}
+                    {% if organ.included_for_analysis is False %}
+                    - {{ organ.excluded_from_analysis_because|default:"No reason recorded" }}
+                    {% endif %}
+                </td>
+                <td>{{ organ.get_intention_to_treat_display|default_if_none:"Not answered" }}</td>
+                <td>{{ organ.get_actual_treatment_received_display }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
+

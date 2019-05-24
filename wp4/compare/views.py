@@ -21,7 +21,7 @@ from wp4.staff.models import Person
 from wp4.samples.utils import create_donor_samples, create_recipient_samples
 from wp4.samples.models import Event
 from wp4.staff.utils import get_emails_from_ids
-from wp4.staff.utils import INA_JOCHMANS, SARAH_MERTENS, ALLY_BRADLEY, BHUMIKA_PATEL, AUKJE_BRAT
+from wp4.staff.utils import INA_JOCHMANS, SARAH_MERTENS, BHUMIKA_PATEL, AUKJE_BRAT
 from wp4.followups.utils import generate_followups_from_recipient
 
 from .models import Patient, Donor, Organ, Recipient, ProcurementResource, OrganAllocation, RetrievalTeam
@@ -271,7 +271,7 @@ def procurement_form(request, pk):
         # NB: Offline randomisations will have happened on case creation, so this is only ever online randomisations
         if not donor.is_randomised and donor.randomise(active_user=current_person):
             # Reload the forms with the modified results
-            donor_form = DonorForm(instance=donor, prefix="donor")
+            donor_form = DynamicDonorForm(instance=donor, prefix="donor")
             left_organ_form = OrganForm(instance=donor.left_kidney, prefix="left-organ")
             right_organ_form = OrganForm(instance=donor.right_kidney, prefix="right-organ")
             messages.warning(
@@ -292,7 +292,7 @@ def procurement_form(request, pk):
                 AUKJE_BRAT,
                 BHUMIKA_PATEL,
             ]
-            cc_to = [ALLY_BRADLEY, INA_JOCHMANS, ]
+            cc_to = [INA_JOCHMANS, ]
             subject_text = "Donor Randomised - {0}".format(donor.trial_id)
             from_email = settings.DEFAULT_FROM_EMAIL
             email = EmailMessage(

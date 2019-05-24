@@ -282,18 +282,21 @@ def DynamicDonorForm(is_admin=False, *args, **kwargs):
     class InternalDonorForm(DonorForm):
         layout_admin_extras = Layout(
             Div(
-                FormPanel("Administrators Only", Layout('admin_notes'), panel_status="danger"),
+                FormPanel("Administrators Only", Layout(
+                    'admin_notes',
+                    Field('record_locked', template="bootstrap3/layout/radioselect-buttons.html")
+                ), panel_status="danger"),
                 css_class="col-md-12",
             ),
         )
 
         class Meta(DonorForm.Meta):
-            fields = DonorForm.Meta.fields if not is_admin else DonorForm.Meta.fields + ['admin_notes']
+            fields = DonorForm.Meta.fields if not is_admin else DonorForm.Meta.fields + ['admin_notes', 'record_locked']
 
         def __init__(self):
             super(InternalDonorForm, self).__init__(*args, **kwargs)
-            # self.helper.layout[3][2][1].append(Field('admin_notes'))
             if is_admin:
+                self.fields['record_locked'].choices = NO_YES_CHOICES
                 self.helper.layout.append(self.layout_admin_extras)
 
     return InternalDonorForm()

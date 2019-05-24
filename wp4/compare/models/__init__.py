@@ -49,7 +49,11 @@ class AuditControlModelBase(models.Model):
     live (aka record_active) will allow us to soft delete data.
     record_locked will allow the admin team to mark records as having been reviewed and put to rest.
     """
-    record_locked = models.BooleanField(default=False, help_text="locked by the admin team")
+    __record_locked_on_load = False  # Need an internal representation of this independent of the main instance value
+    record_locked = models.BooleanField(
+        default=False,
+        help_text="Locked by the admin team. This can only be reversed by the System Administrator"
+    )
     live = LiveField()  # Wanted this to be record_active, but that means modifying the LiveField code
 
     objects = LiveManager()
@@ -59,11 +63,18 @@ class AuditControlModelBase(models.Model):
     class Meta:
         abstract = True
 
+    def __init__(self, *args, **kwargs):
+        super(AuditControlModelBase, self).__init__(*args, **kwargs)
+        self.__record_locked_on_load = True if self.record_locked else False
+
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         """
         Meta save function that stops changes when record is locked
         """
-        if self.record_locked:
+        if self.__record_locked_on_load is True:
+            # Use the internal representation from when the data was last loaded because it may be overwritten on this
+            # save and thus the instance value can't be used to judge it.
+            # TODO: Add an override for a SuperUser to save over this in the future
             raise Exception("%s Record is locked, and can not be saved" % type(self).__name__)
         return super(AuditControlModelBase, self).save(
             force_insert,
