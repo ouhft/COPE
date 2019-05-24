@@ -816,9 +816,9 @@ def report_data_flattened(request):
         result_row.append(organ.included_for_analysis)  # Added #313
         result_row.append(organ.excluded_from_analysis_because)  # Added #313
         result_row.append(organ.intention_to_treat)  # Added #336
-        result_row.append(organ.get_intention_to_treat_display)  # Added #336
+        result_row.append(organ.get_intention_to_treat_display())  # Added #336
         result_row.append(organ.actual_treatment_received)  # Added #336
-        result_row.append(organ.get_actual_treatment_received_display)  # Added #336
+        result_row.append(organ.get_actual_treatment_received_display())  # Added #336
         try:
             result_row.append(organ.removal.strftime("%d-%m-%Y %H:%M %Z"))
         except AttributeError:
