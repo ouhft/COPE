@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: v0.9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-24 14:40+0000\n"
+"POT-Creation-Date: 2019-05-24 15:57+0000\n"
 "PO-Revision-Date: 2015-12-11 18:45+0000\n"
 "Last-Translator: SARAH MERTENS <SARAH.MERTENS@MED.KULEUVEN.BE>\n"
 "Language-Team: NETHERLANDS <LL@li.org>\n"
@@ -827,6 +827,18 @@ msgstr "Form completed?"
 #| msgid "ORm1 organ"
 msgid "OR98 organ id"
 msgstr "Organ"
+
+#: wp4/compare/models/donor.py:728
+msgid "OR97 Was this data entered from a paper record"
+msgstr ""
+
+#: wp4/compare/models/donor.py:730
+msgid "OR96 included for analysis"
+msgstr ""
+
+#: wp4/compare/models/donor.py:732
+msgid "OR95 excluded from analysis because"
+msgstr ""
 
 #: wp4/compare/models/donor.py:744
 msgid "ORc931 HMP O2"

@@ -725,11 +725,11 @@ class Organ(AuditControlModelBase):
     )
     trial_id = models.CharField(verbose_name=_('OR98 organ id'), max_length=10, blank=True)
     # Issue #310 - add a record of where this data was sourced from: Null=Not answered, True=Paper, False=Direct entry
-    paper_form_was_the_source = models.NullBooleanField("OR97 Was this data entered from a paper record", blank=True)
+    paper_form_was_the_source = models.NullBooleanField(verbose_name=_("OR97 Was this data entered from a paper record"), blank=True)
     # Issue #313
-    included_for_analysis = models.BooleanField(verbose_name='OR96 included for analysis', default=False)
+    included_for_analysis = models.BooleanField(verbose_name=_('OR96 included for analysis'), default=False)
     excluded_from_analysis_because = models.CharField(
-        verbose_name='OR95 excluded from analysis because',
+        verbose_name=_('OR95 excluded from analysis because'),
         max_length=100,
         blank=True,
         default=""
