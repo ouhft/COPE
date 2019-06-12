@@ -3,14 +3,21 @@
 (notes) Belatedly putting a few things down here for clarity:
 
 ## Apps
+This is a brief summary of the Apps that make up the COPE DB package.
 
-## Models
+### Administration
 
-## Forms
+### Adverse Event
 
+### Compare
+
+#### Models
+
+
+#### Forms
 There are several key "forms" in the system, which are actually composed of a number of smaller forms (and occasionally formsets).
 
-### Procurement (Compare app)
+##### Procurement
 Procurement hangs off of the *Donor* model, which means that this model also holds any form specific metadata (such as form_completed). 
 
 Each Procurement Form is started via `DonorStartForm`
@@ -27,12 +34,12 @@ Procurement Form structure:
     \-> Organ {0|2}  via OrganForm
         \-> ProcurementResources {7}  via ProcurementResource????InlineFormSet made of ProcurementResourceForm
 
-### Transplantation (Compare app)
+##### Transplantation
 Transplantation hangs off of the *Organ* model. This is because neither *OrganAllocation*, nor *Recipient* records can be guaranteed to exist for this form to be considered "closed". Consequently we need to record form metadata on the *Organ* record (rather than Recipient as originally intended).
 
-Each Transplantation Form is started via `AllocationStartForm`. This will create an initial *OrganAllocation* record which is what is displayed for the Transplantion form to start with.
+Each Transplantation Form is started via `AllocationStartForm`. This will create an initial *OrganAllocation* record which is what is displayed for the Transplantation form to start with.
 
-Tranplantation Form structure:
+Transplantation Form structure:
 
     Organ {1}  via TransplantOrganForm
     |-> OrganAllocation(s) {0-n}  via AllocationFormset
@@ -45,8 +52,15 @@ The overall process can be seen in the following process image:
 
 The basic flow can be seen as: `Allocated? --> Allocation(s) --> Recipient Data --> Form Notes`. There are several stages where the process terminates with the form being closed, not just after a complete procedure. 
 
-### Samples (Samples app)
 
-### Follow Ups (Followup app)
+### Followups
 
-### Adverse Events (Adverse_event app)
+### Health Economics
+
+### Locations
+
+### Perfusion Machine
+
+### Samples
+
+### Theme

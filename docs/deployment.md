@@ -1,90 +1,73 @@
 # Deployment
-
-## Development
-Local development deployment notes on this can be found in [Development](development.md)
-
-
-## Test/Staging
-Test server deployment is to the dev.nds server, accessible under [https://dev.nds.ox.ac.uk/cope/](). This is an Ubuntu 16.04 Server with similar setup to the Production environment. This location was moved here from external (personal) hosting in Nov 2017, having been online in its previous setup since Aug 2015.
-
-Deployment Outline
-
-* Create project `$ mkproject -p /usr/bin/python3 cope`
-  * This will activate the new virtualenv, and drop you into `/sites/cope`
-* Create project user `$ sudo useradd --system --gid worker --shell /bin/bash --home /sites/cope cope-app-user`
-* Clone repository, select branch
-  * `$ git clone git@github.com:ouh-churchill/cope.git cope_repo`
-  * `$ cd cope_repo/`
-  * `$ git checkout testing`
-* Create subfolders, link virtualenv folders
-  * `$ cd ..` <-- return to `/sites/cope`
-  * `$ ln -s /sites/.virtualenvs/cope/lib ./lib`
-  * `$ ln -s /sites/.virtualenvs/cope/bin ./bin` 
-  * `$ mkdir -p var/log var/run etc/nginx/sites-available htdocs/media etc/gunicorn`
-* Install requirements
-  * `$ cd cope_repo/`
-  * `$ pip install -r requirements/staging.txt`
-* Modify local `.env` settings
-  * `$ cp config/settings/.env.template config/settings/.env`
-  * `$ vi config/settings/.env` -- Put in local setting values
-  * `$ python manage.py check`
-* Create database (port from old location)
-  * Check it is current with `$ python manage.py migrate`, there should be no missing migrations.
-* Copy the static content into place `$ python manage.py collectstatic`
-* Copy deployment files into system folders (nginx, supervisor, etc)
-  * `$ ln -s /sites/cope/cope_repo/deploy/staging/bin/gunicorn_start.sh /sites/cope/bin/gunicorn_start.sh` -- copy the gunicorn script into the project's bin folder, where the gunicorn config expects to find it
-  * `$ cd /etc/supervisor/conf.d/` -- goto the supervisorctl config folder 
-  * `$ sudo ln -s /sites/cope/cope_repo/deploy/staging/etc/supervisor/conf.d/cope-django.conf ./cope-django.conf` -- copy the config from the repo into the system folder
-  * `$ cd /sites` & `$ sudo chown -R carl:worker cope/` to make all the files now part of the `worker` group and thus executable by the `cope-app-worker` user.
-  * `$ sudo supervisorctl` to begin loading of the new config, and to start the process
-  * `reread` to find the config. `add cope` to make supervisor recognise it. `start cope` to kick the process off.
-  * `$ cd /etc/nginx/sites-available/` to get to the nginx config location
-  * `$ sudo ln -s /sites/cope/cope_repo/deploy/staging/etc/nginx/sites-available/cope.conf cope.conf` to bring in the cope proxy site config
-  * `$ cd ../sites-enabled/` to move into the enabled sites folder
-  * `$ sudo ln -s ../sites-available/cope.conf cope.conf` to make nginx recognise this as an active site
-* Link into the main Nginx config via sites-available
-  * `$ sudo vi default` to edit the main nginx server config, and to add in our new location
-
-  ```
-  location /cope {
-      proxy_set_header X-Forwarded-Protocol $scheme;
-      proxy_set_header X-Real-IP $remote_addr;
-      proxy_set_header Host $http_host;
-      proxy_set_header X-Scheme $scheme;
-      proxy_set_header X-Forwarded-For $remote_addr;
-
-      proxy_pass http://localhost:9002/;
-  }
-  ``` 
-  * `$ sudo systemctl restart nginx` to reload the config, and start the site
-
-#### TODO
-Create a link to the auto-deploy script and add it to the crontab e.g. (from webfaction docs)::
-
-    ln -s cope_repo/deploy/webfaction/deploy-cm13.sh ./update_by_cron.sh
-    chmod 755 COPE/deploy/webfaction/deploy-cm13.sh
-    crontab -e    # To edit the cron record, and to insert...
-    */2 * * * * $HOME/webapps/wp4_django/update_by_cron.sh >> $HOME/webapps/wp4_django/cron-wp4_django.log 2>&1
-
+Outline instructions for deployment of COPE DB app in Production, Testing, and Development environments.
 
 ## Production (cope.nds)
+Current production server setup
 
-An Ubuntu 14.04 LTS Server virtual machine has been created and hosted by MSD-IT Services. This is the unmanaged
-service, which means that we are responsible for it's patching and upkeep. Initial steps so far have been to change
-the user account password (u: copeuser - p: in carl's password safe). Installing ssh keys will happen soon. Access
+* **FQDN:** cope.nds.ox.ac.uk
+* **OS:** Ubuntu 18.04.2 LTS
+* **eth0:** 163.1.69.61
+* **App Framework:** Python 3.7 + Django 2.2 via nginX and gunicorn.
+* **Code repository:** https://github.com/ouh-churchill/COPE
+
+### Maintenance
+
+Periodically there are maintenance tasks to do, such as:
+
+* Update the OS libraries and packages
+* Compress the DB backups
+* Remember also to check the expiry date of the SSL Certificate, as this will need periodic replacement.
+
+OS Updates are handled both by Canonical Livepatch, and manual updates
+via the following steps ([https://help.ubuntu.com/community/AptGet/Howto]())
+
+    ssh copeuser@cope.nds.ox.ac.uk
+    sudo apt autoclean
+    sudo apt update
+    sudo apt upgrade
+    sudo apt autoremove
+    sudo shutdown -r now
+    
+Take note of which packages are in the upgrade as these may have consequences for the virtualenv setup of the Cope App itself (e.g. python version changes). If there is a breaking upgrade, such as the fairly common one of a minor version update to Python 3, then a wipe of the virtualenv (not the project folder!) folder and rebuilt as in the installation should solve this fairly trivially.
+
+**This should be looked at monthly, or whenever there is an urgent security alert for a dependancy.**
+
+### Updating the App
+
+ * Activate the virtualenv `workon cope`
+ * Move into the repository directory for most tasks `cd cope-repo`
+ * Get the latest updates from the central repository `git pull --all`
+ * Checkout the relevant (possibly tagged - e.g. `git checkout 0.4.6`) release `git checkout`
+ * Update the application libraries `pip install -r requirements/production.txt`
+ * Check things are working so far `python manage.py check`
+ * Apply any necessary migrations `python manage.py migrate`
+ * Gather the staticfiles up `python manage.py collectstatic`
+ * Apply the locale updates `python manage.py compilemessages`
+ * Check things are working so far II `python manage.py check`
+ * Start the supervisor console to reload the changes `sudo supervisorctl`...
+ * and then `restart cope-django`
+ * ...and all should be fine.
+
+#### Troubleshooting
+When things do not go to plan, we want to find out what we can. There's no debug mode on the production server, so it's into the error logs for information. Logs from supervisord are found via: `cd /var/log/supervisor/`. Unfortunately stack traces aren't captured here (for example on a Server Error), so more work needs to be done to help the monitoring of this server.
+
+### Historical Setup Notes
+
+An Ubuntu 14.04 LTS Server virtual machine was initially created and hosted by MSD-IT Services. This is the unmanaged service, which means that we are responsible for its patching and upkeep. Initial steps so far have been to change the user account password (u: copeuser - p: in CM's password safe). Installing ssh keys will happen soon. Access
 to the server should be via ssh (only from Oxford network, including vpn) and via the VMWare web console (oxford network
 only - [https://fibula.msd.ox.ac.uk/]())
 
 Setup is going to be loosely based on the guides from [https://www.chicagodjango.com/blog/new-server-setup-part-1/]() and
 [https://www.chicagodjango.com/blog/new-django-server-setup-part-2/]() as these are inline with the best practice information
 in the Two Scoops of Django 1.8: Best Practices guide (see Chapter 31). More useful though is the guide from
-[http://michal.karzynski.pl/blog/2013/06/09/django-nginx-gunicorn-virtualenv-supervisor/]() (which I've used in the past).
+[http://michal.karzynski.pl/blog/2013/06/09/django-nginx-gunicorn-virtualenv-supervisor/]().
 
-### Access
+#### Access
 
-So, initially we have access via ``ssh copeuser@cope.nds.ox.ac.uk``, and using a password. Step two is to install our
-SSH key (iMac@Home presently). Step one is we need to generate an ssh key for the server to register with github for
-access to the repoistory. Help is at [https://help.ubuntu.com/community/SSH/OpenSSH/Keys]() . To whit:
+Fresh from the base OS install we had access via ``ssh copeuser@cope.nds.ox.ac.uk``, and using a password. Stage two is to install our SSH key (e.g. iMac@Home) for access.
+
+We need to generate an ssh key for the server to register with github for
+access to the repository ([https://github.com/ouh-churchill/COPE]()). Help is at [https://help.ubuntu.com/community/SSH/OpenSSH/Keys]() . To whit:
 
     copeuser@cope:~$ mkdir ~/.ssh
     copeuser@cope:~$ chmod 700 ~/.ssh
@@ -95,52 +78,21 @@ access to the repoistory. Help is at [https://help.ubuntu.com/community/SSH/Open
     Enter same passphrase again:
     Your identification has been saved in /home/copeuser/.ssh/id_rsa.
     Your public key has been saved in /home/copeuser/.ssh/id_rsa.pub.
-    The key fingerprint is:
-    05:98:8b:94:f7:cf:7a:2d:19:61:26:52:41:d5:96:10 copeuser@cope
-    The key's randomart image is:
-    +--[ RSA 4096]----+
-    |     . ++oE+ .   |
-    |    o + ..  +    |
-    |   . o +  ..     |
-    |    . o o.+      |
-    |       .S* .     |
-    |          +      |
-    |         . +     |
-    |        . + .    |
-    |         . .     |
-    +-----------------+
 
 This set of keys is passphrase free because of the automated usage (i.e. scripts using it to access things).
 
-Copy own .pub key to the server (SFTP), and then::
+Copy own .pub key to the server (SFTP), and then:
 
     mv id_rsa.pub .ssh/carl_imac.id_rsa.pub
     cat carl_imac.id_rsa.pub >> authorized_keys
 
-Also, minor edit to ``sudo vi /etc/ssh/sshd_config`` so that ``AuthorizedKeysFile      %h/.ssh/authorized_keys`` is
-uncommented. Sudo usage will continue to require password confirmation, however we can now login without needing the
-password from SSH.
+Also, minor edit to `sudo vi /etc/ssh/sshd_config` so that `AuthorizedKeysFile      %h/.ssh/authorized_keys` is uncommented. Sudo usage will continue to require password confirmation, however we can now login without needing the password from SSH.
 
-I have added the server's pub key to my list of Github keys, so that it can log in as marshalc.
+I have added the server's pub key to my list of Github keys, so that it can log in as `marshalc`. This will need changing to the next maintainer of this system's account.
 
-### Software stack
+#### Software stack
 
-For now I'm happy to go with Nginx (for static), Gunicorn (for application), and SQLite (for datastore). System's
-version of python is 2.7.6, which is currently fine for use, so will skip installing a local instance of python. Not
-requiring any particular caching installation at this time either, so in the interests of KISS, we will install as
-little as possible.
-
-#### Maintainence
-
-Don't forget to keep things up to date with ([https://help.ubuntu.com/community/AptGet/Howto]()):
-
-    sudo apt autoremove
-    sudo apt update
-    sudo apt upgrade
-    sudo apt-get check
-    sudo apt autoclean
-
-    sudo shutdown -r now
+Initial choices are Nginx (for static), Gunicorn (for application), and SQLite (for datastore). System's version of python is 2.7.6, which is currently fine for use, so will skip installing a local instance of python (this is changed later when the project moved to python 3 to maintain security patching). Not requiring any particular caching installation at this time either, so in the interests of KISS, we will install as little as possible.
 
 #### Installation
 
@@ -179,15 +131,14 @@ Grab the file server and some other useful apps::
 
 Note that we got sqlite3 in place of the postgres option from the guide.
 
-We want to stop nginx from being run at server startup though, and let Supervisor handle that later on, so we need to
-disable the link for init.d ::
+We want to stop nginx from being run at server startup though, and let Supervisor handle that later on, so we need to disable the link for init.d ::
 
     sudo rm /etc/rc2.d/S19postgresql /etc/rc2.d/S92tomcat7     # CLEANUP FROM EARLIER
     sudo mv /etc/rc2.d/S20nginx /etc/rc2.d/K20nginx
     update-rc.d script defaults
 
 
-### User setup
+#### User setup
 
 We're not using the application user from the guide here, but using the nginx defined www-data user as the application
 user::
@@ -201,11 +152,10 @@ user::
     sudo usermod -aG worker copeuser        # This is the MSD-IT created user account
     sudo sh -c 'echo "umask 002" >> /etc/profile'
 
-Remember to logout and back in again here so that any further work done as ``copeuser`` will have the ``worker``
-group rights and therefore won't need sudo all the time.
+Remember to logout and back in again here so that any further work done as `copeuser` will have the `worker` group rights and therefore won't need sudo all the time.
 
 
-### VirtualEnvWrapper Installation
+#### VirtualEnvWrapper Installation
 
 The wrapper isn't installed as part of the apt-get process, so we do this following the instructions from
 [http://virtualenvwrapper.readthedocs.org/en/latest/install.html#basic-installation]():
@@ -213,21 +163,22 @@ The wrapper isn't installed as part of the apt-get process, so we do this follow
     sudo pip install virtualenvwrapper
     vi ~/.bashrc
 
-Appending to .bashrc ::
+Appending to `.bashrc`:
 
     # Setup VirtualEnvWrapper for this user
     export WORKON_HOME=/sites/.virtualenvs
     export PROJECT_HOME=/sites
     source /usr/local/bin/virtualenvwrapper.sh
 
-Then returning and::
+Then returning and:
+
     source ~/.bashrc
 
 
-### Site setup
+#### Site setup
 
-Create a new virtualenv project with ``mkproject cope``. Note that the ``bin/``, ``lib/`` directories are in the
-``/sites/.virtualenvs/cope/`` folder ::
+Create a new virtualenv project with `mkproject cope`. Note that the `bin/`, `lib/` directories are in the
+`/sites/.virtualenvs/cope/` folder.
 
     copeuser@cope:~$ mkproject cope
     New python executable in cope/bin/python
@@ -245,11 +196,9 @@ Create a new virtualenv project with ``mkproject cope``. Note that the ``bin/``,
     ln -s /sites/.virtualenvs/cope/lib ./lib
     ln -s /sites/.virtualenvs/cope/bin ./bin
 
-Now we have: ``/sites/{{ENVIRONMENT_ROOT}}/{{PROJECT_ROOT}}/`` as ``/sites/cope/cope_repo`` (or in terms of the online
-guide we have: ``/sites/{{site_name}}/{{proj_name}}/``)
+Now we have: `/sites/{{ENVIRONMENT_ROOT}}/{{PROJECT_ROOT}}/` as `/sites/cope/cope_repo` (or in terms of the online guide we have: `/sites/{{site_name}}/{{proj_name}}/`)
 
-Tweak nginx core config with ``sudo vi /etc/nginx/nginx.conf`` and add ``daemon off;`` near the top few lines, then we
-can link to the conf files from the repository. First to the local folder, then to the system folder. ::
+Tweak nginx core config with `sudo vi /etc/nginx/nginx.conf` and add `daemon off;` near the top few lines, then we can link to the conf files from the repository. First to the local folder, then to the system folder.
 
     # NB: cwd is /sites/cope
     ln -s /sites/cope/cope_repo/deploy/production/etc/nginx/sites-available/cope.conf /sites/cope/etc/nginx/sites-available/cope.conf
@@ -263,7 +212,7 @@ can link to the conf files from the repository. First to the local folder, then 
     ln -s /sites/cope/cope_repo/deploy/production/bin/gunicorn_start.sh /sites/cope/bin/gunicorn_start.sh
     chmod 775 /sites/cope/cope_repo/deploy/production/bin/gunicorn_start.sh
 
-Now we need to get some application code install done so that things like gunicorn are actually installed::
+Now we need to get some application code install done so that things like gunicorn are actually installed:
 
     # NB: cwd is /sites/cope
     pip install -r cope_repo/requirements/production.txt
@@ -279,39 +228,37 @@ Now we need to get some application code install done so that things like gunico
     python manage.py loaddata config/fixtures/02_persons.json
     python manage.py loaddata config/fixtures/03_gradings.json
 
-Now do a quick sweep of the files to ensure permissions are suitably set so far...::
+Now do a quick sweep of the files to ensure permissions are suitably set so far...
 
     sudo chown -R www-data:worker /sites/cope
     sudo chmod -R g+w /sites/cope
     sudo find /sites/cope -type d -exec chmod g+s {} \;
 
-Generally speaking, we try to give each file and directory the minimum permissions necessary. We try to abide by the
-following permission guidelines.
+Generally speaking, we try to give each file and directory the minimum permissions necessary. We try to abide by the following permission guidelines.
 
-* Python (*.py) files should have 664 set on them UNLESS a user is to directly execute the Python file from the command
-  line as a script (i.e. manage.py). Executable Python scripts should be set to 775.
+* Python (*.py) files should have 664 set on them UNLESS a user is to directly execute the Python file from the command line as a script (i.e. manage.py). Executable Python scripts should be set to 775.
 * Script (*.sh) files should be set to 775.
 * Static files (*.html, *.css, *.jpg, *.png, etc) should be set to 664.
 * Directories should be set to 2775 (set GID set).
 * All other files should be set to 664 unless there's a good reason not to do so.
 
-Restarting server with ``sudo shutdown -r now`` to test the above configurations
+Restarting server with `sudo shutdown -r now` to test the above configurations
 
-### SSL Certificate
+#### SSL Certificate
 
 Help via:
 
 * [https://help.ubuntu.com/lts/serverguide/certificates-and-security.html]()
 * [https://wiki.it.ox.ac.uk/itss/CertificateService]()
 
-Steps for request::
+Steps for request
 
     cd .ssh/
     mkdir ssl-cert
     cd ssl-cert/
     vi website.ssl.cfg
 
-Into which we used the following::
+Into which we used the following
 
     [ req ]
         prompt                 = no
@@ -326,7 +273,7 @@ Into which we used the following::
         OU                     = Nuffield Department of Surgical Sciences
         CN                     = cope.nds.ox.ac.uk
 
-And then::
+And then
 
     openssl req -new -keyout private.pem -out cope.nds.csr -config ./website.ssl.cfg -batch -verbose -nodes
 
@@ -337,13 +284,10 @@ And then::
     writing new private key to 'private.pem'
     -----
 
-Which resulted in a private.pem and cope.nds.csr files being created. The contents of the cope.nds.csr was then submitted
-to Trend via their port (see ITSS wiki link) and emailed to the ITS3 team for confirmation. One phone confirmation
-from ITS3 later, and an email arrives with the certificates zipped up, and a (supposedly the equivalent) .pem file of the
-bundle. However, the .pem does not validate against the csr and private.pem (see [https://www.sslshopper.com/certificate-key-matcher.html]()
-or run the openssl validation checks below).
+Which resulted in a private.pem and cope.nds.csr files being created. The contents of the cope.nds.csr was then submitted to Trend via their port (see ITSS wiki link) and emailed to the ITS3 team for confirmation. One phone confirmation from ITS3 later, and an email arrives with the certificates zipped up, and a (supposedly the equivalent) .pem file of the
+bundle. However, the .pem does not validate against the csr and private.pem (see [https://www.sslshopper.com/certificate-key-matcher.html]() or run the openssl validation checks below).
 
-Copy the files to the server (scp), and put them into ``~/.ssh/ssl-cert/``. Run unzip on the zip bundle, to get 3 .crt files returned. This now gives us:
+Copy the files to the server (scp), and put them into `~/.ssh/ssl-cert/`. Run unzip on the zip bundle, to get 3 .crt files returned. This now gives us:
 
     -rw-rw-r-- 1 copeuser copeuser 1218 Dec 14 18:20 AffirmTrust_Commercial.crt
     -rw-r--r-- 1 copeuser copeuser 3624 Dec 17 16:21 all-certificate.zip
@@ -354,7 +298,7 @@ Copy the files to the server (scp), and put them into ``~/.ssh/ssl-cert/``. Run 
     -rw-rw-r-- 1 copeuser copeuser 1630 Dec 14 18:20 Trend_Micro_S2_CA.crt
     -rw-rw-r-- 1 copeuser copeuser  465 Dec 14 17:45 website.ssl.cfg
 
-Long story short, because we can't validate the s2cabundle.pem file, we need to create our own .crt (or .pem, same thing) file by concatinating the three supplied certificates in the correct order, thus we do:
+Long story short, because we can't validate the s2cabundle.pem file, we need to create our own .crt (or .pem, same thing) file by concatenating the three supplied certificates in the correct order, thus we do:
 
     cat cope.nds.ox.ac.uk.crt AffirmTrust_Commercial.crt Trend_Micro_S2_CA.crt > cope.nds.crt
 
@@ -366,20 +310,18 @@ Long story short, because we can't validate the s2cabundle.pem file, we need to 
     copeuser@cope:~/.ssh/ssl-cert$ openssl x509 -noout -modulus -in cope.nds.ox.ac.uk.crt  | openssl md5
     (stdin)= cf0888a35d5070123c032249b4010244
 
-Now we'll put a copy of this combined certificate chain, and our private key, in a folder accessible by the NGINX
-process, as that is acting as the SSL proxy server (see the configuration in ``cope-repo/
-deploy/production/etc/nginx/sites-available/cope.conf`` for how Nginx will use these)::
+Now we'll put a copy of this combined certificate chain, and our private key, in a folder accessible by the NGINX process, as that is acting as the SSL proxy server (see the configuration in `cope-repo/
+deploy/production/etc/nginx/sites-available/cope.conf` for how Nginx will use these)::
 
     mkdir -p /sites/etc/ngix/ssl/    # Yes, there is a typo in nginx
     cp private.pem /sites/etc/ngix/ssl/
     cp cope.nds.crt /sites/etc/ngix/ssl/
 
-With those in place, and using the config file above, you can got to ``sudo supervisorctl`` and then
-``restart all``, and lo and behold, we have service on port 443.
+With those in place, and using the config file above, you can got to `sudo supervisorctl` and then `restart all`, and lo and behold, we have service on port 443.
 
-It's worth noting that ``SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTOCOL', 'https')`` needed to be added to the production.py settings file so that Django can detect if https is being used, otherwise when you set ``DJANGO_SECURE_SSL_REDIRECT=True`` in the ``local.env`` file, you will get a redirect loop in the browser.
+It's worth noting that `SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTOCOL', 'https')` needed to be added to the production.py settings file so that Django can detect if https is being used, otherwise when you set `DJANGO_SECURE_SSL_REDIRECT=True` in the `local.env` file, you will get a redirect loop in the browser.
 
-The string "HTTP_X_FORWARDED_PROTOCOL" is derived from ``proxy_set_header X-Forwarded-Protocol $scheme;`` in the nginx conf combined with the note from [https://docs.djangoproject.com/en/dev/ref/settings/#secure-proxy-ssl-header]() saying:
+The string "HTTP_X_FORWARDED_PROTOCOL" is derived from `proxy_set_header X-Forwarded-Protocol $scheme;` in the nginx conf combined with the note from [https://docs.djangoproject.com/en/dev/ref/settings/#secure-proxy-ssl-header]() saying:
 
     Note that the header needs to be in the format as used by request.META – all caps 
     and likely starting with HTTP_. (Remember, Django automatically adds 'HTTP_' to the 
@@ -387,52 +329,27 @@ The string "HTTP_X_FORWARDED_PROTOCOL" is derived from ``proxy_set_header X-Forw
 
 Port 443 has been confirmed as open on the MSD firewall for cope.nds.ox.ac.uk
 
-### Maintenance and updates
 
-Periodically there are maintenance tasks to do, such as:
+#### Migrating to Python 3 and Postgres
 
-* Update the OS libraries and packages - see Maintenance under System Setup above
-* Backup the DB - ``cp db.sqlite3 ../db-backup/yyyymmdd.sqlite3``
-
-#### Update the application release
- * Activate the virtualenv ``workon cope``
- * Move into the repository directory for most tasks ``cd cope-repo``
- * Get the latest updates from the central repository ``git pull --all``
- * Checkout the relevant tagged release (i.e. not Head of Master branch) ``git checkout 0.4.6``
- * Update the application libraries ``pip install -r requirements/production.txt``
- * Check things are working so far ``python manage.py check``
- * Apply any necessary migrations ``python manage.py migrate``
- * Gather the staticfiles up ``python manage.py collectstatic``
- * Apply the locale updates `python manage.py compilemessages`
- * Check things are working so far II ``python manage.py check``
- * Start the supervisor console to reload the changes ``sudo supervisorctl``...
- * and then ``restart cope-django``
- * ...and all should be fine.
-
-#### Troubleshooting
-When things do not go to plan, we want to find out what we can. There's no debug mode on the production server, so it's into the error logs for information. Logs from supervisord are found via: ``cd /var/log/supervisor/``. Unfortunately stack traces aren't captured here (for example on a Server Error), so more work needs to be done to help the monitoring of this server.
-
-
-### Migrating to Python 3 and Postgres
-
-* Perform the usual system maintainence (apt-get update, upgrade, autoclean, etc)
+* Perform the usual system maintenance (apt-get update, upgrade, autoclean, etc)
 * Using installed python 3.4.3
- * Needs extra: `sudo apt-get install python3.4-dev libpq-dev` for psycopg2 to install
+  * Needs extra: `sudo apt-get install python3.4-dev libpq-dev` for psycopg2 to install
 * Installed postgres following instructions at [https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-14-04](). 
- * `sudo apt-get install postgresql postgresql-contrib`
- * Results in Postgres 9.3 being installed.
- * Created user `copedb` and database `copedb`
+  * `sudo apt-get install postgresql postgresql-contrib`
+  * Results in Postgres 9.3 being installed.
+  * Created user `copedb` and database `copedb`
 
-  ```
-  postgres@cope:~$ createuser --interactive
-  Enter name of role to add: copedb
-  Shall the new role be a superuser? (y/n) n
-  Shall the new role be allowed to create databases? (y/n) n
-  Shall the new role be allowed to create more new roles? (y/n) n
-  postgres@cope:~$ createdb copedb
-  ```
+    ```
+    postgres@cope:~$ createuser --interactive
+    Enter name of role to add: copedb
+    Shall the new role be a superuser? (y/n) n
+    Shall the new role be allowed to create databases? (y/n) n
+    Shall the new role be allowed to create more new roles? (y/n) n
+    postgres@cope:~$ createdb copedb
+    ```
 
- * Set password on user. `postgres=# \password copedb`
+  * Set password on user. `postgres=# \password copedb`
 
 Follow site setup again, but pointing at `/usr/bin/python3` for virtualenv, and changing the files linked below to use the new `/sites/py3_cope path`::
 
@@ -502,7 +419,7 @@ On the likely outcome that something doesn't work, remember the following:
  * `ln -s /sites/py3_cope/cope_repo/deploy/production/bin/dbbackup.sh /sites/py3_cope/bin/dbbackup.sh`
 * Update Cron with the new path
 
-### Migrating from LTS 14.04 to LTS 16.04.1
+#### Migrating from LTS 14.04 to LTS 16.04.1
 ...did not go smoothly :-/
 
 * ``sudo apt-get autoremove`` to clear enough space on ``/boot``
@@ -514,8 +431,6 @@ On the likely outcome that something doesn't work, remember the following:
 * Reboot the server manually
 * ... now we diagnose why the supervisor cope script won't start up; outwardly because the virtualenv is not working.
  * Recreate the virtualenv, because the python links are broken since there has been a change from python3.4 to python3.5 
-
-
 
 ```
 Configuring postgresql-common ├─────────────────────────────────────────┐  
@@ -534,13 +449,10 @@ Configuring postgresql-common ├───────────────�
  │ postgresql-9.3 and postgresql-client-9.3 packages should be removed.                                              │  
  │                                                                                                                   │  
  │ Please see /usr/share/doc/postgresql-common/README.Debian.gz for details.         
- ```
+```
 
-
-### TODO
-
-* Run the django-secure scan
-
+#### Migrating from LTS 16.04.1 to LTS 18.01
+Went much more smoothly, and followed a similar process.
 
 ### Footnotes for Production
 
@@ -565,3 +477,71 @@ Reference urls:
 * Django Secure - [http://django-secure.readthedocs.org/en/latest/]()
 
 
+
+## Test/Staging (dev.nds)
+Test server deployment is to the dev.nds server, accessible under [https://dev.nds.ox.ac.uk/cope/](). This is an Ubuntu 16.04 Server with similar setup to the Production environment. This location was moved here from external (personal) hosting in Nov 2017, having been online in its previous setup since Aug 2015.
+
+At time of writing, this system is offline for unknown reasons.
+
+Deployment Outline
+
+* Create project `$ mkproject -p /usr/bin/python3 cope`
+  * This will activate the new virtualenv, and drop you into `/sites/cope`
+* Create project user `$ sudo useradd --system --gid worker --shell /bin/bash --home /sites/cope cope-app-user`
+* Clone repository, select branch
+  * `$ git clone git@github.com:ouh-churchill/cope.git cope_repo`
+  * `$ cd cope_repo/`
+  * `$ git checkout testing`
+* Create subfolders, link virtualenv folders
+  * `$ cd ..` <-- return to `/sites/cope`
+  * `$ ln -s /sites/.virtualenvs/cope/lib ./lib`
+  * `$ ln -s /sites/.virtualenvs/cope/bin ./bin` 
+  * `$ mkdir -p var/log var/run etc/nginx/sites-available htdocs/media etc/gunicorn`
+* Install requirements
+  * `$ cd cope_repo/`
+  * `$ pip install -r requirements/staging.txt`
+* Modify local `.env` settings
+  * `$ cp config/settings/.env.template config/settings/.env`
+  * `$ vi config/settings/.env` -- Put in local setting values
+  * `$ python manage.py check`
+* Create database (port from old location)
+  * Check it is current with `$ python manage.py migrate`, there should be no missing migrations.
+* Copy the static content into place `$ python manage.py collectstatic`
+* Copy deployment files into system folders (nginx, supervisor, etc)
+  * `$ ln -s /sites/cope/cope_repo/deploy/staging/bin/gunicorn_start.sh /sites/cope/bin/gunicorn_start.sh` -- copy the gunicorn script into the project's bin folder, where the gunicorn config expects to find it
+  * `$ cd /etc/supervisor/conf.d/` -- goto the supervisorctl config folder 
+  * `$ sudo ln -s /sites/cope/cope_repo/deploy/staging/etc/supervisor/conf.d/cope-django.conf ./cope-django.conf` -- copy the config from the repo into the system folder
+  * `$ cd /sites` & `$ sudo chown -R carl:worker cope/` to make all the files now part of the `worker` group and thus executable by the `cope-app-worker` user.
+  * `$ sudo supervisorctl` to begin loading of the new config, and to start the process
+  * `reread` to find the config. `add cope` to make supervisor recognise it. `start cope` to kick the process off.
+  * `$ cd /etc/nginx/sites-available/` to get to the nginx config location
+  * `$ sudo ln -s /sites/cope/cope_repo/deploy/staging/etc/nginx/sites-available/cope.conf cope.conf` to bring in the cope proxy site config
+  * `$ cd ../sites-enabled/` to move into the enabled sites folder
+  * `$ sudo ln -s ../sites-available/cope.conf cope.conf` to make nginx recognise this as an active site
+* Link into the main Nginx config via sites-available
+  * `$ sudo vi default` to edit the main nginx server config, and to add in our new location
+
+  ```
+  location /cope {
+      proxy_set_header X-Forwarded-Protocol $scheme;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header Host $http_host;
+      proxy_set_header X-Scheme $scheme;
+      proxy_set_header X-Forwarded-For $remote_addr;
+
+      proxy_pass http://localhost:9002/;
+  }
+  ``` 
+  * `$ sudo systemctl restart nginx` to reload the config, and start the site
+
+#### TODO
+Create a link to the auto-deploy script and add it to the crontab e.g. (from webfaction docs):
+
+    ln -s cope_repo/deploy/webfaction/deploy-cm13.sh ./update_by_cron.sh
+    chmod 755 COPE/deploy/webfaction/deploy-cm13.sh
+    crontab -e    # To edit the cron record, and to insert...
+    */2 * * * * $HOME/webapps/wp4_django/update_by_cron.sh >> $HOME/webapps/wp4_django/cron-wp4_django.log 2>&1
+    
+
+## Development (localhost)
+Local development deployment notes on this can be found in [Development](development.md)

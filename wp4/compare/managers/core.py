@@ -24,7 +24,6 @@ class ModelForUserManagerMixin(object):
             ("restrict_to_national", "Can only use data from the same location country"),
             ("restrict_to_local", "Can only use data from a specific location"),
         )
-    
     """
     country_id = None
     hospital_id = None

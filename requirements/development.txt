@@ -3,10 +3,10 @@
 coverage
 django-debug-toolbar
 django-debug-toolbar-template-profiler
+django-extensions
 ipython
 # django-spaghetti-and-meatballs
 -e git+https://github.com/marshalc/django-spaghetti-and-meatballs.git#egg=django-spaghetti-and-meatballs
-django-extensions
 selenium
 
 sphinx

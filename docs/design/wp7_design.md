@@ -17,11 +17,11 @@ The people using this are WP7 people:
 These users are based at central storage sites, where they have their own freezers.
 
 
-### The sample types and their journies
+### The sample types and their journeys
 
 See white board images
 
-#### Biopsys
+#### Biopsies
 
 Types: 
 
@@ -49,7 +49,7 @@ In WP3 and WP4, collected from the device.
 Preparation types: 
 
 * Purple top Vacutainer, EDTA (ref?) - its an additive to stop the blood clotting, which produces Plasma (with cells)
-* Gold top Vacutainer, SST - its an additive to allow the blood to clot and has a separater gel, which produces Serum (without cells)
+* Gold top Vacutainer, SST - its an additive to allow the blood to clot and has a separator gel, which produces Serum (without cells)
 
 #### Urine
 
