@@ -1,0 +1,302 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en-GB" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en-GB" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>wp4.locations.models &mdash; COPE DB 0.9.4 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> COPE DB
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_manual.html">COPE DB User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../deployment.html">Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/wp4_design.html">Design - WP4:Compare</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design/wp7_design.html">Design - WP7:Biobanking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models/index.html">Data Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">COPE DB</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>wp4.locations.models</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for wp4.locations.models</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/python</span>
+<span class="c1"># coding: utf-8</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">unicode_literals</span>
+<span class="kn">from</span> <span class="nn">livefield.managers</span> <span class="k">import</span> <span class="n">LiveManager</span>
+
+<span class="kn">from</span> <span class="nn">django.db</span> <span class="k">import</span> <span class="n">models</span>
+<span class="kn">from</span> <span class="nn">django.urls</span> <span class="k">import</span> <span class="n">reverse</span>
+<span class="kn">from</span> <span class="nn">django.utils.functional</span> <span class="k">import</span> <span class="n">cached_property</span>
+<span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="k">import</span> <span class="n">ugettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
+
+<span class="kn">from</span> <span class="nn">wp4.compare.models</span> <span class="k">import</span> <span class="n">AuditControlModelBase</span>
+
+
+<span class="c1"># Common CONSTANTS</span>
+<span class="n">UNITED_KINGDOM</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1">#: Constant for COUNTRY_CHOICES</span>
+<span class="n">BELGIUM</span> <span class="o">=</span> <span class="mi">4</span>  <span class="c1">#: Constant for COUNTRY_CHOICES</span>
+<span class="n">NETHERLANDS</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1">#: Constant for COUNTRY_CHOICES</span>
+<span class="n">COUNTRY_CHOICES</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="p">(</span><span class="n">UNITED_KINGDOM</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;LOc01 United Kingdom&#39;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="n">BELGIUM</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;LOc02 Belgium&#39;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="n">NETHERLANDS</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;LOc03 Netherlands&#39;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc04 Albania&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc05 Andorra&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc06 Armenia&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc07 Austria&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc08 Azerbaijan&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc09 Belarus&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc10 Bosnia and Herzegovina&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">17</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc11 Bulgaria&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc12 Croatia&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">19</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc13 Cyprus&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc14 Czech Republic&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">21</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc15 Denmark&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">22</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc16 Estonia&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">23</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc17 Finland&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc18 France&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc19 Georgia&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">26</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc20 Germany&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">27</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc21 Greece&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc22 Hungary&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">29</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc23 Iceland&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc24 Ireland&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">31</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc25 Italy&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc26 Kazakhstan&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc27 Kosovo&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">34</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc28 Latvia&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">35</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc29 Liechtenstein&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">36</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc30 Lithuania&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">37</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc31 Luxembourg&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">38</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc32 Macedonia&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">39</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc33 Malta&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc34 Moldova&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">41</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc35 Monaco&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">42</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc36 Montenegro&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">43</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc37 Norway&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">44</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc38 Poland&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">45</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc39 Portugal&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">46</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc40 Romania&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">47</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc41 Russia&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">48</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc42 San Marino&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">49</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc43 Serbia&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc44 Slovakia&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">51</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc45 Slovenia&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">52</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc46 Spain&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">53</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc47 Sweden&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">54</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc48 Switzerland&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">55</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc49 Turkey&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="mi">56</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;LOc50 Ukraine&quot;</span><span class="p">)),</span>
+<span class="p">)</span>  <span class="c1">#: Choices for Hospital.country</span>
+
+
+<div class="viewcode-block" id="Hospital"><a class="viewcode-back" href="../../../models/generated/wp4.locations.models.html#wp4.compare.models.core.Hospital">[docs]</a><span class="k">class</span> <span class="nc">Hospital</span><span class="p">(</span><span class="n">AuditControlModelBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Simple helper class to hold information related to the various project and non-project locations.</span>
+<span class="sd">    Currently referenced from Donor, OrganAllocation, RetrievalTeam, Person</span>
+
+<span class="sd">    This data is so generic and widely used that there should be no restrictions on geography, and everyone should be</span>
+<span class="sd">    able to view it.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;HO01 hospital name&quot;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">country</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;HO02 country&quot;</span><span class="p">),</span> <span class="n">choices</span><span class="o">=</span><span class="n">COUNTRY_CHOICES</span><span class="p">)</span>
+    <span class="n">is_active</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;HO03 is active&quot;</span><span class="p">),</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Not presently used/implemented. For legacy data when a location closes for use&quot;</span>
+    <span class="p">)</span>
+    <span class="n">is_project_site</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;HO04 is project site&quot;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">objects</span> <span class="o">=</span> <span class="n">LiveManager</span><span class="p">()</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;country&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">]</span>
+        <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;HOm1 hospital&#39;</span><span class="p">)</span>
+        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;HOm2 hospitals&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_full_description</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">, </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_country_display</span><span class="p">())</span>
+    <span class="n">full_description</span> <span class="o">=</span> <span class="n">cached_property</span><span class="p">(</span><span class="n">_full_description</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;full_description&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Hospital.get_absolute_url"><a class="viewcode-back" href="../../../models/generated/wp4.locations.models.html#wp4.compare.models.core.Hospital.get_absolute_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_absolute_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">reverse</span><span class="p">(</span><span class="s2">&quot;locations:detail&quot;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;pk&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pk</span><span class="p">})</span></div>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">full_description</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015-2019, Carl Marshall
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

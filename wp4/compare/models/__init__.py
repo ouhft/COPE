@@ -46,15 +46,15 @@ class AuditControlModelBase(models.Model):
     """
     Internal common attributes to aid systematic auditing of records.
 
-    live (aka record_active) will allow us to soft delete data.
-    record_locked will allow the admin team to mark records as having been reviewed and put to rest.
+    `live` (aka record_active) will allow us to soft delete data.
+    `record_locked` will allow the admin team to mark records as having been reviewed and put to rest.
     """
     __record_locked_on_load = False  # Need an internal representation of this independent of the main instance value
     record_locked = models.BooleanField(
         default=False,
         help_text="Locked by the admin team. This can only be reversed by the System Administrator"
     )
-    live = LiveField()  # Wanted this to be record_active, but that means modifying the LiveField code
+    live = LiveField()  #: Wanted this to be record_active, but that means modifying the LiveField code
 
     objects = LiveManager()
     all_objects = LiveManager(include_soft_deleted=True)

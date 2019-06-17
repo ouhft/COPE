@@ -1,0 +1,681 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en-GB" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en-GB" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>wp4.staff.models &mdash; COPE DB 0.9.4 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> COPE DB
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../user_manual.html">COPE DB User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment.html">Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/wp4_design.html">Design - WP4:Compare</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design/wp7_design.html">Design - WP7:Biobanking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Data Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">COPE DB</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+      <li>wp4.staff.models</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/models/generated/wp4.staff.models.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-wp4.staff.models">
+<span id="wp4-staff-models"></span><h1>wp4.staff.models<a class="headerlink" href="#module-wp4.staff.models" title="Permalink to this headline">¶</a></h1>
+<p class="rubric">Classes</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#wp4.staff.models.Person" title="wp4.staff.models.Person"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Person</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Replacement for original StaffPerson class which was linked to User as a one-to-one via “profile” attribute.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="class">
+<dt id="wp4.staff.models.Person">
+<em class="property">class </em><code class="sig-prename descclassname">wp4.staff.models.</code><code class="sig-name descname">Person</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/staff/models.html#Person"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.staff.models.Person" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replacement for original StaffPerson class which was linked to User as a one-to-one via “profile” attribute.</p>
+<p>This represents any person that is a member of staff (medical, administrative, academic, etc) and therefore not
+a patient (see compare.Patient for that). Not all people with records here will be active users of the system</p>
+<p>We’ll rely on Django-Reversion to capture changes to records, and thus the audit trail.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.AutoField" title="(in Django v2.2)"><em>django.db.models.AutoField</em></a>) – “ID”</p></li>
+<li><p><strong>password</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.CharField" title="(in Django v2.2)"><em>django.db.models.CharField</em></a>) – “password”</p></li>
+<li><p><strong>last_login</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v2.2)"><em>django.db.models.DateTimeField</em></a>) – “last login”</p></li>
+<li><p><strong>is_superuser</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “superuser status” - Designates that this user has all permissions without explicitly assigning them.</p></li>
+<li><p><strong>username</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.CharField" title="(in Django v2.2)"><em>django.db.models.CharField</em></a>) – “username” - Required. 150 characters or fewer. Letters, digits and &#64;/./+/-/_ only.</p></li>
+<li><p><strong>first_name</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.CharField" title="(in Django v2.2)"><em>django.db.models.CharField</em></a>) – “first name”</p></li>
+<li><p><strong>last_name</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.CharField" title="(in Django v2.2)"><em>django.db.models.CharField</em></a>) – “last name”</p></li>
+<li><p><strong>email</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.EmailField" title="(in Django v2.2)"><em>django.db.models.EmailField</em></a>) – “email address”</p></li>
+<li><p><strong>is_staff</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “staff status” - Designates whether the user can log into this admin site.</p></li>
+<li><p><strong>is_active</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “active” - Designates whether this user should be treated as active. Unselect this instead of deleting accounts.</p></li>
+<li><p><strong>date_joined</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v2.2)"><em>django.db.models.DateTimeField</em></a>) – “date joined”</p></li>
+<li><p><strong>telephone</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.CharField" title="(in Django v2.2)"><em>django.db.models.CharField</em></a>) – “Telephone Number”</p></li>
+<li><p><strong>based_at_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v2.2)"><em>django.db.models.ForeignKey</em></a>) – “Location” - Link to a primary hospital location for the member of staff</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.PERFUSION_TECHNICIAN">
+<code class="sig-name descname">PERFUSION_TECHNICIAN</code><em class="property"> = 1</em><a class="headerlink" href="#wp4.staff.models.Person.PERFUSION_TECHNICIAN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for Group ID</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.TRANSPLANT_COORDINATOR">
+<code class="sig-name descname">TRANSPLANT_COORDINATOR</code><em class="property"> = 2</em><a class="headerlink" href="#wp4.staff.models.Person.TRANSPLANT_COORDINATOR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for Group ID</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.RESEARCH_NURSE">
+<code class="sig-name descname">RESEARCH_NURSE</code><em class="property"> = 3</em><a class="headerlink" href="#wp4.staff.models.Person.RESEARCH_NURSE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for Group ID</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.NATIONAL_COORDINATOR">
+<code class="sig-name descname">NATIONAL_COORDINATOR</code><em class="property"> = 4</em><a class="headerlink" href="#wp4.staff.models.Person.NATIONAL_COORDINATOR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for Group ID</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.CENTRAL_COORDINATOR">
+<code class="sig-name descname">CENTRAL_COORDINATOR</code><em class="property"> = 5</em><a class="headerlink" href="#wp4.staff.models.Person.CENTRAL_COORDINATOR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for Group ID</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.STATISTICIAN">
+<code class="sig-name descname">STATISTICIAN</code><em class="property"> = 6</em><a class="headerlink" href="#wp4.staff.models.Person.STATISTICIAN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for Group ID</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.SYSTEMS_ADMINISTRATOR">
+<code class="sig-name descname">SYSTEMS_ADMINISTRATOR</code><em class="property"> = 7</em><a class="headerlink" href="#wp4.staff.models.Person.SYSTEMS_ADMINISTRATOR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for Group ID</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.LOCAL_INVESTIGATOR">
+<code class="sig-name descname">LOCAL_INVESTIGATOR</code><em class="property"> = 8</em><a class="headerlink" href="#wp4.staff.models.Person.LOCAL_INVESTIGATOR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for Group ID</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.OTHER_PROJECT_MEMBER">
+<code class="sig-name descname">OTHER_PROJECT_MEMBER</code><em class="property"> = 9</em><a class="headerlink" href="#wp4.staff.models.Person.OTHER_PROJECT_MEMBER" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for Group ID</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.BIOBANK_COORDINATOR">
+<code class="sig-name descname">BIOBANK_COORDINATOR</code><em class="property"> = 10</em><a class="headerlink" href="#wp4.staff.models.Person.BIOBANK_COORDINATOR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for Group ID</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.CHIEF_INVESTIGATOR">
+<code class="sig-name descname">CHIEF_INVESTIGATOR</code><em class="property"> = 11</em><a class="headerlink" href="#wp4.staff.models.Person.CHIEF_INVESTIGATOR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for Group ID</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.PRINCIPLE_INVESTIGATOR">
+<code class="sig-name descname">PRINCIPLE_INVESTIGATOR</code><em class="property"> = 12</em><a class="headerlink" href="#wp4.staff.models.Person.PRINCIPLE_INVESTIGATOR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for Group ID</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.CENTRAL_INVESTIGATOR">
+<code class="sig-name descname">CENTRAL_INVESTIGATOR</code><em class="property"> = 13</em><a class="headerlink" href="#wp4.staff.models.Person.CENTRAL_INVESTIGATOR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for Group ID</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.NATIONAL_INVESTIGATOR">
+<code class="sig-name descname">NATIONAL_INVESTIGATOR</code><em class="property"> = 14</em><a class="headerlink" href="#wp4.staff.models.Person.NATIONAL_INVESTIGATOR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for Group ID</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.THEATRE_CONTACT">
+<code class="sig-name descname">THEATRE_CONTACT</code><em class="property"> = 15</em><a class="headerlink" href="#wp4.staff.models.Person.THEATRE_CONTACT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant for Group ID</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.telephone">
+<code class="sig-name descname">telephone</code><a class="headerlink" href="#wp4.staff.models.Person.telephone" title="Permalink to this definition">¶</a></dt>
+<dd><p>Contents validated against phone_regex <code class="docutils literal notranslate"><span class="pre">r'^\+?1?\d{9,15}$'</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.based_at">
+<code class="sig-name descname">based_at</code><a class="headerlink" href="#wp4.staff.models.Person.based_at" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wp4.staff.models.Person.has_group">
+<code class="sig-name descname">has_group</code><span class="sig-paren">(</span><em class="sig-param">group_ids=[]</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/staff/models.html#Person.has_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.staff.models.Person.has_group" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.is_administrator">
+<code class="sig-name descname">is_administrator</code><a class="headerlink" href="#wp4.staff.models.Person.is_administrator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks for membership of an admin group
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wp4.staff.models.Person.get_absolute_url">
+<code class="sig-name descname">get_absolute_url</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/wp4/staff/models.html#Person.get_absolute_url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wp4.staff.models.Person.get_absolute_url" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="wp4.staff.models.Person.DoesNotExist">
+<em class="property">exception </em><code class="sig-name descname">DoesNotExist</code><a class="headerlink" href="#wp4.staff.models.Person.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="wp4.staff.models.Person.Hospital">
+<em class="property">class </em><code class="sig-name descname">Hospital</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.staff.models.Person.Hospital" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simple helper class to hold information related to the various project and non-project locations.
+Currently referenced from Donor, OrganAllocation, RetrievalTeam, Person</p>
+<p>This data is so generic and widely used that there should be no restrictions on geography, and everyone should be
+able to view it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.AutoField" title="(in Django v2.2)"><em>django.db.models.AutoField</em></a>) – “ID”</p></li>
+<li><p><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “record locked” - Locked by the admin team. This can only be reversed by the System Administrator</p></li>
+<li><p><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “live”</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.CharField" title="(in Django v2.2)"><em>django.db.models.CharField</em></a>) – “Hospital Name”</p></li>
+<li><p><strong>country</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v2.2)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Country”</p></li>
+<li><p><strong>is_active</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “Active” - Not presently used/implemented. For legacy data when a location closes for use</p></li>
+<li><p><strong>is_project_site</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “Project site”</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="exception">
+<dt id="wp4.staff.models.Person.Hospital.DoesNotExist">
+<em class="property">exception </em><code class="sig-name descname">DoesNotExist</code><a class="headerlink" href="#wp4.staff.models.Person.Hospital.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="wp4.staff.models.Person.Hospital.MultipleObjectsReturned">
+<em class="property">exception </em><code class="sig-name descname">MultipleObjectsReturned</code><a class="headerlink" href="#wp4.staff.models.Person.Hospital.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.Hospital.country">
+<code class="sig-name descname">country</code><a class="headerlink" href="#wp4.staff.models.Person.Hospital.country" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.Hospital.full_description">
+<code class="sig-name descname">full_description</code><a class="headerlink" href="#wp4.staff.models.Person.Hospital.full_description" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="wp4.staff.models.Person.Hospital.get_absolute_url">
+<code class="sig-name descname">get_absolute_url</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wp4.staff.models.Person.Hospital.get_absolute_url" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="wp4.staff.models.Person.Hospital.get_country_display">
+<code class="sig-name descname">get_country_display</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">field=&lt;django.db.models.fields.PositiveSmallIntegerField: country&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.staff.models.Person.Hospital.get_country_display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.Hospital.id">
+<code class="sig-name descname">id</code><a class="headerlink" href="#wp4.staff.models.Person.Hospital.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.Hospital.is_active">
+<code class="sig-name descname">is_active</code><a class="headerlink" href="#wp4.staff.models.Person.Hospital.is_active" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.Hospital.is_project_site">
+<code class="sig-name descname">is_project_site</code><a class="headerlink" href="#wp4.staff.models.Person.Hospital.is_project_site" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.Hospital.name">
+<code class="sig-name descname">name</code><a class="headerlink" href="#wp4.staff.models.Person.Hospital.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.Hospital.organallocation_set">
+<code class="sig-name descname">organallocation_set</code><a class="headerlink" href="#wp4.staff.models.Person.Hospital.organallocation_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.Hospital.person_set">
+<code class="sig-name descname">person_set</code><a class="headerlink" href="#wp4.staff.models.Person.Hospital.person_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.Hospital.retrievalteam_set">
+<code class="sig-name descname">retrievalteam_set</code><a class="headerlink" href="#wp4.staff.models.Person.Hospital.retrievalteam_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="wp4.staff.models.Person.MultipleObjectsReturned">
+<em class="property">exception </em><code class="sig-name descname">MultipleObjectsReturned</code><a class="headerlink" href="#wp4.staff.models.Person.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.adverse_event_contact">
+<code class="sig-name descname">adverse_event_contact</code><a class="headerlink" href="#wp4.staff.models.Person.adverse_event_contact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.based_at_id">
+<code class="sig-name descname">based_at_id</code><a class="headerlink" href="#wp4.staff.models.Person.based_at_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.donor_perfusion_technician_set">
+<code class="sig-name descname">donor_perfusion_technician_set</code><a class="headerlink" href="#wp4.staff.models.Person.donor_perfusion_technician_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.donor_transplant_coordinator_set">
+<code class="sig-name descname">donor_transplant_coordinator_set</code><a class="headerlink" href="#wp4.staff.models.Person.donor_transplant_coordinator_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wp4.staff.models.Person.get_next_by_date_joined">
+<code class="sig-name descname">get_next_by_date_joined</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">field=&lt;django.db.models.fields.DateTimeField: date_joined&gt;</em>, <em class="sig-param">is_next=True</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.staff.models.Person.get_next_by_date_joined" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="wp4.staff.models.Person.get_previous_by_date_joined">
+<code class="sig-name descname">get_previous_by_date_joined</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">field=&lt;django.db.models.fields.DateTimeField: date_joined&gt;</em>, <em class="sig-param">is_next=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wp4.staff.models.Person.get_previous_by_date_joined" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.groups">
+<code class="sig-name descname">groups</code><a class="headerlink" href="#wp4.staff.models.Person.groups" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the forward and reverse sides of
+a many-to-many relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
+instances.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.id">
+<code class="sig-name descname">id</code><a class="headerlink" href="#wp4.staff.models.Person.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.logentry_set">
+<code class="sig-name descname">logentry_set</code><a class="headerlink" href="#wp4.staff.models.Person.logentry_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.randomisation_set">
+<code class="sig-name descname">randomisation_set</code><a class="headerlink" href="#wp4.staff.models.Person.randomisation_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.recipient_perfusion_technician_set">
+<code class="sig-name descname">recipient_perfusion_technician_set</code><a class="headerlink" href="#wp4.staff.models.Person.recipient_perfusion_technician_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.recipient_transplant_coordinator_set">
+<code class="sig-name descname">recipient_transplant_coordinator_set</code><a class="headerlink" href="#wp4.staff.models.Person.recipient_transplant_coordinator_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.revision_set">
+<code class="sig-name descname">revision_set</code><a class="headerlink" href="#wp4.staff.models.Person.revision_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wp4.staff.models.Person.user_permissions">
+<code class="sig-name descname">user_permissions</code><a class="headerlink" href="#wp4.staff.models.Person.user_permissions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the forward and reverse sides of
+a many-to-many relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
+instances.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015-2019, Carl Marshall
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

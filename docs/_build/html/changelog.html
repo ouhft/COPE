@@ -1,0 +1,638 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en-GB" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en-GB" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Changelog &mdash; COPE DB 0.9.4 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Data Models" href="models/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> COPE DB
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="user_manual.html">COPE DB User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html">Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design/wp4_design.html">Design - WP4:Compare</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design/wp7_design.html">Design - WP7:Biobanking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models/index.html">Data Models</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v0-9-3-24-may-2019-enhancements-and-fixes">v0.9.3 (24 May 2019) - Enhancements and Fixes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v0-9-2-11-jul-2018-bugfix">v0.9.2 (11 Jul 2018) - Bugfix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v0-9-1-3-apr-2018-bugfix">v0.9.1 (3 Apr 2018) - Bugfix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v0-9-0-24-jan-2018-documentation-improvements">v0.9.0 (24 Jan 2018) - Documentation Improvements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v0-8-5-20-sep-2017-bugfix">v0.8.5 (20 Sep 2017) - Bugfix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v0-8-4-7-jul-2017-minor-enhancements">v0.8.4 (7 Jul 2017) - Minor Enhancements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v0-8-3-27-jun-2017-minor-enhancements">v0.8.3 (27 Jun 2017) - Minor Enhancements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v0-8-2-16-jun-2017-bugfix">v0.8.2 (16 Jun 2017) - Bugfix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v0-8-1-31-mar-2017-bugfix">v0.8.1 (31 Mar 2017) - Bugfix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v0-8-0-21-mar-2017-people-and-permissions">v0.8.0 (21 Mar 2017) - People and Permissions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#new-features">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#main-changes">Main Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minor-or-background-changes">Minor or Background Changes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#v0-6-4-14-oct-2016-bugfix">v0.6.4 (14 Oct 2016) - Bugfix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v0-6-3-3-aug-2016-bugfix">v0.6.3 (3 Aug 2016) - Bugfix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v0-6-2-5-july-2016-bugfix">v0.6.2 (5 July 2016) - Bugfix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v0-6-1-1-july-2016-bugfix">v0.6.1 (1 July 2016) - Bugfix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v0-6-0-21-june-2016-the-follow-up-edition">v0.6.0 (21 June 2016) - The Follow Up edition</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Main changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minor-and-background-changes">Minor (and background) changes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#v0-5-1-1-may-2016-bugfix">v0.5.1 (1 May 2016) - Bugfix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v0-5-0-29-apr-2016-adversely-related">v0.5.0 (29 Apr 2016) - Adversely Related</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Main changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Minor (and background) changes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#v0-4-6-2-mar-2016-bugfix">v0.4.6 (2 Mar 2016) - Bugfix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v0-4-5-18-jan-2016-initial-release">v0.4.5 (18 Jan 2016) - Initial release</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">COPE DB</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Changelog</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/changelog.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="changelog">
+<h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
+<p>This is a list of changes made to the website and application for each release.</p>
+<div class="section" id="v0-9-3-24-may-2019-enhancements-and-fixes">
+<h2>v0.9.3 (24 May 2019) - Enhancements and Fixes<a class="headerlink" href="#v0-9-3-24-may-2019-enhancements-and-fixes" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Issue #336: New fields requested for future analysis</p></li>
+<li><p>Issue #339: Blocked invalid data entry for Local Investigator on S/AE</p></li>
+<li><p>Issue #338: Username generation bug - extra long usernames being incorrectly created for duplicate users</p></li>
+<li><p>Issue #340: Added the “Is Active?” field to the Staff Profile pages for admin users to deactivate user accounts without removing data linkages.</p></li>
+<li><p>Miscellaneous other updates:</p>
+<ul>
+<li><p>Updates to third party libraries</p></li>
+<li><p>Admin link added for Staff Profiles</p></li>
+<li><p>Hardcoded data link update for IJ</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="v0-9-2-11-jul-2018-bugfix">
+<h2>v0.9.2 (11 Jul 2018) - Bugfix<a class="headerlink" href="#v0-9-2-11-jul-2018-bugfix" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Issue #328: Listing page added showing non-consenting Recipients</p></li>
+</ul>
+</div>
+<div class="section" id="v0-9-1-3-apr-2018-bugfix">
+<h2>v0.9.1 (3 Apr 2018) - Bugfix<a class="headerlink" href="#v0-9-1-3-apr-2018-bugfix" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Third party updates for security (e.g. Django 2.0.4)</p></li>
+<li><p>Issue #321: Updates to labels - calcinurin and similar on Follow Up forms</p></li>
+<li><p>Issue #322: Changes to the Follow up listing</p></li>
+<li><p>Issue #323: New functions for listing Health Economics QoL results</p></li>
+</ul>
+</div>
+<div class="section" id="v0-9-0-24-jan-2018-documentation-improvements">
+<h2>v0.9.0 (24 Jan 2018) - Documentation Improvements<a class="headerlink" href="#v0-9-0-24-jan-2018-documentation-improvements" title="Permalink to this headline">¶</a></h2>
+<p>This was a partial release of a tranche of work identified, not all of which has been critical to the project activities.</p>
+<ul class="simple">
+<li><p>Issue #307: Date of procurement misaligned on DMC Adverse Events Report - fixed</p></li>
+<li><p>Issue #308: Migrate Test site from external hosting to internal server - Implemented. https://dev.nds.ox.ac.uk/cope/ now hosts the test/preview version of this application. Documentation is also available on that server as it is here.</p></li>
+<li><p>Issues #309-314, 317-318: DMC Process Improvements. Developed and applied to test server. Some aspects have yet to be fully realised.</p></li>
+<li><p>Issue #316: Update to Django 2.0 - main development framework had a major release with multiple breaking changes to be rectified.</p></li>
+<li><p>Miscellaneous other updates</p>
+<ul>
+<li><p>Statistician access to Admin screens fixed</p></li>
+<li><p>Added a creatinine unit display to the Procurement report</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="v0-8-5-20-sep-2017-bugfix">
+<h2>v0.8.5 (20 Sep 2017) - Bugfix<a class="headerlink" href="#v0-8-5-20-sep-2017-bugfix" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Issue #282: Make Admin fields accessible on main system for Admin team members</p></li>
+<li><p>Issue #306: ISE: ImproperlyConfigured at /en-gb/wp4/adverse-event/670/ Using ModelFormMixin (base class of AdverseEventUpdateView) without the ‘fields’ attribute is prohibited - Fixed</p></li>
+<li><p>Miscellaneous other updates</p>
+<ul>
+<li><p>Documentation updates for development and deployment</p></li>
+<li><p>Paired Biopsies report enhancements</p></li>
+<li><p>Added “Admin Notes” fields to the Procurement and Transplantation forms for admin users</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="v0-8-4-7-jul-2017-minor-enhancements">
+<h2>v0.8.4 (7 Jul 2017) - Minor Enhancements<a class="headerlink" href="#v0-8-4-7-jul-2017-minor-enhancements" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Issue #214: Add date of transplant to adverse events report</p></li>
+<li><p>Issue #259: Modify Basic Admin query set to be LiveField aware</p></li>
+<li><p>Issue #298: Convert Patient.trial_id() to a property rather than a method - Done</p></li>
+<li><p>Issue #300: Add a View Profile to Staff listing - Implemented</p></li>
+</ul>
+</div>
+<div class="section" id="v0-8-3-27-jun-2017-minor-enhancements">
+<h2>v0.8.3 (27 Jun 2017) - Minor Enhancements<a class="headerlink" href="#v0-8-3-27-jun-2017-minor-enhancements" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Issue #270: Modify the S/AE start process so that Date of Death is loaded once an organ is selected - Implemented</p></li>
+<li><p>Issue #271: S/AE Form Date of Death missing Unknown option - Fixed</p></li>
+<li><p>Issue #290: Urine and Perfusate Sample collection reports are missing - Resolved</p></li>
+<li><p>Issue #291: S/AE Add Event results in ISE for RelatedObjectDoesNotExist at /en-gb/wp4/adverse-event/add/ - Fixed</p></li>
+<li><p>Issue #294: WP7 Data Export process - Implemented</p></li>
+<li><p>Issue #295: WP7 Data Import via UI - Implemented</p></li>
+<li><p>Issue #296: WP7 Rematch sample data on update - Implemented</p></li>
+</ul>
+</div>
+<div class="section" id="v0-8-2-16-jun-2017-bugfix">
+<h2>v0.8.2 (16 Jun 2017) - Bugfix<a class="headerlink" href="#v0-8-2-16-jun-2017-bugfix" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Issue #186: Ongoing work with the documentation processes</p></li>
+<li><p>Issue #249: Access to reports for Central Investigator - Fixed.</p></li>
+<li><p>Issue #258: Add key and description to Completed Pairs report</p></li>
+<li><p>Issue #276: WP7 data exchange upgrades</p>
+<ul>
+<li><p>New WP7Record model added to store output from the WP7 database that confirms a sample has been received.</p></li>
+<li><p>Command-line process written to import data and match on barcode</p></li>
+</ul>
+</li>
+<li><p>Issue #280: Added Report showing list of all patients and their linking information (i.e. demographics)</p></li>
+<li><p>Issue #287: Transplantation form throws AttributeError on current version of DAL and Django - Fixed.</p></li>
+<li><p>Issue #289: S/AE Form has ISE for missing person - due to case having no recipient - Fixed.</p></li>
+<li><p>DMC Reports:</p>
+<ul>
+<li><p>Open version of Death Summaries</p></li>
+<li><p>Typographical errors corrected</p></li>
+<li><p>Added date of procurement to most reports as an indication of when the organ was transplanted</p></li>
+</ul>
+</li>
+<li><p>Miscellaneous other updates</p>
+<ul>
+<li><p>Fixed permission issue related to Central Administrator role and the is_administrator checks</p></li>
+<li><p>Added a new completeness report for Transplants per Centre</p></li>
+<li><p>Added Tissue Sample report for Biobank</p></li>
+<li><p>Third party libraries updated. Issues introduced (such as increased load times due to CrispyForms interacting with ForeignKeys and Select lists) by the updates were resolved.</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="v0-8-1-31-mar-2017-bugfix">
+<h2>v0.8.1 (31 Mar 2017) - Bugfix<a class="headerlink" href="#v0-8-1-31-mar-2017-bugfix" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Issue #262:</p>
+<ul>
+<li><p>Fixes the incorrect date math for <code class="docutils literal notranslate"><span class="pre">activate_followups_in_window()</span></code></p></li>
+<li><p>Added the start of a Follow Ups report to help debug this issue</p></li>
+<li><p>Basic Admin updates for Samples app</p></li>
+</ul>
+</li>
+<li><p>Issue #265:</p>
+<ul>
+<li><p>New template tag produced to allow programatic changes to querystring values</p></li>
+<li><p>Template tag used in paginator</p></li>
+<li><p>Sort Columns extracted as an include, to use the <code class="docutils literal notranslate"><span class="pre">query_transform</span></code> tag and simplified calling</p></li>
+<li><p>Modified the main listing templates that had manually implemented sorting</p></li>
+</ul>
+</li>
+<li><p>Issue #251:</p>
+<ul>
+<li><p>Cleaned up Administration index page, added some permission checking for displaying of links</p></li>
+<li><p>Refactored the Administration App views into separate files for clarity</p></li>
+<li><p>Checked permissions match between view and index display</p></li>
+<li><p>Fixed broken link in SAE Sites template (the origin for this issue)</p></li>
+</ul>
+</li>
+<li><p>Issue #252 - Fixed ISE from bad reference</p></li>
+<li><p>Issue #258 - Add a Key Description to the Combined Pairs report. Added new DMC reports:</p>
+<ul>
+<li><p>Adverse Events</p></li>
+<li><p>Serious Events</p></li>
+<li><p>Graft Failures</p></li>
+</ul>
+</li>
+<li><p>Issue #273 - Fixed broken link in S/AE Alert emails</p></li>
+<li><p>Issue #260 - ISE: SAE - String index out of range, which was due to missing or invalid email addresses in the data.</p></li>
+<li><p>DMC Reports:</p>
+<ul>
+<li><p>Added DMC Permanent Impairment Report</p></li>
+<li><p>Added permissions checking for DMC reports</p></li>
+<li><p>Fixed default url for Adverse Events to Detail, rather than update</p></li>
+<li><p>Added a link back to edit the event from Detail</p></li>
+<li><p>Adverse events, new calculation method and totals</p></li>
+<li><p>Serious Adverse events, new calculation method and totals</p></li>
+<li><p>Added categories to Adverse Event report</p></li>
+<li><p>Added categories to Serious Adverse Event report</p></li>
+<li><p>OPEN report versions added for SAE, AE, and Graft Failure reports. Death and Impairment left to do.</p></li>
+<li><p>Index listing permissions refined to allow for Open reports to be viewed by Administrators that are blinded to randomisation</p></li>
+</ul>
+</li>
+<li><p>Enhanced Completed Pairs to show what happens to Non-allocated Eligible Kidneys, and highlighting of pairs without CC data</p></li>
+</ul>
+</div>
+<div class="section" id="v0-8-0-21-mar-2017-people-and-permissions">
+<h2>v0.8.0 (21 Mar 2017) - People and Permissions<a class="headerlink" href="#v0-8-0-21-mar-2017-people-and-permissions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="new-features">
+<h3>New Features<a class="headerlink" href="#new-features" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Documentation for COPE DB now published on each server. Production version at <a class="reference external" href="#">https://cope.nds.ox.ac.uk/docs/</a> (and same subdirectory on Test/Staging)</p></li>
+<li><p>New Staff tool that allows for easier and effective management of users by the Co-ordinators. Adds extra roles for National and Central Investigators.</p></li>
+<li><p>Samples have had their data entry forms overhauled, with Worksheets removed as a concept (and data linkage). There’s now a display version for each type of sample as well as the data entry form (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/130">#130</a>, <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/26">#26</a>, &amp; <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/241">#241</a>)</p></li>
+<li><p>Follow Ups are now produced based on a schedule, rather than previous data entry actions (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/140">#140</a>). However, a complete Recipient record is needed before this can happen, which means completing most of the Transplant Form.</p>
+<ul>
+<li><p>Initial Follow Up to be generated on creation of Recipient record</p></li>
+<li><p>3M Follow Up to be generated 70 days after Randomisation Date</p></li>
+<li><p>6M Follow Up to be generated 150 days after Randomisation Date</p></li>
+<li><p>12M Follow Up to be generated 300 days after Randomisation Date</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="main-changes">
+<h3>Main Changes<a class="headerlink" href="#main-changes" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Banner added on Test Site to announce THIS IS THE TEST SYSTEM due to user confusion and errors</p></li>
+<li><p>Added extra fields to S/AE reporting (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/170">#170</a>)</p></li>
+<li><p>Amended S/AE report for Statistician (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/188">#188</a>)</p></li>
+<li><p>New reports added for DMC and Co-ordinators (e.g. Completed Pairs, Donor Flowchart, DMC Death Summaries, DMC Secondary Outcomes, etc)</p></li>
+<li><p>Removed validation check for a Perfusion Technician to be entered on the Transplant Form (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/192">#192</a>)</p></li>
+<li><p>Implementation of a “soft-delete” function for Administrators (the introduction of LiveField on core models)</p></li>
+<li><p>Removed “Worksheets” from Samples as these were not being effectively used and causing data conflicts (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/129">#129</a>)</p></li>
+<li><p>Password change no longer requires admin access (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/160">#160</a>)</p></li>
+<li><p>New permissions added to support Read Only or Geographically bounded access to data (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/167">#167</a>)</p></li>
+<li><p>Cold Storage validation modified (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/146">#146</a>) to partly address problems with the data entered so far, however there are outstanding concerns over this topic</p></li>
+<li><p>Date of Death as recored by an S/AE form has been moved from being specific to each S/AE record/form and correctly reassigned to the relevant Recipient record. This means that any further S/AE forms will all show and reference the same DoD. (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/163">#163</a>)</p></li>
+<li><p>S/AE Emails send on saving (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/155">#155</a>)</p></li>
+<li><p>The 0.8.0 Release introduced Database Breaking changes, and so there is no automatic migration path from earlier versions to this release. New database setup scripts were generated, and lots of manual effort has been put in to port (and clean) the data between releases.</p></li>
+<li><p>Added Categorisation to S/AE events (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/190">#190</a>)</p></li>
+<li><p>Changed the need to link Donor to a specific hospital, and allow free-text records (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/211">#211</a>)</p></li>
+<li><p>Removed Transplant Technicians’ ability to add-new/edit Allocation Hospitals (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/212">#212</a>)</p></li>
+<li><p>Restricted Allocation locations on Transplant form to Project Sites + “other” (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/210">#210</a>)</p></li>
+<li><p>Removed duplicate Staff records introduced through a combination of human error and process logic (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/180">#180</a>)</p></li>
+<li><p>Trial ID autocomplete added for S/AE Forms (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/157">#157</a>)</p></li>
+<li><p>Administrators can now edit closed Procurement and Transplant forms (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/168">#168</a>)</p></li>
+</ul>
+</div>
+<div class="section" id="minor-or-background-changes">
+<h3>Minor or Background Changes<a class="headerlink" href="#minor-or-background-changes" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Various library updates for security improvements</p></li>
+<li><p>Typos corrected (Issues <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/87">#87</a> &amp; <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/86">#86</a>)</p></li>
+<li><p>Documentation updates</p></li>
+<li><p>Re-enabled ReVersion-Compare after updates to library</p></li>
+<li><p>GitIgnore tweaked to account for database copies in use during development</p></li>
+<li><p>New Groups fixture added (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/208">#208</a>)</p></li>
+<li><p>Moved Admin reports and functions into their own Administration app (from Compare app)</p></li>
+<li><p>Added the Staff App (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/208">#208</a>)</p></li>
+<li><p>Changed the core Auth model to use the new Staff model, and the subsequent data migrations and cleanup needed to enable this</p></li>
+<li><p>StaffJob profiles have been replaced with Auth.Groups (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/167">#167</a>)</p></li>
+<li><p>Modified the database backup script to compress on backup due to space constraints</p></li>
+<li><p>Added script to send an email on server boot and shutdown (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/132">#132</a>)</p></li>
+<li><p>Configuration to support log-rotation added (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/135">#135</a>)</p></li>
+<li><p>Fixed a logrotate permissions bug (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/138">#138</a>)</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">Organ.was_cold_stored</span></code> as per Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/166">#166</a></p></li>
+<li><p>Changed hardcoded email references to use Staff record details (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/239">#239</a>)</p></li>
+<li><p>Refactoring including: <code class="docutils literal notranslate"><span class="pre">adverse_event.AdverseEvent</span></code> renamed to <code class="docutils literal notranslate"><span class="pre">adverse_event.event</span></code>, <code class="docutils literal notranslate"><span class="pre">OrganPerson</span></code> renamed to <code class="docutils literal notranslate"><span class="pre">Patient</span></code>, and <code class="docutils literal notranslate"><span class="pre">VersionControlMixin</span></code> rebuilt as <code class="docutils literal notranslate"><span class="pre">AuditControlModelBase</span></code></p></li>
+<li><p>Added limited ordering to the S/AE, HE-QoL, and FU listings</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">Trial_ID</span></code> as a database field, and changed the way the IDs are generated so as to populate this</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">allocated_by</span></code> to Randomisation to help clear up who performed the randomisation (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/223">#223</a>)</p></li>
+<li><p>Fixed select Perfusion Technician (Theatre contact, etc) listing missing names for display bug (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/226">#226</a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">created_by</span></code> removed from base model class as mostly unused and creating surplus data linkage redundancies</p></li>
+<li><p>Basic admin supports triggering a password change for <code class="docutils literal notranslate"><span class="pre">Staff.Person</span></code> records (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/229">#229</a>)</p></li>
+<li><p>Quality of Life model form now loads the DateTime picker tool (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/109">#109</a>)</p></li>
+<li><p>Fixed Donor not proceeding - appearing without cause bug (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/221">#221</a>)</p></li>
+<li><p>Linked fixed on repository ReadMe (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/171">#171</a>)</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="v0-6-4-14-oct-2016-bugfix">
+<h2>v0.6.4 (14 Oct 2016) - Bugfix<a class="headerlink" href="#v0-6-4-14-oct-2016-bugfix" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Security updates to core libraries</p></li>
+<li><p>Added Admin report for SAE Summary (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/126">#126</a>)</p></li>
+<li><p>Added Admin report for Transplantation Sites (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/125">#125</a>)</p></li>
+<li><p>Added Admin report for Procurement Pairs (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/123">#123</a>)</p></li>
+</ul>
+</div>
+<div class="section" id="v0-6-3-3-aug-2016-bugfix">
+<h2>v0.6.3 (3 Aug 2016) - Bugfix<a class="headerlink" href="#v0-6-3-3-aug-2016-bugfix" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Fixed an error after randomisation bug (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/120">#120</a>)</p></li>
+<li><p>Increased loading speed for Samples (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/77">#77</a>)</p></li>
+<li><p>Added Admin link to cases (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/117">#117</a>)</p></li>
+</ul>
+</div>
+<div class="section" id="v0-6-2-5-july-2016-bugfix">
+<h2>v0.6.2 (5 July 2016) - Bugfix<a class="headerlink" href="#v0-6-2-5-july-2016-bugfix" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Labelling change for Transplantation form (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/58">#58</a>)</p></li>
+</ul>
+</div>
+<div class="section" id="v0-6-1-1-july-2016-bugfix">
+<h2>v0.6.1 (1 July 2016) - Bugfix<a class="headerlink" href="#v0-6-1-1-july-2016-bugfix" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Resolved Internal Server Errors due to an issue with date_of_birth (Issue <a class="reference external" href="https://github.com/AllyBradley/COPE/issues/116">#116</a>)</p></li>
+</ul>
+</div>
+<div class="section" id="v0-6-0-21-june-2016-the-follow-up-edition">
+<h2>v0.6.0 (21 June 2016) - The Follow Up edition<a class="headerlink" href="#v0-6-0-21-june-2016-the-follow-up-edition" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>New Features<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Follow Up forms added for Initial, 3 Month, 6 Month, and 1 Year data collection based on the current paper forms (Issue #79)</p></li>
+<li><p>Health Economics forms added for Quality of Life data collection (Issue #97)</p></li>
+<li><p>Initial reports added for DMC/Statistical analysis (Issues #90, #105, &amp; #110)</p></li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h3>Main changes<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Removed validation check for Perfusion Stopped on the Procurement form at close (Issue #104)</p></li>
+<li><p>Initial work done to change several sections where slow performance was affecting usability. More remains to be done on this (Issues #82, &amp; #77)</p></li>
+<li><p>User Manual updated to reflect new sections and previous updates</p></li>
+</ul>
+</div>
+<div class="section" id="minor-and-background-changes">
+<h3>Minor (and background) changes<a class="headerlink" href="#minor-and-background-changes" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Samples label correction for Perfusate (Issues #39)</p></li>
+<li><p>Admin rights restored along with UI shortcuts (Issue #91)</p></li>
+<li><p>Ported to Python 3.x from 2.x, for improved support with unicode and csv libraries (Issue #111)</p></li>
+<li><p>Various library updates for security improvements</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="v0-5-1-1-may-2016-bugfix">
+<h2>v0.5.1 (1 May 2016) - Bugfix<a class="headerlink" href="#v0-5-1-1-may-2016-bugfix" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Internal documentation comments were appearing in the UI. These have been modified or hidden (Issue #89)</p></li>
+<li><p>Online randomisation was failing, due to an incorrect validation check on an internal sequence number. (Issue #88)</p></li>
+<li><p>Question RE22 on the recipient form (Tape over regulator broken?) has not been saving. Incorrect field definition has been fixed. (Issue #81)</p></li>
+</ul>
+</div>
+<div class="section" id="v0-5-0-29-apr-2016-adversely-related">
+<h2>v0.5.0 (29 Apr 2016) - Adversely Related<a class="headerlink" href="#v0-5-0-29-apr-2016-adversely-related" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h3>New Features<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Adverse Event reporting added (Issue #80)</p></li>
+<li><p>Offline Randomisation Listings for Administrators. Shows available randomisation codes.</p></li>
+<li><p>Version Control implemented. All changes to site data are now preserved for audit and security purposes. (Issue #19)</p></li>
+<li><p>Changelog, and online User Manual added to the website (Issues #36 and #31)</p></li>
+<li><p>Transplantation Form now shows a checklist of eligibility criteria (Issue #42)</p></li>
+<li><p>Transplantation Form validation is now implemented using an expanded list of criteria as requested (Issue #45)</p></li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h3>Main changes<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Procurement form:</p></li>
+<li><p>Record information about cases that are not randomised (Issue #23)</p></li>
+<li><p>Recipient randomisation display updating fixed (Issue #33)</p></li>
+<li><p>Transplantation form:</p></li>
+<li><p>Changed the start process to require confirmation of allocation (Issue #44)</p></li>
+<li><p>Added process to close form if allocation set to a non-trial location (Issue #41)</p></li>
+<li><p>Ineligible cases are now shown a warning message to confirm answers, before closing the case on the subsequent save and confirm</p></li>
+<li><p>General notes field added on form closing (Issue #46)</p></li>
+<li><p>List of closed cases added for Administrators</p></li>
+<li><p>Expanded list of countries to include all of Europe (Locations app), rather than just the trial countries (Issue #25)</p></li>
+<li><p>Follow Up forms:</p></li>
+<li><p>Urine Creatinine has been removed (Issue #49)</p></li>
+<li><p>“Are they dead” question added to each stage of the forms (Issue #40)</p></li>
+<li><p>Security improvements made with:</p></li>
+<li><p>Password rules implemented</p></li>
+<li><p>Access controls tightened on all areas</p></li>
+<li><p>Templates and menus now only show links for accessible (to you) areas</p></li>
+<li><p>Site navigation improved with:</p></li>
+<li><p>Breadcrumbs for all areas</p></li>
+<li><p>Missing pages created for sections</p></li>
+<li><p>Menu links updated</p></li>
+<li><p>Server emails have been enabled, allowing password reset requests to be done by all users, and sets up the option for having automated alerts in the future</p></li>
+</ul>
+</div>
+<div class="section" id="id5">
+<h3>Minor (and background) changes<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Person’s weight now recorded as a float, rather than an int (Issue #22)</p></li>
+<li><p>Fixed a middleware issue that caused problems with the debug language setting on the Test server (Issue #54)</p></li>
+<li><p>Help text added to the Is transplantable question (Issue #30)</p></li>
+<li><p>Fixed a bug which stopped hospitals with an apostrophe in their name from being selected (Issue #55)</p></li>
+<li><p>Date of Death is now back as a necessary OrganPerson attribute; This had implications for various date calculation methods, and save methods (such as saving when Donor death diagnosed is set). This was prompted again by Issue #40</p></li>
+<li><p>Age vs DoB validation message now shows the range of valid options to the user on error</p></li>
+<li><p>Template change to display version number from package details rather than hardcoded</p></li>
+<li><p>StaffPerson and FollowUp apps now use the common VersionControlModel class as their base</p></li>
+<li><p>Admin forms updated for new models and changes</p></li>
+<li><p>Improved the configuration setup to allow for easier deployment to multiple environments (location.env)</p></li>
+<li><p>Fixed a server error related to configuration for deployment on test server (wsgi.py)</p></li>
+<li><p>Split the compare:forms into their own package due to size growth</p></li>
+<li><p>Updated the core VersionControlModel class to handle saving for inherited classes</p></li>
+<li><p>New managers added to the Organ class to handle common queries</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">not_allocated_reason</span></code> to replace the redundant <code class="docutils literal notranslate"><span class="pre">allocated</span></code> attribute</p></li>
+<li><p>Two permission checking utilities added to determine if member of a list of groups, or has a specified Job</p></li>
+<li><p>Many models updated to replace method calls with more appropriate property flags, and subsequent related corrections</p></li>
+<li><p>Organ now has an <code class="docutils literal notranslate"><span class="pre">explain_is_allocated</span></code> method that attempts to work out the allocated status of itself, and put it into words</p></li>
+<li><p>Foreign Key Widget now shows error messages when appropriate (previously they were not displayed)</p></li>
+<li><p>Developer documentation updated and expanded</p></li>
+<li><p>Repeated updates of third party libraries incorporated</p></li>
+<li><p>Major version change to AutocompleteLight library (2 to 3) meant various changes, and several improvements to the functionality and appearance of type ahead select fields</p></li>
+<li><p>Server patching and updating done frequently</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="v0-4-6-2-mar-2016-bugfix">
+<h2>v0.4.6 (2 Mar 2016) - Bugfix<a class="headerlink" href="#v0-4-6-2-mar-2016-bugfix" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Changes made to allow use of local timezones in the website rather than just UST/GMT (Issue #34)</p></li>
+<li><p>Validation rules for calculating DoB corrected (Issue #35)</p></li>
+</ul>
+</div>
+<div class="section" id="v0-4-5-18-jan-2016-initial-release">
+<h2>v0.4.5 (18 Jan 2016) - Initial release<a class="headerlink" href="#v0-4-5-18-jan-2016-initial-release" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>First production release of the database, with focus on Procurement, Samples, Transplant, Locations, People, and related.</p></li>
+<li><p>User Documentation created (User Manual) and distributed by PDF</p></li>
+<li><p>Basic validation in place for the two forms</p></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="models/index.html" class="btn btn-neutral float-left" title="Data Models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015-2019, Carl Marshall
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

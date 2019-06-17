@@ -35,7 +35,7 @@ from django.utils.translation import ugettext, get_language, activate, deactivat
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 sys.path.insert(0, os.path.abspath('.'))
 sys.path.insert(0, os.path.abspath('..'))
-sys.path.append(os.path.abspath('../../lib/python3.6/site-packages/'))
+sys.path.append(os.path.abspath('../../lib/python3.7/site-packages/'))
 
 import wp4  # Has to occur after the path has been expanded above
 wp4_version_string = wp4.__version__
@@ -56,7 +56,7 @@ FileDescriptor.__get__ = lambda self, *args, **kwargs: self
 # Stop Django from executing DB queries
 QuerySet.__repr__ = lambda self: self.__class__.__name__
 
-GITHUB_USER = 'AllyBradley'  # Name of your Github user or organisation
+GITHUB_USER = 'ouh-churchill'  # Name of your Github user or organisation
 GITHUB_PROJECT = 'COPE'  # Name of your Github repository
 
 
@@ -126,7 +126,7 @@ def process_modules(app, what, name, obj, options, lines):
 def skip_queryset(app, what, name, obj, skip, options):
     """Skip queryset subclasses to avoid database queries."""
     from django.db import models
-    print("DEBUG: skip_queryset(): obj.class={0}; name={1}".format(obj.__class__, name))
+    # print("DEBUG: skip_queryset(): obj.class={0}; name={1}".format(obj.__class__, name))
     if isinstance(obj, (models.QuerySet, models.manager.BaseManager)) or name.endswith('objects'):
         return True
     return skip
@@ -142,9 +142,9 @@ def setup(app):
 
 
 intersphinx_mapping = {
-    'python': ('https://docs.python.org/3.6', None),
+    'python': ('https://docs.python.org/3.7', None),
     'sphinx': ('http://www.sphinx-doc.org/en/stable/', None),
-    'django': ('https://docs.djangoproject.com/en/1.11/', 'https://docs.djangoproject.com/en/1.11/_objects/'),
+    'django': ('https://docs.djangoproject.com/en/2.2/', 'https://docs.djangoproject.com/en/2.2/_objects/'),
     'djangoextensions': ('https://django-extensions.readthedocs.io/en/latest/', None),
     'braces': ('https://django-braces.readthedocs.io/en/latest/', None),
 }
@@ -181,7 +181,7 @@ autosummary_generate = True
 # spell checking
 spelling_lang = 'en_GB'
 spelling_word_list_filename = 'spelling_wordlist.txt'
-spelling_show_suggestions = True
+spelling_show_suggestions = False
 spelling_ignore_pypi_package_names = True
 
 # Add any Sphinx extension module names here, as strings. They can be
@@ -201,10 +201,11 @@ extensions = [
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
     'sphinx.ext.intersphinx',
+    'recommonmark',
 ]
 
-if enchant is not None:
-    extensions.append('sphinxcontrib.spelling')
+# if enchant is not None:
+#     extensions.append('sphinxcontrib.spelling')
 
 # Here goes all your other config.
 # -- General configuration ------------------------------------------------
@@ -215,14 +216,13 @@ if enchant is not None:
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
-source_parsers = {
-    '.md': CommonMarkParser,
-}
-
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
-source_suffix = ['.rst', '.md', '.txt']
-# source_suffix = '.rst'
+source_suffix = {
+    '.rst': 'restructuredtext',
+    '.txt': 'markdown',
+    '.md': 'markdown',
+}
 
 # The encoding of source files.
 #source_encoding = 'utf-8-sig'
@@ -232,7 +232,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'COPE DB'
-copyright = u'2016, Carl Marshall'
+copyright = u'2015-2019, Carl Marshall'
 author = u'Carl Marshall'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -249,7 +249,7 @@ release = wp4_version_string
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = 'en_DB'
+language = 'en_GB'  # Not using en_DB as the rest of the locale doesn't recognise that
 activate(language)
 
 # There are two options for replacing |today|: either, you set today to some
@@ -477,6 +477,6 @@ texinfo_documents = [
 
 
 locale_dirs = [
-    '../../lib/python2.7/site-packages/django/conf/locale/',
+    '../../lib/python3.7/site-packages/django/conf/locale/',
     '../locale/'
 ]

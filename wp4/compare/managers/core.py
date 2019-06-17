@@ -14,7 +14,7 @@ class ModelForUserManagerMixin(object):
     Relies on permissions being set on a model so that we can restrict based on the location of the active user
 
     .. note::
-    
+
         Class names are not yet dynamically added to permissions as we would want. May appear in django 1.11?
         http://stackoverflow.com/questions/4963428/how-to-dynamically-name-permissions-in-a-django-abstract-model-class
     
