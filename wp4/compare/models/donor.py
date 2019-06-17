@@ -261,13 +261,6 @@ class Donor(AuditControlModelBase):
     last_creatinine_unit = models.PositiveSmallIntegerField(choices=UNIT_CHOICES, default=UNIT_MGDL)
     max_creatinine = models.FloatField(verbose_name=_('DO37 max creatinine'), blank=True, null=True)
     max_creatinine_unit = models.PositiveSmallIntegerField(choices=UNIT_CHOICES, default=UNIT_MGDL)
-    panel_reactive_antibodies = models.PositiveSmallIntegerField(
-        verbose_name=_('DO54 panel reactive antibodies'),
-        blank=True, null=True,
-        validators=[MinValueValidator(0), MaxValueValidator(100)],
-        default=None
-    )  # Added as per #336
-    panel_reactive_antibodies_unknown = models.BooleanField(default=False, help_text="Internal unknown flag")
 
     # Operation Data - Extraction
     SOLUTION_UW = 1  #: Constant for SOLUTION_CHOICES

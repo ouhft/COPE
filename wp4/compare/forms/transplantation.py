@@ -171,7 +171,8 @@ class RecipientForm(forms.ModelForm):
                     'renal_disease',
                     'renal_disease_other'
                 ),
-                'pre_transplant_diuresis'
+                'pre_transplant_diuresis',
+                FieldWithNotKnown('panel_reactive_antibodies', 'panel_reactive_antibodies_unknown'),
             )),
             HTML("</div>"),
             Div(
@@ -288,6 +289,8 @@ class RecipientForm(forms.ModelForm):
             'box_cleaned',
             'batteries_charged',
             'cleaning_log',
+            'panel_reactive_antibodies',
+            'panel_reactive_antibodies_unknown'
         ]
         localized_fields = "__all__"
 

@@ -229,6 +229,13 @@ class Recipient(AuditControlModelBase):
         verbose_name=_('RE17 diuresis (ml/24hr)'),
         blank=True, null=True
     )
+    panel_reactive_antibodies = models.PositiveSmallIntegerField(
+        verbose_name=_('RE99 panel reactive antibodies'),
+        blank=True, null=True,
+        validators=[MinValueValidator(0), MaxValueValidator(100)],
+        default=None
+    )  # Added as per #336
+    panel_reactive_antibodies_unknown = models.BooleanField(default=False, help_text="Internal unknown flag")
 
     # Peri-operative data
     INCISION_CHOICES = (
