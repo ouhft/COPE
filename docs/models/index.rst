@@ -20,7 +20,7 @@ NB: WP4.Compare.Models.Core defines a range of common CONSTANTS used widely thro
 .. toctree::
    :maxdepth: 2
 
-   compare
+   wp4.compare.models
 
 
 Adverse Event
@@ -31,7 +31,7 @@ The Adverse Event app collects the Adverse and Serious Adverse event information
 .. toctree::
    :maxdepth: 2
 
-   adverse_event
+   wp4.adverse_event.models
 
 Follow Ups
 ----------

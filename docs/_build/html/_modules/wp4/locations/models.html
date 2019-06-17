@@ -225,7 +225,7 @@
 <span class="p">)</span>  <span class="c1">#: Choices for Hospital.country</span>
 
 
-<div class="viewcode-block" id="Hospital"><a class="viewcode-back" href="../../../models/generated/wp4.locations.models.html#wp4.compare.models.core.Hospital">[docs]</a><span class="k">class</span> <span class="nc">Hospital</span><span class="p">(</span><span class="n">AuditControlModelBase</span><span class="p">):</span>
+<div class="viewcode-block" id="Hospital"><a class="viewcode-back" href="../../../models/generated/wp4.locations.models.html#wp4.locations.models.Hospital">[docs]</a><span class="k">class</span> <span class="nc">Hospital</span><span class="p">(</span><span class="n">AuditControlModelBase</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Simple helper class to hold information related to the various project and non-project locations.</span>
 <span class="sd">    Currently referenced from Donor, OrganAllocation, RetrievalTeam, Person</span>
@@ -253,7 +253,7 @@
         <span class="k">return</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">, </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_country_display</span><span class="p">())</span>
     <span class="n">full_description</span> <span class="o">=</span> <span class="n">cached_property</span><span class="p">(</span><span class="n">_full_description</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;full_description&#39;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Hospital.get_absolute_url"><a class="viewcode-back" href="../../../models/generated/wp4.locations.models.html#wp4.compare.models.core.Hospital.get_absolute_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_absolute_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Hospital.get_absolute_url"><a class="viewcode-back" href="../../../models/generated/wp4.locations.models.html#wp4.locations.models.Hospital.get_absolute_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_absolute_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">reverse</span><span class="p">(</span><span class="s2">&quot;locations:detail&quot;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;pk&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pk</span><span class="p">})</span></div>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
