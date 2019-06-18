@@ -52,6 +52,10 @@ class WP7Record(BarCodeMixin):
     box_number = models.CharField(max_length=20, null=True, blank=True)
     position_in_box = models.CharField(max_length=3, null=True, blank=True)
 
+    class Meta:
+        verbose_name = 'WP7 Record'
+        verbose_name_plural = 'WP7 Records'
+
 
 class Event(AuditControlModelBase):
     """
@@ -150,7 +154,7 @@ class Event(AuditControlModelBase):
                 raise ValidationError(_("EVv05 Time travel detected! Taken at date and time is in the future!"))
 
     def __str__(self):
-        return "%s (%s)" % (self.get_type_display(), self.taken_at)
+        return "{0}".format(self.get_name_display())
 
     def get_absolute_url(self):
         return reverse("wp4:samples:event_detail", kwargs={"pk": self.pk})
@@ -172,7 +176,7 @@ class BloodSample(AuditControlModelBase, BarCodeMixin, DeviationMixin):
 
     event = models.ForeignKey(
         Event,
-        on_delete=models.PROTECT,
+        on_delete=models.CASCADE,
         limit_choices_to={'type': Event.TYPE_BLOOD},
         help_text="Link to an event of type Blood"
     )
@@ -220,7 +224,7 @@ class UrineSample(AuditControlModelBase, BarCodeMixin, DeviationMixin):
     """
     event = models.ForeignKey(
         Event,
-        on_delete=models.PROTECT,
+        on_delete=models.CASCADE,
         limit_choices_to={'type': Event.TYPE_URINE},
         help_text="Link to an event of type Urine"
     )
@@ -267,7 +271,7 @@ class PerfusateSample(AuditControlModelBase, BarCodeMixin, DeviationMixin):
     """
     event = models.ForeignKey(
         Event,
-        on_delete=models.PROTECT,
+        on_delete=models.CASCADE,
         limit_choices_to={'type': Event.TYPE_PERFUSATE},
         help_text="Link to an event of type Perfusate"
     )
@@ -321,7 +325,7 @@ class TissueSample(AuditControlModelBase, BarCodeMixin, DeviationMixin):
 
     event = models.ForeignKey(
         Event,
-        on_delete=models.PROTECT,
+        on_delete=models.CASCADE,
         limit_choices_to={'type': Event.TYPE_TISSUE},
         help_text="Link to an event of type Tissue"
     )

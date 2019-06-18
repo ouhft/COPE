@@ -9,7 +9,13 @@ from .models import QualityOfLife, ResourceLog, ResourceVisit, ResourceHospitalA
 
 
 class QualityOfLifeAdmin(AuditedModelAdmin):
-    list_display = ('id', 'recipient', 'date_recorded', )
+    list_display = (
+        'id',
+        'recipient',
+        'date_recorded',
+        'live',
+        'record_locked',
+    )
     fields = AuditedModelAdmin.fields + (
         'recipient',
         'date_recorded',

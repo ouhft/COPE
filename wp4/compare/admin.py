@@ -34,6 +34,18 @@ class AuditedModelAdmin(CompareVersionAdmin):
 
     fields = (('live', 'record_locked'), )
 
+    actions = ['lock_records', 'unlock_records']
+
+    def lock_records(self, request, queryset):
+        queryset.update(record_locked=True)
+    lock_records.short_description = "Lock the selected records"
+    lock_records.allowed_permissions = ('delete', )
+
+    def unlock_records(self, request, queryset):
+        queryset.update(record_locked=False)
+    unlock_records.short_description = "Unlock the selected records"
+    unlock_records.allowed_permissions = ('delete', )
+
     def get_queryset(self, request):
         """
         Returns a QuerySet of all model instances that can be edited by the
@@ -52,7 +64,18 @@ class AuditedModelAdmin(CompareVersionAdmin):
 # =========== Models.Core ===============
 @admin.register(Patient)
 class PatientAdmin(AuditedModelAdmin):
-    list_display = ('id', 'trial_id', 'live', 'number', 'gender', 'age_from_dob',  'is_alive', 'recipient', 'donor')
+    list_display = (
+        'id',
+        'trial_id',
+        'live',
+        'record_locked',
+        'number',
+        'gender',
+        'age_from_dob',
+        'is_alive',
+        'recipient',
+        'donor'
+    )
     ordering = ('id',)
     fields = AuditedModelAdmin.fields + (
         'number',
@@ -91,6 +114,7 @@ class DonorAdmin(AuditedModelAdmin):
         'id',
         'trial_id',
         'live',
+        'record_locked',
         'person',
         'retrieval_team',
         'perfusion_technician',
@@ -192,6 +216,7 @@ class OrganAdmin(AuditedModelAdmin):
         'id',
         'trial_id',
         'live',
+        'record_locked',
         'location',
         'transplantable',
         'is_allocated',
@@ -254,6 +279,7 @@ class OrganAllocationAdmin(AuditedModelAdmin):
         'id',
         'organ',
         'live',
+        'record_locked',
         'reallocated',
         'transplant_hospital',
         'perfusion_technician',
@@ -281,6 +307,7 @@ class RecipientAdmin(AuditedModelAdmin):
         'id',
         'trial_id',
         'live',
+        'record_locked',
         'person',
         'allocation',
         'signed_consent',

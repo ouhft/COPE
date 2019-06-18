@@ -32,6 +32,8 @@ class FollowUpInitialAdmin(AuditedModelAdmin):
         'id',
         'trial_id',
         'start_date',
+        'live',
+        'record_locked',
     )
     fields = AuditedModelAdmin.fields + (
         'organ',  #FI01
@@ -89,6 +91,8 @@ class FollowUp3MAdmin(AuditedModelAdmin):
         'id',
         'trial_id',
         'start_date',
+        'live',
+        'record_locked',
     )
     fields = AuditedModelAdmin.fields + (
         'organ',  # F301
@@ -136,6 +140,8 @@ class FollowUp6MAdmin(AuditedModelAdmin):
         'id',
         'trial_id',
         'start_date',
+        'live',
+        'record_locked',
     )
     fields = AuditedModelAdmin.fields + (
         'organ',  # F601
@@ -179,6 +185,8 @@ class FollowUp1YAdmin(AuditedModelAdmin):
         'id',
         'trial_id',
         'start_date',
+        'live',
+        'record_locked',
     )
     fields = AuditedModelAdmin.fields + (
         'organ',  # FY01

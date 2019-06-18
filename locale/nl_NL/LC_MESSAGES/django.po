@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: v0.9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-17 17:11+0000\n"
+"POT-Creation-Date: 2019-06-18 17:46+0000\n"
 "PO-Revision-Date: 2015-12-11 18:45+0000\n"
 "Last-Translator: SARAH MERTENS <SARAH.MERTENS@MED.KULEUVEN.BE>\n"
 "Language-Team: NETHERLANDS <LL@li.org>\n"
@@ -324,6 +324,14 @@ msgstr "Right"
 #: wp4/compare/models/__init__.py:39
 msgid "ORc11 Not Set"
 msgstr "Not set"
+
+#: wp4/compare/models/__init__.py:56
+msgid "ACM01 Record Locked"
+msgstr ""
+
+#: wp4/compare/models/__init__.py:61
+msgid "ACM02 Record Active"
+msgstr ""
 
 #: wp4/compare/models/core.py:34
 msgid "OPc01 Male"
@@ -2194,267 +2202,267 @@ msgstr "Sample taken"
 msgid "DM02 notes"
 msgstr "Notes"
 
-#: wp4/samples/models.py:68
+#: wp4/samples/models.py:72
 msgid "EVc01 Blood"
 msgstr "Blood Samples"
 
-#: wp4/samples/models.py:69
+#: wp4/samples/models.py:73
 msgid "EVc02 Urine"
 msgstr "Urine Samples"
 
-#: wp4/samples/models.py:70
+#: wp4/samples/models.py:74
 msgid "EVc03 Perfusate"
 msgstr "Perfusate Samples"
 
-#: wp4/samples/models.py:71
+#: wp4/samples/models.py:75
 msgid "EVc04 Tissue"
 msgstr "Tissue Samples"
 
-#: wp4/samples/models.py:83
+#: wp4/samples/models.py:87
 msgid "EVc05 donor blood 1"
 msgstr "DB1 Donor Blood Sample"
 
-#: wp4/samples/models.py:84
+#: wp4/samples/models.py:88
 msgid "EVc06 donor urine 1"
 msgstr "DU1 Donor Urine Sample at Withdrawal of Support"
 
-#: wp4/samples/models.py:85
+#: wp4/samples/models.py:89
 msgid "EVc07 donor urine 2"
 msgstr "DU2 Donor Urine Sample from Catheter Bag"
 
-#: wp4/samples/models.py:86
+#: wp4/samples/models.py:90
 msgid "EVc08 organ perfusate 1"
 msgstr "P1 Perfusate solution after 15 mins of HMP"
 
-#: wp4/samples/models.py:87
+#: wp4/samples/models.py:91
 msgid "EVc09 organ perfusate 2"
 msgstr "P2 Perfusate solution prior to departure"
 
-#: wp4/samples/models.py:88
+#: wp4/samples/models.py:92
 msgid "EVc10 organ perfusate 3"
 msgstr "P3 Perfusate solution at end of machine perfusion"
 
-#: wp4/samples/models.py:89
+#: wp4/samples/models.py:93
 msgid "EVc11 organ tissue 1"
 msgstr "RKT Kidney Biopsy after reperfusion"
 
-#: wp4/samples/models.py:90
+#: wp4/samples/models.py:94
 msgid "EVc12 recipient blood 1"
 msgstr "RB1 Blood sample after anaesthesia "
 
-#: wp4/samples/models.py:91
+#: wp4/samples/models.py:95
 msgid "EVc13 recipient blood 2"
 msgstr "RB2 Blood sample after reperfusion"
 
-#: wp4/samples/models.py:94
+#: wp4/samples/models.py:98
 msgid "EV01 sample type"
 msgstr "Sample type"
 
-#: wp4/samples/models.py:95
+#: wp4/samples/models.py:99
 msgid "EV03 sample process name"
 msgstr "Sample Process"
 
-#: wp4/samples/models.py:96
+#: wp4/samples/models.py:100
 msgid "EV02 date and time taken"
 msgstr "Date and time taken"
 
-#: wp4/samples/models.py:102
+#: wp4/samples/models.py:106
 msgid "EVm1 sample event"
 msgstr "Sample event"
 
-#: wp4/samples/models.py:103
+#: wp4/samples/models.py:107
 msgid "EVm2 sample events"
 msgstr "Sample events"
 
-#: wp4/samples/models.py:122
+#: wp4/samples/models.py:126
 msgid "EVv01 this event should have two blood sample records"
 msgstr "There should be two blood sample records"
 
-#: wp4/samples/models.py:124
+#: wp4/samples/models.py:128
 msgid "EVv06 the blood samples must not have matching types"
 msgstr "The blood samples must not have matching types"
 
-#: wp4/samples/models.py:126
+#: wp4/samples/models.py:130
 msgid "EVv08 invalid name selected (please select a blood related name)"
 msgstr "Invalid name selected"
 
-#: wp4/samples/models.py:130
+#: wp4/samples/models.py:134
 msgid "EVv02 this event should have one urine sample record"
 msgstr "There should be one urine sample record"
 
-#: wp4/samples/models.py:132
+#: wp4/samples/models.py:136
 msgid "EVv09 invalid name selected (please select a urine related name)"
 msgstr "Invalid name selected"
 
-#: wp4/samples/models.py:136
+#: wp4/samples/models.py:140
 msgid "EVv03 this event should have one perfusate sample record"
 msgstr "There should be one perfusate sample record"
 
-#: wp4/samples/models.py:138
+#: wp4/samples/models.py:142
 msgid "EVv10 invalid name selected (please select a perfusate related name)"
 msgstr "Invalid name"
 
-#: wp4/samples/models.py:143
+#: wp4/samples/models.py:147
 msgid "EVv04 this event should have two tissue sample records"
 msgstr "There should be two tissue sample records"
 
-#: wp4/samples/models.py:145
+#: wp4/samples/models.py:149
 msgid "EVv07 the tissue samples must not have matching types"
 msgstr "Tissue samples must not have matching types"
 
-#: wp4/samples/models.py:147
+#: wp4/samples/models.py:151
 msgid "EVv11 invalid name selected (please select a tissue related name)"
 msgstr "Invalid name"
 
-#: wp4/samples/models.py:150
+#: wp4/samples/models.py:154
 msgid "EVv05 Time travel detected! Taken at date and time is in the future!"
 msgstr "Time travel detected! Taken at date and time is in the future!"
 
-#: wp4/samples/models.py:169
+#: wp4/samples/models.py:173
 msgid "BSc01 Blood SST"
 msgstr "Blood Sample SST"
 
-#: wp4/samples/models.py:170
+#: wp4/samples/models.py:174
 msgid "BSc02 Blood EDSA"
 msgstr "Blood Sample EDTA"
 
-#: wp4/samples/models.py:179
+#: wp4/samples/models.py:183
 msgid "BS02 blood sample type"
 msgstr "Blood sample type"
 
-#: wp4/samples/models.py:180
+#: wp4/samples/models.py:184
 msgid "BS03 sample from"
 msgstr "Blood sample from"
 
-#: wp4/samples/models.py:181
+#: wp4/samples/models.py:185
 msgid "BS01 centrifuged at"
 msgstr "Time sample centrifuged"
 
-#: wp4/samples/models.py:188
+#: wp4/samples/models.py:192
 msgid "BSm1 blood sample"
 msgstr "Blood Sample"
 
-#: wp4/samples/models.py:189
+#: wp4/samples/models.py:193
 msgid "BSm2 blood samples"
 msgstr "Blood Samples"
 
-#: wp4/samples/models.py:202
+#: wp4/samples/models.py:206
 msgid "BSv01 you must enter some notes about why this sample was not collected"
 msgstr "Please provide details about why this blood sample was not collected"
 
-#: wp4/samples/models.py:204
+#: wp4/samples/models.py:208
 msgid "BSv04 Please record the time the sample was taken"
 msgstr "Time sample taken?"
 
-#: wp4/samples/models.py:208
+#: wp4/samples/models.py:212
 msgid ""
 "BSv02 Time travel detected! Centrifuged at date and time is in the future!"
 msgstr "Time travel detected! Centrifuged at date and time is in the future!"
 
-#: wp4/samples/models.py:211
+#: wp4/samples/models.py:215
 msgid "BSv03 Body in spin dryer! Sample was centrifuged before it was taken?"
 msgstr ""
 "Time given of centrifugation is before sample was taken. Please correct"
 
-#: wp4/samples/models.py:227
+#: wp4/samples/models.py:231
 msgid "US02 sample from"
 msgstr "Urine sample from"
 
-#: wp4/samples/models.py:228
+#: wp4/samples/models.py:232
 msgid "US01 centrifuged at"
 msgstr "Time centrifuged"
 
-#: wp4/samples/models.py:235
+#: wp4/samples/models.py:239
 msgid "USm1 urine sample"
 msgstr "Urine sample"
 
-#: wp4/samples/models.py:236
+#: wp4/samples/models.py:240
 msgid "USm2 urine samples"
 msgstr "Urine samples"
 
-#: wp4/samples/models.py:249
+#: wp4/samples/models.py:253
 msgid "USv01 you must enter some notes about why this sample was not collected"
 msgstr "Please provide details about why this urine sample was not collected "
 
-#: wp4/samples/models.py:251
+#: wp4/samples/models.py:255
 msgid "USv04 Please record the time the sample was taken"
 msgstr "Time sample taken"
 
-#: wp4/samples/models.py:255
+#: wp4/samples/models.py:259
 msgid ""
 "USv02 Time travel detected! Centrifuged at date and time is in the future!"
 msgstr "Time travel detected! Centrifuged at date and time is in the future!"
 
-#: wp4/samples/models.py:258
+#: wp4/samples/models.py:262
 msgid "USv03 Body in spin dryer! Sample was centrifuged before it was taken?"
 msgstr ""
 "Time given of centrifugation is before sample was taken.  Please correct "
 
-#: wp4/samples/models.py:274
+#: wp4/samples/models.py:278
 msgid "PS02 sample from"
 msgstr "Perfusate sample from"
 
-#: wp4/samples/models.py:275
+#: wp4/samples/models.py:279
 msgid "PS01 centrifuged at"
 msgstr "Time centrifuged"
 
-#: wp4/samples/models.py:282
+#: wp4/samples/models.py:286
 msgid "PSm1 perfusate sample"
 msgstr "Perfusate sample"
 
-#: wp4/samples/models.py:283
+#: wp4/samples/models.py:287
 msgid "PSm2 perfusate samples"
 msgstr "Perfusate samples"
 
-#: wp4/samples/models.py:296
+#: wp4/samples/models.py:300
 msgid "PSv01 you must enter some notes about why this sample was not collected"
 msgstr ""
 " Please provide details about why this perfusate sample was not collected "
 
-#: wp4/samples/models.py:298
+#: wp4/samples/models.py:302
 msgid "PSv04 Please record the time the sample was taken"
 msgstr "Time perfusate taken"
 
-#: wp4/samples/models.py:302
+#: wp4/samples/models.py:306
 msgid ""
 "PSv02 Time travel detected! Centrifuged at date and time is in the future!"
 msgstr "Time travel detected! Centrifuged at date and time is in the future!"
 
-#: wp4/samples/models.py:305
+#: wp4/samples/models.py:309
 msgid "PSv03 Body in spin dryer! Sample was centrifuged before it was taken?"
 msgstr ""
 " Time given of centrifugation is before sample was taken.  Please correct "
 
-#: wp4/samples/models.py:318
+#: wp4/samples/models.py:322
 msgid "TSc01 ReK1F"
 msgstr "Formalin Biopsy"
 
-#: wp4/samples/models.py:319
+#: wp4/samples/models.py:323
 msgid "TSc02 ReK1R"
 msgstr "RNA Later Biopsy"
 
-#: wp4/samples/models.py:328
+#: wp4/samples/models.py:332
 msgid "TS01 sample from"
 msgstr "Tissue sample from"
 
-#: wp4/samples/models.py:329
+#: wp4/samples/models.py:333
 msgid "TS02 tissue sample type"
 msgstr "Tissue sample type"
 
-#: wp4/samples/models.py:336
+#: wp4/samples/models.py:340
 msgid "TSm1 tissue sample"
 msgstr "Tissue sample"
 
-#: wp4/samples/models.py:337
+#: wp4/samples/models.py:341
 msgid "TSm2 tissue samples"
 msgstr "Tissue samples"
 
-#: wp4/samples/models.py:348
+#: wp4/samples/models.py:352
 msgid "TSv01 you must enter some notes about why this sample was not collected"
 msgstr ""
 " Please provide details about why this tissue sample was not collected "
 
-#: wp4/samples/models.py:350
+#: wp4/samples/models.py:354
 msgid "TSv02 Please record the time the sample was taken"
 msgstr "Please record the time the sample was taken"
 

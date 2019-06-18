@@ -52,9 +52,13 @@ class AuditControlModelBase(models.Model):
     __record_locked_on_load = False  # Need an internal representation of this independent of the main instance value
     record_locked = models.BooleanField(
         default=False,
-        help_text="Locked by the admin team. This can only be reversed by the System Administrator"
+        help_text="Locked by the admin team. This can only be reversed by the System Administrator",
+        verbose_name=_("ACM01 Record Locked")
     )
-    live = LiveField()  #: Wanted this to be record_active, but that means modifying the LiveField code
+    live = LiveField(
+        # verbose_name=_("ACM02 Record Active") -- doesn't accept this attribute
+    )  #: Wanted this to be record_active, but that means modifying the LiveField code
+    live.verbose_name=_("ACM02 Record Active")
 
     objects = LiveManager()
     all_objects = LiveManager(include_soft_deleted=True)

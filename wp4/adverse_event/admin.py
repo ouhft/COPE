@@ -15,6 +15,7 @@ class AdverseEventAdmin(AuditedModelAdmin):
         'id',
         'organ',
         'live',
+        'record_locked',
         'onset_at_date',
         'event_ongoing',
         'is_serious',
@@ -60,5 +61,6 @@ class AdverseEventAdmin(AuditedModelAdmin):
         ('cause_of_death_6', 'cause_of_death_comment'),
         'contact',
     )
+
 
 admin.site.register(Category)

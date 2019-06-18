@@ -7,11 +7,8 @@ from django.contrib import admin
 from wp4.compare.admin import BaseModelAdmin, AuditedModelAdmin
 from .models import UrineSample, BloodSample, PerfusateSample, TissueSample, Event, WP7Record
 
-# HIGHLY NON-PERFORMANT!!! Needs to be reworked to be even vaguely usable in the admin
-admin.site.register(Event)
-admin.site.register(UrineSample)
-admin.site.register(PerfusateSample)
-admin.site.register(TissueSample)
+# NB: HIGHLY NON-PERFORMANT!!! Editing of specific Samples is very slow (>90 seconds)
+admin.site.register(Event)  # TODO: This could be expanded for admin use
 
 
 @admin.register(BloodSample)
@@ -19,16 +16,20 @@ class BloodSampleAdmin(AuditedModelAdmin):
     # Currently far far too slow, so needs a custom form to speed up loading
     list_display = [
         'id',
+        'event',
+        'live',
+        'record_locked',
         'barcode',
         'collected',
         'blood_type',
         'person',
         'centrifuged_at',
-        # 'notes',
+        'notes',
         # 'wp7_location' -- results in KeyError Exception value: manager
     ]
-    list_filter = ('collected', 'blood_type', )
+    list_filter = ('collected', 'blood_type', 'record_locked', 'live')
     fields = AuditedModelAdmin.fields + (
+        'event',
         'barcode',
         'collected',
         'blood_type',
@@ -37,6 +38,78 @@ class BloodSampleAdmin(AuditedModelAdmin):
         'notes'
     )
 
+@admin.register(UrineSample)
+class UrineSampleAdmin(AuditedModelAdmin):
+    # Currently far far too slow, so needs a custom form to speed up loading
+    list_display = [
+        'id',
+        'event',
+        'live',
+        'record_locked',
+        'barcode',
+        'collected',
+        'person',
+        'centrifuged_at',
+        'notes',
+    ]
+    list_filter = ('collected', 'record_locked', 'live')
+    fields = AuditedModelAdmin.fields + (
+        'event',
+        'barcode',
+        'collected',
+        'person',
+        'centrifuged_at',
+        'notes'
+    )
+
+@admin.register(PerfusateSample)
+class PerfusateSampleAdmin(AuditedModelAdmin):
+    # Currently far far too slow, so needs a custom form to speed up loading
+    list_display = [
+        'id',
+        'event',
+        'live',
+        'record_locked',
+        'barcode',
+        'collected',
+        'organ',
+        'centrifuged_at',
+        'notes',
+    ]
+    list_filter = ('collected', 'record_locked', 'live')
+    fields = AuditedModelAdmin.fields + (
+        'event',
+        'barcode',
+        'collected',
+        'organ',
+        'centrifuged_at',
+        'notes'
+    )
+
+
+@admin.register(TissueSample)
+class TissueSampleAdmin(AuditedModelAdmin):
+    # Currently far far too slow, so needs a custom form to speed up loading
+    list_display = [
+        'id',
+        'event',
+        'live',
+        'record_locked',
+        'barcode',
+        'collected',
+        'tissue_type',
+        'organ',
+        'notes',
+    ]
+    list_filter = ('collected', 'tissue_type', 'record_locked', 'live')
+    fields = AuditedModelAdmin.fields + (
+        'event',
+        'barcode',
+        'collected',
+        'tissue_type',
+        'organ',
+        'notes'
+    )
 
 @admin.register(WP7Record)
 class WP7RecordAdmin(BaseModelAdmin):
