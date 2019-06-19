@@ -533,8 +533,6 @@ def report_data_flattened(request):
         "organ.donor.get_last_creatinine_unit_display",
         "organ.donor.max_creatinine",
         "organ.donor.get_max_creatinine_unit_display",
-        "organ.donor.panel_reactive_antibodies",  # Added for #336
-        "organ.donor.panel_reactive_antibodies_unknown",   # Added for #336
         "organ.donor.life_support_withdrawal",
         "organ.donor.systolic_pressure_low",
         "organ.donor.systolic_pressure_low_unknown",
@@ -593,6 +591,8 @@ def report_data_flattened(request):
         "organ.recipient.get_renal_disease_display",
         "organ.recipient.renal_disease_other",
         "organ.recipient.pre_transplant_diuresis",
+        "organ.recipient.panel_reactive_antibodies",  # Added for #336
+        "organ.recipient.panel_reactive_antibodies_unknown",  # Added for #336
         "organ.recipient.knife_to_skin",
         "organ.recipient.perfusate_measure",
         "organ.recipient.perfusion_stopped",
@@ -971,8 +971,7 @@ def report_data_flattened(request):
         result_row.append(donor.get_last_creatinine_unit_display())
         result_row.append(donor.max_creatinine)
         result_row.append(donor.get_max_creatinine_unit_display())
-        result_row.append(donor.panel_reactive_antibodies)
-        result_row.append(donor.panel_reactive_antibodies_unknown)
+
         try:
             result_row.append(donor.life_support_withdrawal.strftime("%d-%m-%Y %H:%M %Z"))
         except AttributeError:
@@ -1102,6 +1101,8 @@ def report_data_flattened(request):
             result_row.append(recipient.get_renal_disease_display())
             result_row.append(recipient.renal_disease_other)
             result_row.append(recipient.pre_transplant_diuresis)
+            result_row.append(recipient.panel_reactive_antibodies)
+            result_row.append(recipient.panel_reactive_antibodies_unknown)
             try:
                 result_row.append(recipient.knife_to_skin.strftime("%d-%m-%Y %H:%M %Z"))
             except AttributeError:
