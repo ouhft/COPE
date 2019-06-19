@@ -121,7 +121,7 @@ EMAIL_FILE_PATH = env('DJANGO_EMAIL_FILE_PATH', default='/tmp')
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#admins
 ADMINS = [
-    ("Carl Marshall", env('DJANGO_EMAIL_ADMIN_ADDRESS')),
+    ("Rajeev Kumar", env('DJANGO_EMAIL_ADMIN_ADDRESS')),
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#managers

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Deployment &mdash; COPE DB 0.9.4 documentation</title>
+  <title>Deployment &mdash; COPE DB 0.9.5 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.9.4
+                0.9.5
               </div>
             
           
@@ -236,8 +236,7 @@ via the following steps (<a class="reference external" href="#">https://help.ubu
 <li><p>Gather the staticfiles up <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">collectstatic</span></code></p></li>
 <li><p>Apply the locale updates <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">compilemessages</span></code></p></li>
 <li><p>Check things are working so far II <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">check</span></code></p></li>
-<li><p>Start the supervisor console to reload the changes <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">supervisorctl</span></code>…</p></li>
-<li><p>and then <code class="docutils literal notranslate"><span class="pre">restart</span> <span class="pre">cope-django</span></code></p></li>
+<li><p>Trigger supervisor to reload the changes <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">supervisorctl</span> <span class="pre">restart</span> <span class="pre">cope-django-py3</span></code></p></li>
 <li><p>…and all should be fine.</p></li>
 </ul>
 <div class="section" id="troubleshooting">

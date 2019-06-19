@@ -44,8 +44,7 @@ Take note of which packages are in the upgrade as these may have consequences fo
  * Gather the staticfiles up `python manage.py collectstatic`
  * Apply the locale updates `python manage.py compilemessages`
  * Check things are working so far II `python manage.py check`
- * Start the supervisor console to reload the changes `sudo supervisorctl`...
- * and then `restart cope-django`
+ * Trigger supervisor to reload the changes `sudo supervisorctl restart cope-django-py3`
  * ...and all should be fine.
 
 #### Troubleshooting

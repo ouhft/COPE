@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>wp4.samples.models &mdash; COPE DB 0.9.4 documentation</title>
+  <title>wp4.samples.models &mdash; COPE DB 0.9.5 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.9.4
+                0.9.5
               </div>
             
           
@@ -371,8 +371,8 @@ link between a Worksheet and the various Sample types</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.AutoField" title="(in Django v2.2)"><em>django.db.models.AutoField</em></a>) – “ID”</p></li>
-<li><p><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “record locked” - Locked by the admin team. This can only be reversed by the System Administrator</p></li>
-<li><p><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “live”</p></li>
+<li><p><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “Record Locked” - Locked by the admin team. This can only be reversed by the System Administrator</p></li>
+<li><p><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “Record Active”</p></li>
 <li><p><strong>type</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v2.2)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Sample type”</p></li>
 <li><p><strong>name</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v2.2)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Sample Process”</p></li>
 <li><p><strong>taken_at</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.DateTimeField" title="(in Django v2.2)"><em>django.db.models.DateTimeField</em></a>) – “Date and time taken”</p></li>
@@ -612,8 +612,8 @@ to aide reverse sample look ups from Patient)</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.AutoField" title="(in Django v2.2)"><em>django.db.models.AutoField</em></a>) – “ID”</p></li>
-<li><p><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “record locked” - Locked by the admin team. This can only be reversed by the System Administrator</p></li>
-<li><p><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “live”</p></li>
+<li><p><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “Record Locked” - Locked by the admin team. This can only be reversed by the System Administrator</p></li>
+<li><p><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “Record Active”</p></li>
 <li><p><strong>barcode</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.CharField" title="(in Django v2.2)"><em>django.db.models.CharField</em></a>) – “Barcode number”</p></li>
 <li><p><strong>collected</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v2.2)"><em>django.db.models.NullBooleanField</em></a>) – “Sample taken”</p></li>
 <li><p><strong>notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.TextField" title="(in Django v2.2)"><em>django.db.models.TextField</em></a>) – “Notes” - Deviation record</p></li>
@@ -756,8 +756,8 @@ to aide reverse sample look ups from Patient)</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.AutoField" title="(in Django v2.2)"><em>django.db.models.AutoField</em></a>) – “ID”</p></li>
-<li><p><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “record locked” - Locked by the admin team. This can only be reversed by the System Administrator</p></li>
-<li><p><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “live”</p></li>
+<li><p><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “Record Locked” - Locked by the admin team. This can only be reversed by the System Administrator</p></li>
+<li><p><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “Record Active”</p></li>
 <li><p><strong>barcode</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.CharField" title="(in Django v2.2)"><em>django.db.models.CharField</em></a>) – “Barcode number”</p></li>
 <li><p><strong>collected</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v2.2)"><em>django.db.models.NullBooleanField</em></a>) – “Sample taken”</p></li>
 <li><p><strong>notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.TextField" title="(in Django v2.2)"><em>django.db.models.TextField</em></a>) – “Notes” - Deviation record</p></li>
@@ -869,8 +869,8 @@ to aide reverse sample look ups from Patient)</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.AutoField" title="(in Django v2.2)"><em>django.db.models.AutoField</em></a>) – “ID”</p></li>
-<li><p><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “record locked” - Locked by the admin team. This can only be reversed by the System Administrator</p></li>
-<li><p><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “live”</p></li>
+<li><p><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “Record Locked” - Locked by the admin team. This can only be reversed by the System Administrator</p></li>
+<li><p><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “Record Active”</p></li>
 <li><p><strong>barcode</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.CharField" title="(in Django v2.2)"><em>django.db.models.CharField</em></a>) – “Barcode number”</p></li>
 <li><p><strong>collected</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v2.2)"><em>django.db.models.NullBooleanField</em></a>) – “Sample taken”</p></li>
 <li><p><strong>notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.TextField" title="(in Django v2.2)"><em>django.db.models.TextField</em></a>) – “Notes” - Deviation record</p></li>
@@ -982,8 +982,8 @@ to aide reverse sample look ups from Patient)</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.AutoField" title="(in Django v2.2)"><em>django.db.models.AutoField</em></a>) – “ID”</p></li>
-<li><p><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “record locked” - Locked by the admin team. This can only be reversed by the System Administrator</p></li>
-<li><p><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “live”</p></li>
+<li><p><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “Record Locked” - Locked by the admin team. This can only be reversed by the System Administrator</p></li>
+<li><p><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “Record Active”</p></li>
 <li><p><strong>barcode</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.CharField" title="(in Django v2.2)"><em>django.db.models.CharField</em></a>) – “Barcode number”</p></li>
 <li><p><strong>collected</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v2.2)"><em>django.db.models.NullBooleanField</em></a>) – “Sample taken”</p></li>
 <li><p><strong>notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.TextField" title="(in Django v2.2)"><em>django.db.models.TextField</em></a>) – “Notes” - Deviation record</p></li>

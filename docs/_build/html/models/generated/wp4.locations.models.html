@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>wp4.locations.models &mdash; COPE DB 0.9.4 documentation</title>
+  <title>wp4.locations.models &mdash; COPE DB 0.9.5 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.9.4
+                0.9.5
               </div>
             
           
@@ -222,8 +222,8 @@ able to view it.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.AutoField" title="(in Django v2.2)"><em>django.db.models.AutoField</em></a>) – “ID”</p></li>
-<li><p><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “record locked” - Locked by the admin team. This can only be reversed by the System Administrator</p></li>
-<li><p><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “live”</p></li>
+<li><p><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “Record Locked” - Locked by the admin team. This can only be reversed by the System Administrator</p></li>
+<li><p><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “Record Active”</p></li>
 <li><p><strong>name</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.CharField" title="(in Django v2.2)"><em>django.db.models.CharField</em></a>) – “Hospital Name”</p></li>
 <li><p><strong>country</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v2.2)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Country”</p></li>
 <li><p><strong>is_active</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “Active” - Not presently used/implemented. For legacy data when a location closes for use</p></li>

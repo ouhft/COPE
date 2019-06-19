@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>wp4.health_economics.models &mdash; COPE DB 0.9.4 documentation</title>
+  <title>wp4.health_economics.models &mdash; COPE DB 0.9.5 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.9.4
+                0.9.5
               </div>
             
           
@@ -223,8 +223,8 @@
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.AutoField" title="(in Django v2.2)"><em>django.db.models.AutoField</em></a>) – “ID”</p></li>
-<li><p><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “record locked” - Locked by the admin team. This can only be reversed by the System Administrator</p></li>
-<li><p><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “live”</p></li>
+<li><p><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “Record Locked” - Locked by the admin team. This can only be reversed by the System Administrator</p></li>
+<li><p><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “Record Active”</p></li>
 <li><p><strong>recipient_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v2.2)"><em>django.db.models.ForeignKey</em></a>) – “recipient”</p></li>
 <li><p><strong>date_recorded</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.DateField" title="(in Django v2.2)"><em>django.db.models.DateField</em></a>) – “Date Recorded” - Date can not be in the future</p></li>
 <li><p><strong>qol_mobility</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v2.2)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Mobility” - Answer must be in range 1-5</p></li>
@@ -379,8 +379,8 @@ smaller classes that collectively capture the data.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.AutoField" title="(in Django v2.2)"><em>django.db.models.AutoField</em></a>) – “ID”</p></li>
-<li><p><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “record locked” - Locked by the admin team. This can only be reversed by the System Administrator</p></li>
-<li><p><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “live”</p></li>
+<li><p><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “Record Locked” - Locked by the admin team. This can only be reversed by the System Administrator</p></li>
+<li><p><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “Record Active”</p></li>
 <li><p><strong>recipient_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v2.2)"><em>django.db.models.ForeignKey</em></a>) – “recipient”</p></li>
 <li><p><strong>date_given</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.DateField" title="(in Django v2.2)"><em>django.db.models.DateField</em></a>) – “Date given” - Date can not be in the future</p></li>
 <li><p><strong>date_returned</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.DateField" title="(in Django v2.2)"><em>django.db.models.DateField</em></a>) – “Date returned” - Date can not be in the future</p></li>
@@ -519,8 +519,8 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.AutoField" title="(in Django v2.2)"><em>django.db.models.AutoField</em></a>) – “ID”</p></li>
-<li><p><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “record locked” - Locked by the admin team. This can only be reversed by the System Administrator</p></li>
-<li><p><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “live”</p></li>
+<li><p><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “Record Locked” - Locked by the admin team. This can only be reversed by the System Administrator</p></li>
+<li><p><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “Record Active”</p></li>
 <li><p><strong>log_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v2.2)"><em>django.db.models.ForeignKey</em></a>) – “log”</p></li>
 <li><p><strong>type</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v2.2)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “Visit type”</p></li>
 </ul>
@@ -623,8 +623,8 @@ object the first time, the query is executed.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.AutoField" title="(in Django v2.2)"><em>django.db.models.AutoField</em></a>) – “ID”</p></li>
-<li><p><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “record locked” - Locked by the admin team. This can only be reversed by the System Administrator</p></li>
-<li><p><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “live”</p></li>
+<li><p><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “Record Locked” - Locked by the admin team. This can only be reversed by the System Administrator</p></li>
+<li><p><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “Record Active”</p></li>
 <li><p><strong>log_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v2.2)"><em>django.db.models.ForeignKey</em></a>) – “log”</p></li>
 <li><p><strong>reason</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.CharField" title="(in Django v2.2)"><em>django.db.models.CharField</em></a>) – “RH01 reason”</p></li>
 <li><p><strong>had_surgery</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v2.2)"><em>django.db.models.NullBooleanField</em></a>) – “RH02 had surgery”</p></li>
@@ -721,8 +721,8 @@ object the first time, the query is executed.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.AutoField" title="(in Django v2.2)"><em>django.db.models.AutoField</em></a>) – “ID”</p></li>
-<li><p><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “record locked” - Locked by the admin team. This can only be reversed by the System Administrator</p></li>
-<li><p><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “live”</p></li>
+<li><p><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “Record Locked” - Locked by the admin team. This can only be reversed by the System Administrator</p></li>
+<li><p><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “Record Active”</p></li>
 <li><p><strong>log_id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.ForeignKey" title="(in Django v2.2)"><em>django.db.models.ForeignKey</em></a>) – “log”</p></li>
 <li><p><strong>reason</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.CharField" title="(in Django v2.2)"><em>django.db.models.CharField</em></a>) – “RR01 reason”</p></li>
 <li><p><strong>days_in_hospital</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.PositiveSmallIntegerField" title="(in Django v2.2)"><em>django.db.models.PositiveSmallIntegerField</em></a>) – “RR02 days in hospital”</p></li>

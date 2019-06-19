@@ -11,7 +11,7 @@ STARTUP_SUBJECT="[${SERVER_NAME}] - System Startup: "`date`
 STARTUP_MESSAGE="$SERVER_NAME @ LAN IP = ${LAN_IP} - WAN IP - ${WAN_IP} Started Successfully at runlevel ${RUNLEVEL}: "`date`
 SHUTDOWN_SUBJECT="[${SERVER_NAME}] - System Shutdown: "`date`
 SHUTDOWN_MESSAGE="$SERVER_NAME @ LAN IP = ${LAN_IP} - WAN IP - ${WAN_IP} Shutting Down: "`date`
-EMAIL_ADDRESS="carl.marshall@nds.ox.ac.uk"
+EMAIL_ADDRESS="rajeev.kumar@nds.ox.ac.uk"
 SENDER_ADDRESS="root@dev.nds.ox.ac.uk"
 RETVAL=0
 

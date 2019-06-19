@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>wp4.followups.models &mdash; COPE DB 0.9.4 documentation</title>
+  <title>wp4.followups.models &mdash; COPE DB 0.9.5 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.9.4
+                0.9.5
               </div>
             
           
@@ -209,7 +209,7 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#wp4.followups.models.FollowUpBase" title="wp4.followups.models.FollowUpBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FollowUpBase</span></code></a>(*args, **kwargs)</p></td>
 <td><p><dl class="field-list simple">
 <dt class="field-odd">param record_locked</dt>
-<dd class="field-odd"><p>”record locked” - Locked by the admin team. This can only be reversed by the System Administrator</p>
+<dd class="field-odd"><p>”Record Locked” - Locked by the admin team. This can only be reversed by the System Administrator</p>
 </dd>
 </dl>
 </p></td>
@@ -230,8 +230,8 @@
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “record locked” - Locked by the admin team. This can only be reversed by the System Administrator</p></li>
-<li><p><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “live”</p></li>
+<li><p><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “Record Locked” - Locked by the admin team. This can only be reversed by the System Administrator</p></li>
+<li><p><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “Record Active”</p></li>
 <li><p><strong>start_date</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.DateField" title="(in Django v2.2)"><em>django.db.models.DateField</em></a>) – “Start date”</p></li>
 <li><p><strong>notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.TextField" title="(in Django v2.2)"><em>django.db.models.TextField</em></a>) – “General notes”</p></li>
 <li><p><strong>paper_form_was_the_source</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v2.2)"><em>django.db.models.NullBooleanField</em></a>) – “Was this data entered from a paper record?”</p></li>
@@ -506,8 +506,8 @@ object the first time, the query is executed.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.AutoField" title="(in Django v2.2)"><em>django.db.models.AutoField</em></a>) – “ID”</p></li>
-<li><p><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “record locked” - Locked by the admin team. This can only be reversed by the System Administrator</p></li>
-<li><p><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “live”</p></li>
+<li><p><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “Record Locked” - Locked by the admin team. This can only be reversed by the System Administrator</p></li>
+<li><p><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “Record Active”</p></li>
 <li><p><strong>start_date</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.DateField" title="(in Django v2.2)"><em>django.db.models.DateField</em></a>) – “Start date”</p></li>
 <li><p><strong>notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.TextField" title="(in Django v2.2)"><em>django.db.models.TextField</em></a>) – “General notes”</p></li>
 <li><p><strong>paper_form_was_the_source</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v2.2)"><em>django.db.models.NullBooleanField</em></a>) – “Was this data entered from a paper record?”</p></li>
@@ -816,8 +816,8 @@ object the first time, the query is executed.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.AutoField" title="(in Django v2.2)"><em>django.db.models.AutoField</em></a>) – “ID”</p></li>
-<li><p><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “record locked” - Locked by the admin team. This can only be reversed by the System Administrator</p></li>
-<li><p><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “live”</p></li>
+<li><p><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “Record Locked” - Locked by the admin team. This can only be reversed by the System Administrator</p></li>
+<li><p><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “Record Active”</p></li>
 <li><p><strong>start_date</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.DateField" title="(in Django v2.2)"><em>django.db.models.DateField</em></a>) – “Start date”</p></li>
 <li><p><strong>notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.TextField" title="(in Django v2.2)"><em>django.db.models.TextField</em></a>) – “General notes”</p></li>
 <li><p><strong>paper_form_was_the_source</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v2.2)"><em>django.db.models.NullBooleanField</em></a>) – “Was this data entered from a paper record?”</p></li>
@@ -1024,8 +1024,8 @@ object the first time, the query is executed.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.AutoField" title="(in Django v2.2)"><em>django.db.models.AutoField</em></a>) – “ID”</p></li>
-<li><p><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “record locked” - Locked by the admin team. This can only be reversed by the System Administrator</p></li>
-<li><p><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “live”</p></li>
+<li><p><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “Record Locked” - Locked by the admin team. This can only be reversed by the System Administrator</p></li>
+<li><p><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “Record Active”</p></li>
 <li><p><strong>start_date</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.DateField" title="(in Django v2.2)"><em>django.db.models.DateField</em></a>) – “Start date”</p></li>
 <li><p><strong>notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.TextField" title="(in Django v2.2)"><em>django.db.models.TextField</em></a>) – “General notes”</p></li>
 <li><p><strong>paper_form_was_the_source</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v2.2)"><em>django.db.models.NullBooleanField</em></a>) – “Was this data entered from a paper record?”</p></li>
@@ -1212,8 +1212,8 @@ object the first time, the query is executed.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>id</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.AutoField" title="(in Django v2.2)"><em>django.db.models.AutoField</em></a>) – “ID”</p></li>
-<li><p><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “record locked” - Locked by the admin team. This can only be reversed by the System Administrator</p></li>
-<li><p><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “live”</p></li>
+<li><p><strong>record_locked</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.BooleanField" title="(in Django v2.2)"><em>django.db.models.BooleanField</em></a>) – “Record Locked” - Locked by the admin team. This can only be reversed by the System Administrator</p></li>
+<li><p><strong>live</strong> (<em>livefield.fields.LiveField</em>) – “Record Active”</p></li>
 <li><p><strong>start_date</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.DateField" title="(in Django v2.2)"><em>django.db.models.DateField</em></a>) – “Start date”</p></li>
 <li><p><strong>notes</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.TextField" title="(in Django v2.2)"><em>django.db.models.TextField</em></a>) – “General notes”</p></li>
 <li><p><strong>paper_form_was_the_source</strong> (<a class="reference external" href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.NullBooleanField" title="(in Django v2.2)"><em>django.db.models.NullBooleanField</em></a>) – “Was this data entered from a paper record?”</p></li>

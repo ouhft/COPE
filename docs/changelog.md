@@ -2,6 +2,14 @@
 
 This is a list of changes made to the website and application for each release.
 
+## v0.9.5 (18 Jun 2019) - Enhancements and Fixes
+* Issue #336: PRA field moved from Donor to Recipient. Label changes.
+* Issue #345: Record Lock/Unlock admin convenience functions added to basic admin for SuperUsers
+* Third party library security updates applied
+
+This is likely to be the last update by the original software author. Project development is to be handled by RK from Jul 2019. - *CM*
+
+
 ## v0.9.3 (24 May 2019) - Enhancements and Fixes
 * Issue #336: New fields requested for future analysis 
 * Issue #339: Blocked invalid data entry for Local Investigator on S/AE
